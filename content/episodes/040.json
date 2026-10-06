@@ -1,0 +1,130 @@
+{
+  "number": 40,
+  "title": "MCP, skills, spec-kit : le nouveau kit du développeur",
+  "dek": "Trois idées en même temps : donner des outils aux agents, leur apprendre des méthodes, écrire la spec avant le code. Ce qui marche, ce qui est du bruit.",
+  "publishedAt": "2026-09-22T16:00:00.000Z",
+  "durationSec": 4745,
+  "description": "Semaine 39 : on démonte la pile qui s'installe autour des agents de code. Les serveurs MCP, les skills, le développement piloté par les spécifications : quelle brique vaut vraiment la peine, et laquelle est un effet de mode ?",
+  "hosts": ["alex", "sam", "noa"],
+  "guests": [],
+  "topics": ["mcp", "agents", "devtools"],
+  "chapters": [
+    { "at": 0, "title": "Intro" },
+    { "at": 240, "title": "Skills Top 10 : la semaine d'anthropics/skills" },
+    { "at": 930, "title": "MCP : ce qu'un serveur apporte vraiment" },
+    { "at": 1860, "title": "Skills : des dossiers plutôt que des prompts" },
+    { "at": 2780, "title": "Développement piloté par les spécifications" },
+    { "at": 3700, "title": "Ce qui casse : retour d'expérience" },
+    { "at": 4400, "title": "Outro" }
+  ],
+  "mentions": [
+    {
+      "kind": "repo",
+      "label": "anthropics/skills",
+      "url": "https://github.com/anthropics/skills",
+      "entity": "anthropic-skills",
+      "at": 260
+    },
+    {
+      "kind": "repo",
+      "label": "modelcontextprotocol/servers",
+      "url": "https://github.com/modelcontextprotocol/servers",
+      "entity": "mcp-servers",
+      "at": 960
+    },
+    {
+      "kind": "repo",
+      "label": "upstash/context7",
+      "url": "https://github.com/upstash/context7",
+      "entity": "context7",
+      "at": 1240
+    },
+    {
+      "kind": "repo",
+      "label": "microsoft/playwright-mcp",
+      "url": "https://github.com/microsoft/playwright-mcp",
+      "entity": "playwright-mcp",
+      "at": 1420
+    },
+    {
+      "kind": "site",
+      "label": "Model Context Protocol",
+      "url": "https://modelcontextprotocol.io",
+      "at": 980
+    },
+    {
+      "kind": "repo",
+      "label": "obra/superpowers",
+      "url": "https://github.com/obra/superpowers",
+      "entity": "superpowers",
+      "at": 2050
+    },
+    {
+      "kind": "repo",
+      "label": "github/spec-kit",
+      "url": "https://github.com/github/spec-kit",
+      "entity": "spec-kit",
+      "at": 2820
+    },
+    {
+      "kind": "repo",
+      "label": "anthropics/claude-code",
+      "url": "https://github.com/anthropics/claude-code",
+      "entity": "claude-code",
+      "at": 3120
+    },
+    {
+      "kind": "paper",
+      "label": "Chain-of-Thought Prompting Elicits Reasoning in Large Language Models",
+      "url": "https://arxiv.org/abs/2201.11903",
+      "at": 3300
+    },
+    {
+      "kind": "paper",
+      "label": "ReAct: Synergizing Reasoning and Acting in Language Models",
+      "url": "https://arxiv.org/abs/2210.03629",
+      "at": 3340
+    },
+    {
+      "kind": "video",
+      "label": "Let's build GPT: from scratch, in code, spelled out (A. Karpathy)",
+      "url": "https://www.youtube.com/watch?v=kCc8FmEb1nY",
+      "at": 4000
+    },
+    {
+      "kind": "product",
+      "label": "Visual Studio Code",
+      "url": "https://code.visualstudio.com",
+      "at": 3560
+    }
+  ],
+  "sources": [
+    {
+      "kind": "site",
+      "label": "GitHub Trending",
+      "url": "https://github.com/trending",
+      "publisher": "GitHub"
+    },
+    {
+      "kind": "site",
+      "label": "Model Context Protocol : documentation",
+      "url": "https://modelcontextprotocol.io",
+      "publisher": "Model Context Protocol"
+    },
+    {
+      "kind": "article",
+      "label": "Annonces Anthropic",
+      "url": "https://www.anthropic.com/news",
+      "publisher": "Anthropic"
+    },
+    {
+      "kind": "site",
+      "label": "Hacker News",
+      "url": "https://news.ycombinator.com",
+      "publisher": "Y Combinator"
+    }
+  ],
+  "platforms": {},
+  "charts": [{ "chart": "skills", "week": "2026-W39" }],
+  "cover": { "tone": 3, "kicker": "Semaine 39" }
+}

@@ -1,0 +1,26 @@
+[
+  {
+    "slug": "alex",
+    "name": "Alex",
+    "handle": "@alex",
+    "role": "Dev backend, a une opinion sur tout",
+    "bio": "Écrit des services en production depuis quinze ans et lit les changelogs pour le plaisir. Se méfie des benchmarks, surtout quand ils sont flatteurs.",
+    "placeholder": true
+  },
+  {
+    "slug": "sam",
+    "name": "Sam",
+    "handle": "@sam",
+    "role": "Open source et outils de dev",
+    "bio": "Passe plus de temps dans les issues GitHub que dans son éditeur. Garde un tableur de projets prometteurs qu'il n'ouvre jamais.",
+    "placeholder": true
+  },
+  {
+    "slug": "noa",
+    "name": "Noa",
+    "handle": "@noa",
+    "role": "IA appliquée et produit",
+    "bio": "Construit des agents pour de vrais utilisateurs et en revient avec des anecdotes. Teste chaque nouveau modèle le jour de sa sortie, puis se calme.",
+    "placeholder": true
+  }
+]

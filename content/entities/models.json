@@ -1,0 +1,648 @@
+[
+  {
+    "slug": "claude-opus-5-5",
+    "kind": "model",
+    "name": "Claude Opus 5.5",
+    "org": "Anthropic",
+    "tagline": "Le modèle haut de gamme d'Anthropic pour le code et le raisonnement",
+    "description": "Modèle propriétaire de la famille Claude 5, positionné sur les tâches longues et difficiles : développement logiciel, agents, analyse.",
+    "category": "Modèle propriétaire",
+    "topics": ["models", "coding", "agents"],
+    "openWeights": false,
+    "links": [
+      {
+        "kind": "site",
+        "label": "Anthropic",
+        "url": "https://www.anthropic.com/claude"
+      }
+    ],
+    "alternatives": ["claude-fable-5-1", "gpt-5-2", "gemini-3-pro"],
+    "mark": {
+      "glyph": "Op",
+      "tone": 2
+    }
+  },
+  {
+    "slug": "claude-fable-5-1",
+    "kind": "model",
+    "name": "Claude Fable 5.1",
+    "org": "Anthropic",
+    "tagline": "La dernière génération de la famille Claude 5",
+    "description": "Modèle propriétaire récent d'Anthropic. Fiche à compléter avec les informations officielles de l'éditeur.",
+    "category": "Modèle propriétaire",
+    "topics": ["models", "agents"],
+    "openWeights": false,
+    "links": [
+      {
+        "kind": "site",
+        "label": "Anthropic",
+        "url": "https://www.anthropic.com/claude"
+      }
+    ],
+    "alternatives": ["claude-opus-5-5", "gpt-5-2", "gemini-3-pro"],
+    "mark": {
+      "glyph": "Fa",
+      "tone": 2
+    }
+  },
+  {
+    "slug": "claude-sonnet-5-5",
+    "kind": "model",
+    "name": "Claude Sonnet 5.5",
+    "org": "Anthropic",
+    "tagline": "Le compromis qualité, vitesse et prix de la famille Claude",
+    "description": "Modèle propriétaire d'Anthropic pensé pour un usage quotidien et les agents de code qui tournent beaucoup, avec un bon équilibre entre coût et capacités.",
+    "category": "Modèle propriétaire",
+    "topics": ["models", "coding"],
+    "openWeights": false,
+    "links": [
+      {
+        "kind": "site",
+        "label": "Anthropic",
+        "url": "https://www.anthropic.com/claude"
+      }
+    ],
+    "alternatives": ["claude-opus-5-5", "gpt-5-2", "gemini-3-flash"],
+    "mark": {
+      "glyph": "So",
+      "tone": 2
+    }
+  },
+  {
+    "slug": "gpt-5-2",
+    "kind": "model",
+    "name": "GPT-5.2",
+    "org": "OpenAI",
+    "tagline": "Le modèle généraliste d'OpenAI",
+    "description": "Modèle propriétaire d'OpenAI, utilisé par ChatGPT et l'API. Souvent cité en tête sur les maths de concours et le raisonnement.",
+    "category": "Modèle propriétaire",
+    "topics": ["models", "coding"],
+    "openWeights": false,
+    "links": [
+      {
+        "kind": "site",
+        "label": "OpenAI",
+        "url": "https://openai.com"
+      }
+    ],
+    "alternatives": ["claude-opus-5-5", "gemini-3-pro", "grok-4"],
+    "mark": {
+      "glyph": "G5",
+      "tone": 0
+    }
+  },
+  {
+    "slug": "gemini-3-pro",
+    "kind": "model",
+    "name": "Gemini 3 Pro",
+    "org": "Google DeepMind",
+    "tagline": "Le modèle multimodal à très long contexte de Google",
+    "description": "Modèle propriétaire de Google, fort en compréhension d'images et de vidéo et sur les très longs contextes.",
+    "category": "Modèle propriétaire",
+    "topics": ["models"],
+    "openWeights": false,
+    "links": [
+      {
+        "kind": "site",
+        "label": "Google DeepMind",
+        "url": "https://deepmind.google"
+      }
+    ],
+    "alternatives": ["gpt-5-2", "claude-opus-5-5", "gemini-3-flash"],
+    "mark": {
+      "glyph": "G3",
+      "tone": 5
+    }
+  },
+  {
+    "slug": "gemini-3-flash",
+    "kind": "model",
+    "name": "Gemini 3 Flash",
+    "org": "Google DeepMind",
+    "tagline": "La version rapide et économique de Gemini 3",
+    "description": "Modèle propriétaire de Google optimisé pour la vitesse et le prix, avec un contexte très large. Le choix par défaut quand le volume compte plus que la dernière marche de qualité.",
+    "category": "Modèle propriétaire",
+    "topics": ["models"],
+    "openWeights": false,
+    "links": [
+      {
+        "kind": "site",
+        "label": "Google DeepMind",
+        "url": "https://deepmind.google"
+      }
+    ],
+    "alternatives": ["gemini-3-pro", "claude-sonnet-5-5"],
+    "mark": {
+      "glyph": "Gf",
+      "tone": 5
+    }
+  },
+  {
+    "slug": "grok-4",
+    "kind": "model",
+    "name": "Grok 4",
+    "org": "xAI",
+    "tagline": "Le modèle de xAI",
+    "description": "Modèle propriétaire de xAI, accessible via l'API et la plateforme X. Souvent apprécié pour sa recherche web intégrée.",
+    "category": "Modèle propriétaire",
+    "topics": ["models"],
+    "openWeights": false,
+    "links": [
+      {
+        "kind": "site",
+        "label": "xAI",
+        "url": "https://x.ai"
+      }
+    ],
+    "alternatives": ["gpt-5-2", "gemini-3-pro"],
+    "mark": {
+      "glyph": "Gk",
+      "tone": 0
+    }
+  },
+  {
+    "slug": "kimi-k2",
+    "kind": "model",
+    "name": "Kimi K2",
+    "org": "Moonshot AI",
+    "tagline": "Une mixture d'experts à poids ouverts, pensée pour les agents et le code",
+    "description": "Modèle ouvert de Moonshot AI à très grand nombre de paramètres, entraîné pour l'usage d'outils. Un des premiers modèles ouverts à rivaliser avec les propriétaires sur les tâches d'agents.",
+    "category": "Modèle open weights",
+    "topics": ["models", "open-source", "agents"],
+    "license": "MIT modifiée",
+    "openWeights": true,
+    "links": [
+      {
+        "kind": "huggingface",
+        "label": "Hugging Face",
+        "url": "https://huggingface.co/moonshotai"
+      }
+    ],
+    "alternatives": ["deepseek-v3-2", "glm-4-6", "minimax-m2"],
+    "mark": {
+      "glyph": "K2",
+      "tone": 4
+    },
+    "huggingface": {
+      "id": "moonshotai"
+    }
+  },
+  {
+    "slug": "deepseek-v3-2",
+    "kind": "model",
+    "name": "DeepSeek V3.2",
+    "org": "DeepSeek",
+    "tagline": "Un modèle généraliste ouvert, à très bas coût d'inférence",
+    "description": "Modèle à poids ouverts de DeepSeek, connu pour son rapport qualité/prix. Disponible chez de nombreux fournisseurs et auto-hébergeable.",
+    "category": "Modèle open weights",
+    "topics": ["models", "open-source"],
+    "license": "MIT",
+    "openWeights": true,
+    "links": [
+      {
+        "kind": "huggingface",
+        "label": "Hugging Face",
+        "url": "https://huggingface.co/deepseek-ai"
+      }
+    ],
+    "alternatives": ["kimi-k2", "qwen3-235b", "deepseek-r1"],
+    "mark": {
+      "glyph": "D3",
+      "tone": 5
+    },
+    "huggingface": {
+      "id": "deepseek-ai"
+    }
+  },
+  {
+    "slug": "deepseek-r1",
+    "kind": "model",
+    "name": "DeepSeek R1",
+    "org": "DeepSeek",
+    "tagline": "Le modèle de raisonnement qui a popularisé les poids ouverts performants",
+    "description": "Modèle de raisonnement publié avec ses poids, qui a montré qu'un modèle ouvert pouvait approcher les meilleurs modèles propriétaires du moment. Surpassé depuis, mais toujours une référence.",
+    "category": "Modèle open weights",
+    "topics": ["models", "open-source"],
+    "license": "MIT",
+    "openWeights": true,
+    "links": [
+      {
+        "kind": "huggingface",
+        "label": "Hugging Face",
+        "url": "https://huggingface.co/deepseek-ai"
+      }
+    ],
+    "alternatives": ["deepseek-v3-2", "qwen3-235b"],
+    "mark": {
+      "glyph": "R1",
+      "tone": 5
+    },
+    "huggingface": {
+      "id": "deepseek-ai"
+    }
+  },
+  {
+    "slug": "qwen3-235b",
+    "kind": "model",
+    "name": "Qwen3 235B",
+    "org": "Alibaba Qwen",
+    "tagline": "Une mixture d'experts de 235 milliards de paramètres, sous Apache-2.0",
+    "description": "Modèle généraliste ouvert d'Alibaba, publié sous licence Apache-2.0, ce qui en fait un des plus simples à utiliser en entreprise.",
+    "category": "Modèle open weights",
+    "topics": ["models", "open-source"],
+    "license": "Apache-2.0",
+    "openWeights": true,
+    "links": [
+      {
+        "kind": "huggingface",
+        "label": "Hugging Face",
+        "url": "https://huggingface.co/Qwen"
+      }
+    ],
+    "alternatives": ["deepseek-v3-2", "qwen3-coder", "glm-4-6"],
+    "mark": {
+      "glyph": "Q3",
+      "tone": 1
+    },
+    "huggingface": {
+      "id": "Qwen"
+    }
+  },
+  {
+    "slug": "qwen3-coder",
+    "kind": "model",
+    "name": "Qwen3 Coder",
+    "org": "Alibaba Qwen",
+    "tagline": "La variante de Qwen3 spécialisée dans le code et les agents",
+    "description": "Modèle ouvert entraîné spécifiquement pour la programmation et l'usage d'outils, utilisable derrière la plupart des agents de code.",
+    "category": "Modèle open weights",
+    "topics": ["models", "open-source", "coding"],
+    "license": "Apache-2.0",
+    "openWeights": true,
+    "links": [
+      {
+        "kind": "huggingface",
+        "label": "Hugging Face",
+        "url": "https://huggingface.co/Qwen"
+      }
+    ],
+    "alternatives": ["qwen3-235b", "minimax-m2", "glm-4-6"],
+    "mark": {
+      "glyph": "QC",
+      "tone": 1
+    },
+    "huggingface": {
+      "id": "Qwen"
+    }
+  },
+  {
+    "slug": "glm-4-6",
+    "kind": "model",
+    "name": "GLM-4.6",
+    "org": "Z.ai",
+    "tagline": "Un modèle ouvert généraliste et agentique de Z.ai",
+    "description": "Modèle à poids ouverts du laboratoire chinois Z.ai, régulièrement cité pour ses performances en code agentique à un prix bas.",
+    "category": "Modèle open weights",
+    "topics": ["models", "open-source", "agents"],
+    "license": "MIT",
+    "openWeights": true,
+    "links": [
+      {
+        "kind": "huggingface",
+        "label": "Hugging Face",
+        "url": "https://huggingface.co/zai-org"
+      }
+    ],
+    "alternatives": ["kimi-k2", "minimax-m2", "qwen3-coder"],
+    "mark": {
+      "glyph": "GL",
+      "tone": 3
+    },
+    "huggingface": {
+      "id": "zai-org"
+    }
+  },
+  {
+    "slug": "minimax-m2",
+    "kind": "model",
+    "name": "MiniMax M2",
+    "org": "MiniMax",
+    "tagline": "Un modèle ouvert rapide, orienté code et agents",
+    "description": "Modèle à poids ouverts de MiniMax, conçu pour tourner vite et bon marché sur des boucles d'agents longues.",
+    "category": "Modèle open weights",
+    "topics": ["models", "open-source", "agents"],
+    "openWeights": true,
+    "links": [
+      {
+        "kind": "huggingface",
+        "label": "Hugging Face",
+        "url": "https://huggingface.co/MiniMaxAI"
+      }
+    ],
+    "alternatives": ["glm-4-6", "kimi-k2", "qwen3-coder"],
+    "mark": {
+      "glyph": "M2",
+      "tone": 2
+    },
+    "huggingface": {
+      "id": "MiniMaxAI"
+    }
+  },
+  {
+    "slug": "gpt-oss-120b",
+    "kind": "model",
+    "name": "gpt-oss-120b",
+    "org": "OpenAI",
+    "tagline": "Les poids ouverts d'OpenAI, sous Apache-2.0",
+    "description": "Modèle à poids ouverts publié par OpenAI. Assez compact pour tenir sur un seul GPU haut de gamme, avec de bonnes performances en raisonnement.",
+    "category": "Modèle open weights",
+    "topics": ["models", "open-source"],
+    "license": "Apache-2.0",
+    "openWeights": true,
+    "links": [
+      {
+        "kind": "huggingface",
+        "label": "Hugging Face",
+        "url": "https://huggingface.co/openai/gpt-oss-120b"
+      }
+    ],
+    "alternatives": ["deepseek-v3-2", "qwen3-235b", "mistral-large-3"],
+    "mark": {
+      "glyph": "OS",
+      "tone": 0
+    },
+    "huggingface": {
+      "id": "openai/gpt-oss-120b"
+    }
+  },
+  {
+    "slug": "llama-4-maverick",
+    "kind": "model",
+    "name": "Llama 4 Maverick",
+    "org": "Meta",
+    "tagline": "La mixture d'experts multimodale de Meta",
+    "description": "Modèle ouvert de Meta, multimodal et à très grand contexte. Distribué sous une licence maison qui impose des conditions d'usage.",
+    "category": "Modèle open weights",
+    "topics": ["models", "open-source"],
+    "license": "Llama 4 Community License",
+    "openWeights": true,
+    "links": [
+      {
+        "kind": "huggingface",
+        "label": "Hugging Face",
+        "url": "https://huggingface.co/meta-llama"
+      }
+    ],
+    "alternatives": ["mistral-large-3", "gemma-3-27b", "qwen3-235b"],
+    "mark": {
+      "glyph": "L4",
+      "tone": 6
+    },
+    "huggingface": {
+      "id": "meta-llama"
+    }
+  },
+  {
+    "slug": "mistral-large-3",
+    "kind": "model",
+    "name": "Mistral Large 3",
+    "org": "Mistral AI",
+    "tagline": "Le grand modèle ouvert de Mistral AI",
+    "description": "Modèle à poids ouverts de l'éditeur français, multilingue et multimodal, publié sous licence Apache-2.0.",
+    "category": "Modèle open weights",
+    "topics": ["models", "open-source"],
+    "license": "Apache-2.0",
+    "openWeights": true,
+    "links": [
+      {
+        "kind": "huggingface",
+        "label": "Hugging Face",
+        "url": "https://huggingface.co/mistralai"
+      }
+    ],
+    "alternatives": ["llama-4-maverick", "gpt-oss-120b", "gemma-3-27b"],
+    "mark": {
+      "glyph": "Mi",
+      "tone": 3
+    },
+    "huggingface": {
+      "id": "mistralai"
+    }
+  },
+  {
+    "slug": "gemma-3-27b",
+    "kind": "model",
+    "name": "Gemma 3 27B",
+    "org": "Google",
+    "tagline": "Un petit modèle ouvert et multimodal de Google",
+    "description": "Modèle compact à poids ouverts, capable de tourner sur une seule carte graphique grand public. Distribué sous les conditions d'utilisation Gemma.",
+    "category": "Modèle open weights",
+    "topics": ["models", "open-source"],
+    "license": "Gemma Terms of Use",
+    "openWeights": true,
+    "links": [
+      {
+        "kind": "huggingface",
+        "label": "Hugging Face",
+        "url": "https://huggingface.co/google"
+      }
+    ],
+    "alternatives": ["llama-4-maverick", "mistral-large-3"],
+    "mark": {
+      "glyph": "Ge",
+      "tone": 5
+    },
+    "huggingface": {
+      "id": "google"
+    }
+  },
+  {
+    "slug": "olmo-3",
+    "kind": "model",
+    "name": "OLMo 3",
+    "org": "Ai2",
+    "tagline": "Un modèle entièrement ouvert : poids, données et code d'entraînement",
+    "description": "Modèle de l'Allen Institute for AI publié avec tout ce qu'il faut pour le reproduire. Moins performant que les grands modèles ouverts, mais le plus transparent.",
+    "category": "Modèle open weights",
+    "topics": ["models", "open-source"],
+    "license": "Apache-2.0",
+    "openWeights": true,
+    "links": [
+      {
+        "kind": "huggingface",
+        "label": "Hugging Face",
+        "url": "https://huggingface.co/allenai"
+      }
+    ],
+    "alternatives": ["gemma-3-27b"],
+    "mark": {
+      "glyph": "Ol",
+      "tone": 4
+    },
+    "huggingface": {
+      "id": "allenai"
+    }
+  },
+  {
+    "slug": "deepseek-v3",
+    "kind": "model",
+    "name": "DeepSeek V3",
+    "org": "DeepSeek",
+    "tagline": "Le modèle généraliste ouvert qui a précédé la série V3.2",
+    "description": "Première génération de la série V3 de DeepSeek, à poids ouverts. Toujours très utilisée, même si les versions suivantes la dépassent.",
+    "category": "Modèle open weights",
+    "topics": ["models", "open-source"],
+    "license": "MIT",
+    "openWeights": true,
+    "links": [
+      {
+        "kind": "huggingface",
+        "label": "Hugging Face",
+        "url": "https://huggingface.co/deepseek-ai"
+      }
+    ],
+    "alternatives": ["deepseek-v3-2", "deepseek-r1"],
+    "mark": {
+      "glyph": "D",
+      "tone": 5
+    },
+    "huggingface": {
+      "id": "deepseek-ai"
+    }
+  },
+  {
+    "slug": "qwen3-32b",
+    "kind": "model",
+    "name": "Qwen3 32B",
+    "org": "Alibaba Qwen",
+    "tagline": "Un modèle dense de 32 milliards de paramètres, facile à héberger",
+    "description": "Modèle ouvert compact d'Alibaba, sous Apache-2.0, qui tient sur une seule carte graphique avec quantification.",
+    "category": "Modèle open weights",
+    "topics": ["models", "open-source"],
+    "license": "Apache-2.0",
+    "openWeights": true,
+    "links": [
+      {
+        "kind": "huggingface",
+        "label": "Hugging Face",
+        "url": "https://huggingface.co/Qwen"
+      }
+    ],
+    "alternatives": ["qwen3-235b", "gemma-3-27b"],
+    "mark": {
+      "glyph": "Q",
+      "tone": 1
+    },
+    "huggingface": {
+      "id": "Qwen"
+    }
+  },
+  {
+    "slug": "mistral-small-3",
+    "kind": "model",
+    "name": "Mistral Small 3",
+    "org": "Mistral AI",
+    "tagline": "Un petit modèle ouvert, rapide et sous Apache-2.0",
+    "description": "Modèle compact de Mistral AI conçu pour la latence : peu cher, rapide, suffisant pour beaucoup de tâches courantes.",
+    "category": "Modèle open weights",
+    "topics": ["models", "open-source"],
+    "license": "Apache-2.0",
+    "openWeights": true,
+    "links": [
+      {
+        "kind": "huggingface",
+        "label": "Hugging Face",
+        "url": "https://huggingface.co/mistralai"
+      }
+    ],
+    "alternatives": ["mistral-large-3", "gemma-3-27b", "phi-4"],
+    "mark": {
+      "glyph": "Ms",
+      "tone": 3
+    },
+    "huggingface": {
+      "id": "mistralai"
+    }
+  },
+  {
+    "slug": "llama-3-3-70b",
+    "kind": "model",
+    "name": "Llama 3.3 70B",
+    "org": "Meta",
+    "tagline": "Le 70 milliards de paramètres de Meta, très répandu",
+    "description": "Modèle dense de Meta, largement déployé et affiné par la communauté. Distribué sous une licence maison.",
+    "category": "Modèle open weights",
+    "topics": ["models", "open-source"],
+    "license": "Llama 3.3 Community License",
+    "openWeights": true,
+    "links": [
+      {
+        "kind": "huggingface",
+        "label": "Hugging Face",
+        "url": "https://huggingface.co/meta-llama"
+      }
+    ],
+    "alternatives": ["llama-4-maverick", "qwen3-32b"],
+    "mark": {
+      "glyph": "L3",
+      "tone": 6
+    },
+    "huggingface": {
+      "id": "meta-llama"
+    }
+  },
+  {
+    "slug": "phi-4",
+    "kind": "model",
+    "name": "Phi-4",
+    "org": "Microsoft",
+    "tagline": "Un petit modèle qui mise sur la qualité des données d'entraînement",
+    "description": "Modèle de 14 milliards de paramètres de Microsoft, publié sous licence MIT. Bon en raisonnement pour sa taille, limité en contexte.",
+    "category": "Modèle open weights",
+    "topics": ["models", "open-source"],
+    "license": "MIT",
+    "openWeights": true,
+    "links": [
+      {
+        "kind": "huggingface",
+        "label": "Hugging Face",
+        "url": "https://huggingface.co/microsoft"
+      }
+    ],
+    "alternatives": ["gemma-3-27b", "mistral-small-3"],
+    "mark": {
+      "glyph": "P4",
+      "tone": 5
+    },
+    "huggingface": {
+      "id": "microsoft"
+    }
+  },
+  {
+    "slug": "nemotron-ultra",
+    "kind": "model",
+    "name": "Llama Nemotron Ultra",
+    "org": "NVIDIA",
+    "tagline": "Un dérivé de Llama optimisé par NVIDIA pour le raisonnement",
+    "description": "Modèle de 253 milliards de paramètres dérivé de Llama et affiné par NVIDIA, publié avec ses poids sous licence NVIDIA Open Model.",
+    "category": "Modèle open weights",
+    "topics": ["models", "open-source"],
+    "license": "NVIDIA Open Model License",
+    "openWeights": true,
+    "links": [
+      {
+        "kind": "huggingface",
+        "label": "Hugging Face",
+        "url": "https://huggingface.co/nvidia"
+      }
+    ],
+    "alternatives": ["llama-4-maverick", "deepseek-v3-2"],
+    "mark": {
+      "glyph": "Nv",
+      "tone": 4
+    },
+    "huggingface": {
+      "id": "nvidia"
+    }
+  }
+]

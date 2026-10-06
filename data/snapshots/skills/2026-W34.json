@@ -1,0 +1,25 @@
+{
+  "chart": "skills",
+  "week": "2026-W34",
+  "publishedAt": "2026-08-18T07:00:00.000Z",
+  "retrievedAt": "2026-08-18T06:00:00.000Z",
+  "provenance": "mock",
+  "entries": [
+    {"entity":"browser-use","rank":1,"score":77.8,"dimensions":{"growth":73.5,"activity":64.1,"reach":100,"momentum":77.8},"metrics":{"stars":80577,"stars7d":5127,"forks":8863,"contributors":232,"commits30d":346,"growth":6.4}},
+    {"entity":"openhands","rank":2,"score":54.8,"dimensions":{"growth":16.2,"activity":95.4,"reach":91.3,"momentum":54.8},"metrics":{"stars":65594,"stars7d":1233,"forks":8527,"contributors":498,"commits30d":849,"growth":1.9}},
+    {"entity":"anthropic-skills","rank":3,"score":54,"dimensions":{"growth":65.6,"activity":20.3,"reach":64.3,"momentum":54},"metrics":{"stars":44797,"stars7d":3497,"forks":5376,"contributors":64,"commits30d":108,"growth":7.8}},
+    {"entity":"mcp-servers","rank":4,"score":50.1,"dimensions":{"growth":32.7,"activity":54.9,"reach":80.1,"momentum":50.1},"metrics":{"stars":57109,"stars7d":1853,"forks":6853,"contributors":740,"commits30d":139,"growth":3.2}},
+    {"entity":"spec-kit","rank":5,"score":47.8,"dimensions":{"growth":42.5,"activity":36,"reach":70.3,"momentum":47.8},"metrics":{"stars":53187,"stars7d":2298,"forks":5319,"contributors":116,"commits30d":154,"growth":4.3}},
+    {"entity":"superpowers","rank":6,"score":44.7,"dimensions":{"growth":86,"activity":0,"reach":6.8,"momentum":44.7},"metrics":{"stars":20932,"stars7d":3269,"forks":1884,"contributors":23,"commits30d":76,"growth":15.6}},
+    {"entity":"cline","rank":7,"score":43.4,"dimensions":{"growth":15.7,"activity":70.3,"reach":72,"momentum":43.4},"metrics":{"stars":48727,"stars7d":1156,"forks":6335,"contributors":282,"commits30d":405,"growth":2.4}},
+    {"entity":"context7","rank":8,"score":39.2,"dimensions":{"growth":39.5,"activity":39.3,"reach":38.6,"momentum":39.2},"metrics":{"stars":40664,"stars7d":1974,"forks":2440,"contributors":114,"commits30d":178,"growth":4.9}},
+    {"entity":"awesome-claude-code","rank":9,"score":32.1,"dimensions":{"growth":47.3,"activity":27.6,"reach":6.3,"momentum":32.1},"metrics":{"stars":24726,"stars7d":1939,"forks":1484,"contributors":114,"commits30d":111,"growth":7.8}},
+    {"entity":"crewai","rank":10,"score":30.7,"dimensions":{"growth":5.1,"activity":51.7,"reach":60.8,"momentum":30.7},"metrics":{"stars":41021,"stars7d":845,"forks":5333,"contributors":274,"commits30d":194,"growth":2.1}},
+    {"entity":"langgraph","rank":11,"score":30.1,"dimensions":{"growth":18.3,"activity":59.7,"reach":24,"momentum":30.1},"metrics":{"stars":23275,"stars7d":1036,"forks":3026,"contributors":224,"commits30d":295,"growth":4.5}},
+    {"entity":"aider","rank":12,"score":28.6,"dimensions":{"growth":0,"activity":52.4,"reach":62.1,"momentum":28.6},"metrics":{"stars":43323,"stars7d":745,"forks":5199,"contributors":424,"commits30d":163,"growth":1.7}},
+    {"entity":"goose","rank":13,"score":28.2,"dimensions":{"growth":17.5,"activity":58.9,"reach":18.7,"momentum":28.2},"metrics":{"stars":26463,"stars7d":1057,"forks":2117,"contributors":182,"commits30d":314,"growth":4}},
+    {"entity":"adk-python","rank":14,"score":26.5,"dimensions":{"growth":18.4,"activity":50,"reach":19,"momentum":26.5},"metrics":{"stars":20880,"stars7d":1012,"forks":2923,"contributors":136,"commits30d":252,"growth":4.8}},
+    {"entity":"playwright-mcp","rank":15,"score":22.5,"dimensions":{"growth":24.8,"activity":22.8,"reach":17.6,"momentum":22.5},"metrics":{"stars":26766,"stars7d":1254,"forks":2007,"contributors":66,"commits30d":118,"growth":4.7}},
+    {"entity":"openai-agents-python","rank":16,"score":19.9,"dimensions":{"growth":13.3,"activity":27.9,"reach":24.9,"momentum":19.9},"metrics":{"stars":22190,"stars7d":914,"forks":3329,"contributors":106,"commits30d":116,"growth":4.1}}
+  ]
+}

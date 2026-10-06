@@ -1,0 +1,132 @@
+{
+  "number": 41,
+  "title": "Poids ouverts : la remontada, graphique par graphique",
+  "dek": "DeepSeek en tête depuis douze semaines, Kimi qui s'accroche, Qwen qui se met à jour : où en sont vraiment les modèles ouverts face aux propriétaires ?",
+  "publishedAt": "2026-09-29T16:00:00.000Z",
+  "durationSec": 4210,
+  "description": "Semaine 40 : on regarde l'écart entre modèles ouverts et propriétaires critère par critère, on discute de ce que « open weights » veut dire et ne veut pas dire, et on teste ce que ça coûte d'héberger soi-même. Plus les mouvements des classements GitHub.",
+  "hosts": ["alex", "sam", "noa"],
+  "guests": [],
+  "topics": ["open-source", "models", "infra"],
+  "chapters": [
+    { "at": 0, "title": "Intro" },
+    { "at": 280, "title": "GitHub Top 10 : vLLM, troisième semaine en tête" },
+    { "at": 960, "title": "Open Source AI : lecture critère par critère" },
+    { "at": 1850, "title": "Open weights, open source, libre : de quoi parle-t-on ?" },
+    { "at": 2600, "title": "Héberger soi-même : ce que ça coûte vraiment" },
+    { "at": 3400, "title": "Ollama, llama.cpp, vLLM : lequel pour quoi" },
+    { "at": 3980, "title": "Outro" }
+  ],
+  "mentions": [
+    {
+      "kind": "repo",
+      "label": "vllm-project/vllm",
+      "url": "https://github.com/vllm-project/vllm",
+      "entity": "vllm",
+      "at": 300
+    },
+    {
+      "kind": "model",
+      "label": "DeepSeek V3.2",
+      "url": "https://huggingface.co/deepseek-ai",
+      "entity": "deepseek-v3-2",
+      "at": 1010
+    },
+    {
+      "kind": "model",
+      "label": "Kimi K2",
+      "url": "https://huggingface.co/moonshotai",
+      "entity": "kimi-k2",
+      "at": 1180
+    },
+    {
+      "kind": "model",
+      "label": "Qwen3 235B",
+      "url": "https://huggingface.co/Qwen",
+      "entity": "qwen3-235b",
+      "at": 1330
+    },
+    {
+      "kind": "model",
+      "label": "GLM-4.6",
+      "url": "https://huggingface.co/zai-org",
+      "entity": "glm-4-6",
+      "at": 1450
+    },
+    {
+      "kind": "model",
+      "label": "MiniMax M2",
+      "url": "https://huggingface.co/MiniMaxAI",
+      "entity": "minimax-m2",
+      "at": 1520
+    },
+    {
+      "kind": "site",
+      "label": "Définition de l'Open Source AI (OSI)",
+      "url": "https://opensource.org/ai",
+      "at": 1900
+    },
+    {
+      "kind": "model",
+      "label": "OLMo 3",
+      "url": "https://huggingface.co/allenai",
+      "entity": "olmo-3",
+      "at": 2100,
+      "note": "Le seul du lot publié avec ses données et son code d'entraînement."
+    },
+    {
+      "kind": "tool",
+      "label": "Ollama",
+      "url": "https://ollama.com",
+      "entity": "ollama",
+      "at": 3420
+    },
+    {
+      "kind": "repo",
+      "label": "ggml-org/llama.cpp",
+      "url": "https://github.com/ggml-org/llama.cpp",
+      "entity": "llama-cpp",
+      "at": 3540
+    },
+    {
+      "kind": "paper",
+      "label": "Direct Preference Optimization",
+      "url": "https://arxiv.org/abs/2305.18290",
+      "at": 2300
+    },
+    { "kind": "benchmark", "label": "Terminal-Bench", "url": "https://www.tbench.ai", "at": 1620 }
+  ],
+  "sources": [
+    {
+      "kind": "site",
+      "label": "Hugging Face : modèles",
+      "url": "https://huggingface.co/models",
+      "publisher": "Hugging Face"
+    },
+    {
+      "kind": "site",
+      "label": "Artificial Analysis : comparaison de modèles",
+      "url": "https://artificialanalysis.ai",
+      "publisher": "Artificial Analysis"
+    },
+    { "kind": "site", "label": "Epoch AI", "url": "https://epoch.ai", "publisher": "Epoch AI" },
+    {
+      "kind": "site",
+      "label": "GitHub Trending",
+      "url": "https://github.com/trending",
+      "publisher": "GitHub"
+    },
+    {
+      "kind": "site",
+      "label": "Open Source Initiative : IA",
+      "url": "https://opensource.org/ai",
+      "publisher": "OSI"
+    }
+  ],
+  "platforms": {},
+  "charts": [
+    { "chart": "github", "week": "2026-W40" },
+    { "chart": "open-source-ai", "week": "2026-W40" }
+  ],
+  "cover": { "tone": 4, "kicker": "Semaine 40" }
+}

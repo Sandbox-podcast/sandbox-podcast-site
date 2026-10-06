@@ -1,0 +1,98 @@
+[
+  {
+    "id": "github-api",
+    "label": "API REST GitHub",
+    "url": "https://docs.github.com/en/rest",
+    "kind": "api",
+    "provides": "Étoiles, forks, contributeurs, commits et historique d'étoiles des dépôts.",
+    "status": "planned"
+  },
+  {
+    "id": "huggingface-hub",
+    "label": "Hugging Face Hub",
+    "url": "https://huggingface.co/docs/hub/api",
+    "kind": "api",
+    "provides": "Licence, taille, téléchargements et likes des modèles open weights.",
+    "status": "planned"
+  },
+  {
+    "id": "swe-bench",
+    "label": "SWE-bench",
+    "url": "https://www.swebench.com",
+    "kind": "leaderboard",
+    "provides": "Taux de résolution de tickets GitHub réels (SWE-bench Verified).",
+    "status": "planned"
+  },
+  {
+    "id": "livecodebench",
+    "label": "LiveCodeBench",
+    "url": "https://livecodebench.github.io",
+    "kind": "leaderboard",
+    "provides": "Problèmes de programmation compétitive récents, pour limiter la contamination.",
+    "status": "planned"
+  },
+  {
+    "id": "gpqa",
+    "label": "GPQA Diamond",
+    "url": "https://arxiv.org/abs/2311.12022",
+    "kind": "leaderboard",
+    "provides": "Questions de sciences de niveau doctorat, conçues pour résister à la recherche web.",
+    "status": "planned"
+  },
+  {
+    "id": "hle",
+    "label": "Humanity's Last Exam",
+    "url": "https://lastexam.ai",
+    "kind": "leaderboard",
+    "provides": "Questions expertes multi-disciplines, scores encore bas pour tous les modèles.",
+    "status": "planned"
+  },
+  {
+    "id": "epoch-ai",
+    "label": "Epoch AI",
+    "url": "https://epoch.ai",
+    "kind": "leaderboard",
+    "provides": "Évaluations indépendantes, dont les concours de maths (AIME).",
+    "status": "planned"
+  },
+  {
+    "id": "terminal-bench",
+    "label": "Terminal-Bench",
+    "url": "https://www.tbench.ai",
+    "kind": "leaderboard",
+    "provides": "Tâches d'agents dans un terminal réel.",
+    "status": "planned"
+  },
+  {
+    "id": "tau-bench",
+    "label": "τ-bench",
+    "url": "https://github.com/sierra-research/tau-bench",
+    "kind": "leaderboard",
+    "provides": "Agents qui utilisent des outils face à un utilisateur simulé.",
+    "status": "planned"
+  },
+  {
+    "id": "mmmu",
+    "label": "MMMU",
+    "url": "https://mmmu-benchmark.github.io",
+    "kind": "leaderboard",
+    "provides": "Compréhension multimodale (images et texte) de niveau universitaire.",
+    "status": "planned"
+  },
+  {
+    "id": "mrcr",
+    "label": "OpenAI MRCR",
+    "url": "https://huggingface.co/datasets/openai/mrcr",
+    "kind": "leaderboard",
+    "provides": "Retrouver plusieurs informations dans un long contexte.",
+    "status": "planned"
+  },
+  {
+    "id": "artificial-analysis",
+    "label": "Artificial Analysis",
+    "url": "https://artificialanalysis.ai",
+    "kind": "leaderboard",
+    "provides": "Vitesse de génération, latence et prix des API, mesurés de façon homogène.",
+    "status": "planned"
+  }
+]

@@ -1,0 +1,74 @@
+{
+  "slug": "github",
+  "title": "GitHub Top 10",
+  "short": "GitHub",
+  "code": "GH",
+  "entityKind": "project",
+  "scoring": "github-momentum",
+  "size": 10,
+  "pool": "all",
+  "tone": 0,
+  "tagline": "Les projets qui bougent le plus cette semaine, pas ceux qui ont le plus de stars depuis dix ans.",
+  "description": "Classement hebdomadaire des projets GitHub à plus forte dynamique, toutes catégories confondues : croissance des stars, activité du dépôt et audience installée.",
+  "highlights": ["growth", "activity", "reach"],
+  "views": [
+    { "id": "momentum", "label": "Momentum" },
+    { "id": "growth", "label": "Growth" },
+    { "id": "activity", "label": "Activity" },
+    { "id": "reach", "label": "Reach" }
+  ],
+  "detailMetrics": ["stars7d", "stars", "forks", "contributors", "commits30d"],
+  "trackedMetric": "stars",
+  "tiebreak": "stars7d",
+  "methodology": {
+    "summary": "On cherche ce qui émerge, pas ce qui est installé. Un projet qui gagne 8 000 stars en une semaine passe devant un géant qui en gagne 400, sauf si ce géant est aussi très actif. Le classement mesure donc une dynamique, pas une popularité historique.",
+    "sources": [
+      {
+        "source": "github-api",
+        "usage": "Toutes les métriques : stars totales, stars gagnées sur 7 jours, forks, contributeurs et commits sur 30 jours."
+      }
+    ],
+    "criteria": [
+      {
+        "label": "Growth (55 %)",
+        "detail": "Stars gagnées sur 7 jours (60 %, échelle logarithmique) et croissance rapportée à la taille du dépôt (40 %). Le second terme permet à un petit projet qui double d'apparaître face à un grand projet qui grossit de 1 %."
+      },
+      {
+        "label": "Activity (25 %)",
+        "detail": "Commits des 30 derniers jours (60 %) et nombre de contributeurs (40 %), tous deux en échelle logarithmique. Un dépôt qui ne bouge plus ne peut pas monter durablement."
+      },
+      {
+        "label": "Reach (20 %)",
+        "detail": "Stars totales (60 %) et forks (40 %), en échelle logarithmique. L'audience installée compte, mais pèse peu : c'est volontaire."
+      },
+      {
+        "label": "Normalisation",
+        "detail": "Chaque sous-score est ramené entre 0 et 100 par rapport aux candidats de la semaine (le meilleur vaut 100, le moins bon 0). Seul le rang est donc comparable d'une semaine à l'autre, pas le score."
+      },
+      {
+        "label": "Départage",
+        "detail": "À score égal, le projet qui a gagné le plus de stars sur 7 jours passe devant."
+      }
+    ],
+    "frequency": "Chaque semaine, publication le mardi vers 07 h UTC. Les données sont relevées dans la nuit précédente.",
+    "limits": [
+      "Les stars mesurent l'attention, pas la qualité ni l'usage réel. Un projet très partagé sur les réseaux peut monter vite puis retomber.",
+      "Les stars peuvent être gonflées artificiellement. Nous ne filtrons pas encore automatiquement ce bruit ; en cas de pic suspect, l'équipe l'écrit dans OUR TAKE.",
+      "Le pool de candidats (une quinzaine de dépôts par semaine) est constitué par l'équipe à partir de GitHub Trending, des projets cités dans nos sources et des propositions reçues. Un projet absent du pool ne peut pas entrer.",
+      "La normalisation est relative au pool : ajouter ou retirer un candidat peut déplacer les scores des autres, c'est pourquoi le rang fait foi."
+    ],
+    "changelog": [
+      { "week": "2026-W26", "note": "Lancement du classement, version 1 de la méthode." }
+    ]
+  },
+  "seo": {
+    "title": "GitHub Top 10 : les projets qui montent cette semaine",
+    "description": "Classement hebdomadaire des projets GitHub à plus forte dynamique : stars, croissance, activité. Historique, méthodologie et commentaires de l'équipe.",
+    "keywords": [
+      "top GitHub projects",
+      "GitHub trending",
+      "projets GitHub populaires",
+      "classement GitHub"
+    ]
+  }
+}

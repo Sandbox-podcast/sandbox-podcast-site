@@ -1,0 +1,25 @@
+{
+  "chart": "github",
+  "week": "2026-W41",
+  "publishedAt": "2026-10-06T07:00:00.000Z",
+  "retrievedAt": "2026-10-06T06:00:00.000Z",
+  "provenance": "mock",
+  "entries": [
+    {"entity":"claude-code","rank":1,"score":67.9,"dimensions":{"growth":100,"activity":1.6,"reach":62.3,"momentum":67.9},"metrics":{"stars":108914,"stars7d":14406,"forks":8169,"contributors":165,"commits30d":164,"growth":13.2}},
+    {"entity":"vllm","rank":2,"score":51.1,"dimensions":{"growth":25.6,"activity":100,"reach":59.9,"momentum":51.1},"metrics":{"stars":82701,"stars7d":2601,"forks":12405,"contributors":1580,"commits30d":1226,"growth":3.1}},
+    {"entity":"llama-cpp","rank":3,"score":44.7,"dimensions":{"growth":18.5,"activity":75.6,"reach":78.1,"momentum":44.7},"metrics":{"stars":119853,"stars7d":2283,"forks":15581,"contributors":1190,"commits30d":637,"growth":1.9}},
+    {"entity":"n8n","rank":4,"score":42.6,"dimensions":{"growth":18.1,"activity":53.8,"reach":96,"momentum":42.6},"metrics":{"stars":157256,"stars7d":2374,"forks":23588,"contributors":545,"commits30d":479,"growth":1.5}},
+    {"entity":"mastra","rank":5,"score":40.9,"dimensions":{"growth":52.2,"activity":48.9,"reach":0,"momentum":40.9},"metrics":{"stars":35119,"stars7d":3294,"forks":2810,"contributors":240,"commits30d":647,"growth":9.4}},
+    {"entity":"ollama","rank":6,"score":38.5,"dimensions":{"growth":14.1,"activity":45.5,"reach":97,"momentum":38.5},"metrics":{"stars":174996,"stars7d":2096,"forks":20125,"contributors":625,"commits30d":335,"growth":1.2}},
+    {"entity":"codex","rank":7,"score":36.7,"dimensions":{"growth":20.7,"activity":62.7,"reach":48.3,"momentum":36.7},"metrics":{"stars":72494,"stars7d":2150,"forks":8699,"contributors":320,"commits30d":872,"growth":3}},
+    {"entity":"zed","rank":8,"score":35.6,"dimensions":{"growth":12,"activity":79.8,"reach":45,"momentum":35.6},"metrics":{"stars":86148,"stars7d":1713,"forks":5169,"contributors":875,"commits30d":874,"growth":2}},
+    {"entity":"dify","rank":9,"score":35.1,"dimensions":{"growth":11.5,"activity":45.6,"reach":86.9,"momentum":35.1},"metrics":{"stars":133660,"stars7d":1825,"forks":20049,"contributors":860,"commits30d":280,"growth":1.4}},
+    {"entity":"uv","rank":10,"score":33.9,"dimensions":{"growth":17.6,"activity":59.3,"reach":46.9,"momentum":33.9},"metrics":{"stars":98234,"stars7d":2115,"forks":4421,"contributors":425,"commits30d":663,"growth":2.2}},
+    {"entity":"browser-use","rank":11,"score":32.5,"dimensions":{"growth":17.6,"activity":35,"reach":70.3,"momentum":32.5},"metrics":{"stars":110294,"stars7d":2168,"forks":12132,"contributors":260,"commits30d":388,"growth":2}},
+    {"entity":"open-webui","rank":12,"score":32.4,"dimensions":{"growth":10.6,"activity":41,"reach":81.6,"momentum":32.4},"metrics":{"stars":127655,"stars7d":1762,"forks":16595,"contributors":445,"commits30d":350,"growth":1.4}},
+    {"entity":"openhands","rank":13,"score":31.9,"dimensions":{"growth":7,"activity":71,"reach":51.5,"momentum":31.9},"metrics":{"stars":74712,"stars7d":1409,"forks":9713,"contributors":540,"commits30d":856,"growth":1.9}},
+    {"entity":"comfyui","rank":14,"score":30.2,"dimensions":{"growth":10.7,"activity":43.4,"reach":67.2,"momentum":30.2},"metrics":{"stars":109796,"stars7d":1715,"forks":10431,"contributors":315,"commits30d":461,"growth":1.6}},
+    {"entity":"gemini-cli","rank":15,"score":27.1,"dimensions":{"growth":0.7,"activity":61,"reach":57.1,"momentum":27.1},"metrics":{"stars":84707,"stars7d":1159,"forks":10165,"contributors":445,"commits30d":683,"growth":1.4}},
+    {"entity":"firecrawl","rank":16,"score":20.5,"dimensions":{"growth":10.4,"activity":23.9,"reach":43.9,"momentum":20.5},"metrics":{"stars":76737,"stars7d":1580,"forks":6139,"contributors":150,"commits30d":366,"growth":2.1}}
+  ]
+}

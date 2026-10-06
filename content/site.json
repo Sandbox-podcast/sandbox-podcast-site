@@ -1,0 +1,15 @@
+{
+  "name": "Sandbox",
+  "wordmark": ["SANDBOX", "STUDIO"],
+  "tagline": "La tech mérite mieux que du bruit.",
+  "strapline": "Le podcast qui teste, débat et remet les chiffres en perspective.",
+  "description": "Sandbox suit ce qui bouge en IA, en développement et dans l’open source. Un podcast pour en parler, des repères pour y voir clair.",
+  "heroEyebrow": "Podcast indépendant · IA · développement · open source",
+  "heroTitle": "Les idées prennent forme ici.",
+  "heroDek": "On suit les outils, les modèles et les idées qui changent le travail. Des conversations franches, des classements transparents et des analyses sans bruit.",
+  "platforms": {
+    "youtube": "https://www.youtube.com",
+    "spotify": "https://open.spotify.com",
+    "apple": "https://podcasts.apple.com"
+  }
+}

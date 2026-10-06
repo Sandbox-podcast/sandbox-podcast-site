@@ -1,0 +1,122 @@
+{
+  "id": "github-momentum",
+  "metrics": [
+    {
+      "key": "stars",
+      "label": "Stars",
+      "unit": "count",
+      "source": "github-api",
+      "description": "Nombre total d'étoiles du dépôt."
+    },
+    {
+      "key": "stars7d",
+      "label": "Nouvelles stars (7 j)",
+      "unit": "count",
+      "source": "github-api",
+      "description": "Étoiles gagnées sur les 7 derniers jours."
+    },
+    {
+      "key": "forks",
+      "label": "Forks",
+      "unit": "count",
+      "source": "github-api",
+      "description": "Nombre total de forks."
+    },
+    {
+      "key": "contributors",
+      "label": "Contributeurs",
+      "unit": "count",
+      "source": "github-api",
+      "description": "Personnes ayant au moins un commit sur la branche par défaut."
+    },
+    {
+      "key": "commits30d",
+      "label": "Commits (30 j)",
+      "unit": "count",
+      "source": "github-api",
+      "description": "Commits sur la branche par défaut au cours des 30 derniers jours."
+    }
+  ],
+  "derived": [
+    {
+      "kind": "ratio",
+      "key": "growth",
+      "label": "Croissance hebdo",
+      "unit": "percent",
+      "decimals": 1,
+      "numerator": "stars7d",
+      "denominator": "stars",
+      "scale": 100
+    }
+  ],
+  "dimensions": [
+    {
+      "id": "growth",
+      "label": "Growth",
+      "description": "Vitesse à laquelle le projet gagne de l'attention, en valeur absolue et rapportée à sa taille.",
+      "components": [
+        {
+          "type": "metric",
+          "metric": "stars7d",
+          "weight": 0.6,
+          "scale": { "kind": "pool", "transform": "log" }
+        },
+        {
+          "type": "metric",
+          "metric": "growth",
+          "weight": 0.4,
+          "scale": { "kind": "pool", "transform": "linear" }
+        }
+      ]
+    },
+    {
+      "id": "activity",
+      "label": "Activity",
+      "description": "Le projet est-il vivant ? Commits récents et nombre de contributeurs.",
+      "components": [
+        {
+          "type": "metric",
+          "metric": "commits30d",
+          "weight": 0.6,
+          "scale": { "kind": "pool", "transform": "log" }
+        },
+        {
+          "type": "metric",
+          "metric": "contributors",
+          "weight": 0.4,
+          "scale": { "kind": "pool", "transform": "log" }
+        }
+      ]
+    },
+    {
+      "id": "reach",
+      "label": "Reach",
+      "description": "Audience installée : étoiles et forks cumulés.",
+      "components": [
+        {
+          "type": "metric",
+          "metric": "stars",
+          "weight": 0.6,
+          "scale": { "kind": "pool", "transform": "log" }
+        },
+        {
+          "type": "metric",
+          "metric": "forks",
+          "weight": 0.4,
+          "scale": { "kind": "pool", "transform": "log" }
+        }
+      ]
+    },
+    {
+      "id": "momentum",
+      "label": "Momentum",
+      "description": "Note principale du classement : 55 % croissance, 25 % activité, 20 % audience.",
+      "components": [
+        { "type": "dimension", "dimension": "growth", "weight": 0.55 },
+        { "type": "dimension", "dimension": "activity", "weight": 0.25 },
+        { "type": "dimension", "dimension": "reach", "weight": 0.2 }
+      ]
+    }
+  ],
+  "primary": "momentum"
+}

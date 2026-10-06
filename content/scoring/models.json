@@ -1,0 +1,249 @@
+{
+  "id": "models",
+  "metrics": [
+    {
+      "key": "swebench",
+      "label": "SWE-bench Verified",
+      "unit": "percent",
+      "decimals": 1,
+      "source": "swe-bench",
+      "description": "Part des tickets GitHub réels résolus."
+    },
+    {
+      "key": "livecodebench",
+      "label": "LiveCodeBench",
+      "unit": "percent",
+      "decimals": 1,
+      "source": "livecodebench",
+      "description": "Problèmes de code récents, pour limiter la contamination des données d'entraînement."
+    },
+    {
+      "key": "gpqa",
+      "label": "GPQA Diamond",
+      "unit": "percent",
+      "decimals": 1,
+      "source": "gpqa",
+      "description": "Questions de sciences de niveau doctorat."
+    },
+    {
+      "key": "hle",
+      "label": "Humanity's Last Exam",
+      "unit": "percent",
+      "decimals": 1,
+      "source": "hle",
+      "description": "Questions expertes : les scores restent bas, l'échelle va donc de 0 à 50 %."
+    },
+    {
+      "key": "aime",
+      "label": "AIME 2025",
+      "unit": "percent",
+      "decimals": 1,
+      "source": "epoch-ai",
+      "description": "Concours de mathématiques."
+    },
+    {
+      "key": "terminalbench",
+      "label": "Terminal-Bench",
+      "unit": "percent",
+      "decimals": 1,
+      "source": "terminal-bench",
+      "description": "Tâches d'agent dans un terminal."
+    },
+    {
+      "key": "taubench",
+      "label": "τ-bench",
+      "unit": "percent",
+      "decimals": 1,
+      "source": "tau-bench",
+      "description": "Usage d'outils face à un utilisateur simulé."
+    },
+    {
+      "key": "mmmu",
+      "label": "MMMU",
+      "unit": "percent",
+      "decimals": 1,
+      "source": "mmmu",
+      "description": "Compréhension d'images et de texte de niveau universitaire."
+    },
+    {
+      "key": "mrcr",
+      "label": "MRCR",
+      "unit": "percent",
+      "decimals": 1,
+      "source": "mrcr",
+      "description": "Retrouver plusieurs informations dans un long contexte."
+    },
+    {
+      "key": "contextK",
+      "label": "Fenêtre de contexte",
+      "unit": "tokens",
+      "decimals": 0,
+      "source": "artificial-analysis",
+      "description": "Taille maximale du contexte, en milliers de tokens."
+    },
+    {
+      "key": "tps",
+      "label": "Vitesse de sortie",
+      "unit": "tps",
+      "decimals": 0,
+      "source": "artificial-analysis",
+      "description": "Tokens générés par seconde (médiane des fournisseurs)."
+    },
+    {
+      "key": "priceIn",
+      "label": "Prix entrée",
+      "unit": "usd",
+      "decimals": 2,
+      "source": "artificial-analysis",
+      "higherIsBetter": false,
+      "description": "Dollars par million de tokens en entrée."
+    },
+    {
+      "key": "priceOut",
+      "label": "Prix sortie",
+      "unit": "usd",
+      "decimals": 2,
+      "source": "artificial-analysis",
+      "higherIsBetter": false,
+      "description": "Dollars par million de tokens en sortie."
+    }
+  ],
+  "derived": [
+    {
+      "kind": "weighted-sum",
+      "key": "blendedPrice",
+      "label": "Prix mixte",
+      "unit": "usd",
+      "decimals": 2,
+      "terms": [
+        { "metric": "priceIn", "weight": 3 },
+        { "metric": "priceOut", "weight": 1 }
+      ],
+      "divisor": 4,
+      "higherIsBetter": false
+    }
+  ],
+  "dimensions": [
+    {
+      "id": "coding",
+      "label": "Coding",
+      "description": "Résoudre de vrais tickets et écrire du code correct.",
+      "components": [
+        { "type": "metric", "metric": "swebench", "weight": 0.6, "scale": { "kind": "identity" } },
+        {
+          "type": "metric",
+          "metric": "livecodebench",
+          "weight": 0.4,
+          "scale": { "kind": "identity" }
+        }
+      ]
+    },
+    {
+      "id": "reasoning",
+      "label": "Reasoning",
+      "description": "Raisonnement scientifique et questions expertes.",
+      "components": [
+        { "type": "metric", "metric": "gpqa", "weight": 0.6, "scale": { "kind": "identity" } },
+        {
+          "type": "metric",
+          "metric": "hle",
+          "weight": 0.4,
+          "scale": { "kind": "range", "min": 0, "max": 50 }
+        }
+      ]
+    },
+    {
+      "id": "maths",
+      "label": "Maths",
+      "description": "Mathématiques de concours.",
+      "components": [
+        { "type": "metric", "metric": "aime", "weight": 1, "scale": { "kind": "identity" } }
+      ]
+    },
+    {
+      "id": "agents",
+      "label": "Agents",
+      "description": "Enchaîner des actions avec des outils sans dérailler.",
+      "components": [
+        {
+          "type": "metric",
+          "metric": "terminalbench",
+          "weight": 0.55,
+          "scale": { "kind": "range", "min": 0, "max": 70 }
+        },
+        { "type": "metric", "metric": "taubench", "weight": 0.45, "scale": { "kind": "identity" } }
+      ]
+    },
+    {
+      "id": "multimodal",
+      "label": "Multimodal",
+      "description": "Comprendre les images en plus du texte. Absente pour les modèles texte seul.",
+      "components": [
+        { "type": "metric", "metric": "mmmu", "weight": 1, "scale": { "kind": "identity" } }
+      ]
+    },
+    {
+      "id": "longContext",
+      "label": "Long context",
+      "description": "Taille de la fenêtre et capacité à y retrouver l'information.",
+      "components": [
+        { "type": "metric", "metric": "mrcr", "weight": 0.6, "scale": { "kind": "identity" } },
+        {
+          "type": "metric",
+          "metric": "contextK",
+          "weight": 0.4,
+          "scale": { "kind": "range", "min": 32, "max": 2000, "transform": "log" }
+        }
+      ]
+    },
+    {
+      "id": "speed",
+      "label": "Speed",
+      "description": "Vitesse de génération, échelle logarithmique de 30 à 400 tokens par seconde.",
+      "components": [
+        {
+          "type": "metric",
+          "metric": "tps",
+          "weight": 1,
+          "scale": { "kind": "range", "min": 30, "max": 400, "transform": "log" }
+        }
+      ]
+    },
+    {
+      "id": "price",
+      "label": "Price",
+      "description": "Prix mixte (3 parts d'entrée pour 1 de sortie), inversé : moins cher = score plus haut.",
+      "components": [
+        {
+          "type": "metric",
+          "metric": "blendedPrice",
+          "weight": 1,
+          "scale": { "kind": "range", "min": 0.2, "max": 20, "transform": "log", "invert": true }
+        }
+      ]
+    },
+    {
+      "id": "quality",
+      "label": "Global",
+      "description": "Qualité globale : coding 25 %, reasoning 22 %, agents 20 %, maths 13 %, multimodal 10 %, long context 10 %. La vitesse et le prix n'y entrent pas.",
+      "components": [
+        { "type": "dimension", "dimension": "coding", "weight": 0.25 },
+        { "type": "dimension", "dimension": "reasoning", "weight": 0.22 },
+        { "type": "dimension", "dimension": "agents", "weight": 0.2 },
+        { "type": "dimension", "dimension": "maths", "weight": 0.13 },
+        { "type": "dimension", "dimension": "multimodal", "weight": 0.1 },
+        { "type": "dimension", "dimension": "longContext", "weight": 0.1 }
+      ]
+    },
+    {
+      "id": "value",
+      "label": "Value",
+      "description": "Rapport qualité/prix : 60 % qualité globale, 40 % score de prix.",
+      "components": [
+        { "type": "dimension", "dimension": "quality", "weight": 0.6 },
+        { "type": "dimension", "dimension": "price", "weight": 0.4 }
+      ]
+    }
+  ],
+  "primary": "quality"
+}

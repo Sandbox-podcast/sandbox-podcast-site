@@ -1,0 +1,74 @@
+{
+  "slug": "skills",
+  "title": "GitHub Skills Top 10",
+  "short": "Skills",
+  "code": "SK",
+  "entityKind": "project",
+  "scoring": "skills-momentum",
+  "size": 10,
+  "pool": "all",
+  "tone": 1,
+  "tagline": "Skills, agents, serveurs MCP : ce que les développeurs installent et copient cette semaine.",
+  "description": "Classement hebdomadaire des skills, agents et outils IA hébergés sur GitHub, par dynamique de communauté.",
+  "highlights": ["growth", "activity", "reach"],
+  "views": [
+    { "id": "momentum", "label": "Momentum" },
+    { "id": "growth", "label": "Growth" },
+    { "id": "activity", "label": "Activity" },
+    { "id": "reach", "label": "Reach" }
+  ],
+  "detailMetrics": ["stars7d", "stars", "forks", "contributors", "commits30d"],
+  "trackedMetric": "stars",
+  "tiebreak": "stars7d",
+  "methodology": {
+    "summary": "Même logique que le GitHub Top 10, appliquée à l'écosystème des skills, agents et outils IA. Ici, un projet se copie autant qu'il se suit : les forks pèsent donc à égalité avec les stars dans l'audience.",
+    "sources": [
+      {
+        "source": "github-api",
+        "usage": "Toutes les métriques : stars, stars sur 7 jours, forks, contributeurs et commits sur 30 jours."
+      }
+    ],
+    "criteria": [
+      {
+        "label": "Growth (50 %)",
+        "detail": "Stars gagnées sur 7 jours (60 %, échelle logarithmique) et croissance rapportée à la taille du dépôt (40 %)."
+      },
+      {
+        "label": "Activity (25 %)",
+        "detail": "Commits des 30 derniers jours (60 %) et contributeurs (40 %), en échelle logarithmique."
+      },
+      {
+        "label": "Reach (25 %)",
+        "detail": "Stars (50 %) et forks (50 %), en échelle logarithmique. Les forks comptent davantage que dans le GitHub Top 10, parce qu'un skill ou un agent est souvent copié puis adapté."
+      },
+      {
+        "label": "Périmètre",
+        "detail": "Skills pour agents de code, serveurs MCP, frameworks d'agents, agents de code et listes de ressources dédiées. Un dépôt peut figurer à la fois ici et dans le GitHub Top 10."
+      },
+      {
+        "label": "Normalisation et départage",
+        "detail": "Sous-scores relatifs aux candidats de la semaine, départage par les stars gagnées sur 7 jours. Seul le rang est comparable d'une semaine à l'autre."
+      }
+    ],
+    "frequency": "Chaque semaine, publication le mardi vers 07 h UTC.",
+    "limits": [
+      "La frontière entre « skill », « agent » et « outil » est une décision éditoriale. Nous préférons l'afficher et la discuter plutôt que la cacher dans un algorithme.",
+      "Les listes de ressources (awesome-lists) accumulent des stars sans contenir de code actif ; leur score d'activité reste faible, mais leur audience les tire vers le haut.",
+      "Une star ne dit pas si le projet fonctionne. Les avis de l'équipe (OUR TAKE) servent justement à dire ce que nous avons réellement essayé.",
+      "Le pool de candidats est constitué par l'équipe : un projet absent du pool ne peut pas entrer."
+    ],
+    "changelog": [
+      { "week": "2026-W26", "note": "Lancement du classement, version 1 de la méthode." }
+    ]
+  },
+  "seo": {
+    "title": "GitHub Skills Top 10 : skills, agents et outils IA",
+    "description": "Classement hebdomadaire des skills, agents et serveurs MCP sur GitHub, avec historique et méthodologie ouverte.",
+    "keywords": [
+      "best AI agent skills",
+      "Claude skills GitHub",
+      "MCP servers ranking",
+      "AI coding agents GitHub"
+    ]
+  }
+}

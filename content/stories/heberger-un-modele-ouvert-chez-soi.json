@@ -1,0 +1,51 @@
+{
+  "slug": "heberger-un-modele-ouvert-chez-soi",
+  "type": "guide",
+  "title": "Héberger un modèle ouvert chez soi : Ollama, llama.cpp ou vLLM ?",
+  "dek": "Trois outils, trois usages. Lequel prendre pour essayer, lequel pour un serveur, et à quel moment on regrette d'avoir choisi le mauvais.",
+  "publishedAt": "2026-09-24T08:00:00.000Z",
+  "author": "sam",
+  "topics": ["infra", "open-source"],
+  "featured": false,
+  "related": [
+    { "kind": "entity", "entity": "ollama" },
+    { "kind": "entity", "entity": "llama-cpp" },
+    { "kind": "entity", "entity": "vllm" },
+    { "kind": "chart", "chart": "open-source-ai" },
+    { "kind": "episode", "number": 41 }
+  ],
+  "body": [
+    {
+      "type": "p",
+      "text": "Les modèles du [[chart:open-source-ai]] se téléchargent. Encore faut-il les faire tourner. Trois outils reviennent tout le temps, et ils ne résolvent pas le même problème."
+    },
+    { "type": "h2", "text": "Pour essayer : Ollama" },
+    {
+      "type": "p",
+      "text": "[[entity:ollama]] télécharge et lance un modèle en une commande, avec une API locale. C'est le meilleur point de départ, et pour beaucoup d'usages personnels, le seul dont on aura besoin."
+    },
+    { "type": "code", "language": "bash", "code": "ollama run <nom-du-modele>" },
+    { "type": "h2", "text": "Pour tout faire tourner partout : llama.cpp" },
+    {
+      "type": "p",
+      "text": "[[entity:llama-cpp]] est le moteur dont beaucoup d'autres outils dépendent. Plus bas niveau, plus de réglages, et une compatibilité matérielle très large : c'est ce qu'on prend quand on veut comprendre ou optimiser."
+    },
+    { "type": "code", "language": "bash", "code": "llama-server -m modele.gguf --port 8080" },
+    { "type": "h2", "text": "Pour servir plusieurs utilisateurs : vLLM" },
+    {
+      "type": "p",
+      "text": "[[entity:vllm]] est pensé pour le débit : il sert beaucoup de requêtes en parallèle sur des GPU de serveur. Surdimensionné pour un usage perso, indispensable dès qu'une équipe s'y met."
+    },
+    { "type": "code", "language": "bash", "code": "vllm serve <nom-du-modele>" },
+    {
+      "type": "callout",
+      "tone": "warning",
+      "title": "Avant de choisir",
+      "text": "Vérifiez la licence du modèle (elle est sur chaque fiche), la mémoire GPU nécessaire, et si la quantification dégrade les résultats pour votre usage. Nos benchmarks portent sur les modèles non quantifiés."
+    }
+  ],
+  "sources": [
+    { "label": "Documentation vLLM", "url": "https://docs.vllm.ai" },
+    { "label": "Ollama", "url": "https://ollama.com" }
+  ]
+}

@@ -1,0 +1,104 @@
+{
+  "slug": "open-source-ai",
+  "title": "Open Source AI Top 10",
+  "short": "Open Source AI",
+  "code": "OS",
+  "entityKind": "model",
+  "scoring": "models",
+  "size": 10,
+  "pool": "openWeights",
+  "tone": 4,
+  "tagline": "Poids ouverts uniquement. Mêmes critères que le classement général, pour comparer ce qu'on peut vraiment héberger soi-même.",
+  "description": "Classement hebdomadaire des meilleurs modèles open weights, sur les mêmes critères que le classement général des modèles IA.",
+  "highlights": ["coding", "reasoning", "speed"],
+  "views": [
+    { "id": "quality", "label": "Global" },
+    { "id": "coding", "label": "Coding" },
+    { "id": "reasoning", "label": "Reasoning" },
+    { "id": "maths", "label": "Maths" },
+    { "id": "agents", "label": "Agents" },
+    { "id": "multimodal", "label": "Multimodal" },
+    { "id": "longContext", "label": "Long context" },
+    { "id": "speed", "label": "Speed" },
+    { "id": "price", "label": "Price" },
+    { "id": "value", "label": "Value" }
+  ],
+  "detailMetrics": [
+    "swebench",
+    "livecodebench",
+    "gpqa",
+    "hle",
+    "aime",
+    "terminalbench",
+    "taubench",
+    "mmmu",
+    "mrcr",
+    "contextK",
+    "tps",
+    "blendedPrice"
+  ],
+  "trackedMetric": "swebench",
+  "tiebreak": "swebench",
+  "methodology": {
+    "summary": "Mêmes données et mêmes pondérations que l'AI Models Top 10, restreintes aux modèles dont les poids sont téléchargeables. Un modèle présent dans les deux classements a le même score ; seul le rang change, parce que le pool est différent.",
+    "sources": [
+      {
+        "source": "huggingface-hub",
+        "usage": "Disponibilité des poids, licence et taille du modèle. Un modèle sans poids téléchargeables ne peut pas entrer."
+      },
+      {
+        "source": "swe-bench",
+        "usage": "Coding : résolution de tickets GitHub réels (SWE-bench Verified)."
+      },
+      { "source": "livecodebench", "usage": "Coding : problèmes de programmation récents." },
+      { "source": "gpqa", "usage": "Reasoning : questions de sciences de niveau doctorat." },
+      { "source": "hle", "usage": "Reasoning : questions expertes." },
+      { "source": "epoch-ai", "usage": "Maths : concours AIME." },
+      { "source": "terminal-bench", "usage": "Agents : tâches dans un terminal." },
+      { "source": "tau-bench", "usage": "Agents : usage d'outils face à un utilisateur simulé." },
+      { "source": "mmmu", "usage": "Multimodal : compréhension d'images et de texte." },
+      {
+        "source": "mrcr",
+        "usage": "Long context : retrouver l'information dans un long contexte."
+      },
+      {
+        "source": "artificial-analysis",
+        "usage": "Fenêtre de contexte, vitesse de sortie et prix des API d'hébergement."
+      }
+    ],
+    "criteria": [
+      {
+        "label": "Open weights",
+        "detail": "Critère d'entrée : les poids doivent être téléchargeables. Nous ne jugeons pas la licence : elle est affichée sur chaque fiche, car « open weights » ne veut pas dire « libre »."
+      },
+      {
+        "label": "Score",
+        "detail": "Identique à l'AI Models Top 10 : coding 25 %, reasoning 22 %, agents 20 %, maths 13 %, multimodal 10 %, long context 10 %."
+      },
+      {
+        "label": "Vitesse et prix",
+        "detail": "Pour un modèle ouvert, la vitesse et le prix sont ceux des fournisseurs qui l'hébergent (médiane). Auto-hébergé, votre coût dépendra de votre matériel."
+      }
+    ],
+    "frequency": "Chaque semaine, publication le mardi vers 07 h UTC.",
+    "limits": [
+      "Les licences varient beaucoup : Apache-2.0, MIT, licences maison avec restrictions. Lisez la licence avant de bâtir un produit dessus.",
+      "Les scores de certains modèles viennent de l'éditeur tant qu'aucune évaluation indépendante n'existe. Ils sont signalés comme tels sur la fiche.",
+      "Les modèles texte seul n'ont pas de score multimodal ; ils ne sont pas pénalisés dans le Global.",
+      "Le coût réel d'un modèle auto-hébergé n'est pas mesuré ici."
+    ],
+    "changelog": [
+      { "week": "2026-W26", "note": "Lancement du classement, version 1 de la méthode." }
+    ]
+  },
+  "seo": {
+    "title": "Open Source AI Top 10 : les meilleurs modèles open weights",
+    "description": "Classement hebdomadaire des meilleurs modèles IA open source / open weights, avec benchmarks, licence, prix et historique.",
+    "keywords": [
+      "best open source AI models",
+      "open weights models ranking",
+      "meilleurs LLM open source",
+      "open source LLM leaderboard"
+    ]
+  }
+}

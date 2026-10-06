@@ -1,0 +1,881 @@
+[
+  {
+    "slug": "claude-code",
+    "kind": "project",
+    "name": "Claude Code",
+    "org": "Anthropic",
+    "tagline": "Un agent de code qui vit dans votre terminal",
+    "description": "Agent de développement piloté en ligne de commande : il lit le dépôt, édite des fichiers, lance des commandes et des tests, et s'étend par des skills, des hooks et des serveurs MCP.",
+    "category": "Agent de code",
+    "topics": ["agents", "coding"],
+    "links": [
+      {
+        "kind": "github",
+        "label": "anthropics/claude-code",
+        "url": "https://github.com/anthropics/claude-code"
+      },
+      {
+        "kind": "site",
+        "label": "Page produit",
+        "url": "https://www.anthropic.com/claude-code"
+      }
+    ],
+    "alternatives": ["codex", "gemini-cli", "cline", "aider"],
+    "mark": {
+      "glyph": "CC",
+      "tone": 2
+    },
+    "github": {
+      "repo": "anthropics/claude-code"
+    }
+  },
+  {
+    "slug": "codex",
+    "kind": "project",
+    "name": "Codex CLI",
+    "org": "OpenAI",
+    "tagline": "L'agent de code d'OpenAI, en local dans le terminal",
+    "description": "Agent en ligne de commande qui travaille sur votre dépôt local avec des niveaux d'autonomie réglables. Le code est publié sous licence Apache-2.0.",
+    "category": "Agent de code",
+    "topics": ["agents", "coding", "open-source"],
+    "license": "Apache-2.0",
+    "links": [
+      {
+        "kind": "github",
+        "label": "openai/codex",
+        "url": "https://github.com/openai/codex"
+      }
+    ],
+    "alternatives": ["claude-code", "gemini-cli", "cline"],
+    "mark": {
+      "glyph": "CX",
+      "tone": 0
+    },
+    "github": {
+      "repo": "openai/codex"
+    }
+  },
+  {
+    "slug": "gemini-cli",
+    "kind": "project",
+    "name": "Gemini CLI",
+    "org": "Google",
+    "tagline": "L'agent en ligne de commande de Google",
+    "description": "Agent de terminal adossé aux modèles Gemini, avec un très long contexte et une extension par serveurs MCP. Publié sous licence Apache-2.0.",
+    "category": "Agent de code",
+    "topics": ["agents", "coding", "open-source"],
+    "license": "Apache-2.0",
+    "links": [
+      {
+        "kind": "github",
+        "label": "google-gemini/gemini-cli",
+        "url": "https://github.com/google-gemini/gemini-cli"
+      }
+    ],
+    "alternatives": ["claude-code", "codex"],
+    "mark": {
+      "glyph": "GC",
+      "tone": 5
+    },
+    "github": {
+      "repo": "google-gemini/gemini-cli"
+    }
+  },
+  {
+    "slug": "n8n",
+    "kind": "project",
+    "name": "n8n",
+    "org": "n8n",
+    "tagline": "Automatisation de workflows, avec des nœuds IA, auto-hébergeable",
+    "description": "Éditeur visuel de workflows reliant des centaines de services, avec des nœuds dédiés aux modèles et aux agents. Le code est visible, mais la licence limite certains usages commerciaux.",
+    "category": "Automatisation",
+    "topics": ["devtools", "agents"],
+    "license": "Sustainable Use License",
+    "links": [
+      {
+        "kind": "github",
+        "label": "n8n-io/n8n",
+        "url": "https://github.com/n8n-io/n8n"
+      },
+      {
+        "kind": "site",
+        "label": "n8n.io",
+        "url": "https://n8n.io"
+      }
+    ],
+    "alternatives": ["dify"],
+    "mark": {
+      "glyph": "n8n",
+      "tone": 2
+    },
+    "github": {
+      "repo": "n8n-io/n8n"
+    }
+  },
+  {
+    "slug": "ollama",
+    "kind": "project",
+    "name": "Ollama",
+    "org": "Ollama",
+    "tagline": "Faire tourner des modèles en local en une commande",
+    "description": "Télécharge et exécute des modèles sur votre machine, avec une API locale compatible avec la plupart des clients. La porte d'entrée la plus simple vers les modèles ouverts.",
+    "category": "Inférence locale",
+    "topics": ["infra", "open-source"],
+    "license": "MIT",
+    "links": [
+      {
+        "kind": "github",
+        "label": "ollama/ollama",
+        "url": "https://github.com/ollama/ollama"
+      },
+      {
+        "kind": "site",
+        "label": "ollama.com",
+        "url": "https://ollama.com"
+      }
+    ],
+    "alternatives": ["llama-cpp", "vllm", "open-webui"],
+    "mark": {
+      "glyph": "OL",
+      "tone": 6
+    },
+    "github": {
+      "repo": "ollama/ollama"
+    }
+  },
+  {
+    "slug": "llama-cpp",
+    "kind": "project",
+    "name": "llama.cpp",
+    "org": "ggml-org",
+    "tagline": "Inférence de LLM en C/C++, sur à peu près tout le matériel",
+    "description": "Moteur d'inférence minimaliste et très optimisé, à la base de nombreux outils locaux. Sa quantification a rendu possible l'exécution de gros modèles sur du matériel ordinaire.",
+    "category": "Inférence locale",
+    "topics": ["infra", "open-source"],
+    "license": "MIT",
+    "links": [
+      {
+        "kind": "github",
+        "label": "ggml-org/llama.cpp",
+        "url": "https://github.com/ggml-org/llama.cpp"
+      }
+    ],
+    "alternatives": ["ollama", "vllm"],
+    "mark": {
+      "glyph": "ll",
+      "tone": 3
+    },
+    "github": {
+      "repo": "ggml-org/llama.cpp"
+    }
+  },
+  {
+    "slug": "open-webui",
+    "kind": "project",
+    "name": "Open WebUI",
+    "org": "Open WebUI",
+    "tagline": "Une interface web auto-hébergée pour modèles locaux et API",
+    "description": "Interface de conversation complète (historique, documents, outils) qui se branche sur Ollama ou sur n'importe quelle API compatible. Utilisée par beaucoup d'équipes comme chat interne.",
+    "category": "Interface",
+    "topics": ["open-source", "infra"],
+    "links": [
+      {
+        "kind": "github",
+        "label": "open-webui/open-webui",
+        "url": "https://github.com/open-webui/open-webui"
+      },
+      {
+        "kind": "site",
+        "label": "openwebui.com",
+        "url": "https://openwebui.com"
+      }
+    ],
+    "alternatives": ["ollama", "dify"],
+    "mark": {
+      "glyph": "OW",
+      "tone": 4
+    },
+    "github": {
+      "repo": "open-webui/open-webui"
+    }
+  },
+  {
+    "slug": "comfyui",
+    "kind": "project",
+    "name": "ComfyUI",
+    "org": "Comfy Org",
+    "tagline": "Génération d'images et de vidéo par graphes de nœuds",
+    "description": "Interface en graphe pour composer des pipelines de génération d'images, de vidéo et d'audio. Très appréciée pour la précision de contrôle et l'écosystème de nœuds communautaires.",
+    "category": "Génération média",
+    "topics": ["open-source"],
+    "license": "GPL-3.0",
+    "links": [
+      {
+        "kind": "github",
+        "label": "comfyanonymous/ComfyUI",
+        "url": "https://github.com/comfyanonymous/ComfyUI"
+      },
+      {
+        "kind": "site",
+        "label": "comfy.org",
+        "url": "https://www.comfy.org"
+      }
+    ],
+    "alternatives": [],
+    "mark": {
+      "glyph": "CU",
+      "tone": 1
+    },
+    "github": {
+      "repo": "comfyanonymous/ComfyUI"
+    }
+  },
+  {
+    "slug": "uv",
+    "kind": "project",
+    "name": "uv",
+    "org": "Astral",
+    "tagline": "Gestionnaire de paquets et d'environnements Python, écrit en Rust",
+    "description": "Remplace pip, virtualenv et une partie de pipx et poetry avec une vitesse sans commune mesure. Devenu le réflexe par défaut pour démarrer un projet Python.",
+    "category": "Outil de dev",
+    "topics": ["devtools", "open-source"],
+    "license": "MIT OR Apache-2.0",
+    "links": [
+      {
+        "kind": "github",
+        "label": "astral-sh/uv",
+        "url": "https://github.com/astral-sh/uv"
+      },
+      {
+        "kind": "docs",
+        "label": "Documentation",
+        "url": "https://docs.astral.sh/uv/"
+      }
+    ],
+    "alternatives": [],
+    "mark": {
+      "glyph": "uv",
+      "tone": 3
+    },
+    "github": {
+      "repo": "astral-sh/uv"
+    }
+  },
+  {
+    "slug": "zed",
+    "kind": "project",
+    "name": "Zed",
+    "org": "Zed Industries",
+    "tagline": "Un éditeur de code rapide et collaboratif, avec agents intégrés",
+    "description": "Éditeur natif écrit en Rust, pensé pour la vitesse et le travail à plusieurs, qui intègre des agents de code et des serveurs MCP.",
+    "category": "Éditeur",
+    "topics": ["devtools", "coding"],
+    "links": [
+      {
+        "kind": "github",
+        "label": "zed-industries/zed",
+        "url": "https://github.com/zed-industries/zed"
+      },
+      {
+        "kind": "site",
+        "label": "zed.dev",
+        "url": "https://zed.dev"
+      }
+    ],
+    "alternatives": ["cline"],
+    "mark": {
+      "glyph": "Z",
+      "tone": 0
+    },
+    "github": {
+      "repo": "zed-industries/zed"
+    }
+  },
+  {
+    "slug": "vllm",
+    "kind": "project",
+    "name": "vLLM",
+    "org": "vLLM Project",
+    "tagline": "Serveur d'inférence haute performance pour LLM",
+    "description": "Moteur de service de modèles qui optimise le débit grâce à une gestion fine de la mémoire du cache. La référence quand on sert des modèles ouverts à plusieurs utilisateurs.",
+    "category": "Inférence serveur",
+    "topics": ["infra", "open-source"],
+    "license": "Apache-2.0",
+    "links": [
+      {
+        "kind": "github",
+        "label": "vllm-project/vllm",
+        "url": "https://github.com/vllm-project/vllm"
+      },
+      {
+        "kind": "docs",
+        "label": "Documentation",
+        "url": "https://docs.vllm.ai"
+      }
+    ],
+    "alternatives": ["llama-cpp", "ollama"],
+    "mark": {
+      "glyph": "vL",
+      "tone": 5
+    },
+    "github": {
+      "repo": "vllm-project/vllm"
+    }
+  },
+  {
+    "slug": "dify",
+    "kind": "project",
+    "name": "Dify",
+    "org": "LangGenius",
+    "tagline": "Plateforme pour construire des applications et agents LLM",
+    "description": "Interface visuelle pour assembler des applications à base de modèles : RAG, workflows, agents et déploiement. Une alternative low-code aux frameworks.",
+    "category": "Plateforme d'agents",
+    "topics": ["agents", "devtools"],
+    "links": [
+      {
+        "kind": "github",
+        "label": "langgenius/dify",
+        "url": "https://github.com/langgenius/dify"
+      },
+      {
+        "kind": "site",
+        "label": "dify.ai",
+        "url": "https://dify.ai"
+      }
+    ],
+    "alternatives": ["n8n", "langgraph"],
+    "mark": {
+      "glyph": "Df",
+      "tone": 1
+    },
+    "github": {
+      "repo": "langgenius/dify"
+    }
+  },
+  {
+    "slug": "browser-use",
+    "kind": "project",
+    "name": "browser-use",
+    "org": "Browser Use",
+    "tagline": "Laisser un agent piloter un navigateur web",
+    "description": "Bibliothèque Python qui permet à un modèle de naviguer, cliquer et extraire des données dans un vrai navigateur. Un des moyens les plus directs de donner des mains à un agent.",
+    "category": "Agent navigateur",
+    "topics": ["agents", "open-source"],
+    "license": "MIT",
+    "links": [
+      {
+        "kind": "github",
+        "label": "browser-use/browser-use",
+        "url": "https://github.com/browser-use/browser-use"
+      },
+      {
+        "kind": "site",
+        "label": "browser-use.com",
+        "url": "https://browser-use.com"
+      }
+    ],
+    "alternatives": ["playwright-mcp", "openhands"],
+    "mark": {
+      "glyph": "bu",
+      "tone": 2
+    },
+    "github": {
+      "repo": "browser-use/browser-use"
+    }
+  },
+  {
+    "slug": "firecrawl",
+    "kind": "project",
+    "name": "Firecrawl",
+    "org": "Firecrawl",
+    "tagline": "Transformer des sites web en données propres pour LLM",
+    "description": "Explore des sites et renvoie du Markdown ou des données structurées prêtes à être injectées dans un contexte. Brique fréquente des pipelines de recherche pour agents.",
+    "category": "Données pour agents",
+    "topics": ["agents", "devtools"],
+    "license": "AGPL-3.0",
+    "links": [
+      {
+        "kind": "github",
+        "label": "firecrawl/firecrawl",
+        "url": "https://github.com/firecrawl/firecrawl"
+      },
+      {
+        "kind": "site",
+        "label": "firecrawl.dev",
+        "url": "https://www.firecrawl.dev"
+      }
+    ],
+    "alternatives": ["browser-use"],
+    "mark": {
+      "glyph": "Fc",
+      "tone": 3
+    },
+    "github": {
+      "repo": "firecrawl/firecrawl"
+    }
+  },
+  {
+    "slug": "mastra",
+    "kind": "project",
+    "name": "Mastra",
+    "org": "Mastra",
+    "tagline": "Un framework TypeScript pour agents et workflows IA",
+    "description": "Framework pour développeurs TypeScript : agents, workflows, mémoire, évaluations et observabilité dans le même outil. Un des rares à viser d'abord l'écosystème JavaScript.",
+    "category": "Framework d'agents",
+    "topics": ["agents", "devtools"],
+    "links": [
+      {
+        "kind": "github",
+        "label": "mastra-ai/mastra",
+        "url": "https://github.com/mastra-ai/mastra"
+      },
+      {
+        "kind": "site",
+        "label": "mastra.ai",
+        "url": "https://mastra.ai"
+      }
+    ],
+    "alternatives": ["langgraph", "openai-agents-python"],
+    "mark": {
+      "glyph": "Ma",
+      "tone": 5
+    },
+    "github": {
+      "repo": "mastra-ai/mastra"
+    }
+  },
+  {
+    "slug": "openhands",
+    "kind": "project",
+    "name": "OpenHands",
+    "org": "All Hands AI",
+    "tagline": "Un agent de développement logiciel open source",
+    "description": "Agent qui travaille dans un environnement isolé : il écrit du code, lance des commandes et navigue sur le web pour résoudre des tâches de développement. Fonctionne avec la plupart des modèles.",
+    "category": "Agent de code",
+    "topics": ["agents", "coding", "open-source"],
+    "license": "MIT",
+    "links": [
+      {
+        "kind": "github",
+        "label": "All-Hands-AI/OpenHands",
+        "url": "https://github.com/All-Hands-AI/OpenHands"
+      },
+      {
+        "kind": "site",
+        "label": "all-hands.dev",
+        "url": "https://www.all-hands.dev"
+      }
+    ],
+    "alternatives": ["claude-code", "goose", "cline"],
+    "mark": {
+      "glyph": "OH",
+      "tone": 3
+    },
+    "github": {
+      "repo": "All-Hands-AI/OpenHands"
+    }
+  },
+  {
+    "slug": "anthropic-skills",
+    "kind": "project",
+    "name": "Anthropic Skills",
+    "org": "Anthropic",
+    "tagline": "Le dépôt de référence des Agent Skills",
+    "description": "Collection de skills : des dossiers d'instructions et de scripts que l'agent charge à la demande pour une tâche précise. Sert aussi d'exemple pour écrire les siens.",
+    "category": "Skills",
+    "topics": ["agents", "coding"],
+    "links": [
+      {
+        "kind": "github",
+        "label": "anthropics/skills",
+        "url": "https://github.com/anthropics/skills"
+      }
+    ],
+    "alternatives": ["superpowers", "awesome-claude-code"],
+    "mark": {
+      "glyph": "Sk",
+      "tone": 2
+    },
+    "github": {
+      "repo": "anthropics/skills"
+    }
+  },
+  {
+    "slug": "superpowers",
+    "kind": "project",
+    "name": "Superpowers",
+    "org": "obra",
+    "tagline": "Une bibliothèque de skills qui impose une méthode",
+    "description": "Ensemble de skills pour agents de code qui cadre le travail : clarifier, planifier, écrire les tests, puis implémenter. Intéressant pour ce qu'il dit de la discipline qu'on veut imposer à un agent.",
+    "category": "Skills",
+    "topics": ["agents", "coding"],
+    "links": [
+      {
+        "kind": "github",
+        "label": "obra/superpowers",
+        "url": "https://github.com/obra/superpowers"
+      }
+    ],
+    "alternatives": ["anthropic-skills", "spec-kit"],
+    "mark": {
+      "glyph": "Sp",
+      "tone": 1
+    },
+    "github": {
+      "repo": "obra/superpowers"
+    }
+  },
+  {
+    "slug": "spec-kit",
+    "kind": "project",
+    "name": "Spec Kit",
+    "org": "GitHub",
+    "tagline": "Le développement piloté par les spécifications, avec des agents",
+    "description": "Boîte à outils qui part d'une spécification écrite pour produire un plan, des tâches puis le code, avec l'agent de votre choix. Popularise l'idée que la spec devient le document principal.",
+    "category": "Méthode et outils",
+    "topics": ["coding", "agents"],
+    "license": "MIT",
+    "links": [
+      {
+        "kind": "github",
+        "label": "github/spec-kit",
+        "url": "https://github.com/github/spec-kit"
+      }
+    ],
+    "alternatives": ["superpowers"],
+    "mark": {
+      "glyph": "SDD",
+      "tone": 0
+    },
+    "github": {
+      "repo": "github/spec-kit"
+    }
+  },
+  {
+    "slug": "mcp-servers",
+    "kind": "project",
+    "name": "MCP Servers",
+    "org": "Model Context Protocol",
+    "tagline": "Les serveurs de référence du Model Context Protocol",
+    "description": "Collection de serveurs MCP qui montrent comment exposer fichiers, bases de données ou API à un agent. Le point de départ pour comprendre et écrire le sien.",
+    "category": "MCP",
+    "topics": ["mcp", "agents"],
+    "links": [
+      {
+        "kind": "github",
+        "label": "modelcontextprotocol/servers",
+        "url": "https://github.com/modelcontextprotocol/servers"
+      },
+      {
+        "kind": "site",
+        "label": "modelcontextprotocol.io",
+        "url": "https://modelcontextprotocol.io"
+      }
+    ],
+    "alternatives": ["context7", "playwright-mcp"],
+    "mark": {
+      "glyph": "MCP",
+      "tone": 4
+    },
+    "github": {
+      "repo": "modelcontextprotocol/servers"
+    }
+  },
+  {
+    "slug": "context7",
+    "kind": "project",
+    "name": "Context7",
+    "org": "Upstash",
+    "tagline": "La documentation à jour des bibliothèques, dans le contexte de l'agent",
+    "description": "Serveur MCP qui récupère la documentation et les exemples de la bonne version d'une bibliothèque pour éviter que l'agent n'invente une API périmée.",
+    "category": "MCP",
+    "topics": ["mcp", "coding"],
+    "links": [
+      {
+        "kind": "github",
+        "label": "upstash/context7",
+        "url": "https://github.com/upstash/context7"
+      },
+      {
+        "kind": "site",
+        "label": "context7.com",
+        "url": "https://context7.com"
+      }
+    ],
+    "alternatives": ["mcp-servers"],
+    "mark": {
+      "glyph": "C7",
+      "tone": 5
+    },
+    "github": {
+      "repo": "upstash/context7"
+    }
+  },
+  {
+    "slug": "playwright-mcp",
+    "kind": "project",
+    "name": "Playwright MCP",
+    "org": "Microsoft",
+    "tagline": "Un serveur MCP pour piloter un navigateur avec Playwright",
+    "description": "Donne à un agent la possibilité d'ouvrir des pages, de cliquer et de lire l'état d'une application web, en s'appuyant sur l'arbre d'accessibilité plutôt que sur des captures.",
+    "category": "MCP",
+    "topics": ["mcp", "agents"],
+    "links": [
+      {
+        "kind": "github",
+        "label": "microsoft/playwright-mcp",
+        "url": "https://github.com/microsoft/playwright-mcp"
+      }
+    ],
+    "alternatives": ["browser-use", "mcp-servers"],
+    "mark": {
+      "glyph": "PW",
+      "tone": 4
+    },
+    "github": {
+      "repo": "microsoft/playwright-mcp"
+    }
+  },
+  {
+    "slug": "awesome-claude-code",
+    "kind": "project",
+    "name": "Awesome Claude Code",
+    "org": "hesreallyhim",
+    "tagline": "Une liste organisée de commandes, skills, hooks et workflows",
+    "description": "Liste de ressources communautaires pour travailler avec Claude Code. Peu de code, beaucoup d'audience : un bon thermomètre de ce que la communauté essaie.",
+    "category": "Liste de ressources",
+    "topics": ["coding", "agents"],
+    "links": [
+      {
+        "kind": "github",
+        "label": "hesreallyhim/awesome-claude-code",
+        "url": "https://github.com/hesreallyhim/awesome-claude-code"
+      }
+    ],
+    "alternatives": ["anthropic-skills"],
+    "mark": {
+      "glyph": "AC",
+      "tone": 6
+    },
+    "github": {
+      "repo": "hesreallyhim/awesome-claude-code"
+    }
+  },
+  {
+    "slug": "openai-agents-python",
+    "kind": "project",
+    "name": "OpenAI Agents SDK",
+    "org": "OpenAI",
+    "tagline": "Un SDK Python léger pour agents multi-étapes",
+    "description": "Kit de base pour assembler des agents : instructions, outils, transferts entre agents et garde-fous. Volontairement petit, avec peu d'abstractions à apprendre.",
+    "category": "Framework d'agents",
+    "topics": ["agents"],
+    "license": "MIT",
+    "links": [
+      {
+        "kind": "github",
+        "label": "openai/openai-agents-python",
+        "url": "https://github.com/openai/openai-agents-python"
+      },
+      {
+        "kind": "docs",
+        "label": "Documentation",
+        "url": "https://openai.github.io/openai-agents-python/"
+      }
+    ],
+    "alternatives": ["langgraph", "crewai", "mastra"],
+    "mark": {
+      "glyph": "OA",
+      "tone": 0
+    },
+    "github": {
+      "repo": "openai/openai-agents-python"
+    }
+  },
+  {
+    "slug": "langgraph",
+    "kind": "project",
+    "name": "LangGraph",
+    "org": "LangChain",
+    "tagline": "Orchestrer des agents comme des graphes à état",
+    "description": "Modélise un agent comme un graphe de nœuds avec un état persistant, des boucles et des points de reprise. Plus bas niveau que d'autres frameworks, donc plus de contrôle.",
+    "category": "Framework d'agents",
+    "topics": ["agents"],
+    "license": "MIT",
+    "links": [
+      {
+        "kind": "github",
+        "label": "langchain-ai/langgraph",
+        "url": "https://github.com/langchain-ai/langgraph"
+      },
+      {
+        "kind": "site",
+        "label": "Page produit",
+        "url": "https://www.langchain.com/langgraph"
+      }
+    ],
+    "alternatives": ["crewai", "openai-agents-python", "mastra"],
+    "mark": {
+      "glyph": "LG",
+      "tone": 4
+    },
+    "github": {
+      "repo": "langchain-ai/langgraph"
+    }
+  },
+  {
+    "slug": "crewai",
+    "kind": "project",
+    "name": "CrewAI",
+    "org": "CrewAI",
+    "tagline": "Des équipes d'agents spécialisés qui collaborent",
+    "description": "Framework Python où l'on définit des rôles, des tâches et un processus d'équipe. Plus simple à prendre en main qu'un graphe explicite, au prix de moins de contrôle fin.",
+    "category": "Framework d'agents",
+    "topics": ["agents"],
+    "license": "MIT",
+    "links": [
+      {
+        "kind": "github",
+        "label": "crewAIInc/crewAI",
+        "url": "https://github.com/crewAIInc/crewAI"
+      },
+      {
+        "kind": "site",
+        "label": "crewai.com",
+        "url": "https://www.crewai.com"
+      }
+    ],
+    "alternatives": ["langgraph", "openai-agents-python"],
+    "mark": {
+      "glyph": "Cr",
+      "tone": 2
+    },
+    "github": {
+      "repo": "crewAIInc/crewAI"
+    }
+  },
+  {
+    "slug": "goose",
+    "kind": "project",
+    "name": "goose",
+    "org": "Block",
+    "tagline": "Un agent local et extensible, avec support MCP",
+    "description": "Agent open source qui tourne sur votre machine, accepte plusieurs modèles et s'étend par des serveurs MCP. Un contrepoids ouvert aux agents des grands éditeurs.",
+    "category": "Agent de code",
+    "topics": ["agents", "coding", "open-source"],
+    "license": "Apache-2.0",
+    "links": [
+      {
+        "kind": "github",
+        "label": "block/goose",
+        "url": "https://github.com/block/goose"
+      },
+      {
+        "kind": "docs",
+        "label": "Documentation",
+        "url": "https://block.github.io/goose/"
+      }
+    ],
+    "alternatives": ["openhands", "cline", "claude-code"],
+    "mark": {
+      "glyph": "Go",
+      "tone": 3
+    },
+    "github": {
+      "repo": "block/goose"
+    }
+  },
+  {
+    "slug": "cline",
+    "kind": "project",
+    "name": "Cline",
+    "org": "Cline",
+    "tagline": "Un agent de code dans VS Code, avec validation à chaque étape",
+    "description": "Extension d'éditeur qui propose des modifications et des commandes que vous approuvez une par une. Choisit le modèle que vous voulez, avec votre propre clé.",
+    "category": "Agent de code",
+    "topics": ["coding", "agents", "open-source"],
+    "license": "Apache-2.0",
+    "links": [
+      {
+        "kind": "github",
+        "label": "cline/cline",
+        "url": "https://github.com/cline/cline"
+      },
+      {
+        "kind": "site",
+        "label": "cline.bot",
+        "url": "https://cline.bot"
+      }
+    ],
+    "alternatives": ["claude-code", "goose", "aider"],
+    "mark": {
+      "glyph": "Cl",
+      "tone": 1
+    },
+    "github": {
+      "repo": "cline/cline"
+    }
+  },
+  {
+    "slug": "aider",
+    "kind": "project",
+    "name": "Aider",
+    "org": "Aider-AI",
+    "tagline": "Du pair programming en terminal, intégré à Git",
+    "description": "Un des premiers assistants de code en terminal : il édite vos fichiers et crée un commit par changement, ce qui rend chaque modification relisable et réversible.",
+    "category": "Agent de code",
+    "topics": ["coding", "open-source"],
+    "license": "Apache-2.0",
+    "links": [
+      {
+        "kind": "github",
+        "label": "Aider-AI/aider",
+        "url": "https://github.com/Aider-AI/aider"
+      },
+      {
+        "kind": "site",
+        "label": "aider.chat",
+        "url": "https://aider.chat"
+      }
+    ],
+    "alternatives": ["claude-code", "cline"],
+    "mark": {
+      "glyph": "Ai",
+      "tone": 6
+    },
+    "github": {
+      "repo": "Aider-AI/aider"
+    }
+  },
+  {
+    "slug": "adk-python",
+    "kind": "project",
+    "name": "Agent Development Kit",
+    "org": "Google",
+    "tagline": "Le kit de Google pour construire et évaluer des agents",
+    "description": "Framework Python de Google pour assembler des agents et des systèmes multi-agents, avec des outils d'évaluation et un déploiement prévu pour son cloud.",
+    "category": "Framework d'agents",
+    "topics": ["agents"],
+    "license": "Apache-2.0",
+    "links": [
+      {
+        "kind": "github",
+        "label": "google/adk-python",
+        "url": "https://github.com/google/adk-python"
+      },
+      {
+        "kind": "docs",
+        "label": "Documentation",
+        "url": "https://google.github.io/adk-docs/"
+      }
+    ],
+    "alternatives": ["langgraph", "openai-agents-python", "crewai"],
+    "mark": {
+      "glyph": "AD",
+      "tone": 5
+    },
+    "github": {
+      "repo": "google/adk-python"
+    }
+  }
+]

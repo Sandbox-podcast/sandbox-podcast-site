@@ -1,0 +1,42 @@
+[
+  {
+    "slug": "agents",
+    "label": "Agents",
+    "description": "Des modèles qui agissent : outils, boucles, orchestration, et tout ce qui casse en chemin."
+  },
+  {
+    "slug": "coding",
+    "label": "Coding",
+    "description": "Assistants et agents de code, éditeurs, revues, et la question de ce qu'on délègue."
+  },
+  {
+    "slug": "open-source",
+    "label": "Open source",
+    "description": "Projets, licences, modèles à poids ouverts, et les gens qui maintiennent tout ça."
+  },
+  {
+    "slug": "benchmarks",
+    "label": "Benchmarks",
+    "description": "Ce que les évaluations mesurent vraiment, et ce qu'elles laissent de côté."
+  },
+  {
+    "slug": "mcp",
+    "label": "MCP et outils",
+    "description": "Model Context Protocol, serveurs d'outils et intégrations pour agents."
+  },
+  {
+    "slug": "models",
+    "label": "Modèles",
+    "description": "Sorties, comparaisons, prix, vitesse : le paysage des modèles de langage."
+  },
+  {
+    "slug": "infra",
+    "label": "Infra et inférence",
+    "description": "Faire tourner des modèles : serveurs d'inférence, quantification, coûts."
+  },
+  {
+    "slug": "devtools",
+    "label": "Outils de dev",
+    "description": "Gestionnaires de paquets, runtimes, éditeurs, automatisation : le quotidien du développeur."
+  }
+]
