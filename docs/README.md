@@ -12,6 +12,7 @@ Le dépôt sert le site média `apps/site`. La documentation du travail précéd
 | [site/transmission-vercel-2026-10-07.md](site/transmission-vercel-2026-10-07.md)        | Reprise des changements locaux sur Vercel    |
 | [adr/ADR-0015](adr/ADR-0015-site-media-et-classements.md)                               | Décision de fond : site média et classements |
 | [adr/ADR-0016](adr/ADR-0016-administration-editoriale-vercel.md)                        | Administration éditoriale                    |
+| [adr/ADR-0017](adr/ADR-0017-persistance-editoriale-postgres.md)                         | Persistance éditoriale Postgres              |
 | [design-decisions/DD-0001](design-decisions/DD-0001-direction-artistique-du-site.md)    | Direction artistique, nom et langue du site  |
 | [design-decisions/DD-0002](design-decisions/DD-0002-charte-sandbox-bleu-nuit-cyan.md)   | Charte bleu nuit et cyan                     |
 | [design-decisions/DD-0003](design-decisions/DD-0003-parcours-podcast-et-theme-rouge.md) | Parcours podcast et thème rouge              |
