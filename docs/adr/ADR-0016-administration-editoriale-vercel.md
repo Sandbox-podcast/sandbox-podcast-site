@@ -1,6 +1,6 @@
 # ADR-0016 — Backoffice éditorial et publication sur Vercel
 
-- Statut : acceptée ; nouveau projet Vercel créé, Blob privé et secrets d’administration à configurer
+- Statut : acceptée pour le backoffice ; stockage Blob remplacé par [ADR-0017](ADR-0017-persistance-editoriale-postgres.md)
 - Date : 2026-10-06
 - Décision prise à la suite des demandes explicites de backoffice et de mise en ligne sur Vercel
 
@@ -54,4 +54,4 @@ Les thèmes et les sources de classement ont des formulaires : leurs identifiant
 
 Décidés par l'agent sur délégation (PD-0003), à la demande d'une optimisation de l'interface, du code, des performances et de la sécurité. L'interface admin compacte sa navigation sur tablette et mobile. Le code des éditeurs d'articles et de JSON générique, devenus inaccessibles, est retiré ; les réponses des API d'administration sont validées côté client avant d'alimenter l'interface. La connexion borne la taille du corps reçu et compare aussi les utilisateurs inconnus avec une empreinte factice pour réduire les écarts de temps de réponse. Une politique CSP couvre les origines nécessaires en production et les routes d'administration refusent la mise en cache. La CSP autorise encore les scripts et styles intégrés requis par le rendu statique actuel ; la limitation des connexions reste en mémoire par instance. Aucun de ces changements ne modifie les permissions ou le mécanisme de publication.
 
-Le compte du connecteur Vercel accessible durant cette session n'est pas celui du projet cible. La copie locale n'a ni remote Git ni liaison Vercel et diverge de la PR distante sur la persistance. Aucun déploiement ni réglage distant n'a été modifié. Les étapes de reprise sont consignées dans [la transmission Vercel](../site/transmission-vercel-2026-10-07.md).
+Ce constat précédait le push de la branche locale. La persistance de la PR #2 a ensuite été portée dans `apps/site` sans modifier les comptes nominatifs ni les permissions. Voir [ADR-0017](ADR-0017-persistance-editoriale-postgres.md) et [la transmission Vercel](../site/transmission-vercel-2026-10-07.md).
