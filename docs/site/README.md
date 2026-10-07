@@ -18,7 +18,7 @@ Trois couches, qui ne se mélangent jamais, y compris dans l'interface :
 | **ÉDITORIAL** | avis (OUR TAKE), épisodes, fiches, méthodologie                      | `content/` (JSON, validé par Zod)   | `editorial`      |
 | **DÉRIVÉ**    | mouvements (UP, DOWN, NEW, RE, OUT), séries, statistiques, relations | calculé à la lecture, jamais stocké | calculé          |
 
-Le contenu initial est du code : fichiers JSON dans Git, validés par des schémas Zod et par des contrôles de références (`pnpm content:check`). Le backoffice local peut écrire le contenu éditorial dans un Vercel Blob privé et déclenche la revalidation ISR après publication. Next.js 16 pré-génère les pages publiques ; les routes d’administration et d’écriture sont dynamiques. Le projet Vercel actuel est `sandbox-podcast`, relié à `www.sandboxpodcast.fr`. Une PR distante propose de remplacer Blob par Postgres/Neon : choisir la persistance avant de reprendre les changements locaux et de configurer le stockage. Voir [la transmission Vercel](transmission-vercel-2026-10-07.md).
+Le contenu initial est du code : fichiers JSON dans Git, validés par des schémas Zod et par des contrôles de références (`pnpm content:check`). Le backoffice enregistre les brouillons et publications dans Postgres/Neon en production, puis déclenche la revalidation ISR. En développement, un fichier local ignoré par Git suffit. Next.js 16 pré-génère les pages publiques ; les routes d’administration et d’écriture sont dynamiques. Le projet Vercel actuel est `sandbox-podcast`, relié à `www.sandboxpodcast.fr`. L'intégration de la [PR #2](https://github.com/Sandbox-podcast/sandbox-podcast-site/pull/2) et les étapes restantes figurent dans [ADR-0017](../adr/ADR-0017-persistance-editoriale-postgres.md) et [la transmission Vercel](transmission-vercel-2026-10-07.md).
 
 Un graphe de contenus relie les entités (projets et modèles), les classements et les épisodes sans qu'aucun lien ne soit saisi deux fois. Les liens se déduisent des mentions d'épisode et des voisins de classement (`src/lib/graph.ts`).
 
@@ -79,7 +79,7 @@ Episode ─< Mention, Source, Chapter       Host, Topic
 
 - Un **profil de scoring** décrit des métriques, des métriques dérivées (ratio, somme pondérée), des dimensions et leurs composants (échelle `identity`, `range` à plancher et plafond fixes, `pool` relative aux candidats). Le même profil sert à calculer les scores, à générer la page méthodologie et à décrire les colonnes : la documentation ne peut pas diverger du calcul.
 - Une donnée absente reste absente : un modèle sans vision n'a pas 0 en multimodal, la dimension n'existe pas et le global se calcule sur le reste.
-- **Schéma cible pour une base de données** (V2, non implémenté) : `entities`, `charts`, `scoring_profiles` (jsonb), `snapshots` + `snapshot_entries` (dimensions et métriques en jsonb), `takes`, `episodes` + `mentions`, `topics`, `hosts`, `sources`. Les anciennes données d'articles ne font pas partie du parcours public.
+- **Stockage éditorial actuel** : `editorial_records` garde une ligne par entité et par couche (`draft` ou `published`) ; `editorial_draft_meta` garde l'ETag du brouillon. Les snapshots et scores restent des fichiers Git hors de cette base.
 
 ## 5. Direction artistique
 
@@ -109,6 +109,6 @@ Voir [data-strategy.md](data-strategy.md) : connecteurs prévus, provenance, rè
 
 Fait : 4 classements de 10 avec 16 semaines d'historique (démonstration), 3 épisodes, 55 fiches, 29 avis, bibliothèque média et pages de classement, recherche, import de métadonnées YouTube, formulaires d'édition des épisodes et réglages du site, brouillons et publication authentifiés, thème rouge optionnel, SEO (métadonnées, JSON-LD, sitemap, RSS), scripts de création de contenu.
 
-Pas fait, volontairement : connecteurs réels, base de données, i18n, newsletter, commentaires, analytics, politique de cookies. Le site reste non indexé tant que ses données et épisodes sont simulés ; les épisodes fournis n'ont pas encore d'identifiants vidéo YouTube réels. Les liens LinkedIn, GitHub et X de Nicolas et Loïc restent à renseigner. Les changements locaux de cette itération ne sont pas publiés sur GitHub ou Vercel.
+Pas fait, volontairement : connecteurs réels, i18n, newsletter, commentaires, analytics, politique de cookies. Le code Postgres est intégré, mais la base de production et ses migrations ne sont pas encore configurées. Le site reste non indexé tant que ses données et épisodes sont simulés ; les épisodes fournis n'ont pas encore d'identifiants vidéo YouTube réels. Les liens LinkedIn, GitHub et X de Nicolas et Loïc restent à renseigner. La branche de travail est publiée sur GitHub ; la production Vercel n'est pas mise à jour.
 
 Limites connues : pas de politique de contenu (CSP) stricte avec nonce, pas de test de navigateur automatisé (Playwright), accessibilité vérifiée à la main sur peu de pages, aucune mesure de performance (Lighthouse, Core Web Vitals) faite. Voir [rapport](../adr/ADR-0015-site-media-et-classements.md#risques).
