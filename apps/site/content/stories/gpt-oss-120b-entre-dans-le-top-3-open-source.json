@@ -1,0 +1,86 @@
+{
+  "slug": "gpt-oss-120b-entre-dans-le-top-3-open-source",
+  "type": "news",
+  "title": "gpt-oss-120b grimpe à la 3ᵉ place des modèles ouverts, NVIDIA entre dans le Top 10",
+  "dek": "Trois places gagnées pour le modèle à poids ouverts d'OpenAI. Une nouvelle entrée, une sortie : le Top 10 open source de la semaine 41.",
+  "publishedAt": "2026-10-06T09:40:00.000Z",
+  "author": "equipe-sandbox",
+  "topics": ["open-source", "models"],
+  "featured": false,
+  "related": [
+    {
+      "kind": "entity",
+      "entity": "gpt-oss-120b"
+    },
+    {
+      "kind": "chart",
+      "chart": "open-source-ai",
+      "week": "2026-W41"
+    },
+    {
+      "kind": "episode",
+      "number": 41
+    },
+    {
+      "kind": "episode",
+      "number": 42
+    }
+  ],
+  "body": [
+    {
+      "type": "p",
+      "text": "Dans l'[[chart:open-source-ai]], [[entity:gpt-oss-120b]] passe de la 6ᵉ à la 3ᵉ place. [[entity:deepseek-v3-2]] garde la tête pour la treizième semaine consécutive, devant [[entity:kimi-k2]]."
+    },
+    {
+      "type": "stat",
+      "items": [
+        {
+          "value": "+3",
+          "label": "places pour gpt-oss-120b"
+        },
+        {
+          "value": "#3",
+          "label": "nouvelle position"
+        },
+        {
+          "value": "NEW",
+          "label": "Llama Nemotron Ultra, 9ᵉ"
+        },
+        {
+          "value": "OUT",
+          "label": "Llama 4 Maverick, 11ᵉ"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Ce qui a bougé"
+    },
+    {
+      "type": "p",
+      "text": "Les scores d'agent de gpt-oss-120b ont été révisés à la hausse (SWE-bench Verified de 58 à 68, Terminal-Bench de 32 à 45). Combiné à sa vitesse, la plus élevée du Top 10 des poids ouverts, cela suffit à lui faire dépasser [[entity:glm-4-6]], [[entity:minimax-m2]] et [[entity:qwen3-235b]]."
+    },
+    {
+      "type": "p",
+      "text": "[[entity:nemotron-ultra]], un dérivé de Llama affiné par NVIDIA, entre à la 9ᵉ place. Il pousse [[entity:llama-4-maverick]] hors du Top 10 : le multimodal et le très long contexte de ce dernier ne suffisent plus à compenser ses scores d'agent."
+    },
+    {
+      "type": "chart",
+      "chart": "open-source-ai",
+      "week": "2026-W41",
+      "top": 5
+    },
+    {
+      "type": "callout",
+      "tone": "warning",
+      "title": "Poids ouverts, pas forcément libres",
+      "text": "Les licences diffèrent d'un modèle à l'autre : Apache-2.0 pour gpt-oss-120b, licences maison avec conditions d'usage pour d'autres. Elle est affichée sur chaque fiche, lisez-la avant de bâtir un produit dessus."
+    }
+  ],
+  "sources": [
+    {
+      "label": "gpt-oss-120b sur Hugging Face",
+      "url": "https://huggingface.co/openai/gpt-oss-120b"
+    }
+  ]
+}

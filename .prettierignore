@@ -2,5 +2,11 @@ node_modules
 pnpm-lock.yaml
 coverage
 dist
+# Texte du Contributor Covenant ajouté sur GitHub : conserver la version d'origine.
+CODE_OF_CONDUCT.md
+# Archive du travail sur la plateforme vidéo (voir old/README.md), dont le document source du propriétaire : ne pas reformater.
+old
 .next
-data
+.site-publish
+# Snapshots hebdomadaires écrits par le pipeline (apps/site/scripts/week-run.ts) : format stable, jamais édité à la main.
+apps/site/data

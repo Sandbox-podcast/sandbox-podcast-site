@@ -1,0 +1,56 @@
+[
+  {
+    "id": "ai-w41-claude-fable-5-1",
+    "entity": "claude-fable-5-1",
+    "chart": "ai-models",
+    "week": "2026-W41",
+    "host": "equipe-sandbox",
+    "text": "Cinquième semaine en tête. Excellent en agents, mais regardez le prix et la vitesse : le Global ne les compte pas, vous si.",
+    "publishedAt": "2026-10-06T08:50:00.000Z"
+  },
+  {
+    "id": "ai-w41-gemini-3-pro",
+    "entity": "gemini-3-pro",
+    "chart": "ai-models",
+    "week": "2026-W41",
+    "host": "equipe-sandbox",
+    "text": "Le plus gros mouvement de la semaine : +2 places grâce à une révision de ses scores d'agent. À regarder de près, surtout pour le contexte long.",
+    "publishedAt": "2026-10-06T08:52:00.000Z"
+  },
+  {
+    "id": "ai-w41-gpt-5-2",
+    "entity": "gpt-5-2",
+    "chart": "ai-models",
+    "week": "2026-W41",
+    "host": "equipe-sandbox",
+    "text": "Toujours le roi des maths de concours. Mais ça fait longtemps que ce n'est plus ce qu'on lui demande au quotidien.",
+    "publishedAt": "2026-10-06T08:54:00.000Z"
+  },
+  {
+    "id": "ai-w41-claude-opus-5-5",
+    "entity": "claude-opus-5-5",
+    "chart": "ai-models",
+    "week": "2026-W41",
+    "host": "equipe-sandbox",
+    "text": "Seize semaines dans le Top, sept en tête. Il glisse à la 3ᵉ place sans avoir démérité : il se fait manger par le calendrier des sorties.",
+    "publishedAt": "2026-10-06T08:56:00.000Z"
+  },
+  {
+    "id": "ai-w41-gemini-3-flash",
+    "entity": "gemini-3-flash",
+    "chart": "ai-models",
+    "week": "2026-W41",
+    "host": "equipe-sandbox",
+    "text": "Le meilleur rapport vitesse/prix du Top 10. Si vous n'avez pas besoin de la dernière marche de qualité, c'est ici que ça se passe.",
+    "publishedAt": "2026-10-06T08:58:00.000Z"
+  },
+  {
+    "id": "ai-w40-claude-fable-5-1",
+    "entity": "claude-fable-5-1",
+    "chart": "ai-models",
+    "week": "2026-W40",
+    "host": "equipe-sandbox",
+    "text": "Quatrième semaine en tête. Le haut du classement est stable, tout se joue derrière.",
+    "publishedAt": "2026-09-29T08:50:00.000Z"
+  }
+]

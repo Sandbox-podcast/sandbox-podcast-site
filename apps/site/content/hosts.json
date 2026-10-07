@@ -1,0 +1,36 @@
+[
+  {
+    "slug": "lou",
+    "name": "Lou",
+    "handle": "@loukan42",
+    "role": "Animateur Sandbox",
+    "bio": "Présentation à compléter.",
+    "socials": {
+      "github": "https://github.com/loukan42",
+      "linkedin": "https://linkedin.com/louhusson",
+      "x": "https://x.com/loukan42"
+    }
+  },
+  {
+    "slug": "nicolas",
+    "name": "Nicolas",
+    "handle": "Profil à compléter",
+    "role": "Animateur Sandbox",
+    "bio": "Présentation à compléter."
+  },
+  {
+    "slug": "loic",
+    "name": "Loïc",
+    "handle": "Profil à compléter",
+    "role": "Animateur Sandbox",
+    "bio": "Présentation à compléter."
+  },
+  {
+    "slug": "equipe-sandbox",
+    "name": "Équipe Sandbox",
+    "handle": "Contenus de démonstration",
+    "role": "Signature collective",
+    "bio": "Signature des anciens contenus simulés, à remplacer lors de la publication des vrais épisodes.",
+    "placeholder": true
+  }
+]

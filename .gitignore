@@ -1,8 +1,9 @@
 node_modules/
-.next/
-next-env.d.ts
-*.tsbuildinfo
+.pnpm-store/
+.vercel/
+dist/
 coverage/
+*.log
 .env
 .env.*
 !.env.example
@@ -10,5 +11,14 @@ coverage/
 .site-admin-users.local.json
 .DS_Store
 Thumbs.db
-.vercel
-.env*
+# Données locales des POC (enregistrements, chunks, fixtures générées)
+pocs/**/.local/
+apps/**/.local/
+# Archive de la plateforme (old/) : mêmes données locales (secrets, enregistrements), jamais commitées
+old/**/.local/
+# Application Next.js (apps/site)
+.next/
+*.tsbuildinfo
+apps/site/next-env.d.ts
+apps/site/.site-content.local.json
+.site-publish/
