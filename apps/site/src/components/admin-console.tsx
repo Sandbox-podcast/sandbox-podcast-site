@@ -13,7 +13,7 @@ import { SiteSettingsEditor } from './site-settings-editor';
 type CollectionKey = 'episodes' | 'charts' | 'hosts' | 'topics' | 'sources';
 type SectionKey = CollectionKey | 'site';
 type HostSocialKey = keyof Host['socials'];
-const storageModeSchema = z.enum(['local', 'vercel-blob', 'unavailable']);
+const storageModeSchema = z.enum(['local', 'postgres', 'unavailable']);
 const adminStatusSchema = z.object({
   authenticated: z.boolean(),
   username: z.string().optional(),
@@ -409,8 +409,8 @@ export function AdminConsole() {
 
       {contentResponse.storageMode === 'unavailable' ? (
         <div className="admin-alert" role="status">
-          Vercel Blob n’est pas relié. En local, les brouillons sont conservés dans un fichier
-          ignoré par Git.
+          La base Postgres n’est pas configurée. En local, les brouillons sont conservés dans un
+          fichier ignoré par Git.
         </div>
       ) : null}
 
@@ -794,8 +794,8 @@ export function AdminConsole() {
       <div className="admin-footnote">
         <span>Les données de classement restent immuables depuis le backoffice.</span>
         <span>
-          {contentResponse.storageMode === 'vercel-blob'
-            ? 'Stockage privé Vercel Blob connecté'
+          {contentResponse.storageMode === 'postgres'
+            ? 'Stockage Postgres configuré'
             : contentResponse.storageMode === 'local'
               ? 'Fichier local de développement'
               : 'Stockage non configuré'}
