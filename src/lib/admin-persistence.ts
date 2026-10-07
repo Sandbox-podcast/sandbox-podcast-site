@@ -1,6 +1,5 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
-import { adminSecretsReady } from './admin-auth.ts';
 import { editableContentSchema, type EditableContent } from '../domain/admin-content.ts';
 import { hasDatabaseConfiguration } from '../db/client.ts';
 import type { Content } from './load.ts';
@@ -49,8 +48,6 @@ export const adminStorageMode = (): AdminStorageMode => {
   if (process.env.NODE_ENV !== 'production') return 'local';
   return hasDatabaseConfiguration() ? 'postgres' : 'unavailable';
 };
-
-export const authConfigured = (): boolean => adminSecretsReady();
 
 async function readLocalStore(): Promise<LocalStore> {
   try {

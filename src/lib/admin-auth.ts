@@ -1,4 +1,6 @@
-import { createHash, createHmac, timingSafeEqual } from 'node:crypto';
+import { createHmac, timingSafeEqual } from 'node:crypto';
+import { permissionsForRole, type AdminRole, type AdminUser } from '../domain/admin-users.ts';
+import { countAdminUsers, findAdminUserById } from './admin-users-store.ts';
 
 export const ADMIN_COOKIE = 'sandbox_admin_session';
 export const ADMIN_SESSION_SECONDS = 8 * 60 * 60;
@@ -7,10 +9,14 @@ const ATTEMPT_WINDOW_MS = 15 * 60 * 1000;
 const MAX_ATTEMPTS = 5;
 const attempts = new Map<string, { count: number; startedAt: number }>();
 
-export function adminSecretsReady(): boolean {
-  const password = process.env['SITE_ADMIN_PASSWORD'] ?? '';
+export function sessionSigningReady(): boolean {
   const secret = process.env['SITE_ADMIN_SECRET'] ?? '';
-  return password.length >= 16 && secret.length >= 32;
+  return secret.length >= 32;
+}
+
+export async function adminAuthReady(): Promise<boolean> {
+  if (!sessionSigningReady()) return false;
+  return (await countAdminUsers()) > 0;
 }
 
 function cookieValue(request: Request): string | undefined {
@@ -23,44 +29,55 @@ function cookieValue(request: Request): string | undefined {
   return undefined;
 }
 
-function signature(expiration: string): string | undefined {
+function signature(userId: string, expiration: string): string | undefined {
   const secret = process.env['SITE_ADMIN_SECRET'];
   if (!secret) return undefined;
-  return createHmac('sha256', secret).update(`sandbox-admin:${expiration}`).digest('base64url');
+  return createHmac('sha256', secret)
+    .update(`sandbox-admin:${userId}:${expiration}`)
+    .digest('base64url');
 }
 
-export function createAdminSession(): { value: string; expiresAt: Date } | undefined {
-  if (!adminSecretsReady()) return undefined;
+export function createAdminSession(
+  user: AdminUser,
+): { value: string; expiresAt: Date } | undefined {
+  if (!sessionSigningReady()) return undefined;
   const expiration = String(Math.floor(Date.now() / 1000) + ADMIN_SESSION_SECONDS);
-  const signed = signature(expiration);
+  const signed = signature(user.id, expiration);
   if (!signed) return undefined;
-  return { value: `${expiration}.${signed}`, expiresAt: new Date(Number(expiration) * 1000) };
+  return {
+    value: `${user.id}.${expiration}.${signed}`,
+    expiresAt: new Date(Number(expiration) * 1000),
+  };
 }
 
-export function isAdminRequest(request: Request): boolean {
-  if (process.env.NODE_ENV !== 'production') return true;
-  if (!adminSecretsReady()) return false;
+export async function getAuthenticatedAdmin(request: Request): Promise<AdminUser | undefined> {
+  if (!sessionSigningReady()) return undefined;
   const value = cookieValue(request);
-  if (!value) return false;
-  const separator = value.indexOf('.');
-  if (separator < 1) return false;
-  const expiration = value.slice(0, separator);
+  if (!value) return undefined;
+  const firstDot = value.indexOf('.');
+  const secondDot = value.indexOf('.', firstDot + 1);
+  if (firstDot < 1 || secondDot <= firstDot + 1) return undefined;
+  const userId = value.slice(0, firstDot);
+  const expiration = value.slice(firstDot + 1, secondDot);
+  const token = value.slice(secondDot + 1);
   if (!/^\d{10}$/.test(expiration) || Number(expiration) <= Math.floor(Date.now() / 1000)) {
-    return false;
+    return undefined;
   }
-  const expected = signature(expiration);
-  if (!expected) return false;
-  const actualBytes = Buffer.from(value.slice(separator + 1));
+  const expected = signature(userId, expiration);
+  if (!expected) return undefined;
+  const actualBytes = Buffer.from(token);
   const expectedBytes = Buffer.from(expected);
-  return actualBytes.length === expectedBytes.length && timingSafeEqual(actualBytes, expectedBytes);
+  if (actualBytes.length !== expectedBytes.length || !timingSafeEqual(actualBytes, expectedBytes)) {
+    return undefined;
+  }
+  return findAdminUserById(userId);
 }
 
-export function passwordMatches(candidate: string): boolean {
-  const password = process.env['SITE_ADMIN_PASSWORD'];
-  if (!password || !adminSecretsReady()) return false;
-  const actual = createHash('sha256').update(candidate).digest();
-  const expected = createHash('sha256').update(password).digest();
-  return timingSafeEqual(actual, expected);
+export function adminCan(
+  user: AdminUser,
+  action: keyof ReturnType<typeof permissionsForRole>,
+): boolean {
+  return permissionsForRole(user.role)[action];
 }
 
 export function allowLoginAttempt(request: Request): boolean {
@@ -81,3 +98,5 @@ export function originIsSameSite(request: Request): boolean {
   const origin = request.headers.get('origin');
   return origin !== null && origin === new URL(request.url).origin;
 }
+
+export type { AdminRole };

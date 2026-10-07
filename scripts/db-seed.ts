@@ -7,6 +7,8 @@ import ws from 'ws';
 import { editableContentSchema } from '../src/domain/admin-content.ts';
 import { loadContent } from '../src/lib/load.ts';
 import { postgresUpsertPublished } from '../src/lib/admin-persistence-postgres.ts';
+import { adminRoleSchema } from '../src/domain/admin-users.ts';
+import { bootstrapAdminUser } from '../src/lib/admin-users-store.ts';
 import { closeDb, resetDbCache } from '../src/db/client.ts';
 
 const PUBLISHED_BLOB_PATH = 'sandbox-podcast/content/published.json';
@@ -53,6 +55,21 @@ const baseline = editableContentSchema.parse({
 const published = fromBlob ? editableContentSchema.parse(fromBlob) : baseline;
 
 await postgresUpsertPublished(published);
+
+const bootstrapLogin = process.env['ADMIN_BOOTSTRAP_LOGIN'];
+const bootstrapPassword = process.env['ADMIN_BOOTSTRAP_PASSWORD'];
+if (bootstrapLogin && bootstrapPassword) {
+  const user = await bootstrapAdminUser({
+    login: bootstrapLogin,
+    password: bootstrapPassword,
+    displayName: process.env['ADMIN_BOOTSTRAP_DISPLAY_NAME'] ?? bootstrapLogin,
+    role: adminRoleSchema.parse(process.env['ADMIN_BOOTSTRAP_ROLE'] ?? 'admin'),
+  });
+  if (user) {
+    console.log(`Seed : compte admin créé (${user.login}).`);
+  }
+}
+
 await closeDb();
 console.log(
   fromBlob

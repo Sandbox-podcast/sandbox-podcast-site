@@ -21,7 +21,8 @@
     "week:run": "node scripts/week-run.ts",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "node scripts/db-migrate.ts",
-    "db:seed": "node scripts/db-seed.ts"
+    "db:seed": "node scripts/db-seed.ts",
+    "admin:bootstrap": "node scripts/admin-bootstrap.ts"
   },
   "dependencies": {
     "@fontsource-variable/archivo": "^5.3.0",
