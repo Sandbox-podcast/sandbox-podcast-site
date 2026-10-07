@@ -2,11 +2,12 @@
 
 import { useCallback, useEffect, useMemo, useState, type SyntheticEvent } from 'react';
 import type { EditableContent } from '@/domain/admin-content';
-import { storySchema, type Story, type StoryType } from '@/domain/schema';
+import { storySchema, type Host, type Story, type StoryType } from '@/domain/schema';
 
 type CollectionKey = Exclude<keyof EditableContent, 'site'>;
 type SectionKey = keyof EditableContent;
 type CollectionItem = Record<string, unknown>;
+type HostSocialKey = keyof Host['socials'];
 interface AdminStatus {
   authenticated: boolean;
   authConfigured: boolean;
@@ -39,6 +40,12 @@ const storyTypes: { value: StoryType; label: string }[] = [
   { value: 'guide', label: 'Guide' },
   { value: 'opinion', label: 'Opinion' },
   { value: 'recap', label: 'Récapitulatif' },
+];
+
+const hostSocialFields: { key: HostSocialKey; label: string; placeholder: string }[] = [
+  { key: 'linkedin', label: 'LinkedIn', placeholder: 'https://www.linkedin.com/in/…' },
+  { key: 'github', label: 'GitHub', placeholder: 'https://github.com/…' },
+  { key: 'x', label: 'X', placeholder: 'https://x.com/…' },
 ];
 
 const starterBody = JSON.stringify(
@@ -225,7 +232,7 @@ export function AdminConsole() {
         ...contentResponse,
         content: nextContent,
         draftEtag: result.draftEtag,
-        hasDraft: true,
+        hasDraft: !result.published,
       });
       setMessage(
         result.published ? 'Modifications publiées sur le site.' : 'Brouillon enregistré.',
@@ -255,6 +262,32 @@ export function AdminConsole() {
     } catch (error) {
       setRawError(errorMessage(error, 'JSON invalide.'));
     }
+  }
+
+  function updateHostSocial(hostSlug: string, platform: HostSocialKey, value: string): void {
+    setRawError('');
+    setContentResponse((current) => {
+      if (!current) return current;
+      return {
+        ...current,
+        content: {
+          ...current.content,
+          hosts: current.content.hosts.map((host) => {
+            if (host.slug !== hostSlug) return host;
+            const socials = { ...host.socials };
+            const url = value.trim();
+            socials[platform] = url || undefined;
+            return { ...host, socials };
+          }),
+        },
+      };
+    });
+  }
+
+  async function saveHostLinks(action: 'draft' | 'publish'): Promise<void> {
+    if (!contentResponse) return;
+    setRawError('');
+    await save(action, contentResponse.content);
   }
 
   async function saveArticle(action: 'draft' | 'publish'): Promise<void> {
@@ -392,6 +425,7 @@ export function AdminConsole() {
   }
 
   const storyItems = contentResponse.content.stories;
+  const selectedHost = contentResponse.content.hosts.find((host) => host.slug === selectedItem);
 
   return (
     <div className="admin-shell">
@@ -750,6 +784,93 @@ export function AdminConsole() {
                     Publier
                   </button>
                 </div>
+              </div>
+            </>
+          ) : activeCollection === 'hosts' ? (
+            <>
+              <div className="admin-section-heading">
+                <div>
+                  <span className="eyebrow">Contenu éditorial</span>
+                  <h2 id="admin-section-title">Profils des animateurs</h2>
+                </div>
+                <span className="admin-count">{String(activeItems.length)} profils</span>
+              </div>
+              <div className="admin-editor-grid">
+                <nav className="admin-record-list" aria-label="Animateurs">
+                  {contentResponse.content.hosts.map((host) => (
+                    <button
+                      key={host.slug}
+                      type="button"
+                      className={`admin-record${selectedItem === host.slug ? ' is-active' : ''}`}
+                      onClick={() => {
+                        setSelectedItem(host.slug);
+                        setRawError('');
+                      }}
+                    >
+                      <span className="admin-record-title">{host.name}</span>
+                      <span className="admin-record-meta">{host.handle}</span>
+                    </button>
+                  ))}
+                </nav>
+                {selectedHost ? (
+                  <div className="admin-editor">
+                    <div className="admin-form-grid">
+                      <div className="admin-span-2">
+                        <h3 className="admin-record-title">{selectedHost.name}</h3>
+                        <p className="admin-help">
+                          Les liens renseignés apparaîtront sur la page À propos. Laissez un champ
+                          vide si le profil n’existe pas.
+                        </p>
+                      </div>
+                      {hostSocialFields.map(({ key, label, placeholder }) => (
+                        <label className="admin-field admin-span-2" key={key}>
+                          <span>{label}</span>
+                          <input
+                            type="url"
+                            inputMode="url"
+                            autoComplete="url"
+                            placeholder={placeholder}
+                            value={selectedHost.socials[key] ?? ''}
+                            onChange={(event) => {
+                              updateHostSocial(selectedHost.slug, key, event.target.value);
+                            }}
+                          />
+                        </label>
+                      ))}
+                      <p className="admin-help admin-span-2">
+                        Utilisez une adresse complète commençant par https://.
+                      </p>
+                    </div>
+                    {rawError ? (
+                      <p className="admin-error" role="alert">
+                        {rawError}
+                      </p>
+                    ) : null}
+                    <div className="admin-save-row">
+                      <button
+                        className="btn"
+                        type="button"
+                        onClick={() => void saveHostLinks('draft')}
+                        disabled={pending}
+                      >
+                        Enregistrer le brouillon
+                      </button>
+                      <button
+                        className="btn btn-solid"
+                        type="button"
+                        onClick={() => void saveHostLinks('publish')}
+                        disabled={pending}
+                      >
+                        Publier
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="admin-empty">
+                    <h3>Sélectionnez un profil</h3>
+                    <p>Ajoutez les liens publics de chaque animateur.</p>
+                  </div>
+                )}
               </div>
             </>
           ) : (

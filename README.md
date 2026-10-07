@@ -26,7 +26,7 @@ pnpm content:check
 
 ## Backoffice éditorial
 
-`/admin` permet de créer et modifier les articles, épisodes, classements, projets, avis, thèmes, sources, profils de scoring et paramètres éditoriaux. Les articles utilisent des blocs validés ; aucun HTML libre n’est exécuté. Les snapshots de classement sont immuables depuis le backoffice.
+`/admin` permet de créer et modifier les articles, épisodes, classements, projets, avis, thèmes, sources, profils de scoring et paramètres éditoriaux. Dans **Équipe**, sélectionnez un profil pour saisir ses URL LinkedIn, GitHub et X ; seuls les liens renseignés apparaissent sur la page À propos. Les URL doivent utiliser HTTPS. Les articles utilisent des blocs validés ; aucun HTML libre n’est exécuté. Les snapshots de classement sont immuables depuis le backoffice.
 
 En production, configurez ces variables dans Vercel avant d’ouvrir l’accès au backoffice :
 
@@ -34,11 +34,12 @@ En production, configurez ces variables dans Vercel avant d’ouvrir l’accès 
 | ----------------------- | --------------------------------------------------------------------------------------------------------- |
 | `SITE_ADMIN_PASSWORD`   | Mot de passe d’administration, 16 caractères minimum                                                      |
 | `SITE_ADMIN_SECRET`     | Clé de signature des sessions, 32 caractères minimum                                                      |
-| `BLOB_READ_WRITE_TOKEN` | Jeton du store Vercel Blob privé pour les brouillons et le contenu publié                                 |
+| `BLOB_STORE_ID`         | Identifiant ajouté quand le store privé Vercel est relié au projet ; OIDC fournit l’accès temporaire      |
+| `BLOB_READ_WRITE_TOKEN` | Option de repli pour un déploiement sans OIDC ; ne pas créer de jeton long terme si OIDC est disponible   |
 | `SITE_URL`              | URL publique canonique du site                                                                            |
 | `SITE_DATA_MODE`        | `mock` par défaut ; ne passer à `live` qu’après remplacement et vérification des données de démonstration |
 
-Le cookie d’administration est signé, `HttpOnly`, `SameSite=Strict` et expire au bout de huit heures. Le jeton Blob et les secrets doivent rester dans les variables d’environnement Vercel ; ne les ajoutez jamais aux fichiers du dépôt.
+Le cookie d’administration est signé, `HttpOnly`, `SameSite=Strict` et expire au bout de huit heures. La connexion Vercel actuelle utilise OIDC, sans jeton long terme à copier. Les secrets d’administration et tout jeton de repli doivent rester dans les variables d’environnement Vercel ; ne les ajoutez jamais aux fichiers du dépôt.
 
 ## Déploiement Vercel
 

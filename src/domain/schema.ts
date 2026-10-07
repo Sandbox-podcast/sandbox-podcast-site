@@ -35,6 +35,13 @@ export const hostSchema = z.object({
   handle: z.string().min(1),
   role: z.string().min(1),
   bio: z.string().min(1),
+  socials: z
+    .object({
+      linkedin: httpsUrlSchema.optional(),
+      github: httpsUrlSchema.optional(),
+      x: httpsUrlSchema.optional(),
+    })
+    .default({}),
   /** Profil fictif de démonstration à remplacer. */
   placeholder: z.boolean().default(false),
 });

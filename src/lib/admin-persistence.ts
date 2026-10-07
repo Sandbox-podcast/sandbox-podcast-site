@@ -56,9 +56,14 @@ let publishedLoad: Promise<EditableContent | undefined> | undefined;
 
 export type AdminStorageMode = 'local' | 'vercel-blob' | 'unavailable';
 
+/** A connected store ID is sufficient when Vercel issues Blob access through OIDC. */
+function hasBlobAccessConfiguration(): boolean {
+  return Boolean(process.env['BLOB_READ_WRITE_TOKEN']) || Boolean(process.env['BLOB_STORE_ID']);
+}
+
 export const adminStorageMode = (): AdminStorageMode => {
   if (process.env.NODE_ENV !== 'production') return 'local';
-  return process.env['BLOB_READ_WRITE_TOKEN'] ? 'vercel-blob' : 'unavailable';
+  return hasBlobAccessConfiguration() ? 'vercel-blob' : 'unavailable';
 };
 
 export const authConfigured = (): boolean => adminSecretsReady();
@@ -76,7 +81,7 @@ function validateEditorialContent(value: unknown): EditableContent {
 }
 
 async function readBlob(pathname: string): Promise<StoredContent | undefined> {
-  if (!process.env['BLOB_READ_WRITE_TOKEN']) return undefined;
+  if (!hasBlobAccessConfiguration()) return undefined;
   const result = await get(pathname, { access: 'private', useCache: false });
   if (result?.statusCode !== 200) return undefined;
   const raw = await new Response(result.stream).text();
@@ -191,7 +196,7 @@ export async function saveAdminContent(
     return { draftEtag: null };
   }
 
-  if (!process.env['BLOB_READ_WRITE_TOKEN']) {
+  if (!hasBlobAccessConfiguration()) {
     throw new Error('Le stockage Vercel Blob n’est pas encore relié au projet.');
   }
 

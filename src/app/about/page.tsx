@@ -61,6 +61,18 @@ export default function AboutPage() {
               <h3 className="display text-4xl">{h.name}</h3>
               <p className="label text-ink-2">{h.role}</p>
               <p className="text-sm">{h.bio}</p>
+              {h.socials.linkedin || h.socials.github || h.socials.x ? (
+                <nav
+                  className="flex flex-wrap gap-x-4 gap-y-2 text-sm font-semibold"
+                  aria-label={`Réseaux sociaux de ${h.name}`}
+                >
+                  {h.socials.linkedin ? (
+                    <ExtLink href={h.socials.linkedin}>LinkedIn</ExtLink>
+                  ) : null}
+                  {h.socials.github ? <ExtLink href={h.socials.github}>GitHub</ExtLink> : null}
+                  {h.socials.x ? <ExtLink href={h.socials.x}>X</ExtLink> : null}
+                </nav>
+              ) : null}
               {h.placeholder ? (
                 <p className="label mt-auto text-accent-ink">Profil fictif, à remplacer</p>
               ) : null}

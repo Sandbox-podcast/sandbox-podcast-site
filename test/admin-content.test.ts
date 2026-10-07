@@ -4,6 +4,7 @@ import {
   assertNoEditorialRemovals,
   editableContentSchema,
 } from '../src/domain/admin-content.ts';
+import { hostSchema } from '../src/domain/schema.ts';
 import { loadContent } from '../src/lib/load.ts';
 import { adminStorageMode } from '../src/lib/admin-persistence.ts';
 
@@ -59,6 +60,34 @@ describe('contenu éditable du backoffice', () => {
       assertNoEditorialRemovals(content, { ...content, stories });
     }).not.toThrow();
   });
+
+  it('accepte les profils sociaux optionnels des animateurs et exige HTTPS', () => {
+    const profile = {
+      slug: 'lea',
+      name: 'Léa',
+      handle: '@lea',
+      role: 'Animatrice',
+      bio: 'Présente le podcast.',
+    };
+    expect(hostSchema.parse(profile).socials).toEqual({});
+    expect(
+      hostSchema.parse({
+        ...profile,
+        socials: {
+          linkedin: 'https://www.linkedin.com/in/lea/',
+          github: 'https://github.com/lea',
+          x: 'https://x.com/lea',
+        },
+      }).socials,
+    ).toEqual({
+      linkedin: 'https://www.linkedin.com/in/lea/',
+      github: 'https://github.com/lea',
+      x: 'https://x.com/lea',
+    });
+    expect(
+      hostSchema.safeParse({ ...profile, socials: { github: 'http://github.com/lea' } }).success,
+    ).toBe(false);
+  });
 });
 
 describe('état du stockage du backoffice', () => {
@@ -67,8 +96,14 @@ describe('état du stockage du backoffice', () => {
     expect(adminStorageMode()).toBe('local');
 
     vi.stubEnv('NODE_ENV', 'production');
+    vi.stubEnv('BLOB_READ_WRITE_TOKEN', '');
+    vi.stubEnv('BLOB_STORE_ID', '');
     expect(adminStorageMode()).toBe('unavailable');
     vi.stubEnv('BLOB_READ_WRITE_TOKEN', 'test-token');
+    expect(adminStorageMode()).toBe('vercel-blob');
+
+    vi.stubEnv('BLOB_READ_WRITE_TOKEN', '');
+    vi.stubEnv('BLOB_STORE_ID', 'store_demo');
     expect(adminStorageMode()).toBe('vercel-blob');
   });
 });
