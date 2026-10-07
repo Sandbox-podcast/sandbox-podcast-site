@@ -1,7 +1,10 @@
-import { neon } from '@neondatabase/serverless';
-import { drizzle } from 'drizzle-orm/neon-http';
-import { migrate } from 'drizzle-orm/neon-http/migrator';
+import { Pool, neonConfig } from '@neondatabase/serverless';
+import { drizzle } from 'drizzle-orm/neon-serverless';
+import { migrate } from 'drizzle-orm/neon-serverless/migrator';
 import { join } from 'node:path';
+import ws from 'ws';
+
+neonConfig.webSocketConstructor = ws;
 
 const url = process.env['DATABASE_URL'] ?? process.env['POSTGRES_URL'];
 if (!url) {
@@ -9,6 +12,8 @@ if (!url) {
   process.exit(1);
 }
 
-const db = drizzle(neon(url));
+const pool = new Pool({ connectionString: url });
+const db = drizzle(pool);
 await migrate(db, { migrationsFolder: join(process.cwd(), 'drizzle') });
+await pool.end();
 console.log('Migrations Postgres appliquées.');

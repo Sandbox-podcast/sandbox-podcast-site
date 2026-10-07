@@ -1,17 +1,13 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { adminSecretsReady } from './admin-auth.ts';
-import {
-  assertNoEditorialRemovals,
-  editableContentSchema,
-  type EditableContent,
-} from '../domain/admin-content.ts';
+import { editableContentSchema, type EditableContent } from '../domain/admin-content.ts';
 import { hasDatabaseConfiguration } from '../db/client.ts';
 import type { Content } from './load.ts';
 import { setEditorialOverride } from './load.ts';
 import { loadContent } from './load.ts';
-import { validateContent } from './validate.ts';
 import { ContentConflictError } from './admin-content-conflict.ts';
+import { validateEditorialContent } from './validate-editorial-content.ts';
 import {
   postgresGetAdminContent,
   postgresReadPublished,
@@ -55,18 +51,6 @@ export const adminStorageMode = (): AdminStorageMode => {
 };
 
 export const authConfigured = (): boolean => adminSecretsReady();
-
-function validateEditorialContent(value: unknown): EditableContent {
-  const parsed = editableContentSchema.parse(value);
-  const base = loadContent();
-  assertNoEditorialRemovals(editableFromContent(base), parsed);
-  const candidate: Content = { ...parsed, snapshots: base.snapshots };
-  const errors = validateContent(candidate).filter((issue) => issue.level === 'error');
-  if (errors.length > 0) {
-    throw new Error(errors.map((issue) => `${issue.where} : ${issue.message}`).join('\n'));
-  }
-  return parsed;
-}
 
 async function readLocalStore(): Promise<LocalStore> {
   try {
@@ -133,6 +117,15 @@ export async function getAdminContent(): Promise<{
     return postgresGetAdminContent();
   }
 
+  if (adminStorageMode() === 'unavailable') {
+    await preparePublishedEditorialContent();
+    return {
+      content: editableFromContent(loadContent()),
+      draftEtag: null,
+      hasDraft: false,
+    };
+  }
+
   await preparePublishedEditorialContent();
   const local = await readLocalStore();
   const published = local.published;
@@ -146,10 +139,15 @@ export async function saveAdminContent(
   action: 'draft' | 'publish',
   expectedDraftEtag: string | null,
 ): Promise<{ draftEtag: string | null }> {
+  if (adminStorageMode() === 'unavailable') {
+    throw new Error('Le stockage Postgres n’est pas encore configuré sur ce projet.');
+  }
+
   if (adminStorageMode() === 'postgres') {
     const saved = await postgresSaveAdminContent(value, action, expectedDraftEtag);
     if (action === 'publish') {
-      const content = validateEditorialContent(value);
+      await preparePublishedEditorialContent();
+      const content = validateEditorialContent(value, editableFromContent(loadContent()));
       publishedCache = content;
       publishedLoadedAt = Date.now();
       setEditorialOverride(content);
@@ -158,7 +156,7 @@ export async function saveAdminContent(
   }
 
   await preparePublishedEditorialContent();
-  const content = validateEditorialContent(value);
+  const content = validateEditorialContent(value, editableFromContent(loadContent()));
 
   const store = await readLocalStore();
   if (expectedDraftEtag !== null) throw new ContentConflictError();

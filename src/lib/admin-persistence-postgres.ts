@@ -1,21 +1,17 @@
 import { randomUUID } from 'node:crypto';
-import { eq, sql } from 'drizzle-orm';
-import {
-  assertNoEditorialRemovals,
-  editableContentSchema,
-  type EditableContent,
-} from '../domain/admin-content.ts';
+import { and, eq, sql } from 'drizzle-orm';
+import { editableContentSchema, type EditableContent } from '../domain/admin-content.ts';
 import { editorialDraftMeta, editorialRecords, type EditorialLayer } from '../db/schema.ts';
 import { getDb } from '../db/client.ts';
 import type { Content } from './load.ts';
 import { loadContent } from './load.ts';
-import { validateContent } from './validate.ts';
 import {
   buildEditableContent,
   flattenEditableContent,
   type EditorialRecordRow,
 } from './editorial-records.ts';
 import { ContentConflictError } from './admin-content-conflict.ts';
+import { validateEditorialContent } from './validate-editorial-content.ts';
 
 function editableFromContent(content: Content): EditableContent {
   return editableContentSchema.parse({
@@ -32,16 +28,9 @@ function editableFromContent(content: Content): EditableContent {
   });
 }
 
-function validateEditorialContent(value: unknown): EditableContent {
-  const parsed = editableContentSchema.parse(value);
-  const base = loadContent();
-  assertNoEditorialRemovals(editableFromContent(base), parsed);
-  const candidate: Content = { ...parsed, snapshots: base.snapshots };
-  const errors = validateContent(candidate).filter((issue) => issue.level === 'error');
-  if (errors.length > 0) {
-    throw new Error(errors.map((issue) => `${issue.where} : ${issue.message}`).join('\n'));
-  }
-  return parsed;
+async function editorialRemovalBaseline(): Promise<EditableContent> {
+  const published = await postgresReadPublished();
+  return published ?? editableFromContent(loadContent());
 }
 
 async function readLayer(layer: EditorialLayer): Promise<EditorialRecordRow[] | undefined> {
@@ -84,35 +73,27 @@ async function layerHasRows(layer: EditorialLayer): Promise<boolean> {
   return rows.length > 0;
 }
 
+function recordValues(
+  rows: EditorialRecordRow[],
+  layer: EditorialLayer,
+): (typeof editorialRecords.$inferInsert)[] {
+  return rows.map((row) => ({
+    collection: row.collection,
+    entityKey: row.entityKey,
+    layer,
+    ordinal: row.ordinal,
+    payload: row.payload,
+  }));
+}
+
 async function replaceLayer(layer: EditorialLayer, content: EditableContent): Promise<void> {
   const db = getDb();
   const rows = flattenEditableContent(content);
   await db.transaction(async (tx) => {
     await tx.delete(editorialRecords).where(eq(editorialRecords.layer, layer));
     if (rows.length > 0) {
-      await tx.insert(editorialRecords).values(
-        rows.map((row) => ({
-          collection: row.collection,
-          entityKey: row.entityKey,
-          layer,
-          ordinal: row.ordinal,
-          payload: row.payload,
-        })),
-      );
+      await tx.insert(editorialRecords).values(recordValues(rows, layer));
     }
-  });
-}
-
-async function copyDraftToPublished(): Promise<void> {
-  const db = getDb();
-  await db.transaction(async (tx) => {
-    await tx.delete(editorialRecords).where(eq(editorialRecords.layer, 'published'));
-    await tx.execute(sql`
-      INSERT INTO editorial_records (collection, entity_key, layer, ordinal, payload, updated_at)
-      SELECT collection, entity_key, 'published', ordinal, payload, NOW()
-      FROM editorial_records
-      WHERE layer = 'draft'
-    `);
   });
 }
 
@@ -140,46 +121,75 @@ export async function postgresGetAdminContent(): Promise<{
   };
 }
 
+async function assertDraftEtagInTransaction(
+  tx: Parameters<Parameters<ReturnType<typeof getDb>['transaction']>[0]>[0],
+  expectedDraftEtag: string | null,
+  nextEtag: string,
+): Promise<void> {
+  const draftRows = await tx
+    .select({ n: sql<number>`1` })
+    .from(editorialRecords)
+    .where(eq(editorialRecords.layer, 'draft'))
+    .limit(1);
+  const hasDraft = draftRows.length > 0;
+
+  if (hasDraft) {
+    if (expectedDraftEtag === null) {
+      throw new ContentConflictError();
+    }
+    const updated = await tx
+      .update(editorialDraftMeta)
+      .set({ etag: nextEtag, updatedAt: sql`NOW()` })
+      .where(and(eq(editorialDraftMeta.id, 1), eq(editorialDraftMeta.etag, expectedDraftEtag)))
+      .returning({ id: editorialDraftMeta.id });
+    if (updated.length === 0) {
+      throw new ContentConflictError();
+    }
+    return;
+  }
+
+  if (expectedDraftEtag !== null) {
+    throw new ContentConflictError();
+  }
+
+  await tx
+    .insert(editorialDraftMeta)
+    .values({ id: 1, etag: nextEtag })
+    .onConflictDoUpdate({
+      target: editorialDraftMeta.id,
+      set: { etag: nextEtag, updatedAt: sql`NOW()` },
+    });
+}
+
 export async function postgresSaveAdminContent(
   value: unknown,
   action: 'draft' | 'publish',
   expectedDraftEtag: string | null,
 ): Promise<{ draftEtag: string | null }> {
-  const content = validateEditorialContent(value);
+  const baseline = await editorialRemovalBaseline();
+  const content = validateEditorialContent(value, baseline);
   const db = getDb();
-  const hasDraft = await layerHasRows('draft');
-  const currentEtag = hasDraft ? await readDraftEtag() : null;
-  if ((currentEtag ?? null) !== expectedDraftEtag) {
-    throw new ContentConflictError();
-  }
-
   const nextEtag = randomUUID();
+  const rows = flattenEditableContent(content);
+
   await db.transaction(async (tx) => {
-    const rows = flattenEditableContent(content);
+    await assertDraftEtagInTransaction(tx, expectedDraftEtag, nextEtag);
+
     await tx.delete(editorialRecords).where(eq(editorialRecords.layer, 'draft'));
     if (rows.length > 0) {
-      await tx.insert(editorialRecords).values(
-        rows.map((row) => ({
-          collection: row.collection,
-          entityKey: row.entityKey,
-          layer: 'draft' as const,
-          ordinal: row.ordinal,
-          payload: row.payload,
-        })),
-      );
+      await tx.insert(editorialRecords).values(recordValues(rows, 'draft'));
     }
-    await tx
-      .insert(editorialDraftMeta)
-      .values({ id: 1, etag: nextEtag })
-      .onConflictDoUpdate({
-        target: editorialDraftMeta.id,
-        set: { etag: nextEtag, updatedAt: sql`NOW()` },
-      });
-  });
 
-  if (action === 'publish') {
-    await copyDraftToPublished();
-  }
+    if (action === 'publish') {
+      await tx.delete(editorialRecords).where(eq(editorialRecords.layer, 'published'));
+      await tx.execute(sql`
+        INSERT INTO editorial_records (collection, entity_key, layer, ordinal, payload, updated_at)
+        SELECT collection, entity_key, 'published', ordinal, payload, NOW()
+        FROM editorial_records
+        WHERE layer = 'draft'
+      `);
+    }
+  });
 
   return { draftEtag: nextEtag };
 }

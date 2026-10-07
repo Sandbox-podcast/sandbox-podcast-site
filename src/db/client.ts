@@ -1,6 +1,9 @@
-import { neon } from '@neondatabase/serverless';
-import { drizzle, type NeonHttpDatabase } from 'drizzle-orm/neon-http';
+import { Pool, neonConfig } from '@neondatabase/serverless';
+import { drizzle, type NeonDatabase } from 'drizzle-orm/neon-serverless';
+import ws from 'ws';
 import * as schema from './schema.ts';
+
+neonConfig.webSocketConstructor = ws;
 
 function envUrl(name: 'DATABASE_URL' | 'POSTGRES_URL'): string | undefined {
   const value = process.env[name];
@@ -15,17 +18,28 @@ export function hasDatabaseConfiguration(): boolean {
   return databaseUrl() !== undefined;
 }
 
-let cached: NeonHttpDatabase<typeof schema> | undefined;
+let pool: Pool | undefined;
+let cached: NeonDatabase<typeof schema> | undefined;
 
-export function getDb(): NeonHttpDatabase<typeof schema> {
+export function getDb(): NeonDatabase<typeof schema> {
   const url = databaseUrl();
   if (!url) {
     throw new Error('Postgres n’est pas configuré (DATABASE_URL ou POSTGRES_URL manquant).');
   }
-  cached ??= drizzle(neon(url), { schema });
+  pool ??= new Pool({ connectionString: url });
+  cached ??= drizzle(pool, { schema });
   return cached;
+}
+
+export async function closeDb(): Promise<void> {
+  cached = undefined;
+  if (pool) {
+    await pool.end();
+    pool = undefined;
+  }
 }
 
 export function resetDbCache(): void {
   cached = undefined;
+  pool = undefined;
 }

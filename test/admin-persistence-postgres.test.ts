@@ -83,4 +83,34 @@ describe('persistance Postgres du backoffice', () => {
     const published = await postgresReadPublished();
     expect(published).toEqual(content);
   });
+
+  it('refuse une suppression absente du dépôt mais présente en base', async () => {
+    const content = editableFixture();
+    const seedStory = content.stories[0];
+    if (!seedStory) throw new Error('fixture');
+    const extraStory = {
+      ...seedStory,
+      id: 'only-in-db',
+      slug: 'only-in-db',
+      title: 'Article uniquement en base',
+    };
+    await postgresUpsertPublished({
+      ...content,
+      stories: [extraStory, ...content.stories],
+    });
+    await expect(postgresSaveAdminContent(content, 'draft', null)).rejects.toThrow(
+      /Suppression refusée/,
+    );
+  });
+
+  it('refuse un etag obsolète après une autre sauvegarde', async () => {
+    const content = editableFixture();
+    const first = await postgresSaveAdminContent(content, 'draft', null);
+    await expect(
+      postgresSaveAdminContent(content, 'draft', first.draftEtag),
+    ).resolves.toBeDefined();
+    await expect(
+      postgresSaveAdminContent(content, 'draft', first.draftEtag),
+    ).rejects.toBeInstanceOf(ContentConflictError);
+  });
 });

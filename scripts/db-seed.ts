@@ -1,12 +1,13 @@
 import { get } from '@vercel/blob';
-import { neon } from '@neondatabase/serverless';
-import { drizzle } from 'drizzle-orm/neon-http';
-import { migrate } from 'drizzle-orm/neon-http/migrator';
+import { Pool, neonConfig } from '@neondatabase/serverless';
+import { drizzle } from 'drizzle-orm/neon-serverless';
+import { migrate } from 'drizzle-orm/neon-serverless/migrator';
 import { join } from 'node:path';
+import ws from 'ws';
 import { editableContentSchema } from '../src/domain/admin-content.ts';
 import { loadContent } from '../src/lib/load.ts';
 import { postgresUpsertPublished } from '../src/lib/admin-persistence-postgres.ts';
-import { resetDbCache } from '../src/db/client.ts';
+import { closeDb, resetDbCache } from '../src/db/client.ts';
 
 const PUBLISHED_BLOB_PATH = 'sandbox-podcast/content/published.json';
 
@@ -26,11 +27,14 @@ if (!url) {
   process.exit(1);
 }
 
+neonConfig.webSocketConstructor = ws;
 process.env['DATABASE_URL'] = url;
 resetDbCache();
 
-const db = drizzle(neon(url));
+const pool = new Pool({ connectionString: url });
+const db = drizzle(pool);
 await migrate(db, { migrationsFolder: join(process.cwd(), 'drizzle') });
+await pool.end();
 
 const fromBlob = await readBlobPublished();
 const content = loadContent();
@@ -49,6 +53,7 @@ const baseline = editableContentSchema.parse({
 const published = fromBlob ? editableContentSchema.parse(fromBlob) : baseline;
 
 await postgresUpsertPublished(published);
+await closeDb();
 console.log(
   fromBlob
     ? 'Seed : version publiée importée depuis Vercel Blob.'
