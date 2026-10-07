@@ -2,7 +2,7 @@ import { revalidatePath } from 'next/cache';
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { adminWriteSchema } from '@/domain/admin-content';
-import { isAdminRequest, originIsSameSite } from '@/lib/admin-auth';
+import { adminCan, getAuthenticatedAdmin, originIsSameSite } from '@/lib/admin-auth';
 import {
   ContentConflictError,
   adminStorageMode,
@@ -14,8 +14,10 @@ export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 export async function GET(request: Request): Promise<NextResponse> {
-  if (!isAdminRequest(request))
+  const user = await getAuthenticatedAdmin(request);
+  if (!user || !adminCan(user, 'read')) {
     return NextResponse.json({ error: 'Connexion requise.' }, { status: 401 });
+  }
   try {
     const result = await getAdminContent();
     return NextResponse.json(
@@ -33,8 +35,8 @@ export async function GET(request: Request): Promise<NextResponse> {
 export async function POST(request: Request): Promise<NextResponse> {
   if (!originIsSameSite(request))
     return NextResponse.json({ error: 'Requête refusée.' }, { status: 403 });
-  if (!isAdminRequest(request))
-    return NextResponse.json({ error: 'Connexion requise.' }, { status: 401 });
+  const user = await getAuthenticatedAdmin(request);
+  if (!user) return NextResponse.json({ error: 'Connexion requise.' }, { status: 401 });
   let raw: string;
   try {
     raw = await request.text();
@@ -54,6 +56,13 @@ export async function POST(request: Request): Promise<NextResponse> {
       { error: 'Le contenu ne respecte pas son schéma.', issues },
       { status: 422 },
     );
+  }
+  const needsPublish = parsed.data.action === 'publish';
+  if (needsPublish && !adminCan(user, 'publish')) {
+    return NextResponse.json({ error: 'Droit de publication insuffisant.' }, { status: 403 });
+  }
+  if (!needsPublish && !adminCan(user, 'draft')) {
+    return NextResponse.json({ error: 'Droit d’édition insuffisant.' }, { status: 403 });
   }
   try {
     const saved = await saveAdminContent(

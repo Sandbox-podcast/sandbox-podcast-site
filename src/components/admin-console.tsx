@@ -13,6 +13,12 @@ interface AdminStatus {
   authenticated: boolean;
   authConfigured: boolean;
   storageMode: 'local' | 'postgres' | 'unavailable';
+  user: {
+    login: string;
+    displayName: string;
+    role: string;
+    permissions: { read: boolean; draft: boolean; publish: boolean };
+  } | null;
 }
 interface ContentResponse {
   content: EditableContent;
@@ -132,6 +138,7 @@ export function AdminConsole() {
   const [rawError, setRawError] = useState('');
   const [message, setMessage] = useState('');
   const [pending, setPending] = useState(false);
+  const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
   const [storyForm, setStoryForm] = useState<Story | undefined>();
   const [storyOriginalSlug, setStoryOriginalSlug] = useState<string | undefined>();
@@ -201,7 +208,11 @@ export function AdminConsole() {
     setPending(true);
     setMessage('');
     try {
-      await apiJson('/api/admin/login', { method: 'POST', body: JSON.stringify({ password }) });
+      await apiJson('/api/admin/login', {
+        method: 'POST',
+        body: JSON.stringify({ login, password }),
+      });
+      setLogin('');
       setPassword('');
       await load();
       setMessage('Session ouverte.');
@@ -390,11 +401,25 @@ export function AdminConsole() {
           </p>
           {!status.authConfigured ? (
             <div className="admin-alert" role="status">
-              La connexion sera disponible après configuration de <code>SITE_ADMIN_PASSWORD</code>{' '}
-              et <code>SITE_ADMIN_SECRET</code> dans l’environnement du site.
+              Configurez <code>SITE_ADMIN_SECRET</code> (32 caractères minimum), puis créez le
+              premier compte avec <code>pnpm db:seed</code> ou <code>pnpm admin:bootstrap</code> et
+              les variables <code>ADMIN_BOOTSTRAP_LOGIN</code> /{' '}
+              <code>ADMIN_BOOTSTRAP_PASSWORD</code>.
             </div>
           ) : (
             <form className="admin-form" onSubmit={(event) => void submitLogin(event)}>
+              <label className="admin-field">
+                <span>Identifiant</span>
+                <input
+                  autoComplete="username"
+                  type="text"
+                  value={login}
+                  onChange={(event) => {
+                    setLogin(event.target.value);
+                  }}
+                  required
+                />
+              </label>
               <label className="admin-field">
                 <span>Mot de passe</span>
                 <input
@@ -435,6 +460,8 @@ export function AdminConsole() {
 
   const storyItems = contentResponse.content.stories;
   const selectedHost = contentResponse.content.hosts.find((host) => host.slug === selectedItem);
+  const canDraft = status.user?.permissions.draft ?? false;
+  const canPublish = status.user?.permissions.publish ?? false;
 
   return (
     <div className="admin-shell">
@@ -442,7 +469,15 @@ export function AdminConsole() {
         <div>
           <span className="eyebrow">Sandbox · Administration</span>
           <h1 className="admin-title">Le studio podcast</h1>
-          <p className="admin-copy">Épisodes, ressources et classements au même endroit.</p>
+          <p className="admin-copy">
+            Épisodes, ressources et classements au même endroit.
+            {status.user ? (
+              <>
+                {' '}
+                Connecté : <strong>{status.user.displayName}</strong> ({status.user.role})
+              </>
+            ) : null}
+          </p>
         </div>
         <div className="admin-heading-actions">
           <span className={`admin-status${contentResponse.hasDraft ? ' is-draft' : ''}`}>
@@ -457,10 +492,16 @@ export function AdminConsole() {
         </div>
       </header>
 
+      {!canDraft ? (
+        <div className="admin-alert" role="status">
+          Session en lecture seule : vous pouvez consulter le contenu mais pas l’enregistrer.
+        </div>
+      ) : null}
+
       {contentResponse.storageMode === 'unavailable' ? (
         <div className="admin-alert" role="status">
-          Vercel Blob n’est pas relié. En local, les brouillons sont conservés dans un fichier
-          ignoré par Git.
+          Postgres n’est pas configuré en production. En local, les brouillons sont conservés dans
+          un fichier ignoré par Git.
         </div>
       ) : null}
 
@@ -693,7 +734,7 @@ export function AdminConsole() {
                         className="btn"
                         type="button"
                         onClick={() => void saveArticle('draft')}
-                        disabled={pending}
+                        disabled={pending || !canDraft}
                       >
                         Enregistrer le brouillon
                       </button>
@@ -701,7 +742,7 @@ export function AdminConsole() {
                         className="btn btn-solid"
                         type="button"
                         onClick={() => void saveArticle('publish')}
-                        disabled={pending}
+                        disabled={pending || !canPublish}
                       >
                         Publier
                       </button>
@@ -771,12 +812,14 @@ export function AdminConsole() {
                         setRawError('JSON invalide.');
                       }
                     }}
+                    disabled={!canDraft}
                   >
                     Enregistrer le brouillon
                   </button>
                   <button
                     className="btn btn-solid"
                     type="button"
+                    disabled={!canPublish}
                     onClick={() => {
                       try {
                         const site = JSON.parse(rawValue) as unknown;
@@ -858,7 +901,7 @@ export function AdminConsole() {
                         className="btn"
                         type="button"
                         onClick={() => void saveHostLinks('draft')}
-                        disabled={pending}
+                        disabled={pending || !canDraft}
                       >
                         Enregistrer le brouillon
                       </button>
@@ -866,7 +909,7 @@ export function AdminConsole() {
                         className="btn btn-solid"
                         type="button"
                         onClick={() => void saveHostLinks('publish')}
-                        disabled={pending}
+                        disabled={pending || !canPublish}
                       >
                         Publier
                       </button>
@@ -893,6 +936,8 @@ export function AdminConsole() {
                   hosts={contentResponse.content.hosts}
                   topics={contentResponse.content.topics}
                   pending={pending}
+                  canDraft={canDraft}
+                  canPublish={canPublish}
                   onSave={saveEpisode}
                 />
               ) : null}
@@ -967,7 +1012,7 @@ export function AdminConsole() {
                         className="btn"
                         type="button"
                         onClick={() => void saveRawCollection('draft')}
-                        disabled={pending}
+                        disabled={pending || !canDraft}
                       >
                         Enregistrer le brouillon
                       </button>
@@ -975,7 +1020,7 @@ export function AdminConsole() {
                         className="btn btn-solid"
                         type="button"
                         onClick={() => void saveRawCollection('publish')}
-                        disabled={pending}
+                        disabled={pending || !canPublish}
                       >
                         Publier
                       </button>

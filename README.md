@@ -19,16 +19,17 @@ En local, l’admin persiste dans `.site-content.local.json` (ignoré par git). 
 
 ## Commandes
 
-| Commande             | Rôle                                                                   |
-| -------------------- | ---------------------------------------------------------------------- |
-| `pnpm test`          | tests de logique pure, de contenu et de squelettes (Vitest)            |
-| `pnpm typecheck`     | `next typegen` puis `tsc --noEmit`                                     |
-| `pnpm content:check` | valide le contenu : schémas, références, continuité des snapshots      |
-| `pnpm content:new …` | crée un épisode, un article, une entité, un avis ou un classement      |
-| `pnpm week:run -- …` | relève, calcule et écrit les snapshots d'une semaine (connecteur mock) |
-| `pnpm db:migrate`    | applique les migrations Drizzle sur Postgres (prod / Neon)             |
-| `pnpm db:seed`       | migre puis importe le contenu publié (`content/` ou Blob historique)   |
-| `pnpm db:generate`   | régénère les migrations SQL à partir de `src/db/schema.ts`             |
+| Commande               | Rôle                                                                   |
+| ---------------------- | ---------------------------------------------------------------------- |
+| `pnpm test`            | tests de logique pure, de contenu et de squelettes (Vitest)            |
+| `pnpm typecheck`       | `next typegen` puis `tsc --noEmit`                                     |
+| `pnpm content:check`   | valide le contenu : schémas, références, continuité des snapshots      |
+| `pnpm content:new …`   | crée un épisode, un article, une entité, un avis ou un classement      |
+| `pnpm week:run -- …`   | relève, calcule et écrit les snapshots d'une semaine (connecteur mock) |
+| `pnpm db:migrate`      | applique les migrations Drizzle sur Postgres (prod / Neon)             |
+| `pnpm db:seed`         | migre puis importe le contenu publié (`content/` ou Blob historique)   |
+| `pnpm admin:bootstrap` | crée le premier compte admin (local ou Neon) si la table est vide      |
+| `pnpm db:generate`     | régénère les migrations SQL à partir de `src/db/schema.ts`             |
 
 Guide complet : [docs/site/editorial-workflow.md](../../docs/site/editorial-workflow.md).
 
@@ -38,10 +39,12 @@ Guide complet : [docs/site/editorial-workflow.md](../../docs/site/editorial-work
 | ----------------------------------------- | ----------------------- | ------------------------------------------------------------------------------------------------ |
 | `SITE_URL`                                | `http://localhost:3000` | URL canonique, OpenGraph, sitemap, JSON-LD                                                       |
 | `SITE_DATA_MODE`                          | `mock`                  | `live` retire le bandeau et autorise l'indexation (à ne faire qu'avec de vraies données)         |
-| `ENABLE_ADMIN`                            | non défini              | `true` expose `/admin` dans un build de production                                               |
-| `SITE_ADMIN_PASSWORD`                     | —                       | mot de passe du backoffice (avec `SITE_ADMIN_SECRET`)                                            |
-| `SITE_ADMIN_SECRET`                       | —                       | secret de session admin                                                                          |
+| `SITE_ADMIN_SECRET`                       | —                       | secret de signature des cookies de session (32 caractères minimum)                               |
 | `DATABASE_URL`                            | —                       | URL Postgres (Neon via Vercel Storage) ; `POSTGRES_URL` est accepté en alias                     |
+| `ADMIN_BOOTSTRAP_LOGIN`                   | —                       | identifiant du premier compte admin (seed / `pnpm admin:bootstrap`, une seule fois)              |
+| `ADMIN_BOOTSTRAP_PASSWORD`                | —                       | mot de passe initial du premier compte admin                                                     |
+| `ADMIN_BOOTSTRAP_DISPLAY_NAME`            | identifiant             | nom affiché du premier compte                                                                    |
+| `ADMIN_BOOTSTRAP_ROLE`                    | `admin`                 | `viewer`, `editor` ou `admin` pour le premier compte                                             |
 | `BLOB_READ_WRITE_TOKEN` / `BLOB_STORE_ID` | —                       | optionnel : `pnpm db:seed` peut lire l’ancien `published.json` sur Vercel Blob pour la migration |
 
 ## Persistance éditoriale (production)
@@ -51,16 +54,19 @@ Le backoffice `/admin` enregistre le contenu éditorial dans **Postgres** (une l
 ### Mise en place sur Vercel
 
 1. **Storage** → ajouter **Neon** (Postgres) au projet. Vercel injecte `DATABASE_URL` (et souvent `POSTGRES_URL`).
-2. Déployer une fois avec les variables admin (`ENABLE_ADMIN`, `SITE_ADMIN_*`).
+2. Déployer avec `SITE_ADMIN_SECRET` et Neon connecté.
 3. Depuis une machine ou le shell Vercel avec les variables du projet :
    ```bash
+   export ADMIN_BOOTSTRAP_LOGIN=…
+   export ADMIN_BOOTSTRAP_PASSWORD=…
    pnpm db:migrate
    pnpm db:seed
    ```
+   (`db:seed` importe l’éditorial et crée le premier compte si la table `admin_users` est vide.)
    Le seed charge d’abord `content/` du dépôt ; si l’ancien Blob est encore accessible, il préfère `published.json` pour ne pas perdre les publications en ligne.
-4. Vérifier `/admin` : le bandeau doit indiquer « Base Postgres (Neon) connectée ».
+4. Ouvrir `/admin` : connexion par **identifiant + mot de passe** (table `admin_users`). Rôles : `viewer` (lecture), `editor` (brouillon), `admin` (publication).
 
-Sans `DATABASE_URL` en production, l’admin reste en mode « stockage non configuré » ; le site sert toujours le JSON versionné dans `content/`.
+Sans `DATABASE_URL` en production, le contenu éditorial reste en mode « stockage non configuré » ; en local, comptes et brouillons peuvent utiliser des fichiers `.site-*.local.json`.
 
 ## Structure
 

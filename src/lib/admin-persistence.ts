@@ -1,6 +1,5 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
-import { adminSecretsReady } from './admin-auth.ts';
 import { editableContentSchema, type EditableContent } from '../domain/admin-content.ts';
 import { hasDatabaseConfiguration } from '../db/client.ts';
 import type { Content } from './load.ts';
@@ -13,6 +12,7 @@ import {
   postgresReadPublished,
   postgresSaveAdminContent,
 } from './admin-persistence-postgres.ts';
+import { isNextProductionBuild } from './next-build.ts';
 
 export { ContentConflictError };
 
@@ -50,8 +50,6 @@ export const adminStorageMode = (): AdminStorageMode => {
   return hasDatabaseConfiguration() ? 'postgres' : 'unavailable';
 };
 
-export const authConfigured = (): boolean => adminSecretsReady();
-
 async function readLocalStore(): Promise<LocalStore> {
   try {
     const raw = await readFile(LOCAL_STORE_PATH, 'utf8');
@@ -84,7 +82,14 @@ async function readPublishedForSite(): Promise<EditableContent | undefined> {
     return readPublishedLocal();
   }
   if (adminStorageMode() === 'postgres') {
-    return postgresReadPublished();
+    if (isNextProductionBuild()) {
+      return undefined;
+    }
+    try {
+      return await postgresReadPublished();
+    } catch {
+      return undefined;
+    }
   }
   return undefined;
 }

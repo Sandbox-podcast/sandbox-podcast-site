@@ -1,0 +1,10 @@
+{
+  "name": "@podcast/site",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Shim Vercel : le code Next vit à la racine du dépôt jusqu’au merge du monorepo (PR #3).",
+  "dependencies": {
+    "next": "^16.3.8"
+  }
+}
