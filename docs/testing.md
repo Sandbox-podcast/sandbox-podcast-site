@@ -27,7 +27,7 @@ pnpm typecheck    # tsc --noEmit, TypeScript strict
 
 Le workflow `.github/workflows/ci.yml` lance format, lint, typecheck, tests, audit et secret scan à chaque push et chaque PR.
 
-Le premier run sur la PR #3 a démarré le 2026-10-07. Le scan des secrets a relevé `vertical-9x16` dans `old/packages/episode-factory/src/catalog.ts` : c'est un nom de format vidéo, sans secret. L'exception dans `.gitleaks.toml` exige ce chemin **et** la ligne exacte, sans désactiver la règle `generic-api-key` ailleurs. Le même scan Gitleaks a ensuite réussi localement. Les autres résultats de la CI restent à consulter avant fusion.
+Le premier run sur la PR #3 a démarré le 2026-10-07. Le scan des secrets a relevé `vertical-9x16` dans `old/packages/episode-factory/src/catalog.ts` : c'est un nom de format vidéo, sans secret. L'exception dans `.gitleaks.toml` exige ce chemin **et** la ligne exacte, sans désactiver la règle `generic-api-key` ailleurs. Au commit `ef51d24`, la CI GitHub a réussi : jobs `quality` et `secret-scan`, 14 fichiers de test et 87 tests réussis. Le contrôle Vercel reste en échec tant que le projet n'est pas configuré pour `apps/site`.
 
 Points à vérifier lors des prochains runs :
 
