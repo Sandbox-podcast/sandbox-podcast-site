@@ -17,6 +17,14 @@ const storageModeSchema = z.enum(['local', 'postgres', 'unavailable']);
 const adminStatusSchema = z.object({
   authenticated: z.boolean(),
   username: z.string().optional(),
+  user: z
+    .object({
+      username: z.string(),
+      displayName: z.string(),
+      role: z.enum(['viewer', 'editor', 'admin']),
+      permissions: z.object({ read: z.boolean(), draft: z.boolean(), publish: z.boolean() }),
+    })
+    .nullable(),
   authConfigured: z.boolean(),
   storageMode: storageModeSchema,
 });
@@ -153,6 +161,14 @@ export function AdminConsole() {
 
   async function save(action: 'draft' | 'publish', nextContent: EditableContent): Promise<boolean> {
     if (!contentResponse) return false;
+    if (!status?.user?.permissions[action]) {
+      setMessage(
+        action === 'publish'
+          ? 'Publication réservée aux administrateurs.'
+          : 'Droits insuffisants pour enregistrer.',
+      );
+      return false;
+    }
     setPending(true);
     setMessage('');
     try {
@@ -321,8 +337,9 @@ export function AdminConsole() {
           </p>
           {!status.authConfigured ? (
             <div className="admin-alert" role="status">
-              La connexion sera disponible après configuration de <code>SITE_ADMIN_USERS</code> et{' '}
-              <code>SITE_ADMIN_SECRET</code> dans l’environnement du site.
+              Configurez <code>SITE_ADMIN_SECRET</code> et les comptes du site. Les comptes
+              existants dans <code>SITE_ADMIN_USERS</code> restent utilisables avant leur import en
+              base.
             </div>
           ) : (
             <form className="admin-form" onSubmit={(event) => void submitLogin(event)}>
@@ -394,7 +411,9 @@ export function AdminConsole() {
           </p>
         </div>
         <div className="admin-heading-actions">
-          <span className="admin-status">{status.username}</span>
+          <span className="admin-status">
+            {status.user?.displayName ?? status.username} · {status.user?.role ?? 'admin'}
+          </span>
           <span className={`admin-status${contentResponse.hasDraft ? ' is-draft' : ''}`}>
             {contentResponse.hasDraft ? 'Brouillon chargé' : 'Version publiée'}
           </span>
@@ -411,6 +430,14 @@ export function AdminConsole() {
         <div className="admin-alert" role="status">
           La base Postgres n’est pas configurée. En local, les brouillons sont conservés dans un
           fichier ignoré par Git.
+        </div>
+      ) : null}
+
+      {status.user && !status.user.permissions.publish ? (
+        <div className="admin-alert" role="status">
+          {status.user.permissions.draft
+            ? 'Vous pouvez enregistrer des brouillons. La publication est réservée aux administrateurs.'
+            : 'Accès en lecture seule : vous pouvez consulter le contenu.'}
         </div>
       ) : null}
 
@@ -478,7 +505,7 @@ export function AdminConsole() {
               </div>
               <SiteSettingsEditor
                 initial={contentResponse.content.site}
-                pending={pending}
+                pending={pending || !status.user?.permissions.draft}
                 onSave={async (site, action) => {
                   await save(action, { ...contentResponse.content, site });
                 }}
@@ -526,7 +553,7 @@ export function AdminConsole() {
                     onSelectEpisode={(number) => {
                       setSelectedItem(String(number));
                     }}
-                    pending={pending}
+                    pending={pending || !status.user?.permissions.draft}
                     onSave={saveEpisode}
                   />
                 ) : (
@@ -612,7 +639,7 @@ export function AdminConsole() {
                           className="btn"
                           type="button"
                           onClick={() => void saveHostLinks('draft')}
-                          disabled={pending}
+                          disabled={pending || !status.user?.permissions.draft}
                         >
                           Enregistrer le brouillon
                         </button>
@@ -620,7 +647,7 @@ export function AdminConsole() {
                           className="btn btn-solid"
                           type="button"
                           onClick={() => void saveHostLinks('publish')}
-                          disabled={pending}
+                          disabled={pending || !status.user?.permissions.publish}
                         >
                           Publier
                         </button>
@@ -679,7 +706,7 @@ export function AdminConsole() {
                       );
                       setRawError('');
                     }}
-                    pending={pending}
+                    pending={pending || !status.user?.permissions.draft}
                     error={rawError}
                     week={contentResponse.chartEntries[selectedItem]?.week ?? null}
                     entities={contentResponse.content.entities}
@@ -760,7 +787,7 @@ export function AdminConsole() {
                         (topic) => topic.slug === selectedItem,
                       )}
                       existingIds={contentResponse.content.topics.map((topic) => topic.slug)}
-                      pending={pending}
+                      pending={pending || !status.user?.permissions.draft}
                       onSave={saveTopic}
                     />
                   ) : (
@@ -770,7 +797,7 @@ export function AdminConsole() {
                         (source) => source.id === selectedItem,
                       )}
                       existingIds={contentResponse.content.sources.map((source) => source.id)}
-                      pending={pending}
+                      pending={pending || !status.user?.permissions.draft}
                       onSave={saveSource}
                     />
                   )

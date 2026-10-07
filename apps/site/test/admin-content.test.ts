@@ -6,7 +6,11 @@ import {
 } from '../src/domain/admin-content.ts';
 import { hostSchema } from '../src/domain/schema.ts';
 import { loadContent } from '../src/lib/load.ts';
-import { adminStorageMode, saveAdminContent } from '../src/lib/admin-persistence.ts';
+import {
+  adminStorageMode,
+  preparePublishedEditorialContent,
+  saveAdminContent,
+} from '../src/lib/admin-persistence.ts';
 
 afterEach(() => vi.unstubAllEnvs());
 
@@ -113,5 +117,12 @@ describe('état du stockage du backoffice', () => {
     vi.stubEnv('POSTGRES_URL', '');
     const content = editableFixture();
     await expect(saveAdminContent(content, 'draft', null)).rejects.toThrow(/Postgres/);
+  });
+
+  it('ignore Postgres pendant le build Next même si DATABASE_URL est défini', async () => {
+    vi.stubEnv('NODE_ENV', 'production');
+    vi.stubEnv('DATABASE_URL', 'postgresql://user:pass@localhost:5432/db');
+    vi.stubEnv('NEXT_PHASE', 'phase-production-build');
+    await expect(preparePublishedEditorialContent()).resolves.toBeUndefined();
   });
 });

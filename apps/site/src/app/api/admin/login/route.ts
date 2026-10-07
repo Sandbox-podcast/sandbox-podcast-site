@@ -3,12 +3,10 @@ import { z } from 'zod';
 import {
   ADMIN_COOKIE,
   ADMIN_SESSION_SECONDS,
-  adminSecretsReady,
   allowLoginAttempt,
-  createAdminSession,
   originIsSameSite,
-  passwordMatches,
 } from '@/lib/admin-auth';
+import { adminAuthReady, loginAdmin } from '@/lib/admin-auth-db';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -26,9 +24,9 @@ const MAX_LOGIN_BYTES = 4096;
 export async function POST(request: Request): Promise<NextResponse> {
   if (!originIsSameSite(request))
     return NextResponse.json({ error: 'Requête refusée.' }, { status: 403 });
-  if (!adminSecretsReady()) {
+  if (!(await adminAuthReady())) {
     return NextResponse.json(
-      { error: 'Ajoutez SITE_ADMIN_USERS et SITE_ADMIN_SECRET aux variables du projet.' },
+      { error: 'Configurez SITE_ADMIN_SECRET et au moins un compte admin.' },
       { status: 503 },
     );
   }
@@ -53,19 +51,20 @@ export async function POST(request: Request): Promise<NextResponse> {
     return NextResponse.json({ error: 'Requête illisible.' }, { status: 400 });
   }
   const parsed = loginSchema.safeParse(body);
-  if (!parsed.success || !passwordMatches(parsed.data.username, parsed.data.password)) {
+  const authenticated = parsed.success
+    ? await loginAdmin(parsed.data.username, parsed.data.password)
+    : undefined;
+  if (!authenticated) {
     return NextResponse.json({ error: 'Identifiants incorrects.' }, { status: 401 });
   }
-  const session = createAdminSession(parsed.data.username);
-  if (!session) return NextResponse.json({ error: 'Session indisponible.' }, { status: 503 });
   const response = NextResponse.json({ ok: true });
-  response.cookies.set(ADMIN_COOKIE, session.value, {
+  response.cookies.set(ADMIN_COOKIE, authenticated.session.value, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'strict',
     path: '/',
     maxAge: ADMIN_SESSION_SECONDS,
-    expires: session.expiresAt,
+    expires: authenticated.session.expiresAt,
   });
   return response;
 }

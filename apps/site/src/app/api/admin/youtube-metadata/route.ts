@@ -5,7 +5,8 @@ import {
   parseYouTubeDuration,
   parseYouTubeVideoId,
 } from '@/domain/youtube';
-import { isAdminRequest, originIsSameSite } from '@/lib/admin-auth';
+import { originIsSameSite } from '@/lib/admin-auth';
+import { adminCan, getAuthenticatedAdmin } from '@/lib/admin-auth-db';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -72,7 +73,8 @@ export async function POST(request: Request): Promise<NextResponse> {
   if (!originIsSameSite(request)) {
     return NextResponse.json({ error: 'Requête refusée.' }, { status: 403 });
   }
-  if (!isAdminRequest(request)) {
+  const user = await getAuthenticatedAdmin(request);
+  if (!user || !adminCan(user, 'draft')) {
     return NextResponse.json({ error: 'Connexion requise.' }, { status: 401 });
   }
 

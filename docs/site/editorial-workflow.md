@@ -18,6 +18,8 @@ Variables d'environnement : `SITE_URL` (URL canonique explicite ; à défaut, `V
 
 Avant d'activer l'admin en production, exécuter `pnpm --filter @podcast/site db:migrate` avec l'URL de la base. Pour importer une publication initiale, exécuter ensuite `pnpm --filter @podcast/site db:seed`. Cette commande privilégie l'ancien Blob lorsqu'il est accessible ; sinon elle importe `content/`. Elle refuse une base contenant déjà une publication. Sauvegarder l'ancien contenu avant de changer de stockage. Sans base configurée, les pages publiques servent les JSON de Git et les écritures admin sont refusées.
 
+Pour déplacer les trois comptes existants dans Postgres, exécuter `pnpm --filter @podcast/site admin:bootstrap` avec `SITE_ADMIN_USERS` et l'URL de la base. L'import reprend leurs empreintes, leur donne le rôle `admin` et refuse une table déjà peuplée. Après l'import, vérifier les connexions de Lou, Nicolas et Loïc avant de retirer `SITE_ADMIN_USERS` de l'environnement. Les rôles `viewer` et `editor` limitent respectivement à la lecture et aux brouillons ; le serveur réserve la publication au rôle `admin`.
+
 Pour l'import complet d'une vidéo, ajouter `YOUTUBE_API_KEY` au fichier local ignoré `apps/site/.env.local` et, plus tard, aux variables serveur de Vercel. La clé ne doit jamais être placée dans le frontend ou dans Git.
 
 ## Je veux… donc je…

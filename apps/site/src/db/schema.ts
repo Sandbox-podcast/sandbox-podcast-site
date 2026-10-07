@@ -36,3 +36,15 @@ export const editorialDraftMeta = pgTable('editorial_draft_meta', {
   etag: text('etag').notNull(),
   updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'string' }).notNull().defaultNow(),
 });
+
+/** Comptes du backoffice, migrés depuis SITE_ADMIN_USERS sans mot de passe en clair. */
+export const adminUsers = pgTable('admin_users', {
+  id: text('id').primaryKey(),
+  login: text('login').notNull().unique(),
+  displayName: text('display_name').notNull(),
+  passwordHash: text('password_hash').notNull(),
+  role: text('role').notNull(),
+  active: smallint('active').notNull().default(1),
+  createdAt: timestamp('created_at', { withTimezone: true, mode: 'string' }).notNull().defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'string' }).notNull().defaultNow(),
+});

@@ -2,7 +2,8 @@ import { revalidatePath } from 'next/cache';
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { adminWriteSchema } from '@/domain/admin-content';
-import { isAdminRequest, originIsSameSite } from '@/lib/admin-auth';
+import { originIsSameSite } from '@/lib/admin-auth';
+import { adminCan, getAuthenticatedAdmin } from '@/lib/admin-auth-db';
 import {
   ContentConflictError,
   adminStorageMode,
@@ -15,7 +16,8 @@ export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 export async function GET(request: Request): Promise<NextResponse> {
-  if (!isAdminRequest(request))
+  const user = await getAuthenticatedAdmin(request);
+  if (!user || !adminCan(user, 'read'))
     return NextResponse.json({ error: 'Connexion requise.' }, { status: 401 });
   try {
     const result = await getAdminContent();
@@ -47,8 +49,8 @@ export async function GET(request: Request): Promise<NextResponse> {
 export async function POST(request: Request): Promise<NextResponse> {
   if (!originIsSameSite(request))
     return NextResponse.json({ error: 'Requête refusée.' }, { status: 403 });
-  if (!isAdminRequest(request))
-    return NextResponse.json({ error: 'Connexion requise.' }, { status: 401 });
+  const user = await getAuthenticatedAdmin(request);
+  if (!user) return NextResponse.json({ error: 'Connexion requise.' }, { status: 401 });
   const declaredSize = Number(request.headers.get('content-length') ?? '0');
   if (declaredSize > 1_600_000) {
     return NextResponse.json({ error: 'Le contenu dépasse la limite de 1,5 Mo.' }, { status: 413 });
@@ -75,6 +77,9 @@ export async function POST(request: Request): Promise<NextResponse> {
       { error: 'Le contenu ne respecte pas son schéma.', issues },
       { status: 422 },
     );
+  }
+  if (!adminCan(user, parsed.data.action === 'publish' ? 'publish' : 'draft')) {
+    return NextResponse.json({ error: 'Droits insuffisants.' }, { status: 403 });
   }
   try {
     const saved = await saveAdminContent(
