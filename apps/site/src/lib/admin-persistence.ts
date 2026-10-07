@@ -1,38 +1,27 @@
-import { get, put } from '@vercel/blob';
 import { readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { adminSecretsReady } from './admin-auth.ts';
-import {
-  assertNoEditorialRemovals,
-  editableContentSchema,
-  type EditableContent,
-} from '../domain/admin-content.ts';
+import { editableContentSchema, type EditableContent } from '../domain/admin-content.ts';
+import { hasDatabaseConfiguration } from '../db/client.ts';
 import type { Content } from './load.ts';
 import { setEditorialOverride } from './load.ts';
 import { loadContent } from './load.ts';
-import { validateContent } from './validate.ts';
+import { ContentConflictError } from './admin-content-conflict.ts';
+import { validateEditorialContent } from './validate-editorial-content.ts';
+import {
+  postgresGetAdminContent,
+  postgresReadPublished,
+  postgresSaveAdminContent,
+} from './admin-persistence-postgres.ts';
 
-const PUBLISHED_PATH = 'sandbox-podcast/content/published.json';
-const DRAFT_PATH = 'sandbox-podcast/content/draft.json';
+export { ContentConflictError };
+
 const LOCAL_STORE_PATH = join(process.cwd(), '.site-content.local.json');
 const CACHE_TTL_MS = 5_000;
-const MAX_CONTENT_BYTES = 1_500_000;
-
-interface StoredContent {
-  content: EditableContent;
-  etag: string | null;
-}
 
 interface LocalStore {
   published?: EditableContent;
   draft?: EditableContent;
-}
-
-export class ContentConflictError extends Error {
-  constructor() {
-    super('Le brouillon a changé depuis son ouverture. Rechargez-le avant de continuer.');
-    this.name = 'ContentConflictError';
-  }
 }
 
 function editableFromContent(content: Content): EditableContent {
@@ -54,40 +43,14 @@ let publishedCache: EditableContent | undefined;
 let publishedLoadedAt = 0;
 let publishedLoad: Promise<EditableContent | undefined> | undefined;
 
-export type AdminStorageMode = 'local' | 'vercel-blob' | 'unavailable';
-
-/** A connected store ID is sufficient when Vercel issues Blob access through OIDC. */
-function hasBlobAccessConfiguration(): boolean {
-  return Boolean(process.env['BLOB_READ_WRITE_TOKEN']) || Boolean(process.env['BLOB_STORE_ID']);
-}
+export type AdminStorageMode = 'local' | 'postgres' | 'unavailable';
 
 export const adminStorageMode = (): AdminStorageMode => {
   if (process.env.NODE_ENV !== 'production') return 'local';
-  return hasBlobAccessConfiguration() ? 'vercel-blob' : 'unavailable';
+  return hasDatabaseConfiguration() ? 'postgres' : 'unavailable';
 };
 
 export const authConfigured = (): boolean => adminSecretsReady();
-
-function validateEditorialContent(value: unknown): EditableContent {
-  const parsed = editableContentSchema.parse(value);
-  const base = loadContent();
-  assertNoEditorialRemovals(editableFromContent(base), parsed);
-  const candidate: Content = { ...parsed, snapshots: base.snapshots };
-  const errors = validateContent(candidate).filter((issue) => issue.level === 'error');
-  if (errors.length > 0) {
-    throw new Error(errors.map((issue) => `${issue.where} : ${issue.message}`).join('\n'));
-  }
-  return parsed;
-}
-
-async function readBlob(pathname: string): Promise<StoredContent | undefined> {
-  if (!hasBlobAccessConfiguration()) return undefined;
-  const result = await get(pathname, { access: 'private', useCache: false });
-  if (result?.statusCode !== 200) return undefined;
-  const raw = await new Response(result.stream).text();
-  const content = editableContentSchema.parse(JSON.parse(raw) as unknown);
-  return { content, etag: result.blob.etag };
-}
 
 async function readLocalStore(): Promise<LocalStore> {
   try {
@@ -111,41 +74,47 @@ async function writeLocalStore(store: LocalStore): Promise<void> {
   await writeFile(LOCAL_STORE_PATH, `${JSON.stringify(store, null, 2)}\n`, 'utf8');
 }
 
-async function readPublished(): Promise<StoredContent | undefined> {
+async function readPublishedLocal(): Promise<EditableContent | undefined> {
+  const local = await readLocalStore();
+  return local.published;
+}
+
+function isMissingEditorialTable(error: unknown): boolean {
+  let current: unknown = error;
+  for (let depth = 0; depth < 3; depth += 1) {
+    if (typeof current !== 'object' || current === null) return false;
+    const candidate = current as { code?: unknown; cause?: unknown };
+    if (candidate.code === '42P01') return true;
+    current = candidate.cause;
+  }
+  return false;
+}
+
+async function readPublishedForSite(): Promise<EditableContent | undefined> {
   if (process.env.NODE_ENV !== 'production') {
-    const local = await readLocalStore();
-    return local.published ? { content: local.published, etag: null } : undefined;
+    return readPublishedLocal();
   }
-  return readBlob(PUBLISHED_PATH);
+  if (adminStorageMode() === 'postgres') {
+    try {
+      return await postgresReadPublished();
+    } catch (error) {
+      // Une base peut être liée avant sa première migration.
+      if (isMissingEditorialTable(error)) return undefined;
+      throw error;
+    }
+  }
+  return undefined;
 }
 
-async function writeBlob(
-  pathname: string,
-  content: EditableContent,
-  existingEtag: string | null,
-): Promise<StoredContent> {
-  const serialized = JSON.stringify(content);
-  if (Buffer.byteLength(serialized, 'utf8') > MAX_CONTENT_BYTES) {
-    throw new Error('Le contenu dépasse la limite de 1,5 Mo.');
-  }
-  const saved = await put(pathname, serialized, {
-    access: 'private',
-    allowOverwrite: true,
-    contentType: 'application/json',
-    ...(existingEtag ? { ifMatch: existingEtag } : {}),
-  });
-  return { content, etag: saved.etag };
-}
-
-/** Charge la version publiée avant le rendu ISR; le cache court évite un appel Blob par page. */
+/** Charge la version publiée avant le rendu ISR ; cache court pour limiter les requêtes. */
 export async function preparePublishedEditorialContent(): Promise<void> {
   if (Date.now() - publishedLoadedAt < CACHE_TTL_MS) {
     setEditorialOverride(publishedCache);
     return;
   }
-  publishedLoad ??= readPublished()
-    .then((stored) => {
-      publishedCache = stored?.content;
+  publishedLoad ??= readPublishedForSite()
+    .then((content) => {
+      publishedCache = content;
       publishedLoadedAt = Date.now();
       setEditorialOverride(publishedCache);
       return publishedCache;
@@ -161,17 +130,25 @@ export async function getAdminContent(): Promise<{
   draftEtag: string | null;
   hasDraft: boolean;
 }> {
-  await preparePublishedEditorialContent();
-  const published = await readPublished();
-  let draft: StoredContent | undefined;
-  if (process.env.NODE_ENV !== 'production') {
-    const local = await readLocalStore();
-    draft = local.draft ? { content: local.draft, etag: null } : undefined;
-  } else {
-    draft = await readBlob(DRAFT_PATH);
+  if (adminStorageMode() === 'postgres') {
+    return postgresGetAdminContent();
   }
-  const content = draft?.content ?? published?.content ?? editableFromContent(loadContent());
-  return { content, draftEtag: draft?.etag ?? null, hasDraft: Boolean(draft) };
+
+  if (adminStorageMode() === 'unavailable') {
+    await preparePublishedEditorialContent();
+    return {
+      content: editableFromContent(loadContent()),
+      draftEtag: null,
+      hasDraft: false,
+    };
+  }
+
+  await preparePublishedEditorialContent();
+  const local = await readLocalStore();
+  const published = local.published;
+  const draft = local.draft;
+  const content = draft ?? published ?? editableFromContent(loadContent());
+  return { content, draftEtag: null, hasDraft: Boolean(draft) };
 }
 
 export async function saveAdminContent(
@@ -179,36 +156,33 @@ export async function saveAdminContent(
   action: 'draft' | 'publish',
   expectedDraftEtag: string | null,
 ): Promise<{ draftEtag: string | null }> {
-  await preparePublishedEditorialContent();
-  const content = validateEditorialContent(value);
+  if (adminStorageMode() === 'unavailable') {
+    throw new Error('Le stockage Postgres n’est pas encore configuré sur ce projet.');
+  }
 
-  if (process.env.NODE_ENV !== 'production') {
-    const store = await readLocalStore();
-    if (expectedDraftEtag !== null) throw new ContentConflictError();
-    const next: LocalStore = { ...store, draft: content };
-    if (action === 'publish') next.published = content;
-    await writeLocalStore(next);
+  if (adminStorageMode() === 'postgres') {
+    const saved = await postgresSaveAdminContent(value, action, expectedDraftEtag);
     if (action === 'publish') {
+      const content = editableContentSchema.parse(value);
       publishedCache = content;
       publishedLoadedAt = Date.now();
       setEditorialOverride(content);
     }
-    return { draftEtag: null };
+    return saved;
   }
 
-  if (!hasBlobAccessConfiguration()) {
-    throw new Error('Le stockage Vercel Blob n’est pas encore relié au projet.');
-  }
+  await preparePublishedEditorialContent();
+  const content = validateEditorialContent(value, editableFromContent(loadContent()));
 
-  const currentDraft = await readBlob(DRAFT_PATH);
-  if ((currentDraft?.etag ?? null) !== expectedDraftEtag) throw new ContentConflictError();
-  const nextDraft = await writeBlob(DRAFT_PATH, content, currentDraft?.etag ?? null);
+  const store = await readLocalStore();
+  if (expectedDraftEtag !== null) throw new ContentConflictError();
+  const next: LocalStore = { ...store, draft: content };
+  if (action === 'publish') next.published = content;
+  await writeLocalStore(next);
   if (action === 'publish') {
-    const currentPublished = await readBlob(PUBLISHED_PATH);
-    await writeBlob(PUBLISHED_PATH, content, currentPublished?.etag ?? null);
     publishedCache = content;
     publishedLoadedAt = Date.now();
     setEditorialOverride(content);
   }
-  return { draftEtag: nextDraft.etag };
+  return { draftEtag: null };
 }
