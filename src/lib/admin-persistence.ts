@@ -49,6 +49,11 @@ export const adminStorageMode = (): AdminStorageMode => {
   return hasDatabaseConfiguration() ? 'postgres' : 'unavailable';
 };
 
+/** Pendant `next build`, Neon/Postgres peut être injoignable depuis l’environnement Vercel. */
+function isNextProductionBuild(): boolean {
+  return process.env['NEXT_PHASE'] === 'phase-production-build';
+}
+
 async function readLocalStore(): Promise<LocalStore> {
   try {
     const raw = await readFile(LOCAL_STORE_PATH, 'utf8');
@@ -81,7 +86,14 @@ async function readPublishedForSite(): Promise<EditableContent | undefined> {
     return readPublishedLocal();
   }
   if (adminStorageMode() === 'postgres') {
-    return postgresReadPublished();
+    if (isNextProductionBuild()) {
+      return undefined;
+    }
+    try {
+      return await postgresReadPublished();
+    } catch {
+      return undefined;
+    }
   }
   return undefined;
 }
