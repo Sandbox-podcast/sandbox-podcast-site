@@ -91,19 +91,19 @@ describe('contenu éditable du backoffice', () => {
 });
 
 describe('état du stockage du backoffice', () => {
-  it('distingue le fichier local, le Blob privé et le Blob absent en production', () => {
+  it('distingue le fichier local, Postgres et la base absente en production', () => {
     vi.stubEnv('NODE_ENV', 'development');
     expect(adminStorageMode()).toBe('local');
 
     vi.stubEnv('NODE_ENV', 'production');
-    vi.stubEnv('BLOB_READ_WRITE_TOKEN', '');
-    vi.stubEnv('BLOB_STORE_ID', '');
+    vi.stubEnv('DATABASE_URL', '');
+    vi.stubEnv('POSTGRES_URL', '');
     expect(adminStorageMode()).toBe('unavailable');
-    vi.stubEnv('BLOB_READ_WRITE_TOKEN', 'test-token');
-    expect(adminStorageMode()).toBe('vercel-blob');
+    vi.stubEnv('DATABASE_URL', 'postgresql://localhost/site');
+    expect(adminStorageMode()).toBe('postgres');
 
-    vi.stubEnv('BLOB_READ_WRITE_TOKEN', '');
-    vi.stubEnv('BLOB_STORE_ID', 'store_demo');
-    expect(adminStorageMode()).toBe('vercel-blob');
+    vi.stubEnv('DATABASE_URL', '');
+    vi.stubEnv('POSTGRES_URL', 'postgresql://localhost/site');
+    expect(adminStorageMode()).toBe('postgres');
   });
 });
