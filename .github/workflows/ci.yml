@@ -33,6 +33,14 @@ jobs:
         with:
           fetch-depth: 0
       - name: gitleaks
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
+          GITLEAKS_ARGS=(detect --source /repo --redact --verbose)
+          if [ "$EVENT_NAME" = "pull_request" ]; then
+            GITLEAKS_ARGS+=(--log-opts="${BASE_SHA}..${HEAD_SHA}")
+          fi
           docker run --rm -v "$PWD:/repo" ghcr.io/gitleaks/gitleaks:latest \
-            detect --source /repo --redact --verbose
+            "${GITLEAKS_ARGS[@]}"
