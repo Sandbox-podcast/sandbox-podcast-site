@@ -11,6 +11,7 @@ import {
 import { adminUsers } from '../db/schema.ts';
 import { getDb, hasDatabaseConfiguration } from '../db/client.ts';
 import { hashAdminPassword, verifyAdminPassword } from './admin-password.ts';
+import { isNextProductionBuild } from './next-build.ts';
 
 const LOCAL_USERS_PATH = join(process.cwd(), '.site-admin-users.local.json');
 
@@ -69,7 +70,12 @@ async function writeLocalUsers(users: StoredAdminUser[]): Promise<void> {
   await writeFile(LOCAL_USERS_PATH, `${JSON.stringify(payload, null, 2)}\n`, 'utf8');
 }
 
+function skipPostgresDuringBuild(): boolean {
+  return isNextProductionBuild();
+}
+
 async function readPostgresUserByLogin(login: string): Promise<StoredAdminUser | undefined> {
+  if (skipPostgresDuringBuild()) return undefined;
   const db = getDb();
   const rows = await db
     .select()
@@ -89,6 +95,7 @@ async function readPostgresUserByLogin(login: string): Promise<StoredAdminUser |
 }
 
 async function readPostgresUserById(id: string): Promise<StoredAdminUser | undefined> {
+  if (skipPostgresDuringBuild()) return undefined;
   const db = getDb();
   const rows = await db
     .select()
@@ -113,9 +120,14 @@ export function adminUsersUsePostgres(): boolean {
 
 export async function countAdminUsers(): Promise<number> {
   if (adminUsersUsePostgres()) {
-    const db = getDb();
-    const rows = await db.select({ n: sql<number>`count(*)` }).from(adminUsers);
-    return rows[0]?.n ?? 0;
+    if (skipPostgresDuringBuild()) return 0;
+    try {
+      const db = getDb();
+      const rows = await db.select({ n: sql<number>`count(*)` }).from(adminUsers);
+      return rows[0]?.n ?? 0;
+    } catch {
+      return 0;
+    }
   }
   return (await readLocalUsers()).length;
 }

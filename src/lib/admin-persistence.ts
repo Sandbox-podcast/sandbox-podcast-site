@@ -12,6 +12,7 @@ import {
   postgresReadPublished,
   postgresSaveAdminContent,
 } from './admin-persistence-postgres.ts';
+import { isNextProductionBuild } from './next-build.ts';
 
 export { ContentConflictError };
 
@@ -48,11 +49,6 @@ export const adminStorageMode = (): AdminStorageMode => {
   if (process.env.NODE_ENV !== 'production') return 'local';
   return hasDatabaseConfiguration() ? 'postgres' : 'unavailable';
 };
-
-/** Pendant `next build`, Neon/Postgres peut être injoignable depuis l’environnement Vercel. */
-function isNextProductionBuild(): boolean {
-  return process.env['NEXT_PHASE'] === 'phase-production-build';
-}
 
 async function readLocalStore(): Promise<LocalStore> {
   try {
