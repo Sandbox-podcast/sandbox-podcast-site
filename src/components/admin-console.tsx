@@ -460,6 +460,7 @@ export function AdminConsole() {
 
   const storyItems = contentResponse.content.stories;
   const selectedHost = contentResponse.content.hosts.find((host) => host.slug === selectedItem);
+  const canDraft = status.user?.permissions.draft ?? false;
   const canPublish = status.user?.permissions.publish ?? false;
 
   return (
@@ -490,6 +491,12 @@ export function AdminConsole() {
           </button>
         </div>
       </header>
+
+      {!canDraft ? (
+        <div className="admin-alert" role="status">
+          Session en lecture seule : vous pouvez consulter le contenu mais pas l’enregistrer.
+        </div>
+      ) : null}
 
       {contentResponse.storageMode === 'unavailable' ? (
         <div className="admin-alert" role="status">
@@ -727,7 +734,7 @@ export function AdminConsole() {
                         className="btn"
                         type="button"
                         onClick={() => void saveArticle('draft')}
-                        disabled={pending}
+                        disabled={pending || !canDraft}
                       >
                         Enregistrer le brouillon
                       </button>
@@ -805,6 +812,7 @@ export function AdminConsole() {
                         setRawError('JSON invalide.');
                       }
                     }}
+                    disabled={!canDraft}
                   >
                     Enregistrer le brouillon
                   </button>
@@ -893,7 +901,7 @@ export function AdminConsole() {
                         className="btn"
                         type="button"
                         onClick={() => void saveHostLinks('draft')}
-                        disabled={pending}
+                        disabled={pending || !canDraft}
                       >
                         Enregistrer le brouillon
                       </button>
@@ -928,6 +936,8 @@ export function AdminConsole() {
                   hosts={contentResponse.content.hosts}
                   topics={contentResponse.content.topics}
                   pending={pending}
+                  canDraft={canDraft}
+                  canPublish={canPublish}
                   onSave={saveEpisode}
                 />
               ) : null}
@@ -1002,7 +1012,7 @@ export function AdminConsole() {
                         className="btn"
                         type="button"
                         onClick={() => void saveRawCollection('draft')}
-                        disabled={pending}
+                        disabled={pending || !canDraft}
                       >
                         Enregistrer le brouillon
                       </button>

@@ -149,6 +149,38 @@ export async function authenticateAdminUser(
   return valid ? toPublic(stored) : undefined;
 }
 
+function buildBootstrapUser(input: {
+  login: string;
+  password: string;
+  displayName: string;
+  role: AdminRole;
+}): StoredAdminUser {
+  const login = input.login.trim().toLowerCase();
+  if (login.length === 0) {
+    throw new Error('Identifiant admin invalide.');
+  }
+  if (input.password.length < 12) {
+    throw new Error('Mot de passe bootstrap trop court (12 caractères minimum).');
+  }
+  const displayName = input.displayName.trim() || login;
+  const id = randomUUID();
+  adminUserPublicSchema.parse({
+    id,
+    login,
+    displayName,
+    role: input.role,
+    active: true,
+  });
+  return {
+    id,
+    login,
+    displayName,
+    role: input.role,
+    active: true,
+    passwordHash: '',
+  };
+}
+
 export async function bootstrapAdminUser(input: {
   login: string;
   password: string;
@@ -158,16 +190,9 @@ export async function bootstrapAdminUser(input: {
   const count = await countAdminUsers();
   if (count > 0) return undefined;
 
-  const login = input.login.trim().toLowerCase();
+  const draft = buildBootstrapUser(input);
   const passwordHash = await hashAdminPassword(input.password);
-  const user: StoredAdminUser = {
-    id: randomUUID(),
-    login,
-    displayName: input.displayName.trim(),
-    role: input.role,
-    active: true,
-    passwordHash,
-  };
+  const user: StoredAdminUser = { ...draft, passwordHash };
 
   if (adminUsersUsePostgres()) {
     const db = getDb();

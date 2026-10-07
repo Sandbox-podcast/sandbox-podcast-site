@@ -17,6 +17,8 @@ interface Props {
   hosts: Host[];
   topics: Topic[];
   pending: boolean;
+  canDraft: boolean;
+  canPublish: boolean;
   onSave: (episode: Episode, action: 'draft' | 'publish') => Promise<void>;
 }
 
@@ -42,7 +44,15 @@ async function readApiError(response: Response): Promise<string> {
   return `La requête a échoué (${response.status.toString()}).`;
 }
 
-export function EpisodeComposer({ initialNumber, hosts, topics, pending, onSave }: Props) {
+export function EpisodeComposer({
+  initialNumber,
+  hosts,
+  topics,
+  pending,
+  canDraft,
+  canPublish,
+  onSave,
+}: Props) {
   const [youtubeUrl, setYoutubeUrl] = useState('');
   const [metadata, setMetadata] = useState<YouTubeMetadata>();
   const [metadataPending, setMetadataPending] = useState(false);
@@ -171,7 +181,7 @@ export function EpisodeComposer({ initialNumber, hosts, topics, pending, onSave 
             required
           />
         </label>
-        <button className="btn" type="submit" disabled={metadataPending}>
+        <button className="btn" type="submit" disabled={metadataPending || !canDraft}>
           {metadataPending ? 'Import en cours…' : 'Importer les infos'}
         </button>
         {metadataError ? (
@@ -348,7 +358,7 @@ export function EpisodeComposer({ initialNumber, hosts, topics, pending, onSave 
             className="btn"
             type="button"
             onClick={() => void save('draft')}
-            disabled={pending}
+            disabled={pending || !canDraft}
           >
             Enregistrer le brouillon
           </button>
@@ -356,7 +366,7 @@ export function EpisodeComposer({ initialNumber, hosts, topics, pending, onSave 
             className="btn btn-solid"
             type="button"
             onClick={() => void save('publish')}
-            disabled={pending}
+            disabled={pending || !canPublish}
           >
             Publier l’épisode
           </button>

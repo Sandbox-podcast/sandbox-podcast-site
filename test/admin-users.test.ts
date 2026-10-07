@@ -10,6 +10,7 @@ import {
   authenticateAdminUser,
   bootstrapAdminUser,
   clearAdminUsers,
+  countAdminUsers,
 } from '../src/lib/admin-users-store.ts';
 
 const pglite = new PGlite();
@@ -56,6 +57,28 @@ describe('comptes admin Postgres', () => {
     expect(sessionSigningReady()).toBe(true);
     const session = createAdminSession(user);
     expect(session?.value).toContain(user.id);
+  });
+
+  it('refuse un bootstrap avec identifiant vide', async () => {
+    await expect(
+      bootstrapAdminUser({
+        login: '   ',
+        password: 'mot-de-passe-securise',
+        displayName: '',
+        role: 'admin',
+      }),
+    ).rejects.toThrow(/Identifiant/);
+    expect(await countAdminUsers()).toBe(0);
+  });
+
+  it('utilise l’identifiant comme nom affiché si besoin', async () => {
+    const created = await bootstrapAdminUser({
+      login: 'lea',
+      password: 'mot-de-passe-securise',
+      displayName: '   ',
+      role: 'admin',
+    });
+    expect(created?.displayName).toBe('lea');
   });
 
   it('applique les droits par rôle', () => {

@@ -28,15 +28,20 @@ if (url) {
   await pool.end();
 }
 
-const created = await bootstrapAdminUser({
-  login,
-  password,
-  displayName: displayName ?? login,
-  role,
-});
-if (!created) {
-  console.log('Aucun compte créé : la table contient déjà au moins un utilisateur.');
-} else {
-  console.log(`Compte admin créé : ${created.login} (${created.role}).`);
+try {
+  const created = await bootstrapAdminUser({
+    login,
+    password,
+    displayName: displayName ?? login,
+    role,
+  });
+  if (!created) {
+    console.log('Aucun compte créé : la table contient déjà au moins un utilisateur.');
+  } else {
+    console.log(`Compte admin créé : ${created.login} (${created.role}).`);
+  }
+} catch (error) {
+  console.error(error instanceof Error ? error.message : 'Bootstrap admin échoué.');
+  process.exit(1);
 }
 await closeDb();
