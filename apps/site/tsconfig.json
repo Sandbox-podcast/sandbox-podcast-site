@@ -12,6 +12,7 @@
   "include": [
     "next-env.d.ts",
     "next.config.ts",
+    "drizzle.config.ts",
     "vitest.config.ts",
     "src",
     "scripts",
