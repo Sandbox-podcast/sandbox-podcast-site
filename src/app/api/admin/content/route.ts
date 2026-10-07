@@ -35,18 +35,11 @@ export async function POST(request: Request): Promise<NextResponse> {
     return NextResponse.json({ error: 'Requête refusée.' }, { status: 403 });
   if (!isAdminRequest(request))
     return NextResponse.json({ error: 'Connexion requise.' }, { status: 401 });
-  const declaredSize = Number(request.headers.get('content-length') ?? '0');
-  if (declaredSize > 1_600_000) {
-    return NextResponse.json({ error: 'Le contenu dépasse la limite de 1,5 Mo.' }, { status: 413 });
-  }
   let raw: string;
   try {
     raw = await request.text();
   } catch {
     return NextResponse.json({ error: 'Requête illisible.' }, { status: 400 });
-  }
-  if (Buffer.byteLength(raw, 'utf8') > 1_600_000) {
-    return NextResponse.json({ error: 'Le contenu dépasse la limite de 1,5 Mo.' }, { status: 413 });
   }
   let body: unknown;
   try {

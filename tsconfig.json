@@ -13,6 +13,7 @@
     "next-env.d.ts",
     "next.config.ts",
     "vitest.config.ts",
+    "drizzle.config.ts",
     "src",
     "scripts",
     "test",

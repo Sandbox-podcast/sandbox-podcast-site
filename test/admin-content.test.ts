@@ -6,7 +6,7 @@ import {
 } from '../src/domain/admin-content.ts';
 import { hostSchema } from '../src/domain/schema.ts';
 import { loadContent } from '../src/lib/load.ts';
-import { adminStorageMode } from '../src/lib/admin-persistence.ts';
+import { adminStorageMode, saveAdminContent } from '../src/lib/admin-persistence.ts';
 
 afterEach(() => vi.unstubAllEnvs());
 
@@ -91,19 +91,27 @@ describe('contenu éditable du backoffice', () => {
 });
 
 describe('état du stockage du backoffice', () => {
-  it('distingue le fichier local, le Blob privé et le Blob absent en production', () => {
+  it('distingue le fichier local, Postgres et l’absence de base en production', () => {
     vi.stubEnv('NODE_ENV', 'development');
     expect(adminStorageMode()).toBe('local');
 
     vi.stubEnv('NODE_ENV', 'production');
-    vi.stubEnv('BLOB_READ_WRITE_TOKEN', '');
-    vi.stubEnv('BLOB_STORE_ID', '');
+    vi.stubEnv('DATABASE_URL', '');
+    vi.stubEnv('POSTGRES_URL', '');
     expect(adminStorageMode()).toBe('unavailable');
-    vi.stubEnv('BLOB_READ_WRITE_TOKEN', 'test-token');
-    expect(adminStorageMode()).toBe('vercel-blob');
+    vi.stubEnv('DATABASE_URL', 'postgresql://user:pass@localhost:5432/db');
+    expect(adminStorageMode()).toBe('postgres');
 
-    vi.stubEnv('BLOB_READ_WRITE_TOKEN', '');
-    vi.stubEnv('BLOB_STORE_ID', 'store_demo');
-    expect(adminStorageMode()).toBe('vercel-blob');
+    vi.stubEnv('DATABASE_URL', '');
+    vi.stubEnv('POSTGRES_URL', 'postgresql://user:pass@localhost:5432/db');
+    expect(adminStorageMode()).toBe('postgres');
+  });
+
+  it('refuse d’écrire en production sans base configurée', async () => {
+    vi.stubEnv('NODE_ENV', 'production');
+    vi.stubEnv('DATABASE_URL', '');
+    vi.stubEnv('POSTGRES_URL', '');
+    const content = editableFixture();
+    await expect(saveAdminContent(content, 'draft', null)).rejects.toThrow(/Postgres/);
   });
 });

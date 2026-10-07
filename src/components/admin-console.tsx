@@ -12,13 +12,13 @@ type HostSocialKey = keyof Host['socials'];
 interface AdminStatus {
   authenticated: boolean;
   authConfigured: boolean;
-  storageMode: 'local' | 'vercel-blob' | 'unavailable';
+  storageMode: 'local' | 'postgres' | 'unavailable';
 }
 interface ContentResponse {
   content: EditableContent;
   draftEtag: string | null;
   hasDraft: boolean;
-  storageMode: 'local' | 'vercel-blob' | 'unavailable';
+  storageMode: 'local' | 'postgres' | 'unavailable';
 }
 
 const collections: { key: CollectionKey; label: string; title: string }[] = [
@@ -1004,8 +1004,8 @@ export function AdminConsole() {
       <div className="admin-footnote">
         <span>Les données de classement restent immuables depuis le backoffice.</span>
         <span>
-          {contentResponse.storageMode === 'vercel-blob'
-            ? 'Stockage privé Vercel Blob connecté'
+          {contentResponse.storageMode === 'postgres'
+            ? 'Base Postgres (Neon) connectée'
             : contentResponse.storageMode === 'local'
               ? 'Fichier local de développement'
               : 'Stockage non configuré'}
