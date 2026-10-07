@@ -1,0 +1,82 @@
+{
+  "slug": "lire-un-classement-de-modeles-sans-se-faire-avoir",
+  "type": "guide",
+  "title": "Lire un classement de modèles sans se faire avoir",
+  "dek": "Cinq réflexes pour comprendre un leaderboard, le nôtre compris : quel critère, qui a mesuré, quel écart, quelle date, quel prix.",
+  "publishedAt": "2026-09-26T08:00:00.000Z",
+  "author": "equipe-sandbox",
+  "topics": ["benchmarks", "models"],
+  "featured": false,
+  "related": [
+    {
+      "kind": "chart",
+      "chart": "ai-models"
+    },
+    {
+      "kind": "chart",
+      "chart": "open-source-ai"
+    },
+    {
+      "kind": "story",
+      "slug": "ce-que-swe-bench-ne-dit-pas"
+    }
+  ],
+  "body": [
+    {
+      "type": "p",
+      "text": "On nous demande souvent quel est « le meilleur modèle ». La réponse honnête, c'est : meilleur pour quoi, pour qui, à quel prix. Voici comment lire un classement, le nôtre comme les autres."
+    },
+    {
+      "type": "h2",
+      "text": "1. Cherchez le critère, pas le rang"
+    },
+    {
+      "type": "p",
+      "text": "Le rang global est une moyenne pondérée. Un modèle peut être #1 au global et #7 en vitesse. Sur notre [[chart:ai-models]], changez de critère en haut de la page : le classement se réarrange, et c'est le but."
+    },
+    {
+      "type": "h2",
+      "text": "2. Regardez qui a mesuré"
+    },
+    {
+      "type": "p",
+      "text": "Un score publié par l'éditeur n'a pas la même valeur qu'un score mesuré par un tiers avec un protocole ouvert. Quand on ne peut pas faire la différence, on le dit."
+    },
+    {
+      "type": "h2",
+      "text": "3. Regardez l'écart, pas l'ordre"
+    },
+    {
+      "type": "p",
+      "text": "Entre la 3ᵉ et la 4ᵉ place, il y a parfois 0,1 point. C'est du bruit. Un classement serré se lit comme un groupe, pas comme une file."
+    },
+    {
+      "type": "chart",
+      "chart": "ai-models",
+      "top": 5
+    },
+    {
+      "type": "h2",
+      "text": "4. Regardez la date"
+    },
+    {
+      "type": "p",
+      "text": "Les benchmarks vieillissent, les modèles aussi. Un score de l'an dernier dit surtout ce que l'on savait mesurer l'an dernier. Chaque page de ce site affiche sa date de mise à jour."
+    },
+    {
+      "type": "h2",
+      "text": "5. Regardez le prix"
+    },
+    {
+      "type": "p",
+      "text": "Deux modèles proches en qualité peuvent coûter vingt fois plus ou moins cher. C'est pour cela que la qualité globale n'inclut ni le prix ni la vitesse : les deux sont affichés à côté, pour que vous fassiez le calcul avec vos contraintes."
+    },
+    {
+      "type": "callout",
+      "tone": "note",
+      "title": "Et nous alors ?",
+      "text": "Nos pondérations sont des choix éditoriaux. Elles sont publiées dans la page méthodologie de chaque classement pour pouvoir être contestées."
+    }
+  ],
+  "sources": []
+}

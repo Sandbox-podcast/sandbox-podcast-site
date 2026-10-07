@@ -1,6 +1,5 @@
 {
-  "name": "sandbox-podcast-site",
-  "version": "1.0.0",
+  "name": "podcast-platform",
   "private": true,
   "type": "module",
   "packageManager": "pnpm@12.9.1",
@@ -8,41 +7,19 @@
     "node": ">=24"
   },
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "typecheck": "next typegen && tsc --noEmit",
-    "test": "vitest run",
+    "build": "pnpm --filter @podcast/site build",
+    "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "eslint .",
-    "check": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test",
-    "content:check": "node scripts/content-check.ts",
-    "content:new": "node scripts/content-new.ts",
-    "week:run": "node scripts/week-run.ts"
-  },
-  "dependencies": {
-    "@fontsource-variable/archivo": "^5.3.0",
-    "@fontsource-variable/jetbrains-mono": "^5.3.0",
-    "@fontsource-variable/newsreader": "^5.3.0",
-    "@fontsource/archivo": "^5.3.0",
-    "@fontsource/jetbrains-mono": "^5.3.0",
-    "@fontsource/newsreader": "^5.3.0",
-    "@vercel/blob": "2.6.1",
-    "next": "^16.3.8",
-    "react": "^19.3.0",
-    "react-dom": "^19.3.0",
-    "zod": "^4.6.5"
+    "typecheck": "pnpm -r --if-present typecheck",
+    "test": "pnpm -r --if-present test",
+    "check": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@tailwindcss/postcss": "^4.3.3",
     "@types/node": "^24.19.1",
-    "@types/react": "^19.3.0",
-    "@types/react-dom": "^19.3.0",
     "eslint": "^10.12.0",
-    "postcss": "^8.5.29",
     "prettier": "^3.9.9",
-    "tailwindcss": "^4.3.3",
     "typescript": "6.0.3",
     "typescript-eslint": "^8.71.0",
     "vitest": "^5.0.3"

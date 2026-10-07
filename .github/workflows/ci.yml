@@ -1,3 +1,5 @@
+# Quality Gates à chaque push et chaque PR (master prompt §35.1 / §35.2).
+# Statut : écrit mais jamais exécuté. À valider au premier run (voir docs/testing.md).
 name: CI
 
 on:
@@ -21,9 +23,13 @@ jobs:
         with:
           node-version: 24
           cache: pnpm
-      - run: pnpm install --frozen-lockfile --ignore-scripts
-      - run: pnpm check
-      - run: pnpm build
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm format:check
+      - run: pnpm lint
+      - run: pnpm typecheck
+      - run: pnpm test
+      # Le build du site génère toutes les pages statiques et les images OpenGraph : il échoue si un contenu ou une route est cassé.
+      - run: pnpm --filter @podcast/site build
       - run: pnpm audit --audit-level=high
 
   secret-scan:

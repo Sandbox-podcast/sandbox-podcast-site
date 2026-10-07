@@ -1,0 +1,27 @@
+{
+  "name": "Sandbox",
+  "wordmark": ["SANDBOX", "STUDIO"],
+  "tagline": "La tech mérite mieux que du bruit.",
+  "strapline": "Le podcast qui teste, débat et remet les chiffres en perspective.",
+  "description": "Explorez les podcasts vidéo Sandbox sur l’IA, le développement et l’open source. Retrouvez les sources de chaque épisode et nos classements tech hebdomadaires.",
+  "heroEyebrow": "Podcast indépendant · IA · développement · open source",
+  "heroTitle": "Un podcast pour y voir plus clair.",
+  "heroDek": "Chaque semaine, nos épisodes vidéo explorent les outils, les modèles et les idées qui changent le travail. Retrouvez aussi les sources citées et les classements commentés.",
+  "platforms": {
+    "youtube": "https://www.youtube.com",
+    "spotify": "https://open.spotify.com",
+    "apple": "https://podcasts.apple.com"
+  },
+  "team": [
+    {
+      "name": "Lou",
+      "socials": {
+        "github": "https://github.com/loukan42",
+        "linkedin": "https://linkedin.com/louhusson",
+        "x": "https://x.com/loukan42"
+      }
+    },
+    { "name": "Nicolas", "socials": {} },
+    { "name": "Loïc", "socials": {} }
+  ]
+}

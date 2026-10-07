@@ -1,3 +1,4 @@
-packages: []
-overrides:
-  vite: 8.3.2
+packages:
+  - apps/*
+allowBuilds:
+  esbuild: true

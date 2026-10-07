@@ -1,0 +1,58 @@
+{
+  "slug": "pourquoi-les-stars-github-mentent-a-moitie",
+  "type": "analysis",
+  "title": "Pourquoi les stars GitHub mentent à moitié, et ce qu'on en fait",
+  "dek": "Une star est un signal d'attention, pas de qualité. Comment on le corrige dans nos classements : croissance, activité, échelle logarithmique.",
+  "publishedAt": "2026-09-18T08:00:00.000Z",
+  "author": "equipe-sandbox",
+  "topics": ["open-source", "benchmarks"],
+  "featured": false,
+  "related": [
+    {
+      "kind": "chart",
+      "chart": "github"
+    },
+    {
+      "kind": "chart",
+      "chart": "skills"
+    },
+    {
+      "kind": "entity",
+      "entity": "browser-use"
+    }
+  ],
+  "body": [
+    {
+      "type": "p",
+      "text": "Un classement de projets par nombre de stars donne toujours les mêmes noms, ceux d'il y a cinq ans. Ce n'est pas ce qui nous intéresse : on veut savoir ce qui monte maintenant. Voici comment on s'y prend dans le [[chart:github]] et le [[chart:skills]]."
+    },
+    {
+      "type": "h2",
+      "text": "Trois corrections"
+    },
+    {
+      "type": "list",
+      "ordered": true,
+      "items": [
+        "**On regarde la croissance, pas le total.** Les stars gagnées sur 7 jours, et la croissance rapportée à la taille du dépôt : un petit projet qui double est visible, un géant qui grossit de 1 % ne l'est pas.",
+        "**On exige de l'activité.** Commits récents et contributeurs pèsent 25 % de la note. Un dépôt qui ne bouge plus ne peut pas rester en tête.",
+        "**On écrase les extrêmes.** Les compteurs sont passés à l'échelle logarithmique : passer de 10 000 à 20 000 stars compte autant que de 100 000 à 200 000."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Ce qui reste imparfait"
+    },
+    {
+      "type": "p",
+      "text": "Les stars peuvent être gonflées, et un pic de partages ne fait pas un projet. C'est ce qui est arrivé à [[entity:browser-use]] : en tête une partie de l'été sur un pic d'attention, puis retombé. Notre avis (OUR TAKE) sert justement à le dire, et la page de chaque projet garde la trace du pic."
+    },
+    {
+      "type": "callout",
+      "tone": "note",
+      "title": "Le détail des pondérations",
+      "text": "Chaque classement a sa page « Comment ce classement est calculé », avec les sources, les poids et les limites. Elle se met à jour avec la méthode."
+    }
+  ],
+  "sources": []
+}
