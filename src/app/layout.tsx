@@ -3,6 +3,7 @@ import '@fontsource-variable/newsreader/wght.css';
 import '@fontsource-variable/newsreader/wght-italic.css';
 import '@fontsource-variable/jetbrains-mono/wght.css';
 import './globals.css';
+import { Analytics } from '@vercel/analytics/next';
 import type { Metadata, Viewport } from 'next';
 import Script from 'next/script';
 import type { ReactNode } from 'react';
@@ -58,6 +59,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
             inLanguage: siteConfig.language,
           }}
         />
+        <Analytics />
       </body>
     </html>
   );
