@@ -4,11 +4,9 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const ITEMS = [
-  { href: '/latest', label: 'Latest' },
-  { href: '/charts', label: 'Charts' },
-  { href: '/episodes', label: 'Episodes' },
-  { href: '/topics', label: 'Topics' },
-  { href: '/about', label: 'About' },
+  { href: '/episodes', label: 'Podcasts' },
+  { href: '/charts', label: 'Classements' },
+  { href: '/about', label: 'À propos' },
 ] as const;
 
 export function MainNav() {

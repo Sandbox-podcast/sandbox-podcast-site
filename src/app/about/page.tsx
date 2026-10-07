@@ -141,7 +141,7 @@ export default function AboutPage() {
               Ce site est une première version.{' '}
               <b>Aucune valeur affichée n’est issue d’une API ni d’un benchmark réel.</b> Les
               classements, les scores et l’historique sont produits par un générateur déterministe,
-              les épisodes et les articles sont des exemples, et les trois animateurs sont des
+              les épisodes et les profils sont des exemples, et les trois animateurs sont des
               profils fictifs. Le bandeau en haut de chaque page le rappelle, et les moteurs de
               recherche n’indexent rien tant que ce mode est actif.
             </p>

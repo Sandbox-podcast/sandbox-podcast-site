@@ -4,6 +4,7 @@ import '@fontsource-variable/newsreader/wght-italic.css';
 import '@fontsource-variable/jetbrains-mono/wght.css';
 import './globals.css';
 import type { Metadata, Viewport } from 'next';
+import Script from 'next/script';
 import type { ReactNode } from 'react';
 import { Footer, Masthead } from '@/components/shell';
 import { JsonLd } from '@/components/json-ld';
@@ -40,6 +41,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
   return (
     <html lang={siteConfig.language} suppressHydrationWarning>
       <body>
+        <Script src="/theme-init.js" strategy="beforeInteractive" />
         <a className="skip" href="#main">
           Aller au contenu
         </a>

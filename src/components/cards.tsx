@@ -1,9 +1,10 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { formatDate, formatDateShort, formatDuration, formatNumber } from '@/domain/format';
 import type { Entity, Episode, Story } from '@/domain/schema';
 import { plainText } from '@/domain/markup';
 import { shortWeek } from '@/domain/weeks';
-import { chartView, currentRanks, entityPath, getHost } from '@/lib/repository';
+import { chartView, currentRanks, entityPath, getHost, getTopic } from '@/lib/repository';
 import { MoveBadge, Mark, RankNum, TypeTag } from './ui';
 
 export function readingMinutes(story: Story): number {
@@ -63,12 +64,28 @@ export function EpisodeCover({
   compact = false,
   showTitle = true,
 }: {
-  episode: Pick<Episode, 'number' | 'title' | 'cover'>;
+  episode: Pick<Episode, 'number' | 'title' | 'cover' | 'platforms'>;
   compact?: boolean;
   showTitle?: boolean;
 }) {
+  const thumbnail =
+    episode.platforms.thumbnailUrl ??
+    (episode.platforms.youtubeId
+      ? `https://i.ytimg.com/vi/${episode.platforms.youtubeId}/hqdefault.jpg`
+      : undefined);
   return (
     <div className="cover" data-tone={episode.cover.tone}>
+      {thumbnail ? (
+        <Image
+          src={thumbnail}
+          alt=""
+          fill
+          unoptimized
+          sizes="(max-width: 48rem) 88vw, (max-width: 80rem) 35vw, 28rem"
+          className="cover-image"
+        />
+      ) : null}
+      {thumbnail ? <span className="cover-scrim" aria-hidden="true" /> : null}
       <span className={`cover-num ${compact ? 'cover-num-sm' : ''}`} aria-hidden="true">
         {episode.number}
       </span>
@@ -92,18 +109,26 @@ export function EpisodeCover({
 
 export function EpisodeCard({ episode }: { episode: Episode }) {
   return (
-    <article className="card">
-      <EpisodeCover episode={episode} compact showTitle={false} />
-      <p className="label text-ink-3">
-        Épisode {episode.number} · {formatDateShort(episode.publishedAt)} ·{' '}
-        {formatDuration(episode.durationSec)}
-      </p>
-      <h3 className="card-title">
-        <Link href={`/episodes/${String(episode.number)}`} className="card-link">
-          <span className="card-title">{episode.title}</span>
-        </Link>
-      </h3>
-      <p className="line-clamp-2 text-sm text-ink-2">{episode.dek}</p>
+    <article className="episode-card">
+      <Link href={`/episodes/${String(episode.number)}`} className="episode-card-link">
+        <EpisodeCover episode={episode} compact showTitle={false} />
+        <p className="episode-card-meta label text-ink-3">
+          <span>EP. {episode.number}</span>
+          <span>{formatDateShort(episode.publishedAt)}</span>
+          <span>{formatDuration(episode.durationSec)}</span>
+        </p>
+        <h3 className="episode-card-title">{episode.title}</h3>
+        <div className="episode-card-details">
+          <p>{episode.dek}</p>
+          <p className="episode-card-topics">
+            {episode.topics
+              .slice(0, 3)
+              .map((topic) => `#${getTopic(topic).label}`)
+              .join(' · ')}
+          </p>
+          <span className="episode-card-cta">Découvrir l’épisode →</span>
+        </div>
+      </Link>
     </article>
   );
 }
@@ -166,13 +191,13 @@ export function MiniChart({
       className="flex h-full flex-col border-t-4 border-ink pt-2"
       aria-label={`${view.chart.title}, aperçu`}
     >
-      <header className="mb-1 flex items-start justify-between gap-3">
+      <header className="mini-chart-heading mb-1 flex items-start justify-between gap-3">
         <div>
           <p className="label text-ink-2">
             {view.chart.code} · {shortWeek(view.week)}
             {view.isLatest ? '' : ' · archive'}
           </p>
-          <Heading className="display text-3xl">
+          <Heading className="display mini-chart-title text-3xl">
             <Link
               href={
                 view.isLatest

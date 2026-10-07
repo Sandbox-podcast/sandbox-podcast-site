@@ -8,10 +8,10 @@ import {
   ordinal,
 } from '@/domain/format';
 import { shortWeek } from '@/domain/weeks';
-import { competitorsOf, episodesForEntity, storiesForEntity } from '@/lib/graph';
+import { competitorsOf, episodesForEntity } from '@/lib/graph';
 import { absoluteUrl, breadcrumbLd } from '@/lib/seo';
 import { entityPath, entityView, getTopic, type Appearance } from '@/lib/repository';
-import { EntityCard, StoryCard } from './cards';
+import { EntityCard } from './cards';
 import { RankHistory, SeriesChart } from './charts-svg';
 import { JsonLd } from './json-ld';
 import { TakeCard } from './take-card';
@@ -229,7 +229,6 @@ export function EntityScreen({ slug }: { slug: string }) {
   const view = entityView(slug);
   const { entity, appearances, takes } = view;
   const episodes = episodesForEntity(slug);
-  const stories = storiesForEntity(slug);
   const rivals = competitorsOf(entity);
   const section =
     entity.kind === 'project' ? 'Projects' : entity.kind === 'model' ? 'Models' : 'Tools';
@@ -366,17 +365,6 @@ export function EntityScreen({ slug }: { slug: string }) {
                 </li>
               ))}
             </ul>
-          </section>
-        ) : null}
-
-        {stories.length > 0 ? (
-          <section aria-labelledby="in-stories">
-            <SectionHead kicker="À lire" title="Articles liés" id="in-stories" />
-            <div className="grid gap-x-8 gap-y-10 md:grid-cols-3">
-              {stories.map((s) => (
-                <StoryCard key={s.slug} story={s} />
-              ))}
-            </div>
           </section>
         ) : null}
 

@@ -1,5 +1,4 @@
 import { siteConfig } from '@/config/site';
-import { plainText } from '@/domain/markup';
 import { feed } from '@/lib/graph';
 import { absoluteUrl } from '@/lib/seo';
 import { preparePublishedEditorialContent } from '@/lib/admin-persistence';
@@ -14,20 +13,16 @@ const xml = (s: string): string =>
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&apos;');
 
-/** Flux RSS des épisodes et des articles. Le contenu est échappé : aucun balisage ne passe. */
+/** Flux RSS des épisodes publiés. */
 export async function GET(): Promise<Response> {
   await preparePublishedEditorialContent();
   const items = feed()
+    .filter((item) => item.type === 'episode')
     .slice(0, 30)
     .map((item) => {
-      const isEpisode = item.type === 'episode';
-      const title = isEpisode
-        ? `Épisode ${String(item.episode.number)} : ${item.episode.title}`
-        : item.story.title;
-      const path = isEpisode
-        ? `/episodes/${String(item.episode.number)}`
-        : `/stories/${item.story.slug}`;
-      const description = isEpisode ? item.episode.dek : plainText(item.story.dek);
+      const title = `Épisode ${String(item.episode.number)} : ${item.episode.title}`;
+      const path = `/episodes/${String(item.episode.number)}`;
+      const description = item.episode.dek;
       return `<item><title>${xml(title)}</title><link>${xml(absoluteUrl(path))}</link><guid isPermaLink="true">${xml(absoluteUrl(path))}</guid><pubDate>${new Date(item.at).toUTCString()}</pubDate><description>${xml(description)}</description></item>`;
     })
     .join('');

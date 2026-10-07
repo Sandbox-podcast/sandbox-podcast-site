@@ -4,12 +4,12 @@ import { formatDate, formatDayMonth, formatNumber, pluralize } from '@/domain/fo
 import type { Reign } from '@/domain/history';
 import { shortWeek, weekEnd, weekStart } from '@/domain/weeks';
 import { absoluteUrl, breadcrumbLd } from '@/lib/seo';
-import { episodesForChart, storiesForChart } from '@/lib/graph';
+import { episodesForChart } from '@/lib/graph';
 import { chartView, entityPath, getEntity, weeksOf, type ChartView } from '@/lib/repository';
 import { BubblingList, ChartList, OutList } from './chart-row';
 import { ChartLens, type LensEntry } from './chart-lens';
 import { TimeAgo } from './client';
-import { EpisodeCard, StoryCard } from './cards';
+import { EpisodeCard } from './cards';
 import { MoveBadge, ProvChip, SectionHead } from './ui';
 
 function WeekNav({ view }: { view: ChartView }) {
@@ -225,7 +225,6 @@ function lensEntries(view: ChartView): LensEntry[] {
 export function ChartScreen({ slug, week }: { slug: string; week?: string }) {
   const view = chartView(slug, week);
   const { chart, profile } = view;
-  const stories = storiesForChart(chart.slug).slice(0, 3);
   const episodes = episodesForChart(chart.slug, view.week).slice(0, 3);
   const dimLabels = Object.fromEntries(profile.dimensions.map((d) => [d.id, d.label]));
   const listing = view.rows.map((r, i) => ({
@@ -299,15 +298,12 @@ export function ChartScreen({ slug, week }: { slug: string; week?: string }) {
 
       <ReignStrip reigns={view.reigns} chartSlug={chart.slug} />
 
-      {episodes.length > 0 || stories.length > 0 ? (
+      {episodes.length > 0 ? (
         <section className="mt-16">
-          <SectionHead kicker="Le graphe de contenus" title="Autour de ce classement" />
+          <SectionHead kicker="Épisodes liés" title="Dans les podcasts" />
           <div className="grid gap-x-8 gap-y-10 md:grid-cols-3">
             {episodes.map((e) => (
               <EpisodeCard key={e.number} episode={e} />
-            ))}
-            {stories.map((s) => (
-              <StoryCard key={s.slug} story={s} />
             ))}
           </div>
         </section>

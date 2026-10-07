@@ -6,7 +6,6 @@ import {
   allCharts,
   allEntities,
   allEpisodes,
-  allStories,
   allTopics,
   entityPath,
   publishedWeeks,
@@ -30,7 +29,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   });
   return [
     entry('/', undefined, 1),
-    entry('/latest', undefined, 0.8),
     entry('/charts', undefined, 0.9),
     entry('/charts/history', undefined, 0.6),
     ...publishedWeeks().map((w) => entry(`/charts/history/${w}`, undefined, 0.3)),
@@ -46,7 +44,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }),
     entry('/episodes', undefined, 0.8),
     ...allEpisodes().map((e) => entry(`/episodes/${String(e.number)}`, e.publishedAt, 0.8)),
-    ...allStories().map((s) => entry(`/stories/${s.slug}`, s.updatedAt ?? s.publishedAt, 0.7)),
     entry('/topics', undefined, 0.5),
     ...allTopics().map((t) => entry(`/topics/${t.slug}`, undefined, 0.4)),
     ...allEntities().map((e) => entry(entityPath(e), undefined, 0.6)),

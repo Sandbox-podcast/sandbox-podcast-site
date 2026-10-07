@@ -89,12 +89,16 @@ export const getHost = (slug: string): Host => must(index().hosts.get(slug), `an
 export const getTopic = (slug: string): Topic => must(index().topics.get(slug), `thème ${slug}`);
 export const findTopic = (slug: string): Topic | undefined => index().topics.get(slug);
 export const getSource = (id: string): Source => must(index().sources.get(id), `source ${id}`);
-export const getEpisode = (n: number): Episode | undefined => index().episodes.get(n);
+export const getEpisode = (n: number): Episode | undefined => {
+  const episode = index().episodes.get(n);
+  return episode?.status === 'draft' ? undefined : episode;
+};
 export const getStory = (slug: string): Story | undefined => index().stories.get(slug);
 
 export const allCharts = (): ChartDef[] => content().charts;
 export const allEntities = (): Entity[] => content().entities;
-export const allEpisodes = (): Episode[] => content().episodes;
+export const allEpisodes = (): Episode[] =>
+  content().episodes.filter((episode) => episode.status !== 'draft');
 export const allStories = (): Story[] => content().stories;
 export const allHosts = (): Host[] => content().hosts;
 export const allTopics = (): Topic[] => content().topics;

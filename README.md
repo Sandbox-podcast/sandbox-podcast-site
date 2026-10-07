@@ -1,55 +1,49 @@
-# Sandbox — Site média
+# @podcast/site
 
-Site éditorial de Sandbox : épisodes, articles, analyses et classements hebdomadaires. L’interface utilise la charte bleu nuit et cyan, ainsi que le logo fourni par Sandbox.
+Site média : un podcast tech et ses classements hebdomadaires (GitHub, skills et agents, modèles IA, modèles open source), avec historique, méthodologie publique, avis de l'équipe séparés des données, fiches reliées aux épisodes et aux articles.
 
-> **Données de démonstration** : les classements et mesures livrés dans ce dépôt sont des exemples, pas des résultats réels. Le site les identifie comme tels et reste en mode démonstration tant que les données n’ont pas été remplacées et vérifiées.
+**Mode démonstration** : aucune valeur affichée ne vient d'une API ni d'un benchmark réel. Le nom « Hot Reload » et les trois animateurs sont des placeholders. Voir [docs/site](../../docs/site/README.md).
 
-## Démarrer en local
+## Démarrer
 
-Prérequis : Node.js 24 ou plus récent et pnpm 12.
+Prérequis du dépôt : Node 24, pnpm 12.
 
 ```bash
 pnpm install
-pnpm dev
+pnpm --filter @podcast/site dev          # http://localhost:3000, /admin disponible
+pnpm --filter @podcast/site build        # 345 pages statiques et images OpenGraph
+pnpm --filter @podcast/site start
 ```
 
-Le site s’ouvre sur `http://localhost:3000`. Le backoffice est disponible sur `/admin`. En développement, il lit et écrit les brouillons dans `.site-content.local.json`, ignoré par Git.
+## Commandes
 
-Commandes utiles :
+| Commande             | Rôle                                                                   |
+| -------------------- | ---------------------------------------------------------------------- |
+| `pnpm test`          | tests de logique pure, de contenu et de squelettes (Vitest)            |
+| `pnpm typecheck`     | `next typegen` puis `tsc --noEmit`                                     |
+| `pnpm content:check` | valide le contenu : schémas, références, continuité des snapshots      |
+| `pnpm content:new …` | crée un épisode, un article, une entité, un avis ou un classement      |
+| `pnpm week:run -- …` | relève, calcule et écrit les snapshots d'une semaine (connecteur mock) |
 
-```bash
-pnpm build
-pnpm typecheck
-pnpm test
-pnpm content:check
+Guide complet : [docs/site/editorial-workflow.md](../../docs/site/editorial-workflow.md).
+
+## Variables d'environnement
+
+| Variable         | Défaut                  | Effet                                                                                    |
+| ---------------- | ----------------------- | ---------------------------------------------------------------------------------------- |
+| `SITE_URL`       | `http://localhost:3000` | URL canonique, OpenGraph, sitemap, JSON-LD                                               |
+| `SITE_DATA_MODE` | `mock`                  | `live` retire le bandeau et autorise l'indexation (à ne faire qu'avec de vraies données) |
+| `ENABLE_ADMIN`   | non défini              | `true` expose `/admin` dans un build de production                                       |
+
+## Structure
+
 ```
-
-## Backoffice éditorial
-
-`/admin` permet de créer et modifier les articles, épisodes, classements, projets, avis, thèmes, sources, profils de scoring et paramètres éditoriaux. Dans **Équipe**, sélectionnez un profil pour saisir ses URL LinkedIn, GitHub et X ; seuls les liens renseignés apparaissent sur la page À propos. Les URL doivent utiliser HTTPS. Les articles utilisent des blocs validés ; aucun HTML libre n’est exécuté. Les snapshots de classement sont immuables depuis le backoffice.
-
-En production, configurez ces variables dans Vercel avant d’ouvrir l’accès au backoffice :
-
-| Variable                | Utilisation                                                                                               |
-| ----------------------- | --------------------------------------------------------------------------------------------------------- |
-| `SITE_ADMIN_PASSWORD`   | Mot de passe d’administration, 16 caractères minimum                                                      |
-| `SITE_ADMIN_SECRET`     | Clé de signature des sessions, 32 caractères minimum                                                      |
-| `BLOB_STORE_ID`         | Identifiant ajouté quand le store privé Vercel est relié au projet ; OIDC fournit l’accès temporaire      |
-| `BLOB_READ_WRITE_TOKEN` | Option de repli pour un déploiement sans OIDC ; ne pas créer de jeton long terme si OIDC est disponible   |
-| `SITE_URL`              | URL publique canonique du site                                                                            |
-| `SITE_DATA_MODE`        | `mock` par défaut ; ne passer à `live` qu’après remplacement et vérification des données de démonstration |
-
-Le cookie d’administration est signé, `HttpOnly`, `SameSite=Strict` et expire au bout de huit heures. La connexion Vercel actuelle utilise OIDC, sans jeton long terme à copier. Les secrets d’administration et tout jeton de repli doivent rester dans les variables d’environnement Vercel ; ne les ajoutez jamais aux fichiers du dépôt.
-
-## Déploiement Vercel
-
-Importez ce dépôt GitHub comme un projet Next.js. La racine du projet est le dossier du dépôt ; aucune commande de build personnalisée n’est nécessaire. Configurez les variables du tableau ci-dessus dans l’environnement Production, créez ou reliez un store Blob privé, puis déployez. Le site conserve son bandeau de démonstration et ses règles de non-indexation tant que `SITE_DATA_MODE=mock`.
-
-## Contenu du dépôt
-
-- `src/` — interface, routes, schémas et logique métier
-- `content/` — contenu éditorial JSON
-- `data/snapshots/` — historiques hebdomadaires immuables
-- `public/sandbox-logo.png` — logo Sandbox fourni
-- `scripts/` — outils de validation et de génération de contenu
-- `test/` — tests de logique et de validation
+content/   contenu éditorial en JSON (classements, scoring, entités, avis, épisodes, articles…)
+data/      snapshots hebdomadaires écrits par le pipeline, immuables
+src/domain logique pure : scoring, classement, mouvements, historique, formats, balisage sûr
+src/pipeline  connecteurs et mise à jour hebdomadaire (mock/ = données de démonstration)
+src/lib    lecture du contenu, validation, graphe de relations, SEO, images OpenGraph
+src/components, src/app   interface et routes
+scripts/   week-run, content-check, content-new
+test/      Vitest
+```

@@ -364,7 +364,9 @@ export const episodeSchema = z.object({
   hosts: z.array(slugSchema).min(1),
   guests: z.array(z.object({ name: z.string(), role: z.string() })).default([]),
   topics: z.array(slugSchema).default([]),
-  chapters: z.array(z.object({ at: z.number().int().min(0), title: z.string().min(1) })).min(1),
+  chapters: z
+    .array(z.object({ at: z.number().int().min(0), title: z.string().min(1) }))
+    .default([]),
   mentions: z.array(mentionSchema).default([]),
   /** Sources utilisées pour préparer l'épisode. */
   sources: z
@@ -379,13 +381,27 @@ export const episodeSchema = z.object({
     .default([]),
   platforms: z
     .object({
-      youtubeId: z.string().optional(),
+      youtubeId: z
+        .string()
+        .regex(/^[A-Za-z0-9_-]{11}$/)
+        .optional(),
       youtubeUrl: httpsUrlSchema.optional(),
+      youtubeChannel: z.string().min(1).optional(),
+      thumbnailUrl: httpsUrlSchema
+        .refine(
+          (value) => new URL(value).hostname === 'i.ytimg.com',
+          'miniature YouTube non valide',
+        )
+        .optional(),
       spotifyUrl: httpsUrlSchema.optional(),
       appleUrl: httpsUrlSchema.optional(),
       audioUrl: httpsUrlSchema.optional(),
     })
     .default({}),
+  /** Une seule sélection peut être mise en avant dans la page d'accueil. */
+  featured: z.boolean().default(false),
+  /** Les brouillons importés par l'admin restent invisibles dans les pages publiques. */
+  status: z.enum(['draft', 'published']).default('published'),
   /** Classements commentés dans l'épisode. */
   charts: z.array(z.object({ chart: slugSchema, week: weekIdSchema })).default([]),
   cover: z.object({ tone: z.number().int().min(0).max(6), kicker: z.string().min(1) }),

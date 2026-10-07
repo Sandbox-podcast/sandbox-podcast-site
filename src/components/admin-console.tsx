@@ -2,7 +2,8 @@
 
 import { useCallback, useEffect, useMemo, useState, type SyntheticEvent } from 'react';
 import type { EditableContent } from '@/domain/admin-content';
-import { storySchema, type Host, type Story, type StoryType } from '@/domain/schema';
+import { storySchema, type Episode, type Host, type Story, type StoryType } from '@/domain/schema';
+import { EpisodeComposer } from './episode-composer';
 
 type CollectionKey = Exclude<keyof EditableContent, 'site'>;
 type SectionKey = keyof EditableContent;
@@ -21,7 +22,6 @@ interface ContentResponse {
 }
 
 const collections: { key: CollectionKey; label: string; title: string }[] = [
-  { key: 'stories', label: 'Articles', title: 'Articles et guides' },
   { key: 'episodes', label: 'Épisodes', title: 'Épisodes' },
   { key: 'charts', label: 'Classements', title: 'Classements' },
   { key: 'entities', label: 'Projets et modèles', title: 'Projets, modèles et outils' },
@@ -126,7 +126,7 @@ async function apiJson<T>(url: string, init?: RequestInit): Promise<T> {
 export function AdminConsole() {
   const [status, setStatus] = useState<AdminStatus>();
   const [contentResponse, setContentResponse] = useState<ContentResponse>();
-  const [activeCollection, setActiveCollection] = useState<SectionKey>('stories');
+  const [activeCollection, setActiveCollection] = useState<SectionKey>('episodes');
   const [selectedItem, setSelectedItem] = useState<string>('');
   const [rawValue, setRawValue] = useState('[]');
   const [rawError, setRawError] = useState('');
@@ -290,6 +290,15 @@ export function AdminConsole() {
     await save(action, contentResponse.content);
   }
 
+  async function saveEpisode(episode: Episode, action: 'draft' | 'publish'): Promise<void> {
+    if (!contentResponse) return;
+    const remaining = contentResponse.content.episodes
+      .filter((item) => item.number !== episode.number)
+      .map((item) => (episode.featured ? { ...item, featured: false } : item));
+    const episodes = [episode, ...remaining].sort((a, b) => b.number - a.number);
+    await save(action, { ...contentResponse.content, episodes });
+  }
+
   async function saveArticle(action: 'draft' | 'publish'): Promise<void> {
     if (!contentResponse || !storyForm) return;
     setArticleError('');
@@ -374,10 +383,10 @@ export function AdminConsole() {
         <section className="admin-login panel" aria-labelledby="admin-login-title">
           <span className="eyebrow">Espace privé · Sandbox</span>
           <h1 id="admin-login-title" className="admin-title">
-            Backoffice éditorial
+            Backoffice podcasts
           </h1>
           <p className="admin-copy">
-            Gérez les articles, les épisodes et les contenus qui alimentent le site.
+            Gérez les épisodes, leurs ressources et les classements du site.
           </p>
           {!status.authConfigured ? (
             <div className="admin-alert" role="status">
@@ -432,10 +441,8 @@ export function AdminConsole() {
       <header className="admin-heading">
         <div>
           <span className="eyebrow">Sandbox · Administration</span>
-          <h1 className="admin-title">Le studio éditorial</h1>
-          <p className="admin-copy">
-            Articles, épisodes, classements et contenus du site au même endroit.
-          </p>
+          <h1 className="admin-title">Le studio podcast</h1>
+          <p className="admin-copy">Épisodes, ressources et classements au même endroit.</p>
         </div>
         <div className="admin-heading-actions">
           <span className={`admin-status${contentResponse.hasDraft ? ' is-draft' : ''}`}>
@@ -875,6 +882,20 @@ export function AdminConsole() {
             </>
           ) : (
             <>
+              {activeCollection === 'episodes' ? (
+                <EpisodeComposer
+                  initialNumber={
+                    Math.max(
+                      0,
+                      ...contentResponse.content.episodes.map((episode) => episode.number),
+                    ) + 1
+                  }
+                  hosts={contentResponse.content.hosts}
+                  topics={contentResponse.content.topics}
+                  pending={pending}
+                  onSave={saveEpisode}
+                />
+              ) : null}
               <div className="admin-section-heading">
                 <div>
                   <span className="eyebrow">Contenu éditorial</span>
