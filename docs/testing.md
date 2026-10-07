@@ -18,7 +18,7 @@ pnpm typecheck    # tsc --noEmit, TypeScript strict
 | Format, lint, typecheck      | en place, passent en local                                                                                                                                             |
 | Tests unitaires              | 112 tests : `recording-core` (46), `recording-control` (23), POC 3 (43 : analyse ffprobe, relevés Docker, réparation MP4, configuration)                               |
 | Audit des dépendances        | `pnpm audit --audit-level=high`, aucune vulnérabilité au 2026-10-05                                                                                                    |
-| Secret scan                  | défini dans la CI, jamais exécuté                                                                                                                                      |
+| Secret scan                  | Gitleaks exécuté sur la PR #3 ; exception précise pour un faux positif dans l'archive `old/`                                                                           |
 | Composants, intégration, E2E | pas commencés. Site média (`apps/site`) : 48 tests de logique pure, de contenu et de squelettes, build complet vérifié en local, aucun test de navigateur automatisé   |
 | Média et pannes serveur      | scénarios manuels S1 à S5 et S3b à S3e du POC 3 sur une vraie pile Docker (`pnpm s1` etc.), pas dans la CI ; réseau dégradé et navigateur réel : pas commencés (POC 1) |
 | Sécurité, performance        | pas commencés                                                                                                                                                          |
@@ -27,12 +27,14 @@ pnpm typecheck    # tsc --noEmit, TypeScript strict
 
 Le workflow `.github/workflows/ci.yml` lance format, lint, typecheck, tests, audit et secret scan à chaque push et chaque PR.
 
-Il n'a jamais été exécuté. Points à vérifier au premier run :
+Le premier run sur la PR #3 a démarré le 2026-10-07. Le scan des secrets a relevé `vertical-9x16` dans `old/packages/episode-factory/src/catalog.ts` : c'est un nom de format vidéo, sans secret. L'exception dans `.gitleaks.toml` exige ce chemin **et** la ligne exacte, sans désactiver la règle `generic-api-key` ailleurs. Le même scan Gitleaks a ensuite réussi localement. Les autres résultats de la CI restent à consulter avant fusion.
+
+Points à vérifier lors des prochains runs :
 
 - `pnpm/action-setup@v4` avec pnpm 12 (version lue dans `packageManager`).
-- Le secret scan utilise l'image `ghcr.io/gitleaks/gitleaks:latest`, non épinglée. À épingler dès que le run fonctionne. Le démon Docker était arrêté en local, donc l'étape n'a pas pu être testée.
+- Le secret scan utilise l'image `ghcr.io/gitleaks/gitleaks:latest`, non épinglée. À épingler après validation de la CI.
 - La CI suppose GitHub Actions, déduit du chemin du dépôt (`C:\github`). Ce n'est pas une décision validée : voir [open-questions.md](open-questions.md).
-- L'étape `pnpm --filter @podcast/site build` (345 pages statiques et 147 images OpenGraph) a été ajoutée ; elle a été exécutée en local, pas en CI.
+- L'étape `pnpm --filter @podcast/site build` a réussi en local ; vérifier son résultat dans la CI.
 
 ## Quality Gates bloquants
 
