@@ -6,24 +6,19 @@ import { allEpisodes } from '@/lib/repository';
 import { CHART_LABELS } from '@/domain/sandbox-charts';
 import { lastUpdated } from '@/lib/graph';
 import { LocaleSwitcher, MainNav } from './nav';
-import { ScrollState, ThemeSelector, TimeAgo } from './client';
+import { ScrollState, TimeAgo } from './client';
 import { siteMessages } from '@/i18n/messages';
-export function Wordmark({ className, locale = 'fr-FR' }: { className?: string; locale?: string }) {
+export function Wordmark({ className }: { className?: string }) {
   return (
     <span className={`site-brand ${className ?? ''}`}>
       <span className="wordmark">
         <Image
-          className="wordmark-image-blue"
+          className="wordmark-image"
           src="/sandbox-logo.png"
           alt={siteConfig.name}
           width={2172}
           height={724}
         />
-      </span>
-      <span className="site-brand-name">
-        <span lang={locale}>
-          <Text>{'Podcasts & classements IA'}</Text>
-        </span>
       </span>
     </span>
   );
@@ -40,7 +35,7 @@ export function Masthead({ locale = 'fr-FR' }: { locale?: string }) {
             aria-label={`${siteConfig.name} — ${messages.homeLabel}`}
             className="shrink-0"
           >
-            <Wordmark locale={locale} />
+            <Wordmark />
           </Link>
           <div className="hidden md:block">
             <MainNav locale={locale} />
@@ -71,7 +66,6 @@ export function Masthead({ locale = 'fr-FR' }: { locale?: string }) {
               }
             </Text>
             <LocaleSwitcher locale={locale} />
-            <ThemeSelector />
           </div>
         </div>
         <div className="wrap md:hidden">
@@ -81,7 +75,7 @@ export function Masthead({ locale = 'fr-FR' }: { locale?: string }) {
     </>
   );
 }
-export function Footer({ locale = 'fr-FR' }: { locale?: string }) {
+export function Footer() {
   const charts = Object.values(CHART_LABELS);
   const episodes = allEpisodes();
   const updated = lastUpdated();
@@ -90,7 +84,7 @@ export function Footer({ locale = 'fr-FR' }: { locale?: string }) {
     <footer className="site-footer border-t border-hair bg-paper-2 text-ink">
       <div className="wrap grid gap-10 py-12 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
         <div>
-          <Wordmark className="footer-wordmark" locale={locale} />
+          <Wordmark className="footer-wordmark" />
           <p className="mt-4 max-w-xs text-sm opacity-80">
             <Text>{siteConfig.tagline}</Text> <Text>{messages.podcastsDescription}</Text>
           </p>
@@ -179,7 +173,6 @@ export function Footer({ locale = 'fr-FR' }: { locale?: string }) {
             <a href="/feed.xml">
               <Text>{messages.rss}</Text>
             </a>
-            <ThemeSelector />
           </div>
         </div>
       </div>

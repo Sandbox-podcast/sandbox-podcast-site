@@ -5,12 +5,6 @@ import { intlLocale } from '@/i18n/translation';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import { formatTimeUtc } from '@/domain/format';
-import {
-  parseSiteTheme,
-  SITE_THEME_STORAGE_KEY,
-  SITE_THEMES,
-  type SiteTheme,
-} from '@/domain/theme';
 /**
  * Date de mise à jour : le serveur affiche la date absolue (stable, indexable), le navigateur y ajoute
  * « il y a 2 h » une fois monté. On n'écrit jamais de durée relative dans du HTML statique : elle serait fausse.
@@ -53,100 +47,6 @@ export function ScrollState() {
     };
   }, []);
   return null;
-}
-export function ThemeSelector() {
-  const menu = useRef<HTMLDetailsElement>(null);
-  const [theme, setTheme] = useState<SiteTheme>();
-  const [storageWarning, setStorageWarning] = useState(false);
-  useEffect(() => {
-    const syncTheme = (): void => {
-      setTheme(parseSiteTheme(document.documentElement.getAttribute('data-theme')));
-    };
-    syncTheme();
-    window.addEventListener('sandbox-theme-change', syncTheme);
-    return () => {
-      window.removeEventListener('sandbox-theme-change', syncTheme);
-    };
-  }, []);
-  const choose = (next: SiteTheme): void => {
-    if (next === 'red') {
-      document.documentElement.setAttribute('data-theme', next);
-    } else {
-      document.documentElement.removeAttribute('data-theme');
-    }
-    setTheme(next);
-    window.dispatchEvent(new Event('sandbox-theme-change'));
-    try {
-      localStorage.setItem(SITE_THEME_STORAGE_KEY, next);
-      setStorageWarning(false);
-      if (menu.current) {
-        menu.current.open = false;
-        menu.current.querySelector('summary')?.focus();
-      }
-    } catch {
-      setStorageWarning(true);
-    }
-  };
-  return (
-    <details
-      className="theme-picker"
-      ref={menu}
-      onKeyDown={(event) => {
-        if (event.key === 'Escape' && menu.current?.open) {
-          menu.current.open = false;
-          menu.current.querySelector('summary')?.focus();
-        }
-      }}
-    >
-      <LocalizedElement
-        as="summary"
-        className="btn theme-picker-trigger"
-        aria-label="Choisir le thème"
-      >
-        <span className="theme-picker-swatch" data-theme={theme ?? 'blue'} aria-hidden="true" />
-        <span>
-          <Text>{'Th\u00E8me'}</Text>
-        </span>
-        <span className="theme-picker-caret" aria-hidden="true">
-          <Text>{'\u25BE'}</Text>
-        </span>
-      </LocalizedElement>
-      <LocalizedElement
-        as="div"
-        className="theme-picker-menu"
-        role="group"
-        aria-label="Choisir un thème"
-      >
-        <Text>
-          {SITE_THEMES.map((option) => (
-            <button
-              key={option}
-              className="theme-picker-option"
-              type="button"
-              aria-pressed={theme === option}
-              onClick={() => {
-                choose(option);
-              }}
-            >
-              <span className="theme-picker-swatch" data-theme={option} aria-hidden="true" />
-              <Text>{option === 'blue' ? 'Bleu nuit' : 'Rouge'}</Text>
-            </button>
-          ))}
-        </Text>
-        <Text>
-          {storageWarning ? (
-            <p className="theme-picker-warning" role="status">
-              <Text>
-                {
-                  'Le th\u00E8me est appliqu\u00E9 pour cette visite, mais ne peut pas \u00EAtre m\u00E9moris\u00E9.'
-                }
-              </Text>
-            </p>
-          ) : null}
-        </Text>
-      </LocalizedElement>
-    </details>
-  );
 }
 export function CopyButton({ text, label = 'Copier le lien' }: { text: string; label?: string }) {
   const { locale } = useLocalization();

@@ -17,20 +17,72 @@ const ITEMS = [
 export function MainNav({ locale = DEFAULT_SITE_LOCALE }: { locale?: string }) {
   const pathname = usePathname();
   const { t } = useLocalization();
+  const submenu = useRef<HTMLDetailsElement>(null);
+  useEffect(() => {
+    const dismiss = (event: PointerEvent): void => {
+      if (
+        event.target instanceof Node &&
+        !submenu.current?.contains(event.target) &&
+        submenu.current
+      )
+        submenu.current.open = false;
+    };
+    document.addEventListener('pointerdown', dismiss);
+    return () => {
+      document.removeEventListener('pointerdown', dismiss);
+    };
+  }, []);
   return (
     <nav aria-label={t('Navigation principale')} lang={locale}>
       <ul className="main-nav-list">
         {ITEMS.map((item) => {
           const active = isNavigationActive(sourcePath(pathname), item.href);
           return (
-            <li key={item.href}>
-              <LocalizedLink
-                href={item.href}
-                className="nav-link"
-                aria-current={active ? 'page' : undefined}
-              >
-                {t(item.label)}
-              </LocalizedLink>
+            <li key={item.href} className={item.href === '/episodes' ? 'nav-submenu' : undefined}>
+              {item.href === '/episodes' ? (
+                <details
+                  ref={submenu}
+                  onKeyDown={(event) => {
+                    if (event.key === 'Escape' && event.currentTarget.open) {
+                      event.currentTarget.open = false;
+                      event.currentTarget.querySelector('summary')?.focus();
+                    }
+                  }}
+                >
+                  <summary className="nav-link" aria-current={active ? 'page' : undefined}>
+                    {t(item.label)}
+                    <span className="nav-submenu-chevron" aria-hidden="true">
+                      ▾
+                    </span>
+                  </summary>
+                  <div className="nav-submenu-panel">
+                    <LocalizedLink
+                      href="/episodes"
+                      onClick={() => {
+                        if (submenu.current) submenu.current.open = false;
+                      }}
+                    >
+                      {t('Tous les épisodes')}
+                    </LocalizedLink>
+                    <LocalizedLink
+                      href="/topics"
+                      onClick={() => {
+                        if (submenu.current) submenu.current.open = false;
+                      }}
+                    >
+                      {t('Les thèmes')}
+                    </LocalizedLink>
+                  </div>
+                </details>
+              ) : (
+                <LocalizedLink
+                  href={item.href}
+                  className="nav-link"
+                  aria-current={active ? 'page' : undefined}
+                >
+                  {t(item.label)}
+                </LocalizedLink>
+              )}
             </li>
           );
         })}

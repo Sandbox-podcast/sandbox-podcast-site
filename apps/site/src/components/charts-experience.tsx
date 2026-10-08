@@ -1,5 +1,5 @@
 'use client';
-import { Text, LocalizedElement } from '@/components/localization';
+import { Text, LocalizedElement, useLocalization } from '@/components/localization';
 import { LocalizedLink as Link } from '@/components/localization';
 import dynamic from 'next/dynamic';
 import { useEffect, useMemo, useState } from 'react';
@@ -11,6 +11,7 @@ import {
   MODEL_VIEWS,
   PROJECT_FILTERS,
   SKILL_FILTERS,
+  chartFilterLabel,
   chartRows,
   editionMonth,
   matchesChartFilter,
@@ -20,6 +21,7 @@ import {
   type ChartsRow,
 } from '@/domain/sandbox-charts';
 import { weekStart } from '@/domain/weeks';
+import { intlLocale } from '@/i18n/translation';
 import {
   ChartsMarket,
   ChartsMonthly,
@@ -42,6 +44,7 @@ export function ChartsExperience({
   initialPeriod?: ChartPeriod;
   initialSelection?: ChartSelection;
 }) {
+  const { locale } = useLocalization();
   const [id, setId] = useState<ChartId>(initialSelection?.chart ?? initialChart);
   const [week, setWeek] = useState(
     initialSelection?.week && data.weeks.includes(initialSelection.week)
@@ -80,7 +83,7 @@ export function ChartsExperience({
   const visible = rows.filter((row) => matchesChartFilter(row.entity, filter));
   const weeklyRows = useMemo(() => chartRows(data, id, week), [data, id, week]);
   const edition = series?.editions.find((item) => item.week === week);
-  const month = new Intl.DateTimeFormat('en-GB', {
+  const month = new Intl.DateTimeFormat(intlLocale(locale), {
     month: 'long',
     year: 'numeric',
     timeZone: 'UTC',
@@ -100,13 +103,13 @@ export function ChartsExperience({
   const currentShare = shareRow
     ? {
         week,
-        title: `${meta.title}${id === 'models' ? ` / ${MODEL_VIEWS.find((item) => item.id === view)?.label ?? 'Overall'}` : ''}${period !== 'week' ? ` / ${CHART_PERIODS.find((item) => item.id === period)?.label}` : ''}`,
+        title: `${meta.title}${id === 'models' ? ` / ${MODEL_VIEWS.find((item) => item.id === view)?.label ?? 'Général'}` : ''}${period !== 'week' ? ` / ${CHART_PERIODS.find((item) => item.id === period)?.label}` : ''}`,
         name: shareRow.entity.name,
         rank: shareRow.rank,
         movement: shareRow.baseline
           ? '-'
           : shareRow.movement.kind === 'new'
-            ? 'NEW'
+            ? 'NOUVEAU'
             : shareRow.movement.delta > 0
               ? `↑${shareRow.movement.delta}`
               : shareRow.movement.delta < 0
@@ -115,7 +118,7 @@ export function ChartsExperience({
         stat:
           shareRow.periodStars === null
             ? `${shareRow.score.toFixed(1)} / 100`
-            : `${shareRow.periodStars > 0 ? '+' : ''}${formatCompact(shareRow.periodStars)} STARS`,
+            : `${shareRow.periodStars > 0 ? '+' : ''}${formatCompact(shareRow.periodStars)} ÉTOILES`,
         growth: '',
         fixture: data.mode === 'fixtures',
       }
@@ -125,16 +128,16 @@ export function ChartsExperience({
       <header className="sc-hero">
         <div className="sc-edition-meta">
           <span>
-            <Text>{'THE AI CHARTS'}</Text>
+            <Text>{'LES CLASSEMENTS IA'}</Text>
           </span>
           <span>
-            <Text>{'UPDATED EVERY MONDAY'}</Text>
+            <Text>{'MISE À JOUR CHAQUE LUNDI'}</Text>
           </span>
           <span>
             <Text>
               {data.weeks.includes(week) && week !== data.weeks[0]
-                ? 'ARCHIVE EDITION'
-                : 'THIS WEEK'}
+                ? 'ÉDITION ARCHIVÉE'
+                : 'CETTE SEMAINE'}
             </Text>
           </span>
         </div>
@@ -150,12 +153,12 @@ export function ChartsExperience({
               </span>
             </h1>
             <p>
-              <Text>{'The weekly charts of what matters in AI.'}</Text>
+              <Text>{'Les classements hebdomadaires de ce qui compte dans l’IA.'}</Text>
             </p>
           </div>
           <div className="sc-week-stamp">
             <span className="sc-label">
-              <Text>{'WEEK'}</Text>
+              <Text>{'SEMAINE'}</Text>
             </span>
             <strong>
               <Text>{week.slice(-2)}</Text>
@@ -236,7 +239,7 @@ export function ChartsExperience({
           <Text>{'Classement'}</Text>
         </a>
         <a href="#sc-watchlist-title">
-          <Text>{'Watchlist'}</Text>
+          <Text>{'À suivre'}</Text>
         </a>
         <a href="#sc-market-title">
           <Text>{'Signaux'}</Text>
@@ -252,7 +255,7 @@ export function ChartsExperience({
         <div className="sc-chart-heading">
           <div>
             <p className="sc-label">
-              <Text>{id === 'rising' ? 'THE DISCOVERY CHART' : 'THE WEEKLY RANKING'}</Text>
+              <Text>{id === 'rising' ? 'LES DÉCOUVERTES' : 'LE CLASSEMENT HEBDOMADAIRE'}</Text>
             </p>
             <h2 id="sc-chart-title">
               <Text>{meta.title}</Text>
@@ -301,7 +304,7 @@ export function ChartsExperience({
                 setShareRow(visible[0] ?? null);
               }}
             >
-              <Text>{'SHARE CHART \u2197'}</Text>
+              <Text>{'PARTAGER LE CLASSEMENT \u2197'}</Text>
             </button>
           </div>
         </div>
@@ -366,7 +369,7 @@ export function ChartsExperience({
                         setFilter(item);
                       }}
                     >
-                      <Text>{item}</Text>
+                      <Text>{chartFilterLabel(item)}</Text>
                     </button>
                   ))}
             </Text>
@@ -424,10 +427,10 @@ export function ChartsExperience({
               <ChartsPodium rows={visible} period={period} />
               <div className="sc-list-heading">
                 <span className="sc-label">
-                  <Text>{'RANK / MOVEMENT / PROJECT'}</Text>
+                  <Text>{'RANG / ÉVOLUTION / PROJET'}</Text>
                 </span>
                 <span className="sc-label">
-                  <Text>{'MOMENTUM'}</Text>
+                  <Text>{'DYNAMIQUE'}</Text>
                 </span>
               </div>
               <ChartsRanking rows={visible} series={series} period={period} onShare={setShareRow} />
@@ -435,7 +438,7 @@ export function ChartsExperience({
                 <span>
                   <Text>{visible.length}</Text>
                   <Text>{' entr\u00E9es'}</Text>
-                  <Text>{filter !== 'All' ? ` · filtre ${filter}` : ''}</Text>
+                  <Text>{filter !== 'All' ? ` · filtre ${chartFilterLabel(filter)}` : ''}</Text>
                   <Text>{' \u00B7 les rangs officiels sont conserv\u00E9s.'}</Text>
                 </span>
                 <Link href={`/charts/${meta.slug}/methodology`}>
@@ -452,10 +455,10 @@ export function ChartsExperience({
                 <p className="sc-label">
                   <Text>
                     {isUnavailable
-                      ? 'DATA TEMPORARILY UNAVAILABLE'
+                      ? 'DONNÉES TEMPORAIREMENT INDISPONIBLES'
                       : id === 'skills' || id === 'models'
-                        ? 'COMING NEXT'
-                        : 'BUILDING THE HISTORY'}
+                        ? 'BIENTÔT DISPONIBLE'
+                        : 'HISTORIQUE EN COURS DE CONSTITUTION'}
                   </Text>
                 </p>
                 <h3>
@@ -463,8 +466,8 @@ export function ChartsExperience({
                     {isUnavailable
                       ? 'Les données sont momentanément indisponibles.'
                       : id === 'skills' || id === 'models'
-                        ? 'La collecte de ce chart se prépare.'
-                        : 'Le premier classement se construit.'}
+                        ? 'La collecte de ce classement se prépare.'
+                        : 'Aucune édition publiée pour ce classement.'}
                   </Text>
                 </h3>
                 <p>
@@ -473,7 +476,7 @@ export function ChartsExperience({
                       ? 'Réessayez dans quelques instants.'
                       : id === 'rising'
                         ? "Rising attend une accélération mesurée sur deux périodes de sept jours. L'historique ne sera pas extrapolé."
-                        : 'La première édition sera publiée lorsque les dépôts suivis auront assez de relevés. Chaque position reposera sur des mesures enregistrées.'}
+                        : 'Le classement apparaîtra après la collecte des relevés et la publication d’une édition. Chaque position reposera sur des mesures enregistrées.'}
                   </Text>
                 </p>
                 <Link href={`/charts/${meta.slug}/methodology`}>
@@ -494,7 +497,7 @@ export function ChartsExperience({
           {episodes.length ? (
             <section className="sc-podcast">
               <span className="sc-label">
-                <Text>{'ON THE PODCAST'}</Text>
+                <Text>{'DANS LE PODCAST'}</Text>
               </span>
               <Text>
                 {episodes.map((episode) => (
@@ -517,10 +520,10 @@ export function ChartsExperience({
           <div className="sc-section-heading">
             <div>
               <p className="sc-label">
-                <Text>{'EVERY WEEK LEAVES A TRACE'}</Text>
+                <Text>{'CHAQUE SEMAINE LAISSE UNE TRACE'}</Text>
               </p>
               <h2 id="sc-archive-title">
-                <Text>{'THE ARCHIVES'}</Text>
+                <Text>{'LES ARCHIVES'}</Text>
               </h2>
             </div>
             <label>
@@ -600,18 +603,18 @@ export function ChartsExperience({
         <section className="sc-newsletter" aria-labelledby="sc-newsletter-title">
           <div>
             <p className="sc-label">
-              <Text>{'SANDBOX CHARTS / EVERY MONDAY'}</Text>
+              <Text>{'SANDBOX CHARTS / CHAQUE LUNDI'}</Text>
             </p>
             <h2 id="sc-newsletter-title">
-              <Text>{"KNOW WHAT'S"}</Text>
+              <Text>{'SUIVEZ CE QUI'}</Text>
               <br />
-              <Text>{'MOVING'}</Text>
+              <Text>{'BOUGE'}</Text>
               <span>
                 <Text>{'.'}</Text>
               </span>
             </h2>
             <p>
-              <Text>{'Get SANDBOX CHARTS in your inbox every week.'}</Text>
+              <Text>{'Recevez les classements SANDBOX chaque semaine par e-mail.'}</Text>
             </p>
           </div>
           <div>
@@ -623,7 +626,7 @@ export function ChartsExperience({
                   target="_blank"
                   rel="noreferrer"
                 >
-                  <Text>{'GET THE CHARTS \u2197'}</Text>
+                  <Text>{'RECEVOIR LES CLASSEMENTS \u2197'}</Text>
                 </a>
               ) : (
                 <>
@@ -639,7 +642,7 @@ export function ChartsExperience({
                     />
                   </label>
                   <button className="btn btn-solid" type="button" disabled>
-                    <Text>{'GET THE CHARTS'}</Text>
+                    <Text>{'RECEVOIR LES CLASSEMENTS'}</Text>
                   </button>
                   <p>
                     <Text>{'Les inscriptions ne sont pas encore ouvertes.'}</Text>

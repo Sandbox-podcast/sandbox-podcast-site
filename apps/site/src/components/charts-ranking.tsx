@@ -1,7 +1,13 @@
 import { Text, LocalizedElement } from '@/components/localization';
 import { LocalizedLink as Link } from '@/components/localization';
 import { formatCompact, formatNumber } from '@/domain/format';
-import type { ChartsRow, ChartsSeries, ChartPeriod } from '@/domain/sandbox-charts';
+import {
+  chartFilterLabel,
+  chartStatusLabel,
+  type ChartsRow,
+  type ChartsSeries,
+  type ChartPeriod,
+} from '@/domain/sandbox-charts';
 const signedCompact = (value: number): string => `${value > 0 ? '+' : ''}${formatCompact(value)}`;
 const signedGrowth = (value: number): string => `${value > 0 ? '+' : ''}${formatNumber(value, 1)}%`;
 export function ChartMovement({ row }: { row: ChartsRow }) {
@@ -9,9 +15,9 @@ export function ChartMovement({ row }: { row: ChartsRow }) {
   const visual = baseline
     ? '-'
     : movement.kind === 'new'
-      ? 'NEW'
+      ? 'NOUV.'
       : movement.kind === 're'
-        ? 'RE'
+        ? 'RETOUR'
         : movement.delta > 0
           ? `↑${movement.delta.toString().padStart(2, '0')}`
           : movement.delta < 0
@@ -40,7 +46,7 @@ export function ChartMovement({ row }: { row: ChartsRow }) {
 }
 export function MomentumSpark({
   values,
-  label = 'Momentum des cinq derniers relevés',
+  label = 'Dynamique des cinq derniers relevés',
 }: {
   values: (number | null)[];
   label?: string;
@@ -89,7 +95,11 @@ export function MomentumValue({ row, period }: { row: ChartsRow; period: ChartPe
       </strong>
       <span>
         <Text>
-          {row.periodStars !== null ? 'STARS' : period === 'week' ? 'SANDBOX SCORE' : 'CHART INDEX'}
+          {row.periodStars !== null
+            ? 'ÉTOILES'
+            : period === 'week'
+              ? 'SCORE SANDBOX'
+              : 'INDICE DU CLASSEMENT'}
         </Text>
       </span>
     </div>
@@ -106,7 +116,7 @@ export function ChartsPodium({ rows, period }: { rows: ChartsRow[]; period: Char
         </LocalizedElement>
         <div className="sc-leader-copy">
           <p className="sc-label">
-            <Text>{leader.rank === 1 ? 'THE ONE TO BEAT' : 'LEADING THIS VIEW'}</Text>
+            <Text>{leader.rank === 1 ? 'EN TÊTE DU CLASSEMENT' : 'EN TÊTE DE CETTE VUE'}</Text>
           </p>
           <h3>
             <Link href={leader.entity.href}>
@@ -124,7 +134,7 @@ export function ChartsPodium({ rows, period }: { rows: ChartsRow[]; period: Char
                 <span className="sc-growth">
                   <Text>{signedGrowth(leader.metrics['growth'])}</Text>
                   <small>
-                    <Text>{'GROWTH'}</Text>
+                    <Text>{'CROISSANCE'}</Text>
                   </small>
                 </span>
               ) : null}
@@ -134,7 +144,7 @@ export function ChartsPodium({ rows, period }: { rows: ChartsRow[]; period: Char
             {leader.take ? (
               <div className="sc-podium-take">
                 <span className="sc-label">
-                  <Text>{'SANDBOX TAKE'}</Text>
+                  <Text>{'L’AVIS DE SANDBOX'}</Text>
                 </span>
                 <p>
                   <Text>{leader.take.text}</Text>
@@ -153,7 +163,7 @@ export function ChartsPodium({ rows, period }: { rows: ChartsRow[]; period: Char
               </span>
               <div>
                 <p className="sc-label">
-                  <Text namespace="category">{row.entity.category}</Text>
+                  <Text namespace="category">{chartFilterLabel(row.entity.category)}</Text>
                 </p>
                 <h3>
                   <Link href={row.entity.href}>
@@ -187,7 +197,7 @@ export function ChartsRanking({
     return (
       <div className="sc-empty" role="status">
         <span className="sc-label">
-          <Text>{'NO ENTRIES'}</Text>
+          <Text>{'AUCUNE ENTRÉE'}</Text>
         </span>
         <h3>
           <Text>{'Aucune entr\u00E9e pour cette s\u00E9lection.'}</Text>
@@ -217,12 +227,12 @@ export function ChartsRanking({
                   </p>
                   <div className="sc-row-meta">
                     <span>
-                      <Text namespace="category">{row.entity.category}</Text>
+                      <Text namespace="category">{chartFilterLabel(row.entity.category)}</Text>
                     </span>
                     <Text>
                       {series?.id === 'skills' ? (
                         <span className="sc-label">
-                          <Text>{row.status}</Text>
+                          <Text>{chartStatusLabel(row.status)}</Text>
                         </span>
                       ) : null}
                     </Text>
@@ -248,9 +258,9 @@ export function ChartsRanking({
                   <span className="sc-label">
                     <Text>
                       {row.metrics['growth'] !== undefined
-                        ? 'GROWTH'
+                        ? 'CROISSANCE'
                         : row.entity.kind === 'model'
-                          ? 'SPEED'
+                          ? 'VITESSE'
                           : 'SCORE'}
                     </Text>
                   </span>
@@ -266,7 +276,7 @@ export function ChartsRanking({
                 <div className="sc-explanations">
                   <div>
                     <h4 className="sc-label">
-                      <Text>{'WHAT IT IS'}</Text>
+                      <Text>{'DE QUOI S’AGIT-IL ?'}</Text>
                     </h4>
                     <p>
                       <Text>
@@ -278,15 +288,15 @@ export function ChartsRanking({
                   </div>
                   <div className="sc-data-explanation">
                     <h4 className="sc-label">
-                      <Text>{"WHY IT'S TRENDING "}</Text>
+                      <Text>{'POURQUOI ÇA MONTE '}</Text>
                       <span>
-                        <Text>{'DATA'}</Text>
+                        <Text>{'DONNÉES'}</Text>
                       </span>
                     </h4>
                     <p>
                       <Text>
                         {row.periodStars !== null
-                          ? `${formatNumber(Math.abs(row.periodStars))} stars ${row.periodStars < 0 ? 'perdues' : 'gagnées'} sur les relevés de cette période.`
+                          ? `${formatNumber(Math.abs(row.periodStars))} étoiles ${row.periodStars < 0 ? 'perdues' : 'gagnées'} sur les relevés de cette période.`
                           : `Score ${period === 'week' ? 'SANDBOX' : 'de présence'} : ${formatNumber(row.score, 1)} sur 100.`}
                       </Text>
                       <Text>
@@ -312,7 +322,7 @@ export function ChartsRanking({
                     {row.insight?.whyMatters ? (
                       <div>
                         <h4 className="sc-label">
-                          <Text>{'WHY IT MATTERS'}</Text>
+                          <Text>{'POURQUOI C’EST IMPORTANT'}</Text>
                         </h4>
                         <p>
                           <Text>{row.insight.whyMatters}</Text>
@@ -324,7 +334,7 @@ export function ChartsRanking({
                     {row.insight?.bestFor.length ? (
                       <div>
                         <h4 className="sc-label">
-                          <Text>{'BEST FOR'}</Text>
+                          <Text>{'IDÉAL POUR'}</Text>
                         </h4>
                         <p>
                           <Text>{row.insight.bestFor.join(' · ')}</Text>
@@ -336,7 +346,7 @@ export function ChartsRanking({
                     {row.take ? (
                       <blockquote className="sc-take">
                         <span className="sc-label">
-                          <Text>{'SANDBOX TAKE'}</Text>
+                          <Text>{'L’AVIS DE SANDBOX'}</Text>
                         </span>
                         <p>
                           <Text>{row.take.text}</Text>
@@ -350,7 +360,7 @@ export function ChartsRanking({
                 </div>
                 <div className="sc-row-history">
                   <h4 className="sc-label">
-                    <Text>{'30 DAYS MOMENTUM'}</Text>
+                    <Text>{'DYNAMIQUE SUR 30 JOURS'}</Text>
                   </h4>
                   <MomentumSpark
                     values={row.momentum}
@@ -386,7 +396,7 @@ export function ChartsRanking({
                         onShare(row);
                       }}
                     >
-                      <Text>{'SHARE RANKING \u2197'}</Text>
+                      <Text>{'PARTAGER LE CLASSEMENT \u2197'}</Text>
                     </button>
                   </div>
                 </div>

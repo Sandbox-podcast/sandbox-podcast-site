@@ -1,4 +1,4 @@
-import { Text, LocalizedElement } from '@/components/localization';
+import { Text } from '@/components/localization';
 import { LocalizedLink as Link } from '@/components/localization';
 import Image from 'next/image';
 import { EpisodeCard, EpisodeCover } from '@/components/cards';
@@ -129,21 +129,6 @@ export default async function HomePage() {
           </section>
         )}
       </Text>
-
-      <LocalizedElement as="nav" className="home-explore" aria-label="Explorer Sandbox">
-        <span className="field-label">
-          <Text>{"Envie d'explorer ?"}</Text>
-        </span>
-        <Link href="/topics">
-          <Text>{'Les th\u00E8mes'}</Text>
-        </Link>
-        <Link href="/charts">
-          <Text>{'Les classements'}</Text>
-        </Link>
-        <Link href="/search">
-          <Text>{'Rechercher sur le site'}</Text>
-        </Link>
-      </LocalizedElement>
 
       <section className="media-shelf" aria-labelledby="new-episodes-title">
         <div className="media-shelf-heading">

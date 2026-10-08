@@ -1,6 +1,6 @@
 # Mise en service SANDBOX CHARTS sur Neon et Vercel
 
-Cette fiche est à transmettre au propriétaire du compte Neon et au responsable du projet Vercel. Elle décrit l'activation de la collecte GitHub sur la base existante du site. Elle ne contient aucun secret.
+Cette fiche est à transmettre à Loïc Peaudecerf, au propriétaire du compte Neon et au responsable du projet Vercel. Elle décrit les actions nécessaires pour afficher les données réelles des classements sur la base existante du site. Elle ne contient aucun secret.
 
 Pour les traductions, appliquer aussi la migration additive **0006** et suivre [le workflow manuel depuis le harnais](prompt-traductions-harnais.md#mise-en-service-pour-le-propriétaire-neon). L’admin exporte les textes publiés et importe les lots traduits. Aucun moteur externe de traduction ni cron supplémentaire n’est nécessaire.
 

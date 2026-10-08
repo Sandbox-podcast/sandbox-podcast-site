@@ -171,25 +171,25 @@ export const sandboxChartsData = cache(async function sandboxChartsData(
         ),
       );
       const modelLabels: Record<string, string> = {
-        quality: 'Overall quality',
-        coding: 'Coding',
-        reasoning: 'Reasoning',
-        maths: 'Maths',
-        agents: 'Agentic',
+        quality: 'Qualité générale',
+        coding: 'Code',
+        reasoning: 'Raisonnement',
+        maths: 'Mathématiques',
+        agents: 'Agents',
         multimodal: 'Vision',
-        research: 'Search and research',
-        longContext: 'Context length',
-        speed: 'Throughput',
-        price: 'Price',
-        reach: 'Reach',
-        value: 'Value',
+        research: 'Recherche',
+        longContext: 'Longueur du contexte',
+        speed: 'Débit',
+        price: 'Prix',
+        reach: 'Portée',
+        value: 'Valeur',
       };
       const skillLabels: Record<string, string> = {
-        growth: 'Install growth',
-        githubGrowth: 'GitHub star growth',
-        reach: 'Skills.sh install reach',
-        freshness: 'Repository freshness',
-        momentum: 'Cross-source momentum',
+        growth: 'Croissance des installations',
+        githubGrowth: 'Croissance des étoiles GitHub',
+        reach: 'Portée des installations Skills.sh',
+        freshness: 'Actualité du dépôt',
+        momentum: 'Dynamique entre sources',
       };
       return {
         ...item,
@@ -197,12 +197,12 @@ export const sandboxChartsData = cache(async function sandboxChartsData(
         ...(item.id === 'github'
           ? {
               dimensions: [
-                { id: 'momentum', label: 'Momentum' },
-                { id: 'starVelocity', label: 'Star velocity' },
-                { id: 'relativeGrowth', label: 'Relative growth' },
-                { id: 'forkVelocity', label: 'Fork velocity' },
-                { id: 'contributorActivity', label: 'Contributor activity' },
-                { id: 'repositoryActivity', label: 'Repository activity' },
+                { id: 'momentum', label: 'Dynamique' },
+                { id: 'starVelocity', label: 'Vitesse des étoiles' },
+                { id: 'relativeGrowth', label: 'Croissance relative' },
+                { id: 'forkVelocity', label: 'Vitesse des forks' },
+                { id: 'contributorActivity', label: 'Activité des contributeurs' },
+                { id: 'repositoryActivity', label: 'Activité du dépôt' },
               ],
             }
           : item.id === 'models'
@@ -237,14 +237,14 @@ export const sandboxChartsData = cache(async function sandboxChartsData(
                 },
                 {
                   key: 'stars',
-                  label: 'Stars GitHub',
+                  label: 'Étoiles GitHub',
                   unit: 'count',
                   source: 'GitHub REST API',
                   url: 'https://docs.github.com/en/rest/repos/repos#get-a-repository',
                 },
                 {
                   key: 'stars7d',
-                  label: 'Stars gagnées (7 jours)',
+                  label: 'Étoiles gagnées (7 jours)',
                   unit: 'count',
                   source: 'Calcul SANDBOX depuis GitHub',
                   url: 'https://docs.github.com/en/rest/repos/repos#get-a-repository',
@@ -417,7 +417,7 @@ export const sandboxChartsData = cache(async function sandboxChartsData(
             ...item,
             metrics: [
               ...[
-                { key: 'stars', label: 'Stars' },
+                { key: 'stars', label: 'Étoiles' },
                 { key: 'forks', label: 'Forks' },
                 { key: 'contributors', label: 'Contributeurs' },
               ].map((metric) => ({
@@ -427,7 +427,7 @@ export const sandboxChartsData = cache(async function sandboxChartsData(
                 url: 'https://docs.github.com/en/graphql/reference/repos',
               })),
               ...[
-                { key: 'stars7d', label: 'Stars gagnées (7 jours)' },
+                { key: 'stars7d', label: 'Étoiles gagnées (7 jours)' },
                 { key: 'growth', label: 'Croissance (%)' },
                 { key: 'forks7d', label: 'Forks gagnés (7 jours)' },
                 { key: 'contributorsDelta', label: 'Évolution des contributeurs' },

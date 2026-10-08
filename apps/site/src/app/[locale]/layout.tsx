@@ -7,7 +7,6 @@ import '../site-polish.css';
 import '../(fr)/charts/charts.css';
 import { Analytics } from '@vercel/analytics/next';
 import type { Metadata, Viewport } from 'next';
-import Script from 'next/script';
 import type { ReactNode } from 'react';
 import { notFound } from 'next/navigation';
 import { Footer, Masthead } from '@/components/shell';
@@ -73,9 +72,8 @@ export default async function LocalizedRootLayout({
   const dictionary = await siteDictionary(locale);
   const messages = siteMessages('fr-FR');
   return (
-    <html lang={locale} dir={localeDirection(locale)} suppressHydrationWarning>
+    <html lang={locale} dir={localeDirection(locale)}>
       <body>
-        <Script src="/theme-init.js" strategy="beforeInteractive" />
         <LocalizationProvider locale={locale} dictionary={dictionary}>
           <a className="skip" href="#main">
             <Text>{messages.skipToContent}</Text>
@@ -84,7 +82,7 @@ export default async function LocalizedRootLayout({
           <main id="main" tabIndex={-1}>
             {children}
           </main>
-          <Footer locale={locale} />
+          <Footer />
         </LocalizationProvider>
         <JsonLd
           data={[

@@ -1,7 +1,8 @@
-import { Text, LocalizedElement } from '@/components/localization';
+import { Text, LocalizedElement, useLocalization } from '@/components/localization';
 import { LocalizedLink as Link } from '@/components/localization';
 import { formatCompact, formatNumber } from '@/domain/format';
 import {
+  chartFilterLabel,
   chartMonthRows,
   chartsRecords,
   marketSignals,
@@ -10,12 +11,13 @@ import {
   type ChartsRow,
 } from '@/domain/sandbox-charts';
 import { weekStart } from '@/domain/weeks';
+import { intlLocale } from '@/i18n/translation';
 import { ChartMovement } from './charts-ranking';
 export function ChartsMovers({ rows }: { rows: ChartsRow[] }) {
   const groups = [
     {
-      title: 'BIGGEST MOVERS',
-      subtitle: 'The biggest jumps this week.',
+      title: 'PLUS FORTES HAUSSES',
+      subtitle: 'Les progressions les plus nettes cette semaine.',
       kind: 'up',
       rows: rows
         .filter((row) => !row.baseline && row.movement.delta > 0)
@@ -24,15 +26,15 @@ export function ChartsMovers({ rows }: { rows: ChartsRow[] }) {
       empty: 'Aucune hausse de rang cette semaine.',
     },
     {
-      title: 'NEW THIS WEEK',
-      subtitle: 'New entries in the charts.',
+      title: 'NOUVEAUX CETTE SEMAINE',
+      subtitle: 'Les nouvelles entrées dans le classement.',
       kind: 'new',
       rows: rows.filter((row) => !row.baseline && row.movement.kind === 'new').slice(0, 3),
       empty: 'Aucune nouvelle entrée cette semaine.',
     },
     {
-      title: 'FALLING',
-      subtitle: 'Losing momentum this week.',
+      title: 'EN BAISSE',
+      subtitle: 'Les projets qui reculent cette semaine.',
       kind: 'down',
       rows: rows
         .filter((row) => !row.baseline && row.movement.delta < 0)
@@ -47,7 +49,7 @@ export function ChartsMovers({ rows }: { rows: ChartsRow[] }) {
         {groups.map((group) => (
           <div className={`sc-feature sc-feature-${group.kind}`} key={group.title}>
             <p className="sc-label">
-              <Text>{'THIS WEEK'}</Text>
+              <Text>{'CETTE SEMAINE'}</Text>
             </p>
             <h2>
               <Text>{group.title}</Text>
@@ -74,7 +76,7 @@ export function ChartsMovers({ rows }: { rows: ChartsRow[] }) {
                             <Text>{row.rank}</Text>
                             <Text>
                               {row.movement.kind === 'new' && row.rank <= 10
-                                ? ' · DIRECT IN THE TOP 10'
+                                ? ' · ENTRÉE DIRECTE DANS LE TOP 10'
                                 : ''}
                             </Text>
                           </p>
@@ -116,18 +118,18 @@ export function ChartsWatchlist({
     <section className="sc-watchlist" aria-labelledby="sc-watchlist-title">
       <div>
         <p className="sc-label">
-          <Text>{'THE EDITORIAL SELECTION'}</Text>
+          <Text>{'LA SÉLECTION DE LA RÉDACTION'}</Text>
         </p>
         <h2 id="sc-watchlist-title">
           <Text>{'SANDBOX'}</Text>
           <br />
-          <Text>{'WATCHLIST'}</Text>
+          <Text>{'À SUIVRE'}</Text>
           <span>
             <Text>{'.'}</Text>
           </span>
         </h2>
         <p>
-          <Text>{"Not big yet. We're watching them."}</Text>
+          <Text>{'Pas encore en tête, mais déjà à suivre.'}</Text>
         </p>
       </div>
       <div className="sc-watch-items">
@@ -141,7 +143,7 @@ export function ChartsWatchlist({
                 </span>
                 <div>
                   <p className="sc-label">
-                    <Text namespace="category">{item.entity.category}</Text>
+                    <Text namespace="category">{chartFilterLabel(item.entity.category)}</Text>
                   </p>
                   <h3>
                     <Link href={item.entity.href}>
@@ -177,14 +179,14 @@ export function ChartsMarket({ data, week }: { data: ChartsData; week: string })
       <div className="sc-section-heading">
         <div>
           <p className="sc-label">
-            <Text>{'FOLLOW THE ATTENTION'}</Text>
+            <Text>{'SUIVRE L’ATTENTION'}</Text>
           </p>
           <h2 id="sc-market-title">
-            <Text>{'MARKET SIGNALS'}</Text>
+            <Text>{'SIGNAUX DU MARCHÉ'}</Text>
           </h2>
         </div>
         <p>
-          <Text>{'Variation des stars gagn\u00E9es par les d\u00E9p\u00F4ts suivis,'}</Text>
+          <Text>{'Variation des étoiles gagnées par les dépôts suivis,'}</Text>
           <br />
           <Text>{'sur une cohorte identique \u00E0 la semaine pr\u00E9c\u00E9dente.'}</Text>
         </p>
@@ -197,7 +199,7 @@ export function ChartsMarket({ data, week }: { data: ChartsData; week: string })
                 <div className="sc-signal" key={signal.category}>
                   <div>
                     <h3>
-                      <Text>{signal.category}</Text>
+                      <Text>{chartFilterLabel(signal.category)}</Text>
                     </h3>
                     <strong
                       className={signal.change !== null && signal.change >= 0 ? 'sc-up' : 'sc-down'}
@@ -220,7 +222,7 @@ export function ChartsMarket({ data, week }: { data: ChartsData; week: string })
                     <Text>{signal.candidates}</Text>
                     <Text>{' d\u00E9p\u00F4ts \u00B7 +'}</Text>
                     <Text>{formatCompact(signal.stars)}</Text>
-                    <Text>{' stars'}</Text>
+                    <Text>{' étoiles'}</Text>
                   </p>
                 </div>
               ))}
@@ -236,7 +238,8 @@ export function ChartsMarket({ data, week }: { data: ChartsData; week: string })
   );
 }
 export function ChartsMonthly({ data, week }: { data: ChartsData; week: string }) {
-  const month = new Intl.DateTimeFormat('en-GB', {
+  const { locale } = useLocalization();
+  const month = new Intl.DateTimeFormat(intlLocale(locale), {
     month: 'long',
     year: 'numeric',
     timeZone: 'UTC',
@@ -255,7 +258,7 @@ export function ChartsMonthly({ data, week }: { data: ChartsData; week: string }
     <section className="sc-monthly" aria-labelledby="sc-monthly-title">
       <div className="sc-monthly-cover">
         <p className="sc-label">
-          <Text>{'SANDBOX CHARTS / MONTHLY EDITION'}</Text>
+          <Text>{'SANDBOX CHARTS / ÉDITION MENSUELLE'}</Text>
         </p>
         <h2 id="sc-monthly-title">
           <Text>{month.split(' ')[0]}</Text>
@@ -277,9 +280,9 @@ export function ChartsMonthly({ data, week }: { data: ChartsData; week: string }
           {leaders.map(({ id, first }) => (
             <div key={id}>
               <span className="sc-label">
-                <Text>{'#1 '}</Text>
+                <Text>{'Nº 1 '}</Text>
                 <Text>
-                  {id === 'models' ? 'MODEL' : id === 'skills' ? 'SKILL' : 'GITHUB PROJECT'}
+                  {id === 'models' ? 'MODÈLE' : id === 'skills' ? 'SKILL' : 'PROJET GITHUB'}
                 </Text>
               </span>
               <Link href={first.entity.href}>
@@ -293,7 +296,7 @@ export function ChartsMonthly({ data, week }: { data: ChartsData; week: string }
           {entity ? (
             <div>
               <span className="sc-label">
-                <Text>{'SANDBOX PICK'}</Text>
+                <Text>{'CHOIX DE SANDBOX'}</Text>
               </span>
               <Link href={entity.href}>
                 <Text>{entity.name}</Text>
@@ -327,7 +330,7 @@ export function ChartsRecords({ data, id, week }: { data: ChartsData; id: ChartI
   return (
     <LocalizedElement as="section" className="sc-records" aria-label="Records du classement">
       <h2 className="sc-label">
-        <Text>{'THE RECORD BOOK'}</Text>
+        <Text>{'LES RECORDS'}</Text>
       </h2>
       <div>
         <Text>

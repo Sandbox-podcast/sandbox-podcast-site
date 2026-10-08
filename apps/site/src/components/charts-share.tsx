@@ -79,10 +79,10 @@ export function ChartsShare({
       <div className="sc-share-heading">
         <div>
           <p className="sc-label">
-            <Text>{'SHARE RANKING'}</Text>
+            <Text>{'PARTAGER LE CLASSEMENT'}</Text>
           </p>
           <h2 id="sc-share-title">
-            <Text>{'Le chart, pr\u00EAt \u00E0 partager.'}</Text>
+            <Text>{'Le classement, prêt à partager.'}</Text>
           </h2>
         </div>
         <LocalizedElement as="button" type="button" onClick={onClose} aria-label="Fermer l'export">

@@ -43,7 +43,7 @@
     "translation": "",
     "sources": ["src/components/cards.tsx"]
   },
-  "· DIRECT IN THE TOP 10": {
+  "· ENTRÉE DIRECTE DANS LE TOP 10": {
     "translation": "",
     "sources": ["src/components/charts-features.tsx"]
   },
@@ -288,6 +288,10 @@
     "translation": "",
     "sources": ["content/takes/skills.json"]
   },
+  "<p class=\"empty\">Aucune présentation n’est disponible pour le moment.</p>": {
+    "translation": "",
+    "sources": ["src/domain/slide-decks.ts"]
+  },
   "−{count} place, freiné par {dimension} : {score} ({delta} pts).": {
     "translation": "",
     "sources": ["src/i18n/dictionaries/en.json"]
@@ -304,17 +308,13 @@
     "translation": "",
     "sources": ["src/i18n/dictionaries/en.json"]
   },
-  "3 MONTHS": {
+  "3 MOIS": {
     "translation": "",
     "sources": ["src/domain/sandbox-charts.ts"]
   },
   "30 DAYS": {
     "translation": "",
     "sources": ["src/app/(fr)/charts/project/[slug]/page.tsx"]
-  },
-  "30 DAYS MOMENTUM": {
-    "translation": "",
-    "sources": ["src/components/charts-ranking.tsx"]
   },
   "4ᵉ après onze semaines en tête. La concurrence est arrivée, pas la lassitude : rien de dramatique.": {
     "translation": "",
@@ -369,6 +369,14 @@
   "À propos de sa place au": {
     "translation": "",
     "sources": ["src/components/entity-screen.tsx"]
+  },
+  "À suivre": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "À SUIVRE": {
+    "translation": "",
+    "sources": ["src/components/charts-features.tsx"]
   },
   "About": {
     "translation": "",
@@ -501,10 +509,6 @@
     "translation": "",
     "sources": ["src/i18n/messages.ts"]
   },
-  "ALL TIME": {
-    "translation": "",
-    "sources": ["src/domain/sandbox-charts.ts"]
-  },
   "All-Hands-AI/OpenHands": {
     "translation": "",
     "sources": ["content/entities/projects.json"]
@@ -584,10 +588,6 @@
   "Archive": {
     "translation": "",
     "sources": ["src/components/chart-screen.tsx"]
-  },
-  "ARCHIVE EDITION": {
-    "translation": "",
-    "sources": ["src/components/charts-experience.tsx"]
   },
   "Archives": {
     "translation": "",
@@ -677,6 +677,14 @@
     "translation": "",
     "sources": ["src/app/(fr)/charts/[slug]/methodology/page.tsx"]
   },
+  "Aucune édition publiée pour ce classement.": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "AUCUNE ENTRÉE": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx"]
+  },
   "Aucune entrée pour cette sélection.": {
     "translation": "",
     "sources": ["src/components/charts-ranking.tsx"]
@@ -731,7 +739,7 @@
   },
   "Automatisation": {
     "translation": "",
-    "sources": ["content/entities/projects.json"]
+    "sources": ["content/entities/projects.json", "src/domain/sandbox-charts.ts"]
   },
   "Automatisation de workflows, avec des nœuds IA, auto-hébergeable": {
     "translation": "",
@@ -753,10 +761,6 @@
     "translation": "",
     "sources": ["content/topics.json", "src/domain/kinds.ts"]
   },
-  "BEST FOR": {
-    "translation": "",
-    "sources": ["src/components/charts-ranking.tsx"]
-  },
   "BEST RANK": {
     "translation": "",
     "sources": ["src/app/(fr)/charts/project/[slug]/page.tsx"]
@@ -769,17 +773,9 @@
     "translation": "",
     "sources": ["content/entities/projects.json"]
   },
-  "BIGGEST MOVERS": {
+  "BIENTÔT DISPONIBLE": {
     "translation": "",
-    "sources": ["src/components/charts-features.tsx"]
-  },
-  "BIGGEST WEEKLY JUMP": {
-    "translation": "",
-    "sources": ["src/domain/sandbox-charts.ts"]
-  },
-  "Bleu nuit": {
-    "translation": "",
-    "sources": ["src/components/client.tsx"]
+    "sources": ["src/components/charts-experience.tsx"]
   },
   "block/goose": {
     "translation": "",
@@ -808,10 +804,6 @@
   "Bubbling under · juste derrière le Top": {
     "translation": "",
     "sources": ["src/components/chart-row.tsx"]
-  },
-  "BUILDING THE HISTORY": {
-    "translation": "",
-    "sources": ["src/components/charts-experience.tsx"]
   },
   "Calcul du score": {
     "translation": "",
@@ -855,6 +847,10 @@
   "Ce classement sera accessible lorsque les données et sa traduction auront été publiées.": {
     "translation": "",
     "sources": ["src/components/ranking-catalog-route.tsx"]
+  },
+  "CE MOIS": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
   },
   "Ce projet n’a pas encore figuré dans une édition publiée.": {
     "translation": "",
@@ -912,6 +908,14 @@
     "translation": "",
     "sources": ["src/components/chart-row.tsx"]
   },
+  "CETTE SEMAINE": {
+    "translation": "",
+    "sources": [
+      "src/components/charts-experience.tsx",
+      "src/components/charts-features.tsx",
+      "src/domain/sandbox-charts.ts"
+    ]
+  },
   "Cette semaine ↗": {
     "translation": "",
     "sources": ["src/app/(fr)/charts/history/page.tsx"]
@@ -948,6 +952,10 @@
     "translation": "",
     "sources": ["src/domain/chart-markdown.ts", "src/i18n/dictionaries/en.json"]
   },
+  "CHAQUE SEMAINE LAISSE UNE TRACE": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
   "Chaque semaine, nos épisodes vidéo explorent les outils, les modèles et les idées qui changent le travail. Retrouvez aussi les sources citées et les classements commentés.": {
     "translation": "",
     "sources": ["content/site.json"]
@@ -959,10 +967,6 @@
   "Chart": {
     "translation": "",
     "sources": ["src/app/(fr)/charts/project/[slug]/page.tsx"]
-  },
-  "CHART INDEX": {
-    "translation": "",
-    "sources": ["src/components/charts-ranking.tsx"]
   },
   "Charts": {
     "translation": "",
@@ -980,17 +984,9 @@
     "translation": "",
     "sources": ["src/domain/ranking-catalog.ts"]
   },
-  "Choisir le thème": {
-    "translation": "",
-    "sources": ["src/components/client.tsx"]
-  },
   "Choisir un chart": {
     "translation": "",
     "sources": ["src/components/charts-experience.tsx"]
-  },
-  "Choisir un thème": {
-    "translation": "",
-    "sources": ["src/components/client.tsx"]
   },
   "Choisir une langue": {
     "translation": "",
@@ -999,6 +995,10 @@
   "Choisir une semaine de ce classement": {
     "translation": "",
     "sources": ["src/components/chart-week-select.tsx"]
+  },
+  "CHOIX DE SANDBOX": {
+    "translation": "",
+    "sources": ["src/components/charts-features.tsx"]
   },
   "Cinquième semaine en tête. Excellent en agents, mais regardez le prix et la vitesse : le Global ne les compte pas, vous si.": {
     "translation": "",
@@ -1094,6 +1094,10 @@
     "translation": "",
     "sources": ["content/entities/projects.json"]
   },
+  "Code": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
+  },
   "Coding": {
     "translation": "",
     "sources": [
@@ -1128,10 +1132,6 @@
   "comfyanonymous/ComfyUI": {
     "translation": "",
     "sources": ["content/entities/projects.json"]
-  },
-  "COMING NEXT": {
-    "translation": "",
-    "sources": ["src/components/charts-experience.tsx"]
   },
   "commencez par « # Titre du classement ».": {
     "translation": "",
@@ -1216,13 +1216,13 @@
     "translation": "",
     "sources": ["src/components/latest-feed.tsx"]
   },
-  "Context": {
-    "translation": "",
-    "sources": ["src/domain/sandbox-charts.ts"]
-  },
   "context7.com": {
     "translation": "",
     "sources": ["content/entities/projects.json"]
+  },
+  "Contexte": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
   },
   "Contributeurs": {
     "translation": "",
@@ -1296,6 +1296,10 @@
     "translation": "",
     "sources": ["src/components/entity-screen.tsx"]
   },
+  "DANS LE PODCAST": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
   "Dans les épisodes": {
     "translation": "",
     "sources": ["src/components/entity-screen.tsx"]
@@ -1308,13 +1312,17 @@
     "translation": "",
     "sources": ["src/domain/github-charts.ts", "src/domain/sandbox-charts.ts"]
   },
-  "DATA TEMPORARILY UNAVAILABLE": {
-    "translation": "",
-    "sources": ["src/components/charts-experience.tsx"]
-  },
   "de présence": {
     "translation": "",
     "sources": ["src/components/charts-ranking.tsx"]
+  },
+  "DE QUOI S’AGIT-IL ?": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx"]
+  },
+  "Débit": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
   },
   "Découverte : 01:00 UTC.": {
     "translation": "",
@@ -1351,6 +1359,10 @@
   "dépôts · +": {
     "translation": "",
     "sources": ["src/components/charts-features.tsx"]
+  },
+  "DEPUIS LE DÉBUT": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
   },
   "Dernière mise à jour :": {
     "translation": "",
@@ -1444,6 +1456,14 @@
     "translation": "",
     "sources": ["content/entities/projects.json"]
   },
+  "Données": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
+  },
+  "DONNÉES": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx"]
+  },
   "Données pour agents": {
     "translation": "",
     "sources": ["content/entities/projects.json"]
@@ -1451,6 +1471,10 @@
   "Données temporairement indisponibles": {
     "translation": "",
     "sources": ["src/app/(fr)/charts/project/[slug]/page.tsx"]
+  },
+  "DONNÉES TEMPORAIREMENT INDISPONIBLES": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
   },
   "Données temporairement indisponibles.": {
     "translation": "",
@@ -1467,6 +1491,14 @@
   "Du pair programming en terminal, intégré à Git": {
     "translation": "",
     "sources": ["content/entities/projects.json"]
+  },
+  "Dynamique des cinq derniers relevés": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx"]
+  },
+  "DYNAMIQUE SUR 30 JOURS": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx"]
   },
   "échelle linéaire": {
     "translation": "",
@@ -1499,6 +1531,10 @@
     "translation": "",
     "sources": ["src/components/charts-methodology.tsx"]
   },
+  "ÉDITION ARCHIVÉE": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
   "Édition en cours · semaines disponibles jusqu'à W": {
     "translation": "",
     "sources": ["src/components/charts-features.tsx"]
@@ -1515,9 +1551,25 @@
     "translation": "",
     "sources": ["src/components/episode-library.tsx"]
   },
+  "EN BAISSE": {
+    "translation": "",
+    "sources": ["src/components/charts-features.tsx"]
+  },
   "en cours ·": {
     "translation": "",
     "sources": ["src/components/chart-screen.tsx"]
+  },
+  "EN HAUSSE": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
+  },
+  "EN TÊTE DE CETTE VUE": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx"]
+  },
+  "EN TÊTE DU CLASSEMENT": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx"]
   },
   "Enchaîner des actions avec des outils sans dérailler.": {
     "translation": "",
@@ -1554,10 +1606,6 @@
   "Entrées et sorties": {
     "translation": "",
     "sources": ["src/components/chart-screen.tsx"]
-  },
-  "Envie d'explorer ?": {
-    "translation": "",
-    "sources": ["src/app/(fr)/page.tsx"]
   },
   "EP.": {
     "translation": "",
@@ -1633,9 +1681,21 @@
     "translation": "",
     "sources": ["src/app/(fr)/charts/[slug]/methodology/page.tsx"]
   },
+  "ÉTABLI": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
+  },
   "était": {
     "translation": "",
     "sources": ["src/components/chart-row.tsx"]
+  },
+  "étoiles": {
+    "translation": "",
+    "sources": ["src/components/charts-features.tsx"]
+  },
+  "ÉTOILES": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx"]
   },
   "Étoiles gagnées sur les 7 derniers jours.": {
     "translation": "",
@@ -1643,7 +1703,7 @@
   },
   "EVERY WEEK LEAVES A TRACE": {
     "translation": "",
-    "sources": ["src/app/(fr)/charts/history/page.tsx", "src/components/charts-experience.tsx"]
+    "sources": ["src/app/(fr)/charts/history/page.tsx"]
   },
   "Évolution de {title}": {
     "translation": "",
@@ -1684,10 +1744,6 @@
   "Explorer par thème": {
     "translation": "",
     "sources": ["src/app/(fr)/page.tsx", "src/app/(fr)/search/page.tsx"]
-  },
-  "Explorer Sandbox": {
-    "translation": "",
-    "sources": ["src/app/(fr)/page.tsx"]
   },
   "Explorez les autres sujets de la bibliothèque.": {
     "translation": "",
@@ -1793,10 +1849,6 @@
     "translation": "",
     "sources": ["src/components/entity-screen.tsx"]
   },
-  "FOLLOW THE ATTENTION": {
-    "translation": "",
-    "sources": ["src/components/charts-features.tsx"]
-  },
   "Forks": {
     "translation": "",
     "sources": ["content/scoring/github-momentum.json"]
@@ -1857,6 +1909,10 @@
     "translation": "",
     "sources": ["content/episodes/042.json"]
   },
+  "Général": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx", "src/domain/sandbox-charts.ts"]
+  },
   "Génération d'images et de vidéo par graphes de nœuds": {
     "translation": "",
     "sources": ["content/entities/projects.json"]
@@ -1877,18 +1933,6 @@
     "translation": "",
     "sources": ["content/topics.json"]
   },
-  "Get SANDBOX CHARTS in your inbox every week.": {
-    "translation": "",
-    "sources": ["src/components/charts-experience.tsx"]
-  },
-  "GET THE CHARTS": {
-    "translation": "",
-    "sources": ["src/components/charts-experience.tsx"]
-  },
-  "GET THE CHARTS ↗": {
-    "translation": "",
-    "sources": ["src/components/charts-experience.tsx"]
-  },
   "ggml-org/llama.cpp": {
     "translation": "",
     "sources": ["content/entities/projects.json", "content/episodes/041.json"]
@@ -1896,10 +1940,6 @@
   "GitHub GraphQL Repository ↗": {
     "translation": "",
     "sources": ["src/components/charts-methodology.tsx"]
-  },
-  "GITHUB PROJECT": {
-    "translation": "",
-    "sources": ["src/components/charts-features.tsx"]
   },
   "GitHub Search API ↗": {
     "translation": "",
@@ -2034,6 +2074,10 @@
     "translation": "",
     "sources": ["src/app/(fr)/charts/project/[slug]/page.tsx"]
   },
+  "HISTORIQUE EN COURS DE CONSTITUTION": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
   "Historique hebdomadaire": {
     "translation": "",
     "sources": ["src/i18n/messages.ts"]
@@ -2078,6 +2122,10 @@
     "translation": "",
     "sources": ["src/components/prose.tsx"]
   },
+  "IDÉAL POUR": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx"]
+  },
   "Il sort du Top 10. Le multimodal et le très long contexte sont toujours là, le reste a vieilli.": {
     "translation": "",
     "sources": ["content/takes/open-source-ai.json"]
@@ -2089,6 +2137,10 @@
   "Indice de présence aux meilleures places sur les semaines disponibles de la période. Les valeurs brutes affichées sont les derniers relevés disponibles.": {
     "translation": "",
     "sources": ["src/components/charts-experience.tsx"]
+  },
+  "INDICE DU CLASSEMENT": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx"]
   },
   "Indisponible": {
     "translation": "",
@@ -2182,10 +2234,6 @@
     "translation": "",
     "sources": ["content/entities/projects.json"]
   },
-  "KNOW WHAT'S": {
-    "translation": "",
-    "sources": ["src/components/charts-experience.tsx"]
-  },
   "L'agent de code d'OpenAI, en local dans le terminal": {
     "translation": "",
     "sources": ["content/entities/projects.json"]
@@ -2197,6 +2245,10 @@
   "L’avis de l’équipe, signé": {
     "translation": "",
     "sources": ["src/components/entity-screen.tsx"]
+  },
+  "L’AVIS DE SANDBOX": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx"]
   },
   "L’édition {week} de {title}, avec ses positions et mouvements figés.": {
     "translation": "",
@@ -2230,7 +2282,7 @@
     "translation": "",
     "sources": ["src/app/(fr)/episodes/[number]/page.tsx"]
   },
-  "La collecte de ce chart se prépare.": {
+  "La collecte de ce classement se prépare.": {
     "translation": "",
     "sources": ["src/components/charts-experience.tsx"]
   },
@@ -2274,10 +2326,6 @@
     "translation": "",
     "sources": ["content/entities/models.json"]
   },
-  "La première édition sera publiée lorsque les dépôts suivis auront assez de relevés. Chaque position reposera sur des mesures enregistrées.": {
-    "translation": "",
-    "sources": ["src/components/charts-experience.tsx"]
-  },
   "La première place de chaque classement, par édition.": {
     "translation": "",
     "sources": ["src/app/(fr)/charts/history/page.tsx"]
@@ -2285,6 +2333,10 @@
   "La section Entrées et avis manque dans le document.": {
     "translation": "",
     "sources": ["src/domain/chart-edition.ts"]
+  },
+  "LA SÉLECTION DE LA RÉDACTION": {
+    "translation": "",
+    "sources": ["src/components/charts-features.tsx"]
   },
   "La tech et l'IA, épisode par épisode. La vidéo, les chapitres et tous les liens cités au même endroit.": {
     "translation": "",
@@ -2347,17 +2399,25 @@
     "translation": "",
     "sources": ["content/entities/models.json"]
   },
-  "Le chart, prêt à partager.": {
-    "translation": "",
-    "sources": ["src/components/charts-share.tsx"]
-  },
   "Le chemin doit utiliser le préfixe correspondant à la langue.": {
     "translation": "",
     "sources": ["src/domain/ranking-catalog.ts"]
   },
+  "Le classement apparaîtra après la collecte des relevés et la publication d’une édition. Chaque position reposera sur des mesures enregistrées.": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
   "Le classement de la semaine": {
     "translation": "",
     "sources": ["src/app/(fr)/moves/[chart]/[week]/[entity]/page.tsx"]
+  },
+  "LE CLASSEMENT HEBDOMADAIRE": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Le classement, prêt à partager.": {
+    "translation": "",
+    "sources": ["src/components/charts-share.tsx"]
   },
   "Le compromis qualité, vitesse et prix de la famille Claude": {
     "translation": "",
@@ -2447,10 +2507,6 @@
     "translation": "",
     "sources": ["src/components/charts-ranking.tsx"]
   },
-  "Le premier classement se construit.": {
-    "translation": "",
-    "sources": ["src/components/charts-experience.tsx"]
-  },
   "Le projet est-il vivant ? Commits récents et nombre de contributeurs.": {
     "translation": "",
     "sources": ["content/scoring/github-momentum.json"]
@@ -2467,14 +2523,6 @@
     "translation": "",
     "sources": ["content/episodes/042.json"]
   },
-  "Le thème est appliqué pour cette visite, mais ne peut pas être mémorisé.": {
-    "translation": "",
-    "sources": ["src/components/client.tsx"]
-  },
-  "LEADING THIS VIEW": {
-    "translation": "",
-    "sources": ["src/components/charts-ranking.tsx"]
-  },
   "Lecteur vidéo": {
     "translation": "",
     "sources": ["src/app/(fr)/episodes/[number]/page.tsx"]
@@ -2482,6 +2530,10 @@
   "LECTURE SANDBOX": {
     "translation": "",
     "sources": ["src/components/charts-ranking.tsx"]
+  },
+  "LES ARCHIVES": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
   },
   "Les archives · SANDBOX CHARTS": {
     "translation": "",
@@ -2502,6 +2554,18 @@
   "Les classements": {
     "translation": "",
     "sources": ["src/app/(fr)/not-found.tsx", "src/app/(fr)/page.tsx"]
+  },
+  "Les classements hebdomadaires de ce qui compte dans l’IA.": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/page.tsx", "src/components/charts-experience.tsx"]
+  },
+  "LES CLASSEMENTS IA": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "LES DÉCOUVERTES": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
   },
   "les derniers épisodes": {
     "translation": "",
@@ -2539,7 +2603,15 @@
     "translation": "",
     "sources": ["src/components/charts-methodology.tsx"]
   },
+  "Les modèles d’IA en tête actuellement.": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
+  },
   "Les mouvements de la semaine": {
+    "translation": "",
+    "sources": ["src/components/charts-features.tsx"]
+  },
+  "Les nouvelles entrées dans le classement.": {
     "translation": "",
     "sources": ["src/components/charts-features.tsx"]
   },
@@ -2579,15 +2651,31 @@
     "translation": "",
     "sources": ["src/app/(fr)/about/page.tsx"]
   },
+  "Les progressions les plus nettes cette semaine.": {
+    "translation": "",
+    "sources": ["src/components/charts-features.tsx"]
+  },
+  "Les projets à suivre dès maintenant.": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
+  },
   "Les projets IA dont l'accélération mesurée mérite votre attention.": {
     "translation": "",
     "sources": ["src/app/(fr)/charts/rising/page.tsx"]
+  },
+  "Les projets IA qui progressent le plus vite sur GitHub.": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
   },
   "Les projets qui bougent le plus cette semaine, pas ceux qui ont le plus de stars depuis dix ans.": {
     "translation": "",
     "sources": ["content/charts/github.json"]
   },
   "Les projets qui ont tenu les premières places ce mois-ci.": {
+    "translation": "",
+    "sources": ["src/components/charts-features.tsx"]
+  },
+  "Les projets qui reculent cette semaine.": {
     "translation": "",
     "sources": ["src/components/charts-features.tsx"]
   },
@@ -2599,6 +2687,10 @@
     "translation": "",
     "sources": ["src/domain/chart-markdown.ts"]
   },
+  "LES RECORDS": {
+    "translation": "",
+    "sources": ["src/components/charts-features.tsx"]
+  },
   "Les semaines sont rattachées au mois de leur lundi.": {
     "translation": "",
     "sources": ["src/components/charts-experience.tsx"]
@@ -2607,13 +2699,17 @@
     "translation": "",
     "sources": ["content/entities/projects.json"]
   },
+  "Les skills, agents et MCP qui gagnent du terrain.": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
+  },
   "Les stars et les forks mesurent l’attention et l’adoption sur GitHub. Ils ne démontrent pas la qualité, la sécurité ni l’usage en production. Les changements de compteurs peuvent être négatifs. Les valeurs manquantes restent absentes et une panne de collecte ne détruit pas l’historique.": {
     "translation": "",
     "sources": ["src/components/charts-methodology.tsx"]
   },
   "Les thèmes": {
     "translation": "",
-    "sources": ["src/app/(fr)/page.tsx", "src/i18n/messages.ts"]
+    "sources": ["src/components/nav.tsx", "src/i18n/messages.ts"]
   },
   "Les traitements par lots respectent les quotas GitHub et consignent leurs résultats. La première édition attend au moins": {
     "translation": "",
@@ -2711,14 +2807,6 @@
       "content/scoring/models.json"
     ]
   },
-  "LONGEST #1 STREAK": {
-    "translation": "",
-    "sources": ["src/domain/sandbox-charts.ts"]
-  },
-  "Losing momentum this week.": {
-    "translation": "",
-    "sources": ["src/components/charts-features.tsx"]
-  },
   "Lou, Nicolas et Loïc. Les liens de l'équipe Sandbox, réunis ici.": {
     "translation": "",
     "sources": ["src/app/(fr)/about/page.tsx"]
@@ -2726,10 +2814,6 @@
   "Main navigation": {
     "translation": "",
     "sources": ["src/i18n/messages.ts"]
-  },
-  "MARKET SIGNALS": {
-    "translation": "",
-    "sources": ["src/components/charts-features.tsx"]
   },
   "Marketing": {
     "translation": "",
@@ -2743,6 +2827,10 @@
     "translation": "",
     "sources": ["content/entities/projects.json"]
   },
+  "Mathématiques": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
+  },
   "Mathématiques de concours.": {
     "translation": "",
     "sources": ["content/scoring/models.json"]
@@ -2752,8 +2840,7 @@
     "sources": [
       "content/charts/ai-models.json",
       "content/charts/open-source-ai.json",
-      "content/scoring/models.json",
-      "src/domain/sandbox-charts.ts"
+      "content/scoring/models.json"
     ]
   },
   "MCP": {
@@ -2864,6 +2951,10 @@
     "translation": "",
     "sources": ["src/app/(fr)/moves/[chart]/[week]/[entity]/page.tsx"]
   },
+  "MISE À JOUR CHAQUE LUNDI": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
   "Mise à jour discrète mais réelle, surtout en code. Pas de mouvement au classement, l'écart avec le #4 se réduit.": {
     "translation": "",
     "sources": ["content/takes/open-source-ai.json"]
@@ -2895,6 +2986,10 @@
   "modelcontextprotocol/servers": {
     "translation": "",
     "sources": ["content/entities/projects.json", "content/episodes/040.json"]
+  },
+  "MODÈLE": {
+    "translation": "",
+    "sources": ["src/components/charts-features.tsx"]
   },
   "Modèle à poids ouverts de DeepSeek, connu pour son rapport qualité/prix. Disponible chez de nombreux fournisseurs et auto-hébergeable.": {
     "translation": "",
@@ -3033,17 +3128,9 @@
       "content/scoring/skills-momentum.json"
     ]
   },
-  "Momentum des cinq derniers relevés": {
-    "translation": "",
-    "sources": ["src/components/charts-ranking.tsx"]
-  },
   "Momentum des cinq derniers relevés : {values}": {
     "translation": "",
     "sources": ["src/i18n/dictionaries/en.json"]
-  },
-  "MOST WEEKS IN TOP 20": {
-    "translation": "",
-    "sources": ["src/domain/sandbox-charts.ts"]
   },
   "Moteur d'inférence minimaliste et très optimisé, à la base de nombreux outils locaux. Sa quantification a rendu possible l'exécution de gros modèles sur du matériel ordinaire.": {
     "translation": "",
@@ -3105,21 +3192,17 @@
     "translation": "",
     "sources": ["src/i18n/messages.ts"]
   },
+  "Navigateur": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
+  },
   "Navigation principale": {
     "translation": "",
     "sources": ["src/components/nav.tsx", "src/i18n/messages.ts"]
   },
-  "New entries in the charts.": {
+  "Nº 1": {
     "translation": "",
     "sources": ["src/components/charts-features.tsx"]
-  },
-  "NEW THIS WEEK": {
-    "translation": "",
-    "sources": ["src/components/charts-features.tsx"]
-  },
-  "NO ENTRIES": {
-    "translation": "",
-    "sources": ["src/components/charts-ranking.tsx"]
   },
   "Nom": {
     "translation": "",
@@ -3153,10 +3236,6 @@
     "translation": "",
     "sources": ["content/charts/skills.json"]
   },
-  "Not big yet. We're watching them.": {
-    "translation": "",
-    "sources": ["src/components/charts-features.tsx"]
-  },
   "Note principale": {
     "translation": "",
     "sources": ["src/app/(fr)/charts/[slug]/methodology/page.tsx"]
@@ -3176,6 +3255,10 @@
   "Notre modèle par défaut pour les tâches longues, même si on a appris à lire les benchmarks en plissant les yeux.": {
     "translation": "",
     "sources": ["content/takes/evergreen.json"]
+  },
+  "NOUVEAUX CETTE SEMAINE": {
+    "translation": "",
+    "sources": ["src/components/charts-features.tsx"]
   },
   "Nouvelle entrée": {
     "translation": "",
@@ -3241,10 +3324,6 @@
     "translation": "",
     "sources": ["content/takes/evergreen.json"]
   },
-  "ON THE PODCAST": {
-    "translation": "",
-    "sources": ["src/components/charts-experience.tsx"]
-  },
   "Open source": {
     "translation": "",
     "sources": ["content/topics.json"]
@@ -3271,11 +3350,7 @@
   },
   "Open weights": {
     "translation": "",
-    "sources": [
-      "content/charts/open-source-ai.json",
-      "src/components/entity-screen.tsx",
-      "src/domain/sandbox-charts.ts"
-    ]
+    "sources": ["content/charts/open-source-ai.json", "src/components/entity-screen.tsx"]
   },
   "Open weights, open source, libre : de quoi parle-t-on ?": {
     "translation": "",
@@ -3369,13 +3444,9 @@
     "translation": "",
     "sources": ["src/components/chart-row.tsx"]
   },
-  "Ouvrir le chart ↗": {
+  "Ouvrir le classement ↗": {
     "translation": "",
     "sources": ["src/components/charts-mini.tsx"]
-  },
-  "Overall": {
-    "translation": "",
-    "sources": ["src/components/charts-experience.tsx", "src/domain/sandbox-charts.ts"]
   },
   "Page introuvable": {
     "translation": "",
@@ -3409,6 +3480,14 @@
     "translation": "",
     "sources": ["src/app/(fr)/episodes/[number]/page.tsx"]
   },
+  "PARTAGER LE CLASSEMENT": {
+    "translation": "",
+    "sources": ["src/components/charts-share.tsx"]
+  },
+  "PARTAGER LE CLASSEMENT ↗": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx", "src/components/charts-ranking.tsx"]
+  },
   "Partager sur X ↗": {
     "translation": "",
     "sources": ["src/app/(fr)/moves/[chart]/[week]/[entity]/page.tsx"]
@@ -3420,6 +3499,10 @@
   "Pas encore d’avis sur": {
     "translation": "",
     "sources": ["src/components/entity-screen.tsx"]
+  },
+  "Pas encore en tête, mais déjà à suivre.": {
+    "translation": "",
+    "sources": ["src/components/charts-features.tsx"]
   },
   "Peak": {
     "translation": "",
@@ -3473,6 +3556,10 @@
     "translation": "",
     "sources": ["content/entities/projects.json"]
   },
+  "PLUS DE SEMAINES DANS LE TOP 20": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
+  },
   "Plus forte baisse": {
     "translation": "",
     "sources": ["src/components/chart-screen.tsx"]
@@ -3484,6 +3571,18 @@
   "Plus forte hausse": {
     "translation": "",
     "sources": ["src/components/chart-screen.tsx", "src/components/entity-screen.tsx"]
+  },
+  "PLUS FORTE HAUSSE HEBDOMADAIRE": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
+  },
+  "PLUS FORTES HAUSSES": {
+    "translation": "",
+    "sources": ["src/components/charts-features.tsx"]
+  },
+  "PLUS LONGUE SÉRIE À LA 1RE PLACE": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
   },
   "Plus suivi cette semaine": {
     "translation": "",
@@ -3513,10 +3612,6 @@
     "translation": "",
     "sources": ["src/app/(fr)/search/page.tsx"]
   },
-  "Podcasts & classements IA": {
-    "translation": "",
-    "sources": ["src/components/shell.tsx"]
-  },
   "Poids": {
     "translation": "",
     "sources": ["src/components/charts-methodology.tsx"]
@@ -3524,6 +3619,10 @@
   "Poids fermés": {
     "translation": "",
     "sources": ["src/components/entity-screen.tsx"]
+  },
+  "Poids ouverts": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
   },
   "Poids ouverts : la remontada, graphique par graphique": {
     "translation": "",
@@ -3540,6 +3639,10 @@
   "Pool et identité": {
     "translation": "",
     "sources": ["content/charts/ai-models.json"]
+  },
+  "Portée": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
   },
   "Position": {
     "translation": "",
@@ -3561,6 +3664,10 @@
     "translation": "",
     "sources": ["src/domain/chart-edition.ts"]
   },
+  "POURQUOI C’EST IMPORTANT": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx"]
+  },
   "Pourquoi ça bouge": {
     "translation": "",
     "sources": [
@@ -3576,6 +3683,10 @@
   "Pourquoi ça monte": {
     "translation": "",
     "sources": ["src/domain/chart-edition.ts"]
+  },
+  "POURQUOI ÇA MONTE": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx"]
   },
   "Pourquoi une révision de protocole peut déplacer un modèle de deux places.": {
     "translation": "",
@@ -3638,13 +3749,16 @@
     "sources": [
       "content/charts/ai-models.json",
       "content/charts/open-source-ai.json",
-      "content/scoring/models.json",
-      "src/domain/sandbox-charts.ts"
+      "content/scoring/models.json"
     ]
   },
   "Principes": {
     "translation": "",
     "sources": ["src/app/(fr)/charts/[slug]/methodology/page.tsx"]
+  },
+  "Prix": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
   },
   "Prix entrée": {
     "translation": "",
@@ -3666,6 +3780,10 @@
     "translation": "",
     "sources": ["content/scoring/models.json"]
   },
+  "Productivité": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
+  },
   "Productivity": {
     "translation": "",
     "sources": ["src/domain/sandbox-charts.ts"]
@@ -3681,6 +3799,10 @@
   "Progression GitHub (30 %)": {
     "translation": "",
     "sources": ["content/charts/skills.json"]
+  },
+  "PROJET GITHUB": {
+    "translation": "",
+    "sources": ["src/components/charts-features.tsx"]
   },
   "projets éligibles.": {
     "translation": "",
@@ -3734,6 +3856,10 @@
     "translation": "",
     "sources": ["content/episodes/041.json"]
   },
+  "Raisonnement": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
+  },
   "Raisonnement scientifique et questions expertes.": {
     "translation": "",
     "sources": ["content/scoring/models.json"]
@@ -3741,6 +3867,10 @@
   "Rang": {
     "translation": "",
     "sources": ["src/i18n/messages.ts"]
+  },
+  "RANG / ÉVOLUTION / PROJET": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
   },
   "Rang sur {count} semaines : {ranks}": {
     "translation": "",
@@ -3754,21 +3884,13 @@
     "translation": "",
     "sources": ["src/i18n/messages.ts"]
   },
-  "RANK / MOVEMENT / PROJECT": {
-    "translation": "",
-    "sources": ["src/components/charts-experience.tsx"]
-  },
   "Rapport qualité/prix : 60 % qualité globale, 40 % score de prix.": {
     "translation": "",
     "sources": ["content/scoring/models.json"]
   },
   "Reach": {
     "translation": "",
-    "sources": [
-      "content/charts/github.json",
-      "content/scoring/github-momentum.json",
-      "src/domain/sandbox-charts.ts"
-    ]
+    "sources": ["content/charts/github.json", "content/scoring/github-momentum.json"]
   },
   "Reach (20 %)": {
     "translation": "",
@@ -3783,17 +3905,28 @@
     "sources": [
       "content/charts/ai-models.json",
       "content/charts/open-source-ai.json",
-      "content/scoring/models.json",
-      "src/domain/sandbox-charts.ts"
+      "content/scoring/models.json"
     ]
   },
   "Récence du dernier push : 100 × exp(−jours depuis le push / 30).": {
     "translation": "",
     "sources": ["src/components/charts-methodology.tsx"]
   },
+  "Recevez les classements SANDBOX chaque semaine par e-mail.": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "RECEVOIR LES CLASSEMENTS": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "RECEVOIR LES CLASSEMENTS ↗": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
   "Recherche": {
     "translation": "",
-    "sources": ["src/app/(fr)/search/page.tsx"]
+    "sources": ["src/app/(fr)/search/page.tsx", "src/domain/sandbox-charts.ts"]
   },
   "Recherche globale": {
     "translation": "",
@@ -3820,10 +3953,6 @@
     "translation": "",
     "sources": ["src/components/episode-library.tsx"]
   },
-  "Rechercher sur le site": {
-    "translation": "",
-    "sources": ["src/app/(fr)/page.tsx"]
-  },
   "Rechercher une langue": {
     "translation": "",
     "sources": ["src/components/nav.tsx"]
@@ -3847,6 +3976,10 @@
   "relevés réels.": {
     "translation": "",
     "sources": ["src/app/(fr)/charts/project/[slug]/page.tsx"]
+  },
+  "REMARQUÉ": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
   },
   "Remplace pip, virtualenv et une partie de pipx et poetry avec une vitesse sans commune mesure. Devenu le réflexe par défaut pour démarrer un projet Python.": {
     "translation": "",
@@ -3947,10 +4080,6 @@
     "translation": "",
     "sources": ["src/components/charts-experience.tsx"]
   },
-  "Rouge": {
-    "translation": "",
-    "sources": ["src/components/client.tsx"]
-  },
   "RSS feed": {
     "translation": "",
     "sources": ["src/i18n/messages.ts"]
@@ -4011,21 +4140,21 @@
     "translation": "",
     "sources": ["src/components/charts-mini.tsx"]
   },
-  "SANDBOX CHARTS / EVERY MONDAY": {
+  "SANDBOX CHARTS / CHAQUE LUNDI": {
     "translation": "",
     "sources": ["src/components/charts-experience.tsx"]
   },
-  "SANDBOX CHARTS / MONTHLY EDITION": {
+  "SANDBOX CHARTS / ÉDITION MENSUELLE": {
     "translation": "",
     "sources": ["src/components/charts-features.tsx"]
+  },
+  "SANDBOX CHARTS | Les classements hebdomadaires de l’IA": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/page.tsx"]
   },
   "SANDBOX CHARTS | Rising 20": {
     "translation": "",
     "sources": ["src/app/(fr)/charts/rising/page.tsx"]
-  },
-  "SANDBOX CHARTS | The weekly charts of what matters in AI.": {
-    "translation": "",
-    "sources": ["src/app/(fr)/charts/page.tsx"]
   },
   "Sandbox home": {
     "translation": "",
@@ -4034,10 +4163,6 @@
   "SANDBOX Momentum Score": {
     "translation": "",
     "sources": ["src/components/charts-methodology.tsx"]
-  },
-  "SANDBOX PICK": {
-    "translation": "",
-    "sources": ["src/components/charts-features.tsx"]
   },
   "SANDBOX project metadata unavailable:": {
     "translation": "",
@@ -4051,17 +4176,9 @@
     "translation": "",
     "sources": ["src/components/charts-methodology.tsx"]
   },
-  "SANDBOX SCORE": {
-    "translation": "",
-    "sources": ["src/components/charts-ranking.tsx"]
-  },
   "SANDBOX TAKE": {
     "translation": "",
-    "sources": [
-      "src/app/(fr)/charts/project/[slug]/page.tsx",
-      "src/components/charts-ranking.tsx",
-      "src/domain/chart-edition.ts"
-    ]
+    "sources": ["src/app/(fr)/charts/project/[slug]/page.tsx", "src/domain/chart-edition.ts"]
   },
   "Score": {
     "translation": "",
@@ -4071,13 +4188,17 @@
       "src/i18n/messages.ts"
     ]
   },
+  "SCORE SANDBOX": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx"]
+  },
   "scores non décroissants": {
     "translation": "",
     "sources": ["src/domain/schema.ts"]
   },
   "Search": {
     "translation": "",
-    "sources": ["src/domain/sandbox-charts.ts", "src/i18n/messages.ts"]
+    "sources": ["src/i18n/messages.ts"]
   },
   "Search podcasts and AI rankings": {
     "translation": "",
@@ -4155,18 +4276,6 @@
     "translation": "",
     "sources": ["content/entities/projects.json"]
   },
-  "SHARE CHART ↗": {
-    "translation": "",
-    "sources": ["src/components/charts-experience.tsx"]
-  },
-  "SHARE RANKING": {
-    "translation": "",
-    "sources": ["src/components/charts-share.tsx"]
-  },
-  "SHARE RANKING ↗": {
-    "translation": "",
-    "sources": ["src/components/charts-ranking.tsx"]
-  },
   "Signature collective": {
     "translation": "",
     "sources": ["content/hosts.json"]
@@ -4178,6 +4287,10 @@
   "Signaux": {
     "translation": "",
     "sources": ["src/components/charts-experience.tsx"]
+  },
+  "SIGNAUX DU MARCHÉ": {
+    "translation": "",
+    "sources": ["src/components/charts-features.tsx"]
   },
   "Sites": {
     "translation": "",
@@ -4314,10 +4427,6 @@
     "translation": "",
     "sources": ["src/app/(fr)/episodes/[number]/page.tsx"]
   },
-  "stars": {
-    "translation": "",
-    "sources": ["src/components/charts-features.tsx"]
-  },
   "Stars": {
     "translation": "",
     "sources": ["content/scoring/github-momentum.json"]
@@ -4362,9 +4471,17 @@
     "translation": "",
     "sources": ["src/domain/chart-share.ts"]
   },
+  "SUIVEZ CE QUI": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
   "Suivi, {rank} du pool (bubbling under)": {
     "translation": "",
     "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "SUIVRE L’ATTENTION": {
+    "translation": "",
+    "sources": ["src/components/charts-features.tsx"]
   },
   "sur la période. Il doit disposer d’un relevé à J−7 (tolérance ±": {
     "translation": "",
@@ -4422,61 +4539,9 @@
     "translation": "",
     "sources": ["content/episodes/041.json", "content/scoring/models.json", "content/sources.json"]
   },
-  "THE AI CHARTS": {
-    "translation": "",
-    "sources": ["src/components/charts-experience.tsx"]
-  },
-  "THE ARCHIVES": {
-    "translation": "",
-    "sources": ["src/components/charts-experience.tsx"]
-  },
   "The archives.": {
     "translation": "",
     "sources": ["src/app/(fr)/charts/history/page.tsx"]
-  },
-  "The biggest jumps this week.": {
-    "translation": "",
-    "sources": ["src/components/charts-features.tsx"]
-  },
-  "THE DISCOVERY CHART": {
-    "translation": "",
-    "sources": ["src/components/charts-experience.tsx"]
-  },
-  "THE EDITORIAL SELECTION": {
-    "translation": "",
-    "sources": ["src/components/charts-features.tsx"]
-  },
-  "The fastest-moving AI projects on GitHub.": {
-    "translation": "",
-    "sources": ["src/domain/sandbox-charts.ts"]
-  },
-  "The models leading AI right now.": {
-    "translation": "",
-    "sources": ["src/domain/sandbox-charts.ts"]
-  },
-  "THE ONE TO BEAT": {
-    "translation": "",
-    "sources": ["src/components/charts-ranking.tsx"]
-  },
-  "THE RECORD BOOK": {
-    "translation": "",
-    "sources": ["src/components/charts-features.tsx"]
-  },
-  "The skills, agents and MCPs gaining momentum.": {
-    "translation": "",
-    "sources": ["src/domain/sandbox-charts.ts"]
-  },
-  "The weekly charts of what matters in AI.": {
-    "translation": "",
-    "sources": ["src/app/(fr)/charts/page.tsx", "src/components/charts-experience.tsx"]
-  },
-  "THE WEEKLY RANKING": {
-    "translation": "",
-    "sources": ["src/components/charts-experience.tsx"]
-  },
-  "Thème": {
-    "translation": "",
-    "sources": ["src/components/client.tsx"]
   },
   "Thèmes": {
     "translation": "",
@@ -4486,25 +4551,9 @@
       "src/app/(fr)/topics/[slug]/page.tsx"
     ]
   },
-  "THIS MONTH": {
-    "translation": "",
-    "sources": ["src/domain/sandbox-charts.ts"]
-  },
-  "THIS WEEK": {
-    "translation": "",
-    "sources": [
-      "src/components/charts-experience.tsx",
-      "src/components/charts-features.tsx",
-      "src/domain/sandbox-charts.ts"
-    ]
-  },
   "Thread sur les agents « qui font semblant de tester »": {
     "translation": "",
     "sources": ["content/episodes/042.json"]
-  },
-  "Throughput": {
-    "translation": "",
-    "sources": ["src/domain/sandbox-charts.ts"]
   },
   "Titre, sujet ou ressource": {
     "translation": "",
@@ -4528,7 +4577,7 @@
   },
   "Tous les épisodes": {
     "translation": "",
-    "sources": ["src/i18n/messages.ts"]
+    "sources": ["src/components/nav.tsx", "src/i18n/messages.ts"]
   },
   "Tous les liens": {
     "translation": "",
@@ -4569,6 +4618,10 @@
   "Tout voir": {
     "translation": "",
     "sources": ["src/app/(fr)/page.tsx", "src/components/ui.tsx"]
+  },
+  "Toutes": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
   },
   "Toutes les catégories": {
     "translation": "",
@@ -4778,10 +4831,6 @@
     "translation": "",
     "sources": ["src/domain/ranking-catalog.ts"]
   },
-  "UPDATED EVERY MONDAY": {
-    "translation": "",
-    "sources": ["src/components/charts-experience.tsx"]
-  },
   "upstash/context7": {
     "translation": "",
     "sources": ["content/entities/projects.json", "content/episodes/040.json"]
@@ -4796,7 +4845,7 @@
   },
   "Valeur": {
     "translation": "",
-    "sources": ["src/components/entity-screen.tsx"]
+    "sources": ["src/components/entity-screen.tsx", "src/domain/sandbox-charts.ts"]
   },
   "Valeur / 100": {
     "translation": "",
@@ -4815,15 +4864,14 @@
     "sources": [
       "content/charts/ai-models.json",
       "content/charts/open-source-ai.json",
-      "content/scoring/models.json",
-      "src/domain/sandbox-charts.ts"
+      "content/scoring/models.json"
     ]
   },
   "Value (rapport qualité/prix)": {
     "translation": "",
     "sources": ["content/charts/ai-models.json"]
   },
-  "Variation des stars gagnées par les dépôts suivis,": {
+  "Variation des étoiles gagnées par les dépôts suivis,": {
     "translation": "",
     "sources": ["src/components/charts-features.tsx"]
   },
@@ -4837,7 +4885,7 @@
   },
   "Vidéo": {
     "translation": "",
-    "sources": ["src/app/(fr)/episodes/[number]/page.tsx"]
+    "sources": ["src/app/(fr)/episodes/[number]/page.tsx", "src/domain/sandbox-charts.ts"]
   },
   "Vidéo 16:9": {
     "translation": "",
@@ -4935,6 +4983,10 @@
     "translation": "",
     "sources": ["src/app/(fr)/page.tsx"]
   },
+  "Voix": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
+  },
   "Votre adresse email": {
     "translation": "",
     "sources": ["src/components/charts-experience.tsx"]
@@ -4944,10 +4996,6 @@
     "sources": ["src/components/chart-lens.tsx"]
   },
   "Vue par": {
-    "translation": "",
-    "sources": ["src/components/charts-experience.tsx"]
-  },
-  "Watchlist": {
     "translation": "",
     "sources": ["src/components/charts-experience.tsx"]
   },
@@ -4974,22 +5022,6 @@
   "WEEKS IN TOP 20": {
     "translation": "",
     "sources": ["src/app/(fr)/charts/project/[slug]/page.tsx"]
-  },
-  "WHAT IT IS": {
-    "translation": "",
-    "sources": ["src/components/charts-ranking.tsx"]
-  },
-  "What to watch before everyone else.": {
-    "translation": "",
-    "sources": ["src/domain/sandbox-charts.ts"]
-  },
-  "WHY IT MATTERS": {
-    "translation": "",
-    "sources": ["src/components/charts-ranking.tsx"]
-  },
-  "WHY IT'S TRENDING": {
-    "translation": "",
-    "sources": ["src/components/charts-ranking.tsx"]
   },
   "xAI": {
     "translation": "",
