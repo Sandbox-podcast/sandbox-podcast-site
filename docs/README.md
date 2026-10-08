@@ -4,16 +4,25 @@ Le dépôt sert le site média `apps/site`. La documentation du travail précéd
 
 ## Site média
 
+UI/UX du site : [rapport du 8 octobre 2026](site/ui-ux-2026-10-08.md) et [DD-0005](design-decisions/DD-0005-ux-globale-du-site.md).
+Présentations d’épisode en HTML sur `slides.sandboxpodcast.fr` : [guide des slides](site/slides.md) et [DD-0007](design-decisions/DD-0007-sous-domaine-des-presentations.md).
+
+SANDBOX CHARTS : [guide d’exploitation](site/sandbox-charts.md), [fiche de mise en service Neon et Vercel](site/mise-en-service-neon-vercel.md), [rapport de livraison](site/sandbox-charts-livraison.md), [méthodologie](sandbox-charts-methodology.md), [ADR-0019](adr/ADR-0019-sandbox-charts-github-postgres.md) et [DD-0004](design-decisions/DD-0004-sandbox-charts.md).
+SEO international et i18n européenne (115 locales prioritaires) : [ADR-0020](adr/ADR-0020-architecture-seo-international-des-classements.md) et [feuille de route SEO](site/seo-roadmap.md).
+Passation pour finaliser la livraison, les données réelles et le SEO : [liste de travail de la PR](site/passation-pr-2026-10-08.md).
+
 | Document                                                                                | Contenu                                      |
 | --------------------------------------------------------------------------------------- | -------------------------------------------- |
 | [site/README.md](site/README.md)                                                        | Conception du site `apps/site`               |
 | [site/data-strategy.md](site/data-strategy.md)                                          | Stratégie de données                         |
 | [site/editorial-workflow.md](site/editorial-workflow.md)                                | Travail éditorial                            |
+| [site/seo-roadmap.md](site/seo-roadmap.md)                                              | Architecture SEO, requêtes cibles, langues   |
 | [site/transmission-vercel-2026-10-07.md](site/transmission-vercel-2026-10-07.md)        | Reprise des changements locaux sur Vercel    |
 | [adr/ADR-0015](adr/ADR-0015-site-media-et-classements.md)                               | Décision de fond : site média et classements |
 | [adr/ADR-0016](adr/ADR-0016-administration-editoriale-vercel.md)                        | Administration éditoriale                    |
 | [adr/ADR-0017](adr/ADR-0017-persistance-editoriale-postgres.md)                         | Persistance éditoriale Postgres              |
 | [adr/ADR-0018](adr/ADR-0018-comptes-admin-postgres.md)                                  | Comptes admin et rôles Postgres              |
+| [adr/ADR-0020](adr/ADR-0020-architecture-seo-international-des-classements.md)          | SEO international et modèle des classements  |
 | [design-decisions/DD-0001](design-decisions/DD-0001-direction-artistique-du-site.md)    | Direction artistique, nom et langue du site  |
 | [design-decisions/DD-0002](design-decisions/DD-0002-charte-sandbox-bleu-nuit-cyan.md)   | Charte bleu nuit et cyan                     |
 | [design-decisions/DD-0003](design-decisions/DD-0003-parcours-podcast-et-theme-rouge.md) | Parcours podcast et thème rouge              |

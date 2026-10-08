@@ -1,18 +1,39 @@
 import type { Metadata } from 'next';
 import { isMock, siteConfig } from '@/config/site';
+import { hreflangAlternates, type HreflangPage } from '@/domain/ranking-catalog';
 
 export const absoluteUrl = (path: string): string => new URL(path, siteConfig.url).toString();
+
+/** Format attendu par Open Graph : `language_TERRITORY`, sans sous-tag de script. */
+export function openGraphLocaleForTag(locale: string): string {
+  const parsed = new Intl.Locale(locale);
+  return parsed.region ? `${parsed.language}_${parsed.region}` : parsed.language;
+}
+
+export function robotsMetadata(noindex = false): NonNullable<Metadata['robots']> {
+  const directives = {
+    index: !noindex,
+    follow: true,
+    'max-image-preview': 'large' as const,
+    'max-video-preview': -1,
+  };
+  return { ...directives, googleBot: { ...directives } };
+}
 
 interface PageMeta {
   title: string;
   description: string;
   /** Chemin canonique, commençant par « / ». */
   path: string;
+  /** Locale BCP 47 de la page pour Open Graph. */
+  locale?: string;
   type?: 'website' | 'article';
   publishedTime?: string;
   modifiedTime?: string;
   noindex?: boolean;
   keywords?: string[];
+  /** Variantes localisées indexables de cette même page. */
+  localizedAlternates?: readonly HreflangPage[];
   /** La route a son propre `opengraph-image` : on n'impose pas l'image du site. */
   ownImage?: boolean;
 }
@@ -24,19 +45,27 @@ interface PageMeta {
  */
 export function pageMetadata(meta: PageMeta): Metadata {
   const blocked = isMock || meta.noindex === true;
+  const openGraphLocale = meta.locale ? openGraphLocaleForTag(meta.locale) : siteConfig.locale;
+  const languages =
+    !blocked && meta.localizedAlternates
+      ? hreflangAlternates(meta.localizedAlternates, siteConfig.url)
+      : undefined;
   return {
     title: meta.title,
     description: meta.description,
     ...(meta.keywords ? { keywords: meta.keywords } : {}),
-    alternates: { canonical: meta.path },
-    robots: blocked ? { index: false, follow: false } : { index: true, follow: true },
+    alternates: {
+      canonical: meta.path,
+      ...(languages && Object.keys(languages).length > 0 ? { languages } : {}),
+    },
+    robots: robotsMetadata(blocked),
     openGraph: {
       type: meta.type ?? 'website',
       title: meta.title,
       description: meta.description,
       url: meta.path,
       siteName: siteConfig.name,
-      locale: siteConfig.locale,
+      locale: openGraphLocale,
       // Définir `openGraph` remplace celui du parent : sans image explicite, la page perdrait l'image du site.
       ...(meta.ownImage ? {} : { images: [{ url: '/opengraph-image', width: 1200, height: 630 }] }),
       ...(meta.publishedTime ? { publishedTime: meta.publishedTime } : {}),

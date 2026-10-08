@@ -10,3 +10,5 @@ old
 .site-publish
 # Snapshots hebdomadaires écrits par le pipeline (apps/site/scripts/week-run.ts) : format stable, jamais édité à la main.
 apps/site/data
+.agents/skills
+.agents/product-marketing.md

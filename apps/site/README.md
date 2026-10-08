@@ -2,7 +2,7 @@
 
 Site média : un podcast tech et ses classements hebdomadaires (GitHub, skills et agents, modèles IA, modèles open source), avec historique, méthodologie publique, avis de l'équipe séparés des données, fiches reliées aux épisodes et aux articles.
 
-Les épisodes et classements fournis avec le dépôt sont encore simulés. Aucun bandeau de démonstration n'apparaît sur le site ; les pages restent exclues de l'indexation tant que les contenus et les mesures ne sont pas vérifiés. Les profils d'animation sont Lou, Nicolas et Loïc. Voir [docs/site](../../docs/site/README.md).
+Les épisodes et archives fournis avec le dépôt sont encore simulés. SANDBOX CHARTS utilise les collectes GitHub en production et un aperçu identifié en développement sans base. Les pages restent exclues de l’indexation tant que les contenus du site ne sont pas vérifiés. Voir [le guide des charts](../../docs/site/sandbox-charts.md). Les profils d’animation sont Lou, Nicolas et Loïc.
 
 ## Démarrer
 

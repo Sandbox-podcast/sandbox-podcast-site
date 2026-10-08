@@ -45,7 +45,7 @@ describe('réglages publics du site', () => {
 
   it('ne rend plus de bandeau de démonstration dans la structure publique', () => {
     const shell = readFileSync(join(process.cwd(), 'src/components/shell.tsx'), 'utf8');
-    const layout = readFileSync(join(process.cwd(), 'src/app/layout.tsx'), 'utf8');
+    const layout = readFileSync(join(process.cwd(), 'src/app/(fr)/layout.tsx'), 'utf8');
     expect(`${shell}\n${layout}`).not.toMatch(
       /donn[ée]es de d[ée]monstration|mode d[ée]monstration/i,
     );

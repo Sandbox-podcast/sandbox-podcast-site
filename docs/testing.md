@@ -47,3 +47,9 @@ Vidéo avec un visage, sans visage, plusieurs visages ; voix, bruit court, silen
 ## Matrice navigateurs
 
 Chrome desktop uniquement ([PD-0001](../old/docs/product-decisions/PD-0001-navigateurs-et-appareils-mvp.md), archivée).
+
+## SANDBOX CHARTS
+
+Les tests du pipeline GitHub couvrent les différences J−7, la tolérance de date, l’accélération J−14, les percentiles, les petits dénominateurs, les poids manquants et les exclusions. Les tests PGlite exécutent les migrations 0002 à 0004 et vérifient le gel, les relances, le dry run, le verrou des jobs, les erreurs partielles, les quotas, les commentaires séparés, les conflits ETag et les localisations publiées. Les tests i18n valident les tags BCP 47, les préfixes de route, les 115 cibles européennes et les états de relecture.
+
+Les tests d’API vérifient les permissions viewer/editor/admin, l’origine des mutations, le refus d’édition des compteurs et le secret du cron. Les tests de présentation couvrent les périodes, les rangs conservés sous filtre, les données absentes, le Markdown et l’échappement des cartes de partage. Les gates du dépôt restent `pnpm check` et le build.

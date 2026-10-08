@@ -1,5 +1,7 @@
 # Site média : travail éditorial et administration
 
+SANDBOX CHARTS possède sa fabrique dans la section Classements : [collectes, catalogue, éditions et méthode](sandbox-charts.md). Les commentaires hebdomadaires sont conservés dans `charts_editorial`, avec brouillon, publication et ETag ; les positions et mesures restent figées. Les anciennes définitions Markdown restent accessibles dans un panneau dépliable.
+
 Les JSON versionnés dans `content/` restent le contenu initial du site. Le backoffice `/admin` permet de créer et modifier les épisodes, leurs chapitres et ressources, les réglages de la marque, les profils de la page À propos et les autres collections éditoriales. Il peut enregistrer un brouillon, puis publier. En développement, les écrits sont conservés dans `.site-content.local.json`. En production, l’API utilise Postgres/Neon, une ligne par entité et par couche. Voir [ADR-0016](../adr/ADR-0016-administration-editoriale-vercel.md) et [ADR-0017](../adr/ADR-0017-persistance-editoriale-postgres.md).
 
 ## Lancer le site

@@ -13,8 +13,6 @@ export default defineConfig(
       '.site-publish/**',
       // Archive du travail sur la plateforme vidéo : plus dans l'espace de travail pnpm, hors des contrôles.
       'old/**',
-      // Shim Vercel temporaire (PR #6) ; remplacé par le vrai package dans PR #3.
-      'apps/site/**',
     ],
   },
   js.configs.recommended,
@@ -31,5 +29,19 @@ export default defineConfig(
   {
     files: ['**/*.js', '**/*.mjs'],
     extends: [tseslint.configs.disableTypeChecked],
+  },
+  {
+    files: ['apps/site/**/*.{ts,tsx}'],
+    rules: {
+      // Les rangs et les métriques numériques sont des chaînes légitimes dans les vues et exports.
+      '@typescript-eslint/restrict-template-expressions': ['error', { allowNumber: true }],
+    },
+  },
+  {
+    files: ['apps/site/test/**/*.ts'],
+    rules: {
+      // Les doublures de test conservent les signatures Promise des interfaces simulées.
+      '@typescript-eslint/require-await': 'off',
+    },
   },
 );

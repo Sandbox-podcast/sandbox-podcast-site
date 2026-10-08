@@ -15,6 +15,27 @@
       "when": 1760010000000,
       "tag": "0001_admin_users",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1791360000000,
+      "tag": "0002_sandbox_charts",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1791446400000,
+      "tag": "0003_ranking_catalog_localization",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1791532800000,
+      "tag": "0004_site_content_localizations",
+      "breakpoints": true
     }
   ]
 }

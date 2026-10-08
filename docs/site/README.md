@@ -2,15 +2,19 @@
 
 Application : [`apps/site`](../../apps/site). Décision de fond : [ADR-0015](../adr/ADR-0015-site-media-et-classements.md). Direction artistique et nommage : [DD-0001](../design-decisions/DD-0001-direction-artistique-du-site.md).
 
+La stratégie de découverte multilingue et le contrat de données pour les classements sont définis dans [ADR-0020](../adr/ADR-0020-architecture-seo-international-des-classements.md) et [la feuille de route SEO](seo-roadmap.md). Le registre i18n contient 115 cibles européennes prioritaires et le routage accepte les locales BCP 47 canoniques à code de langue ISO de deux ou trois lettres. Les chemins français restent sans préfixe ; les autres locales utilisent leur tag complet. Seules les traductions relues et reliées à des données réelles peuvent sortir du `noindex`.
+
 Le parcours média podcast-first, les ressources en barre latérale, la recherche et le thème rouge optionnel sont définis par [DD-0003](../design-decisions/DD-0003-parcours-podcast-et-theme-rouge.md). Les articles historiques du dépôt ne sont plus publiés comme pages autonomes.
 
 Ce site est un produit distinct de la plateforme de production de podcasts décrite dans le prompt maître : il n'en reprend ni les critères d'acceptation ni le Golden Path. Il vit dans le même dépôt parce que le monorepo (ADR-0001) prévoyait déjà une application Next.js.
 
-**Les classements et épisodes initiaux restent des contenus simulés.** Aucune valeur de classement ne vient encore d'une API ni d'un benchmark réel. Les libellés de démonstration ont été retirés de l'interface publique à la demande du propriétaire, mais les pages restent en `noindex`, le sitemap est vide et le flux n'est pas destiné à une diffusion réelle. Le passage en `SITE_DATA_MODE=live` attend des contenus et mesures vérifiés. Voir [data-strategy.md](data-strategy.md). La charte Sandbox est décrite dans [DD-0002](../design-decisions/DD-0002-charte-sandbox-bleu-nuit-cyan.md), le backoffice dans [ADR-0016](../adr/ADR-0016-administration-editoriale-vercel.md).
+Les contenus initiaux du dépôt restent simulés et l’indexation demeure bloquée. SANDBOX CHARTS dispose maintenant d’un pipeline GitHub réel, séparé de ces archives : Postgres, relevés quotidiens, éditions immuables et commentaires éditoriaux. La production attend les mesures au lieu d’afficher les fixtures ; l’aperçu local sans base porte une mention visible. Voir [le guide SANDBOX CHARTS](sandbox-charts.md), [la fiche de mise en service](mise-en-service-neon-vercel.md), [le rapport local](sandbox-charts-livraison.md), [la méthode](../sandbox-charts-methodology.md), [ADR-0019](../adr/ADR-0019-sandbox-charts-github-postgres.md) et [DD-0004](../design-decisions/DD-0004-sandbox-charts.md). Le passage global en `SITE_DATA_MODE=live` attend toujours des contenus vérifiés sur le reste du site.
 
 ## 1. Architecture du produit
 
 Trois couches, qui ne se mélangent jamais, y compris dans l'interface :
+
+Depuis le rework SANDBOX CHARTS, les données GitHub nouvelles vivent dans Postgres. Le tableau ci-dessous décrit les contenus historiques et les autres collections du site. Les fichiers de snapshots existants ne sont pas réécrits.
 
 | Couche        | Contenu                                                              | Où elle vit                         | Provenance       |
 | ------------- | -------------------------------------------------------------------- | ----------------------------------- | ---------------- |
@@ -24,27 +28,30 @@ Un graphe de contenus relie les entités (projets et modèles), les classements 
 
 ## 2. Arborescence
 
-| Route                                          | Page                                                                                               |
-| ---------------------------------------------- | -------------------------------------------------------------------------------------------------- |
-| `/`                                            | accueil streaming : épisode à la une, rangées d'épisodes par date et thème, aperçu des classements |
-| `/episodes`                                    | bibliothèque complète, rangées filtrées par thème                                                  |
-| `/search?q=…`                                  | recherche dans épisodes, ressources, sources, entités, thèmes et classements                       |
-| `/charts`                                      | accueil des classements : sélecteur, top 3 à la une, aperçu des tops et historique                 |
-| `/charts/[slug]`                               | classement courant (rangs, mouvements, DATA, OUR TAKE, tri par critère, Hall of #1)                |
-| `/charts/[slug]/[semaine]`                     | archive d'une semaine (`2026-W40`)                                                                 |
-| `/charts/[slug]/methodology`                   | « Comment ce classement est calculé » : sources, critères, formule, limites                        |
-| `/charts/history`, `/charts/history/[semaine]` | sélecteur de semaine, tableau des #1, mouvements par semaine                                       |
-| `/moves/[classement]/[semaine]/[entité]`       | carte de partage d'un mouvement (+ image OpenGraph), 3 dernières semaines                          |
-| `/episodes/[numéro]`                           | lecteur vidéo, description, chapitres et barre latérale des mentions, sources et annexes           |
-| `/stories/[slug]`                              | ancienne route redirigée vers la bibliothèque d'épisodes                                           |
-| `/projects/[slug]`, `/models/[slug]`           | fiche d'entité : rang actuel et précédent, pic, semaines au Top, courbes, avis, épisodes           |
-| `/topics`, `/topics/[slug]`                    | thèmes et sélections d'épisodes                                                                    |
-| `/about`                                       | cartes de Lou, Nicolas et Loïc, avec les profils sociaux disponibles                               |
-| `/admin`                                       | édition des épisodes, ressources, classements et réglages du site ; brouillons et publication      |
-| `/feed.xml`, `/sitemap.xml`, `/robots.txt`     | RSS, sitemap vide tant que le contenu est simulé, robots lisibles pour appliquer `noindex`         |
-| `/rankings/…`                                  | redirections permanentes vers `/charts/…`                                                          |
+| Route                                                   | Page                                                                                               |
+| ------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| `/`                                                     | accueil streaming : épisode à la une, rangées d'épisodes par date et thème, aperçu des classements |
+| `/episodes`                                             | bibliothèque complète, rangées filtrées par thème                                                  |
+| `/search?q=…`                                           | recherche dans épisodes, ressources, sources, entités, thèmes et classements                       |
+| `/charts`                                               | accueil des classements : sélecteur, top 3 à la une, aperçu des tops et historique                 |
+| `/charts/[slug]`                                        | classement courant (rangs, mouvements, DATA, OUR TAKE, tri par critère, Hall of #1)                |
+| `/charts/[slug]/[semaine]`                              | archive d'une semaine (`2026-W40`)                                                                 |
+| `/charts/[slug]/methodology`                            | « Comment ce classement est calculé » : sources, critères, formule, limites                        |
+| `/charts/history`, `/charts/history/[semaine]`          | sélecteur de semaine, tableau des #1, mouvements par semaine                                       |
+| `/moves/[classement]/[semaine]/[entité]`                | carte de partage d'un mouvement (+ image OpenGraph), 3 dernières semaines                          |
+| `/episodes/[numéro]`                                    | lecteur vidéo, description, chapitres et barre latérale des mentions, sources et annexes           |
+| `/stories/[slug]`                                       | ancienne route redirigée vers la bibliothèque d'épisodes                                           |
+| `/projects/[slug]`, `/models/[slug]`                    | fiche d'entité : rang actuel et précédent, pic, semaines au Top, courbes, avis, épisodes           |
+| `/topics`, `/topics/[slug]`                             | thèmes et sélections d'épisodes                                                                    |
+| `/about`                                                | cartes de Lou, Nicolas et Loïc, avec les profils sociaux disponibles                               |
+| `/en`, `/en/charts`                                     | accueil et hub des classements anglais ; les épisodes anglais apparaissent après traduction relue  |
+| `/{locale}/…`                                           | page localisée résolue depuis les traductions publiées ; locales BCP 47, dont écritures distinctes |
+| `/charts/skills/[plateforme]`, `/charts/models/[tâche]` | pages d'intention SEO à données réelles, méthode, sources et texte localisé relu                   |
+| `/admin`                                                | édition des épisodes, ressources, classements et réglages du site ; brouillons et publication      |
+| `/feed.xml`, `/sitemap.xml`, `/robots.txt`              | RSS, sitemap vide tant que le contenu est simulé, robots lisibles pour appliquer `noindex`         |
+| `/rankings/…`                                           | redirections permanentes vers `/charts/…`                                                          |
 
-Code : `src/domain` (logique pure, sans I/O), `src/pipeline` (connecteurs et mise à jour hebdomadaire), `src/lib` (lecture du contenu, validation, graphe, SEO, images OpenGraph), `src/components`, `src/app` (routes), `content/` et `data/`, `scripts/` (CLI), `test/`.
+Code : `src/domain` (logique pure, sans I/O), `src/i18n` (cibles, routage et chaînes UI ; voir leur état de revue dans la feuille de route SEO), `src/pipeline` (connecteurs et mise à jour hebdomadaire), `src/lib` (lecture du contenu, validation, graphe, SEO, traductions, images OpenGraph), `src/components`, `src/app` (groupes de routes français et locales dynamiques), `content/` et `data/`, `scripts/` (CLI), `test/`.
 
 ## 3. Composants principaux
 
@@ -109,6 +116,12 @@ Voir [data-strategy.md](data-strategy.md) : connecteurs prévus, provenance, rè
 
 Fait : 4 classements de 10 avec 16 semaines d'historique (démonstration), 3 épisodes, 55 fiches, 29 avis, bibliothèque média et pages de classement, recherche, import de métadonnées YouTube, formulaires d'édition des épisodes et réglages du site, brouillons et publication authentifiés, thème rouge optionnel, SEO (métadonnées, JSON-LD, sitemap, RSS), scripts de création de contenu.
 
-Pas fait, volontairement : connecteurs réels, i18n, newsletter, commentaires, analytics, politique de cookies. Le code Postgres est intégré, mais la base de production et ses migrations ne sont pas encore configurées. Le site reste non indexé tant que ses données et épisodes sont simulés ; les épisodes fournis n'ont pas encore d'identifiants vidéo YouTube réels. Les liens LinkedIn, GitHub et X de Nicolas et Loïc restent à renseigner. La branche de travail est publiée sur GitHub ; la production Vercel n'est pas mise à jour.
+Fait : fondations i18n (préfixes BCP 47, registre de 115 cibles européennes prioritaires, schémas de traduction, statuts de revue, routes dynamiques, canoniques, hreflang et gates du sitemap). Les chemins français ne changent pas. Les chaînes générales françaises et anglaises sont présentes ; chaque cible a aussi un brouillon de libellés de classement. Les textes hors français et anglais restent `noindex` jusqu'à relecture native et publication du contenu localisé.
+
+Pas encore fait : traductions éditoriales des épisodes, thèmes, fiches et classements ; chaînes UI relues dans les autres langues ; écran d'administration des traductions ; connecteurs réels pour Skills et Models ; newsletter, commentaires et politique de cookies. Le composant Vercel Analytics est présent dans le layout, mais son activation dans le projet Vercel et sa collecte en production restent à vérifier. Le code Postgres est intégré, mais la base de production et ses migrations ne sont pas encore configurées. Le site reste non indexé tant que ses données et épisodes sont simulés ; les épisodes fournis n'ont pas encore d'identifiants vidéo YouTube réels. Les liens LinkedIn, GitHub et X de Nicolas et Loïc restent à renseigner. La branche de travail est publiée sur GitHub ; la production Vercel n'est pas mise à jour.
 
 Limites connues : pas de politique de contenu (CSP) stricte avec nonce, pas de test de navigateur automatisé (Playwright), accessibilité vérifiée à la main sur peu de pages, aucune mesure de performance (Lighthouse, Core Web Vitals) faite. Voir [rapport](../adr/ADR-0015-site-media-et-classements.md#risques).
+
+## Optimisation UI/UX du 8 octobre 2026
+
+La bibliothèque propose désormais recherche, filtre par thème et tri par date ou durée. Les fiches, les méthodes et les classements ont des sommaires. L'en-tête, le pied de page, les états vides et le studio partagent les mêmes repères. Voir [DD-0005](../design-decisions/DD-0005-ux-globale-du-site.md) et le [rapport de validation](ui-ux-2026-10-08.md).
