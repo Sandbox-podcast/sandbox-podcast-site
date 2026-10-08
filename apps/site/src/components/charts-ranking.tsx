@@ -1,6 +1,7 @@
-import { Text, LocalizedElement } from '@/components/localization';
+import { Text, LocalizedElement, useLocalization } from '@/components/localization';
 import { LocalizedLink as Link } from '@/components/localization';
 import { formatCompact, formatNumber } from '@/domain/format';
+import { interpolateText } from '@/i18n/translation';
 import {
   chartFilterLabel,
   chartStatusLabel,
@@ -193,6 +194,7 @@ export function ChartsRanking({
   period: ChartPeriod;
   onShare: (row: ChartsRow) => void;
 }) {
+  const { t } = useLocalization();
   if (!rows.length)
     return (
       <div className="sc-empty" role="status">
@@ -294,16 +296,38 @@ export function ChartsRanking({
                       </span>
                     </h4>
                     <p>
-                      <Text>
-                        {row.periodStars !== null
-                          ? `${formatNumber(Math.abs(row.periodStars))} étoiles ${row.periodStars < 0 ? 'perdues' : 'gagnées'} sur les relevés de cette période.`
-                          : `Score ${period === 'week' ? 'SANDBOX' : 'de présence'} : ${formatNumber(row.score, 1)} sur 100.`}
-                      </Text>
-                      <Text>
-                        {!row.baseline && row.movement.delta !== 0
-                          ? ` ${Math.abs(row.movement.delta)} places ${row.movement.delta > 0 ? 'gagnées' : 'perdues'} depuis la période précédente.`
-                          : ''}
-                      </Text>
+                      {row.periodStars !== null
+                        ? interpolateText(
+                            t(
+                              row.periodStars < 0
+                                ? '{count} étoiles perdues sur les relevés de cette période.'
+                                : '{count} étoiles gagnées sur les relevés de cette période.',
+                            ),
+                            { count: formatNumber(Math.abs(row.periodStars)) },
+                          )
+                        : interpolateText(
+                            t(
+                              period === 'week'
+                                ? 'Score SANDBOX : {score} sur 100.'
+                                : 'Score de présence : {score} sur 100.',
+                            ),
+                            { score: formatNumber(row.score, 1) },
+                          )}
+                      {!row.baseline && row.movement.delta !== 0
+                        ? ' ' +
+                          interpolateText(
+                            t(
+                              row.movement.delta > 0
+                                ? Math.abs(row.movement.delta) === 1
+                                  ? '{count} place gagnée depuis la période précédente.'
+                                  : '{count} places gagnées depuis la période précédente.'
+                                : Math.abs(row.movement.delta) === 1
+                                  ? '{count} place perdue depuis la période précédente.'
+                                  : '{count} places perdues depuis la période précédente.',
+                            ),
+                            { count: Math.abs(row.movement.delta) },
+                          )
+                        : ''}
                     </p>
                   </div>
                   <Text>

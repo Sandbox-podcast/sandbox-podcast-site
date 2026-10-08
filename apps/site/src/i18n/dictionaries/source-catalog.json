@@ -116,13 +116,37 @@
     "translation": "",
     "sources": ["src/components/episode-library.tsx", "src/i18n/dictionaries/en.json"]
   },
+  "{count} étoiles gagnées sur les relevés de cette période.": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx", "src/i18n/dictionaries/en.json"]
+  },
+  "{count} étoiles perdues sur les relevés de cette période.": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx", "src/i18n/dictionaries/en.json"]
+  },
+  "{count} place gagnée depuis la période précédente.": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx", "src/i18n/dictionaries/en.json"]
+  },
+  "{count} place perdue depuis la période précédente.": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx", "src/i18n/dictionaries/en.json"]
+  },
   "{count} places gagnées": {
     "translation": "",
     "sources": ["src/i18n/dictionaries/en.json"]
   },
+  "{count} places gagnées depuis la période précédente.": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx", "src/i18n/dictionaries/en.json"]
+  },
   "{count} places perdues": {
     "translation": "",
     "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "{count} places perdues depuis la période précédente.": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx", "src/i18n/dictionaries/en.json"]
   },
   "{count} résultat pour \"{query}\"": {
     "translation": "",
@@ -1312,10 +1336,6 @@
     "translation": "",
     "sources": ["src/domain/github-charts.ts", "src/domain/sandbox-charts.ts"]
   },
-  "de présence": {
-    "translation": "",
-    "sources": ["src/components/charts-ranking.tsx"]
-  },
   "DE QUOI S’AGIT-IL ?": {
     "translation": "",
     "sources": ["src/components/charts-ranking.tsx"]
@@ -1435,10 +1455,6 @@
   "Direct Preference Optimization": {
     "translation": "",
     "sources": ["content/episodes/041.json"]
-  },
-  "DISCUSSED IN SANDBOX #": {
-    "translation": "",
-    "sources": ["src/components/charts-experience.tsx"]
   },
   "Documentation": {
     "translation": "",
@@ -1695,7 +1711,7 @@
   },
   "ÉTOILES": {
     "translation": "",
-    "sources": ["src/components/charts-ranking.tsx"]
+    "sources": ["src/components/charts-experience.tsx", "src/components/charts-ranking.tsx"]
   },
   "Étoiles gagnées sur les 7 derniers jours.": {
     "translation": "",
@@ -1716,6 +1732,10 @@
   "Évolution du nombre de contributeurs si les deux relevés existent. Cette collecte facultative n’est pas encore connectée.": {
     "translation": "",
     "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "ÉVOQUÉ DANS SANDBOX Nº": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
   },
   "Explore des sites et renvoie du Markdown ou des données structurées prêtes à être injectées dans un contexte. Brique fréquente des pipelines de recherche pour agents.": {
     "translation": "",
@@ -1900,10 +1920,6 @@
   "Fréquence": {
     "translation": "",
     "sources": ["src/app/(fr)/charts/[slug]/methodology/page.tsx", "src/domain/chart-markdown.ts"]
-  },
-  "gagnées": {
-    "translation": "",
-    "sources": ["src/components/charts-ranking.tsx"]
   },
   "Gemini 3 Pro": {
     "translation": "",
@@ -4188,9 +4204,17 @@
       "src/i18n/messages.ts"
     ]
   },
+  "Score de présence : {score} sur 100.": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx", "src/i18n/dictionaries/en.json"]
+  },
   "SCORE SANDBOX": {
     "translation": "",
     "sources": ["src/components/charts-ranking.tsx"]
+  },
+  "Score SANDBOX : {score} sur 100.": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx", "src/i18n/dictionaries/en.json"]
   },
   "scores non décroissants": {
     "translation": "",

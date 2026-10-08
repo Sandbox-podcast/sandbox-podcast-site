@@ -1729,5 +1729,14 @@
   "étoiles": "stars",
   "Nº 1": "#1",
   "POURQUOI ÇA MONTE": "WHY IT'S TRENDING",
-  "SANDBOX CHARTS | Les classements hebdomadaires de l’IA": "SANDBOX CHARTS | The weekly charts of AI"
+  "SANDBOX CHARTS | Les classements hebdomadaires de l’IA": "SANDBOX CHARTS | The weekly charts of AI",
+  "{count} étoiles perdues sur les relevés de cette période.": "{count} stars lost in the observations for this period.",
+  "{count} étoiles gagnées sur les relevés de cette période.": "{count} stars gained in the observations for this period.",
+  "Score SANDBOX : {score} sur 100.": "SANDBOX score: {score} out of 100.",
+  "Score de présence : {score} sur 100.": "Presence score: {score} out of 100.",
+  "{count} place gagnée depuis la période précédente.": "Up {count} place from the previous period.",
+  "{count} places gagnées depuis la période précédente.": "Up {count} places from the previous period.",
+  "{count} place perdue depuis la période précédente.": "Down {count} place from the previous period.",
+  "{count} places perdues depuis la période précédente.": "Down {count} places from the previous period.",
+  "ÉVOQUÉ DANS SANDBOX Nº": "DISCUSSED IN SANDBOX #"
 }

@@ -2,6 +2,9 @@ import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it } from 'vitest';
 import { ChartsExperience } from '../src/components/charts-experience.tsx';
+import { LocalizationProvider } from '../src/components/localization.tsx';
+import { siteDictionary } from '../src/i18n/dictionaries.ts';
+import { interpolateText, translateText } from '../src/i18n/translation.ts';
 import {
   CHART_LABELS,
   CHART_PERIODS,
@@ -48,5 +51,35 @@ describe('classements publics en français', () => {
     expect(chartFilterLabel('All')).toBe('Toutes');
     expect(chartFilterLabel('Coding')).toBe('Code');
     expect(chartFilterLabel('MCP')).toBe('MCP');
+  });
+});
+
+describe('classements publics en anglais', () => {
+  it('traduit les titres et l’état vide sans mélanger les deux langues', async () => {
+    const dictionary = await siteDictionary('en');
+    const html = renderToStaticMarkup(
+      createElement(LocalizationProvider, {
+        locale: 'en',
+        dictionary,
+        children: createElement(ChartsExperience, { data: pending }),
+      }),
+    );
+    expect(html).toContain('THE AI CHARTS');
+    expect(html).toContain('UPDATED EVERY MONDAY');
+    expect(html).toContain('No edition has been published for this ranking.');
+    expect(html).not.toContain('LES CLASSEMENTS IA');
+    expect(html).not.toContain('Aucune édition publiée pour ce classement.');
+  });
+
+  it('traduit les explications chiffrées complètes', async () => {
+    const dictionary = await siteDictionary('en');
+    const sentence = translateText(
+      '{count} étoiles gagnées sur les relevés de cette période.',
+      dictionary,
+      'en',
+    );
+    expect(interpolateText(sentence, { count: 14 })).toBe(
+      '14 stars gained in the observations for this period.',
+    );
   });
 });

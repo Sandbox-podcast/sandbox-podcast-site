@@ -44,7 +44,7 @@ export function ChartsExperience({
   initialPeriod?: ChartPeriod;
   initialSelection?: ChartSelection;
 }) {
-  const { locale } = useLocalization();
+  const { locale, t } = useLocalization();
   const [id, setId] = useState<ChartId>(initialSelection?.chart ?? initialChart);
   const [week, setWeek] = useState(
     initialSelection?.week && data.weeks.includes(initialSelection.week)
@@ -103,13 +103,13 @@ export function ChartsExperience({
   const currentShare = shareRow
     ? {
         week,
-        title: `${meta.title}${id === 'models' ? ` / ${MODEL_VIEWS.find((item) => item.id === view)?.label ?? 'Général'}` : ''}${period !== 'week' ? ` / ${CHART_PERIODS.find((item) => item.id === period)?.label}` : ''}`,
+        title: `${meta.title}${id === 'models' ? ` / ${t(MODEL_VIEWS.find((item) => item.id === view)?.label ?? 'Général')}` : ''}${period !== 'week' ? ` / ${t(CHART_PERIODS.find((item) => item.id === period)?.label ?? '')}` : ''}`,
         name: shareRow.entity.name,
         rank: shareRow.rank,
         movement: shareRow.baseline
           ? '-'
           : shareRow.movement.kind === 'new'
-            ? 'NOUVEAU'
+            ? t('NOUVEAU')
             : shareRow.movement.delta > 0
               ? `↑${shareRow.movement.delta}`
               : shareRow.movement.delta < 0
@@ -118,7 +118,7 @@ export function ChartsExperience({
         stat:
           shareRow.periodStars === null
             ? `${shareRow.score.toFixed(1)} / 100`
-            : `${shareRow.periodStars > 0 ? '+' : ''}${formatCompact(shareRow.periodStars)} ÉTOILES`,
+            : `${shareRow.periodStars > 0 ? '+' : ''}${formatCompact(shareRow.periodStars)} ${t('ÉTOILES')}`,
         growth: '',
         fixture: data.mode === 'fixtures',
       }
@@ -503,7 +503,7 @@ export function ChartsExperience({
                 {episodes.map((episode) => (
                   <Link key={episode.number} href={episode.href}>
                     <b>
-                      <Text>{'DISCUSSED IN SANDBOX #'}</Text>
+                      <Text>{'ÉVOQUÉ DANS SANDBOX Nº '}</Text>
                       <Text>{episode.number}</Text>
                     </b>
                     <span>
@@ -543,7 +543,7 @@ export function ChartsExperience({
                   {months.map((item) => (
                     <option key={item} value={item}>
                       <Text>
-                        {new Intl.DateTimeFormat('fr-FR', {
+                        {new Intl.DateTimeFormat(intlLocale(locale), {
                           month: 'long',
                           year: 'numeric',
                           timeZone: 'UTC',
