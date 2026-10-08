@@ -7,7 +7,7 @@ import { hasIndexableChartCollection } from '@/domain/chart-seo';
 export async function generateMetadata() {
   const data = await sandboxChartsData();
   return pageMetadata({
-    title: 'SANDBOX CHARTS | The weekly charts of what matters in AI.',
+    title: 'SANDBOX CHARTS | Les classements hebdomadaires de l’IA',
     description:
       'GitHub Top 20, Skills, Models et Rising. Les positions, les mouvements et les projets IA à surveiller, chaque semaine.',
     path: '/charts',
@@ -26,7 +26,7 @@ export default async function ChartsPage() {
             '@type': 'CollectionPage',
             name: 'SANDBOX CHARTS',
             url: absoluteUrl('/charts'),
-            description: 'The weekly charts of what matters in AI.',
+            description: 'Les classements hebdomadaires de ce qui compte dans l’IA.',
           },
           breadcrumbLd([
             { name: 'Accueil', path: '/' },

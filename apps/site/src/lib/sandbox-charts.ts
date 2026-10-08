@@ -164,12 +164,12 @@ export const sandboxChartsData = cache(async function sandboxChartsData(
       ...(item.id === 'github'
         ? {
             dimensions: [
-              { id: 'momentum', label: 'Momentum' },
-              { id: 'starVelocity', label: 'Star velocity' },
-              { id: 'relativeGrowth', label: 'Relative growth' },
-              { id: 'forkVelocity', label: 'Fork velocity' },
-              { id: 'contributorActivity', label: 'Contributor activity' },
-              { id: 'repositoryActivity', label: 'Repository activity' },
+              { id: 'momentum', label: 'Dynamique' },
+              { id: 'starVelocity', label: 'Vitesse des étoiles' },
+              { id: 'relativeGrowth', label: 'Croissance relative' },
+              { id: 'forkVelocity', label: 'Vitesse des forks' },
+              { id: 'contributorActivity', label: 'Activité des contributeurs' },
+              { id: 'repositoryActivity', label: 'Activité du dépôt' },
             ],
           }
         : {}),
@@ -197,7 +197,7 @@ export const sandboxChartsData = cache(async function sandboxChartsData(
             ...item,
             metrics: [
               ...[
-                { key: 'stars', label: 'Stars' },
+                { key: 'stars', label: 'Étoiles' },
                 { key: 'forks', label: 'Forks' },
                 { key: 'contributors', label: 'Contributeurs' },
               ].map((metric) => ({
@@ -207,7 +207,7 @@ export const sandboxChartsData = cache(async function sandboxChartsData(
                 url: 'https://docs.github.com/en/graphql/reference/repos',
               })),
               ...[
-                { key: 'stars7d', label: 'Stars gagnées (7 jours)' },
+                { key: 'stars7d', label: 'Étoiles gagnées (7 jours)' },
                 { key: 'growth', label: 'Croissance (%)' },
                 { key: 'forks7d', label: 'Forks gagnés (7 jours)' },
                 { key: 'contributorsDelta', label: 'Évolution des contributeurs' },

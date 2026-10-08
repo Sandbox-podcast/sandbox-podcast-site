@@ -6,7 +6,6 @@ import '../globals.css';
 import '../site-polish.css';
 import { Analytics } from '@vercel/analytics/next';
 import type { Metadata, Viewport } from 'next';
-import Script from 'next/script';
 import type { ReactNode } from 'react';
 import { notFound } from 'next/navigation';
 import { Footer, Masthead } from '@/components/shell';
@@ -66,9 +65,8 @@ export default async function LocalizedRootLayout({
   if (!locale) notFound();
   const messages = siteMessages(locale);
   return (
-    <html lang={locale} suppressHydrationWarning>
+    <html lang={locale}>
       <body>
-        <Script src="/theme-init.js" strategy="beforeInteractive" />
         <a className="skip" href="#main">
           {messages.skipToContent}
         </a>

@@ -73,8 +73,8 @@ export function ChartsShare({
     >
       <div className="sc-share-heading">
         <div>
-          <p className="sc-label">SHARE RANKING</p>
-          <h2 id="sc-share-title">Le chart, prêt à partager.</h2>
+          <p className="sc-label">PARTAGER LE CLASSEMENT</p>
+          <h2 id="sc-share-title">Le classement, prêt à partager.</h2>
         </div>
         <button type="button" onClick={onClose} aria-label="Fermer l'export">
           ×

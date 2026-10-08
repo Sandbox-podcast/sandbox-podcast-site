@@ -4,6 +4,7 @@ import {
   chartMonthRows,
   chartsRecords,
   marketSignals,
+  chartFilterLabel,
   type ChartId,
   type ChartsData,
   type ChartsRow,
@@ -14,8 +15,8 @@ import { ChartMovement } from './charts-ranking';
 export function ChartsMovers({ rows }: { rows: ChartsRow[] }) {
   const groups = [
     {
-      title: 'BIGGEST MOVERS',
-      subtitle: 'The biggest jumps this week.',
+      title: 'PLUS FORTES HAUSSES',
+      subtitle: 'Les progressions les plus nettes cette semaine.',
       kind: 'up',
       rows: rows
         .filter((row) => !row.baseline && row.movement.delta > 0)
@@ -24,15 +25,15 @@ export function ChartsMovers({ rows }: { rows: ChartsRow[] }) {
       empty: 'Aucune hausse de rang cette semaine.',
     },
     {
-      title: 'NEW THIS WEEK',
-      subtitle: 'New entries in the charts.',
+      title: 'NOUVEAUX CETTE SEMAINE',
+      subtitle: 'Les nouvelles entrées dans le classement.',
       kind: 'new',
       rows: rows.filter((row) => !row.baseline && row.movement.kind === 'new').slice(0, 3),
       empty: 'Aucune nouvelle entrée cette semaine.',
     },
     {
-      title: 'FALLING',
-      subtitle: 'Losing momentum this week.',
+      title: 'EN BAISSE',
+      subtitle: 'Les projets qui reculent cette semaine.',
       kind: 'down',
       rows: rows
         .filter((row) => !row.baseline && row.movement.delta < 0)
@@ -45,7 +46,7 @@ export function ChartsMovers({ rows }: { rows: ChartsRow[] }) {
     <section className="sc-movers" aria-label="Les mouvements de la semaine">
       {groups.map((group) => (
         <div className={`sc-feature sc-feature-${group.kind}`} key={group.title}>
-          <p className="sc-label">THIS WEEK</p>
+          <p className="sc-label">CETTE SEMAINE</p>
           <h2>{group.title}</h2>
           <p className="sc-section-subtitle">{group.subtitle}</p>
           {group.rows.length ? (
@@ -59,7 +60,7 @@ export function ChartsMovers({ rows }: { rows: ChartsRow[] }) {
                       {row.movement.previousRank ? `#${row.movement.previousRank} → ` : ''}#
                       {row.rank}
                       {row.movement.kind === 'new' && row.rank <= 10
-                        ? ' · DIRECT IN THE TOP 10'
+                        ? ' · ENTRÉE DIRECTE DANS LE TOP 10'
                         : ''}
                     </p>
                   </div>
@@ -94,13 +95,12 @@ export function ChartsWatchlist({
   return (
     <section className="sc-watchlist" aria-labelledby="sc-watchlist-title">
       <div>
-        <p className="sc-label">THE EDITORIAL SELECTION</p>
+        <p className="sc-label">LA SÉLECTION DE LA RÉDACTION</p>
         <h2 id="sc-watchlist-title">
           SANDBOX
-          <br />
-          WATCHLIST<span>.</span>
+          <br />À SUIVRE<span>.</span>
         </h2>
-        <p>Not big yet. We're watching them.</p>
+        <p>Pas encore en tête, mais déjà à suivre.</p>
       </div>
       <div className="sc-watch-items">
         {items.length ? (
@@ -108,7 +108,7 @@ export function ChartsWatchlist({
             <article key={item.entity.slug}>
               <span className="sc-watch-number">0{index + 1}</span>
               <div>
-                <p className="sc-label">{item.entity.category}</p>
+                <p className="sc-label">{chartFilterLabel(item.entity.category)}</p>
                 <h3>
                   <Link href={item.entity.href}>{item.entity.name} ↗</Link>
                 </h3>
@@ -132,11 +132,11 @@ export function ChartsMarket({ data, week }: { data: ChartsData; week: string })
     <section className="sc-market" aria-labelledby="sc-market-title">
       <div className="sc-section-heading">
         <div>
-          <p className="sc-label">FOLLOW THE ATTENTION</p>
-          <h2 id="sc-market-title">MARKET SIGNALS</h2>
+          <p className="sc-label">SUIVRE L’ATTENTION</p>
+          <h2 id="sc-market-title">SIGNAUX DU MARCHÉ</h2>
         </div>
         <p>
-          Variation des stars gagnées par les dépôts suivis,
+          Variation des étoiles gagnées par les dépôts suivis,
           <br />
           sur une cohorte identique à la semaine précédente.
         </p>
@@ -146,7 +146,7 @@ export function ChartsMarket({ data, week }: { data: ChartsData; week: string })
           {signals.map((signal) => (
             <div className="sc-signal" key={signal.category}>
               <div>
-                <h3>{signal.category}</h3>
+                <h3>{chartFilterLabel(signal.category)}</h3>
                 <strong
                   className={signal.change !== null && signal.change >= 0 ? 'sc-up' : 'sc-down'}
                 >
@@ -161,7 +161,7 @@ export function ChartsMarket({ data, week }: { data: ChartsData; week: string })
                 />
               </div>
               <p className="sc-label">
-                {signal.candidates} dépôts · +{formatCompact(signal.stars)} stars
+                {signal.candidates} dépôts · +{formatCompact(signal.stars)} étoiles
               </p>
             </div>
           ))}
@@ -175,7 +175,7 @@ export function ChartsMarket({ data, week }: { data: ChartsData; week: string })
   );
 }
 export function ChartsMonthly({ data, week }: { data: ChartsData; week: string }) {
-  const month = new Intl.DateTimeFormat('en-GB', {
+  const month = new Intl.DateTimeFormat('fr-FR', {
     month: 'long',
     year: 'numeric',
     timeZone: 'UTC',
@@ -193,7 +193,7 @@ export function ChartsMonthly({ data, week }: { data: ChartsData; week: string }
   return (
     <section className="sc-monthly" aria-labelledby="sc-monthly-title">
       <div className="sc-monthly-cover">
-        <p className="sc-label">SANDBOX CHARTS / MONTHLY EDITION</p>
+        <p className="sc-label">SANDBOX CHARTS / ÉDITION MENSUELLE</p>
         <h2 id="sc-monthly-title">
           {month.split(' ')[0]}
           <br />
@@ -208,14 +208,14 @@ export function ChartsMonthly({ data, week }: { data: ChartsData; week: string }
         {leaders.map(({ id, first }) => (
           <div key={id}>
             <span className="sc-label">
-              #1 {id === 'models' ? 'MODEL' : id === 'skills' ? 'SKILL' : 'GITHUB PROJECT'}
+              Nº 1 {id === 'models' ? 'MODÈLE' : id === 'skills' ? 'SKILL' : 'PROJET GITHUB'}
             </span>
             <Link href={first.entity.href}>{first.entity.name} ↗</Link>
           </div>
         ))}
         {entity ? (
           <div>
-            <span className="sc-label">SANDBOX PICK</span>
+            <span className="sc-label">CHOIX DE SANDBOX</span>
             <Link href={entity.href}>{entity.name} ↗</Link>
           </div>
         ) : null}
@@ -233,7 +233,7 @@ export function ChartsRecords({ data, id, week }: { data: ChartsData; id: ChartI
   if (!records.length) return null;
   return (
     <section className="sc-records" aria-label="Records du classement">
-      <h2 className="sc-label">THE RECORD BOOK</h2>
+      <h2 className="sc-label">LES RECORDS</h2>
       <div>
         {records.map((record) => (
           <article key={record.label}>

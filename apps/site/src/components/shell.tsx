@@ -5,34 +5,21 @@ import { allEpisodes } from '@/lib/repository';
 import { CHART_LABELS } from '@/domain/sandbox-charts';
 import { lastUpdated } from '@/lib/graph';
 import { LocaleSwitcher, MainNav } from './nav';
-import { ScrollState, ThemeSelector, TimeAgo } from './client';
+import { ScrollState, TimeAgo } from './client';
 import { localeRouteSegment } from '@/i18n/locales';
 import { siteMessageLocale, siteMessages } from '@/i18n/messages';
 
-export function Wordmark({ className, locale = 'fr-FR' }: { className?: string; locale?: string }) {
+export function Wordmark({ className }: { className?: string }) {
   return (
     <span className={`site-brand ${className ?? ''}`}>
       <span className="wordmark">
         <Image
-          className="wordmark-image-blue"
+          className="wordmark-image"
           src="/sandbox-logo.png"
           alt={siteConfig.name}
-          width={120}
-          height={80}
+          width={2172}
+          height={724}
         />
-        <Image
-          className="wordmark-image-red"
-          src="/sandbox-logo-red.png"
-          alt={siteConfig.name}
-          width={120}
-          height={107}
-        />
-      </span>
-      <span className="site-brand-name">
-        SANDBOX
-        <span lang={siteMessageLocale(locale)}>
-          {locale.startsWith('fr') ? 'Podcasts & classements IA' : 'Podcasts & AI rankings'}
-        </span>
       </span>
     </span>
   );
@@ -53,7 +40,7 @@ export function Masthead({ locale = 'fr-FR' }: { locale?: string }) {
             aria-label={`${siteConfig.name} — ${messages.homeLabel}`}
             className="shrink-0"
           >
-            <Wordmark locale={locale} />
+            <Wordmark />
           </Link>
           <div className="hidden md:block">
             <MainNav locale={locale} />
@@ -76,7 +63,6 @@ export function Masthead({ locale = 'fr-FR' }: { locale?: string }) {
               </form>
             ) : null}
             <LocaleSwitcher locale={locale} />
-            <ThemeSelector />
           </div>
         </div>
         <div className="wrap md:hidden">
@@ -100,13 +86,12 @@ export function Footer({ locale = 'fr-FR' }: { locale?: string }) {
       >
         <div className="wrap flex flex-wrap items-center justify-between gap-6 py-8">
           <div>
-            <Wordmark className="footer-wordmark" locale={locale} />
+            <Wordmark className="footer-wordmark" />
             <p className="mt-3 max-w-sm text-sm opacity-80">{messages.podcastsDescription}</p>
           </div>
           <nav aria-label={messages.navigationLabel} className="footer-utilities">
             <Link href={homeHref}>{messages.homeLabel}</Link>
             <Link href={chartsHref}>{messages.rankings}</Link>
-            <ThemeSelector />
           </nav>
           <span className="label opacity-70">
             © {new Date().getUTCFullYear()} {siteConfig.name}
@@ -123,7 +108,7 @@ export function Footer({ locale = 'fr-FR' }: { locale?: string }) {
     <footer className="site-footer border-t border-hair bg-paper-2 text-ink">
       <div className="wrap grid gap-10 py-12 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
         <div>
-          <Wordmark className="footer-wordmark" locale={locale} />
+          <Wordmark className="footer-wordmark" />
           <p className="mt-4 max-w-xs text-sm opacity-80">
             {siteConfig.tagline} {messages.podcastsDescription}
           </p>
@@ -192,7 +177,6 @@ export function Footer({ locale = 'fr-FR' }: { locale?: string }) {
             <Link href="/topics">{messages.topics}</Link>
             <Link href="/search">{messages.search}</Link>
             <a href="/feed.xml">{messages.rss}</a>
-            <ThemeSelector />
           </div>
         </div>
       </div>

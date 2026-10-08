@@ -30,7 +30,7 @@ export function ChartsMini({ data, id }: { data: ChartsData; id: ChartId }) {
                 <span>
                   {row.periodStars === null
                     ? `${formatNumber(row.score, 1)} / 100`
-                    : `${row.periodStars > 0 ? '+' : ''}${formatCompact(row.periodStars)} stars`}
+                    : `${row.periodStars > 0 ? '+' : ''}${formatCompact(row.periodStars)} étoiles`}
                 </span>
               </p>
             </div>
@@ -45,7 +45,7 @@ export function ChartsMini({ data, id }: { data: ChartsData; id: ChartId }) {
         </p>
       ) : null}
       <Link className="label border-t border-hair py-3" href={`/charts/${meta.slug}`}>
-        Ouvrir le chart ↗
+        Ouvrir le classement ↗
       </Link>
     </section>
   );
