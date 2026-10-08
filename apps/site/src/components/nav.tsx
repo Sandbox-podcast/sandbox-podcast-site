@@ -2,12 +2,28 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { isNavigationActive } from '@/domain/site-navigation';
+import { useEffect, useRef } from 'react';
+import { isNavigationActive, languageSwitchTarget } from '@/domain/site-navigation';
 import { localeRouteSegment } from '@/i18n/locales';
 import { siteMessages } from '@/i18n/messages';
 
 export function MainNav({ locale = 'fr-FR' }: { locale?: string }) {
   const pathname = usePathname();
+  const submenu = useRef<HTMLDetailsElement>(null);
+  useEffect(() => {
+    const dismiss = (event: PointerEvent): void => {
+      if (
+        event.target instanceof Node &&
+        !submenu.current?.contains(event.target) &&
+        submenu.current
+      )
+        submenu.current.open = false;
+    };
+    document.addEventListener('pointerdown', dismiss);
+    return () => {
+      document.removeEventListener('pointerdown', dismiss);
+    };
+  }, []);
   const messages = siteMessages(locale);
   const isFrench = locale.startsWith('fr');
   const localePrefix = localeRouteSegment(locale);
@@ -18,9 +34,7 @@ export function MainNav({ locale = 'fr-FR' }: { locale?: string }) {
         { href: '/about', label: messages.about },
       ]
     : [
-        ...(locale.startsWith('en')
-          ? [{ href: '/en#podcast-library', label: messages.podcasts }]
-          : []),
+        { href: '/episodes', label: messages.podcasts },
         { href: `/${localePrefix ?? ''}/charts`, label: messages.rankings },
       ];
   return (
@@ -29,14 +43,63 @@ export function MainNav({ locale = 'fr-FR' }: { locale?: string }) {
         {items.map((item) => {
           const active = isNavigationActive(pathname, item.href);
           return (
-            <li key={item.href}>
-              <Link
-                href={item.href}
-                className="nav-link"
-                aria-current={active ? 'page' : undefined}
-              >
-                {item.label}
-              </Link>
+            <li key={item.href} className={item.href === '/episodes' ? 'nav-submenu' : undefined}>
+              {item.href === '/episodes' ? (
+                <details
+                  ref={submenu}
+                  onKeyDown={(event) => {
+                    if (event.key === 'Escape' && event.currentTarget.open) {
+                      event.currentTarget.open = false;
+                      event.currentTarget.querySelector('summary')?.focus();
+                    }
+                  }}
+                >
+                  <summary
+                    className="nav-link"
+                    aria-current={
+                      isNavigationActive(
+                        isFrench ? pathname : pathname.replace(/^\/[^/]+(?=\/|$)/, '') || '/',
+                        '/episodes',
+                      )
+                        ? 'page'
+                        : undefined
+                    }
+                  >
+                    {item.label}
+                    <span className="nav-submenu-chevron" aria-hidden="true">
+                      ▾
+                    </span>
+                  </summary>
+                  <div className="nav-submenu-panel">
+                    <Link
+                      href="/episodes"
+                      hrefLang={isFrench ? undefined : 'fr'}
+                      onClick={(event) =>
+                        event.currentTarget.closest('details')?.removeAttribute('open')
+                      }
+                    >
+                      {isFrench ? messages.allEpisodes : `${messages.allEpisodes} (FR)`}
+                    </Link>
+                    <Link
+                      href="/topics"
+                      hrefLang={isFrench ? undefined : 'fr'}
+                      onClick={(event) =>
+                        event.currentTarget.closest('details')?.removeAttribute('open')
+                      }
+                    >
+                      {isFrench ? messages.topics : `${messages.topics} (FR)`}
+                    </Link>
+                  </div>
+                </details>
+              ) : (
+                <Link
+                  href={item.href}
+                  className="nav-link"
+                  aria-current={active ? 'page' : undefined}
+                >
+                  {item.label}
+                </Link>
+              )}
             </li>
           );
         })}
@@ -48,17 +111,7 @@ export function MainNav({ locale = 'fr-FR' }: { locale?: string }) {
 export function LocaleSwitcher({ locale = 'fr-FR' }: { locale?: string }) {
   const pathname = usePathname();
   const isFrench = locale.startsWith('fr');
-  const target =
-    pathname === '/'
-      ? '/en'
-      : pathname === '/charts'
-        ? '/en/charts'
-        : pathname === '/en'
-          ? '/'
-          : pathname === '/en/charts'
-            ? '/charts'
-            : undefined;
-  if (!target) return null;
+  const target = languageSwitchTarget(pathname, locale);
   const messages = siteMessages(locale);
   return (
     <Link

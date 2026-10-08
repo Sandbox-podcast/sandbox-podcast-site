@@ -2,6 +2,21 @@
 
 Cette fiche est à transmettre au propriétaire du compte Neon et au responsable du projet Vercel. Elle décrit l'activation de la collecte GitHub sur la base existante du site. Elle ne contient aucun secret.
 
+## Pour Loïc Peaudecerf : pourquoi le classement est vide
+
+La page locale construite en mode production ne dispose pas de `DATABASE_URL` ni de `POSTGRES_URL` : elle affiche donc un état d'attente et aucun rang. En production, le site n'utilise jamais les fixtures du dépôt comme résultats réels. Même avec une base reliée, la première édition GitHub n'apparaîtra qu'après des relevés quotidiens suffisants et la publication d'un classement. Le texte français de la page a été corrigé ; il ne crée pas de données.
+
+Pour rendre les classements visibles, Loïc doit coordonner les opérations suivantes avec les propriétaires des accès Neon, Vercel et GitHub :
+
+1. Confirmer le projet Vercel qui sert réellement le domaine et la base Neon correspondante. Vérifier la branche déployée, le Root Directory `apps/site` et isoler Preview de la base de production.
+2. Faire sauvegarder la base, contrôler l'historique Drizzle 0000 et 0001, puis faire appliquer les migrations additives 0002 à 0004 depuis le commit déployé. La procédure et la commande figurent plus bas.
+3. Vérifier dans Vercel la connexion serveur `DATABASE_URL` (ou `POSTGRES_URL` si la première est absente), ainsi que `GITHUB_TOKEN` en lecture seule et `CRON_SECRET`. Conserver ces valeurs dans le gestionnaire de secrets, jamais dans l'issue ou le dépôt.
+4. Déployer puis contrôler les trois tâches dans `apps/site/vercel.json` : découverte GitHub à 01:00 UTC, relevé quotidien à 02:00 UTC et classement le lundi à 03:00 UTC. Lire leurs journaux et l'état de collecte dans `/admin`.
+5. Simuler l'import des candidats avec `charts:seed -- --dry-run`, puis lancer l'import réel après contrôle. Dans `/admin`, examiner et activer les dépôts à suivre ; viser au moins vingt projets éligibles pour l'édition GitHub par défaut.
+6. Laisser s'accumuler au moins sept jours de relevés authentiques, vérifier le résultat de `charts:weekly -- --dry-run`, puis publier l'édition depuis le flux validé. Rising requiert environ quatorze jours et une accélération mesurée. Vérifier ensuite `/charts` et `GET /api/charts/github/current` sur le déploiement cible.
+
+Skills et Models restent vides avec le code de cette branche : leurs collecteurs et sources réelles ne sont pas encore en service. Leur activation est un chantier distinct décrit dans [la passation](passation-pr-2026-10-08.md). Aucun historique ne doit être fabriqué pour remplir les cartes.
+
 ## Situation vérifiée
 
 Le code des classements, des traductions et ses migrations additives sont dans `apps/site`. Les migrations 0002 à 0004 ont été exécutées dans PGlite de test, pas dans Neon.

@@ -52,25 +52,27 @@ a.chip {
   align-items: center;
   gap: 0.6rem;
 }
+.site-brand {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+}
 .site-brand .wordmark,
 .site-header .wordmark {
   flex: 0 0 auto;
-  width: 3.5rem;
-  height: 3rem;
+  position: relative;
+  display: block;
+  width: 11.5rem;
+  height: 2.35rem;
+  overflow: hidden;
 }
-.site-brand-name {
-  display: grid;
-  gap: 0.15rem;
-  font-size: 1.15rem;
-  font-weight: 850;
-  letter-spacing: 0.055em;
-  line-height: 1.2;
-}
-.site-brand-name > span {
-  color: var(--ink-2);
-  font-size: 0.65rem;
-  font-weight: 500;
-  letter-spacing: 0;
+.site-brand .wordmark img {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: auto;
+  transform: translateY(-50%) scale(1.08);
 }
 .main-nav-list {
   display: flex;
@@ -85,6 +87,51 @@ a.chip {
   align-items: center;
   font-size: 0.75rem;
 }
+.nav-submenu {
+  position: relative;
+}
+.nav-submenu summary {
+  gap: 0.35rem;
+  list-style: none;
+  cursor: pointer;
+}
+.nav-submenu summary::-webkit-details-marker {
+  display: none;
+}
+.nav-submenu-chevron {
+  color: var(--ink-3);
+  transition: transform 140ms ease;
+}
+.nav-submenu details[open] .nav-submenu-chevron {
+  transform: rotate(180deg);
+}
+.nav-submenu-panel {
+  position: absolute;
+  z-index: 70;
+  top: calc(100% + 0.35rem);
+  left: 0;
+  min-width: 12rem;
+  padding: 0.35rem;
+  border: 1px solid var(--hair);
+  border-radius: 0.65rem;
+  background: var(--paper-2);
+  box-shadow: 0 12px 30px rgb(0 0 0 / 0.3);
+}
+.nav-submenu-panel a {
+  display: flex;
+  min-height: 2.75rem;
+  align-items: center;
+  border-radius: 0.4rem;
+  padding: 0.5rem 0.75rem;
+  color: var(--ink);
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+.nav-submenu-panel a:hover,
+.nav-submenu-panel a:focus-visible {
+  background: var(--paper-3);
+  color: var(--hl);
+}
 .header-search {
   min-height: 2.75rem;
 }
@@ -94,22 +141,16 @@ a.chip {
 .header-search input {
   width: 10rem;
 }
-.theme-picker-trigger,
-.theme-picker-option {
-  min-height: 2.75rem;
-}
-.theme-picker-menu {
-  width: 12rem;
-}
-.theme-picker-option {
-  font-size: 0.85rem;
-}
 .site-footer {
   margin-top: clamp(3.5rem, 7vw, 6rem);
 }
 .footer-wordmark {
   width: auto;
   height: auto;
+}
+.footer-wordmark .wordmark {
+  width: 13rem;
+  height: 2.65rem;
 }
 .site-footer nav a {
   display: inline-flex;
@@ -132,10 +173,6 @@ a.chip {
   display: flex;
   min-height: 2.75rem;
   align-items: center;
-}
-.footer-utilities .theme-picker-menu {
-  top: auto;
-  bottom: calc(100% + 0.5rem);
 }
 .breadcrumbs {
   margin-bottom: 1.5rem;
@@ -194,24 +231,6 @@ a.chip {
   max-width: 35rem;
   font-size: 1rem;
   line-height: 1.6;
-}
-.home-explore {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.4rem 1.75rem;
-  padding: 0.85rem 0;
-  border-bottom: 1px solid var(--hair);
-}
-.home-explore a {
-  display: inline-flex;
-  min-height: 2.75rem;
-  align-items: center;
-  color: var(--ink-2);
-  font-size: 0.875rem;
-}
-.home-explore a:hover {
-  color: var(--hl);
 }
 .library-heading {
   align-items: center;
@@ -724,19 +743,12 @@ body:has(.admin-shell) .site-footer {
   .masthead-tools:has(.locale-switcher) {
     display: flex;
   }
-  .masthead-tools .header-search,
-  .masthead-tools .theme-picker {
-    display: none;
-  }
-  .site-brand-name {
-    font-size: 1rem;
-  }
-  .site-header .site-brand-name > span {
+  .masthead-tools .header-search {
     display: none;
   }
   .site-header .wordmark {
-    width: 3rem;
-    height: 2.65rem;
+    width: 9.5rem;
+    height: 2.4rem;
   }
   .main-nav-list {
     gap: 0.75rem;
@@ -764,12 +776,6 @@ body:has(.admin-shell) .site-footer {
   .featured-dek {
     line-height: 1.6;
     -webkit-line-clamp: 4;
-  }
-  .home-explore {
-    gap: 0.25rem 1.2rem;
-  }
-  .home-explore .field-label {
-    flex-basis: 100%;
   }
   .media-shelf-heading {
     flex-direction: row;

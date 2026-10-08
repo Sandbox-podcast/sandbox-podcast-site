@@ -6,28 +6,28 @@ import { compareWeeks, previousWeek, weekStart } from './weeks.ts';
 export type ChartId = 'github' | 'skills' | 'models' | 'rising';
 export type ChartPeriod = 'week' | 'month' | 'quarter' | 'all';
 export const CHART_PERIODS: { id: ChartPeriod; label: string; weeks: number | null }[] = [
-  { id: 'week', label: 'THIS WEEK', weeks: 1 },
-  { id: 'month', label: 'THIS MONTH', weeks: 4 },
-  { id: 'quarter', label: '3 MONTHS', weeks: 13 },
-  { id: 'all', label: 'ALL TIME', weeks: null },
+  { id: 'week', label: 'CETTE SEMAINE', weeks: 1 },
+  { id: 'month', label: 'CE MOIS', weeks: 4 },
+  { id: 'quarter', label: '3 MOIS', weeks: 13 },
+  { id: 'all', label: 'DEPUIS LE DÉBUT', weeks: null },
 ];
 export const CHART_LABELS: Record<ChartId, { title: string; subtitle: string; slug: string }> = {
   github: {
     title: 'GITHUB TOP 20',
-    subtitle: 'The fastest-moving AI projects on GitHub.',
+    subtitle: 'Les projets IA qui progressent le plus vite sur GitHub.',
     slug: 'github',
   },
   skills: {
     title: 'SKILLS TOP 20',
-    subtitle: 'The skills, agents and MCPs gaining momentum.',
+    subtitle: 'Les skills, agents et MCP qui gagnent du terrain.',
     slug: 'skills',
   },
   models: {
     title: 'MODELS TOP 20',
-    subtitle: 'The models leading AI right now.',
+    subtitle: 'Les modèles d’IA en tête actuellement.',
     slug: 'ai-models',
   },
-  rising: { title: 'RISING 20', subtitle: 'What to watch before everyone else.', slug: 'rising' },
+  rising: { title: 'RISING 20', subtitle: 'Les projets à suivre dès maintenant.', slug: 'rising' },
 };
 export const PROJECT_FILTERS = [
   'All',
@@ -55,17 +55,36 @@ export const SKILL_FILTERS = [
   'Automation',
 ];
 export const MODEL_VIEWS = [
-  { id: 'quality', label: 'Overall' },
-  { id: 'coding', label: 'Coding' },
-  { id: 'reasoning', label: 'Reasoning' },
-  { id: 'research', label: 'Research' },
-  { id: 'agents', label: 'Agentic' },
+  { id: 'quality', label: 'Général' },
+  { id: 'coding', label: 'Code' },
+  { id: 'reasoning', label: 'Raisonnement' },
+  { id: 'research', label: 'Recherche' },
+  { id: 'agents', label: 'Agents' },
   { id: 'image', label: 'Image' },
-  { id: 'video', label: 'Video' },
-  { id: 'open', label: 'Open Source' },
-  { id: 'speed', label: 'Fastest' },
-  { id: 'value', label: 'Best Value' },
+  { id: 'video', label: 'Vidéo' },
+  { id: 'open', label: 'Code ouvert' },
+  { id: 'speed', label: 'Vitesse' },
+  { id: 'value', label: 'Rapport qualité-prix' },
 ];
+
+const FILTER_LABELS: Record<string, string> = {
+  All: 'Toutes',
+  Coding: 'Code',
+  Research: 'Recherche',
+  Image: 'Image',
+  Video: 'Vidéo',
+  Voice: 'Voix',
+  Infrastructure: 'Infrastructure',
+  Productivity: 'Productivité',
+  Design: 'Design',
+  Data: 'Données',
+  Browser: 'Navigateur',
+  Automation: 'Automatisation',
+};
+
+export function chartFilterLabel(filter: string): string {
+  return FILTER_LABELS[filter] ?? filter;
+}
 
 export interface ChartsEntity extends Pick<
   Entity,
@@ -473,21 +492,21 @@ export function chartsRecords(
   const records: { label: string; entity: ChartsEntity; value: string; week: string }[] = [];
   if (longest && (streaks.get(longest.entity.slug) ?? 0) > 0)
     records.push({
-      label: 'LONGEST #1 STREAK',
+      label: 'PLUS LONGUE SÉRIE À LA 1RE PLACE',
       entity: longest.entity,
       value: `${streaks.get(longest.entity.slug)} sem.`,
       week,
     });
   if (jumper?.history.biggestClimb)
     records.push({
-      label: 'BIGGEST WEEKLY JUMP',
+      label: 'PLUS FORTE HAUSSE HEBDOMADAIRE',
       entity: jumper.entity,
       value: `+${jumper.history.biggestClimb.places}`,
       week: jumper.history.biggestClimb.week,
     });
   if (regular)
     records.push({
-      label: 'MOST WEEKS IN TOP 20',
+      label: 'PLUS DE SEMAINES DANS LE TOP 20',
       entity: regular.entity,
       value: `${regular.history.weeksInTop} sem.`,
       week,

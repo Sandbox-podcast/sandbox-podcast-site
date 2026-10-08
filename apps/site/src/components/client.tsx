@@ -3,12 +3,6 @@
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import { formatDate, formatRelative, formatTimeUtc } from '@/domain/format';
-import {
-  parseSiteTheme,
-  SITE_THEME_STORAGE_KEY,
-  SITE_THEMES,
-  type SiteTheme,
-} from '@/domain/theme';
 
 /**
  * Date de mise à jour : le serveur affiche la date absolue (stable, indexable), le navigateur y ajoute
@@ -42,85 +36,6 @@ export function ScrollState() {
     };
   }, []);
   return null;
-}
-
-export function ThemeSelector() {
-  const menu = useRef<HTMLDetailsElement>(null);
-  const [theme, setTheme] = useState<SiteTheme>();
-  const [storageWarning, setStorageWarning] = useState(false);
-
-  useEffect(() => {
-    const syncTheme = (): void => {
-      setTheme(parseSiteTheme(document.documentElement.getAttribute('data-theme')));
-    };
-    syncTheme();
-    window.addEventListener('sandbox-theme-change', syncTheme);
-    return () => {
-      window.removeEventListener('sandbox-theme-change', syncTheme);
-    };
-  }, []);
-
-  const choose = (next: SiteTheme): void => {
-    if (next === 'red') {
-      document.documentElement.setAttribute('data-theme', next);
-    } else {
-      document.documentElement.removeAttribute('data-theme');
-    }
-    setTheme(next);
-    window.dispatchEvent(new Event('sandbox-theme-change'));
-    try {
-      localStorage.setItem(SITE_THEME_STORAGE_KEY, next);
-      setStorageWarning(false);
-      if (menu.current) {
-        menu.current.open = false;
-        menu.current.querySelector('summary')?.focus();
-      }
-    } catch {
-      setStorageWarning(true);
-    }
-  };
-
-  return (
-    <details
-      className="theme-picker"
-      ref={menu}
-      onKeyDown={(event) => {
-        if (event.key === 'Escape' && menu.current?.open) {
-          menu.current.open = false;
-          menu.current.querySelector('summary')?.focus();
-        }
-      }}
-    >
-      <summary className="btn theme-picker-trigger" aria-label="Choisir le thème">
-        <span className="theme-picker-swatch" data-theme={theme ?? 'blue'} aria-hidden="true" />
-        <span>Thème</span>
-        <span className="theme-picker-caret" aria-hidden="true">
-          ▾
-        </span>
-      </summary>
-      <div className="theme-picker-menu" role="group" aria-label="Choisir un thème">
-        {SITE_THEMES.map((option) => (
-          <button
-            key={option}
-            className="theme-picker-option"
-            type="button"
-            aria-pressed={theme === option}
-            onClick={() => {
-              choose(option);
-            }}
-          >
-            <span className="theme-picker-swatch" data-theme={option} aria-hidden="true" />
-            {option === 'blue' ? 'Bleu nuit' : 'Rouge'}
-          </button>
-        ))}
-        {storageWarning ? (
-          <p className="theme-picker-warning" role="status">
-            Le thème est appliqué pour cette visite, mais ne peut pas être mémorisé.
-          </p>
-        ) : null}
-      </div>
-    </details>
-  );
 }
 
 export function CopyButton({ text, label = 'Copier le lien' }: { text: string; label?: string }) {

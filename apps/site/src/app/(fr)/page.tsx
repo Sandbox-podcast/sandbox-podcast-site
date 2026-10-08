@@ -106,13 +106,6 @@ export default async function HomePage() {
         </section>
       )}
 
-      <nav className="home-explore" aria-label="Explorer Sandbox">
-        <span className="field-label">Envie d'explorer ?</span>
-        <Link href="/topics">Les thèmes</Link>
-        <Link href="/charts">Les classements</Link>
-        <Link href="/search">Rechercher sur le site</Link>
-      </nav>
-
       <section className="media-shelf" aria-labelledby="new-episodes-title">
         <div className="media-shelf-heading">
           <div>

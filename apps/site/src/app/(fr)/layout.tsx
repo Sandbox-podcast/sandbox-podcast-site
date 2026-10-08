@@ -6,7 +6,6 @@ import '../globals.css';
 import '../site-polish.css';
 import { Analytics } from '@vercel/analytics/next';
 import type { Metadata, Viewport } from 'next';
-import Script from 'next/script';
 import type { ReactNode } from 'react';
 import { Footer, Masthead } from '@/components/shell';
 import { JsonLd } from '@/components/json-ld';
@@ -44,9 +43,8 @@ export const revalidate = 3600;
 export default async function RootLayout({ children }: { children: ReactNode }) {
   await preparePublishedEditorialContent();
   return (
-    <html lang={siteConfig.language} suppressHydrationWarning>
+    <html lang={siteConfig.language}>
       <body>
-        <Script src="/theme-init.js" strategy="beforeInteractive" />
         <a className="skip" href="#main">
           Aller au contenu
         </a>

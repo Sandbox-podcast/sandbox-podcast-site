@@ -10,6 +10,7 @@ import {
   MODEL_VIEWS,
   PROJECT_FILTERS,
   SKILL_FILTERS,
+  chartFilterLabel,
   chartRows,
   editionMonth,
   matchesChartFilter,
@@ -60,7 +61,7 @@ export function ChartsExperience({
   const visible = rows.filter((row) => matchesChartFilter(row.entity, filter));
   const weeklyRows = useMemo(() => chartRows(data, id, week), [data, id, week]);
   const edition = series?.editions.find((item) => item.week === week);
-  const month = new Intl.DateTimeFormat('en-GB', {
+  const month = new Intl.DateTimeFormat('fr-FR', {
     month: 'long',
     year: 'numeric',
     timeZone: 'UTC',
@@ -80,13 +81,13 @@ export function ChartsExperience({
   const currentShare = shareRow
     ? {
         week,
-        title: `${meta.title}${id === 'models' ? ` / ${MODEL_VIEWS.find((item) => item.id === view)?.label ?? 'Overall'}` : ''}${period !== 'week' ? ` / ${CHART_PERIODS.find((item) => item.id === period)?.label}` : ''}`,
+        title: `${meta.title}${id === 'models' ? ` / ${MODEL_VIEWS.find((item) => item.id === view)?.label ?? 'Général'}` : ''}${period !== 'week' ? ` / ${CHART_PERIODS.find((item) => item.id === period)?.label}` : ''}`,
         name: shareRow.entity.name,
         rank: shareRow.rank,
         movement: shareRow.baseline
           ? '-'
           : shareRow.movement.kind === 'new'
-            ? 'NEW'
+            ? 'NOUVEAU'
             : shareRow.movement.delta > 0
               ? `↑${shareRow.movement.delta}`
               : shareRow.movement.delta < 0
@@ -95,7 +96,7 @@ export function ChartsExperience({
         stat:
           shareRow.periodStars === null
             ? `${shareRow.score.toFixed(1)} / 100`
-            : `${shareRow.periodStars > 0 ? '+' : ''}${formatCompact(shareRow.periodStars)} STARS`,
+            : `${shareRow.periodStars > 0 ? '+' : ''}${formatCompact(shareRow.periodStars)} ÉTOILES`,
         growth: '',
         fixture: data.mode === 'fixtures',
       }
@@ -104,10 +105,12 @@ export function ChartsExperience({
     <div className={`wrap sc-page${studio ? ' sc-studio' : ''}`}>
       <header className="sc-hero">
         <div className="sc-edition-meta">
-          <span>THE AI CHARTS</span>
-          <span>UPDATED EVERY MONDAY</span>
+          <span>LES CLASSEMENTS IA</span>
+          <span>MISE À JOUR CHAQUE LUNDI</span>
           <span>
-            {data.weeks.includes(week) && week !== data.weeks[0] ? 'ARCHIVE EDITION' : 'THIS WEEK'}
+            {data.weeks.includes(week) && week !== data.weeks[0]
+              ? 'ÉDITION ARCHIVÉE'
+              : 'CETTE SEMAINE'}
           </span>
         </div>
         <div className="sc-hero-main">
@@ -115,10 +118,10 @@ export function ChartsExperience({
             <h1>
               <span>SANDBOX</span>CHARTS<span className="sc-title-dot">.</span>
             </h1>
-            <p>The weekly charts of what matters in AI.</p>
+            <p>Les classements hebdomadaires de ce qui compte dans l’IA.</p>
           </div>
           <div className="sc-week-stamp">
-            <span className="sc-label">WEEK</span>
+            <span className="sc-label">SEMAINE</span>
             <strong>{week.slice(-2)}</strong>
             <span className="sc-label">{month}</span>
           </div>
@@ -141,7 +144,7 @@ export function ChartsExperience({
           de production utilisent les collectes GitHub.
         </p>
       ) : null}
-      <nav className="sc-chart-tabs" aria-label="Choisir un chart">
+      <nav className="sc-chart-tabs" aria-label="Choisir un classement">
         {(['github', 'skills', 'models', 'rising'] as const).map((chart, index) => (
           <button
             key={chart}
@@ -167,7 +170,7 @@ export function ChartsExperience({
       </nav>
       <nav className="sc-content-nav" aria-label="Dans cette édition">
         <a href="#sc-chart-title">Classement</a>
-        <a href="#sc-watchlist-title">Watchlist</a>
+        <a href="#sc-watchlist-title">À suivre</a>
         <a href="#sc-market-title">Signaux</a>
         <a href="#sc-archive-title">Archives</a>
         <Link href="/search">Rechercher</Link>
@@ -176,7 +179,7 @@ export function ChartsExperience({
         <div className="sc-chart-heading">
           <div>
             <p className="sc-label">
-              {id === 'rising' ? 'THE DISCOVERY CHART' : 'THE WEEKLY RANKING'}
+              {id === 'rising' ? 'LES DÉCOUVERTES' : 'LE CLASSEMENT HEBDOMADAIRE'}
             </p>
             <h2 id="sc-chart-title">{meta.title}</h2>
             <p>{meta.subtitle}</p>
@@ -214,7 +217,7 @@ export function ChartsExperience({
                 setShareRow(visible[0] ?? null);
               }}
             >
-              SHARE CHART ↗
+              PARTAGER LE CLASSEMENT ↗
             </button>
           </div>
         </div>
@@ -267,7 +270,7 @@ export function ChartsExperience({
                       setFilter(item);
                     }}
                   >
-                    {item}
+                    {chartFilterLabel(item)}
                   </button>
                 ))}
           </div>
@@ -305,13 +308,14 @@ export function ChartsExperience({
           <>
             <ChartsPodium rows={visible} period={period} />
             <div className="sc-list-heading">
-              <span className="sc-label">RANK / MOVEMENT / PROJECT</span>
-              <span className="sc-label">MOMENTUM</span>
+              <span className="sc-label">RANG / ÉVOLUTION / PROJET</span>
+              <span className="sc-label">DYNAMIQUE</span>
             </div>
             <ChartsRanking rows={visible} series={series} period={period} onShare={setShareRow} />
             <div className="sc-chart-footer">
               <span>
-                {visible.length} entrées{filter !== 'All' ? ` · filtre ${filter}` : ''} · les rangs
+                {visible.length} entrées
+                {filter !== 'All' ? ` · filtre ${chartFilterLabel(filter)}` : ''} · les rangs
                 officiels sont conservés.
               </span>
               <Link href={`/charts/${meta.slug}/methodology`}>Méthodologie et sources ↗</Link>
@@ -323,24 +327,24 @@ export function ChartsExperience({
             <div>
               <p className="sc-label">
                 {isUnavailable
-                  ? 'DATA TEMPORARILY UNAVAILABLE'
+                  ? 'DONNÉES TEMPORAIREMENT INDISPONIBLES'
                   : id === 'skills' || id === 'models'
-                    ? 'COMING NEXT'
-                    : 'BUILDING THE HISTORY'}
+                    ? 'BIENTÔT DISPONIBLE'
+                    : 'HISTORIQUE EN COURS DE CONSTITUTION'}
               </p>
               <h3>
                 {isUnavailable
                   ? 'Les données sont momentanément indisponibles.'
                   : id === 'skills' || id === 'models'
-                    ? 'La collecte de ce chart se prépare.'
-                    : 'Le premier classement se construit.'}
+                    ? 'La collecte de ce classement se prépare.'
+                    : 'Aucune édition publiée pour ce classement.'}
               </h3>
               <p>
                 {isUnavailable
                   ? 'Réessayez dans quelques instants.'
                   : id === 'rising'
                     ? "Rising attend une accélération mesurée sur deux périodes de sept jours. L'historique ne sera pas extrapolé."
-                    : 'La première édition sera publiée lorsque les dépôts suivis auront assez de relevés. Chaque position reposera sur des mesures enregistrées.'}
+                    : 'Le classement apparaîtra après la collecte des relevés et la publication d’une édition. Chaque position reposera sur des mesures enregistrées.'}
               </p>
               <Link href={`/charts/${meta.slug}/methodology`}>Lire la méthode ↗</Link>
             </div>
@@ -355,10 +359,10 @@ export function ChartsExperience({
         <ChartsRecords data={data} id={id} week={week} />
         {episodes.length ? (
           <section className="sc-podcast">
-            <span className="sc-label">ON THE PODCAST</span>
+            <span className="sc-label">DANS LE PODCAST</span>
             {episodes.map((episode) => (
               <Link key={episode.number} href={episode.href}>
-                <b>DISCUSSED IN SANDBOX #{episode.number}</b>
+                <b>ÉVOQUÉ DANS SANDBOX Nº {episode.number}</b>
                 <span>{episode.title} ↗</span>
               </Link>
             ))}
@@ -367,8 +371,8 @@ export function ChartsExperience({
         <section className="sc-archives" aria-labelledby="sc-archive-title">
           <div className="sc-section-heading">
             <div>
-              <p className="sc-label">EVERY WEEK LEAVES A TRACE</p>
-              <h2 id="sc-archive-title">THE ARCHIVES</h2>
+              <p className="sc-label">CHAQUE SEMAINE LAISSE UNE TRACE</p>
+              <h2 id="sc-archive-title">LES ARCHIVES</h2>
             </div>
             <label>
               <span className="sr-only">Mois des archives</span>
@@ -425,13 +429,13 @@ export function ChartsExperience({
         </section>
         <section className="sc-newsletter" aria-labelledby="sc-newsletter-title">
           <div>
-            <p className="sc-label">SANDBOX CHARTS / EVERY MONDAY</p>
+            <p className="sc-label">SANDBOX CHARTS / CHAQUE LUNDI</p>
             <h2 id="sc-newsletter-title">
-              KNOW WHAT'S
+              SUIVEZ CE QUI
               <br />
-              MOVING<span>.</span>
+              BOUGE<span>.</span>
             </h2>
-            <p>Get SANDBOX CHARTS in your inbox every week.</p>
+            <p>Recevez les classements SANDBOX chaque semaine par e-mail.</p>
           </div>
           <div>
             {data.newsletterUrl ? (
@@ -441,7 +445,7 @@ export function ChartsExperience({
                 target="_blank"
                 rel="noreferrer"
               >
-                GET THE CHARTS ↗
+                RECEVOIR LES CLASSEMENTS ↗
               </a>
             ) : (
               <>
@@ -450,7 +454,7 @@ export function ChartsExperience({
                   <input type="email" placeholder="Votre adresse email" disabled />
                 </label>
                 <button className="btn btn-solid" type="button" disabled>
-                  GET THE CHARTS
+                  RECEVOIR LES CLASSEMENTS
                 </button>
                 <p>Les inscriptions ne sont pas encore ouvertes.</p>
               </>

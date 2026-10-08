@@ -4,7 +4,9 @@ Application : [`apps/site`](../../apps/site). Décision de fond : [ADR-0015](../
 
 La stratégie de découverte multilingue et le contrat de données pour les classements sont définis dans [ADR-0020](../adr/ADR-0020-architecture-seo-international-des-classements.md) et [la feuille de route SEO](seo-roadmap.md). Le registre i18n contient 115 cibles européennes prioritaires et le routage accepte les locales BCP 47 canoniques à code de langue ISO de deux ou trois lettres. Les chemins français restent sans préfixe ; les autres locales utilisent leur tag complet. Seules les traductions relues et reliées à des données réelles peuvent sortir du `noindex`.
 
-Le parcours média podcast-first, les ressources en barre latérale, la recherche et le thème rouge optionnel sont définis par [DD-0003](../design-decisions/DD-0003-parcours-podcast-et-theme-rouge.md). Les articles historiques du dépôt ne sont plus publiés comme pages autonomes.
+Le parcours média centré sur les podcasts, les ressources en barre latérale et la recherche sont définis par [DD-0003](../design-decisions/DD-0003-parcours-podcast-et-theme-rouge.md). [DD-0008](../design-decisions/DD-0008-logo-et-navigation-publique.md) fixe le logo complet, les sous-menus Podcasts et le retrait du choix de thème. Les articles historiques du dépôt ne sont plus publiés comme pages autonomes.
+
+[DD-0009](../design-decisions/DD-0009-langue-des-classements.md) fixe les libellés français des classements publics et un état d'attente explicite tant qu'aucune édition réelle n'est publiée.
 
 Ce site est un produit distinct de la plateforme de production de podcasts décrite dans le prompt maître : il n'en reprend ni les critères d'acceptation ni le Golden Path. Il vit dans le même dépôt parce que le monorepo (ADR-0001) prévoyait déjà une application Next.js.
 
@@ -90,7 +92,7 @@ Episode ─< Mention, Source, Chapter       Host, Topic
 
 ## 5. Direction artistique
 
-Le bleu nuit et le cyan restent le thème par défaut ; le thème rouge et crème est disponible comme préférence locale. Détails dans [DD-0002](../design-decisions/DD-0002-charte-sandbox-bleu-nuit-cyan.md) et [DD-0003](../design-decisions/DD-0003-parcours-podcast-et-theme-rouge.md). Archivo pour les titres, Newsreader pour le texte éditorial, JetBrains Mono pour la donnée. Le rang reste l'élément graphique des classements.
+Le bleu nuit et le cyan sont l'unique apparence publique depuis [DD-0008](../design-decisions/DD-0008-logo-et-navigation-publique.md). La charte initiale est décrite dans [DD-0002](../design-decisions/DD-0002-charte-sandbox-bleu-nuit-cyan.md). Archivo sert les titres, Newsreader le texte éditorial et JetBrains Mono la donnée. Le rang reste l'élément graphique des classements.
 
 ## 6. Patterns UX des classements
 
@@ -114,7 +116,7 @@ Voir [data-strategy.md](data-strategy.md) : connecteurs prévus, provenance, rè
 
 ## Ce qui est fait, ce qui ne l'est pas
 
-Fait : 4 classements de 10 avec 16 semaines d'historique (démonstration), 3 épisodes, 55 fiches, 29 avis, bibliothèque média et pages de classement, recherche, import de métadonnées YouTube, formulaires d'édition des épisodes et réglages du site, brouillons et publication authentifiés, thème rouge optionnel, SEO (métadonnées, JSON-LD, sitemap, RSS), scripts de création de contenu.
+Fait : 4 classements de 10 avec 16 semaines d'historique (démonstration), 3 épisodes, 55 fiches, 29 avis, bibliothèque média et pages de classement, recherche, import de métadonnées YouTube, formulaires d'édition des épisodes et réglages du site, brouillons et publication authentifiés, SEO (métadonnées, JSON-LD, sitemap, RSS), scripts de création de contenu.
 
 Fait : fondations i18n (préfixes BCP 47, registre de 115 cibles européennes prioritaires, schémas de traduction, statuts de revue, routes dynamiques, canoniques, hreflang et gates du sitemap). Les chemins français ne changent pas. Les chaînes générales françaises et anglaises sont présentes ; chaque cible a aussi un brouillon de libellés de classement. Les textes hors français et anglais restent `noindex` jusqu'à relecture native et publication du contenu localisé.
 

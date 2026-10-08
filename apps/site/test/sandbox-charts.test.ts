@@ -108,7 +108,7 @@ describe('présentation des charts', () => {
     firstSeries.snapshots = [first, { ...first, week: '2026-W41' }];
     expect(
       chartsRecords(data, 'github', '2026-W41').find(
-        (record) => record.label === 'LONGEST #1 STREAK',
+        (record) => record.label === 'PLUS LONGUE SÉRIE À LA 1RE PLACE',
       )?.value,
     ).toBe('1 sem.');
   });
