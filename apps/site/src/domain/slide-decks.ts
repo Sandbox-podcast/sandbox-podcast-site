@@ -29,7 +29,7 @@ export function listSlideDecks(slidesRoot: string): SlideDeck[] {
       return {
         slug,
         title: extractSlideTitle(html, slug),
-        href: `./${slug}/`,
+        href: `./${slug}/index.html`,
       };
     });
 }

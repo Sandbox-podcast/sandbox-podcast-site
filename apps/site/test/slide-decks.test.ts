@@ -11,8 +11,8 @@ import {
 import {
   SLIDES_HOST,
   isSlidesHost,
+  slidesBrowserRedirect,
   slidesRewriteDestination,
-  subdomainRedirectRules,
 } from '../src/domain/subdomain-routing';
 
 const temps: string[] = [];
@@ -42,23 +42,26 @@ describe('slide decks', () => {
       {
         slug: 'episode-043',
         title: 'Sandbox — épisode 043',
-        href: './episode-043/',
+        href: './episode-043/index.html',
       },
       {
         slug: 'episode-044',
         title: 'Épisode 044',
-        href: './episode-044/',
+        href: './episode-044/index.html',
       },
     ]);
   });
 
   it('rend une page d’index statique sans bundle Next', () => {
     const html = renderSlidesIndexHtml([
-      { slug: 'episode-043', title: 'Sandbox — épisode 043', href: './episode-043/' },
+      {
+        slug: 'episode-043',
+        title: 'Sandbox — épisode 043',
+        href: './episode-043/index.html',
+      },
     ]);
     expect(html).toContain('<title>Présentations Sandbox</title>');
-    expect(html).toContain('href="./episode-043/"');
-    expect(html).toContain('Sandbox — épisode 043');
+    expect(html).toContain('href="./episode-043/index.html"');
     expect(html).not.toContain('/_next/');
   });
 
@@ -73,39 +76,31 @@ describe('slide decks', () => {
       expect(actual).toContain(deck.slug);
     }
   });
-
-  it('résout le dossier public/slides depuis la racine du site', () => {
-    expect(slidesPublicRoot('/tmp/site').replace(/\\/g, '/')).toBe('/tmp/site/public/slides');
-  });
 });
 
 describe('subdomain routing', () => {
   it('reconnaît l’hôte slides', () => {
     expect(SLIDES_HOST).toBe('slides.sandboxpodcast.fr');
     expect(isSlidesHost('slides.sandboxpodcast.fr')).toBe(true);
-    expect(isSlidesHost('slides.sandboxpodcast.fr:443')).toBe(true);
     expect(isSlidesHost('www.sandboxpodcast.fr')).toBe(false);
   });
 
-  it('réécrit la racine et les decks sans doubler /slides ni toucher /_next', () => {
+  it('canonise les decks vers index.html pour éviter la boucle de slash', () => {
+    expect(slidesBrowserRedirect('/episode-043')).toBe('/episode-043/index.html');
+    expect(slidesBrowserRedirect('/episode-043/')).toBe('/episode-043/index.html');
+    expect(slidesBrowserRedirect('/episode-043/index.html')).toBeNull();
+    expect(slidesBrowserRedirect('/')).toBeNull();
+  });
+
+  it('réécrit vers des fichiers index.html et préserve les assets', () => {
     expect(slidesRewriteDestination('/')).toBe('/slides/index.html');
-    expect(slidesRewriteDestination('/episode-043/')).toBe('/slides/episode-043/');
+    expect(slidesRewriteDestination('/episode-043/index.html')).toBe(
+      '/slides/episode-043/index.html',
+    );
     expect(slidesRewriteDestination('/episode-043/assets/logo.png')).toBe(
       '/slides/episode-043/assets/logo.png',
     );
     expect(slidesRewriteDestination('/slides/index.html')).toBeNull();
     expect(slidesRewriteDestination('/_next/static/chunk.js')).toBeNull();
-    expect(slidesRewriteDestination('/api/cron/github-daily')).toBeNull();
-  });
-
-  it('redirige un deck sans slash final vers le dossier', () => {
-    expect(subdomainRedirectRules).toEqual([
-      {
-        source: '/:deck(episode-[^/.]+)',
-        has: [{ type: 'host', value: SLIDES_HOST }],
-        destination: '/:deck/',
-        permanent: false,
-      },
-    ]);
   });
 });

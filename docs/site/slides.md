@@ -9,7 +9,7 @@ apps/site/public/slides/
     └── assets/
 ```
 
-Le sous-domaine `slides.sandboxpodcast.fr` affiche d’abord `public/slides/index.html` (liste des supports, sans JavaScript Next). Chaque deck s’ouvre ensuite sur `https://slides.sandboxpodcast.fr/<episode>/` (exemple : `/episode-043/`). Le middleware (`apps/site/src/middleware.ts`) et la logique pure (`subdomain-routing.ts`) réécrivent les chemins du sous-domaine vers `public/slides/...` (sauf `/_next` et `/api`) pour que les assets relatifs (`./assets/...`) se chargent correctement.
+Le sous-domaine `slides.sandboxpodcast.fr` affiche d’abord `public/slides/index.html` (liste des supports, sans JavaScript Next). Chaque deck s’ouvre sur `https://slides.sandboxpodcast.fr/<episode>/index.html` (exemple : `/episode-043/index.html`) : cette URL stable évite la boucle de redirections slash de Next et garde `./assets/` corrects. Le middleware réécrit vers `public/slides/...` (sauf `/_next` et `/api`).
 
 Après ajout d’un dossier d’épisode, régénérer l’index :
 
