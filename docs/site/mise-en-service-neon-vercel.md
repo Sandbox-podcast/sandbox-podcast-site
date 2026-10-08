@@ -1,10 +1,12 @@
 # Mise en service SANDBOX CHARTS sur Neon et Vercel
 
-Cette fiche est à transmettre au propriétaire du compte Neon et au responsable du projet Vercel. Elle décrit l'activation de la collecte GitHub sur la base existante du site. Elle ne contient aucun secret.
+Cette fiche est à transmettre à Loïc Peaudecerf, au propriétaire du compte Neon et au responsable du projet Vercel. Elle décrit les actions nécessaires pour afficher les données réelles des classements sur la base existante du site. Elle ne contient aucun secret.
+
+Pour les traductions, appliquer aussi la migration additive **0006** et suivre [le workflow manuel depuis le harnais](prompt-traductions-harnais.md#mise-en-service-pour-le-propriétaire-neon). L’admin exporte les textes publiés et importe les lots traduits. Aucun moteur externe de traduction ni cron supplémentaire n’est nécessaire.
 
 ## Situation vérifiée
 
-Le code des classements, des traductions et ses migrations additives sont dans `apps/site`. Les migrations 0002 à 0004 ont été exécutées dans PGlite de test, pas dans Neon.
+Le code des classements, des traductions et des collecteurs Skills/Models, avec leurs migrations additives, est dans `apps/site`. Les migrations 0002 à 0005 ont été exécutées dans PGlite de test, pas dans Neon.
 
 La note de transfert du 7 octobre dans `transmission-vercel-2026-10-07.md` nomme le projet `sandboxpodcastpro-5518/sandbox-podcast`, le domaine `www.sandboxpodcast.fr` et le Root Directory `apps/site`. Elle indique que l'intégration Neon fournissait `DATABASE_URL` et `POSTGRES_URL` à Production et Preview, ainsi que les secrets d'administration aux deux environnements. Ces réglages viennent de cette note antérieure et restent à confirmer dans le tableau de bord.
 
@@ -28,7 +30,7 @@ Ne pas coller les migrations SQL directement dans l'éditeur Neon. La commande c
 1. Vérifier et relire les changements dans le dépôt, puis les committer et les pousser dans la branche de travail convenue. Aucune modification ne peut apparaître dans le projet Vercel à partir du seul dossier local.
 2. Dans le projet Vercel confirmé par le responsable, vérifier le dépôt Git lié, la branche de production et la configuration du monorepo. La note antérieure indique que le Root Directory est `apps/site`. Garder le réglage existant s'il produit déjà le build Next.js attendu avec la lockfile pnpm de la racine. Vérifier que la version Node du projet est 24.x.
 3. Après avoir reçu l'URL Neon, vérifier la variable existante `DATABASE_URL` ou `POSTGRES_URL`. Ne pas remplacer une variable Neon déjà fonctionnelle sans vérifier la branche et la base cibles. L'application utilise `DATABASE_URL` en priorité. Ne jamais placer la valeur dans le code ni dans une variable `NEXT_PUBLIC_*`.
-4. Appliquer les migrations 0002 (collecte GitHub), 0003 (catalogue et textes localisés des classements) et 0004 (pages, épisodes, thèmes et fiches localisés) avant le déploiement de production. Utiliser le commit relu et le rôle de migration autorisé. Si cette personne exécute la commande depuis une copie sécurisée du dépôt, stocker l'URL dans `apps/site/.env.local`, ignoré par Git, puis lancer depuis `apps/site` :
+4. Appliquer les migrations 0002 (collecte GitHub), 0003 (catalogue et textes localisés des classements), 0004 (pages, épisodes, thèmes et fiches localisés) et 0005 (identités de fournisseurs et relevés externes) avant le déploiement de production. Utiliser le commit relu et le rôle de migration autorisé. Si cette personne exécute la commande depuis une copie sécurisée du dépôt, stocker l'URL dans `apps/site/.env.local`, ignoré par Git, puis lancer depuis `apps/site` :
 
    ```powershell
    node --env-file-if-exists=.env.local scripts/db-migrate.ts
@@ -42,19 +44,22 @@ Dans le projet vérifié, garder la connexion Neon existante si elle pointe vers
 
 Selon la note de transfert du 7 octobre, les deux variables `DATABASE_URL` et `POSTGRES_URL` étaient déjà fournies par l'intégration Neon en Production et Preview. Vérifier qu'elles désignent la même base et branche. L'application choisit `DATABASE_URL` si les deux sont présentes.
 
-| Variable       | Valeur attendue                                                          | Règle                                                                                                    |
-| -------------- | ------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------- |
-| `DATABASE_URL` | Connexion Neon à la base Sandbox existante                               | Secret serveur. Confirmer avant de remplacer une variable déjà présente.                                 |
-| `GITHUB_TOKEN` | Jeton GitHub autorisé à lire les dépôts publics utilisés par la collecte | Lecture seule. Ne pas lui accorder de droits d'écriture.                                                 |
-| `CRON_SECRET`  | Secret aléatoire d'au moins 16 caractères                                | Générer dans un gestionnaire de secrets et le configurer dans Production. Ne pas le réutiliser ailleurs. |
+| Variable             | Valeur attendue                                                          | Règle                                                                                                    |
+| -------------------- | ------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------- |
+| `DATABASE_URL`       | Connexion Neon à la base Sandbox existante                               | Secret serveur. Confirmer avant de remplacer une variable déjà présente.                                 |
+| `GITHUB_TOKEN`       | Jeton GitHub autorisé à lire les dépôts publics utilisés par la collecte | Lecture seule. Ne pas lui accorder de droits d'écriture.                                                 |
+| `CRON_SECRET`        | Secret aléatoire d'au moins 16 caractères                                | Générer dans un gestionnaire de secrets et le configurer dans Production. Ne pas le réutiliser ailleurs. |
+| `VERCEL_OIDC_TOKEN`  | Jeton OIDC injecté par Vercel si la fédération OIDC est activée          | Active les appels Skills.sh authentifiés. Ne pas créer une valeur statique à la main.                    |
+| `HF_TOKEN`           | Jeton Hugging Face facultatif, lecture seule                             | Utile si le Hub applique une limite de débit aux lectures anonymes.                                      |
+| `OPENROUTER_API_KEY` | Clé OpenRouter facultative                                               | Ajoute les rangs hebdomadaires et débits; sans clé, ces signaux restent absents.                         |
 
 Conserver `SITE_ADMIN_SECRET`, `SITE_ADMIN_USERS` et les autres variables du site déjà configurées. Ne pas remplacer la politique actuelle `SITE_DATA_MODE` pour activer les classements : les autres contenus du site ont leur propre état de validation. `CHARTS_NEWSLETTER_URL` est facultative et ne doit pointer que vers un formulaire HTTPS existant.
 
 ## Déploiement et collecte
 
 1. Déployer d'abord le commit relu en Preview. Vérifier que les pages s'affichent sans fixtures, que les éditions manquantes indiquent l'état d'attente et que les routes admin et cron refusent une requête anonyme.
-2. Après validation de Preview et application de 0002 à 0004, lancer le déploiement de la branche de production depuis le flux Vercel habituel. Vérifier que le plan autorise la durée de fonction `maxDuration: 300` définie pour les tâches de collecte.
-3. Contrôler les trois tâches déclarées dans `apps/site/vercel.json` : découverte GitHub tous les jours à 01:00 UTC, relevés quotidiens à 02:00 UTC et édition hebdomadaire le lundi à 03:00 UTC. Vercel doit envoyer le secret Cron dans `Authorization: Bearer ...`.
+2. Après validation de Preview et application de 0002 à 0005, lancer le déploiement de la branche de production depuis le flux Vercel habituel. Vérifier que le plan autorise la durée de fonction `maxDuration: 300` définie pour les tâches de collecte.
+3. Contrôler les tâches déclarées dans `apps/site/vercel.json` : découverte GitHub tous les jours à 01:00 UTC, collecte quotidienne Skills/Models à 02:30 UTC et édition hebdomadaire le lundi à 03:00 UTC. Vercel doit envoyer le secret Cron dans `Authorization: Bearer ...`. Le gel hebdomadaire inclut GitHub, Skills et Models; une édition externe attend les seuils d'historique et de candidats documentés dans [le guide dédié](external-rankings.md).
 4. Depuis une copie locale sécurisée du commit relu, avec Node 24, pnpm 12 et les secrets nécessaires dans `apps/site/.env.local`, afficher d'abord le résultat de la simulation sans écriture :
 
    ```powershell
@@ -74,7 +79,7 @@ Conserver `SITE_ADMIN_SECRET`, `SITE_ADMIN_USERS` et les autres variables du sit
 ## Contrôles de fin
 
 - L'URL de la base correspond bien au projet Neon de production voulu.
-- Les migrations Drizzle 0000 à 0004 apparaissent une seule fois dans l'historique.
+- Les migrations Drizzle 0000 à 0005 apparaissent une seule fois dans l'historique.
 - Le tableau de bord `/admin` montre les rôles et états de collecte attendus.
 - `GET /api/charts/github/current` et `GET /api/charts/rising/current` retournent une attente sans lignes, puis les positions publiées après la première édition.
 - Une édition hebdomadaire inconnue et un projet inconnu retournent 404.

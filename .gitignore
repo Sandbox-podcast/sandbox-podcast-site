@@ -22,3 +22,4 @@ old/**/.local/
 apps/site/next-env.d.ts
 apps/site/.site-content.local.json
 .site-publish/
+.local/

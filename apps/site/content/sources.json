@@ -4,16 +4,40 @@
     "label": "API REST GitHub",
     "url": "https://docs.github.com/en/rest",
     "kind": "api",
-    "provides": "Étoiles, forks, contributeurs, commits et historique d'étoiles des dépôts.",
-    "status": "planned"
+    "provides": "Métadonnées des dépôts reliés aux skills : stars, forks, visibilité et dernière activité déclarée.",
+    "status": "connected"
+  },
+  {
+    "id": "skills-sh",
+    "label": "Skills.sh API",
+    "url": "https://www.skills.sh/docs/api",
+    "kind": "api",
+    "provides": "Identité et compteurs d'installations cumulés du classement Skills.sh.",
+    "status": "connected"
   },
   {
     "id": "huggingface-hub",
     "label": "Hugging Face Hub",
     "url": "https://huggingface.co/docs/hub/api",
     "kind": "api",
-    "provides": "Licence, taille, téléchargements et likes des modèles open weights.",
-    "status": "planned"
+    "provides": "Identifiants, téléchargements sur 30 jours, likes, tags de licence et accès des modèles publics.",
+    "status": "connected"
+  },
+  {
+    "id": "arena",
+    "label": "Arena Leaderboard Dataset",
+    "url": "https://huggingface.co/datasets/lmarena-ai/leaderboard-dataset",
+    "kind": "leaderboard",
+    "provides": "Scores Arena publiés par catégorie (texte, WebDev, agents, vision et recherche), avec rang et nombre de votes.",
+    "status": "connected"
+  },
+  {
+    "id": "openrouter",
+    "label": "OpenRouter API",
+    "url": "https://openrouter.ai/docs/api/api-reference/models/get-models",
+    "kind": "api",
+    "provides": "Usage hebdomadaire, débit relatif, fenêtre de contexte et prix par million de tokens.",
+    "status": "connected"
   },
   {
     "id": "swe-bench",
@@ -89,10 +113,10 @@
   },
   {
     "id": "artificial-analysis",
-    "label": "Artificial Analysis",
-    "url": "https://artificialanalysis.ai",
+    "label": "Artificial Analysis via OpenRouter",
+    "url": "https://openrouter.ai/docs/api/api-reference/benchmarks/get-benchmarks",
     "kind": "leaderboard",
     "provides": "Vitesse de génération, latence et prix des API, mesurés de façon homogène.",
-    "status": "planned"
+    "status": "connected"
   }
 ]

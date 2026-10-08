@@ -5,18 +5,18 @@ import { sandboxChartsData } from '@/lib/sandbox-charts';
 import { findChart, weeksOf } from '@/lib/repository';
 import { pageMetadata } from '@/lib/seo';
 import { CHART_LABELS, hasChartEdition } from '@/domain/sandbox-charts';
-import { chartSelectionSchema } from '@/domain/chart-selection';
+import { chartSelectionSchema, hasChartSelectionQuery } from '@/domain/chart-selection';
 import { chartIdForSlug, hasIndexableChartContent } from '@/domain/chart-seo';
-
 export const dynamicParams = true;
 export const dynamic = 'force-dynamic';
-
 interface Props {
-  params: Promise<{ slug: string; week: string }>;
+  params: Promise<{
+    slug: string;
+    week: string;
+  }>;
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }
-
-export async function generateMetadata({ params }: Props) {
+export async function generateMetadata({ params, searchParams }: Props) {
   const { slug, week } = await params;
   const chart = findChart(slug);
   if (!chart || !/^\d{4}-W(0[1-9]|[1-4]\d|5[0-3])$/.test(week)) return {};
@@ -28,11 +28,16 @@ export async function generateMetadata({ params }: Props) {
     title: `${title} · ${week} · SANDBOX CHARTS`,
     description: `L’édition ${week} de ${title}, avec ses positions et mouvements figés.`,
     path: `/charts/${chart.slug}/${week}`,
-    ...(chartId && data ? { noindex: !hasIndexableChartContent(data, chartId, week) } : {}),
+    ...(chartId && data
+      ? {
+          noindex:
+            !hasIndexableChartContent(data, chartId, week) ||
+            hasChartSelectionQuery(await searchParams),
+        }
+      : {}),
     ownImage: true,
   });
 }
-
 export default async function ChartWeekPage({ params, searchParams }: Props) {
   const { slug, week } = await params;
   const selection = chartSelectionSchema.parse(await searchParams);
@@ -49,6 +54,7 @@ export default async function ChartWeekPage({ params, searchParams }: Props) {
           slug === 'open-source-ai' ? 'open' : slug === 'ai-models' ? selection.view : undefined
         }
         initialPeriod={selection.period}
+        initialSelection={selection}
       />
     );
   }

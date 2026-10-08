@@ -530,7 +530,7 @@ export async function liveChartEntities(slugs: string[]) {
   return getDb()
     .select({ entity: chartEntities, repo: githubProjects })
     .from(chartEntities)
-    .innerJoin(githubProjects, eq(githubProjects.entityId, chartEntities.id))
+    .leftJoin(githubProjects, eq(githubProjects.entityId, chartEntities.id))
     .where(inArray(chartEntities.slug, slugs));
 }
 export async function chartCatalog(page = 0, status?: TrackingStatus, search = '') {

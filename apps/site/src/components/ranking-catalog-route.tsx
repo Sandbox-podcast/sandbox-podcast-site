@@ -8,7 +8,6 @@ import {
   publicRankingCollectionPagesFor,
   publicRankingEntries,
 } from '@/lib/localized-content';
-
 export async function rankingCatalogMetadata(path: string): Promise<Metadata> {
   const page = await publicRankingCollectionPageByPath(path);
   if (!page) {
@@ -36,7 +35,6 @@ export async function rankingCatalogMetadata(path: string): Promise<Metadata> {
     })),
   });
 }
-
 export async function RankingCatalogRoute({ path }: { path: string }) {
   const page = await publicRankingCollectionPageByPath(path);
   if (!page) notFound();

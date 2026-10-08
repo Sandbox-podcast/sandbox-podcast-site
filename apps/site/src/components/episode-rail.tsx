@@ -1,7 +1,6 @@
 'use client';
-
+import { Text, LocalizedElement } from '@/components/localization';
 import { useEffect, useRef, useState, type ReactNode } from 'react';
-
 export function EpisodeRail({
   id,
   label,
@@ -45,57 +44,74 @@ export function EpisodeRail({
   }
   return (
     <div className="episode-rail-shell">
-      {position.overflow ? (
-        <div className="rail-controls" role="group" aria-label={`Parcourir ${label}`}>
-          <button
-            type="button"
-            className="rail-control"
-            aria-label={`Épisodes précédents : ${label}`}
-            aria-controls={id}
-            disabled={!position.previous}
-            onClick={() => {
-              move(-1);
-            }}
+      <Text>
+        {position.overflow ? (
+          <LocalizedElement
+            as="div"
+            className="rail-controls"
+            role="group"
+            aria-label={`Parcourir ${label}`}
           >
-            <svg
-              aria-hidden="true"
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
+            <LocalizedElement
+              as="button"
+              type="button"
+              className="rail-control"
+              aria-label={`Épisodes précédents : ${label}`}
+              aria-controls={id}
+              disabled={!position.previous}
+              onClick={() => {
+                move(-1);
+              }}
             >
-              <path d="m14 6-6 6 6 6" />
-            </svg>
-          </button>
-          <button
-            type="button"
-            className="rail-control"
-            aria-label={`Épisodes suivants : ${label}`}
-            aria-controls={id}
-            disabled={!position.next}
-            onClick={() => {
-              move(1);
-            }}
-          >
-            <svg
-              aria-hidden="true"
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
+              <svg
+                aria-hidden="true"
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <path d="m14 6-6 6 6 6" />
+              </svg>
+            </LocalizedElement>
+            <LocalizedElement
+              as="button"
+              type="button"
+              className="rail-control"
+              aria-label={`Épisodes suivants : ${label}`}
+              aria-controls={id}
+              disabled={!position.next}
+              onClick={() => {
+                move(1);
+              }}
             >
-              <path d="m10 6 6 6-6 6" />
-            </svg>
-          </button>
-        </div>
-      ) : null}
-      <div className="episode-rail" id={id} ref={rail} role="group" aria-label={label} tabIndex={0}>
-        {children}
-      </div>
+              <svg
+                aria-hidden="true"
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <path d="m10 6 6 6-6 6" />
+              </svg>
+            </LocalizedElement>
+          </LocalizedElement>
+        ) : null}
+      </Text>
+      <LocalizedElement
+        as="div"
+        className="episode-rail"
+        id={id}
+        ref={rail}
+        role="group"
+        aria-label={label}
+        tabIndex={0}
+      >
+        <Text>{children}</Text>
+      </LocalizedElement>
     </div>
   );
 }

@@ -6,9 +6,13 @@ Le dépôt sert le site média `apps/site`. La documentation du travail précéd
 
 UI/UX du site : [rapport du 8 octobre 2026](site/ui-ux-2026-10-08.md) et [DD-0005](design-decisions/DD-0005-ux-globale-du-site.md).
 Présentations d’épisode en HTML sur `slides.sandboxpodcast.fr` : [guide des slides](site/slides.md) et [DD-0007](design-decisions/DD-0007-sous-domaine-des-presentations.md).
+Logo complet et navigation publique : [DD-0008](design-decisions/DD-0008-logo-et-navigation-publique.md).
+Langue des classements publics : [DD-0009](design-decisions/DD-0009-langue-des-classements.md).
 
-SANDBOX CHARTS : [guide d’exploitation](site/sandbox-charts.md), [fiche de mise en service Neon et Vercel](site/mise-en-service-neon-vercel.md), [rapport de livraison](site/sandbox-charts-livraison.md), [méthodologie](sandbox-charts-methodology.md), [ADR-0019](adr/ADR-0019-sandbox-charts-github-postgres.md) et [DD-0004](design-decisions/DD-0004-sandbox-charts.md).
+SANDBOX CHARTS : [guide d’exploitation](site/sandbox-charts.md), [sources externes Skills/Models](site/external-rankings.md), [fiche de mise en service Neon et Vercel](site/mise-en-service-neon-vercel.md), [rapport de livraison](site/sandbox-charts-livraison.md), [méthodologie](sandbox-charts-methodology.md), [ADR-0019](adr/ADR-0019-sandbox-charts-github-postgres.md), [ADR-0021](adr/ADR-0021-classements-externes-skills-models.md) et [DD-0004](design-decisions/DD-0004-sandbox-charts.md).
 SEO international et i18n européenne (115 locales prioritaires) : [ADR-0020](adr/ADR-0020-architecture-seo-international-des-classements.md) et [feuille de route SEO](site/seo-roadmap.md).
+Pages et assets partagés entre langues, dictionnaires locaux : [DD-0006](design-decisions/DD-0006-pages-partagees-et-traductions-locales.md) et [guide de traduction](site/traductions-locales.md).
+Traductions déclenchées dans le harnais : [ADR-0022](adr/ADR-0022-traductions-manuelles-depuis-le-harnais.md) et [prompt, export/import et mise en service Neon](site/prompt-traductions-harnais.md).
 Passation pour finaliser la livraison, les données réelles et le SEO : [liste de travail de la PR](site/passation-pr-2026-10-08.md).
 
 | Document                                                                                | Contenu                                      |
@@ -23,9 +27,12 @@ Passation pour finaliser la livraison, les données réelles et le SEO : [liste 
 | [adr/ADR-0017](adr/ADR-0017-persistance-editoriale-postgres.md)                         | Persistance éditoriale Postgres              |
 | [adr/ADR-0018](adr/ADR-0018-comptes-admin-postgres.md)                                  | Comptes admin et rôles Postgres              |
 | [adr/ADR-0020](adr/ADR-0020-architecture-seo-international-des-classements.md)          | SEO international et modèle des classements  |
+| [adr/ADR-0021](adr/ADR-0021-classements-externes-skills-models.md)                      | Sources externes et scoring Skills/Models    |
 | [design-decisions/DD-0001](design-decisions/DD-0001-direction-artistique-du-site.md)    | Direction artistique, nom et langue du site  |
 | [design-decisions/DD-0002](design-decisions/DD-0002-charte-sandbox-bleu-nuit-cyan.md)   | Charte bleu nuit et cyan                     |
 | [design-decisions/DD-0003](design-decisions/DD-0003-parcours-podcast-et-theme-rouge.md) | Parcours podcast et thème rouge              |
+| [design-decisions/DD-0008](design-decisions/DD-0008-logo-et-navigation-publique.md)     | Logo complet et navigation publique          |
+| [design-decisions/DD-0009](design-decisions/DD-0009-langue-des-classements.md)          | Langue des classements publics               |
 | [testing.md](testing.md)                                                                | Tests et Quality Gates                       |
 | [open-questions.md](open-questions.md)                                                  | Questions ouvertes                           |
 

@@ -1,7 +1,12 @@
 import type { Metadata } from 'next';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
+import { sharedPages } from '@/components/shared-pages';
+import { matchSharedPage } from '@/i18n/page-routes';
+import { sourcePath, localizedHref } from '@/i18n/routing';
+import { siteDictionary } from '@/i18n/dictionaries';
+import { translateText } from '@/i18n/translation';
+import { preparePublishedEditorialContent } from '@/lib/admin-persistence';
 import {
-  EnglishHomePage,
   LocalizedRankingHub,
   LocalizedRankingPage,
   LocalizedSiteContentPage,
@@ -9,7 +14,7 @@ import {
 import { localeRouteSegment, localeTagFromRouteSegment } from '@/i18n/locales';
 import { isLocaleUiReviewed } from '@/i18n/messages';
 import { hasRankingUiTranslation, rankingMessages } from '@/i18n/ranking-messages';
-import { pageMetadata } from '@/lib/seo';
+import { pageMetadata, absoluteUrl, openGraphLocaleForTag, robotsMetadata } from '@/lib/seo';
 import {
   publicLocalizedSitePageByPath,
   publicRankingCollectionPageByPath,
@@ -69,11 +74,52 @@ async function rankingHubAlternates(routeLocale: string) {
     }));
 }
 
-export async function generateMetadata({ params }: { params: RouteParams }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+  searchParams = Promise.resolve({}),
+}: {
+  params: RouteParams;
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
+}): Promise<Metadata> {
   const { locale: routeLocale, path } = await params;
   const locale = localeTagFromRouteSegment(routeLocale);
   if (!locale) return {};
   const pathName = routePath(routeLocale, path);
+  const shared = matchSharedPage(sourcePath(pathName));
+  if (shared) {
+    const dictionary = await siteDictionary(locale);
+    const metadata = await sharedPages[shared.route].metadata({
+      params: shared.params,
+      searchParams,
+      dictionary,
+    });
+    const title =
+      typeof metadata.title === 'string'
+        ? translateText(metadata.title, dictionary, locale)
+        : metadata.title;
+    const description = metadata.description
+      ? translateText(metadata.description, dictionary, locale)
+      : metadata.description;
+    return {
+      ...metadata,
+      title,
+      description,
+      alternates: { canonical: absoluteUrl(pathName) },
+      robots: robotsMetadata(true),
+      openGraph: {
+        ...metadata.openGraph,
+        ...(typeof title === 'string' ? { title } : {}),
+        ...(description ? { description } : {}),
+        url: absoluteUrl(pathName),
+        locale: openGraphLocaleForTag(locale),
+      },
+      twitter: {
+        ...metadata.twitter,
+        ...(typeof title === 'string' ? { title } : {}),
+        ...(description ? { description } : {}),
+      },
+    };
+  }
   const rankingPage = await rankingPageForRoute(routeLocale, pathName);
   if (rankingPage) {
     const translations = await publicRankingCollectionPagesFor(rankingPage.collection.key);
@@ -109,18 +155,6 @@ export async function generateMetadata({ params }: { params: RouteParams }): Pro
     });
   }
 
-  if (!path?.length && routeLocale.toLowerCase() === 'en') {
-    return pageMetadata({
-      title: 'AI rankings and video podcasts',
-      description:
-        'Discover AI with video podcasts and transparent rankings built from dated data, sources and published methods.',
-      path: '/en',
-      locale,
-      noindex: true,
-      ownImage: true,
-    });
-  }
-
   if (path?.length === 1 && path[0] === 'charts') {
     const pages = await rankingHubPages(routeLocale);
     if (pages.length || hasRankingUiTranslation(locale)) {
@@ -146,11 +180,30 @@ export async function generateMetadata({ params }: { params: RouteParams }): Pro
   });
 }
 
-export default async function LocalizedPage({ params }: { params: RouteParams }) {
+export default async function LocalizedPage({
+  params,
+  searchParams = Promise.resolve({}),
+}: {
+  params: RouteParams;
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
+}) {
   const { locale: routeLocale, path } = await params;
   const locale = localeTagFromRouteSegment(routeLocale);
   if (!locale) notFound();
   const pathName = routePath(routeLocale, path);
+  await preparePublishedEditorialContent();
+  const shared = matchSharedPage(sourcePath(pathName));
+  if (shared) {
+    if (shared.route === '/latest' || shared.route === '/stories/:slug')
+      redirect(localizedHref('/episodes', locale));
+    const dictionary = await siteDictionary(locale);
+    return sharedPages[shared.route].render({
+      params: shared.params,
+      searchParams,
+      dictionary,
+      locale,
+    });
+  }
   const rankingPage = await rankingPageForRoute(routeLocale, pathName);
   if (rankingPage) {
     const [entries, translations] = await Promise.all([
@@ -178,7 +231,6 @@ export default async function LocalizedPage({ params }: { params: RouteParams })
   const sitePage = await sitePageForRoute(routeLocale, pathName);
   if (sitePage) return <LocalizedSiteContentPage page={sitePage.localization} />;
 
-  if (!path?.length && routeLocale.toLowerCase() === 'en') return <EnglishHomePage />;
   if (path?.length === 1 && path[0] === 'charts') {
     const pages = await rankingHubPages(routeLocale);
     if (pages.length || hasRankingUiTranslation(locale)) {

@@ -81,6 +81,8 @@ describe('SEO des classements publiés', () => {
         { chart: 'github', week: '2026-W40', entries: 0 },
         { chart: 'rising', week: '2026-W41', entries: 8 },
         { chart: 'rising', week: '2026-W42', entries: 0 },
+        { chart: 'skills', week: '2026-W41', entries: 20 },
+        { chart: 'models', week: '2026-W41', entries: 20 },
         { chart: 'github', week: 'invalid', entries: 20 },
       ],
       ['owner-project-42', 'owner-project-42', 'invalid/slug'],
@@ -98,6 +100,10 @@ describe('SEO des classements publiés', () => {
         '/charts/rising',
         '/charts/rising/methodology',
         '/charts/rising/2026-W41',
+        '/charts/skills/methodology',
+        '/charts/ai-models/methodology',
+        '/charts/skills/2026-W41',
+        '/charts/ai-models/2026-W41',
       ]),
     );
     expect(paths).not.toContain('/charts/github/2026-W40');

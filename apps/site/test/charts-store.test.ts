@@ -10,6 +10,7 @@ import {
 } from '../src/domain/github-charts.ts';
 import { chartEditionSchema } from '../src/domain/schema.ts';
 import { ContentConflictError } from '../src/lib/admin-content-conflict.ts';
+import { freezeExternalEdition, saveExternalBatch } from '../src/lib/external-charts-store.ts';
 import {
   beginChartsJob,
   finishChartsJob,
@@ -73,10 +74,17 @@ async function seed(history = true, count = 20) {
   return projects;
 }
 beforeAll(async () => {
-  for (const statement of readFileSync('drizzle/0002_sandbox_charts.sql', 'utf8').split(
-    '--> statement-breakpoint',
-  ))
-    if (statement.trim()) await pg.exec(statement);
+  for (const migration of [
+    '0002_sandbox_charts.sql',
+    '0003_ranking_catalog_localization.sql',
+    '0004_site_content_localizations.sql',
+    '0005_external_chart_sources.sql',
+  ]) {
+    for (const statement of readFileSync(`drizzle/${migration}`, 'utf8').split(
+      '--> statement-breakpoint',
+    ))
+      if (statement.trim()) await pg.exec(statement);
+  }
 }, 30000);
 afterEach(async () => {
   vi.restoreAllMocks();
@@ -97,6 +105,105 @@ describe('pipeline charts sur Postgres', () => {
     expect(result.written).toBe(0);
     expect(await db.select().from(schema.weeklyChartEditions)).toHaveLength(0);
     expect(await db.select().from(schema.githubDailySnapshots)).toHaveLength(20);
+  });
+  it('stocke des mesures multi-sources, rejoue un jour sans doublon et fige leur provenance', async () => {
+    const skillsSource = {
+      provider: 'skills-sh' as const,
+      externalId: 'vercel/nextjs',
+      url: 'https://www.skills.sh/vercel/nextjs',
+      label: 'Skills.sh',
+    };
+    const githubSource = {
+      provider: 'github' as const,
+      externalId: 'vercel/next.js',
+      url: 'https://github.com/vercel/next.js',
+      label: 'GitHub',
+    };
+    const sources = [skillsSource, githubSource];
+    const entity = {
+      slug: 'nextjs-skill',
+      type: 'skill' as const,
+      name: 'Next.js',
+      organization: 'Vercel',
+      description: 'Skill de développement Next.js.',
+      category: 'Web development',
+      license: 'MIT',
+      openWeights: null,
+      sourceUrl: skillsSource.url,
+      websiteUrl: 'https://nextjs.org',
+      sources,
+    };
+    const collectedAt = `${date}T02:30:00.000Z`;
+    const observations = [
+      {
+        entitySlug: entity.slug,
+        source: skillsSource,
+        observedOn: date,
+        collectedAt,
+        metrics: { installs: 1200 },
+      },
+      {
+        entitySlug: entity.slug,
+        source: githubSource,
+        observedOn: date,
+        collectedAt,
+        metrics: { stars: 135000, forks: 29000 },
+      },
+    ];
+
+    expect(await saveExternalBatch([entity], observations)).toBe(2);
+    expect(await saveExternalBatch([entity], observations)).toBe(0);
+    expect(await db.select().from(schema.chartSourceSnapshots)).toHaveLength(2);
+    expect(await db.select().from(schema.chartEntitySources)).toHaveLength(2);
+    await expect(
+      pg.exec("UPDATE chart_source_snapshots SET metrics = '{}'::jsonb"),
+    ).rejects.toThrow();
+
+    const editionEntries = [
+      {
+        slug: entity.slug,
+        identity: {
+          name: entity.name,
+          organization: entity.organization,
+          sourceUrl: entity.sourceUrl,
+          license: entity.license,
+          openWeights: entity.openWeights,
+        },
+        rank: 1,
+        score: 84.5,
+        dimensions: { growth: 80, githubGrowth: 90, freshness: 75 },
+        metrics: { installs: 1200, stars: 135000 },
+        sourceObservedAt: [collectedAt],
+        sources,
+      },
+    ];
+    const frozen = await freezeExternalEdition(
+      'skills',
+      '2026-W41',
+      date,
+      'skills-momentum-v1',
+      { growth: 0.5, github: 0.3, freshness: 0.2 },
+      editionEntries,
+      true,
+    );
+
+    expect(frozen).toBe(1);
+    const edition = await publicChartEdition('skills');
+    expect(edition?.entries[0]).toMatchObject({
+      slug: entity.slug,
+      name: entity.name,
+      organization: entity.organization,
+      sourceUrl: entity.sourceUrl,
+      license: entity.license,
+      sources,
+    });
+    expect(
+      await freezeExternalEdition('skills', '2026-W41', date, 'changed', {}, editionEntries, true),
+    ).toBe(0);
+    expect(await db.select().from(schema.weeklyChartEditions)).toHaveLength(1);
+    await expect(
+      pg.exec("UPDATE weekly_chart_editions SET scoring_version = 'changed'"),
+    ).rejects.toThrow();
   });
   it('le dry run calcule Top 20 et Rising sans écrire ni journal ni édition', async () => {
     await seed();

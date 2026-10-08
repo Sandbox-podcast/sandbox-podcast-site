@@ -10,6 +10,7 @@ import { isoWeekOf } from '../domain/weeks.ts';
 import { hasDatabaseConfiguration } from '../db/client.ts';
 import { liveChartEntities, readLiveWeeklySnapshots } from './charts-store.ts';
 import { readChartsEditorial } from './charts-editorial.ts';
+import { readPublishedEntitySources } from './external-charts-store.ts';
 import {
   allCharts,
   allEntities,
@@ -158,38 +159,257 @@ export const sandboxChartsData = cache(async function sandboxChartsData(
     data.week = week;
     data.mode = snapshots.length ? 'live' : 'pending';
     data.weeks = [...new Set(snapshots.map((snapshot) => snapshot.week))].sort().reverse();
+    data.series = data.series.map((item) => {
+      const itemSnapshots = snapshots.filter(
+        (snapshot) => snapshot.chart === item.id || snapshot.chart === item.slug,
+      );
+      const dimensions = new Map(
+        itemSnapshots.flatMap((snapshot) =>
+          snapshot.entries.flatMap((entry) =>
+            Object.keys(entry.dimensions).map((id) => [id, id] as const),
+          ),
+        ),
+      );
+      const modelLabels: Record<string, string> = {
+        quality: 'Qualité générale',
+        coding: 'Code',
+        reasoning: 'Raisonnement',
+        maths: 'Mathématiques',
+        agents: 'Agents',
+        multimodal: 'Vision',
+        research: 'Recherche',
+        longContext: 'Longueur du contexte',
+        speed: 'Débit',
+        price: 'Prix',
+        reach: 'Portée',
+        value: 'Valeur',
+      };
+      const skillLabels: Record<string, string> = {
+        growth: 'Croissance des installations',
+        githubGrowth: 'Croissance des étoiles GitHub',
+        reach: 'Portée des installations Skills.sh',
+        freshness: 'Actualité du dépôt',
+        momentum: 'Dynamique entre sources',
+      };
+      return {
+        ...item,
+        snapshots: itemSnapshots,
+        ...(item.id === 'github'
+          ? {
+              dimensions: [
+                { id: 'momentum', label: 'Dynamique' },
+                { id: 'starVelocity', label: 'Vitesse des étoiles' },
+                { id: 'relativeGrowth', label: 'Croissance relative' },
+                { id: 'forkVelocity', label: 'Vitesse des forks' },
+                { id: 'contributorActivity', label: 'Activité des contributeurs' },
+                { id: 'repositoryActivity', label: 'Activité du dépôt' },
+              ],
+            }
+          : item.id === 'models'
+            ? {
+                dimensions: [...dimensions.keys()]
+                  .sort((a, b) => a.localeCompare(b))
+                  .map((id) => ({ id, label: modelLabels[id] ?? id })),
+              }
+            : item.id === 'skills'
+              ? {
+                  dimensions: [...dimensions.keys()]
+                    .sort((a, b) => a.localeCompare(b))
+                    .map((id) => ({ id, label: skillLabels[id] ?? id })),
+                }
+              : {}),
+        ...(item.id === 'skills'
+          ? {
+              metrics: [
+                {
+                  key: 'installs',
+                  label: 'Installations cumulées',
+                  unit: 'count',
+                  source: 'Skills.sh',
+                  url: 'https://www.skills.sh/docs/api',
+                },
+                {
+                  key: 'installs7d',
+                  label: 'Installations gagnées (7 jours)',
+                  unit: 'count',
+                  source: 'Calcul SANDBOX depuis Skills.sh',
+                  url: 'https://www.skills.sh/docs/api',
+                },
+                {
+                  key: 'stars',
+                  label: 'Étoiles GitHub',
+                  unit: 'count',
+                  source: 'GitHub REST API',
+                  url: 'https://docs.github.com/en/rest/repos/repos#get-a-repository',
+                },
+                {
+                  key: 'stars7d',
+                  label: 'Étoiles gagnées (7 jours)',
+                  unit: 'count',
+                  source: 'Calcul SANDBOX depuis GitHub',
+                  url: 'https://docs.github.com/en/rest/repos/repos#get-a-repository',
+                },
+                {
+                  key: 'forks',
+                  label: 'Forks GitHub',
+                  unit: 'count',
+                  source: 'GitHub REST API',
+                  url: 'https://docs.github.com/en/rest/repos/repos#get-a-repository',
+                },
+                {
+                  key: 'freshness',
+                  label: 'Fraîcheur du dépôt',
+                  unit: 'score',
+                  source: 'Calcul SANDBOX depuis GitHub',
+                  url: 'https://docs.github.com/en/rest/repos/repos#get-a-repository',
+                },
+              ],
+            }
+          : item.id === 'models'
+            ? {
+                metrics: [
+                  {
+                    key: 'arenaQuality',
+                    label: 'Elo Arena (texte)',
+                    unit: 'score',
+                    source: 'Arena',
+                    url: 'https://huggingface.co/datasets/lmarena-ai/leaderboard-dataset',
+                  },
+                  {
+                    key: 'artificialAnalysisIntelligence',
+                    label: 'Artificial Analysis Intelligence Index',
+                    unit: 'score',
+                    source: 'Artificial Analysis via OpenRouter',
+                    url: 'https://openrouter.ai/docs/api/api-reference/benchmarks/get-benchmarks',
+                  },
+                  {
+                    key: 'arenaCoding',
+                    label: 'Elo Arena (WebDev)',
+                    unit: 'score',
+                    source: 'Arena WebDev',
+                    url: 'https://huggingface.co/datasets/lmarena-ai/leaderboard-dataset',
+                  },
+                  {
+                    key: 'arenaAgent',
+                    label: 'Elo Arena (agents)',
+                    unit: 'score',
+                    source: 'Arena Agent',
+                    url: 'https://huggingface.co/datasets/lmarena-ai/leaderboard-dataset',
+                  },
+                  {
+                    key: 'arenaVision',
+                    label: 'Elo Arena (vision)',
+                    unit: 'score',
+                    source: 'Arena Vision',
+                    url: 'https://huggingface.co/datasets/lmarena-ai/leaderboard-dataset',
+                  },
+                  {
+                    key: 'arenaSearch',
+                    label: 'Elo Arena (search)',
+                    unit: 'score',
+                    source: 'Arena Search',
+                    url: 'https://huggingface.co/datasets/lmarena-ai/leaderboard-dataset',
+                  },
+                  {
+                    key: 'downloads30d',
+                    label: 'Téléchargements Hugging Face (30 jours)',
+                    unit: 'count',
+                    source: 'Hugging Face Hub',
+                    url: 'https://huggingface.co/docs/hub/api',
+                  },
+                  {
+                    key: 'contextLength',
+                    label: 'Fenêtre de contexte (tokens)',
+                    unit: 'tokens',
+                    source: 'OpenRouter',
+                    url: 'https://openrouter.ai/docs/api/api-reference/models/get-models',
+                  },
+                  {
+                    key: 'promptPricePerMillion',
+                    label: 'Prix entrée / million de tokens',
+                    unit: 'usd',
+                    source: 'OpenRouter',
+                    url: 'https://openrouter.ai/docs/api/api-reference/models/get-models',
+                  },
+                  {
+                    key: 'completionPricePerMillion',
+                    label: 'Prix sortie / million de tokens',
+                    unit: 'usd',
+                    source: 'OpenRouter',
+                    url: 'https://openrouter.ai/docs/api/api-reference/models/get-models',
+                  },
+                  {
+                    key: 'openRouterWeeklyRank',
+                    label: 'Rang d’usage hebdomadaire OpenRouter',
+                    unit: 'count',
+                    source: 'OpenRouter',
+                    url: 'https://openrouter.ai/docs/api/api-reference/models/get-models',
+                  },
+                  {
+                    key: 'openRouterThroughputRank',
+                    label: 'Rang de débit OpenRouter',
+                    unit: 'count',
+                    source: 'OpenRouter',
+                    url: 'https://openrouter.ai/docs/api/api-reference/models/get-models',
+                  },
+                ],
+              }
+            : {}),
+      };
+    });
+    const sourceRows = await readPublishedEntitySources(slugs);
+    const sourceLinks = new Map<
+      string,
+      { kind: 'github' | 'huggingface' | 'other'; label: string; url: string }[]
+    >();
+    for (const row of sourceRows) {
+      if (!row.source) continue;
+      const links = sourceLinks.get(row.entity.slug) ?? [];
+      const link = {
+        kind:
+          row.source.provider === 'github'
+            ? ('github' as const)
+            : row.source.provider === 'huggingface'
+              ? ('huggingface' as const)
+              : ('other' as const),
+        label: row.source.label,
+        url: row.source.url,
+      };
+      if (!links.some((existing) => existing.url === link.url)) links.push(link);
+      sourceLinks.set(row.entity.slug, links);
+    }
+    data.entities = entities.map(({ entity, repo }) => {
+      const kind =
+        entity.type === 'model'
+          ? 'model'
+          : entity.type === 'skill' || entity.type === 'mcp' || entity.type === 'agent'
+            ? 'tool'
+            : 'project';
+      const links = sourceLinks.get(entity.slug);
+      return {
+        slug: entity.slug,
+        name: entity.name,
+        kind,
+        org: entity.organization ?? repo?.owner,
+        tagline: (entity.description ?? repo?.description ?? entity.name).slice(0, 110),
+        description: entity.description ?? repo?.description ?? entity.name,
+        category: entity.category,
+        topics: [],
+        links: links?.length
+          ? links
+          : repo
+            ? [{ kind: 'github' as const, label: repo.fullName, url: entity.sourceUrl }]
+            : [{ kind: 'other' as const, label: entity.name, url: entity.sourceUrl }],
+        href: repo ? `/charts/project/${entity.slug}` : entity.sourceUrl,
+        ...(entity.openWeights !== null ? { openWeights: entity.openWeights } : {}),
+        ...(repo ? { github: { repo: repo.fullName } } : {}),
+      };
+    });
     data.series = data.series.map((item) => ({
       ...item,
-      snapshots: snapshots.filter((snapshot) => snapshot.chart === item.slug),
-      ...(item.id === 'github'
-        ? {
-            dimensions: [
-              { id: 'momentum', label: 'Momentum' },
-              { id: 'starVelocity', label: 'Star velocity' },
-              { id: 'relativeGrowth', label: 'Relative growth' },
-              { id: 'forkVelocity', label: 'Fork velocity' },
-              { id: 'contributorActivity', label: 'Contributor activity' },
-              { id: 'repositoryActivity', label: 'Repository activity' },
-            ],
-          }
-        : {}),
-    }));
-    data.entities = entities.map(({ entity, repo }) => ({
-      slug: entity.slug,
-      name: entity.name,
-      kind: 'project',
-      org: repo.owner,
-      tagline: (entity.description ?? repo.description ?? repo.fullName).slice(0, 110),
-      description: entity.description ?? repo.description ?? '',
-      category: entity.category,
-      topics: [],
-      links: [{ kind: 'github', label: repo.fullName, url: entity.sourceUrl }],
-      href: `/charts/project/${entity.slug}`,
-      github: { repo: repo.fullName },
-    }));
-    data.series = data.series.map((item) => ({
-      ...item,
-      editions: editorial.filter((note) => note.chart === item.slug).map((note) => note.payload),
+      editions: editorial
+        .filter((note) => note.chart === item.slug || note.chart === item.id)
+        .map((note) => note.payload),
     }));
     data.series = data.series.map((item) =>
       item.id === 'github' || item.id === 'rising'
@@ -197,7 +417,7 @@ export const sandboxChartsData = cache(async function sandboxChartsData(
             ...item,
             metrics: [
               ...[
-                { key: 'stars', label: 'Stars' },
+                { key: 'stars', label: 'Étoiles' },
                 { key: 'forks', label: 'Forks' },
                 { key: 'contributors', label: 'Contributeurs' },
               ].map((metric) => ({
@@ -207,7 +427,7 @@ export const sandboxChartsData = cache(async function sandboxChartsData(
                 url: 'https://docs.github.com/en/graphql/reference/repos',
               })),
               ...[
-                { key: 'stars7d', label: 'Stars gagnées (7 jours)' },
+                { key: 'stars7d', label: 'Étoiles gagnées (7 jours)' },
                 { key: 'growth', label: 'Croissance (%)' },
                 { key: 'forks7d', label: 'Forks gagnés (7 jours)' },
                 { key: 'contributorsDelta', label: 'Évolution des contributeurs' },

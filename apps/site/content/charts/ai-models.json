@@ -1,15 +1,15 @@
 {
   "slug": "ai-models",
-  "title": "AI Models Top 10",
+  "title": "AI Models Top 20",
   "short": "AI Models",
   "code": "AI",
   "entityKind": "model",
   "scoring": "models",
-  "size": 10,
+  "size": 20,
   "pool": "all",
   "tone": 2,
   "tagline": "Un modèle n'est pas « le meilleur ». Il est meilleur sur quelque chose. Changez de critère, le classement change.",
-  "description": "Classement hebdomadaire des principaux modèles IA, avec dix critères : coding, reasoning, maths, agents, multimodal, contexte long, vitesse, prix, qualité globale et rapport qualité/prix.",
+  "description": "Classement hebdomadaire de modèles croisés entre Arena, Hugging Face, OpenRouter et Artificial Analysis, avec critères activés selon les mesures réellement disponibles.",
   "highlights": ["coding", "reasoning", "speed"],
   "views": [
     { "id": "quality", "label": "Global" },
@@ -40,82 +40,83 @@
   "trackedMetric": "swebench",
   "tiebreak": "swebench",
   "methodology": {
-    "summary": "Le classement officiel porte sur la qualité globale, une moyenne pondérée de six capacités. Mais cette moyenne cache plus qu'elle ne montre : la page permet donc de trier par chaque critère, et la fiche de chaque modèle détaille tous les benchmarks utilisés.",
+    "summary": "Le score principal croise l'Elo texte d'Arena et l'Intelligence Index d'Artificial Analysis, chacun normalisé en percentile parmi les candidats. Les autres vues ne s'activent que si une source fournit une mesure comparable.",
     "sources": [
       {
-        "source": "swe-bench",
-        "usage": "Coding : résolution de tickets GitHub réels (SWE-bench Verified)."
+        "source": "arena",
+        "usage": "Classements publics de texte, WebDev, agents, vision et recherche; un score n'est retenu qu'à partir de 1 000 votes, ou 1 000 observations pour la catégorie agents."
       },
-      { "source": "livecodebench", "usage": "Coding : problèmes de programmation récents." },
-      { "source": "gpqa", "usage": "Reasoning : questions de sciences de niveau doctorat." },
-      { "source": "hle", "usage": "Reasoning : questions expertes (Humanity's Last Exam)." },
-      { "source": "epoch-ai", "usage": "Maths : concours AIME." },
-      { "source": "terminal-bench", "usage": "Agents : tâches dans un terminal." },
-      { "source": "tau-bench", "usage": "Agents : usage d'outils face à un utilisateur simulé." },
-      { "source": "mmmu", "usage": "Multimodal : compréhension d'images et de texte." },
       {
-        "source": "mrcr",
-        "usage": "Long context : retrouver l'information dans un long contexte."
+        "source": "huggingface-hub",
+        "usage": "Identité des modèles publics, téléchargements sur 30 jours, likes, licence déclarée et accès restreint. Les évaluations de model cards ne sont pas classées tant qu'elles ne sont pas validées indépendamment."
+      },
+      {
+        "source": "openrouter",
+        "usage": "Rang d'usage hebdomadaire, rang relatif de débit, contexte maximal et prix publiés par modèle."
       },
       {
         "source": "artificial-analysis",
-        "usage": "Fenêtre de contexte, vitesse de sortie et prix des API."
+        "usage": "Intelligence Index, Coding Index et Agentic Index lus via le point d'accès benchmarks d'OpenRouter."
       }
     ],
     "criteria": [
       {
-        "label": "Global (classement officiel)",
-        "detail": "Coding 25 %, reasoning 22 %, agents 20 %, maths 13 %, multimodal 10 %, long context 10 %. La vitesse et le prix n'y entrent pas : un modèle rapide et bon marché n'est pas pour autant un meilleur modèle."
+        "label": "Qualité générale (50 % Arena, 50 % Artificial Analysis)",
+        "detail": "Le score Arena texte et l'Artificial Analysis Intelligence Index sont convertis séparément en percentiles sur les candidats de la semaine, puis moyennés à parts égales. Si une seule source est disponible, son poids est renormalisé."
       },
       {
         "label": "Coding",
-        "detail": "SWE-bench Verified (60 %) et LiveCodeBench (40 %). Les scores en pourcentage sont repris tels quels."
+        "detail": "Moyenne des percentiles Arena WebDev et Artificial Analysis Coding Index quand les deux existent; sinon le percentile disponible est utilisé."
       },
       {
         "label": "Reasoning",
-        "detail": "GPQA Diamond (60 %) et Humanity's Last Exam (40 %, échelle de 0 à 50 % ramenée à 100)."
+        "detail": "Vue désactivée tant qu'aucune évaluation externe dont le jeton de vérification a été contrôlé n'est disponible. Les valeurs auto-déclarées sur les model cards sont exclues."
       },
-      { "label": "Maths", "detail": "AIME 2025, repris tel quel." },
+      {
+        "label": "Maths",
+        "detail": "Vue désactivée tant qu'aucune évaluation mathématique externe vérifiée n'est disponible."
+      },
       {
         "label": "Agents",
-        "detail": "Terminal-Bench (55 %, échelle de 0 à 70 % ramenée à 100) et τ-bench (45 %)."
+        "detail": "Percentile du score Arena Agent; complété par l'Agentic Index d'Artificial Analysis quand il existe."
       },
       {
         "label": "Multimodal",
-        "detail": "MMMU. Les modèles texte seul n'ont pas de score multimodal : ils ne sont pas pénalisés dans le Global, mais n'apparaissent pas dans ce tri."
+        "detail": "Percentile du score Arena Vision. Les modèles absents de ce classement n'apparaissent pas dans cette vue."
       },
       {
         "label": "Long context",
-        "detail": "MRCR (60 %) et taille de la fenêtre (40 %, échelle logarithmique de 32 000 tokens à 2 millions)."
+        "detail": "Classement par taille de contexte déclarée par OpenRouter; le contexte ne rentre pas dans le score de qualité générale."
       },
       {
         "label": "Speed et Price",
-        "detail": "Vitesse en tokens par seconde (échelle logarithmique de 30 à 400). Prix mixte avec 3 parts d'entrée pour 1 de sortie (échelle logarithmique de 0,2 $ à 20 $ le million de tokens, inversée)."
+        "detail": "Débit : ordre publié par OpenRouter. Prix : moyenne pondérée de trois parts entrée et une part sortie, par million de tokens; le coût le plus bas obtient le percentile le plus élevé."
       },
       {
         "label": "Value (rapport qualité/prix)",
-        "detail": "60 % qualité globale, 40 % score de prix. C'est un choix éditorial, assumé, qui peut se discuter."
+        "detail": "60 % qualité générale et 40 % percentile de prix. C'est un choix éditorial, distinct du score de qualité."
       },
       {
-        "label": "Départage",
-        "detail": "À score égal, le meilleur résultat SWE-bench Verified passe devant."
+        "label": "Pool et identité",
+        "detail": "Le pool vient des premières pages publiques de Hugging Face, Arena et OpenRouter. Les sources ne sont reliées que par nom de modèle normalisé et organisation canonique; les collisions restent séparées, sans rapprochement approximatif."
       }
     ],
-    "frequency": "Chaque semaine, publication le mardi vers 07 h UTC. Les benchmarks bougent peu d'une semaine à l'autre : les mouvements viennent surtout des sorties, des révisions de scores et des baisses de prix.",
+    "frequency": "Collecte quotidienne; gel hebdomadaire le lundi après les mises à jour de sources.",
     "limits": [
       "Un benchmark mesure une tâche, pas votre usage. Aucun score ne remplace un essai sur vos propres données.",
-      "Les scores peuvent venir de l'éditeur ou d'un évaluateur indépendant, avec des protocoles différents. Nous privilégions les évaluations indépendantes et le précisons dès qu'une valeur vient d'ailleurs.",
-      "La contamination (un benchmark qui fuit dans les données d'entraînement) gonfle certains scores. C'est une raison de plus de ne pas résumer un modèle à un seul chiffre.",
-      "Vitesse et prix dépendent du fournisseur, de la région et de l'heure. Nous reprenons la médiane des fournisseurs.",
-      "Les pondérations du Global sont un choix éditorial. Elles sont publiées pour pouvoir être contestées."
+      "Arena mesure des préférences humaines; Artificial Analysis publie un index distinct. Un percentile ne rend pas leurs protocoles identiques.",
+      "Les vues Reasoning et Maths restent désactivées jusqu'à validation réelle des scores et de leurs jetons; les résultats auto-déclarés ne sont pas considérés comme vérifiés.",
+      "Le débit, le contexte et le prix dépendent du catalogue OpenRouter et de ses fournisseurs; le rang de débit n'est pas un temps de réponse garanti.",
+      "Les percentiles changent lorsque le pool de candidats change. Le rang hebdomadaire est conservé, mais un score sur 100 n'est comparable qu'à l'intérieur de son édition.",
+      "Le classement ne couvre que les modèles présents dans les sources collectées et les éditions ne sont publiées qu'à partir de vingt candidats évaluables."
     ],
     "changelog": [
       { "week": "2026-W26", "note": "Lancement du classement, version 1 de la méthode." }
     ]
   },
   "seo": {
-    "title": "AI Models Top 10 : classement des modèles IA par critère",
-    "description": "Leaderboard hebdomadaire des modèles IA : coding, reasoning, maths, agents, multimodal, contexte long, vitesse, prix. Tous les benchmarks, historique et méthodologie.",
+    "title": "AI Models Top 20 : classement croisé des modèles IA",
+    "description": "Classement hebdomadaire de modèles IA fondé sur Arena, Hugging Face, OpenRouter et Artificial Analysis.",
     "keywords": [
       "AI model leaderboard",
       "best AI models",

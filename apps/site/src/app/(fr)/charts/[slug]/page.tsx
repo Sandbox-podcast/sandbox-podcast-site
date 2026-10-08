@@ -5,16 +5,21 @@ import { sandboxChartsData } from '@/lib/sandbox-charts';
 import { allCharts, findChart } from '@/lib/repository';
 import { pageMetadata } from '@/lib/seo';
 import { CHART_LABELS } from '@/domain/sandbox-charts';
-import { chartSelectionSchema } from '@/domain/chart-selection';
+import { chartSelectionSchema, hasChartSelectionQuery } from '@/domain/chart-selection';
 import { chartIdForSlug, hasIndexableChartContent } from '@/domain/chart-seo';
-
 export const dynamicParams = true;
-
 export function generateStaticParams() {
   return allCharts().map((c) => ({ slug: c.slug }));
 }
-
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+export async function generateMetadata({
+  params,
+  searchParams = Promise.resolve({}),
+}: {
+  params: Promise<{
+    slug: string;
+  }>;
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
+}) {
   const { slug } = await params;
   const chart = findChart(slug);
   if (!chart) return {};
@@ -27,16 +32,22 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       chart.seo.description,
     path: `/charts/${chart.slug}`,
     keywords: chart.seo.keywords,
-    ...(chartId && data ? { noindex: !hasIndexableChartContent(data, chartId) } : {}),
+    ...(chartId && data
+      ? {
+          noindex:
+            !hasIndexableChartContent(data, chartId) || hasChartSelectionQuery(await searchParams),
+        }
+      : {}),
     ownImage: true,
   });
 }
-
 export default async function ChartPage({
   params,
   searchParams,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{
+    slug: string;
+  }>;
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const { slug } = await params;
@@ -51,6 +62,7 @@ export default async function ChartPage({
           slug === 'open-source-ai' ? 'open' : slug === 'ai-models' ? selection.view : undefined
         }
         initialPeriod={selection.period}
+        initialSelection={selection}
       />
     );
   return <ChartScreen slug={slug} />;

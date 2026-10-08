@@ -1,14 +1,12 @@
+import { Text, LocalizedElement } from '@/components/localization';
 import { formatByUnit } from '@/domain/format';
 import type { Unit } from '@/domain/schema';
 import { shortWeek } from '@/domain/weeks';
-
 /**
  * Graphiques en SVG rendus côté serveur : zéro JavaScript, zéro bibliothèque, texte alternatif complet.
  * Le rang 1 est en haut : monter dans le classement, c'est monter sur le graphique.
  */
-
 const clamp = (n: number, lo: number, hi: number): number => Math.min(hi, Math.max(lo, n));
-
 /** Petite courbe de rang. `values` : rang dans le pool par semaine, null si l'entité n'était pas suivie. */
 export function RankSpark({
   values,
@@ -28,7 +26,6 @@ export function RankSpark({
     pad + (n <= 1 ? (width - 2 * pad) / 2 : (i * (width - 2 * pad)) / (n - 1));
   const y = (rank: number): number =>
     pad + ((clamp(rank, 1, cap) - 1) / (cap - 1)) * (height - 2 * pad);
-
   const segments: string[] = [];
   let current = '';
   values.forEach((v, i) => {
@@ -40,11 +37,11 @@ export function RankSpark({
     }
   });
   if (current) segments.push(current);
-
   const last = values[n - 1];
   const description = `Rang sur ${String(n)} semaines : ${values.map((v) => (v === null ? 'hors suivi' : `n°${String(v)}`)).join(', ')}`;
   return (
-    <svg
+    <LocalizedElement
+      as="svg"
       viewBox={`0 0 ${String(width)} ${String(height)}`}
       width={width}
       height={height}
@@ -93,15 +90,13 @@ export function RankSpark({
           strokeWidth="2"
         />
       ) : null}
-    </svg>
+    </LocalizedElement>
   );
 }
-
 export interface HistoryPoint {
   week: string;
   rank: number | null;
 }
-
 /** Courbe de rang détaillée : toute l'histoire d'une entité dans un classement. */
 export function RankHistory({
   points,
@@ -124,7 +119,6 @@ export function RankHistory({
     left + (n <= 1 ? (W - left - right) / 2 : (i * (W - left - right)) / (n - 1));
   const y = (rank: number): number =>
     top + ((clamp(rank, 1, cap) - 1) / (cap - 1)) * (H - top - bottom);
-
   const segments: string[] = [];
   let current = '';
   points.forEach((p, i) => {
@@ -136,16 +130,15 @@ export function RankHistory({
     }
   });
   if (current) segments.push(current);
-
   const ticks = [1, 3, 5, size].filter((v, i, a) => v <= size && a.indexOf(v) === i);
   const labelEvery = n > 12 ? 3 : 2;
   const summary = points
     .map((p) => `${shortWeek(p.week)} : ${p.rank === null ? 'hors suivi' : `n°${String(p.rank)}`}`)
     .join(' ; ');
-
   return (
     <figure className="m-0">
-      <svg
+      <LocalizedElement
+        as="svg"
         viewBox={`0 0 ${String(W)} ${String(H)}`}
         className="block h-auto w-full"
         role="img"
@@ -189,7 +182,7 @@ export function RankHistory({
           fontSize="10"
           fill="var(--ink-3)"
         >
-          HORS TOP {size}
+          <Text values={{ size }}>{'HORS TOP {size}'}</Text>
         </text>
         {points.map((p, i) =>
           i % labelEvery === 0 || i === n - 1 ? (
@@ -202,7 +195,7 @@ export function RankHistory({
               fontSize="10"
               fill="var(--ink-2)"
             >
-              {shortWeek(p.week)}
+              <Text>{shortWeek(p.week)}</Text>
             </text>
           ) : null,
         )}
@@ -228,20 +221,18 @@ export function RankHistory({
               stroke="var(--ink)"
               strokeWidth="2"
             >
-              <title>{`${shortWeek(p.week)} : n°${String(p.rank)}`}</title>
+              <LocalizedElement as="title">{`${shortWeek(p.week)} : n°${String(p.rank)}`}</LocalizedElement>
             </circle>
           ),
         )}
-      </svg>
+      </LocalizedElement>
     </figure>
   );
 }
-
 export interface SeriesPoint {
   week: string;
   value: number | null;
 }
-
 /** Évolution d'une métrique (étoiles, score de benchmark…) : aire et courbe, sans axe superflu. */
 export function SeriesChart({
   points,
@@ -269,7 +260,6 @@ export function SeriesChart({
   const x = (i: number): number =>
     left + (n <= 1 ? (W - left - right) / 2 : (i * (W - left - right)) / (n - 1));
   const y = (v: number): number => top + (1 - (v - min) / span) * (H - top - bottom);
-
   let line = '';
   let area = '';
   const defined = points.flatMap((p, i) => (p.value === null ? [] : [{ i, v: p.value }]));
@@ -282,10 +272,10 @@ export function SeriesChart({
     area = `${line}L${x(last.i).toFixed(1)} ${String(H - bottom)}L${x(first.i).toFixed(1)} ${String(H - bottom)}Z`;
   }
   const flat = values.every((v) => v === values[0]);
-
   return (
     <figure className="m-0">
-      <svg
+      <LocalizedElement
+        as="svg"
         viewBox={`0 0 ${String(W)} ${String(H)}`}
         className="block h-auto w-full"
         role="img"
@@ -338,18 +328,21 @@ export function SeriesChart({
               fontSize="10"
               fill="var(--ink-2)"
             >
-              {shortWeek(p.week)}
+              <Text>{shortWeek(p.week)}</Text>
             </text>
           ) : null,
         )}
-      </svg>
-      {flat ? (
-        <figcaption className="label text-ink-3">Valeur stable sur la période</figcaption>
-      ) : null}
+      </LocalizedElement>
+      <Text>
+        {flat ? (
+          <figcaption className="label text-ink-3">
+            <Text>{'Valeur stable sur la p\u00E9riode'}</Text>
+          </figcaption>
+        ) : null}
+      </Text>
     </figure>
   );
 }
-
 /** Barre de 0 à 100 pour un sous-score. */
 export function ScoreBar({ value }: { value: number }) {
   return (

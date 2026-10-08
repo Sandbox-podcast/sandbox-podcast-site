@@ -180,7 +180,8 @@ export function validateContent(content: Content, options: ValidateOptions = {})
       if (previous && nextWeek(previous.week) !== snap.week) {
         error(where, `trou entre ${previous.week} et ${snap.week}`);
       }
-      if (snap.entries.length < chart.size)
+      // Les snapshots `mock` illustrent l'interface et peuvent être partiels; les éditions live gardent le seuil du classement.
+      if (snap.provenance !== 'mock' && snap.entries.length < chart.size)
         error(where, `moins de ${String(chart.size)} candidats`);
       for (const entry of snap.entries) {
         const entity = entities.get(entry.entity);

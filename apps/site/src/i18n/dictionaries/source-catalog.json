@@ -1,0 +1,5066 @@
+{
+  "- Lien (": {
+    "translation": "",
+    "sources": ["src/domain/chart-markdown.ts"]
+  },
+  ", inversée": {
+    "translation": "",
+    "sources": ["src/domain/scoring.ts"]
+  },
+  ", inversée (plus bas = mieux)": {
+    "translation": "",
+    "sources": ["src/domain/scoring.ts"]
+  },
+  ", semaine": {
+    "translation": "",
+    "sources": ["src/components/entity-screen.tsx"]
+  },
+  ". Couverture :": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/project/[slug]/page.tsx"]
+  },
+  ". Les chiffres, eux, sont ci-dessus.": {
+    "translation": "",
+    "sources": ["src/components/entity-screen.tsx"]
+  },
+  ". Les données viennent des sources citées ; les avis sont ceux de l’équipe, jamais mélangés.": {
+    "translation": "",
+    "sources": ["src/components/entity-screen.tsx"]
+  },
+  ". Les positions et mouvements sont recalculés sur ce critère.": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "· {date}": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "· Actuel": {
+    "translation": "",
+    "sources": ["src/components/chart-week-select.tsx"]
+  },
+  "· archive": {
+    "translation": "",
+    "sources": ["src/components/cards.tsx"]
+  },
+  "· ENTRÉE DIRECTE DANS LE TOP 10": {
+    "translation": "",
+    "sources": ["src/components/charts-features.tsx"]
+  },
+  "· filtre {filter}": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "· les rangs officiels sont conservés.": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "· officiel": {
+    "translation": "",
+    "sources": ["src/components/chart-lens.tsx"]
+  },
+  "· semaine": {
+    "translation": "",
+    "sources": [
+      "src/app/(fr)/charts/[slug]/methodology/page.tsx",
+      "src/components/entity-screen.tsx"
+    ]
+  },
+  "» : un tri par critère, pas le classement officiel (": {
+    "translation": "",
+    "sources": ["src/components/chart-lens.tsx"]
+  },
+  "(nouvel onglet)": {
+    "translation": "",
+    "sources": [
+      "src/app/(fr)/about/page.tsx",
+      "src/app/(fr)/episodes/page.tsx",
+      "src/app/(fr)/episodes/[number]/page.tsx",
+      "src/components/entity-screen.tsx",
+      "src/components/ui.tsx"
+    ]
+  },
+  "(YouTube, nouvel onglet)": {
+    "translation": "",
+    "sources": ["src/app/(fr)/episodes/[number]/page.tsx"]
+  },
+  "{{count}} éditions publiées": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "{{count}} entrées classées": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "{count} d’affilée": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "{count} entrées": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "{count} épisode": {
+    "translation": "",
+    "sources": ["src/components/episode-library.tsx", "src/i18n/dictionaries/en.json"]
+  },
+  "{count} épisode trouvé": {
+    "translation": "",
+    "sources": ["src/components/episode-library.tsx", "src/i18n/dictionaries/en.json"]
+  },
+  "{count} épisodes": {
+    "translation": "",
+    "sources": ["src/components/episode-library.tsx", "src/i18n/dictionaries/en.json"]
+  },
+  "{count} épisodes trouvés": {
+    "translation": "",
+    "sources": ["src/components/episode-library.tsx", "src/i18n/dictionaries/en.json"]
+  },
+  "{count} étoiles gagnées sur les relevés de cette période.": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx", "src/i18n/dictionaries/en.json"]
+  },
+  "{count} étoiles perdues sur les relevés de cette période.": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx", "src/i18n/dictionaries/en.json"]
+  },
+  "{count} place gagnée depuis la période précédente.": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx", "src/i18n/dictionaries/en.json"]
+  },
+  "{count} place perdue depuis la période précédente.": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx", "src/i18n/dictionaries/en.json"]
+  },
+  "{count} places gagnées": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "{count} places gagnées depuis la période précédente.": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx", "src/i18n/dictionaries/en.json"]
+  },
+  "{count} places perdues": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "{count} places perdues depuis la période précédente.": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx", "src/i18n/dictionaries/en.json"]
+  },
+  "{count} résultat pour \"{query}\"": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "{count} résultats pour \"{query}\"": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "{count} sem. à ce rang": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "{dek} Retrouvez la vidéo, les chapitres et les ressources citées.": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "{first} ; {rest}": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "{first}, {rest}": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "{name} — Podcasts vidéo, sources et classements tech": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "{name} : {ranks}. {tagline}. Historique, benchmarks, épisodes et avis de l’équipe.": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "{name} : benchmarks, classement et avis": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "{name} : classement GitHub, historique et avis": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "{name} · fiche et historique": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "{name} · fiche modèle et historique": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "{name} · fiche projet et historique": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "{name}, rang {rank}, semaine {week}": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "{name}. {tagline}. Historique, benchmarks, épisodes et avis de l’équipe.": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "{number}e": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "{title} : de {first} à {last}": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "{title} · {detail}": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "{title} · Méthode": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "{title} · semaine {week}": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "{title}, aperçu": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "{topic} : les épisodes du podcast": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "{week} : hors suivi": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "{week} : n°{rank}": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "## Accroche": {
+    "translation": "",
+    "sources": ["src/domain/chart-markdown.ts"]
+  },
+  "## Critères": {
+    "translation": "",
+    "sources": ["src/domain/chart-markdown.ts"]
+  },
+  "## Entrées et avis": {
+    "translation": "",
+    "sources": ["src/domain/chart-edition.ts", "src/domain/chart-markdown.ts"]
+  },
+  "## Fréquence": {
+    "translation": "",
+    "sources": ["src/domain/chart-markdown.ts"]
+  },
+  "## Limites": {
+    "translation": "",
+    "sources": ["src/domain/chart-markdown.ts"]
+  },
+  "## Méthode": {
+    "translation": "",
+    "sources": ["src/domain/chart-markdown.ts"]
+  },
+  "## Présentation": {
+    "translation": "",
+    "sources": ["src/domain/chart-markdown.ts"]
+  },
+  "## Sources de données": {
+    "translation": "",
+    "sources": ["src/domain/chart-markdown.ts"]
+  },
+  "#1 cette semaine": {
+    "translation": "",
+    "sources": ["src/components/chart-screen.tsx"]
+  },
+  "← Épisode précédent": {
+    "translation": "",
+    "sources": ["src/app/(fr)/episodes/[number]/page.tsx"]
+  },
+  "↑ ou ↓ compare la position à l’édition de la semaine précédente. NEW signifie que le projet n’y figurait pas, y compris en cas de retour. Une première édition n’a pas de comparaison. Les archives conservent la configuration, les composantes, les mesures brutes et la version du score.": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "+{count} place, porté par {dimension} : {score} ({delta} pts).": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "+{count} place.": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "+{count} places, porté par {dimension} : {score} ({delta} pts).": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "+{count} places.": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "+3 places. Le plus rapide du Top 10 des poids ouverts, et il tient sur une seule machine bien équipée. C'est ce qui compte quand on héberge soi-même.": {
+    "translation": "",
+    "sources": ["content/takes/open-source-ai.json"]
+  },
+  "+4 places d'un coup. Google arrive avec un kit sérieux, mais on n'a pas encore vu de projet réel qui s'y tienne après le week-end de démo.": {
+    "translation": "",
+    "sources": ["content/takes/skills.json"]
+  },
+  "<p class=\"empty\">Aucune présentation n’est disponible pour le moment.</p>": {
+    "translation": "",
+    "sources": ["src/domain/slide-decks.ts"]
+  },
+  "−{count} place, freiné par {dimension} : {score} ({delta} pts).": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "−{count} place.": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "−{count} places, freiné par {dimension} : {score} ({delta} pts).": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "−{count} places.": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "3 MOIS": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
+  },
+  "30 DAYS": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/project/[slug]/page.tsx"]
+  },
+  "4ᵉ après onze semaines en tête. La concurrence est arrivée, pas la lassitude : rien de dramatique.": {
+    "translation": "",
+    "sources": ["content/takes/skills.json"]
+  },
+  "7 DAYS": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/project/[slug]/page.tsx"]
+  },
+  "7 j": {
+    "translation": "",
+    "sources": ["src/components/chart-row.tsx"]
+  },
+  "90 DAYS": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/project/[slug]/page.tsx"]
+  },
+  "À brancher": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/[slug]/methodology/page.tsx"]
+  },
+  "à l'instant": {
+    "translation": "",
+    "sources": ["src/domain/format.ts"]
+  },
+  "À la une": {
+    "translation": "",
+    "sources": ["src/app/(fr)/page.tsx"]
+  },
+  "À lire comme un cours : on comprend le protocole en trente minutes et on écrit le sien le soir même.": {
+    "translation": "",
+    "sources": ["content/takes/evergreen.json"]
+  },
+  "A mis fin à trois outils et à quelques débats d'équipe sur le « bon » gestionnaire Python.": {
+    "translation": "",
+    "sources": ["content/takes/evergreen.json"]
+  },
+  "À propos": {
+    "translation": "",
+    "sources": [
+      "src/app/(fr)/episodes/[number]/page.tsx",
+      "src/components/entity-screen.tsx",
+      "src/components/nav.tsx",
+      "src/components/shell.tsx",
+      "src/i18n/messages.ts"
+    ]
+  },
+  "À propos de l’épisode": {
+    "translation": "",
+    "sources": ["src/app/(fr)/episodes/[number]/page.tsx", "src/components/cards.tsx"]
+  },
+  "À propos de sa place au": {
+    "translation": "",
+    "sources": ["src/components/entity-screen.tsx"]
+  },
+  "À suivre": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "À SUIVRE": {
+    "translation": "",
+    "sources": ["src/components/charts-features.tsx"]
+  },
+  "About": {
+    "translation": "",
+    "sources": ["src/i18n/messages.ts"]
+  },
+  "Accélération": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "Accroche": {
+    "translation": "",
+    "sources": ["src/domain/chart-edition.ts", "src/domain/chart-markdown.ts"]
+  },
+  "Accroche du mois": {
+    "translation": "",
+    "sources": ["src/domain/chart-edition.ts"]
+  },
+  "Accueil": {
+    "translation": "",
+    "sources": [
+      "src/app/(fr)/charts/page.tsx",
+      "src/app/(fr)/charts/[slug]/methodology/page.tsx",
+      "src/app/(fr)/episodes/[number]/page.tsx",
+      "src/app/(fr)/moves/[chart]/[week]/[entity]/page.tsx",
+      "src/components/chart-screen.tsx",
+      "src/components/entity-screen.tsx",
+      "src/components/ui.tsx"
+    ]
+  },
+  "Accueil Sandbox": {
+    "translation": "",
+    "sources": ["src/i18n/messages.ts"]
+  },
+  "Activité du dépôt": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "Activity": {
+    "translation": "",
+    "sources": ["content/charts/github.json", "content/scoring/github-momentum.json"]
+  },
+  "Activity (25 %)": {
+    "translation": "",
+    "sources": ["content/charts/github.json"]
+  },
+  "Adresse email": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Âge du dépôt : 100 × exp(−âge en jours / 180).": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "Agent de code": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Agent de développement piloté en ligne de commande : il lit le dépôt, édite des fichiers, lance des commandes et des tests, et s'étend par des skills, des hooks et des serveurs MCP.": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Agent de terminal adossé aux modèles Gemini, avec un très long contexte et une extension par serveurs MCP. Publié sous licence Apache-2.0.": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Agent en ligne de commande qui travaille sur votre dépôt local avec des niveaux d'autonomie réglables. Le code est publié sous licence Apache-2.0.": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Agent navigateur": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Agent open source qui tourne sur votre machine, accepte plusieurs modèles et s'étend par des serveurs MCP. Un contrepoids ouvert aux agents des grands éditeurs.": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Agent qui travaille dans un environnement isolé : il écrit du code, lance des commandes et navigue sur le web pour résoudre des tâches de développement. Fonctionne avec la plupart des modèles.": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Agents": {
+    "translation": "",
+    "sources": [
+      "content/charts/ai-models.json",
+      "content/charts/open-source-ai.json",
+      "content/scoring/models.json",
+      "content/topics.json",
+      "src/domain/github-charts.ts",
+      "src/domain/sandbox-charts.ts"
+    ]
+  },
+  "AI Models : Gemini 3 Pro +2, Fable toujours devant": {
+    "translation": "",
+    "sources": ["content/episodes/042.json"]
+  },
+  "AI Models Top 20": {
+    "translation": "",
+    "sources": ["content/charts/ai-models.json"]
+  },
+  "AI Models Top 20 : classement croisé des modèles IA": {
+    "translation": "",
+    "sources": ["content/charts/ai-models.json"]
+  },
+  "AI rankings": {
+    "translation": "",
+    "sources": ["src/i18n/messages.ts"]
+  },
+  "Aider-AI/aider": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "aider.chat": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "AIME 2025": {
+    "translation": "",
+    "sources": ["content/scoring/models.json"]
+  },
+  "All": {
+    "translation": "",
+    "sources": [
+      "src/components/charts-experience.tsx",
+      "src/domain/chart-selection.ts",
+      "src/domain/sandbox-charts.ts"
+    ]
+  },
+  "All episodes": {
+    "translation": "",
+    "sources": ["src/i18n/messages.ts"]
+  },
+  "All-Hands-AI/OpenHands": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "all-hands.dev": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Aller au contenu": {
+    "translation": "",
+    "sources": ["src/app/(fr)/layout.tsx", "src/i18n/messages.ts"]
+  },
+  "Also available in": {
+    "translation": "",
+    "sources": ["src/i18n/messages.ts"]
+  },
+  "Alternatives et voisins de classement": {
+    "translation": "",
+    "sources": ["src/components/entity-screen.tsx"]
+  },
+  "Animateur Sandbox": {
+    "translation": "",
+    "sources": ["content/hosts.json"]
+  },
+  "Annonces Anthropic": {
+    "translation": "",
+    "sources": ["content/episodes/040.json", "content/episodes/042.json"]
+  },
+  "Annonces Google DeepMind": {
+    "translation": "",
+    "sources": ["content/episodes/042.json"]
+  },
+  "Annonces OpenAI": {
+    "translation": "",
+    "sources": ["content/episodes/042.json"]
+  },
+  "Anthropic": {
+    "translation": "",
+    "sources": ["content/entities/models.json"]
+  },
+  "anthropics/claude-code": {
+    "translation": "",
+    "sources": [
+      "content/entities/projects.json",
+      "content/episodes/040.json",
+      "content/episodes/042.json"
+    ]
+  },
+  "anthropics/skills": {
+    "translation": "",
+    "sources": [
+      "content/entities/projects.json",
+      "content/episodes/040.json",
+      "content/episodes/042.json"
+    ]
+  },
+  "APERÇU LOCAL · Ces archives utilisent les fixtures de développement.": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/history/page.tsx"]
+  },
+  "APERÇU LOCAL · FIXTURES DE DÉVELOPPEMENT": {
+    "translation": "",
+    "sources": ["src/app/(fr)/page.tsx"]
+  },
+  "APERÇU LOCAL · Les chiffres de cet aperçu sont des fixtures de développement. En production, les classements sont calculés depuis les relevés PostgreSQL de leurs sources.": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "API REST GitHub": {
+    "translation": "",
+    "sources": ["content/sources.json"]
+  },
+  "Apple Podcasts ↗": {
+    "translation": "",
+    "sources": ["src/app/(fr)/episodes/[number]/page.tsx"]
+  },
+  "Archive": {
+    "translation": "",
+    "sources": ["src/components/chart-screen.tsx"]
+  },
+  "Archives": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/history/page.tsx", "src/components/charts-experience.tsx"]
+  },
+  "Archives · {week}": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "Archives des classements · {week} · SANDBOX CHARTS": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "Archives des classements par semaine": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/history/page.tsx"]
+  },
+  "Archives temporairement indisponibles": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/history/page.tsx"]
+  },
+  "Arena Leaderboard Dataset": {
+    "translation": "",
+    "sources": ["content/sources.json"]
+  },
+  "Articles": {
+    "translation": "",
+    "sources": ["src/domain/kinds.ts"]
+  },
+  "Artificial Analysis : comparaison de modèles": {
+    "translation": "",
+    "sources": ["content/episodes/041.json", "content/episodes/042.json"]
+  },
+  "Artificial Analysis via OpenRouter": {
+    "translation": "",
+    "sources": ["content/sources.json"]
+  },
+  "Assistants et agents de code, éditeurs, revues, et la question de ce qu'on délègue.": {
+    "translation": "",
+    "sources": ["content/topics.json"]
+  },
+  "astral-sh/uv": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "au Top": {
+    "translation": "",
+    "sources": ["src/components/entity-screen.tsx"]
+  },
+  "Aucun changement": {
+    "translation": "",
+    "sources": ["src/components/chart-screen.tsx"]
+  },
+  "Aucun épisode dans ce thème pour le moment.": {
+    "translation": "",
+    "sources": ["src/app/(fr)/topics/[slug]/page.tsx"]
+  },
+  "Aucun épisode publié pour le moment.": {
+    "translation": "",
+    "sources": ["src/app/(fr)/page.tsx"]
+  },
+  "Aucun épisode trouvé": {
+    "translation": "",
+    "sources": ["src/components/episode-library.tsx"]
+  },
+  "Aucun projet dans cette catégorie pour cette édition.": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Aucun résultat pour \"": {
+    "translation": "",
+    "sources": ["src/app/(fr)/search/page.tsx"]
+  },
+  "Aucun résultat pour \"{query}\".": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "Aucune baisse": {
+    "translation": "",
+    "sources": ["src/components/chart-screen.tsx"]
+  },
+  "Aucune baisse de rang cette semaine.": {
+    "translation": "",
+    "sources": ["src/components/charts-features.tsx"]
+  },
+  "Aucune donnée inventée : une valeur manquante reste absente.": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/[slug]/methodology/page.tsx"]
+  },
+  "Aucune édition publiée pour ce classement.": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "AUCUNE ENTRÉE": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx"]
+  },
+  "Aucune entrée pour cette sélection.": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx"]
+  },
+  "Aucune hausse": {
+    "translation": "",
+    "sources": ["src/components/chart-screen.tsx"]
+  },
+  "Aucune hausse de rang cette semaine.": {
+    "translation": "",
+    "sources": ["src/components/charts-features.tsx"]
+  },
+  "Aucune langue trouvée": {
+    "translation": "",
+    "sources": ["src/components/nav.tsx"]
+  },
+  "Aucune mesure disponible pour cette capacité": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Aucune nouvelle entrée cette semaine.": {
+    "translation": "",
+    "sources": ["src/components/charts-features.tsx"]
+  },
+  "Aucune ressource n’a encore été ajoutée.": {
+    "translation": "",
+    "sources": ["src/app/(fr)/episodes/[number]/page.tsx"]
+  },
+  "Audience cumulée (vue complémentaire)": {
+    "translation": "",
+    "sources": ["content/charts/skills.json"]
+  },
+  "Audience installée : étoiles et forks cumulés.": {
+    "translation": "",
+    "sources": ["content/scoring/github-momentum.json"]
+  },
+  "Aussi cette semaine": {
+    "translation": "",
+    "sources": ["src/app/(fr)/moves/[chart]/[week]/[entity]/page.tsx"]
+  },
+  "Aussi disponible en": {
+    "translation": "",
+    "sources": ["src/i18n/messages.ts"]
+  },
+  "Auteur": {
+    "translation": "",
+    "sources": ["src/domain/chart-edition.ts"]
+  },
+  "Automation": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
+  },
+  "Automatisation": {
+    "translation": "",
+    "sources": ["content/entities/projects.json", "src/domain/sandbox-charts.ts"]
+  },
+  "Automatisation de workflows, avec des nœuds IA, auto-hébergeable": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Avec": {
+    "translation": "",
+    "sources": ["src/app/(fr)/page.tsx"]
+  },
+  "Avis général": {
+    "translation": "",
+    "sources": ["src/components/entity-screen.tsx"]
+  },
+  "Base de départ": {
+    "translation": "",
+    "sources": ["src/components/chart-row.tsx", "src/components/chart-screen.tsx"]
+  },
+  "Benchmarks": {
+    "translation": "",
+    "sources": ["content/topics.json", "src/domain/kinds.ts"]
+  },
+  "BEST RANK": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/project/[slug]/page.tsx"]
+  },
+  "Bibliothèque des épisodes": {
+    "translation": "",
+    "sources": ["src/components/episode-library.tsx"]
+  },
+  "Bibliothèque Python qui permet à un modèle de naviguer, cliquer et extraire des données dans un vrai navigateur. Un des moyens les plus directs de donner des mains à un agent.": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "BIENTÔT DISPONIBLE": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "block/goose": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Boîte à outils qui part d'une spécification écrite pour produire un plan, des tâches puis le code, avec l'agent de votre choix. Popularise l'idée que la spec devient le document principal.": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Branchée": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/[slug]/methodology/page.tsx"]
+  },
+  "Browser": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
+  },
+  "browser-use.com": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "browser-use/browser-use": {
+    "translation": "",
+    "sources": ["content/entities/projects.json", "content/episodes/042.json"]
+  },
+  "Bubbling under · juste derrière le Top": {
+    "translation": "",
+    "sources": ["src/components/chart-row.tsx"]
+  },
+  "Calcul du score": {
+    "translation": "",
+    "sources": [
+      "src/app/(fr)/charts/[slug]/methodology/page.tsx",
+      "src/components/charts-methodology.tsx"
+    ]
+  },
+  "calculé": {
+    "translation": "",
+    "sources": ["src/components/chart-row.tsx"]
+  },
+  "Calculé depuis les positions hebdomadaires du mois.": {
+    "translation": "",
+    "sources": ["src/components/charts-features.tsx"]
+  },
+  "Calculé depuis les relevés": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx"]
+  },
+  "candidats suivis cette semaine. Les rangs au-delà du Top": {
+    "translation": "",
+    "sources": ["src/components/chart-screen.tsx"]
+  },
+  "Capacité du modèle": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Carte de partage ·": {
+    "translation": "",
+    "sources": ["src/app/(fr)/moves/[chart]/[week]/[entity]/page.tsx"]
+  },
+  "Catégorie": {
+    "translation": "",
+    "sources": ["src/domain/chart-markdown.ts"]
+  },
+  "Catégorie de projet": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Ce classement sera accessible lorsque les données et sa traduction auront été publiées.": {
+    "translation": "",
+    "sources": ["src/components/ranking-catalog-route.tsx"]
+  },
+  "CE MOIS": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
+  },
+  "Ce projet n’a pas encore figuré dans une édition publiée.": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/project/[slug]/page.tsx"]
+  },
+  "Ce qu'on a essayé cette semaine": {
+    "translation": "",
+    "sources": ["content/episodes/042.json"]
+  },
+  "Ce qu’on en tire": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/[slug]/methodology/page.tsx"]
+  },
+  "Ce qu’on ne sait pas faire": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/[slug]/methodology/page.tsx"]
+  },
+  "Ce que c'est": {
+    "translation": "",
+    "sources": ["src/domain/chart-edition.ts"]
+  },
+  "Ce que les évaluations mesurent vraiment, et ce qu'elles laissent de côté.": {
+    "translation": "",
+    "sources": ["content/topics.json"]
+  },
+  "Ce que mesure ce classement": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "Ce que mesure le classement": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "Ce qui casse : retour d'expérience": {
+    "translation": "",
+    "sources": ["content/episodes/040.json"]
+  },
+  "Ce qui entre dans la note": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/[slug]/methodology/page.tsx"]
+  },
+  "Cette entité n’est dans aucun classement pour le moment.": {
+    "translation": "",
+    "sources": ["src/components/entity-screen.tsx"]
+  },
+  "Cette page est introuvable.": {
+    "translation": "",
+    "sources": ["src/app/(fr)/not-found.tsx"]
+  },
+  "Cette page n’existe pas.": {
+    "translation": "",
+    "sources": ["src/app/(fr)/not-found.tsx"]
+  },
+  "cette semaine": {
+    "translation": "",
+    "sources": ["src/components/chart-row.tsx"]
+  },
+  "CETTE SEMAINE": {
+    "translation": "",
+    "sources": [
+      "src/components/charts-experience.tsx",
+      "src/components/charts-features.tsx",
+      "src/domain/sandbox-charts.ts"
+    ]
+  },
+  "Cette semaine ↗": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/history/page.tsx"]
+  },
+  "Chain-of-Thought Prompting Elicits Reasoning in Large Language Models": {
+    "translation": "",
+    "sources": ["content/episodes/040.json"]
+  },
+  "Chaîne YouTube": {
+    "translation": "",
+    "sources": ["src/app/(fr)/episodes/page.tsx"]
+  },
+  "Changer de langue": {
+    "translation": "",
+    "sources": ["src/components/nav.tsx"]
+  },
+  "Chapitres": {
+    "translation": "",
+    "sources": ["src/app/(fr)/episodes/[number]/page.tsx", "src/i18n/messages.ts"]
+  },
+  "Chapters": {
+    "translation": "",
+    "sources": ["src/i18n/messages.ts"]
+  },
+  "Chaque chiffre renvoie à sa source.": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/[slug]/methodology/page.tsx"]
+  },
+  "Chaque édition conserve ses positions, ses mesures et sa version du score.": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/history/page.tsx"]
+  },
+  "chaque fiche commence par « ### Nom {identifiant} ».": {
+    "translation": "",
+    "sources": ["src/domain/chart-markdown.ts", "src/i18n/dictionaries/en.json"]
+  },
+  "CHAQUE SEMAINE LAISSE UNE TRACE": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Chaque semaine, nos épisodes vidéo explorent les outils, les modèles et les idées qui changent le travail. Retrouvez aussi les sources citées et les classements commentés.": {
+    "translation": "",
+    "sources": ["content/site.json"]
+  },
+  "Charger la vidéo YouTube": {
+    "translation": "",
+    "sources": ["src/components/client.tsx"]
+  },
+  "Chart": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/project/[slug]/page.tsx"]
+  },
+  "Charts": {
+    "translation": "",
+    "sources": [
+      "src/app/(fr)/charts/[slug]/methodology/page.tsx",
+      "src/components/chart-screen.tsx",
+      "src/components/entity-screen.tsx"
+    ]
+  },
+  "Charts methodology unavailable:": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "chemin localisé absolu, en minuscules, sans slash final, paramètre ni fragment requis": {
+    "translation": "",
+    "sources": ["src/domain/ranking-catalog.ts"]
+  },
+  "Choisir un chart": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Choisir une langue": {
+    "translation": "",
+    "sources": ["src/components/nav.tsx"]
+  },
+  "Choisir une semaine de ce classement": {
+    "translation": "",
+    "sources": ["src/components/chart-week-select.tsx"]
+  },
+  "CHOIX DE SANDBOX": {
+    "translation": "",
+    "sources": ["src/components/charts-features.tsx"]
+  },
+  "Cinquième semaine en tête. Excellent en agents, mais regardez le prix et la vitesse : le Global ne les compte pas, vous si.": {
+    "translation": "",
+    "sources": ["content/takes/ai-models.json"]
+  },
+  "Cité": {
+    "translation": "",
+    "sources": ["src/components/entity-screen.tsx"]
+  },
+  "Classement": {
+    "translation": "",
+    "sources": ["src/components/chart-screen.tsx", "src/components/charts-experience.tsx"]
+  },
+  "Classement à venir": {
+    "translation": "",
+    "sources": ["src/components/ranking-catalog-route.tsx"]
+  },
+  "Classement et mouvements": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx"]
+  },
+  "Classement hebdomadaire de modèles croisés entre Arena, Hugging Face, OpenRouter et Artificial Analysis, avec critères activés selon les mesures réellement disponibles.": {
+    "translation": "",
+    "sources": ["content/charts/ai-models.json"]
+  },
+  "Classement hebdomadaire de modèles IA fondé sur Arena, Hugging Face, OpenRouter et Artificial Analysis.": {
+    "translation": "",
+    "sources": ["content/charts/ai-models.json"]
+  },
+  "Classement hebdomadaire de skills publiés sur Skills.sh, croisés avec les évolutions de leurs dépôts GitHub.": {
+    "translation": "",
+    "sources": ["content/charts/skills.json"]
+  },
+  "Classement hebdomadaire des meilleurs modèles IA open source / open weights, avec benchmarks, licence, prix et historique.": {
+    "translation": "",
+    "sources": ["content/charts/open-source-ai.json"]
+  },
+  "Classement hebdomadaire des meilleurs modèles open weights, sur les mêmes critères que le classement général des modèles IA.": {
+    "translation": "",
+    "sources": ["content/charts/open-source-ai.json"]
+  },
+  "Classement hebdomadaire des projets GitHub à plus forte dynamique : stars, croissance, activité. Historique, méthodologie et commentaires de l'équipe.": {
+    "translation": "",
+    "sources": ["content/charts/github.json"]
+  },
+  "Classement hebdomadaire des projets GitHub à plus forte dynamique, toutes catégories confondues : croissance des stars, activité du dépôt et audience installée.": {
+    "translation": "",
+    "sources": ["content/charts/github.json"]
+  },
+  "Classement hebdomadaire des skills de Skills.sh, croisés avec les données de leurs dépôts GitHub.": {
+    "translation": "",
+    "sources": ["content/charts/skills.json"]
+  },
+  "Classement hebdomadaire des skills publics observés sur Skills.sh et reliés à leur dépôt GitHub. Le score combine la progression des installations, celle des stars et la fraîcheur du dépôt.": {
+    "translation": "",
+    "sources": ["content/charts/skills.json"]
+  },
+  "Classements": {
+    "translation": "",
+    "sources": [
+      "src/app/(fr)/charts/history/page.tsx",
+      "src/app/(fr)/charts/project/[slug]/page.tsx",
+      "src/app/(fr)/charts/[slug]/methodology/page.tsx",
+      "src/app/(fr)/moves/[chart]/[week]/[entity]/page.tsx",
+      "src/app/(fr)/search/page.tsx",
+      "src/components/charts-methodology.tsx",
+      "src/components/entity-screen.tsx",
+      "src/components/nav.tsx",
+      "src/components/shell.tsx"
+    ]
+  },
+  "Classements commentés": {
+    "translation": "",
+    "sources": ["src/app/(fr)/episodes/[number]/page.tsx"]
+  },
+  "Classements IA": {
+    "translation": "",
+    "sources": ["src/i18n/messages.ts"]
+  },
+  "Claude Code passe #1, et ce que ça dit des agents de code": {
+    "translation": "",
+    "sources": ["content/episodes/042.json"]
+  },
+  "Claude Fable 5.1": {
+    "translation": "",
+    "sources": ["content/episodes/042.json"]
+  },
+  "cline.bot": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "cline/cline": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Code": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
+  },
+  "Coding": {
+    "translation": "",
+    "sources": [
+      "content/charts/ai-models.json",
+      "content/charts/open-source-ai.json",
+      "content/scoring/models.json",
+      "content/topics.json",
+      "src/domain/github-charts.ts",
+      "src/domain/sandbox-charts.ts"
+    ]
+  },
+  "Collecte : 02:00 UTC.": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "Collecte en préparation.": {
+    "translation": "",
+    "sources": ["src/components/charts-mini.tsx"]
+  },
+  "Collection de serveurs MCP qui montrent comment exposer fichiers, bases de données ou API à un agent. Le point de départ pour comprendre et écrire le sien.": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Collection de skills : des dossiers d'instructions et de scripts que l'agent charge à la demande pour une tâche précise. Sert aussi d'exemple pour écrire les siens.": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "comfy.org": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "comfyanonymous/ComfyUI": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "commencez par « # Titre du classement ».": {
+    "translation": "",
+    "sources": ["src/domain/chart-markdown.ts"]
+  },
+  "Comment ce classement est calculé →": {
+    "translation": "",
+    "sources": ["src/components/chart-screen.tsx"]
+  },
+  "Comment le": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/[slug]/methodology/page.tsx"]
+  },
+  "Comment le {chart} est calculé : sources, critères, limites": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "Comment se calcule son score ?": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/project/[slug]/page.tsx"]
+  },
+  "Comment se construit": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "Commits (30 j)": {
+    "translation": "",
+    "sources": ["content/scoring/github-momentum.json"]
+  },
+  "Commits sur la branche par défaut au cours des 30 derniers jours.": {
+    "translation": "",
+    "sources": ["content/scoring/github-momentum.json"]
+  },
+  "Composante": {
+    "translation": "",
+    "sources": [
+      "src/app/(fr)/charts/project/[slug]/page.tsx",
+      "src/components/charts-methodology.tsx"
+    ]
+  },
+  "Composantes et poids du score": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "Composantes figées de l’édition": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/project/[slug]/page.tsx"]
+  },
+  "Composants du score": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx"]
+  },
+  "Compréhension d'images et de texte de niveau universitaire.": {
+    "translation": "",
+    "sources": ["content/scoring/models.json"]
+  },
+  "Comprendre les images en plus du texte. Absente pour les modèles texte seul.": {
+    "translation": "",
+    "sources": ["content/scoring/models.json"]
+  },
+  "Compteur cumulatif publié par Skills.sh; l'historique commence lors de l'activation de la collecte.": {
+    "translation": "",
+    "sources": ["content/scoring/skills-momentum.json"]
+  },
+  "Concours de mathématiques.": {
+    "translation": "",
+    "sources": ["content/scoring/models.json"]
+  },
+  "Concurrents": {
+    "translation": "",
+    "sources": ["src/components/entity-screen.tsx"]
+  },
+  "Conditions d'entrée": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "configuration initiale, avant la première édition": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "contenus affichés": {
+    "translation": "",
+    "sources": ["src/components/latest-feed.tsx"]
+  },
+  "context7.com": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Contexte": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
+  },
+  "Contributeurs": {
+    "translation": "",
+    "sources": ["content/scoring/github-momentum.json", "src/components/charts-methodology.tsx"]
+  },
+  "Copie indisponible. Le lien reste affiché ci-dessous.": {
+    "translation": "",
+    "sources": ["src/components/charts-share.tsx"]
+  },
+  "Copie indisponible. Sélectionnez ce lien :": {
+    "translation": "",
+    "sources": ["src/components/client.tsx"]
+  },
+  "Copier le lien": {
+    "translation": "",
+    "sources": ["src/components/charts-share.tsx", "src/components/client.tsx"]
+  },
+  "crewai.com": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "crewAIInc/crewAI": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Critères": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/[slug]/methodology/page.tsx", "src/domain/chart-markdown.ts"]
+  },
+  "Critères et pondérations": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/[slug]/methodology/page.tsx"]
+  },
+  "Croissance hebdo": {
+    "translation": "",
+    "sources": ["content/scoring/github-momentum.json"]
+  },
+  "Croissance relative": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "CURRENT RANK": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/project/[slug]/page.tsx"]
+  },
+  "Current ranking": {
+    "translation": "",
+    "sources": ["src/components/entity-screen.tsx"]
+  },
+  "D’où viennent les chiffres": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/[slug]/methodology/page.tsx"]
+  },
+  "dans « Limites », commencez chaque ligne par « - ».": {
+    "translation": "",
+    "sources": ["src/domain/chart-markdown.ts"]
+  },
+  "dans « Sources de données », utilisez « - `identifiant` — usage ».": {
+    "translation": "",
+    "sources": ["src/domain/chart-markdown.ts"]
+  },
+  "Dans cet épisode": {
+    "translation": "",
+    "sources": ["src/app/(fr)/episodes/[number]/page.tsx"]
+  },
+  "Dans cette édition": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Dans cette fiche": {
+    "translation": "",
+    "sources": ["src/components/entity-screen.tsx"]
+  },
+  "DANS LE PODCAST": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Dans les épisodes": {
+    "translation": "",
+    "sources": ["src/components/entity-screen.tsx"]
+  },
+  "Dans les podcasts": {
+    "translation": "",
+    "sources": ["src/components/chart-screen.tsx"]
+  },
+  "Data": {
+    "translation": "",
+    "sources": ["src/domain/github-charts.ts", "src/domain/sandbox-charts.ts"]
+  },
+  "DE QUOI S’AGIT-IL ?": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx"]
+  },
+  "Débit": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
+  },
+  "Découverte : 01:00 UTC.": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "Découvrir l’épisode": {
+    "translation": "",
+    "sources": ["src/app/(fr)/page.tsx"]
+  },
+  "Décroissance exponentielle à partir du dernier push, sur une constante de temps de 30 jours.": {
+    "translation": "",
+    "sources": ["content/scoring/skills-momentum.json"]
+  },
+  "Décroissance exponentielle de la date du dernier push, avec une constante de temps de 30 jours.": {
+    "translation": "",
+    "sources": ["content/scoring/skills-momentum.json"]
+  },
+  "DeepSeek en tête depuis douze semaines, Kimi qui s'accroche, Qwen qui se met à jour : où en sont vraiment les modèles ouverts face aux propriétaires ?": {
+    "translation": "",
+    "sources": ["content/episodes/041.json"]
+  },
+  "DeepSeek V3.2": {
+    "translation": "",
+    "sources": ["content/episodes/041.json"]
+  },
+  "Définition de l'Open Source AI (OSI)": {
+    "translation": "",
+    "sources": ["content/episodes/041.json"]
+  },
+  "Départage": {
+    "translation": "",
+    "sources": ["content/charts/github.json"]
+  },
+  "dépôts · +": {
+    "translation": "",
+    "sources": ["src/components/charts-features.tsx"]
+  },
+  "DEPUIS LE DÉBUT": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
+  },
+  "Dernière mise à jour :": {
+    "translation": "",
+    "sources": [
+      "src/app/(fr)/charts/[slug]/methodology/page.tsx",
+      "src/components/chart-screen.tsx",
+      "src/i18n/messages.ts"
+    ]
+  },
+  "Dernière place du Top 10. Une liste de liens est-elle un projet ? Débat ouvert, on a perdu une demi-heure dessus en studio.": {
+    "translation": "",
+    "sources": ["content/takes/skills.json"]
+  },
+  "Derniers épisodes": {
+    "translation": "",
+    "sources": ["src/app/(fr)/page.tsx"]
+  },
+  "Derniers épisodes Sandbox": {
+    "translation": "",
+    "sources": ["src/app/(fr)/page.tsx"]
+  },
+  "derniers jours et ayant au moins": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "Des équipes d'agents spécialisés qui collaborent": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Des modèles qui agissent : outils, boucles, orchestration, et tout ce qui casse en chemin.": {
+    "translation": "",
+    "sources": ["content/topics.json"]
+  },
+  "Design": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
+  },
+  "Détails et sources": {
+    "translation": "",
+    "sources": ["src/components/chart-row.tsx"]
+  },
+  "Deux semaines de mesures sont nécessaires pour lire ces signaux.": {
+    "translation": "",
+    "sources": ["src/components/charts-features.tsx"]
+  },
+  "Développement piloté par les spécifications": {
+    "translation": "",
+    "sources": ["content/episodes/040.json"]
+  },
+  "Différence des forks entre les deux relevés.": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "Différence entre le relevé du jour et celui de J−7, avec une tolérance bornée.": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "Différence entre les relevés GitHub espacés d'environ sept jours.": {
+    "translation": "",
+    "sources": ["content/scoring/skills-momentum.json"]
+  },
+  "Différence entre les relevés quotidiens Skills.sh espacés d'environ sept jours.": {
+    "translation": "",
+    "sources": ["content/scoring/skills-momentum.json"]
+  },
+  "dify.ai": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Direct Preference Optimization": {
+    "translation": "",
+    "sources": ["content/episodes/041.json"]
+  },
+  "Documentation": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Dollars par million de tokens en entrée.": {
+    "translation": "",
+    "sources": ["content/scoring/models.json"]
+  },
+  "Dollars par million de tokens en sortie.": {
+    "translation": "",
+    "sources": ["content/scoring/models.json"]
+  },
+  "Donne à un agent la possibilité d'ouvrir des pages, de cliquer et de lire l'état d'une application web, en s'appuyant sur l'arbre d'accessibilité plutôt que sur des captures.": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Données": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
+  },
+  "DONNÉES": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx"]
+  },
+  "Données pour agents": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Données temporairement indisponibles": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/project/[slug]/page.tsx"]
+  },
+  "DONNÉES TEMPORAIREMENT INDISPONIBLES": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Données temporairement indisponibles.": {
+    "translation": "",
+    "sources": ["src/components/charts-mini.tsx"]
+  },
+  "Du dépôt à l'édition": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "Du dépôt à l’édition": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "Du pair programming en terminal, intégré à Git": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Dynamique des cinq derniers relevés": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx"]
+  },
+  "DYNAMIQUE SUR 30 JOURS": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx"]
+  },
+  "échelle linéaire": {
+    "translation": "",
+    "sources": ["src/domain/scoring.ts"]
+  },
+  "échelle logarithmique": {
+    "translation": "",
+    "sources": ["src/domain/scoring.ts"]
+  },
+  "Éditeur": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Éditeur natif écrit en Rust, pensé pour la vitesse et le travail à plusieurs, qui intègre des agents de code et des serveurs MCP.": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Éditeur visuel de workflows reliant des centaines de services, avec des nœuds dédiés aux modèles et aux agents. Le code est visible, mais la licence limite certains usages commerciaux.": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Édition": {
+    "translation": "",
+    "sources": [
+      "src/app/(fr)/charts/history/page.tsx",
+      "src/app/(fr)/charts/project/[slug]/page.tsx"
+    ]
+  },
+  "Édition : lundi à 03:00 UTC.": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "ÉDITION ARCHIVÉE": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Édition en cours · semaines disponibles jusqu'à W": {
+    "translation": "",
+    "sources": ["src/components/charts-features.tsx"]
+  },
+  "Édition indisponible": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/history/page.tsx"]
+  },
+  "Éditorial": {
+    "translation": "",
+    "sources": ["src/components/entity-screen.tsx"]
+  },
+  "Effacer les filtres": {
+    "translation": "",
+    "sources": ["src/components/episode-library.tsx"]
+  },
+  "EN BAISSE": {
+    "translation": "",
+    "sources": ["src/components/charts-features.tsx"]
+  },
+  "en cours ·": {
+    "translation": "",
+    "sources": ["src/components/chart-screen.tsx"]
+  },
+  "EN HAUSSE": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
+  },
+  "EN TÊTE DE CETTE VUE": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx"]
+  },
+  "EN TÊTE DU CLASSEMENT": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx"]
+  },
+  "Enchaîner des actions avec des outils sans dérailler.": {
+    "translation": "",
+    "sources": ["content/scoring/models.json"]
+  },
+  "English": {
+    "translation": "",
+    "sources": ["src/i18n/messages.ts"]
+  },
+  "Ensemble de skills pour agents de code qui cadre le travail : clarifier, planifier, écrire les tests, puis implémenter. Intéressant pour ce qu'il dit de la discipline qu'on veut imposer à un agent.": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "entité en double": {
+    "translation": "",
+    "sources": ["src/domain/schema.ts"]
+  },
+  "Entrée au Top 10 à la 6ᵉ place. On reste prudents : on a déjà vu de grands noms disparaître en trois semaines.": {
+    "translation": "",
+    "sources": ["content/takes/skills.json"]
+  },
+  "entrées": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "entrées affichées dans": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Entrées et avis": {
+    "translation": "",
+    "sources": ["src/domain/chart-markdown.ts"]
+  },
+  "Entrées et sorties": {
+    "translation": "",
+    "sources": ["src/components/chart-screen.tsx"]
+  },
+  "EP.": {
+    "translation": "",
+    "sources": ["src/components/cards.tsx"]
+  },
+  "épisode": {
+    "translation": "",
+    "sources": ["src/app/(fr)/topics/[slug]/page.tsx", "src/components/prose.tsx"]
+  },
+  "Épisode": {
+    "translation": "",
+    "sources": [
+      "src/app/(fr)/episodes/[number]/page.tsx",
+      "src/app/(fr)/page.tsx",
+      "src/app/(fr)/search/page.tsx",
+      "src/components/cards.tsx",
+      "src/components/entity-screen.tsx"
+    ]
+  },
+  "Épisode {number}": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "Épisode {number} : {title}": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "Épisode {number} · {title}": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "Épisode suivant →": {
+    "translation": "",
+    "sources": ["src/app/(fr)/episodes/[number]/page.tsx"]
+  },
+  "Épisodes à venir": {
+    "translation": "",
+    "sources": ["src/app/(fr)/topics/page.tsx"]
+  },
+  "Épisodes liés": {
+    "translation": "",
+    "sources": ["src/components/chart-screen.tsx"]
+  },
+  "Épisodes voisins": {
+    "translation": "",
+    "sources": ["src/app/(fr)/episodes/[number]/page.tsx"]
+  },
+  "Episodes, resources and the latest AI rankings.": {
+    "translation": "",
+    "sources": ["src/i18n/messages.ts"]
+  },
+  "Epoch AI": {
+    "translation": "",
+    "sources": ["content/episodes/041.json", "content/sources.json"]
+  },
+  "Erreur 404": {
+    "translation": "",
+    "sources": ["src/app/(fr)/not-found.tsx"]
+  },
+  "Essayez un autre mot ou un autre thème.": {
+    "translation": "",
+    "sources": ["src/components/episode-library.tsx"]
+  },
+  "Essayez un mot plus court ou parcourez la bibliothèque.": {
+    "translation": "",
+    "sources": ["src/app/(fr)/search/page.tsx"]
+  },
+  "Essayez une autre catégorie ou une autre semaine.": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx"]
+  },
+  "est calculé": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/[slug]/methodology/page.tsx"]
+  },
+  "ÉTABLI": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
+  },
+  "était": {
+    "translation": "",
+    "sources": ["src/components/chart-row.tsx"]
+  },
+  "étoiles": {
+    "translation": "",
+    "sources": ["src/components/charts-features.tsx"]
+  },
+  "ÉTOILES": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx", "src/components/charts-ranking.tsx"]
+  },
+  "Étoiles gagnées sur les 7 derniers jours.": {
+    "translation": "",
+    "sources": ["content/scoring/github-momentum.json"]
+  },
+  "EVERY WEEK LEAVES A TRACE": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/history/page.tsx"]
+  },
+  "Évolution de {title}": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "Évolution de la vitesse des stars sur deux périodes successives de sept jours. La période précédente doit être positive.": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "Évolution du nombre de contributeurs si les deux relevés existent. Cette collecte facultative n’est pas encore connectée.": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "ÉVOQUÉ DANS SANDBOX Nº": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Explore des sites et renvoie du Markdown ou des données structurées prêtes à être injectées dans un contexte. Brique fréquente des pipelines de recherche pour agents.": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Explore the latest measured AI rankings.": {
+    "translation": "",
+    "sources": ["src/i18n/messages.ts"]
+  },
+  "Explorer la bibliothèque": {
+    "translation": "",
+    "sources": ["src/app/(fr)/topics/page.tsx"]
+  },
+  "Explorer les autres thèmes": {
+    "translation": "",
+    "sources": ["src/app/(fr)/topics/[slug]/page.tsx"]
+  },
+  "Explorer les podcasts par thème": {
+    "translation": "",
+    "sources": ["src/app/(fr)/topics/page.tsx"]
+  },
+  "Explorer les thèmes": {
+    "translation": "",
+    "sources": ["src/components/episode-library.tsx"]
+  },
+  "Explorer par thème": {
+    "translation": "",
+    "sources": ["src/app/(fr)/page.tsx", "src/app/(fr)/search/page.tsx"]
+  },
+  "Explorez les autres sujets de la bibliothèque.": {
+    "translation": "",
+    "sources": ["src/app/(fr)/topics/[slug]/page.tsx"]
+  },
+  "Explorez les derniers classements IA mesurés.": {
+    "translation": "",
+    "sources": ["src/i18n/messages.ts"]
+  },
+  "Explorez les podcasts vidéo Sandbox sur l’IA, le développement et l’open source. Retrouvez les sources de chaque épisode et nos classements tech hebdomadaires.": {
+    "translation": "",
+    "sources": ["content/site.json"]
+  },
+  "Export en cours": {
+    "translation": "",
+    "sources": ["src/components/charts-share.tsx"]
+  },
+  "Export indisponible dans ce navigateur.": {
+    "translation": "",
+    "sources": ["src/components/charts-share.tsx"]
+  },
+  "Export indisponible.": {
+    "translation": "",
+    "sources": ["src/components/charts-share.tsx"]
+  },
+  "Export PNG indisponible.": {
+    "translation": "",
+    "sources": ["src/components/charts-share.tsx"]
+  },
+  "Extension d'éditeur qui propose des modifications et des commandes que vous approuvez une par une. Choisit le modèle que vous voulez, avec votre propre clé.": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Faire tourner des modèles : serveurs d'inférence, quantification, coûts.": {
+    "translation": "",
+    "sources": ["content/topics.json"]
+  },
+  "Faire tourner des modèles en local en une commande": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Fenêtre de contexte": {
+    "translation": "",
+    "sources": ["content/scoring/models.json"]
+  },
+  "Fermer": {
+    "translation": "",
+    "sources": ["src/components/nav.tsx"]
+  },
+  "Fermer l'export": {
+    "translation": "",
+    "sources": ["src/components/charts-share.tsx"]
+  },
+  "Fiche": {
+    "translation": "",
+    "sources": ["src/app/(fr)/moves/[chart]/[week]/[entity]/page.tsx"]
+  },
+  "Fiche de l’épisode": {
+    "translation": "",
+    "sources": ["src/components/cards.tsx"]
+  },
+  "Fiche de lecture invalide dans l'édition.": {
+    "translation": "",
+    "sources": ["src/domain/chart-edition.ts"]
+  },
+  "Fiche mise à jour avec le relevé du": {
+    "translation": "",
+    "sources": ["src/components/entity-screen.tsx"]
+  },
+  "Fil d'Ariane": {
+    "translation": "",
+    "sources": ["src/components/ui.tsx"]
+  },
+  "Fil d’Ariane": {
+    "translation": "",
+    "sources": ["src/components/chart-screen.tsx"]
+  },
+  "Filtrer les épisodes par thème": {
+    "translation": "",
+    "sources": ["src/components/episode-library.tsx"]
+  },
+  "Filtrer les résultats de recherche": {
+    "translation": "",
+    "sources": ["src/app/(fr)/search/page.tsx"]
+  },
+  "Filtrer par type": {
+    "translation": "",
+    "sources": ["src/components/latest-feed.tsx"]
+  },
+  "firecrawl.dev": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "firecrawl/firecrawl": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Flux RSS": {
+    "translation": "",
+    "sources": ["src/i18n/messages.ts"]
+  },
+  "Fois #1": {
+    "translation": "",
+    "sources": ["src/components/entity-screen.tsx"]
+  },
+  "Forks": {
+    "translation": "",
+    "sources": ["content/scoring/github-momentum.json"]
+  },
+  "Forks gagnés": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "Forks GitHub": {
+    "translation": "",
+    "sources": ["content/scoring/skills-momentum.json"]
+  },
+  "Format du visuel": {
+    "translation": "",
+    "sources": ["src/components/charts-share.tsx"]
+  },
+  "Fraîcheur": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "Fraîcheur du dépôt": {
+    "translation": "",
+    "sources": ["content/scoring/skills-momentum.json"]
+  },
+  "Fraîcheur du dépôt (20 %)": {
+    "translation": "",
+    "sources": ["content/charts/skills.json"]
+  },
+  "Framework d'agents": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Framework pour développeurs TypeScript : agents, workflows, mémoire, évaluations et observabilité dans le même outil. Un des rares à viser d'abord l'écosystème JavaScript.": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Framework Python de Google pour assembler des agents et des systèmes multi-agents, avec des outils d'évaluation et un déploiement prévu pour son cloud.": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Framework Python où l'on définit des rôles, des tâches et un processus d'équipe. Plus simple à prendre en main qu'un graphe explicite, au prix de moins de contrôle fin.": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Français": {
+    "translation": "",
+    "sources": ["src/i18n/messages.ts"]
+  },
+  "Fréquence": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/[slug]/methodology/page.tsx", "src/domain/chart-markdown.ts"]
+  },
+  "Gemini 3 Pro": {
+    "translation": "",
+    "sources": ["content/episodes/042.json"]
+  },
+  "Général": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx", "src/domain/sandbox-charts.ts"]
+  },
+  "Génération d'images et de vidéo par graphes de nœuds": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Génération média": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Générée à partir du code, donc toujours à jour": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/[slug]/methodology/page.tsx"]
+  },
+  "Gestionnaire de paquets et d'environnements Python, écrit en Rust": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Gestionnaires de paquets, runtimes, éditeurs, automatisation : le quotidien du développeur.": {
+    "translation": "",
+    "sources": ["content/topics.json"]
+  },
+  "ggml-org/llama.cpp": {
+    "translation": "",
+    "sources": ["content/entities/projects.json", "content/episodes/041.json"]
+  },
+  "GitHub GraphQL Repository ↗": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "GitHub Search API ↗": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "GitHub star growth": {
+    "translation": "",
+    "sources": ["content/charts/skills.json", "content/scoring/skills-momentum.json"]
+  },
+  "GitHub Top 10": {
+    "translation": "",
+    "sources": ["content/charts/github.json"]
+  },
+  "GitHub Top 10 : Claude Code passe #1": {
+    "translation": "",
+    "sources": ["content/episodes/042.json"]
+  },
+  "GitHub Top 10 : les projets qui montent cette semaine": {
+    "translation": "",
+    "sources": ["content/charts/github.json"]
+  },
+  "GitHub Top 10 : vLLM, troisième semaine en tête": {
+    "translation": "",
+    "sources": ["content/episodes/041.json"]
+  },
+  "GITHUB TOP 20": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx", "src/domain/sandbox-charts.ts"]
+  },
+  "GitHub Top 20, Skills, Models et Rising. Les positions, les mouvements et les projets IA à surveiller, chaque semaine.": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/page.tsx"]
+  },
+  "GitHub Trending": {
+    "translation": "",
+    "sources": [
+      "content/episodes/040.json",
+      "content/episodes/041.json",
+      "content/episodes/042.json"
+    ]
+  },
+  "github/spec-kit": {
+    "translation": "",
+    "sources": [
+      "content/entities/projects.json",
+      "content/episodes/040.json",
+      "content/episodes/042.json"
+    ]
+  },
+  "GLM-4.6": {
+    "translation": "",
+    "sources": ["content/episodes/041.json"]
+  },
+  "Global": {
+    "translation": "",
+    "sources": [
+      "content/charts/ai-models.json",
+      "content/charts/open-source-ai.json",
+      "content/scoring/models.json",
+      "src/components/chart-screen.tsx"
+    ]
+  },
+  "Google DeepMind": {
+    "translation": "",
+    "sources": ["content/entities/models.json"]
+  },
+  "google-gemini/gemini-cli": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "google/adk-python": {
+    "translation": "",
+    "sources": ["content/entities/projects.json", "content/episodes/042.json"]
+  },
+  "GPQA Diamond": {
+    "translation": "",
+    "sources": ["content/scoring/models.json", "content/sources.json"]
+  },
+  "gpt-oss-120b": {
+    "translation": "",
+    "sources": ["content/episodes/042.json"]
+  },
+  "Growth": {
+    "translation": "",
+    "sources": ["content/charts/github.json", "content/scoring/github-momentum.json"]
+  },
+  "Growth (55 %)": {
+    "translation": "",
+    "sources": ["content/charts/github.json"]
+  },
+  "GROWTH 7D": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/project/[slug]/page.tsx"]
+  },
+  "Hacker News": {
+    "translation": "",
+    "sources": ["content/episodes/040.json", "content/episodes/042.json"]
+  },
+  "Hall of #1": {
+    "translation": "",
+    "sources": ["src/components/chart-screen.tsx"]
+  },
+  "Hall of #1 · qui a tenu la tête": {
+    "translation": "",
+    "sources": ["src/components/chart-screen.tsx"]
+  },
+  "Héberger soi-même : ce que ça coûte vraiment": {
+    "translation": "",
+    "sources": ["content/episodes/041.json"]
+  },
+  "hesreallyhim/awesome-claude-code": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Historique de {title}. {points}": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "Historique de la méthode": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/[slug]/methodology/page.tsx"]
+  },
+  "Historique des classements": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/project/[slug]/page.tsx"]
+  },
+  "Historique en cours": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx"]
+  },
+  "HISTORIQUE EN COURS DE COLLECTE": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/project/[slug]/page.tsx"]
+  },
+  "HISTORIQUE EN COURS DE CONSTITUTION": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Historique hebdomadaire": {
+    "translation": "",
+    "sources": ["src/i18n/messages.ts"]
+  },
+  "Hors du top": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/project/[slug]/page.tsx"]
+  },
+  "hors suivi": {
+    "translation": "",
+    "sources": ["src/components/charts-svg.tsx"]
+  },
+  "Hors Top": {
+    "translation": "",
+    "sources": ["src/components/entity-screen.tsx"]
+  },
+  "HORS TOP {size}": {
+    "translation": "",
+    "sources": ["src/components/charts-svg.tsx", "src/i18n/dictionaries/en.json"]
+  },
+  "Hors Top 10 cette semaine": {
+    "translation": "",
+    "sources": ["src/components/cards.tsx"]
+  },
+  "Hugging Face": {
+    "translation": "",
+    "sources": ["content/entities/models.json"]
+  },
+  "Hugging Face : modèles": {
+    "translation": "",
+    "sources": ["content/episodes/041.json", "content/episodes/042.json"]
+  },
+  "Hugging Face Hub": {
+    "translation": "",
+    "sources": ["content/sources.json"]
+  },
+  "Humanity's Last Exam": {
+    "translation": "",
+    "sources": ["content/scoring/models.json", "content/sources.json"]
+  },
+  "ℹ": {
+    "translation": "",
+    "sources": ["src/components/prose.tsx"]
+  },
+  "IDÉAL POUR": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx"]
+  },
+  "Il sort du Top 10. Le multimodal et le très long contexte sont toujours là, le reste a vieilli.": {
+    "translation": "",
+    "sources": ["content/takes/open-source-ai.json"]
+  },
+  "Image": {
+    "translation": "",
+    "sources": ["src/domain/github-charts.ts", "src/domain/sandbox-charts.ts"]
+  },
+  "Indice de présence aux meilleures places sur les semaines disponibles de la période. Les valeurs brutes affichées sont les derniers relevés disponibles.": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "INDICE DU CLASSEMENT": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx"]
+  },
+  "Indisponible": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/project/[slug]/page.tsx"]
+  },
+  "Inférence de LLM en C/C++, sur à peu près tout le matériel": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Inférence locale": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Inférence serveur": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Infra et inférence": {
+    "translation": "",
+    "sources": ["content/topics.json"]
+  },
+  "Infrastructure": {
+    "translation": "",
+    "sources": ["src/domain/github-charts.ts", "src/domain/sandbox-charts.ts"]
+  },
+  "Instagram": {
+    "translation": "",
+    "sources": ["src/domain/chart-share.ts"]
+  },
+  "Install growth": {
+    "translation": "",
+    "sources": ["content/charts/skills.json", "content/scoring/skills-momentum.json"]
+  },
+  "Install reach": {
+    "translation": "",
+    "sources": ["content/charts/skills.json", "content/scoring/skills-momentum.json"]
+  },
+  "Installations cumulées": {
+    "translation": "",
+    "sources": ["content/scoring/skills-momentum.json"]
+  },
+  "Installations gagnées (7 j)": {
+    "translation": "",
+    "sources": ["content/scoring/skills-momentum.json"]
+  },
+  "Installations Skills.sh (50 %)": {
+    "translation": "",
+    "sources": ["content/charts/skills.json"]
+  },
+  "Interface": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Interface de conversation complète (historique, documents, outils) qui se branche sur Ollama ou sur n'importe quelle API compatible. Utilisée par beaucoup d'équipes comme chat interne.": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Interface en graphe pour composer des pipelines de génération d'images, de vidéo et d'audio. Très appréciée pour la précision de contrôle et l'écosystème de nœuds communautaires.": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Interface visuelle pour assembler des applications à base de modèles : RAG, workflows, agents et déploiement. Une alternative low-code aux frameworks.": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Intro": {
+    "translation": "",
+    "sources": ["content/episodes/040.json", "content/episodes/041.json"]
+  },
+  "Intro et météo de la semaine": {
+    "translation": "",
+    "sources": ["content/episodes/042.json"]
+  },
+  "Intro to Large Language Models (A. Karpathy)": {
+    "translation": "",
+    "sources": ["content/episodes/042.json"]
+  },
+  "Jamais classé": {
+    "translation": "",
+    "sources": ["src/components/chart-row.tsx"]
+  },
+  "jour). Un dépôt bloqué, exclu, archivé ou devenu un fork reste hors du classement.": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "Kimi K2": {
+    "translation": "",
+    "sources": ["content/episodes/041.json"]
+  },
+  "Kit de base pour assembler des agents : instructions, outils, transferts entre agents et garde-fous. Volontairement petit, avec peu d'abstractions à apprendre.": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "L'agent de code d'OpenAI, en local dans le terminal": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "L'agent en ligne de commande de Google": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "L’avis de l’équipe, signé": {
+    "translation": "",
+    "sources": ["src/components/entity-screen.tsx"]
+  },
+  "L’AVIS DE SANDBOX": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx"]
+  },
+  "L’édition {week} de {title}, avec ses positions et mouvements figés.": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "L’édition {week} des projets IA en accélération sur GitHub.": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "L’équipe": {
+    "translation": "",
+    "sources": ["src/app/(fr)/about/page.tsx"]
+  },
+  "L'équipe n'a pas encore ajouté sa sélection pour cette édition.": {
+    "translation": "",
+    "sources": ["src/components/charts-features.tsx"]
+  },
+  "L’intention de recherche et la méthode de classement doivent correspondre.": {
+    "translation": "",
+    "sources": ["src/domain/ranking-catalog.ts"]
+  },
+  "La bibliothèque": {
+    "translation": "",
+    "sources": ["src/app/(fr)/page.tsx"]
+  },
+  "La bibliothèque Sandbox": {
+    "translation": "",
+    "sources": ["src/app/(fr)/episodes/page.tsx"]
+  },
+  "La chaîne YouTube": {
+    "translation": "",
+    "sources": ["src/app/(fr)/episodes/[number]/page.tsx"]
+  },
+  "La collecte de ce classement se prépare.": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "La collecte enregistre chaque jour les compteurs GitHub, leur date et leur source. Le lundi, après la collecte du jour, les scores produisent une édition figée. Les textes de l’équipe se publient séparément.": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "La courbe apparaîtra après plusieurs collectes. Aucun point ne sera extrapolé.": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/project/[slug]/page.tsx"]
+  },
+  "La couverture mensuelle sera disponible après la première édition.": {
+    "translation": "",
+    "sources": ["src/components/charts-features.tsx"]
+  },
+  "La découverte recherche des dépôts publics autour des sujets IA. La qualification automatique retient les dépôts non archivés, non forks, actifs dans les": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "La dernière génération de la famille Claude 5": {
+    "translation": "",
+    "sources": ["content/entities/models.json"]
+  },
+  "La documentation à jour des bibliothèques, dans le contexte de l'agent": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "La fiche sera accessible lorsque la connexion à la base sera rétablie.": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/project/[slug]/page.tsx"]
+  },
+  "La formule, ligne par ligne": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/[slug]/methodology/page.tsx"]
+  },
+  "La méthode pour repérer les projets IA en accélération sur GitHub.": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/rising/methodology/page.tsx"]
+  },
+  "La mixture d'experts multimodale de Meta": {
+    "translation": "",
+    "sources": ["content/entities/models.json"]
+  },
+  "La première place de chaque classement, par édition.": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/history/page.tsx"]
+  },
+  "La section Entrées et avis manque dans le document.": {
+    "translation": "",
+    "sources": ["src/domain/chart-edition.ts"]
+  },
+  "LA SÉLECTION DE LA RÉDACTION": {
+    "translation": "",
+    "sources": ["src/components/charts-features.tsx"]
+  },
+  "La tech et l'IA, épisode par épisode. La vidéo, les chapitres et tous les liens cités au même endroit.": {
+    "translation": "",
+    "sources": ["src/app/(fr)/episodes/page.tsx"]
+  },
+  "La tech mérite mieux que du bruit.": {
+    "translation": "",
+    "sources": ["content/site.json"]
+  },
+  "La variante de Qwen3 spécialisée dans le code et les agents": {
+    "translation": "",
+    "sources": ["content/entities/models.json"]
+  },
+  "La version rapide et économique de Gemini 3": {
+    "translation": "",
+    "sources": ["content/entities/models.json"]
+  },
+  "La vidéo de cet épisode n'est pas encore disponible.": {
+    "translation": "",
+    "sources": ["src/app/(fr)/episodes/[number]/page.tsx"]
+  },
+  "Laisser un agent piloter un navigateur web": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Lancement du classement, version 1 de la méthode.": {
+    "translation": "",
+    "sources": [
+      "content/charts/ai-models.json",
+      "content/charts/github.json",
+      "content/charts/open-source-ai.json",
+      "content/charts/skills.json"
+    ]
+  },
+  "Lancer la recherche": {
+    "translation": "",
+    "sources": ["src/i18n/messages.ts"]
+  },
+  "langchain-ai/langgraph": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "langgenius/dify": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Large language model": {
+    "translation": "",
+    "sources": ["src/components/entity-screen.tsx"]
+  },
+  "Last updated:": {
+    "translation": "",
+    "sources": ["src/i18n/messages.ts"]
+  },
+  "le": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "Le 70 milliards de paramètres de Meta, très répandu": {
+    "translation": "",
+    "sources": ["content/entities/models.json"]
+  },
+  "Le chemin doit utiliser le préfixe correspondant à la langue.": {
+    "translation": "",
+    "sources": ["src/domain/ranking-catalog.ts"]
+  },
+  "Le classement apparaîtra après la collecte des relevés et la publication d’une édition. Chaque position reposera sur des mesures enregistrées.": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Le classement de la semaine": {
+    "translation": "",
+    "sources": ["src/app/(fr)/moves/[chart]/[week]/[entity]/page.tsx"]
+  },
+  "LE CLASSEMENT HEBDOMADAIRE": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Le classement, prêt à partager.": {
+    "translation": "",
+    "sources": ["src/components/charts-share.tsx"]
+  },
+  "Le compromis qualité, vitesse et prix de la famille Claude": {
+    "translation": "",
+    "sources": ["content/entities/models.json"]
+  },
+  "Le dépôt de référence des Agent Skills": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Le développement piloté par les spécifications, avec des agents": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Le grand modèle ouvert de Mistral AI": {
+    "translation": "",
+    "sources": ["content/entities/models.json"]
+  },
+  "Le kit de Google pour construire et évaluer des agents": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Le lien a peut-être changé. Retrouvez un épisode, explorez les classements ou lancez une recherche.": {
+    "translation": "",
+    "sources": ["src/app/(fr)/not-found.tsx"]
+  },
+  "Le meilleur rapport vitesse/prix du Top 10. Si vous n'avez pas besoin de la dernière marche de qualité, c'est ici que ça se passe.": {
+    "translation": "",
+    "sources": ["content/takes/ai-models.json"]
+  },
+  "Le minimum ne peut pas dépasser la taille du classement.": {
+    "translation": "",
+    "sources": ["src/domain/github-charts.ts"]
+  },
+  "Le modèle de raisonnement qui a popularisé les poids ouverts performants": {
+    "translation": "",
+    "sources": ["content/entities/models.json"]
+  },
+  "Le modèle de xAI": {
+    "translation": "",
+    "sources": ["content/entities/models.json"]
+  },
+  "Le modèle généraliste d'OpenAI": {
+    "translation": "",
+    "sources": ["content/entities/models.json"]
+  },
+  "Le modèle généraliste ouvert qui a précédé la série V3.2": {
+    "translation": "",
+    "sources": ["content/entities/models.json"]
+  },
+  "Le modèle haut de gamme d'Anthropic pour le code et le raisonnement": {
+    "translation": "",
+    "sources": ["content/entities/models.json"]
+  },
+  "Le modèle multimodal à très long contexte de Google": {
+    "translation": "",
+    "sources": ["content/entities/models.json"]
+  },
+  "Le motif réflexion-action qui structure la plupart des agents.": {
+    "translation": "",
+    "sources": ["content/episodes/042.json"]
+  },
+  "Le mouvement en chiffres": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/project/[slug]/page.tsx"]
+  },
+  "Le moyen le plus simple d'essayer un modèle ouvert. À vingt secondes de la première réponse, c'est difficile de faire mieux.": {
+    "translation": "",
+    "sources": ["content/takes/evergreen.json"]
+  },
+  "Le pipeline actuel collecte les stars, forks, watchers, issues ouvertes et commits récents quand ils sont disponibles. Les contributeurs et releases sont conservés comme absents tant que leur collecte dédiée n’est pas branchée. Skills et Models ont leur interface, avec leurs sources réelles à connecter.": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "Le plus gros gain de stars de la semaine. Le vrai test : est-ce qu'on s'en sert encore dans un mois, ou est-ce qu'on parle d'un joli README ?": {
+    "translation": "",
+    "sources": ["content/takes/skills.json"]
+  },
+  "Le plus gros mouvement de la semaine : +2 places grâce à une révision de ses scores d'agent. À regarder de près, surtout pour le contexte long.": {
+    "translation": "",
+    "sources": ["content/takes/ai-models.json"]
+  },
+  "Le podcast qui teste, débat et remet les chiffres en perspective.": {
+    "translation": "",
+    "sources": ["content/site.json"]
+  },
+  "Le podium": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx"]
+  },
+  "Le projet est-il vivant ? Commits récents et nombre de contributeurs.": {
+    "translation": "",
+    "sources": ["content/scoring/github-momentum.json"]
+  },
+  "Le score principal croise l'Elo texte d'Arena et l'Intelligence Index d'Artificial Analysis, chacun normalisé en percentile parmi les candidats. Les autres vues ne s'activent que si une source fournit une mesure comparable.": {
+    "translation": "",
+    "sources": ["content/charts/ai-models.json"]
+  },
+  "Le seul du lot publié avec ses données et son code d'entraînement.": {
+    "translation": "",
+    "sources": ["content/episodes/041.json"]
+  },
+  "Le sujet : le développement piloté par les spécifications": {
+    "translation": "",
+    "sources": ["content/episodes/042.json"]
+  },
+  "Lecteur vidéo": {
+    "translation": "",
+    "sources": ["src/app/(fr)/episodes/[number]/page.tsx"]
+  },
+  "LECTURE SANDBOX": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx"]
+  },
+  "LES ARCHIVES": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Les archives · SANDBOX CHARTS": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/history/page.tsx"]
+  },
+  "Les archives apparaîtront après la publication du premier classement fondé sur les relevés collectés.": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/history/page.tsx"]
+  },
+  "Les avis (OUR TAKE) sont séparés et signés.": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/[slug]/methodology/page.tsx"]
+  },
+  "Les chapitres seront ajoutés à cette fiche.": {
+    "translation": "",
+    "sources": ["src/app/(fr)/episodes/[number]/page.tsx"]
+  },
+  "Les classements": {
+    "translation": "",
+    "sources": ["src/app/(fr)/not-found.tsx", "src/app/(fr)/page.tsx"]
+  },
+  "Les classements hebdomadaires de ce qui compte dans l’IA.": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/page.tsx", "src/components/charts-experience.tsx"]
+  },
+  "LES CLASSEMENTS IA": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "LES DÉCOUVERTES": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "les derniers épisodes": {
+    "translation": "",
+    "sources": ["src/app/(fr)/page.tsx"]
+  },
+  "Les données sont momentanément indisponibles.": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Les éditions figées apparaîtront ici après publication.": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Les éditions hebdomadaires et leurs premières places, conservées avec leur méthode de calcul.": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/history/page.tsx"]
+  },
+  "Les éditions publiées de la semaine {week}, leurs positions et leurs mouvements.": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "Les épisodes, leurs ressources et les classements IA.": {
+    "translation": "",
+    "sources": ["src/i18n/messages.ts"]
+  },
+  "Les inscriptions ne sont pas encore ouvertes.": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Les interruptions de collecte restent visibles.": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/project/[slug]/page.tsx"]
+  },
+  "Les mesures de croissance deviennent des percentiles entre 0 et 100 dans le groupe éligible. Les égalités reçoivent leur rang moyen. L’activité et la fraîcheur sont déjà bornées à 100. Le score est la somme pondérée de ces composantes.": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "Les modèles d’IA en tête actuellement.": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
+  },
+  "Les mouvements de la semaine": {
+    "translation": "",
+    "sources": ["src/components/charts-features.tsx"]
+  },
+  "Les nouvelles entrées dans le classement.": {
+    "translation": "",
+    "sources": ["src/components/charts-features.tsx"]
+  },
+  "Les plus anciens": {
+    "translation": "",
+    "sources": ["src/components/episode-library.tsx"]
+  },
+  "Les plus courts": {
+    "translation": "",
+    "sources": ["src/components/episode-library.tsx"]
+  },
+  "Les plus récents": {
+    "translation": "",
+    "sources": ["src/components/episode-library.tsx"]
+  },
+  "Les podcasts": {
+    "translation": "",
+    "sources": ["src/app/(fr)/not-found.tsx"]
+  },
+  "Les poids doivent totaliser 1.": {
+    "translation": "",
+    "sources": ["src/domain/github-charts.ts"]
+  },
+  "Les poids ouverts d'OpenAI, sous Apache-2.0": {
+    "translation": "",
+    "sources": ["content/entities/models.json"]
+  },
+  "Les premières éditions se préparent": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/history/page.tsx"]
+  },
+  "Les prochains épisodes arrivent ici.": {
+    "translation": "",
+    "sources": ["src/app/(fr)/page.tsx", "src/components/episode-library.tsx"]
+  },
+  "Les profils GitHub, LinkedIn et X de Lou, Nicolas et Loïc, l’équipe Sandbox.": {
+    "translation": "",
+    "sources": ["src/app/(fr)/about/page.tsx"]
+  },
+  "Les progressions les plus nettes cette semaine.": {
+    "translation": "",
+    "sources": ["src/components/charts-features.tsx"]
+  },
+  "Les projets à suivre dès maintenant.": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
+  },
+  "Les projets IA dont l'accélération mesurée mérite votre attention.": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/rising/page.tsx"]
+  },
+  "Les projets IA qui progressent le plus vite sur GitHub.": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
+  },
+  "Les projets qui bougent le plus cette semaine, pas ceux qui ont le plus de stars depuis dix ans.": {
+    "translation": "",
+    "sources": ["content/charts/github.json"]
+  },
+  "Les projets qui ont tenu les premières places ce mois-ci.": {
+    "translation": "",
+    "sources": ["src/components/charts-features.tsx"]
+  },
+  "Les projets qui reculent cette semaine.": {
+    "translation": "",
+    "sources": ["src/components/charts-features.tsx"]
+  },
+  "Les rangs des autres projets restent disponibles.": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Les rangs et les scores sont calculés à partir des relevés hebdomadaires.": {
+    "translation": "",
+    "sources": ["src/domain/chart-markdown.ts"]
+  },
+  "LES RECORDS": {
+    "translation": "",
+    "sources": ["src/components/charts-features.tsx"]
+  },
+  "Les semaines sont rattachées au mois de leur lundi.": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Les serveurs de référence du Model Context Protocol": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Les skills, agents et MCP qui gagnent du terrain.": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
+  },
+  "Les stars et les forks mesurent l’attention et l’adoption sur GitHub. Ils ne démontrent pas la qualité, la sécurité ni l’usage en production. Les changements de compteurs peuvent être négatifs. Les valeurs manquantes restent absentes et une panne de collecte ne détruit pas l’historique.": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "Les thèmes": {
+    "translation": "",
+    "sources": ["src/components/nav.tsx", "src/i18n/messages.ts"]
+  },
+  "Les traitements par lots respectent les quotas GitHub et consignent leurs résultats. La première édition attend au moins": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "Les vues mensuelles et sur trois mois mesurent la présence aux meilleures places : moyenne de 100 / rang sur les semaines disponibles, avec zéro point les semaines hors classement. Elles ne moyennent pas des scores normalisés de groupes différents. Une semaine appartient au mois de son lundi.": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "Let's build GPT: from scratch, in code, spelled out (A. Karpathy)": {
+    "translation": "",
+    "sources": ["content/episodes/040.json"]
+  },
+  "Licence :": {
+    "translation": "",
+    "sources": ["src/components/entity-screen.tsx"]
+  },
+  "Lien à copier": {
+    "translation": "",
+    "sources": ["src/components/client.tsx"]
+  },
+  "Lien à retrouver avant publication.": {
+    "translation": "",
+    "sources": ["content/episodes/042.json"]
+  },
+  "Lien copié": {
+    "translation": "",
+    "sources": ["src/components/client.tsx"]
+  },
+  "Lien copié dans le presse-papiers": {
+    "translation": "",
+    "sources": ["src/components/client.tsx"]
+  },
+  "Lien copié.": {
+    "translation": "",
+    "sources": ["src/components/charts-share.tsx"]
+  },
+  "Liens cités à l’écran ou consultés pour préparer cet épisode.": {
+    "translation": "",
+    "sources": ["src/app/(fr)/episodes/[number]/page.tsx"]
+  },
+  "Limites": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/[slug]/methodology/page.tsx", "src/domain/chart-markdown.ts"]
+  },
+  "linéaire": {
+    "translation": "",
+    "sources": ["src/domain/scoring.ts"]
+  },
+  "LinkedIn ↗": {
+    "translation": "",
+    "sources": ["src/app/(fr)/moves/[chart]/[week]/[entity]/page.tsx"]
+  },
+  "Lire l'épisode {number} : {title}": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "Lire la méthode ↗": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Lire la méthode complète ↗": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/project/[slug]/page.tsx"]
+  },
+  "Lire la vidéo : {title}": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "Liste de ressources": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Liste de ressources communautaires pour travailler avec Claude Code. Peu de code, beaucoup d'audience : un bon thermomètre de ce que la communauté essaie.": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "LiveCodeBench": {
+    "translation": "",
+    "sources": ["content/scoring/models.json", "content/sources.json"]
+  },
+  "Llama Nemotron Ultra": {
+    "translation": "",
+    "sources": ["content/episodes/042.json"]
+  },
+  "Local AI": {
+    "translation": "",
+    "sources": ["src/domain/github-charts.ts"]
+  },
+  "Long context": {
+    "translation": "",
+    "sources": [
+      "content/charts/ai-models.json",
+      "content/charts/open-source-ai.json",
+      "content/scoring/models.json"
+    ]
+  },
+  "Lou, Nicolas et Loïc. Les liens de l'équipe Sandbox, réunis ici.": {
+    "translation": "",
+    "sources": ["src/app/(fr)/about/page.tsx"]
+  },
+  "Main navigation": {
+    "translation": "",
+    "sources": ["src/i18n/messages.ts"]
+  },
+  "Marketing": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
+  },
+  "mastra-ai/mastra": {
+    "translation": "",
+    "sources": ["content/entities/projects.json", "content/episodes/042.json"]
+  },
+  "mastra.ai": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Mathématiques": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
+  },
+  "Mathématiques de concours.": {
+    "translation": "",
+    "sources": ["content/scoring/models.json"]
+  },
+  "Maths": {
+    "translation": "",
+    "sources": [
+      "content/charts/ai-models.json",
+      "content/charts/open-source-ai.json",
+      "content/scoring/models.json"
+    ]
+  },
+  "MCP": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "MCP : ce qu'un serveur apporte vraiment": {
+    "translation": "",
+    "sources": ["content/episodes/040.json"]
+  },
+  "MCP et outils": {
+    "translation": "",
+    "sources": ["content/topics.json"]
+  },
+  "MCP, skills, spec-kit : le nouveau kit du développeur": {
+    "translation": "",
+    "sources": ["content/episodes/040.json"]
+  },
+  "MEASURES, THEN OUR TAKE": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "Mêmes données et mêmes pondérations que l'AI Models Top 10, restreintes aux modèles dont les poids sont téléchargeables. Un modèle présent dans les deux classements a le même score ; seul le rang change, parce que le pool est différent.": {
+    "translation": "",
+    "sources": ["content/charts/open-source-ai.json"]
+  },
+  "Mesure": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx", "src/components/entity-screen.tsx"]
+  },
+  "Mesuré sur l'historique disponible.": {
+    "translation": "",
+    "sources": ["src/components/charts-features.tsx"]
+  },
+  "Mesurer les projets IA qui gagnent le plus de terrain sur GitHub cette semaine.": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "Mesures ·": {
+    "translation": "",
+    "sources": ["src/components/chart-row.tsx"]
+  },
+  "Mesures, composants du score et sources": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx"]
+  },
+  "Méthode": {
+    "translation": "",
+    "sources": [
+      "src/app/(fr)/charts/[slug]/methodology/page.tsx",
+      "src/components/charts-methodology.tsx",
+      "src/domain/chart-markdown.ts"
+    ]
+  },
+  "Méthode :": {
+    "translation": "",
+    "sources": ["src/components/shell.tsx"]
+  },
+  "Méthode et limites": {
+    "translation": "",
+    "sources": ["src/i18n/messages.ts"]
+  },
+  "Méthode et outils": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Méthodologie": {
+    "translation": "",
+    "sources": [
+      "src/app/(fr)/charts/[slug]/methodology/page.tsx",
+      "src/app/(fr)/moves/[chart]/[week]/[entity]/page.tsx",
+      "src/components/chart-screen.tsx"
+    ]
+  },
+  "Méthodologie ·": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/[slug]/methodology/page.tsx"]
+  },
+  "Méthodologie →": {
+    "translation": "",
+    "sources": ["src/components/entity-screen.tsx"]
+  },
+  "Méthodologie et sources ↗": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Methodology and limits": {
+    "translation": "",
+    "sources": ["src/i18n/messages.ts"]
+  },
+  "microsoft/playwright-mcp": {
+    "translation": "",
+    "sources": ["content/entities/projects.json", "content/episodes/040.json"]
+  },
+  "miniature YouTube non valide": {
+    "translation": "",
+    "sources": ["src/domain/schema.ts"]
+  },
+  "MiniMax M2": {
+    "translation": "",
+    "sources": ["content/episodes/041.json"]
+  },
+  "Mis à jour ·": {
+    "translation": "",
+    "sources": ["src/components/cards.tsx"]
+  },
+  "mis à jour chaque semaine": {
+    "translation": "",
+    "sources": ["src/app/(fr)/moves/[chart]/[week]/[entity]/page.tsx"]
+  },
+  "MISE À JOUR CHAQUE LUNDI": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Mise à jour discrète mais réelle, surtout en code. Pas de mouvement au classement, l'écart avec le #4 se réduit.": {
+    "translation": "",
+    "sources": ["content/takes/open-source-ai.json"]
+  },
+  "MMMU": {
+    "translation": "",
+    "sources": ["content/scoring/models.json", "content/sources.json"]
+  },
+  "MODE 16:9": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Model Context Protocol": {
+    "translation": "",
+    "sources": ["content/episodes/040.json", "content/episodes/042.json"]
+  },
+  "Model Context Protocol : documentation": {
+    "translation": "",
+    "sources": ["content/episodes/040.json"]
+  },
+  "Model Context Protocol, serveurs d'outils et intégrations pour agents.": {
+    "translation": "",
+    "sources": ["content/topics.json"]
+  },
+  "modelcontextprotocol.io": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "modelcontextprotocol/servers": {
+    "translation": "",
+    "sources": ["content/entities/projects.json", "content/episodes/040.json"]
+  },
+  "MODÈLE": {
+    "translation": "",
+    "sources": ["src/components/charts-features.tsx"]
+  },
+  "Modèle à poids ouverts de DeepSeek, connu pour son rapport qualité/prix. Disponible chez de nombreux fournisseurs et auto-hébergeable.": {
+    "translation": "",
+    "sources": ["content/entities/models.json"]
+  },
+  "Modèle à poids ouverts de l'éditeur français, multilingue et multimodal, publié sous licence Apache-2.0.": {
+    "translation": "",
+    "sources": ["content/entities/models.json"]
+  },
+  "Modèle à poids ouverts de MiniMax, conçu pour tourner vite et bon marché sur des boucles d'agents longues.": {
+    "translation": "",
+    "sources": ["content/entities/models.json"]
+  },
+  "Modèle à poids ouverts du laboratoire chinois Z.ai, régulièrement cité pour ses performances en code agentique à un prix bas.": {
+    "translation": "",
+    "sources": ["content/entities/models.json"]
+  },
+  "Modèle à poids ouverts publié par OpenAI. Assez compact pour tenir sur un seul GPU haut de gamme, avec de bonnes performances en raisonnement.": {
+    "translation": "",
+    "sources": ["content/entities/models.json"]
+  },
+  "Modèle compact à poids ouverts, capable de tourner sur une seule carte graphique grand public. Distribué sous les conditions d'utilisation Gemma.": {
+    "translation": "",
+    "sources": ["content/entities/models.json"]
+  },
+  "Modèle compact de Mistral AI conçu pour la latence : peu cher, rapide, suffisant pour beaucoup de tâches courantes.": {
+    "translation": "",
+    "sources": ["content/entities/models.json"]
+  },
+  "Modèle de 14 milliards de paramètres de Microsoft, publié sous licence MIT. Bon en raisonnement pour sa taille, limité en contexte.": {
+    "translation": "",
+    "sources": ["content/entities/models.json"]
+  },
+  "Modèle de 253 milliards de paramètres dérivé de Llama et affiné par NVIDIA, publié avec ses poids sous licence NVIDIA Open Model.": {
+    "translation": "",
+    "sources": ["content/entities/models.json"]
+  },
+  "Modèle de l'Allen Institute for AI publié avec tout ce qu'il faut pour le reproduire. Moins performant que les grands modèles ouverts, mais le plus transparent.": {
+    "translation": "",
+    "sources": ["content/entities/models.json"]
+  },
+  "Modèle de raisonnement publié avec ses poids, qui a montré qu'un modèle ouvert pouvait approcher les meilleurs modèles propriétaires du moment. Surpassé depuis, mais toujours une référence.": {
+    "translation": "",
+    "sources": ["content/entities/models.json"]
+  },
+  "Modèle dense de Meta, largement déployé et affiné par la communauté. Distribué sous une licence maison.": {
+    "translation": "",
+    "sources": ["content/entities/models.json"]
+  },
+  "Modèle généraliste ouvert d'Alibaba, publié sous licence Apache-2.0, ce qui en fait un des plus simples à utiliser en entreprise.": {
+    "translation": "",
+    "sources": ["content/entities/models.json"]
+  },
+  "Modèle open weights": {
+    "translation": "",
+    "sources": ["content/entities/models.json"]
+  },
+  "Modèle ouvert compact d'Alibaba, sous Apache-2.0, qui tient sur une seule carte graphique avec quantification.": {
+    "translation": "",
+    "sources": ["content/entities/models.json"]
+  },
+  "Modèle ouvert de Meta, multimodal et à très grand contexte. Distribué sous une licence maison qui impose des conditions d'usage.": {
+    "translation": "",
+    "sources": ["content/entities/models.json"]
+  },
+  "Modèle ouvert de Moonshot AI à très grand nombre de paramètres, entraîné pour l'usage d'outils. Un des premiers modèles ouverts à rivaliser avec les propriétaires sur les tâches d'agents.": {
+    "translation": "",
+    "sources": ["content/entities/models.json"]
+  },
+  "Modèle ouvert entraîné spécifiquement pour la programmation et l'usage d'outils, utilisable derrière la plupart des agents de code.": {
+    "translation": "",
+    "sources": ["content/entities/models.json"]
+  },
+  "Modèle propriétaire": {
+    "translation": "",
+    "sources": ["content/entities/models.json"]
+  },
+  "Modèle propriétaire d'Anthropic pensé pour un usage quotidien et les agents de code qui tournent beaucoup, avec un bon équilibre entre coût et capacités.": {
+    "translation": "",
+    "sources": ["content/entities/models.json"]
+  },
+  "Modèle propriétaire d'OpenAI, utilisé par ChatGPT et l'API. Souvent cité en tête sur les maths de concours et le raisonnement.": {
+    "translation": "",
+    "sources": ["content/entities/models.json"]
+  },
+  "Modèle propriétaire de Google optimisé pour la vitesse et le prix, avec un contexte très large. Le choix par défaut quand le volume compte plus que la dernière marche de qualité.": {
+    "translation": "",
+    "sources": ["content/entities/models.json"]
+  },
+  "Modèle propriétaire de Google, fort en compréhension d'images et de vidéo et sur les très longs contextes.": {
+    "translation": "",
+    "sources": ["content/entities/models.json"]
+  },
+  "Modèle propriétaire de la famille Claude 5, positionné sur les tâches longues et difficiles : développement logiciel, agents, analyse.": {
+    "translation": "",
+    "sources": ["content/entities/models.json"]
+  },
+  "Modèle propriétaire de xAI, accessible via l'API et la plateforme X. Souvent apprécié pour sa recherche web intégrée.": {
+    "translation": "",
+    "sources": ["content/entities/models.json"]
+  },
+  "Modèle propriétaire récent d'Anthropic. Fiche à compléter avec les informations officielles de l'éditeur.": {
+    "translation": "",
+    "sources": ["content/entities/models.json"]
+  },
+  "Modèles": {
+    "translation": "",
+    "sources": ["content/topics.json", "src/domain/kinds.ts"]
+  },
+  "Modélise un agent comme un graphe de nœuds avec un état persistant, des boucles et des points de reprise. Plus bas niveau que d'autres frameworks, donc plus de contrôle.": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Models": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "MODELS TOP 20": {
+    "translation": "",
+    "sources": [
+      "src/app/(fr)/charts/[slug]/page.tsx",
+      "src/app/(fr)/charts/[slug]/[week]/page.tsx",
+      "src/domain/sandbox-charts.ts"
+    ]
+  },
+  "Mois des archives": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Momentum": {
+    "translation": "",
+    "sources": [
+      "content/charts/github.json",
+      "content/charts/skills.json",
+      "content/scoring/github-momentum.json",
+      "content/scoring/skills-momentum.json"
+    ]
+  },
+  "Momentum des cinq derniers relevés : {values}": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "Moteur d'inférence minimaliste et très optimisé, à la base de nombreux outils locaux. Sa quantification a rendu possible l'exécution de gros modèles sur du matériel ordinaire.": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Moteur de service de modèles qui optimise le débit grâce à une gestion fine de la mémoire du cache. La référence quand on sert des modèles ouverts à plusieurs utilisateurs.": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Mouvement": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/project/[slug]/page.tsx", "src/i18n/messages.ts"]
+  },
+  "Mouvements dans le classement": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Mouvements et archives": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "Movement": {
+    "translation": "",
+    "sources": ["src/i18n/messages.ts"]
+  },
+  "MRCR": {
+    "translation": "",
+    "sources": ["content/scoring/models.json"]
+  },
+  "Multimodal": {
+    "translation": "",
+    "sources": [
+      "content/charts/ai-models.json",
+      "content/charts/open-source-ai.json",
+      "content/scoring/models.json"
+    ]
+  },
+  "n°": {
+    "translation": "",
+    "sources": ["src/components/chart-screen.tsx"]
+  },
+  "n°{rank}": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "n°{rank} du {chart}": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "n8n-io/n8n": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "n8n.io": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Name": {
+    "translation": "",
+    "sources": ["src/i18n/messages.ts"]
+  },
+  "Navigateur": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
+  },
+  "Navigation principale": {
+    "translation": "",
+    "sources": ["src/components/nav.tsx", "src/i18n/messages.ts"]
+  },
+  "Nº 1": {
+    "translation": "",
+    "sources": ["src/components/charts-features.tsx"]
+  },
+  "Nom": {
+    "translation": "",
+    "sources": ["src/i18n/messages.ts"]
+  },
+  "Nombre de forks du dépôt associé.": {
+    "translation": "",
+    "sources": ["content/scoring/skills-momentum.json"]
+  },
+  "Nombre total d'étoiles du dépôt associé.": {
+    "translation": "",
+    "sources": ["content/scoring/skills-momentum.json"]
+  },
+  "Nombre total d'étoiles du dépôt.": {
+    "translation": "",
+    "sources": ["content/scoring/github-momentum.json"]
+  },
+  "Nombre total de forks.": {
+    "translation": "",
+    "sources": ["content/scoring/github-momentum.json"]
+  },
+  "non évalué": {
+    "translation": "",
+    "sources": ["src/components/chart-row.tsx"]
+  },
+  "Normalisation": {
+    "translation": "",
+    "sources": ["content/charts/github.json"]
+  },
+  "Normalisation et départage": {
+    "translation": "",
+    "sources": ["content/charts/skills.json"]
+  },
+  "Note principale": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/[slug]/methodology/page.tsx"]
+  },
+  "Note principale : 50 % progression des installations, 30 % progression des stars GitHub et 20 % fraîcheur du dépôt.": {
+    "translation": "",
+    "sources": ["content/scoring/skills-momentum.json"]
+  },
+  "Note principale du classement : 55 % croissance, 25 % activité, 20 % audience.": {
+    "translation": "",
+    "sources": ["content/scoring/github-momentum.json"]
+  },
+  "Notre avis": {
+    "translation": "",
+    "sources": ["src/components/entity-screen.tsx"]
+  },
+  "Notre modèle par défaut pour les tâches longues, même si on a appris à lire les benchmarks en plissant les yeux.": {
+    "translation": "",
+    "sources": ["content/takes/evergreen.json"]
+  },
+  "NOUVEAUX CETTE SEMAINE": {
+    "translation": "",
+    "sources": ["src/components/charts-features.tsx"]
+  },
+  "Nouvelle entrée": {
+    "translation": "",
+    "sources": ["src/components/ui.tsx"]
+  },
+  "Nouvelle entrée : un dérivé de Llama affiné par NVIDIA. Intéressant, mais lourd à héberger. À essayer avant d'en tirer une conclusion.": {
+    "translation": "",
+    "sources": ["content/takes/open-source-ai.json"]
+  },
+  "Nouvelle entrée dans ce classement": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx"]
+  },
+  "Nouvelle recherche": {
+    "translation": "",
+    "sources": ["src/app/(fr)/search/page.tsx"]
+  },
+  "Nouvelles stars (7 j)": {
+    "translation": "",
+    "sources": ["content/scoring/github-momentum.json", "content/scoring/skills-momentum.json"]
+  },
+  "Numéro {rank}": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "obra/superpowers": {
+    "translation": "",
+    "sources": [
+      "content/entities/projects.json",
+      "content/episodes/040.json",
+      "content/episodes/042.json"
+    ]
+  },
+  "Ollama": {
+    "translation": "",
+    "sources": ["content/episodes/041.json"]
+  },
+  "Ollama, llama.cpp, vLLM : lequel pour quoi": {
+    "translation": "",
+    "sources": ["content/episodes/041.json"]
+  },
+  "ollama.com": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "ollama/ollama": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "OLMo 3": {
+    "translation": "",
+    "sources": ["content/episodes/041.json"]
+  },
+  "On cherche ce qui émerge, pas ce qui est installé. Un projet qui gagne 8 000 stars en une semaine passe devant un géant qui en gagne 400, sauf si ce géant est aussi très actif. Le classement mesure donc une dynamique, pas une popularité historique.": {
+    "translation": "",
+    "sources": ["content/charts/github.json"]
+  },
+  "On passe en revue les quatre classements de la semaine 41 et on essaie de comprendre ce que chaque mouvement raconte vraiment. Puis un sujet de fond : le développement piloté par les spécifications est-il une méthode ou une mode ? Avec, comme d'habitude, la liste complète de ce qu'on a cité.": {
+    "translation": "",
+    "sources": ["content/episodes/042.json"]
+  },
+  "On s'en sert pour préparer les épisodes. Ce qui frappe, c'est moins le modèle que la boucle : il lit, il essaie, il corrige.": {
+    "translation": "",
+    "sources": ["content/takes/evergreen.json"]
+  },
+  "Open source": {
+    "translation": "",
+    "sources": ["content/topics.json"]
+  },
+  "Open Source AI : gpt-oss-120b +3, nouvelle entrée de NVIDIA": {
+    "translation": "",
+    "sources": ["content/episodes/042.json"]
+  },
+  "Open Source AI : lecture critère par critère": {
+    "translation": "",
+    "sources": ["content/episodes/041.json"]
+  },
+  "Open Source AI Top 10": {
+    "translation": "",
+    "sources": ["content/charts/open-source-ai.json"]
+  },
+  "Open Source AI Top 10 : les meilleurs modèles open weights": {
+    "translation": "",
+    "sources": ["content/charts/open-source-ai.json"]
+  },
+  "Open Source Initiative : IA": {
+    "translation": "",
+    "sources": ["content/episodes/041.json"]
+  },
+  "Open weights": {
+    "translation": "",
+    "sources": ["content/charts/open-source-ai.json", "src/components/entity-screen.tsx"]
+  },
+  "Open weights, open source, libre : de quoi parle-t-on ?": {
+    "translation": "",
+    "sources": ["content/episodes/041.json"]
+  },
+  "open-webui/open-webui": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "OpenAI": {
+    "translation": "",
+    "sources": ["content/entities/models.json"]
+  },
+  "OpenAI MRCR": {
+    "translation": "",
+    "sources": ["content/sources.json"]
+  },
+  "openai/codex": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "openai/openai-agents-python": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "OpenRouter API": {
+    "translation": "",
+    "sources": ["content/sources.json"]
+  },
+  "openwebui.com": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Orchestrer des agents comme des graphes à état": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Organisation": {
+    "translation": "",
+    "sources": ["src/domain/chart-markdown.ts"]
+  },
+  "Organization": {
+    "translation": "",
+    "sources": ["src/app/(fr)/layout.tsx", "src/components/entity-screen.tsx"]
+  },
+  "Other": {
+    "translation": "",
+    "sources": ["src/domain/github-charts.ts"]
+  },
+  "Où on en parle": {
+    "translation": "",
+    "sources": ["src/components/entity-screen.tsx"]
+  },
+  "OUR TAKE": {
+    "translation": "",
+    "sources": ["src/components/take-card.tsx"]
+  },
+  "Out · sortis du Top": {
+    "translation": "",
+    "sources": ["src/components/chart-row.tsx"]
+  },
+  "Outil de dev": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Outils": {
+    "translation": "",
+    "sources": ["src/domain/kinds.ts"]
+  },
+  "Outils de dev": {
+    "translation": "",
+    "sources": ["content/topics.json"]
+  },
+  "Outro": {
+    "translation": "",
+    "sources": ["content/episodes/040.json", "content/episodes/041.json"]
+  },
+  "Outro et questions pour la semaine prochaine": {
+    "translation": "",
+    "sources": ["content/episodes/042.json"]
+  },
+  "Ouvrir l'édition W": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Ouvrir la fiche ↗": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx"]
+  },
+  "Ouvrir la fiche de": {
+    "translation": "",
+    "sources": ["src/components/chart-row.tsx"]
+  },
+  "Ouvrir le classement ↗": {
+    "translation": "",
+    "sources": ["src/components/charts-mini.tsx"]
+  },
+  "Page introuvable": {
+    "translation": "",
+    "sources": ["src/app/(fr)/not-found.tsx"]
+  },
+  "Page produit": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Papers": {
+    "translation": "",
+    "sources": ["src/domain/kinds.ts"]
+  },
+  "Par thème": {
+    "translation": "",
+    "sources": ["src/app/(fr)/topics/page.tsx"]
+  },
+  "Parcourez les épisodes Sandbox par sujet : IA, développement, modèles ouverts et outils.": {
+    "translation": "",
+    "sources": ["src/app/(fr)/topics/page.tsx"]
+  },
+  "Parcours dans le": {
+    "translation": "",
+    "sources": ["src/app/(fr)/moves/[chart]/[week]/[entity]/page.tsx"]
+  },
+  "Part des tickets GitHub réels résolus.": {
+    "translation": "",
+    "sources": ["content/scoring/models.json"]
+  },
+  "Partager l'épisode": {
+    "translation": "",
+    "sources": ["src/app/(fr)/episodes/[number]/page.tsx"]
+  },
+  "PARTAGER LE CLASSEMENT": {
+    "translation": "",
+    "sources": ["src/components/charts-share.tsx"]
+  },
+  "PARTAGER LE CLASSEMENT ↗": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx", "src/components/charts-ranking.tsx"]
+  },
+  "Partager sur X ↗": {
+    "translation": "",
+    "sources": ["src/app/(fr)/moves/[chart]/[week]/[entity]/page.tsx"]
+  },
+  "Pas de période précédente disponible": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx"]
+  },
+  "Pas encore d’avis sur": {
+    "translation": "",
+    "sources": ["src/components/entity-screen.tsx"]
+  },
+  "Pas encore en tête, mais déjà à suivre.": {
+    "translation": "",
+    "sources": ["src/components/charts-features.tsx"]
+  },
+  "Peak": {
+    "translation": "",
+    "sources": ["src/components/entity-screen.tsx"]
+  },
+  "Percentile des stars gagnées depuis le relevé GitHub proche de J−7.": {
+    "translation": "",
+    "sources": ["content/scoring/skills-momentum.json"]
+  },
+  "Percentile du nombre d'installations gagnées depuis le relevé Skills.sh proche de J−7.": {
+    "translation": "",
+    "sources": ["content/scoring/skills-momentum.json"]
+  },
+  "Percentile du nombre total d'installations Skills.sh; cette vue complémentaire n'entre pas dans le score principal.": {
+    "translation": "",
+    "sources": ["content/scoring/skills-momentum.json"]
+  },
+  "Périmètre": {
+    "translation": "",
+    "sources": ["content/charts/skills.json"]
+  },
+  "Période du classement": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Personnes ayant au moins un commit sur la branche par défaut.": {
+    "translation": "",
+    "sources": ["content/scoring/github-momentum.json"]
+  },
+  "Place": {
+    "translation": "",
+    "sources": ["src/components/ui.tsx"]
+  },
+  "Place inchangée": {
+    "translation": "",
+    "sources": ["src/components/ui.tsx"]
+  },
+  "Place inchangée ; {dimension} {score} ({delta} pts).": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "Place inchangée.": {
+    "translation": "",
+    "sources": ["src/domain/explain.ts"]
+  },
+  "Plateforme d'agents": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Plateforme pour construire des applications et agents LLM": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "PLUS DE SEMAINES DANS LE TOP 20": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
+  },
+  "Plus forte baisse": {
+    "translation": "",
+    "sources": ["src/components/chart-screen.tsx"]
+  },
+  "Plus forte chute": {
+    "translation": "",
+    "sources": ["src/components/entity-screen.tsx"]
+  },
+  "Plus forte hausse": {
+    "translation": "",
+    "sources": ["src/components/chart-screen.tsx", "src/components/entity-screen.tsx"]
+  },
+  "PLUS FORTE HAUSSE HEBDOMADAIRE": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
+  },
+  "PLUS FORTES HAUSSES": {
+    "translation": "",
+    "sources": ["src/components/charts-features.tsx"]
+  },
+  "PLUS LONGUE SÉRIE À LA 1RE PLACE": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
+  },
+  "Plus suivi cette semaine": {
+    "translation": "",
+    "sources": ["src/components/entity-screen.tsx"]
+  },
+  "Podcast indépendant · IA · développement · open source": {
+    "translation": "",
+    "sources": ["content/site.json"]
+  },
+  "Podcasts": {
+    "translation": "",
+    "sources": [
+      "src/app/(fr)/episodes/[number]/page.tsx",
+      "src/app/(fr)/search/page.tsx",
+      "src/app/(fr)/topics/page.tsx",
+      "src/app/(fr)/topics/[slug]/page.tsx",
+      "src/components/nav.tsx",
+      "src/components/shell.tsx",
+      "src/i18n/messages.ts"
+    ]
+  },
+  "Podcasts : tous les épisodes": {
+    "translation": "",
+    "sources": ["src/app/(fr)/episodes/page.tsx"]
+  },
+  "Podcasts · ressources · classements": {
+    "translation": "",
+    "sources": ["src/app/(fr)/search/page.tsx"]
+  },
+  "Poids": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "Poids fermés": {
+    "translation": "",
+    "sources": ["src/components/entity-screen.tsx"]
+  },
+  "Poids ouverts": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
+  },
+  "Poids ouverts : la remontada, graphique par graphique": {
+    "translation": "",
+    "sources": ["content/episodes/041.json"]
+  },
+  "Poids ouverts uniquement. Mêmes critères que le classement général, pour comparer ce qu'on peut vraiment héberger soi-même.": {
+    "translation": "",
+    "sources": ["content/charts/open-source-ai.json"]
+  },
+  "Poids prévu": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/project/[slug]/page.tsx"]
+  },
+  "Pool et identité": {
+    "translation": "",
+    "sources": ["content/charts/ai-models.json"]
+  },
+  "Portée": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
+  },
+  "Position": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/project/[slug]/page.tsx"]
+  },
+  "Position inchangée": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx"]
+  },
+  "Position semaine après semaine": {
+    "translation": "",
+    "sources": ["src/components/entity-screen.tsx"]
+  },
+  "pour \"": {
+    "translation": "",
+    "sources": ["src/app/(fr)/search/page.tsx"]
+  },
+  "Pour qui": {
+    "translation": "",
+    "sources": ["src/domain/chart-edition.ts"]
+  },
+  "POURQUOI C’EST IMPORTANT": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx"]
+  },
+  "Pourquoi ça bouge": {
+    "translation": "",
+    "sources": [
+      "src/app/(fr)/moves/[chart]/[week]/[entity]/page.tsx",
+      "src/components/chart-row.tsx",
+      "src/components/entity-screen.tsx"
+    ]
+  },
+  "Pourquoi ça compte": {
+    "translation": "",
+    "sources": ["src/domain/chart-edition.ts"]
+  },
+  "Pourquoi ça monte": {
+    "translation": "",
+    "sources": ["src/domain/chart-edition.ts"]
+  },
+  "POURQUOI ÇA MONTE": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx"]
+  },
+  "Pourquoi une révision de protocole peut déplacer un modèle de deux places.": {
+    "translation": "",
+    "sources": ["content/episodes/042.json"]
+  },
+  "Premier #1 de Claude Code ici. Pour une fois, les stars suivent l'usage : c'est un outil qu'on lance tous les jours, pas un dépôt qu'on met en favori pour « plus tard ».": {
+    "translation": "",
+    "sources": ["content/takes/github.json"]
+  },
+  "Première entrée": {
+    "translation": "",
+    "sources": ["src/components/entity-screen.tsx"]
+  },
+  "Première entrée au Top, à la {rank} place.": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "Première entrée au Top, à la {rank} place. Point fort : {dimension} ({poolRank} du pool).": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "Première génération de la série V3 de DeepSeek, à poids ouverts. Toujours très utilisée, même si les versions suivantes la dépassent.": {
+    "translation": "",
+    "sources": ["content/entities/models.json"]
+  },
+  "Première place pour Claude Code au GitHub Top 10, adk-python qui bondit de quatre rangs, Gemini 3 Pro qui revient sur le podium : on décortique les mouvements de la semaine 41.": {
+    "translation": "",
+    "sources": ["content/episodes/042.json"]
+  },
+  "Première semaine du classement": {
+    "translation": "",
+    "sources": ["src/components/chart-screen.tsx", "src/components/ui.tsx"]
+  },
+  "Prend la tête": {
+    "translation": "",
+    "sources": ["src/components/chart-screen.tsx"]
+  },
+  "Présentation": {
+    "translation": "",
+    "sources": ["src/domain/chart-markdown.ts"]
+  },
+  "Présentation à compléter.": {
+    "translation": "",
+    "sources": ["content/hosts.json"]
+  },
+  "Preuves ({{count}})": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "PREVIOUS RANK": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/project/[slug]/page.tsx"]
+  },
+  "Previous ranking": {
+    "translation": "",
+    "sources": ["src/components/entity-screen.tsx"]
+  },
+  "Price": {
+    "translation": "",
+    "sources": [
+      "content/charts/ai-models.json",
+      "content/charts/open-source-ai.json",
+      "content/scoring/models.json"
+    ]
+  },
+  "Principes": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/[slug]/methodology/page.tsx"]
+  },
+  "Prix": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
+  },
+  "Prix entrée": {
+    "translation": "",
+    "sources": ["content/scoring/models.json"]
+  },
+  "Prix mixte": {
+    "translation": "",
+    "sources": ["content/scoring/models.json"]
+  },
+  "Prix mixte (3 parts d'entrée pour 1 de sortie), inversé : moins cher = score plus haut.": {
+    "translation": "",
+    "sources": ["content/scoring/models.json"]
+  },
+  "Prix sortie": {
+    "translation": "",
+    "sources": ["content/scoring/models.json"]
+  },
+  "Problèmes de code récents, pour limiter la contamination des données d'entraînement.": {
+    "translation": "",
+    "sources": ["content/scoring/models.json"]
+  },
+  "Productivité": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
+  },
+  "Productivity": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
+  },
+  "Produits": {
+    "translation": "",
+    "sources": ["src/domain/kinds.ts"]
+  },
+  "Profils à venir": {
+    "translation": "",
+    "sources": ["src/app/(fr)/about/page.tsx"]
+  },
+  "Progression GitHub (30 %)": {
+    "translation": "",
+    "sources": ["content/charts/skills.json"]
+  },
+  "PROJET GITHUB": {
+    "translation": "",
+    "sources": ["src/components/charts-features.tsx"]
+  },
+  "projets éligibles.": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "Projets et modèles": {
+    "translation": "",
+    "sources": ["src/app/(fr)/search/page.tsx"]
+  },
+  "Projets, licences, modèles à poids ouverts, et les gens qui maintiennent tout ça.": {
+    "translation": "",
+    "sources": ["content/topics.json"]
+  },
+  "Projets, modèles et outils": {
+    "translation": "",
+    "sources": ["src/app/(fr)/search/page.tsx"]
+  },
+  "Qu'est-ce qui monte dans l'IA cette semaine ?": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Qualité générale (50 % Arena, 50 % Artificial Analysis)": {
+    "translation": "",
+    "sources": ["content/charts/ai-models.json"]
+  },
+  "Qualité globale : coding 25 %, reasoning 22 %, agents 20 %, maths 13 %, multimodal 10 %, long context 10 %. La vitesse et le prix n'y entrent pas.": {
+    "translation": "",
+    "sources": ["content/scoring/models.json"]
+  },
+  "Quatrième semaine en tête. Le haut du classement est stable, tout se joue derrière.": {
+    "translation": "",
+    "sources": ["content/takes/ai-models.json"]
+  },
+  "Questions de sciences de niveau doctorat.": {
+    "translation": "",
+    "sources": ["content/scoring/models.json"]
+  },
+  "Questions expertes : les scores restent bas, l'échelle va donc de 0 à 50 %.": {
+    "translation": "",
+    "sources": ["content/scoring/models.json"]
+  },
+  "Qui peut entrer ?": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "Quitter le mode 16:9": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Qwen3 235B": {
+    "translation": "",
+    "sources": ["content/episodes/041.json"]
+  },
+  "Raisonnement": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
+  },
+  "Raisonnement scientifique et questions expertes.": {
+    "translation": "",
+    "sources": ["content/scoring/models.json"]
+  },
+  "Rang": {
+    "translation": "",
+    "sources": ["src/i18n/messages.ts"]
+  },
+  "RANG / ÉVOLUTION / PROJET": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Rang sur {count} semaines : {ranks}": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "Rangs hebdomadaires et mesures GitHub observées pour {name}.": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "Rank": {
+    "translation": "",
+    "sources": ["src/i18n/messages.ts"]
+  },
+  "Rapport qualité/prix : 60 % qualité globale, 40 % score de prix.": {
+    "translation": "",
+    "sources": ["content/scoring/models.json"]
+  },
+  "Reach": {
+    "translation": "",
+    "sources": ["content/charts/github.json", "content/scoring/github-momentum.json"]
+  },
+  "Reach (20 %)": {
+    "translation": "",
+    "sources": ["content/charts/github.json"]
+  },
+  "ReAct: Synergizing Reasoning and Acting in Language Models": {
+    "translation": "",
+    "sources": ["content/episodes/040.json", "content/episodes/042.json"]
+  },
+  "Reasoning": {
+    "translation": "",
+    "sources": [
+      "content/charts/ai-models.json",
+      "content/charts/open-source-ai.json",
+      "content/scoring/models.json"
+    ]
+  },
+  "Récence du dernier push : 100 × exp(−jours depuis le push / 30).": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "Recevez les classements SANDBOX chaque semaine par e-mail.": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "RECEVOIR LES CLASSEMENTS": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "RECEVOIR LES CLASSEMENTS ↗": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Recherche": {
+    "translation": "",
+    "sources": ["src/app/(fr)/search/page.tsx", "src/domain/sandbox-charts.ts"]
+  },
+  "Recherche globale": {
+    "translation": "",
+    "sources": ["src/app/(fr)/episodes/page.tsx"]
+  },
+  "Rechercher": {
+    "translation": "",
+    "sources": [
+      "src/app/(fr)/not-found.tsx",
+      "src/app/(fr)/search/page.tsx",
+      "src/components/charts-experience.tsx",
+      "src/i18n/messages.ts"
+    ]
+  },
+  "Rechercher dans les podcasts et classements": {
+    "translation": "",
+    "sources": ["src/app/(fr)/search/page.tsx"]
+  },
+  "Rechercher dans les podcasts et les classements": {
+    "translation": "",
+    "sources": ["src/i18n/messages.ts"]
+  },
+  "Rechercher dans tout le site": {
+    "translation": "",
+    "sources": ["src/components/episode-library.tsx"]
+  },
+  "Rechercher une langue": {
+    "translation": "",
+    "sources": ["src/components/nav.tsx"]
+  },
+  "Recherchez un épisode, une ressource, un sujet ou un classement Sandbox.": {
+    "translation": "",
+    "sources": ["src/app/(fr)/search/page.tsx"]
+  },
+  "Records du classement": {
+    "translation": "",
+    "sources": ["src/components/charts-features.tsx"]
+  },
+  "Réessayez dans quelques instants.": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Relevés hebdomadaires sur environ 30 jours": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx"]
+  },
+  "relevés réels.": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/project/[slug]/page.tsx"]
+  },
+  "REMARQUÉ": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
+  },
+  "Remplace pip, virtualenv et une partie de pipx et poetry avec une vitesse sans commune mesure. Devenu le réflexe par défaut pour démarrer un projet Python.": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Repérer les projets dont la vitesse augmente avant qu’ils deviennent massifs.": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "Repositories GitHub": {
+    "translation": "",
+    "sources": ["src/domain/kinds.ts"]
+  },
+  "Repository freshness": {
+    "translation": "",
+    "sources": ["content/charts/skills.json", "content/scoring/skills-momentum.json"]
+  },
+  "Research": {
+    "translation": "",
+    "sources": ["src/domain/github-charts.ts", "src/domain/sandbox-charts.ts"]
+  },
+  "Résoudre de vrais tickets et écrire du code correct.": {
+    "translation": "",
+    "sources": ["content/scoring/models.json"]
+  },
+  "Ressources": {
+    "translation": "",
+    "sources": ["src/app/(fr)/search/page.tsx"]
+  },
+  "résultat": {
+    "translation": "",
+    "sources": ["src/app/(fr)/search/page.tsx"]
+  },
+  "Résumé de la semaine": {
+    "translation": "",
+    "sources": ["src/components/chart-screen.tsx"]
+  },
+  "Retour au Top à la {rank} place ({poolRank} du pool la semaine passée).": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "Retour au Top à la {rank} place.": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "Retour aux charts": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/project/[slug]/page.tsx"]
+  },
+  "Retour dans ce classement": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx"]
+  },
+  "Retour dans le classement": {
+    "translation": "",
+    "sources": ["src/components/ui.tsx"]
+  },
+  "Retour discret. Ça ressemble à une mise à jour qui plaît aux équipes plus qu'à de la hype, ce qui est plutôt bon signe.": {
+    "translation": "",
+    "sources": ["content/takes/github.json"]
+  },
+  "Retrouver plusieurs informations dans un long contexte.": {
+    "translation": "",
+    "sources": ["content/scoring/models.json"]
+  },
+  "Retrouvez bientôt les vidéos, leurs chapitres et leurs ressources.": {
+    "translation": "",
+    "sources": ["src/components/episode-library.tsx"]
+  },
+  "Retrouvez l’équipe Sandbox": {
+    "translation": "",
+    "sources": ["src/app/(fr)/about/page.tsx"]
+  },
+  "Retrouvez les épisodes qui parlent des sujets qui vous intéressent.": {
+    "translation": "",
+    "sources": ["src/app/(fr)/topics/page.tsx"]
+  },
+  "Retrouvez les épisodes Sandbox, leurs chapitres et les ressources mentionnées pendant les émissions.": {
+    "translation": "",
+    "sources": ["src/app/(fr)/episodes/page.tsx"]
+  },
+  "Rising": {
+    "translation": "",
+    "sources": [
+      "src/app/(fr)/charts/project/[slug]/page.tsx",
+      "src/components/charts-experience.tsx"
+    ]
+  },
+  "RISING 20": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx", "src/domain/sandbox-charts.ts"]
+  },
+  "Rising ajoute deux conditions : au plus": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "Rising attend une accélération mesurée sur deux périodes de sept jours. L'historique ne sera pas extrapolé.": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "RSS feed": {
+    "translation": "",
+    "sources": ["src/i18n/messages.ts"]
+  },
+  "Run search": {
+    "translation": "",
+    "sources": ["src/i18n/messages.ts"]
+  },
+  "S{number}": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "Saisie manuelle": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/[slug]/methodology/page.tsx"]
+  },
+  "Saisissez au moins un mot pour rechercher dans les épisodes, les sources citées et les classements.": {
+    "translation": "",
+    "sources": ["src/app/(fr)/search/page.tsx"]
+  },
+  "Sandbox — {title}": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "SANDBOX — {title}": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "Sandbox · EP.": {
+    "translation": "",
+    "sources": ["src/components/cards.tsx"]
+  },
+  "Sandbox · le podcast": {
+    "translation": "",
+    "sources": ["src/app/(fr)/page.tsx"]
+  },
+  "Sandbox · Podcasts": {
+    "translation": "",
+    "sources": ["src/app/(fr)/page.tsx"]
+  },
+  "Sandbox /": {
+    "translation": "",
+    "sources": ["src/app/(fr)/about/page.tsx"]
+  },
+  "SANDBOX CHARTS": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/page.tsx"]
+  },
+  "SANDBOX CHARTS · Méthode GitHub Top 20": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/[slug]/methodology/page.tsx"]
+  },
+  "SANDBOX CHARTS · Méthode Rising 20": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/rising/methodology/page.tsx"]
+  },
+  "SANDBOX CHARTS · W": {
+    "translation": "",
+    "sources": ["src/components/charts-mini.tsx"]
+  },
+  "SANDBOX CHARTS / CHAQUE LUNDI": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "SANDBOX CHARTS / ÉDITION MENSUELLE": {
+    "translation": "",
+    "sources": ["src/components/charts-features.tsx"]
+  },
+  "SANDBOX CHARTS | Les classements hebdomadaires de l’IA": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/page.tsx"]
+  },
+  "SANDBOX CHARTS | Rising 20": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/rising/page.tsx"]
+  },
+  "Sandbox home": {
+    "translation": "",
+    "sources": ["src/i18n/messages.ts"]
+  },
+  "SANDBOX Momentum Score": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "SANDBOX project metadata unavailable:": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/project/[slug]/page.tsx"]
+  },
+  "SANDBOX project unavailable:": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/project/[slug]/page.tsx"]
+  },
+  "SANDBOX Rising Score": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "SANDBOX TAKE": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/project/[slug]/page.tsx", "src/domain/chart-edition.ts"]
+  },
+  "Score": {
+    "translation": "",
+    "sources": [
+      "content/charts/open-source-ai.json",
+      "src/app/(fr)/charts/project/[slug]/page.tsx",
+      "src/i18n/messages.ts"
+    ]
+  },
+  "Score de présence : {score} sur 100.": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx", "src/i18n/dictionaries/en.json"]
+  },
+  "SCORE SANDBOX": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx"]
+  },
+  "Score SANDBOX : {score} sur 100.": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx", "src/i18n/dictionaries/en.json"]
+  },
+  "scores non décroissants": {
+    "translation": "",
+    "sources": ["src/domain/schema.ts"]
+  },
+  "Search": {
+    "translation": "",
+    "sources": ["src/i18n/messages.ts"]
+  },
+  "Search podcasts and AI rankings": {
+    "translation": "",
+    "sources": ["src/i18n/messages.ts"]
+  },
+  "Seize semaines dans le Top, sept en tête. Il glisse à la 3ᵉ place sans avoir démérité : il se fait manger par le calendrier des sorties.": {
+    "translation": "",
+    "sources": ["content/takes/ai-models.json"]
+  },
+  "sem.": {
+    "translation": "",
+    "sources": ["src/components/chart-screen.tsx"]
+  },
+  "sem. au Top · pic n°": {
+    "translation": "",
+    "sources": ["src/components/chart-row.tsx"]
+  },
+  "Semaine": {
+    "translation": "",
+    "sources": ["src/app/(fr)/page.tsx", "src/components/chart-screen.tsx"]
+  },
+  "Semaine {number} : {highlights}": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "Semaine {week}": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "Semaine 39": {
+    "translation": "",
+    "sources": ["content/episodes/040.json"]
+  },
+  "Semaine 39 : on démonte la pile qui s'installe autour des agents de code. Les serveurs MCP, les skills, le développement piloté par les spécifications : quelle brique vaut vraiment la peine, et laquelle est un effet de mode ?": {
+    "translation": "",
+    "sources": ["content/episodes/040.json"]
+  },
+  "Semaine 40": {
+    "translation": "",
+    "sources": ["content/episodes/041.json"]
+  },
+  "Semaine 40 : on regarde l'écart entre modèles ouverts et propriétaires critère par critère, on discute de ce que « open weights » veut dire et ne veut pas dire, et on teste ce que ça coûte d'héberger soi-même. Plus les mouvements des classements GitHub.": {
+    "translation": "",
+    "sources": ["content/episodes/041.json"]
+  },
+  "Semaine 41": {
+    "translation": "",
+    "sources": ["content/episodes/042.json"]
+  },
+  "Semaine du classement": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "semaine ISO AAAA-Wnn": {
+    "translation": "",
+    "sources": ["src/domain/schema.ts"]
+  },
+  "semaines d’historique": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/[slug]/methodology/page.tsx"]
+  },
+  "semaines dans le Top 20 · meilleur rang #": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx"]
+  },
+  "semaines en tête": {
+    "translation": "",
+    "sources": ["src/components/entity-screen.tsx"]
+  },
+  "Serveur d'inférence haute performance pour LLM": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Serveur MCP qui récupère la documentation et les exemples de la bonne version d'une bibliothèque pour éviter que l'agent n'invente une API périmée.": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Signature collective": {
+    "translation": "",
+    "sources": ["content/hosts.json"]
+  },
+  "Signature des anciens contenus simulés, à remplacer lors de la publication des vrais épisodes.": {
+    "translation": "",
+    "sources": ["content/hosts.json"]
+  },
+  "Signaux": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "SIGNAUX DU MARCHÉ": {
+    "translation": "",
+    "sources": ["src/components/charts-features.tsx"]
+  },
+  "Sites": {
+    "translation": "",
+    "sources": ["src/domain/kinds.ts"]
+  },
+  "Skills": {
+    "translation": "",
+    "sources": ["content/entities/projects.json", "src/components/charts-experience.tsx"]
+  },
+  "Skills : des dossiers plutôt que des prompts": {
+    "translation": "",
+    "sources": ["content/episodes/040.json"]
+  },
+  "Skills Top 10 : adk-python, superpowers et la fatigue des listes": {
+    "translation": "",
+    "sources": ["content/episodes/042.json"]
+  },
+  "Skills Top 10 : la semaine d'anthropics/skills": {
+    "translation": "",
+    "sources": ["content/episodes/040.json"]
+  },
+  "Skills Top 20": {
+    "translation": "",
+    "sources": ["content/charts/skills.json"]
+  },
+  "SKILLS TOP 20": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
+  },
+  "Skills Top 20 : classement des skills IA par installations et activité": {
+    "translation": "",
+    "sources": ["content/charts/skills.json"]
+  },
+  "Skills, agents et outils IA suivis par leurs installations et l'activité de leur dépôt.": {
+    "translation": "",
+    "sources": ["content/charts/skills.json"]
+  },
+  "Skills.sh API": {
+    "translation": "",
+    "sources": ["content/sources.json"]
+  },
+  "Skip to content": {
+    "translation": "",
+    "sources": ["src/i18n/messages.ts"]
+  },
+  "slug en minuscules, chiffres et tirets": {
+    "translation": "",
+    "sources": ["src/domain/schema.ts"]
+  },
+  "Sommaire de la méthode": {
+    "translation": "",
+    "sources": [
+      "src/app/(fr)/charts/[slug]/methodology/page.tsx",
+      "src/components/charts-methodology.tsx"
+    ]
+  },
+  "sont affichés pour le contexte (« bubbling under »). Relevé du": {
+    "translation": "",
+    "sources": ["src/components/chart-screen.tsx"]
+  },
+  "Sorti du classement": {
+    "translation": "",
+    "sources": ["src/components/ui.tsx"]
+  },
+  "Sorti du Top 10 après un pic spectaculaire. Le classique : un projet très partagé, puis la réalité des sites qui changent de structure du jour au lendemain.": {
+    "translation": "",
+    "sources": ["content/takes/github.json"]
+  },
+  "Sorties, comparaisons, prix, vitesse : le paysage des modèles de langage.": {
+    "translation": "",
+    "sources": ["content/topics.json"]
+  },
+  "Source": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/[slug]/methodology/page.tsx", "src/i18n/messages.ts"]
+  },
+  "Source :": {
+    "translation": "",
+    "sources": ["src/components/entity-screen.tsx"]
+  },
+  "SOURCE GITHUB ·": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/project/[slug]/page.tsx"]
+  },
+  "Sources": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/[slug]/methodology/page.tsx"]
+  },
+  "Sources & ressources": {
+    "translation": "",
+    "sources": ["src/app/(fr)/episodes/[number]/page.tsx"]
+  },
+  "Sources de données": {
+    "translation": "",
+    "sources": ["src/domain/chart-markdown.ts"]
+  },
+  "Sources du classement": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/[slug]/methodology/page.tsx"]
+  },
+  "Sources et ressources": {
+    "translation": "",
+    "sources": ["src/app/(fr)/episodes/[number]/page.tsx", "src/app/(fr)/search/page.tsx"]
+  },
+  "Sources et rythme": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "Sources, pondérations, fréquence de mise à jour et limites du classement {chart}. Aucune donnée inventée : chaque chiffre renvoie à sa source.": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "Sources, score, critères et limites du classement hebdomadaire GitHub.": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/[slug]/methodology/page.tsx"]
+  },
+  "sous-score composite": {
+    "translation": "",
+    "sources": ["src/domain/scoring.ts"]
+  },
+  "Speed": {
+    "translation": "",
+    "sources": [
+      "content/charts/ai-models.json",
+      "content/charts/open-source-ai.json",
+      "content/scoring/models.json"
+    ]
+  },
+  "Speed et Price": {
+    "translation": "",
+    "sources": ["content/charts/ai-models.json"]
+  },
+  "Spotify ↗": {
+    "translation": "",
+    "sources": ["src/app/(fr)/episodes/[number]/page.tsx"]
+  },
+  "Stars": {
+    "translation": "",
+    "sources": ["content/scoring/github-momentum.json"]
+  },
+  "Stars · relevés quotidiens": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/project/[slug]/page.tsx"]
+  },
+  "stars et une accélération positive mesurée avec un deuxième relevé à J−14. Aucun historique n’est extrapolé.": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "Stars gagnées": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "Stars gagnées divisées par les stars du relevé précédent. Un plancher protège le score contre les très petits dénominateurs ; le pourcentage public conserve la valeur brute.": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "Stars GitHub": {
+    "translation": "",
+    "sources": ["content/scoring/skills-momentum.json"]
+  },
+  "stars, ou en avoir gagné": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "stars.": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "stars. L’équipe peut changer leur statut de suivi et leur catégorie.": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "Statut": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/[slug]/methodology/page.tsx"]
+  },
+  "Story": {
+    "translation": "",
+    "sources": ["src/domain/chart-share.ts"]
+  },
+  "SUIVEZ CE QUI": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Suivi, {rank} du pool (bubbling under)": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "SUIVRE L’ATTENTION": {
+    "translation": "",
+    "sources": ["src/components/charts-features.tsx"]
+  },
+  "sur la période. Il doit disposer d’un relevé à J−7 (tolérance ±": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "sur une cohorte identique à la semaine précédente.": {
+    "translation": "",
+    "sources": ["src/components/charts-features.tsx"]
+  },
+  "SWE-bench": {
+    "translation": "",
+    "sources": ["content/sources.json"]
+  },
+  "SWE-bench : leaderboards": {
+    "translation": "",
+    "sources": ["content/episodes/042.json"]
+  },
+  "SWE-bench Verified": {
+    "translation": "",
+    "sources": ["content/episodes/042.json", "content/scoring/models.json"]
+  },
+  "Tâches d'agent dans un terminal.": {
+    "translation": "",
+    "sources": ["content/scoring/models.json"]
+  },
+  "Taille de la fenêtre et capacité à y retrouver l'information.": {
+    "translation": "",
+    "sources": ["content/scoring/models.json"]
+  },
+  "Taille maximale du contexte, en milliers de tokens.": {
+    "translation": "",
+    "sources": ["content/scoring/models.json"]
+  },
+  "Taille Models invalide.": {
+    "translation": "",
+    "sources": ["src/domain/external-charts.ts"]
+  },
+  "Taille Skills invalide.": {
+    "translation": "",
+    "sources": ["src/domain/external-charts.ts"]
+  },
+  "Télécharge et exécute des modèles sur votre machine, avec une API locale compatible avec la plupart des clients. La porte d'entrée la plus simple vers les modèles ouverts.": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Télécharger l’image": {
+    "translation": "",
+    "sources": ["src/app/(fr)/moves/[chart]/[week]/[entity]/page.tsx"]
+  },
+  "Télécharger le PNG": {
+    "translation": "",
+    "sources": ["src/components/charts-share.tsx"]
+  },
+  "Terminal-Bench": {
+    "translation": "",
+    "sources": ["content/episodes/041.json", "content/scoring/models.json", "content/sources.json"]
+  },
+  "The archives.": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/history/page.tsx"]
+  },
+  "Thèmes": {
+    "translation": "",
+    "sources": [
+      "src/app/(fr)/search/page.tsx",
+      "src/app/(fr)/topics/page.tsx",
+      "src/app/(fr)/topics/[slug]/page.tsx"
+    ]
+  },
+  "Thread sur les agents « qui font semblant de tester »": {
+    "translation": "",
+    "sources": ["content/episodes/042.json"]
+  },
+  "Titre, sujet ou ressource": {
+    "translation": "",
+    "sources": ["src/components/episode-library.tsx"]
+  },
+  "Tokens générés par seconde (médiane des fournisseurs).": {
+    "translation": "",
+    "sources": ["content/scoring/models.json"]
+  },
+  "TOP 20": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Topics": {
+    "translation": "",
+    "sources": ["src/i18n/messages.ts"]
+  },
+  "Toujours le roi des maths de concours. Mais ça fait longtemps que ce n'est plus ce qu'on lui demande au quotidien.": {
+    "translation": "",
+    "sources": ["content/takes/ai-models.json"]
+  },
+  "Tous les épisodes": {
+    "translation": "",
+    "sources": ["src/components/nav.tsx", "src/i18n/messages.ts"]
+  },
+  "Tous les liens": {
+    "translation": "",
+    "sources": ["src/app/(fr)/episodes/[number]/page.tsx"]
+  },
+  "Tous les mois": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Tous les podcasts": {
+    "translation": "",
+    "sources": [
+      "src/app/(fr)/page.tsx",
+      "src/app/(fr)/search/page.tsx",
+      "src/app/(fr)/topics/[slug]/page.tsx"
+    ]
+  },
+  "Tous les podcasts.": {
+    "translation": "",
+    "sources": ["src/app/(fr)/episodes/page.tsx"]
+  },
+  "Tous les sous-scores et mesures": {
+    "translation": "",
+    "sources": ["src/components/entity-screen.tsx"]
+  },
+  "Tous les thèmes": {
+    "translation": "",
+    "sources": ["src/components/episode-library.tsx"]
+  },
+  "Tout": {
+    "translation": "",
+    "sources": ["src/app/(fr)/search/page.tsx"]
+  },
+  "Tout ·": {
+    "translation": "",
+    "sources": ["src/components/latest-feed.tsx"]
+  },
+  "Tout voir": {
+    "translation": "",
+    "sources": ["src/app/(fr)/page.tsx", "src/components/ui.tsx"]
+  },
+  "Toutes": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
+  },
+  "Toutes les catégories": {
+    "translation": "",
+    "sources": ["src/app/(fr)/search/page.tsx", "src/components/charts-experience.tsx"]
+  },
+  "Transformer des sites web en données propres pour LLM": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Transparence": {
+    "translation": "",
+    "sources": ["src/components/shell.tsx"]
+  },
+  "Treize semaines en tête. Lent chez la plupart des fournisseurs, mais le prix fait oublier la latence pour les usages en batch.": {
+    "translation": "",
+    "sources": ["content/takes/open-source-ai.json"]
+  },
+  "Trier par": {
+    "translation": "",
+    "sources": ["src/components/episode-library.tsx"]
+  },
+  "Trier par critère": {
+    "translation": "",
+    "sources": ["src/components/chart-lens.tsx"]
+  },
+  "Trois idées en même temps : donner des outils aux agents, leur apprendre des méthodes, écrire la spec avant le code. Ce qui marche, ce qui est du bruit.": {
+    "translation": "",
+    "sources": ["content/episodes/040.json"]
+  },
+  "Trois semaines en tête, puis un passage de témoin. Le projet le plus sous-estimé du classement : personne n'en parle, tout le monde en dépend.": {
+    "translation": "",
+    "sources": ["content/takes/github.json"]
+  },
+  "Troisième semaine à la première place. Ce n'est plus une surprise, c'est une habitude.": {
+    "translation": "",
+    "sources": ["content/takes/github.json"]
+  },
+  "Troisième semaine en tête. L'idée est simple, un dossier et un fichier d'instructions, et c'est justement pour ça qu'elle se copie partout.": {
+    "translation": "",
+    "sources": ["content/takes/skills.json"]
+  },
+  "Trouver un épisode": {
+    "translation": "",
+    "sources": ["src/components/episode-library.tsx"]
+  },
+  "Tweets": {
+    "translation": "",
+    "sources": ["src/domain/kinds.ts"]
+  },
+  "Un agent de code dans VS Code, avec validation à chaque étape": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Un agent de code qui vit dans votre terminal": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Un agent de développement logiciel open source": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Un agent local et extensible, avec support MCP": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Un dépôt suivi doit avoir au moins": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "Un dérivé de Llama optimisé par NVIDIA pour le raisonnement": {
+    "translation": "",
+    "sources": ["content/entities/models.json"]
+  },
+  "Un des premiers assistants de code en terminal : il édite vos fichiers et crée un commit par changement, ce qui rend chaque modification relisable et réversible.": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Un des projets qui ont le plus changé ce qui est possible sur du matériel ordinaire. Peu de bruit, énormément d'effet.": {
+    "translation": "",
+    "sources": ["content/takes/evergreen.json"]
+  },
+  "Un éditeur de code rapide et collaboratif, avec agents intégrés": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Un épisode à retrouver, un outil cité, un sujet à explorer.": {
+    "translation": "",
+    "sources": ["src/app/(fr)/search/page.tsx"]
+  },
+  "Un framework TypeScript pour agents et workflows IA": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Un framework TypeScript qui monte vite dans un écosystème d'agents surtout écrit en Python. On attend de voir si c'est de l'élan ou un effet de mode.": {
+    "translation": "",
+    "sources": ["content/takes/github.json"]
+  },
+  "Un modèle dense de 32 milliards de paramètres, facile à héberger": {
+    "translation": "",
+    "sources": ["content/entities/models.json"]
+  },
+  "Un modèle entièrement ouvert : poids, données et code d'entraînement": {
+    "translation": "",
+    "sources": ["content/entities/models.json"]
+  },
+  "Un modèle généraliste ouvert, à très bas coût d'inférence": {
+    "translation": "",
+    "sources": ["content/entities/models.json"]
+  },
+  "Un modèle n'est pas « le meilleur ». Il est meilleur sur quelque chose. Changez de critère, le classement change.": {
+    "translation": "",
+    "sources": ["content/charts/ai-models.json"]
+  },
+  "Un modèle ouvert généraliste et agentique de Z.ai": {
+    "translation": "",
+    "sources": ["content/entities/models.json"]
+  },
+  "Un modèle ouvert rapide, orienté code et agents": {
+    "translation": "",
+    "sources": ["content/entities/models.json"]
+  },
+  "Un petit modèle ouvert et multimodal de Google": {
+    "translation": "",
+    "sources": ["content/entities/models.json"]
+  },
+  "Un petit modèle ouvert, rapide et sous Apache-2.0": {
+    "translation": "",
+    "sources": ["content/entities/models.json"]
+  },
+  "Un petit modèle qui mise sur la qualité des données d'entraînement": {
+    "translation": "",
+    "sources": ["content/entities/models.json"]
+  },
+  "Un podcast pour y voir plus clair.": {
+    "translation": "",
+    "sources": ["content/site.json"]
+  },
+  "Un profil publié doit avoir reviewedAt et publishedAt.": {
+    "translation": "",
+    "sources": ["src/domain/ranking-catalog.ts"]
+  },
+  "Un profil relu doit avoir reviewedAt.": {
+    "translation": "",
+    "sources": ["src/domain/ranking-catalog.ts"]
+  },
+  "Un projet ne peut figurer qu’une fois dans cette section.": {
+    "translation": "",
+    "sources": ["src/domain/schema.ts"]
+  },
+  "Un SDK Python léger pour agents multi-étapes": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Un serveur MCP pour piloter un navigateur avec Playwright": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Un snapshot publié ne se modifie pas.": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/[slug]/methodology/page.tsx"]
+  },
+  "Un sujet, un épisode, une source": {
+    "translation": "",
+    "sources": ["src/app/(fr)/search/page.tsx"]
+  },
+  "Une bibliothèque de skills qui impose une méthode": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Une composante absente garde une valeur nulle dans la provenance et son poids est retiré du calcul. Les poids disponibles sont renormalisés. La couverture du score indique leur somme : sans mesure des contributeurs, Momentum utilise 90 % de sa pondération prévue. Le plancher de croissance vaut": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "une fiche figure plusieurs fois.": {
+    "translation": "",
+    "sources": ["src/domain/chart-markdown.ts"]
+  },
+  "Une interface web auto-hébergée pour modèles locaux et API": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Une liste organisée de commandes, skills, hooks et workflows": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "Une mixture d'experts à poids ouverts, pensée pour les agents et le code": {
+    "translation": "",
+    "sources": ["content/entities/models.json"]
+  },
+  "Une mixture d'experts de 235 milliards de paramètres, sous Apache-2.0": {
+    "translation": "",
+    "sources": ["content/entities/models.json"]
+  },
+  "Une preuve vérifiée ou rejetée doit porter une date et un évaluateur.": {
+    "translation": "",
+    "sources": ["src/domain/ranking-catalog.ts"]
+  },
+  "Une semaine figure plusieurs fois dans les éditions.": {
+    "translation": "",
+    "sources": ["src/domain/chart-edition.ts"]
+  },
+  "Une traduction publiée doit avoir reviewedAt et publishedAt.": {
+    "translation": "",
+    "sources": ["src/domain/ranking-catalog.ts"]
+  },
+  "Une traduction relue doit avoir reviewedAt.": {
+    "translation": "",
+    "sources": ["src/domain/ranking-catalog.ts"]
+  },
+  "upstash/context7": {
+    "translation": "",
+    "sources": ["content/entities/projects.json", "content/episodes/040.json"]
+  },
+  "URL https requise": {
+    "translation": "",
+    "sources": ["src/domain/schema.ts"]
+  },
+  "Usage d'outils face à un utilisateur simulé.": {
+    "translation": "",
+    "sources": ["content/scoring/models.json"]
+  },
+  "Valeur": {
+    "translation": "",
+    "sources": ["src/components/entity-screen.tsx", "src/domain/sandbox-charts.ts"]
+  },
+  "Valeur / 100": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/project/[slug]/page.tsx"]
+  },
+  "Valeur stable sur la période": {
+    "translation": "",
+    "sources": ["src/components/charts-svg.tsx"]
+  },
+  "valeur telle quelle (déjà sur 100)": {
+    "translation": "",
+    "sources": ["src/domain/scoring.ts"]
+  },
+  "Value": {
+    "translation": "",
+    "sources": [
+      "content/charts/ai-models.json",
+      "content/charts/open-source-ai.json",
+      "content/scoring/models.json"
+    ]
+  },
+  "Value (rapport qualité/prix)": {
+    "translation": "",
+    "sources": ["content/charts/ai-models.json"]
+  },
+  "Variation des étoiles gagnées par les dépôts suivis,": {
+    "translation": "",
+    "sources": ["src/components/charts-features.tsx"]
+  },
+  "Version": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/project/[slug]/page.tsx"]
+  },
+  "Video": {
+    "translation": "",
+    "sources": ["src/domain/github-charts.ts", "src/domain/sandbox-charts.ts"]
+  },
+  "Vidéo": {
+    "translation": "",
+    "sources": ["src/app/(fr)/episodes/[number]/page.tsx", "src/domain/sandbox-charts.ts"]
+  },
+  "Vidéo 16:9": {
+    "translation": "",
+    "sources": ["src/domain/chart-share.ts"]
+  },
+  "Vidéos": {
+    "translation": "",
+    "sources": ["src/domain/kinds.ts"]
+  },
+  "Vision": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
+  },
+  "Visual Studio Code": {
+    "translation": "",
+    "sources": ["content/episodes/040.json"]
+  },
+  "Visuel téléchargé.": {
+    "translation": "",
+    "sources": ["src/components/charts-share.tsx"]
+  },
+  "Vitesse à laquelle le projet gagne de l'attention, en valeur absolue et rapportée à sa taille.": {
+    "translation": "",
+    "sources": ["content/scoring/github-momentum.json"]
+  },
+  "Vitesse de génération, échelle logarithmique de 30 à 400 tokens par seconde.": {
+    "translation": "",
+    "sources": ["content/scoring/models.json"]
+  },
+  "Vitesse de sortie": {
+    "translation": "",
+    "sources": ["content/scoring/models.json"]
+  },
+  "Vitesse et prix": {
+    "translation": "",
+    "sources": ["content/charts/open-source-ai.json"]
+  },
+  "vllm-project/vllm": {
+    "translation": "",
+    "sources": [
+      "content/entities/projects.json",
+      "content/episodes/041.json",
+      "content/episodes/042.json"
+    ]
+  },
+  "Voice": {
+    "translation": "",
+    "sources": ["src/domain/github-charts.ts", "src/domain/sandbox-charts.ts"]
+  },
+  "Voir à": {
+    "translation": "",
+    "sources": ["src/app/(fr)/episodes/[number]/page.tsx"]
+  },
+  "Voir l’épisode {number}": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "Voir la fiche de l’épisode →": {
+    "translation": "",
+    "sources": ["src/components/cards.tsx"]
+  },
+  "Voir la sélection": {
+    "translation": "",
+    "sources": ["src/app/(fr)/page.tsx"]
+  },
+  "Voir la semaine": {
+    "translation": "",
+    "sources": ["src/components/chart-week-select.tsx"]
+  },
+  "Voir le": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/[slug]/methodology/page.tsx"]
+  },
+  "Voir le chart ↗": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "Voir le dépôt GitHub ↗": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/project/[slug]/page.tsx"]
+  },
+  "Voir le Top": {
+    "translation": "",
+    "sources": ["src/components/cards.tsx"]
+  },
+  "Voir sur YouTube": {
+    "translation": "",
+    "sources": ["src/app/(fr)/episodes/[number]/page.tsx"]
+  },
+  "Voir tous les épisodes": {
+    "translation": "",
+    "sources": ["src/components/episode-library.tsx"]
+  },
+  "Voir tous les tops": {
+    "translation": "",
+    "sources": ["src/app/(fr)/page.tsx"]
+  },
+  "Voix": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
+  },
+  "Votre adresse email": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Vue «": {
+    "translation": "",
+    "sources": ["src/components/chart-lens.tsx"]
+  },
+  "Vue par": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Watchlist :": {
+    "translation": "",
+    "sources": ["src/domain/chart-edition.ts"]
+  },
+  "Weblog de Simon Willison": {
+    "translation": "",
+    "sources": ["content/episodes/042.json"]
+  },
+  "Week": {
+    "translation": "",
+    "sources": ["src/app/(fr)/moves/[chart]/[week]/[entity]/page.tsx"]
+  },
+  "Weekly history": {
+    "translation": "",
+    "sources": ["src/i18n/messages.ts"]
+  },
+  "Weeks in Top 10": {
+    "translation": "",
+    "sources": ["src/components/entity-screen.tsx"]
+  },
+  "WEEKS IN TOP 20": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/project/[slug]/page.tsx"]
+  },
+  "xAI": {
+    "translation": "",
+    "sources": ["content/entities/models.json"]
+  },
+  "zed-industries/zed": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "zed.dev": {
+    "translation": "",
+    "sources": ["content/entities/projects.json"]
+  },
+  "τ-bench": {
+    "translation": "",
+    "sources": ["content/scoring/models.json", "content/sources.json"]
+  }
+}

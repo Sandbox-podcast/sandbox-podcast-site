@@ -1,5 +1,6 @@
 'use client';
-
+import { Text, LocalizedElement, useLocalization } from '@/components/localization';
+import { localizedHref } from '@/i18n/routing';
 import { useRef, useState } from 'react';
 import {
   SHARE_FORMATS,
@@ -7,7 +8,6 @@ import {
   type ChartShareContent,
   type ShareFormat,
 } from '@/domain/chart-share';
-
 export function ChartsShare({
   content,
   url,
@@ -17,11 +17,16 @@ export function ChartsShare({
   url: string;
   onClose: () => void;
 }) {
+  const { locale, t } = useLocalization();
+  const shareUrl = localizedHref(url, locale);
   const dialog = useRef<HTMLDialogElement | null>(null);
   const [format, setFormat] = useState<ShareFormat>('linkedin');
   const [message, setMessage] = useState('');
   const [pending, setPending] = useState(false);
-  const svg = chartShareSvg(content, format);
+  const svg = chartShareSvg(
+    { ...content, title: t(content.title), movement: t(content.movement), stat: t(content.stat) },
+    format,
+  );
   const source = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
   async function download(): Promise<void> {
     setPending(true);
@@ -73,30 +78,42 @@ export function ChartsShare({
     >
       <div className="sc-share-heading">
         <div>
-          <p className="sc-label">SHARE RANKING</p>
-          <h2 id="sc-share-title">Le chart, prêt à partager.</h2>
+          <p className="sc-label">
+            <Text>{'PARTAGER LE CLASSEMENT'}</Text>
+          </p>
+          <h2 id="sc-share-title">
+            <Text>{'Le classement, prêt à partager.'}</Text>
+          </h2>
         </div>
-        <button type="button" onClick={onClose} aria-label="Fermer l'export">
-          ×
-        </button>
+        <LocalizedElement as="button" type="button" onClick={onClose} aria-label="Fermer l'export">
+          <Text>{'\u00D7'}</Text>
+        </LocalizedElement>
       </div>
-      <div className="sc-share-formats" role="group" aria-label="Format du visuel">
-        {(Object.keys(SHARE_FORMATS) as ShareFormat[]).map((item) => (
-          <button
-            type="button"
-            key={item}
-            aria-pressed={format === item}
-            onClick={() => {
-              setFormat(item);
-            }}
-          >
-            {SHARE_FORMATS[item].label}
-          </button>
-        ))}
-      </div>
+      <LocalizedElement
+        as="div"
+        className="sc-share-formats"
+        role="group"
+        aria-label="Format du visuel"
+      >
+        <Text>
+          {(Object.keys(SHARE_FORMATS) as ShareFormat[]).map((item) => (
+            <button
+              type="button"
+              key={item}
+              aria-pressed={format === item}
+              onClick={() => {
+                setFormat(item);
+              }}
+            >
+              <Text>{SHARE_FORMATS[item].label}</Text>
+            </button>
+          ))}
+        </Text>
+      </LocalizedElement>
       <div className="sc-share-preview">
         {/* SVG généré localement, texte échappé, sans HTML utilisateur. */}
-        <img
+        <LocalizedElement
+          as="img"
           src={source}
           width={SHARE_FORMATS[format].width}
           height={SHARE_FORMATS[format].height}
@@ -110,14 +127,14 @@ export function ChartsShare({
           disabled={pending}
           onClick={() => void download()}
         >
-          {pending ? 'Export en cours' : 'Télécharger le PNG'}
+          <Text>{pending ? 'Export en cours' : 'Télécharger le PNG'}</Text>
         </button>
         <button
           className="btn"
           type="button"
           onClick={() => {
             void navigator.clipboard
-              .writeText(new URL(url, window.location.origin).href)
+              .writeText(new URL(shareUrl, window.location.origin).href)
               .then(() => {
                 setMessage('Lien copié.');
               })
@@ -126,16 +143,21 @@ export function ChartsShare({
               });
           }}
         >
-          Copier le lien
+          <Text>{'Copier le lien'}</Text>
         </button>
       </div>
       <p className="sc-label">
-        {SHARE_FORMATS[format].width} × {SHARE_FORMATS[format].height} px
+        <Text>{SHARE_FORMATS[format].width}</Text>
+        <Text>{' \u00D7 '}</Text>
+        <Text>{SHARE_FORMATS[format].height}</Text>
+        <Text>{' px'}</Text>
       </p>
-      <a className="sc-share-url" href={url}>
-        {url}
+      <a className="sc-share-url" href={shareUrl}>
+        {shareUrl}
       </a>
-      <p role="status">{message}</p>
+      <p role="status">
+        <Text>{message}</Text>
+      </p>
     </dialog>
   );
 }

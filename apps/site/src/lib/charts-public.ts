@@ -1,4 +1,4 @@
-import { and, desc, eq, isNotNull } from 'drizzle-orm';
+import { and, desc, eq, inArray, isNotNull } from 'drizzle-orm';
 import { cache } from 'react';
 import { z } from 'zod';
 import { previousWeek } from '../domain/weeks.ts';
@@ -10,7 +10,16 @@ import {
   weeklyRankings,
 } from '../db/schema.ts';
 import { closestBaseline, githubMetrics, utcDate } from '../domain/github-charts.ts';
+import { externalSourceRefSchema } from '../domain/external-charts.ts';
 import { asProject, readChartsConfig, recentDailySnapshots } from './charts-store.ts';
+
+const publishedExternalIdentitySchema = z.object({
+  name: z.string().min(1),
+  organization: z.string().nullable(),
+  sourceUrl: z.url(),
+  license: z.string().nullable(),
+  openWeights: z.boolean().nullable(),
+});
 
 export const githubProjectDetail = cache(async function githubProjectDetail(slug: string) {
   if (!hasDatabaseConfiguration()) return null;
@@ -73,7 +82,9 @@ export const githubProjectDetail = cache(async function githubProjectDetail(slug
   };
 });
 
-export async function publicChartHistory(chart: 'github' | 'rising') {
+export type PublicChartId = 'github' | 'rising' | 'skills' | 'models';
+
+export async function publicChartHistory(chart: PublicChartId) {
   if (!hasDatabaseConfiguration()) return [];
   const editions = await getDb()
     .select()
@@ -100,7 +111,7 @@ export async function publicGithubRankedProjectSlugs(): Promise<string[]> {
     .orderBy(chartEntities.slug);
   return [...new Set(rows.map(({ slug }) => slug))];
 }
-export async function publicChartEdition(chart: 'github' | 'rising', week?: string) {
+export async function publicChartEdition(chart: PublicChartId, week?: string) {
   if (!hasDatabaseConfiguration()) return null;
   const edition = (
     await getDb()
@@ -122,6 +133,18 @@ export async function publicChartEdition(chart: 'github' | 'rising', week?: stri
     .from(weeklyRankings)
     .where(eq(weeklyRankings.editionId, edition.id))
     .orderBy(weeklyRankings.rank);
+  const entities = rankings.length
+    ? await getDb()
+        .select()
+        .from(chartEntities)
+        .where(
+          inArray(
+            chartEntities.id,
+            rankings.map((ranking) => ranking.entityId),
+          ),
+        )
+    : [];
+  const entitiesById = new Map(entities.map((entity) => [entity.id, entity]));
   return {
     chart,
     year: Number(edition.week.slice(0, 4)),
@@ -134,6 +157,9 @@ export async function publicChartEdition(chart: 'github' | 'rising', week?: stri
     entries: edition.payload.entries.map((entry) => {
       const ranking = rankings.find((item) => item.rank === entry.rank);
       const metadata = z.record(z.string(), z.unknown()).parse(ranking?.metadata ?? {});
+      const entity = ranking ? entitiesById.get(ranking.entityId) : undefined;
+      const frozenIdentity = publishedExternalIdentitySchema.safeParse(metadata['identity']);
+      const frozenSources = z.array(externalSourceRefSchema).safeParse(metadata['sources']);
       const frozen = metadata['project'];
       const project = frozen && typeof frozen === 'object' ? frozen : {};
       const name =
@@ -145,10 +171,25 @@ export async function publicChartEdition(chart: 'github' | 'rising', week?: stri
         previousRank: ranking?.previousRank ?? null,
         rankChange: ranking?.rankChange ?? 0,
         status: ranking?.status ?? 'new',
-        name,
+        name: frozenIdentity.success ? frozenIdentity.data.name : (entity?.name ?? name),
+        organization: frozenIdentity.success
+          ? frozenIdentity.data.organization
+          : (entity?.organization ?? null),
+        sourceUrl: frozenIdentity.success
+          ? frozenIdentity.data.sourceUrl
+          : (entity?.sourceUrl ?? null),
+        license: frozenIdentity.success ? frozenIdentity.data.license : (entity?.license ?? null),
+        openWeights: frozenIdentity.success
+          ? frozenIdentity.data.openWeights
+          : (entity?.openWeights ?? null),
+        sources: frozenSources.success ? frozenSources.data : [],
         slug: entry.entity,
-        githubUrl: fullName ? `https://github.com/${fullName}` : null,
-        description: 'description' in project ? project.description : null,
+        githubUrl: fullName
+          ? `https://github.com/${fullName}`
+          : chart === 'github' || chart === 'rising'
+            ? (entity?.sourceUrl ?? null)
+            : null,
+        description: entity?.description ?? ('description' in project ? project.description : null),
         stars: entry.metrics['stars'] ?? null,
         stars7d: entry.metrics['stars7d'] ?? null,
         growthPercentage: entry.metrics['growth'] ?? null,

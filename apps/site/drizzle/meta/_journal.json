@@ -36,6 +36,20 @@
       "when": 1791532800000,
       "tag": "0004_site_content_localizations",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1791619200000,
+      "tag": "0005_external_chart_sources",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1791622800000,
+      "tag": "0006_manual_content_translations",
+      "breakpoints": true
     }
   ]
 }

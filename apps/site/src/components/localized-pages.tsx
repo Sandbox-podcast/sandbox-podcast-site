@@ -7,61 +7,6 @@ import { localeLabel, localeRouteSegment } from '@/i18n/locales';
 import { siteMessages } from '@/i18n/messages';
 import { formatRankingCount, rankingMessages } from '@/i18n/ranking-messages';
 
-export function EnglishHomePage() {
-  return (
-    <div className="wrap media-home localized-home" lang="en">
-      <section className="featured-episode" aria-labelledby="english-home-title">
-        <div className="featured-episode-shade" aria-hidden="true" />
-        <div className="featured-episode-copy">
-          <p className="label featured-kicker">SANDBOX · PODCASTS & AI CHARTS</p>
-          <h1 id="english-home-title" className="display featured-title">
-            Discover what is moving in AI.
-          </h1>
-          <p className="featured-dek">
-            Watch thoughtful conversations, follow measured rankings and explore the sources behind
-            every position.
-          </p>
-          <div className="featured-actions">
-            <Link href="/en/charts" className="btn btn-solid">
-              Explore AI rankings
-            </Link>
-            <a href="#podcast-library" className="btn">
-              About the podcast library
-            </a>
-          </div>
-        </div>
-      </section>
-      <section className="media-shelf" aria-labelledby="english-charts-title">
-        <p className="label text-ink-3">Measured, dated, sourced</p>
-        <h2 id="english-charts-title" className="section-title">
-          AI rankings with a method you can inspect.
-        </h2>
-        <p className="library-description">
-          Popularity, momentum, benchmark performance and editorial recommendations answer different
-          questions. Sandbox keeps those methods separate and publishes a ranking only when its data
-          and review are ready.
-        </p>
-        <Link href="/en/charts" className="shelf-link">
-          Browse ranking methods <span aria-hidden="true">→</span>
-        </Link>
-      </section>
-      <section className="media-shelf" id="podcast-library" aria-labelledby="english-podcast-title">
-        <p className="label text-ink-3">Video podcast library</p>
-        <h2 id="english-podcast-title" className="section-title">
-          Conversations, episodes and useful links.
-        </h2>
-        <p className="library-description">
-          The French podcast library is available on the default site. Localized episode pages will
-          appear here as their descriptions, chapters and resources are translated and reviewed.
-        </p>
-        <Link href="/episodes" className="shelf-link" lang="fr">
-          Parcourir les épisodes en français <span aria-hidden="true">→</span>
-        </Link>
-      </section>
-    </div>
-  );
-}
-
 export function LocalizedRankingHub({
   pages,
   locale,

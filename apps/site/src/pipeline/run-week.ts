@@ -34,7 +34,11 @@ export async function runWeek(input: RunWeekInput): Promise<RunWeekResult> {
     chart: input.chart,
     entities: input.entities,
   });
-  if (batch.candidates.length < input.chart.size) {
+  // Les fixtures locales peuvent illustrer un classement avec moins de lignes que sa taille live.
+  if (
+    batch.candidates.length === 0 ||
+    (batch.provenance !== 'mock' && batch.candidates.length < input.chart.size)
+  ) {
     throw new Error(
       `${input.chart.slug} ${input.week} : ${String(batch.candidates.length)} candidats pour ${String(input.chart.size)} places. Classement non publiable.`,
     );
