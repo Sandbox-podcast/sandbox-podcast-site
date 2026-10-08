@@ -4,12 +4,18 @@ import '@fontsource-variable/newsreader/wght-italic.css';
 import '@fontsource-variable/jetbrains-mono/wght.css';
 import '../globals.css';
 import '../site-polish.css';
+import '../(fr)/charts/charts.css';
 import { Analytics } from '@vercel/analytics/next';
 import type { Metadata, Viewport } from 'next';
 import Script from 'next/script';
 import type { ReactNode } from 'react';
 import { notFound } from 'next/navigation';
 import { Footer, Masthead } from '@/components/shell';
+import { LocalizationProvider, Text } from '@/components/localization';
+import { siteDictionary } from '@/i18n/dictionaries';
+import { translateText } from '@/i18n/translation';
+import { localeDirection } from '@/i18n/routing';
+import { preparePublishedEditorialContent } from '@/lib/admin-persistence';
 import { JsonLd } from '@/components/json-ld';
 import { isMock, siteConfig } from '@/config/site';
 import { localeTagFromRouteSegment } from '@/i18n/locales';
@@ -25,13 +31,12 @@ export async function generateMetadata({
   const locale = localeTagFromRouteSegment(routeLocale);
   if (!locale) return {};
   const googleSiteVerification = process.env['GOOGLE_SITE_VERIFICATION']?.trim();
-  const description = locale.startsWith('fr')
-    ? siteConfig.description
-    : 'Video podcasts and transparent AI rankings, with dated data, sources and methods.';
+  const dictionary = await siteDictionary(locale);
+  const description = translateText(siteConfig.description, dictionary, locale);
   return {
     metadataBase: new URL(siteConfig.url),
     title: {
-      default: `${siteConfig.name} — AI rankings and video podcasts`,
+      default: `${siteConfig.name} — ${translateText('Podcasts et classements IA', dictionary, locale)}`,
       template: `%s · ${siteConfig.name}`,
     },
     description,
@@ -64,19 +69,23 @@ export default async function LocalizedRootLayout({
   const { locale: routeLocale } = await params;
   const locale = localeTagFromRouteSegment(routeLocale);
   if (!locale) notFound();
-  const messages = siteMessages(locale);
+  await preparePublishedEditorialContent();
+  const dictionary = await siteDictionary(locale);
+  const messages = siteMessages('fr-FR');
   return (
-    <html lang={locale} suppressHydrationWarning>
+    <html lang={locale} dir={localeDirection(locale)} suppressHydrationWarning>
       <body>
         <Script src="/theme-init.js" strategy="beforeInteractive" />
-        <a className="skip" href="#main">
-          {messages.skipToContent}
-        </a>
-        <Masthead locale={locale} />
-        <main id="main" tabIndex={-1}>
-          {children}
-        </main>
-        <Footer locale={locale} />
+        <LocalizationProvider locale={locale} dictionary={dictionary}>
+          <a className="skip" href="#main">
+            <Text>{messages.skipToContent}</Text>
+          </a>
+          <Masthead locale={locale} />
+          <main id="main" tabIndex={-1}>
+            {children}
+          </main>
+          <Footer locale={locale} />
+        </LocalizationProvider>
         <JsonLd
           data={[
             {
@@ -84,7 +93,7 @@ export default async function LocalizedRootLayout({
               '@type': 'WebSite',
               name: siteConfig.name,
               url: siteConfig.url,
-              description: siteConfig.description,
+              description: translateText(siteConfig.description, dictionary, locale),
               inLanguage: locale,
             },
             {

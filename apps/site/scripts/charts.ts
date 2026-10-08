@@ -9,6 +9,7 @@ import {
   discoverGithub,
   freezeGithubWeek,
 } from '../src/pipeline/github-jobs.ts';
+import { collectExternalCharts, freezeExternalCharts } from '../src/pipeline/external-jobs.ts';
 
 const args = process.argv.slice(2);
 const command = args[0];
@@ -24,6 +25,22 @@ try {
         dryRun
           ? await calculateGithubWeek({ date, dryRun: true })
           : await freezeGithubWeek({ publish: !args.includes('--draft') }),
+        null,
+        2,
+      ),
+    );
+  } else if (command === 'external-collect') {
+    console.log(JSON.stringify(await collectExternalCharts(), null, 2));
+  } else if (command === 'external-weekly') {
+    const date = args.find((arg) => arg.startsWith('--date='))?.slice(7);
+    if (date && !/^\d{4}-\d{2}-\d{2}$/.test(date)) throw new Error('Date UTC invalide.');
+    console.log(
+      JSON.stringify(
+        await freezeExternalCharts({
+          date,
+          dryRun,
+          publish: !args.includes('--draft'),
+        }),
         null,
         2,
       ),
@@ -46,7 +63,7 @@ try {
     console.log(JSON.stringify({ candidates: created, dryRun, metricsInserted: 0 }));
   } else
     throw new Error(
-      'Commande : discover, collect, weekly [--dry-run] [--draft], seed [--dry-run].',
+      'Commande : discover, collect, weekly [--dry-run] [--draft], external-collect, external-weekly [--dry-run] [--date=AAAA-MM-JJ] [--draft], seed [--dry-run].',
     );
 } catch (error) {
   console.error(error instanceof Error ? error.message : 'Job indisponible.');

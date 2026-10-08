@@ -68,8 +68,11 @@ export const chartEntities = pgTable('chart_entities', {
   type: text('type').notNull().default('github_project'),
   slug: text('slug').notNull().unique(),
   name: text('name').notNull(),
+  organization: text('organization'),
   description: text('description'),
   category: text('category').notNull().default('Other'),
+  license: text('license'),
+  openWeights: boolean('open_weights'),
   sourceUrl: text('source_url').notNull(),
   websiteUrl: text('website_url'),
   active: boolean('active').notNull().default(true),
@@ -77,6 +80,48 @@ export const chartEntities = pgTable('chart_entities', {
   createdAt: timestamp('created_at', { withTimezone: true, mode: 'string' }).notNull().defaultNow(),
   updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'string' }).notNull().defaultNow(),
 });
+/** Identité vérifiée ou exacte d'une entité chez chaque fournisseur de données. */
+export const chartEntitySources = pgTable(
+  'chart_entity_sources',
+  {
+    id: text('id').primaryKey(),
+    entityId: text('entity_id')
+      .notNull()
+      .references(() => chartEntities.id),
+    provider: text('provider').notNull(),
+    externalId: text('external_id').notNull(),
+    url: text('source_url').notNull(),
+    label: text('source_label').notNull(),
+    updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'string' })
+      .notNull()
+      .defaultNow(),
+  },
+  (table) => [
+    uniqueIndex('chart_entity_source_identity_idx').on(
+      table.entityId,
+      table.provider,
+      table.externalId,
+    ),
+    index('chart_entity_source_provider_idx').on(table.provider, table.externalId),
+  ],
+);
+/** Relevés sourcés et immuables pour Skills, modèles, benchmarks et futures sources. */
+export const chartSourceSnapshots = pgTable(
+  'chart_source_snapshots',
+  {
+    id: text('id').primaryKey(),
+    entitySourceId: text('entity_source_id')
+      .notNull()
+      .references(() => chartEntitySources.id),
+    observedOn: date('observed_on', { mode: 'string' }).notNull(),
+    collectedAt: timestamp('collected_at', { withTimezone: true, mode: 'string' }).notNull(),
+    payload: jsonb('metrics').notNull().$type<Record<string, unknown>>(),
+  },
+  (table) => [
+    uniqueIndex('chart_source_snapshot_day_idx').on(table.entitySourceId, table.observedOn),
+    index('chart_source_snapshot_observed_idx').on(table.observedOn),
+  ],
+);
 export const githubProjects = pgTable(
   'github_projects',
   {
@@ -151,7 +196,7 @@ export const weeklyChartEditions = pgTable(
       .references(() => rankingCollections.key),
     week: text('week').notNull(),
     scoringVersion: text('scoring_version').notNull(),
-    config: jsonb('config').notNull().$type<GithubChartConfig>(),
+    config: jsonb('config').notNull().$type<GithubChartConfig | Record<string, unknown>>(),
     payload: jsonb('payload').notNull().$type<Snapshot>(),
     frozenAt: timestamp('frozen_at', { withTimezone: true, mode: 'string' }).notNull().defaultNow(),
     publishedAt: timestamp('published_at', { withTimezone: true, mode: 'string' }),
@@ -367,4 +412,19 @@ export const siteContentLocalizations = pgTable(
     index('site_localization_state_locale_idx').on(table.state, table.locale),
     index('site_localization_source_idx').on(table.contentKind, table.contentKey, table.locale),
   ],
+);
+
+/** Traductions produites dans le harnais puis importées manuellement par un administrateur. */
+export const siteTranslationMessages = pgTable(
+  'site_translation_messages',
+  {
+    locale: text('locale').notNull(),
+    sourceHash: text('source_hash').notNull(),
+    source: text('source').notNull(),
+    translation: text('translation').notNull(),
+    updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'string' })
+      .notNull()
+      .defaultNow(),
+  },
+  (table) => [primaryKey({ columns: [table.locale, table.sourceHash] })],
 );

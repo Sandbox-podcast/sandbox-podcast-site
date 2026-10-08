@@ -11,6 +11,7 @@ import { AdminChartsConsole } from './admin-charts-console';
 import { SourceEditor, TopicEditor } from './admin-simple-content';
 import { EpisodeComposer } from './episode-composer';
 import { SiteSettingsEditor } from './site-settings-editor';
+import { AdminTranslations } from './admin-translations';
 
 type CollectionKey = 'episodes' | 'charts' | 'hosts' | 'topics' | 'sources';
 type SectionKey = CollectionKey | 'site';
@@ -503,6 +504,11 @@ export function AdminConsole() {
             : 'Accès en lecture seule : vous pouvez consulter le contenu.'}
         </div>
       ) : null}
+
+      <AdminTranslations
+        canImport={status.user?.permissions.publish ?? false}
+        revision={contentResponse.draftEtag ?? 'local'}
+      />
 
       <div className="admin-layout">
         <aside className="admin-sidebar" aria-label="Sections du contenu">

@@ -1,4 +1,5 @@
-import Link from 'next/link';
+import { Text, LocalizedElement } from '@/components/localization';
+import { LocalizedLink as Link } from '@/components/localization';
 import { notFound } from 'next/navigation';
 import { TimeAgo } from '@/components/client';
 import { JsonLd } from '@/components/json-ld';
@@ -9,17 +10,15 @@ import { lastUpdated } from '@/lib/graph';
 import { allCharts, findChart, getProfile, getSource, snapshotsOf } from '@/lib/repository';
 import { absoluteUrl, breadcrumbLd, pageMetadata } from '@/lib/seo';
 import { ChartsMethodology } from '@/components/charts-methodology';
-
 export const dynamicParams = false;
-
 export function generateStaticParams() {
   return allCharts().map((c) => ({ slug: c.slug }));
 }
-
 interface Props {
-  params: Promise<{ slug: string }>;
+  params: Promise<{
+    slug: string;
+  }>;
 }
-
 export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
   if (slug === 'github')
@@ -36,7 +35,6 @@ export async function generateMetadata({ params }: Props) {
     path: `/charts/${chart.slug}/methodology`,
   });
 }
-
 export default async function MethodologyPage({ params }: Props) {
   const { slug } = await params;
   if (slug === 'github') return <ChartsMethodology />;
@@ -46,7 +44,6 @@ export default async function MethodologyPage({ params }: Props) {
   const m = chart.methodology;
   const updated = lastUpdated();
   const history = snapshotsOf(chart.slug);
-
   return (
     <article className="wrap legacy-method-page pt-6">
       <Breadcrumbs
@@ -57,68 +54,107 @@ export default async function MethodologyPage({ params }: Props) {
         ]}
       />
       <header className="legacy-method-heading mb-10">
-        <p className="label mb-3 text-ink-2">Méthodologie · {chart.code}</p>
-        <h1 className="display">Comment le {chart.title} est calculé</h1>
-        <p className="mt-4 max-w-3xl font-serif text-xl leading-snug md:text-2xl">{m.summary}</p>
+        <p className="label mb-3 text-ink-2">
+          <Text>{'M\u00E9thodologie \u00B7 '}</Text>
+          <Text>{chart.code}</Text>
+        </p>
+        <h1 className="display">
+          <Text>{'Comment le '}</Text>
+          <Text>{chart.title}</Text>
+          <Text>{' est calcul\u00E9'}</Text>
+        </h1>
+        <p className="mt-4 max-w-3xl font-serif text-xl leading-snug md:text-2xl">
+          <Text>{m.summary}</Text>
+        </p>
         <p className="label mt-5 text-ink-2">
-          Dernière mise à jour : <TimeAgo iso={updated.publishedAt} /> · semaine{' '}
-          {shortWeek(updated.week).slice(1)} · {history.length} semaines d’historique
+          <Text>{'Derni\u00E8re mise \u00E0 jour : '}</Text>
+          <TimeAgo iso={updated.publishedAt} />
+          <Text>{' \u00B7 semaine'}</Text>
+          <Text> </Text>
+          <Text>{shortWeek(updated.week).slice(1)}</Text>
+          <Text>{' \u00B7 '}</Text>
+          <Text>{history.length}</Text>
+          <Text>{' semaines d\u2019historique'}</Text>
         </p>
       </header>
-      <nav className="entity-section-nav mb-8" aria-label="Sommaire de la méthode">
+      <LocalizedElement
+        as="nav"
+        className="entity-section-nav mb-8"
+        aria-label="Sommaire de la méthode"
+      >
         <a className="chip" href="#sources">
-          Sources
+          <Text>{'Sources'}</Text>
         </a>
         <a className="chip" href="#criteres">
-          Critères
+          <Text>{'Crit\u00E8res'}</Text>
         </a>
         <a className="chip" href="#formule">
-          Calcul du score
+          <Text>{'Calcul du score'}</Text>
         </a>
         <a className="chip" href="#limites">
-          Limites
+          <Text>{'Limites'}</Text>
         </a>
-      </nav>
+      </LocalizedElement>
 
       <div className="grid gap-x-12 gap-y-14 lg:grid-cols-[1fr_22rem]">
         <div className="grid gap-14">
           <section aria-labelledby="sources">
             <SectionHead kicker="D’où viennent les chiffres" title="Sources" id="sources" />
-            <div className="scroll-x" role="region" aria-label="Sources du classement" tabIndex={0}>
+            <LocalizedElement
+              as="div"
+              className="scroll-x"
+              role="region"
+              aria-label="Sources du classement"
+              tabIndex={0}
+            >
               <table className="dtable min-w-[34rem]">
                 <thead>
                   <tr>
-                    <th>Source</th>
-                    <th>Ce qu’on en tire</th>
-                    <th>Statut</th>
+                    <th>
+                      <Text>{'Source'}</Text>
+                    </th>
+                    <th>
+                      <Text>{'Ce qu\u2019on en tire'}</Text>
+                    </th>
+                    <th>
+                      <Text>{'Statut'}</Text>
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
-                  {m.sources.map((s) => {
-                    const src = getSource(s.source);
-                    return (
-                      <tr key={s.source}>
-                        <td className="pr-4 align-top font-semibold">
-                          <ExtLink href={src.url}>{src.label}</ExtLink>
-                        </td>
-                        <td className="pr-4 align-top">{s.usage}</td>
-                        <td className="align-top">
-                          <span
-                            className={`chip ${src.status === 'connected' ? 'bg-up-bg text-up' : ''}`}
-                          >
-                            {src.status === 'connected'
-                              ? 'Branchée'
-                              : src.status === 'manual'
-                                ? 'Saisie manuelle'
-                                : 'À brancher'}
-                          </span>
-                        </td>
-                      </tr>
-                    );
-                  })}
+                  <Text>
+                    {m.sources.map((s) => {
+                      const src = getSource(s.source);
+                      return (
+                        <tr key={s.source}>
+                          <td className="pr-4 align-top font-semibold">
+                            <ExtLink href={src.url}>
+                              <Text>{src.label}</Text>
+                            </ExtLink>
+                          </td>
+                          <td className="pr-4 align-top">
+                            <Text>{s.usage}</Text>
+                          </td>
+                          <td className="align-top">
+                            <span
+                              className={`chip ${src.status === 'connected' ? 'bg-up-bg text-up' : ''}`}
+                            >
+                              <Text>
+                                {src.status === 'connected'
+                                  ? 'Branchée'
+                                  : src.status === 'manual'
+                                    ? 'Saisie manuelle'
+                                    : 'À brancher'}
+                              </Text>
+                            </span>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </Text>
                 </tbody>
               </table>
-            </div>
+            </LocalizedElement>
           </section>
 
           <section aria-labelledby="criteres">
@@ -128,12 +164,18 @@ export default async function MethodologyPage({ params }: Props) {
               id="criteres"
             />
             <ul className="m-0 grid list-none gap-6 p-0">
-              {m.criteria.map((c) => (
-                <li key={c.label} className="border-t border-hair pt-4">
-                  <h3 className="font-display text-xl font-extrabold">{c.label}</h3>
-                  <p className="mt-1.5 max-w-3xl text-ink-2">{c.detail}</p>
-                </li>
-              ))}
+              <Text>
+                {m.criteria.map((c) => (
+                  <li key={c.label} className="border-t border-hair pt-4">
+                    <h3 className="font-display text-xl font-extrabold">
+                      <Text>{c.label}</Text>
+                    </h3>
+                    <p className="mt-1.5 max-w-3xl text-ink-2">
+                      <Text>{c.detail}</Text>
+                    </p>
+                  </li>
+                ))}
+              </Text>
             </ul>
           </section>
 
@@ -144,79 +186,134 @@ export default async function MethodologyPage({ params }: Props) {
               id="formule"
             />
             <div className="grid gap-8">
-              {profile.dimensions.map((d) => (
-                <div
-                  key={d.id}
-                  className={
-                    d.id === profile.primary ? 'border-2 border-ink bg-hl p-4 text-on-hl' : ''
-                  }
-                >
-                  <h3 className="font-display text-lg font-extrabold">
-                    {d.label}{' '}
-                    {d.id === profile.primary ? (
-                      <span className="tag ml-2">Note principale</span>
-                    ) : null}
-                  </h3>
-                  <p className="mt-1 mb-3 max-w-3xl text-sm opacity-80">{d.description}</p>
-                  <table className="dtable">
-                    <tbody>
-                      {describeDimension(d, profile).map((row) => (
-                        <tr key={row.label}>
-                          <td className="w-40 font-semibold">{row.label}</td>
-                          <td className="num w-14">{row.weightPct} %</td>
-                          <td className="text-ink-2">{row.detail}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              ))}
+              <Text>
+                {profile.dimensions.map((d) => (
+                  <div
+                    key={d.id}
+                    className={
+                      d.id === profile.primary ? 'border-2 border-ink bg-hl p-4 text-on-hl' : ''
+                    }
+                  >
+                    <h3 className="font-display text-lg font-extrabold">
+                      <Text>{d.label}</Text>
+                      <Text> </Text>
+                      <Text>
+                        {d.id === profile.primary ? (
+                          <span className="tag ml-2">
+                            <Text>{'Note principale'}</Text>
+                          </span>
+                        ) : null}
+                      </Text>
+                    </h3>
+                    <p className="mt-1 mb-3 max-w-3xl text-sm opacity-80">
+                      <Text>{d.description}</Text>
+                    </p>
+                    <table className="dtable">
+                      <tbody>
+                        <Text>
+                          {describeDimension(d, profile).map((row) => (
+                            <tr key={row.label}>
+                              <td className="w-40 font-semibold">
+                                <Text>{row.label}</Text>
+                              </td>
+                              <td className="num w-14">
+                                <Text>{row.weightPct}</Text>
+                                <Text>{' %'}</Text>
+                              </td>
+                              <td className="text-ink-2">
+                                <Text>{row.detail}</Text>
+                              </td>
+                            </tr>
+                          ))}
+                        </Text>
+                      </tbody>
+                    </table>
+                  </div>
+                ))}
+              </Text>
             </div>
           </section>
 
           <section aria-labelledby="limites">
             <SectionHead kicker="Ce qu’on ne sait pas faire" title="Limites" id="limites" />
             <ul className="m-0 grid list-none gap-3 p-0">
-              {m.limits.map((l) => (
-                <li key={l} className="grid grid-cols-[1.5rem_1fr] gap-2 border-t border-hair pt-3">
-                  <span className="font-mono font-bold" aria-hidden="true">
-                    !
-                  </span>
-                  <p className="max-w-3xl">{l}</p>
-                </li>
-              ))}
+              <Text>
+                {m.limits.map((l) => (
+                  <li
+                    key={l}
+                    className="grid grid-cols-[1.5rem_1fr] gap-2 border-t border-hair pt-3"
+                  >
+                    <span className="font-mono font-bold" aria-hidden="true">
+                      <Text>{'!'}</Text>
+                    </span>
+                    <p className="max-w-3xl">
+                      <Text>{l}</Text>
+                    </p>
+                  </li>
+                ))}
+              </Text>
             </ul>
           </section>
         </div>
 
         <aside className="grid h-fit gap-8 lg:sticky lg:top-6">
           <div className="border-2 border-ink p-4">
-            <p className="label mb-2 text-ink-2">Fréquence</p>
-            <p className="text-sm">{m.frequency}</p>
+            <p className="label mb-2 text-ink-2">
+              <Text>{'Fr\u00E9quence'}</Text>
+            </p>
+            <p className="text-sm">
+              <Text>{m.frequency}</Text>
+            </p>
           </div>
           <div className="border-2 border-ink p-4">
-            <p className="label mb-2 text-ink-2">Principes</p>
+            <p className="label mb-2 text-ink-2">
+              <Text>{'Principes'}</Text>
+            </p>
             <ul className="m-0 grid list-none gap-2 p-0 text-sm">
-              <li>Aucune donnée inventée : une valeur manquante reste absente.</li>
-              <li>Chaque chiffre renvoie à sa source.</li>
-              <li>Un snapshot publié ne se modifie pas.</li>
-              <li>Les avis (OUR TAKE) sont séparés et signés.</li>
+              <li>
+                <Text>
+                  {'Aucune donn\u00E9e invent\u00E9e : une valeur manquante reste absente.'}
+                </Text>
+              </li>
+              <li>
+                <Text>{'Chaque chiffre renvoie \u00E0 sa source.'}</Text>
+              </li>
+              <li>
+                <Text>{'Un snapshot publi\u00E9 ne se modifie pas.'}</Text>
+              </li>
+              <li>
+                <Text>{'Les avis (OUR TAKE) sont s\u00E9par\u00E9s et sign\u00E9s.'}</Text>
+              </li>
             </ul>
           </div>
-          {m.changelog.length > 0 ? (
-            <div className="border-2 border-ink p-4">
-              <p className="label mb-2 text-ink-2">Historique de la méthode</p>
-              <ul className="m-0 grid list-none gap-2 p-0 text-sm">
-                {m.changelog.map((c) => (
-                  <li key={c.week}>
-                    <b className="font-mono text-xs">{shortWeek(c.week)}</b> · {c.note}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ) : null}
+          <Text>
+            {m.changelog.length > 0 ? (
+              <div className="border-2 border-ink p-4">
+                <p className="label mb-2 text-ink-2">
+                  <Text>{'Historique de la m\u00E9thode'}</Text>
+                </p>
+                <ul className="m-0 grid list-none gap-2 p-0 text-sm">
+                  <Text>
+                    {m.changelog.map((c) => (
+                      <li key={c.week}>
+                        <b className="font-mono text-xs">
+                          <Text>{shortWeek(c.week)}</Text>
+                        </b>
+                        <Text>{' \u00B7 '}</Text>
+                        <Text>{c.note}</Text>
+                      </li>
+                    ))}
+                  </Text>
+                </ul>
+              </div>
+            ) : null}
+          </Text>
           <Link href={`/charts/${chart.slug}`} className="btn btn-solid justify-between">
-            Voir le {chart.title} <span aria-hidden="true">→</span>
+            <Text>{'Voir le '}</Text>
+            <Text>{chart.title}</Text>{' '}
+            <span aria-hidden="true">
+              <Text>{'\u2192'}</Text>
+            </span>
           </Link>
         </aside>
       </div>

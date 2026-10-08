@@ -2,119 +2,110 @@
   "id": "skills-momentum",
   "metrics": [
     {
+      "key": "installs",
+      "label": "Installations cumulées",
+      "unit": "count",
+      "source": "skills-sh",
+      "description": "Compteur cumulatif publié par Skills.sh; l'historique commence lors de l'activation de la collecte."
+    },
+    {
+      "key": "installs7d",
+      "label": "Installations gagnées (7 j)",
+      "unit": "count",
+      "source": "skills-sh",
+      "description": "Différence entre les relevés quotidiens Skills.sh espacés d'environ sept jours."
+    },
+    {
       "key": "stars",
-      "label": "Stars",
+      "label": "Stars GitHub",
       "unit": "count",
       "source": "github-api",
-      "description": "Nombre total d'étoiles du dépôt."
+      "description": "Nombre total d'étoiles du dépôt associé."
     },
     {
       "key": "stars7d",
       "label": "Nouvelles stars (7 j)",
       "unit": "count",
       "source": "github-api",
-      "description": "Étoiles gagnées sur les 7 derniers jours."
+      "description": "Différence entre les relevés GitHub espacés d'environ sept jours."
     },
     {
       "key": "forks",
-      "label": "Forks",
+      "label": "Forks GitHub",
       "unit": "count",
       "source": "github-api",
-      "description": "Nombre total de forks."
+      "description": "Nombre de forks du dépôt associé."
     },
     {
-      "key": "contributors",
-      "label": "Contributeurs",
-      "unit": "count",
+      "key": "freshness",
+      "label": "Fraîcheur du dépôt",
+      "unit": "score",
       "source": "github-api",
-      "description": "Personnes ayant au moins un commit sur la branche par défaut."
-    },
-    {
-      "key": "commits30d",
-      "label": "Commits (30 j)",
-      "unit": "count",
-      "source": "github-api",
-      "description": "Commits sur la branche par défaut au cours des 30 derniers jours."
+      "description": "Décroissance exponentielle de la date du dernier push, avec une constante de temps de 30 jours."
     }
   ],
-  "derived": [
-    {
-      "kind": "ratio",
-      "key": "growth",
-      "label": "Croissance hebdo",
-      "unit": "percent",
-      "decimals": 1,
-      "numerator": "stars7d",
-      "denominator": "stars",
-      "scale": 100
-    }
-  ],
+  "derived": [],
   "dimensions": [
     {
       "id": "growth",
-      "label": "Growth",
-      "description": "Vitesse à laquelle le projet gagne de l'attention, en valeur absolue et rapportée à sa taille.",
+      "label": "Install growth",
+      "description": "Percentile du nombre d'installations gagnées depuis le relevé Skills.sh proche de J−7.",
       "components": [
         {
           "type": "metric",
-          "metric": "stars7d",
-          "weight": 0.6,
-          "scale": { "kind": "pool", "transform": "log" }
-        },
-        {
-          "type": "metric",
-          "metric": "growth",
-          "weight": 0.4,
+          "metric": "installs7d",
+          "weight": 1,
           "scale": { "kind": "pool", "transform": "linear" }
         }
       ]
     },
     {
-      "id": "activity",
-      "label": "Activity",
-      "description": "Le projet est-il vivant ? Commits récents et nombre de contributeurs.",
+      "id": "githubGrowth",
+      "label": "GitHub star growth",
+      "description": "Percentile des stars gagnées depuis le relevé GitHub proche de J−7.",
       "components": [
         {
           "type": "metric",
-          "metric": "commits30d",
-          "weight": 0.6,
-          "scale": { "kind": "pool", "transform": "log" }
-        },
-        {
-          "type": "metric",
-          "metric": "contributors",
-          "weight": 0.4,
-          "scale": { "kind": "pool", "transform": "log" }
+          "metric": "stars7d",
+          "weight": 1,
+          "scale": { "kind": "pool", "transform": "linear" }
         }
       ]
     },
     {
       "id": "reach",
-      "label": "Reach",
-      "description": "Audience installée : étoiles et forks. Un skill ou un agent se copie souvent plus qu'il ne se suit, donc les forks pèsent autant que les étoiles.",
+      "label": "Install reach",
+      "description": "Percentile du nombre total d'installations Skills.sh; cette vue complémentaire n'entre pas dans le score principal.",
       "components": [
         {
           "type": "metric",
-          "metric": "stars",
-          "weight": 0.5,
-          "scale": { "kind": "pool", "transform": "log" }
-        },
+          "metric": "installs",
+          "weight": 1,
+          "scale": { "kind": "pool", "transform": "linear" }
+        }
+      ]
+    },
+    {
+      "id": "freshness",
+      "label": "Repository freshness",
+      "description": "Décroissance exponentielle à partir du dernier push, sur une constante de temps de 30 jours.",
+      "components": [
         {
           "type": "metric",
-          "metric": "forks",
-          "weight": 0.5,
-          "scale": { "kind": "pool", "transform": "log" }
+          "metric": "freshness",
+          "weight": 1,
+          "scale": { "kind": "pool", "transform": "linear" }
         }
       ]
     },
     {
       "id": "momentum",
       "label": "Momentum",
-      "description": "Note principale du classement : 50 % croissance, 25 % activité, 25 % audience.",
+      "description": "Note principale : 50 % progression des installations, 30 % progression des stars GitHub et 20 % fraîcheur du dépôt.",
       "components": [
         { "type": "dimension", "dimension": "growth", "weight": 0.5 },
-        { "type": "dimension", "dimension": "activity", "weight": 0.25 },
-        { "type": "dimension", "dimension": "reach", "weight": 0.25 }
+        { "type": "dimension", "dimension": "githubGrowth", "weight": 0.3 },
+        { "type": "dimension", "dimension": "freshness", "weight": 0.2 }
       ]
     }
   ],

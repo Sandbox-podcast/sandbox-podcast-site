@@ -31,6 +31,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const chartReads = await Promise.allSettled([
     publicChartHistory('github'),
     publicChartHistory('rising'),
+    publicChartHistory('skills'),
+    publicChartHistory('models'),
     publicGithubRankedProjectSlugs(),
     publicRankingCollectionPages(),
     publicLocalizedSitePages(),
@@ -43,16 +45,30 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       );
     }
   }
-  const [githubResult, risingResult, projectResult, localizedRankingResult, localizedSiteResult] =
-    chartReads;
+  const [
+    githubResult,
+    risingResult,
+    skillsResult,
+    modelsResult,
+    projectResult,
+    localizedRankingResult,
+    localizedSiteResult,
+  ] = chartReads;
   const github = githubResult.status === 'fulfilled' ? githubResult.value : [];
   const rising = risingResult.status === 'fulfilled' ? risingResult.value : [];
+  const skills = skillsResult.status === 'fulfilled' ? skillsResult.value : [];
+  const models = modelsResult.status === 'fulfilled' ? modelsResult.value : [];
   const projects = projectResult.status === 'fulfilled' ? projectResult.value : [];
   const localizedRankings =
     localizedRankingResult.status === 'fulfilled' ? localizedRankingResult.value : [];
   const localizedSitePages =
     localizedSiteResult.status === 'fulfilled' ? localizedSiteResult.value : [];
-  const editions: PublishedChartEditionForSitemap[] = [...github, ...rising].map((edition) => ({
+  const editions: PublishedChartEditionForSitemap[] = [
+    ...github,
+    ...rising,
+    ...skills,
+    ...models,
+  ].map((edition) => ({
     chart: edition.chart,
     week: edition.week,
     entries: edition.entries,

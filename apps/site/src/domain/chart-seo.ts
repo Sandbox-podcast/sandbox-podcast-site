@@ -2,7 +2,7 @@ import { slugSchema } from './schema.ts';
 import type { ChartId, ChartsData } from './sandbox-charts.ts';
 
 export interface PublishedChartEditionForSitemap {
-  chart: 'github' | 'rising';
+  chart: ChartId;
   week: string;
   entries: number;
 }
@@ -50,35 +50,48 @@ export function publishedChartSitemapPaths(
   editions: readonly PublishedChartEditionForSitemap[],
   projectSlugs: readonly string[] = [],
 ): string[] {
-  const weeks = { github: new Set<string>(), rising: new Set<string>() };
+  const weeks: Record<ChartId, Set<string>> = {
+    github: new Set(),
+    rising: new Set(),
+    skills: new Set(),
+    models: new Set(),
+  };
   for (const edition of editions) {
     if (edition.entries > 0 && WEEK_ID.test(edition.week)) weeks[edition.chart].add(edition.week);
   }
 
-  const githubWeeks = [...weeks.github].sort().reverse();
-  const risingWeeks = [...weeks.rising].sort().reverse();
-  const allWeeks = [...new Set([...githubWeeks, ...risingWeeks])].sort().reverse();
+  const chartSlugs: Record<ChartId, string> = {
+    github: 'github',
+    rising: 'rising',
+    skills: 'skills',
+    models: 'ai-models',
+  };
+  const allWeeks = [...new Set(Object.values(weeks).flatMap((items) => [...items]))]
+    .sort()
+    .reverse();
   const paths = ['/charts/github/methodology', '/charts/rising/methodology'];
+  if (weeks.skills.size > 0) paths.push(`/charts/${chartSlugs.skills}/methodology`);
+  if (weeks.models.size > 0) paths.push(`/charts/${chartSlugs.models}/methodology`);
 
   if (allWeeks.length > 0) {
     paths.push('/charts', '/charts/history');
     paths.push(...allWeeks.map((week) => `/charts/history/${week}`));
   }
 
-  if (githubWeeks.length > 0) {
-    paths.push('/charts/github');
-    paths.push(...githubWeeks.map((week) => `/charts/github/${week}`));
-    paths.push(
-      ...[...new Set(projectSlugs)]
-        .filter((slug) => slugSchema.safeParse(slug).success)
-        .sort()
-        .map((slug) => `/charts/project/${slug}`),
-    );
-  }
-
-  if (risingWeeks.length > 0) {
-    paths.push('/charts/rising');
-    paths.push(...risingWeeks.map((week) => `/charts/rising/${week}`));
+  for (const chart of ['github', 'skills', 'models', 'rising'] as const) {
+    const chartWeeks = [...weeks[chart]].sort().reverse();
+    if (!chartWeeks.length) continue;
+    const slug = chartSlugs[chart];
+    paths.push(`/charts/${slug}`);
+    paths.push(...chartWeeks.map((week) => `/charts/${slug}/${week}`));
+    if (chart === 'github') {
+      paths.push(
+        ...[...new Set(projectSlugs)]
+          .filter((slug) => slugSchema.safeParse(slug).success)
+          .sort()
+          .map((slug) => `/charts/project/${slug}`),
+      );
+    }
   }
 
   return [...new Set(paths)];

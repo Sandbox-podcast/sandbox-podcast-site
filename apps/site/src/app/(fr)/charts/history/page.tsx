@@ -1,10 +1,10 @@
-import Link from 'next/link';
+import { Text, LocalizedElement } from '@/components/localization';
+import { LocalizedLink as Link } from '@/components/localization';
 import { Breadcrumbs } from '@/components/ui';
 import { chartRows, CHART_LABELS, type ChartId } from '@/domain/sandbox-charts';
 import { sandboxChartsData } from '@/lib/sandbox-charts';
 import { pageMetadata } from '@/lib/seo';
 import { hasIndexableChartCollection } from '@/domain/chart-seo';
-
 export async function generateMetadata() {
   const data = await sandboxChartsData();
   return pageMetadata({
@@ -22,74 +22,111 @@ export default async function Page() {
     <article className="wrap sc-project">
       <Breadcrumbs items={[{ label: 'Classements', href: '/charts' }, { label: 'Archives' }]} />
       <header>
-        <p className="sc-label">EVERY WEEK LEAVES A TRACE</p>
-        <h1>The archives.</h1>
-        <p>Chaque édition conserve ses positions, ses mesures et sa version du score.</p>
-        {data.mode === 'fixtures' ? (
-          <p className="sc-data-state">
-            APERÇU LOCAL · Ces archives utilisent les fixtures de développement.
-          </p>
-        ) : null}
+        <p className="sc-label">
+          <Text>{'EVERY WEEK LEAVES A TRACE'}</Text>
+        </p>
+        <h1>
+          <Text>{'The archives.'}</Text>
+        </h1>
+        <p>
+          <Text>
+            {'Chaque \u00E9dition conserve ses positions, ses mesures et sa version du score.'}
+          </Text>
+        </p>
+        <Text>
+          {data.mode === 'fixtures' ? (
+            <p className="sc-data-state">
+              <Text>
+                {
+                  'APER\u00C7U LOCAL \u00B7 Ces archives utilisent les fixtures de d\u00E9veloppement.'
+                }
+              </Text>
+            </p>
+          ) : null}
+        </Text>
       </header>
-      {data.weeks.length ? (
-        <div
-          className="sc-table-scroll"
-          role="region"
-          aria-label="Archives des classements par semaine"
-          tabIndex={0}
-        >
-          <table className="dtable">
-            <caption className="sr-only">
-              La première place de chaque classement, par édition.
-            </caption>
-            <thead>
-              <tr>
-                <th>Édition</th>
-                {charts.map((id) => (
-                  <th key={id}>{CHART_LABELS[id].title}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {data.weeks.map((week) => (
-                <tr key={week}>
-                  <td>
-                    <Link href={`/charts/history/${week}`}>{week}</Link>
-                  </td>
-                  {charts.map((id) => {
-                    const leader = chartRows(data, id, week)[0];
-                    return (
-                      <td key={id}>
-                        {leader ? (
-                          <Link href={`/charts/${CHART_LABELS[id].slug}/${week}`}>
-                            {leader.entity.name} ↗
-                          </Link>
-                        ) : (
-                          'Édition indisponible'
-                        )}
-                      </td>
-                    );
-                  })}
+      <Text>
+        {data.weeks.length ? (
+          <LocalizedElement
+            as="div"
+            className="sc-table-scroll"
+            role="region"
+            aria-label="Archives des classements par semaine"
+            tabIndex={0}
+          >
+            <table className="dtable">
+              <caption className="sr-only">
+                <Text>{'La premi\u00E8re place de chaque classement, par \u00E9dition.'}</Text>
+              </caption>
+              <thead>
+                <tr>
+                  <th>
+                    <Text>{'\u00C9dition'}</Text>
+                  </th>
+                  <Text>
+                    {charts.map((id) => (
+                      <th key={id}>
+                        <Text>{CHART_LABELS[id].title}</Text>
+                      </th>
+                    ))}
+                  </Text>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      ) : (
-        <section>
-          <h2>
-            {data.mode === 'unavailable'
-              ? 'Archives temporairement indisponibles'
-              : 'Les premières éditions se préparent'}
-          </h2>
-          <p>
-            Les archives apparaîtront après la publication du premier classement fondé sur les
-            relevés collectés.
-          </p>
-        </section>
-      )}
+              </thead>
+              <tbody>
+                <Text>
+                  {data.weeks.map((week) => (
+                    <tr key={week}>
+                      <td>
+                        <Link href={`/charts/history/${week}`}>
+                          <Text>{week}</Text>
+                        </Link>
+                      </td>
+                      <Text>
+                        {charts.map((id) => {
+                          const leader = chartRows(data, id, week)[0];
+                          return (
+                            <td key={id}>
+                              <Text>
+                                {leader ? (
+                                  <Link href={`/charts/${CHART_LABELS[id].slug}/${week}`}>
+                                    <Text>{leader.entity.name}</Text>
+                                    <Text>{' \u2197'}</Text>
+                                  </Link>
+                                ) : (
+                                  'Édition indisponible'
+                                )}
+                              </Text>
+                            </td>
+                          );
+                        })}
+                      </Text>
+                    </tr>
+                  ))}
+                </Text>
+              </tbody>
+            </table>
+          </LocalizedElement>
+        ) : (
+          <section>
+            <h2>
+              <Text>
+                {data.mode === 'unavailable'
+                  ? 'Archives temporairement indisponibles'
+                  : 'Les premières éditions se préparent'}
+              </Text>
+            </h2>
+            <p>
+              <Text>
+                {
+                  'Les archives appara\u00EEtront apr\u00E8s la publication du premier classement fond\u00E9 sur les relev\u00E9s collect\u00E9s.'
+                }
+              </Text>
+            </p>
+          </section>
+        )}
+      </Text>
       <Link className="btn" href="/charts">
-        Cette semaine ↗
+        <Text>{'Cette semaine \u2197'}</Text>
       </Link>
     </article>
   );

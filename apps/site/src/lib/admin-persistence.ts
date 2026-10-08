@@ -124,6 +124,11 @@ export async function preparePublishedEditorialContent(): Promise<void> {
   await publishedLoad;
 }
 
+/** Lecture fraîche pour vérifier les sources d’un import du harnais, sans prendre le brouillon. */
+export async function getPublishedAdminContent(): Promise<EditableContent> {
+  return (await readPublishedForSite()) ?? editableFromContent(loadContent());
+}
+
 export async function getAdminContent(): Promise<{
   content: EditableContent;
   draftEtag: string | null;

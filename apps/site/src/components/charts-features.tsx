@@ -1,4 +1,5 @@
-import Link from 'next/link';
+import { Text, LocalizedElement } from '@/components/localization';
+import { LocalizedLink as Link } from '@/components/localization';
 import { formatCompact, formatNumber } from '@/domain/format';
 import {
   chartMonthRows,
@@ -10,7 +11,6 @@ import {
 } from '@/domain/sandbox-charts';
 import { weekStart } from '@/domain/weeks';
 import { ChartMovement } from './charts-ranking';
-
 export function ChartsMovers({ rows }: { rows: ChartsRow[] }) {
   const groups = [
     {
@@ -42,36 +42,57 @@ export function ChartsMovers({ rows }: { rows: ChartsRow[] }) {
     },
   ];
   return (
-    <section className="sc-movers" aria-label="Les mouvements de la semaine">
-      {groups.map((group) => (
-        <div className={`sc-feature sc-feature-${group.kind}`} key={group.title}>
-          <p className="sc-label">THIS WEEK</p>
-          <h2>{group.title}</h2>
-          <p className="sc-section-subtitle">{group.subtitle}</p>
-          {group.rows.length ? (
-            <ul>
-              {group.rows.map((row) => (
-                <li key={row.entity.slug}>
-                  <ChartMovement row={row} />
-                  <div>
-                    <Link href={row.entity.href}>{row.entity.name}</Link>
-                    <p className="sc-label">
-                      {row.movement.previousRank ? `#${row.movement.previousRank} → ` : ''}#
-                      {row.rank}
-                      {row.movement.kind === 'new' && row.rank <= 10
-                        ? ' · DIRECT IN THE TOP 10'
-                        : ''}
-                    </p>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="sc-section-empty">{group.empty}</p>
-          )}
-        </div>
-      ))}
-    </section>
+    <LocalizedElement as="section" className="sc-movers" aria-label="Les mouvements de la semaine">
+      <Text>
+        {groups.map((group) => (
+          <div className={`sc-feature sc-feature-${group.kind}`} key={group.title}>
+            <p className="sc-label">
+              <Text>{'THIS WEEK'}</Text>
+            </p>
+            <h2>
+              <Text>{group.title}</Text>
+            </h2>
+            <p className="sc-section-subtitle">
+              <Text>{group.subtitle}</Text>
+            </p>
+            <Text>
+              {group.rows.length ? (
+                <ul>
+                  <Text>
+                    {group.rows.map((row) => (
+                      <li key={row.entity.slug}>
+                        <ChartMovement row={row} />
+                        <div>
+                          <Link href={row.entity.href}>
+                            <Text>{row.entity.name}</Text>
+                          </Link>
+                          <p className="sc-label">
+                            <Text>
+                              {row.movement.previousRank ? `#${row.movement.previousRank} → ` : ''}
+                            </Text>
+                            <Text>{'#'}</Text>
+                            <Text>{row.rank}</Text>
+                            <Text>
+                              {row.movement.kind === 'new' && row.rank <= 10
+                                ? ' · DIRECT IN THE TOP 10'
+                                : ''}
+                            </Text>
+                          </p>
+                        </div>
+                      </li>
+                    ))}
+                  </Text>
+                </ul>
+              ) : (
+                <p className="sc-section-empty">
+                  <Text>{group.empty}</Text>
+                </p>
+              )}
+            </Text>
+          </div>
+        ))}
+      </Text>
+    </LocalizedElement>
   );
 }
 export function ChartsWatchlist({
@@ -94,33 +115,56 @@ export function ChartsWatchlist({
   return (
     <section className="sc-watchlist" aria-labelledby="sc-watchlist-title">
       <div>
-        <p className="sc-label">THE EDITORIAL SELECTION</p>
+        <p className="sc-label">
+          <Text>{'THE EDITORIAL SELECTION'}</Text>
+        </p>
         <h2 id="sc-watchlist-title">
-          SANDBOX
+          <Text>{'SANDBOX'}</Text>
           <br />
-          WATCHLIST<span>.</span>
+          <Text>{'WATCHLIST'}</Text>
+          <span>
+            <Text>{'.'}</Text>
+          </span>
         </h2>
-        <p>Not big yet. We're watching them.</p>
+        <p>
+          <Text>{"Not big yet. We're watching them."}</Text>
+        </p>
       </div>
       <div className="sc-watch-items">
-        {items.length ? (
-          items.map((item, index) => (
-            <article key={item.entity.slug}>
-              <span className="sc-watch-number">0{index + 1}</span>
-              <div>
-                <p className="sc-label">{item.entity.category}</p>
-                <h3>
-                  <Link href={item.entity.href}>{item.entity.name} ↗</Link>
-                </h3>
-                <p>{item.reason}</p>
-              </div>
-            </article>
-          ))
-        ) : (
-          <p className="sc-watch-pending">
-            L'équipe n'a pas encore ajouté sa sélection pour cette édition.
-          </p>
-        )}
+        <Text>
+          {items.length ? (
+            items.map((item, index) => (
+              <article key={item.entity.slug}>
+                <span className="sc-watch-number">
+                  <Text>{'0'}</Text>
+                  <Text>{index + 1}</Text>
+                </span>
+                <div>
+                  <p className="sc-label">
+                    <Text namespace="category">{item.entity.category}</Text>
+                  </p>
+                  <h3>
+                    <Link href={item.entity.href}>
+                      <Text>{item.entity.name}</Text>
+                      <Text>{' \u2197'}</Text>
+                    </Link>
+                  </h3>
+                  <p>
+                    <Text>{item.reason}</Text>
+                  </p>
+                </div>
+              </article>
+            ))
+          ) : (
+            <p className="sc-watch-pending">
+              <Text>
+                {
+                  "L'\u00E9quipe n'a pas encore ajout\u00E9 sa s\u00E9lection pour cette \u00E9dition."
+                }
+              </Text>
+            </p>
+          )}
+        </Text>
       </div>
     </section>
   );
@@ -132,45 +176,62 @@ export function ChartsMarket({ data, week }: { data: ChartsData; week: string })
     <section className="sc-market" aria-labelledby="sc-market-title">
       <div className="sc-section-heading">
         <div>
-          <p className="sc-label">FOLLOW THE ATTENTION</p>
-          <h2 id="sc-market-title">MARKET SIGNALS</h2>
+          <p className="sc-label">
+            <Text>{'FOLLOW THE ATTENTION'}</Text>
+          </p>
+          <h2 id="sc-market-title">
+            <Text>{'MARKET SIGNALS'}</Text>
+          </h2>
         </div>
         <p>
-          Variation des stars gagnées par les dépôts suivis,
+          <Text>{'Variation des stars gagn\u00E9es par les d\u00E9p\u00F4ts suivis,'}</Text>
           <br />
-          sur une cohorte identique à la semaine précédente.
+          <Text>{'sur une cohorte identique \u00E0 la semaine pr\u00E9c\u00E9dente.'}</Text>
         </p>
       </div>
-      {signals.length ? (
-        <div className="sc-signals">
-          {signals.map((signal) => (
-            <div className="sc-signal" key={signal.category}>
-              <div>
-                <h3>{signal.category}</h3>
-                <strong
-                  className={signal.change !== null && signal.change >= 0 ? 'sc-up' : 'sc-down'}
-                >
-                  {signal.change === null
-                    ? '-'
-                    : `${signal.change >= 0 ? '↑' : '↓'}${formatNumber(Math.abs(signal.change), 0)}%`}
-                </strong>
-              </div>
-              <div className="sc-signal-bar">
-                <i
-                  style={{ width: `${Math.max(2, (Math.abs(signal.change ?? 0) / max) * 100)}%` }}
-                />
-              </div>
-              <p className="sc-label">
-                {signal.candidates} dépôts · +{formatCompact(signal.stars)} stars
-              </p>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <p className="sc-section-empty">
-          Deux semaines de mesures sont nécessaires pour lire ces signaux.
-        </p>
-      )}
+      <Text>
+        {signals.length ? (
+          <div className="sc-signals">
+            <Text>
+              {signals.map((signal) => (
+                <div className="sc-signal" key={signal.category}>
+                  <div>
+                    <h3>
+                      <Text>{signal.category}</Text>
+                    </h3>
+                    <strong
+                      className={signal.change !== null && signal.change >= 0 ? 'sc-up' : 'sc-down'}
+                    >
+                      <Text>
+                        {signal.change === null
+                          ? '-'
+                          : `${signal.change >= 0 ? '↑' : '↓'}${formatNumber(Math.abs(signal.change), 0)}%`}
+                      </Text>
+                    </strong>
+                  </div>
+                  <div className="sc-signal-bar">
+                    <i
+                      style={{
+                        width: `${Math.max(2, (Math.abs(signal.change ?? 0) / max) * 100)}%`,
+                      }}
+                    />
+                  </div>
+                  <p className="sc-label">
+                    <Text>{signal.candidates}</Text>
+                    <Text>{' d\u00E9p\u00F4ts \u00B7 +'}</Text>
+                    <Text>{formatCompact(signal.stars)}</Text>
+                    <Text>{' stars'}</Text>
+                  </p>
+                </div>
+              ))}
+            </Text>
+          </div>
+        ) : (
+          <p className="sc-section-empty">
+            <Text>{'Deux semaines de mesures sont n\u00E9cessaires pour lire ces signaux.'}</Text>
+          </p>
+        )}
+      </Text>
     </section>
   );
 }
@@ -193,37 +254,69 @@ export function ChartsMonthly({ data, week }: { data: ChartsData; week: string }
   return (
     <section className="sc-monthly" aria-labelledby="sc-monthly-title">
       <div className="sc-monthly-cover">
-        <p className="sc-label">SANDBOX CHARTS / MONTHLY EDITION</p>
-        <h2 id="sc-monthly-title">
-          {month.split(' ')[0]}
-          <br />
-          <span>{month.split(' ')[1]}</span>
-        </h2>
-        <p>{headline ?? 'Les projets qui ont tenu les premières places ce mois-ci.'}</p>
         <p className="sc-label">
-          Édition en cours · semaines disponibles jusqu'à W{week.slice(-2)}
+          <Text>{'SANDBOX CHARTS / MONTHLY EDITION'}</Text>
+        </p>
+        <h2 id="sc-monthly-title">
+          <Text>{month.split(' ')[0]}</Text>
+          <br />
+          <span>
+            <Text>{month.split(' ')[1]}</Text>
+          </span>
+        </h2>
+        <p>
+          <Text>{headline ?? 'Les projets qui ont tenu les premières places ce mois-ci.'}</Text>
+        </p>
+        <p className="sc-label">
+          <Text>{"\u00C9dition en cours \u00B7 semaines disponibles jusqu'\u00E0 W"}</Text>
+          <Text>{week.slice(-2)}</Text>
         </p>
       </div>
       <div className="sc-monthly-winners">
-        {leaders.map(({ id, first }) => (
-          <div key={id}>
-            <span className="sc-label">
-              #1 {id === 'models' ? 'MODEL' : id === 'skills' ? 'SKILL' : 'GITHUB PROJECT'}
-            </span>
-            <Link href={first.entity.href}>{first.entity.name} ↗</Link>
-          </div>
-        ))}
-        {entity ? (
-          <div>
-            <span className="sc-label">SANDBOX PICK</span>
-            <Link href={entity.href}>{entity.name} ↗</Link>
-          </div>
-        ) : null}
-        {!leaders.length ? (
-          <p>La couverture mensuelle sera disponible après la première édition.</p>
-        ) : (
-          <p className="sc-label">Calculé depuis les positions hebdomadaires du mois.</p>
-        )}
+        <Text>
+          {leaders.map(({ id, first }) => (
+            <div key={id}>
+              <span className="sc-label">
+                <Text>{'#1 '}</Text>
+                <Text>
+                  {id === 'models' ? 'MODEL' : id === 'skills' ? 'SKILL' : 'GITHUB PROJECT'}
+                </Text>
+              </span>
+              <Link href={first.entity.href}>
+                <Text>{first.entity.name}</Text>
+                <Text>{' \u2197'}</Text>
+              </Link>
+            </div>
+          ))}
+        </Text>
+        <Text>
+          {entity ? (
+            <div>
+              <span className="sc-label">
+                <Text>{'SANDBOX PICK'}</Text>
+              </span>
+              <Link href={entity.href}>
+                <Text>{entity.name}</Text>
+                <Text>{' \u2197'}</Text>
+              </Link>
+            </div>
+          ) : null}
+        </Text>
+        <Text>
+          {!leaders.length ? (
+            <p>
+              <Text>
+                {
+                  'La couverture mensuelle sera disponible apr\u00E8s la premi\u00E8re \u00E9dition.'
+                }
+              </Text>
+            </p>
+          ) : (
+            <p className="sc-label">
+              <Text>{'Calcul\u00E9 depuis les positions hebdomadaires du mois.'}</Text>
+            </p>
+          )}
+        </Text>
       </div>
     </section>
   );
@@ -232,18 +325,30 @@ export function ChartsRecords({ data, id, week }: { data: ChartsData; id: ChartI
   const records = chartsRecords(data, id, week);
   if (!records.length) return null;
   return (
-    <section className="sc-records" aria-label="Records du classement">
-      <h2 className="sc-label">THE RECORD BOOK</h2>
+    <LocalizedElement as="section" className="sc-records" aria-label="Records du classement">
+      <h2 className="sc-label">
+        <Text>{'THE RECORD BOOK'}</Text>
+      </h2>
       <div>
-        {records.map((record) => (
-          <article key={record.label}>
-            <p className="sc-label">{record.label}</p>
-            <strong>{record.value}</strong>
-            <Link href={record.entity.href}>{record.entity.name}</Link>
-            <small>Mesuré sur l'historique disponible.</small>
-          </article>
-        ))}
+        <Text>
+          {records.map((record) => (
+            <article key={record.label}>
+              <p className="sc-label">
+                <Text>{record.label}</Text>
+              </p>
+              <strong>
+                <Text>{record.value}</Text>
+              </strong>
+              <Link href={record.entity.href}>
+                <Text>{record.entity.name}</Text>
+              </Link>
+              <small>
+                <Text>{"Mesur\u00E9 sur l'historique disponible."}</Text>
+              </small>
+            </article>
+          ))}
+        </Text>
       </div>
-    </section>
+    </LocalizedElement>
   );
 }

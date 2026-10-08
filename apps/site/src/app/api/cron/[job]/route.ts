@@ -1,6 +1,7 @@
 import { timingSafeEqual } from 'node:crypto';
 import { revalidatePath } from 'next/cache';
 import { collectGithub, discoverGithub, freezeGithubWeek } from '@/pipeline/github-jobs';
+import { collectExternalCharts, freezeExternalCharts } from '@/pipeline/external-jobs';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -17,15 +18,34 @@ export async function GET(request: Request, { params }: { params: Promise<{ job:
   )
     return Response.json({ error: 'Accès refusé.' }, { status: 401 });
   const { job } = await params;
-  if (!['github-discovery', 'github-daily', 'github-weekly'].includes(job))
+  if (!['github-discovery', 'github-daily', 'github-weekly', 'external-daily'].includes(job))
     return Response.json({ error: 'Job inconnu.' }, { status: 404 });
   try {
-    const summary =
-      job === 'github-discovery'
-        ? await discoverGithub()
-        : job === 'github-daily'
-          ? await collectGithub()
-          : await freezeGithubWeek();
+    let summary;
+    if (job === 'github-discovery') summary = await discoverGithub();
+    else if (job === 'github-daily') summary = await collectGithub();
+    else if (job === 'external-daily') summary = await collectExternalCharts();
+    else {
+      const [github, external] = await Promise.all([freezeGithubWeek(), freezeExternalCharts()]);
+      summary = {
+        processed: github.processed + external.processed,
+        succeeded: github.succeeded + external.succeeded,
+        failed: github.failed + external.failed,
+        snapshotsCreated: github.snapshotsCreated + external.snapshotsCreated,
+        status:
+          github.status === 'failed' && external.status === 'failed'
+            ? 'failed'
+            : github.status === 'success' && external.status === 'success'
+              ? 'success'
+              : github.status === 'insufficient_history' &&
+                  external.status === 'insufficient_history'
+                ? 'insufficient_history'
+                : github.status === 'skipped' && external.status === 'skipped'
+                  ? 'skipped'
+                  : 'partial',
+        details: [...github.details, ...external.details],
+      };
+    }
     if (job === 'github-weekly' && summary.snapshotsCreated > 0)
       revalidatePath('/charts', 'layout');
     return Response.json(summary, {

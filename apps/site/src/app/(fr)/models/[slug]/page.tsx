@@ -3,19 +3,17 @@ import { EntityScreen } from '@/components/entity-screen';
 import { entityDescription } from '@/lib/entity-meta';
 import { allEntities, findEntity } from '@/lib/repository';
 import { pageMetadata } from '@/lib/seo';
-
 export const dynamicParams = false;
-
 export function generateStaticParams() {
   return allEntities()
     .filter((e) => e.kind === 'model')
     .map((e) => ({ slug: e.slug }));
 }
-
 interface Props {
-  params: Promise<{ slug: string }>;
+  params: Promise<{
+    slug: string;
+  }>;
 }
-
 export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
   const entity = findEntity(slug);
@@ -27,7 +25,6 @@ export async function generateMetadata({ params }: Props) {
     ownImage: true,
   });
 }
-
 export default async function ModelPage({ params }: Props) {
   const { slug } = await params;
   const entity = findEntity(slug);

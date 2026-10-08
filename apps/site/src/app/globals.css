@@ -955,14 +955,8 @@ html[data-scrolled='true'] .site-header {
   height: 100%;
   object-fit: contain;
 }
-.wordmark-image-red {
-  display: none !important;
-}
 html[data-theme='red'] .wordmark-image-blue {
-  display: none !important;
-}
-html[data-theme='red'] .wordmark-image-red {
-  display: block !important;
+  filter: invert(1);
 }
 .footer-wordmark {
   width: 9rem;

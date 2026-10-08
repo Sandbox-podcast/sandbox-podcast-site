@@ -26,7 +26,7 @@ Installer une identité de média podcast premium et technologique. Le site rest
 | Texte secondaire  | `#9BAEBB` |
 | Texte discret     | `#657C8B` |
 
-Le logo reste l’asset fourni (`logo.png`). Le dégradé de marque est réservé au logo et aux visuels Sandbox ; les grandes surfaces de l’interface restent unies.
+Le logotype utilise la version 2 fournie (`logov2.png`), servie par l’application sous `apps/site/public/sandbox-logo.png`. Dans le thème rouge clair, le même fichier est inversé pour rester lisible et adapter le cyan. Le dégradé de marque est réservé au logo et aux visuels Sandbox ; les grandes surfaces de l’interface restent unies.
 
 ## Typographie et composants
 

@@ -1,69 +1,78 @@
 {
   "slug": "skills",
-  "title": "GitHub Skills Top 10",
+  "title": "Skills Top 20",
   "short": "Skills",
   "code": "SK",
   "entityKind": "project",
   "scoring": "skills-momentum",
-  "size": 10,
+  "size": 20,
   "pool": "all",
   "tone": 1,
-  "tagline": "Skills, agents, serveurs MCP : ce que les développeurs installent et copient cette semaine.",
-  "description": "Classement hebdomadaire des skills, agents et outils IA hébergés sur GitHub, par dynamique de communauté.",
-  "highlights": ["growth", "activity", "reach"],
+  "tagline": "Skills, agents et outils IA suivis par leurs installations et l'activité de leur dépôt.",
+  "description": "Classement hebdomadaire de skills publiés sur Skills.sh, croisés avec les évolutions de leurs dépôts GitHub.",
+  "highlights": ["growth", "githubGrowth", "freshness", "reach"],
   "views": [
     { "id": "momentum", "label": "Momentum" },
-    { "id": "growth", "label": "Growth" },
-    { "id": "activity", "label": "Activity" },
-    { "id": "reach", "label": "Reach" }
+    { "id": "growth", "label": "Install growth" },
+    { "id": "githubGrowth", "label": "GitHub star growth" },
+    { "id": "freshness", "label": "Repository freshness" },
+    { "id": "reach", "label": "Install reach" }
   ],
-  "detailMetrics": ["stars7d", "stars", "forks", "contributors", "commits30d"],
-  "trackedMetric": "stars",
-  "tiebreak": "stars7d",
+  "detailMetrics": ["installs", "installs7d", "stars", "stars7d", "forks"],
+  "trackedMetric": "installs",
+  "tiebreak": "installs7d",
   "methodology": {
-    "summary": "Même logique que le GitHub Top 10, appliquée à l'écosystème des skills, agents et outils IA. Ici, un projet se copie autant qu'il se suit : les forks pèsent donc à égalité avec les stars dans l'audience.",
+    "summary": "Classement hebdomadaire des skills publics observés sur Skills.sh et reliés à leur dépôt GitHub. Le score combine la progression des installations, celle des stars et la fraîcheur du dépôt.",
     "sources": [
       {
+        "source": "skills-sh",
+        "usage": "Identité du skill et compteur cumulatif d'installations; les variations sont calculées à partir de nos relevés quotidiens."
+      },
+      {
         "source": "github-api",
-        "usage": "Toutes les métriques : stars, stars sur 7 jours, forks, contributeurs et commits sur 30 jours."
+        "usage": "Vérifie le dépôt public associé et fournit ses stars, forks et date de dernier push."
       }
     ],
     "criteria": [
       {
-        "label": "Growth (50 %)",
-        "detail": "Stars gagnées sur 7 jours (60 %, échelle logarithmique) et croissance rapportée à la taille du dépôt (40 %)."
+        "label": "Installations Skills.sh (50 %)",
+        "detail": "Variation du compteur d'installations entre le relevé courant et le relevé le plus proche de J−7, normalisée en percentile parmi les candidats de la semaine."
       },
       {
-        "label": "Activity (25 %)",
-        "detail": "Commits des 30 derniers jours (60 %) et contributeurs (40 %), en échelle logarithmique."
+        "label": "Progression GitHub (30 %)",
+        "detail": "Stars gagnées entre les deux relevés espacés d'environ sept jours, normalisées en percentile."
       },
       {
-        "label": "Reach (25 %)",
-        "detail": "Stars (50 %) et forks (50 %), en échelle logarithmique. Les forks comptent davantage que dans le GitHub Top 10, parce qu'un skill ou un agent est souvent copié puis adapté."
+        "label": "Fraîcheur du dépôt (20 %)",
+        "detail": "Décroissance exponentielle à partir de la date du dernier push, avec une constante de temps de 30 jours; le sous-score vaut environ 37 % après 30 jours sans activité."
+      },
+      {
+        "label": "Audience cumulée (vue complémentaire)",
+        "detail": "Le compteur total d'installations Skills.sh est affiché en percentile comme vue secondaire; il ne modifie pas le score principal."
       },
       {
         "label": "Périmètre",
-        "detail": "Skills pour agents de code, serveurs MCP, frameworks d'agents, agents de code et listes de ressources dédiées. Un dépôt peut figurer à la fois ici et dans le GitHub Top 10."
+        "detail": "Les deux premières pages de Skills.sh en vues all-time et trending alimentent le pool. Les doublons, dépôts privés, archivés, forks et dépôts désactivés sont écartés. Un dépôt peut aussi apparaître dans le GitHub Top 20."
       },
       {
         "label": "Normalisation et départage",
-        "detail": "Sous-scores relatifs aux candidats de la semaine, départage par les stars gagnées sur 7 jours. Seul le rang est comparable d'une semaine à l'autre."
+        "detail": "Les sous-scores sont des percentiles recalculés parmi les candidats disposant des relevés complets. Les égalités reçoivent leur rang moyen. Une édition n'est gelée qu'avec au moins vingt candidats et sept jours d'historique."
       }
     ],
-    "frequency": "Chaque semaine, publication le mardi vers 07 h UTC.",
+    "frequency": "Relevés quotidiens vers 02 h 30 UTC; gel hebdomadaire le lundi après la collecte.",
     "limits": [
-      "La frontière entre « skill », « agent » et « outil » est une décision éditoriale. Nous préférons l'afficher et la discuter plutôt que la cacher dans un algorithme.",
-      "Les listes de ressources (awesome-lists) accumulent des stars sans contenir de code actif ; leur score d'activité reste faible, mais leur audience les tire vers le haut.",
-      "Une star ne dit pas si le projet fonctionne. Les avis de l'équipe (OUR TAKE) servent justement à dire ce que nous avons réellement essayé.",
-      "Le pool de candidats est constitué par l'équipe : un projet absent du pool ne peut pas entrer."
+      "Skills.sh publie un compteur cumulatif : l'évolution hebdomadaire est calculée par nos relevés et ne peut pas être reconstruite avant leur démarrage.",
+      "La fraîcheur du dépôt est un indicateur de mise à jour, pas une preuve de qualité ou de bon fonctionnement.",
+      "Les rangs sont relatifs au pool de Skills.sh observé et aux dépôts GitHub reliés; ils ne couvrent pas tous les skills disponibles sur Internet.",
+      "Une édition ne paraît pas tant que vingt candidats n'ont pas les relevés requis."
     ],
     "changelog": [
       { "week": "2026-W26", "note": "Lancement du classement, version 1 de la méthode." }
     ]
   },
   "seo": {
-    "title": "GitHub Skills Top 10 : skills, agents et outils IA",
-    "description": "Classement hebdomadaire des skills, agents et serveurs MCP sur GitHub, avec historique et méthodologie ouverte.",
+    "title": "Skills Top 20 : classement des skills IA par installations et activité",
+    "description": "Classement hebdomadaire des skills de Skills.sh, croisés avec les données de leurs dépôts GitHub.",
     "keywords": [
       "best AI agent skills",
       "Claude skills GitHub",

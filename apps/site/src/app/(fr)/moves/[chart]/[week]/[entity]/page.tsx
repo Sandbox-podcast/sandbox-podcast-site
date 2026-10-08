@@ -1,4 +1,5 @@
-import Link from 'next/link';
+import { Text, LocalizedElement } from '@/components/localization';
+import { LocalizedLink as Link } from '@/components/localization';
 import { notFound } from 'next/navigation';
 import { RankHistory } from '@/components/charts-svg';
 import { CopyButton } from '@/components/client';
@@ -12,17 +13,21 @@ import { highlightsFor, moveTriples } from '@/lib/move-params';
 import { highlightHeadline, sharePath } from '@/lib/moves';
 import { chartView, entityPath, findChart, findEntity, weeksOf } from '@/lib/repository';
 import { absoluteUrl, breadcrumbLd, pageMetadata } from '@/lib/seo';
-
+import { localizedHref } from '@/i18n/routing';
+import { translateText, type TranslationDictionary } from '@/i18n/translation';
 export const dynamicParams = false;
-
 export function generateStaticParams() {
   return moveTriples();
 }
-
 interface Props {
-  params: Promise<{ chart: string; week: string; entity: string }>;
+  locale?: string;
+  dictionary?: TranslationDictionary;
+  params: Promise<{
+    chart: string;
+    week: string;
+    entity: string;
+  }>;
 }
-
 export async function generateMetadata({ params }: Props) {
   const { chart, week, entity } = await params;
   const hs = highlightsFor(chart, week, entity);
@@ -35,8 +40,7 @@ export async function generateMetadata({ params }: Props) {
     ownImage: true,
   });
 }
-
-export default async function MovePage({ params }: Props) {
+export default async function MovePage({ params, locale = 'fr-FR', dictionary = {} }: Props) {
   const { chart: chartSlug, week, entity: entitySlug } = await params;
   const chart = findChart(chartSlug);
   const entity = findEntity(entitySlug);
@@ -44,15 +48,15 @@ export default async function MovePage({ params }: Props) {
   const hs = highlightsFor(chartSlug, week, entitySlug);
   const primary = hs[0];
   if (!primary) notFound();
-
   const view = chartView(chartSlug, week);
   const row = view.rows.find((r) => r.entity.slug === entitySlug);
   const rank = row?.rank ?? primary.rank;
   const path = sharePath(chartSlug, week, entitySlug);
-  const text = `${highlightHeadline(primary)} ${absoluteUrl(path)}`;
-  const intent = `https://twitter.com/intent/tweet?text=${encodeURIComponent(highlightHeadline(primary))}&url=${encodeURIComponent(absoluteUrl(path))}`;
-  const linkedin = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(absoluteUrl(path))}`;
-
+  const shareUrl = absoluteUrl(localizedHref(path, locale));
+  const headline = translateText(highlightHeadline(primary), dictionary, locale);
+  const text = `${headline} ${shareUrl}`;
+  const intent = `https://twitter.com/intent/tweet?text=${encodeURIComponent(headline)}&url=${encodeURIComponent(shareUrl)}`;
+  const linkedin = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`;
   return (
     <article className="wrap move-page pt-6">
       <Breadcrumbs
@@ -66,50 +70,67 @@ export default async function MovePage({ params }: Props) {
       <div className="grid gap-x-12 gap-y-10 lg:grid-cols-[1fr_22rem]">
         <div>
           <p className="label mb-3 text-ink-2">
-            Carte de partage · {formatDayMonth(weekStart(week))} – {formatDayMonth(weekEnd(week))}
+            <Text>{'Carte de partage \u00B7 '}</Text>
+            <Text>{formatDayMonth(weekStart(week))}</Text>
+            <Text>{' \u2013 '}</Text>
+            <Text>{formatDayMonth(weekEnd(week))}</Text>
           </p>
-          <h1 className="move-title">{highlightHeadline(primary)}</h1>
+          <h1 className="move-title">
+            <Text>{highlightHeadline(primary)}</Text>
+          </h1>
 
-          <div
+          <LocalizedElement
+            as="div"
             className="move-preview mt-8 flex aspect-[1200/630] flex-col justify-between border border-hair bg-hl p-5 text-on-hl md:p-8"
             role="img"
             aria-label={`Carte : ${highlightHeadline(primary)}`}
           >
             <p className="label flex justify-between">
-              <span>{chart.title}</span>
-              <span>Week {shortWeek(week).slice(1)}</span>
+              <span>
+                <Text>{chart.title}</Text>
+              </span>
+              <span>
+                <Text>{'Week '}</Text>
+                <Text>{shortWeek(week).slice(1)}</Text>
+              </span>
             </p>
             <div className="flex items-center gap-4 md:gap-8">
               <span
                 className="display"
                 style={{ fontSize: 'clamp(4rem, 17vw, 12rem)', lineHeight: 0.8 }}
               >
-                {rank === null ? 'OUT' : `#${String(rank)}`}
+                <Text>{rank === null ? 'OUT' : `#${String(rank)}`}</Text>
               </span>
               <div className="min-w-0">
                 <div className="mb-3 flex items-center gap-3">
                   <Mark entity={entity} size={52} />
                   <span className="display" style={{ fontSize: 'clamp(1.5rem, 4.5vw, 3.25rem)' }}>
-                    {entity.name}
+                    <Text>{entity.name}</Text>
                   </span>
                 </div>
-                {row ? <MoveBadge kind={row.movement.kind} delta={row.movement.delta} /> : null}
+                <Text>
+                  {row ? <MoveBadge kind={row.movement.kind} delta={row.movement.delta} /> : null}
+                </Text>
               </div>
             </div>
             <p className="label">
-              {siteConfig.name} ·{' '}
-              {primary.stat
-                ? `+${formatCompact(primary.stat.value)} stars / 7 j`
-                : 'mis à jour chaque semaine'}
+              <Text>{siteConfig.name}</Text>
+              <Text>{' \u00B7'}</Text>
+              <Text> </Text>
+              <Text>
+                {primary.stat
+                  ? `+${formatCompact(primary.stat.value)} stars / 7 j`
+                  : 'mis à jour chaque semaine'}
+              </Text>
             </p>
-          </div>
+          </LocalizedElement>
 
           <p className="mt-6 flex flex-wrap gap-2">
             <a className="btn btn-solid" href={intent} target="_blank" rel="noopener noreferrer">
-              Partager sur X ↗
+              <Text>{'Partager sur X \u2197'}</Text>
             </a>
             <a className="btn" href={linkedin} target="_blank" rel="noopener noreferrer">
-              LinkedIn ↗
+              <Text>{'LinkedIn \u2197'}</Text>
             </a>
             <CopyButton text={path} />
             <a
@@ -117,64 +138,91 @@ export default async function MovePage({ params }: Props) {
               href={`${path}/opengraph-image`}
               download={`${entity.slug}-${week}.png`}
             >
-              Télécharger l’image
+              <Text>{'T\u00E9l\u00E9charger l\u2019image'}</Text>
             </a>
           </p>
           <p className="move-share-url label mt-3 text-ink-3" aria-hidden="true">
-            {text}
+            <Text>{text}</Text>
           </p>
 
-          {hs.length > 1 ? (
-            <section className="mt-10" aria-labelledby="also">
-              <SectionHead title="Aussi cette semaine" id="also" />
-              <ul className="m-0 grid list-none gap-2 p-0">
-                {hs.slice(1).map((h) => (
-                  <li key={h.kind} className="border-t border-hair py-2.5">
-                    {highlightHeadline(h)}
-                  </li>
-                ))}
-              </ul>
-            </section>
-          ) : null}
+          <Text>
+            {hs.length > 1 ? (
+              <section className="mt-10" aria-labelledby="also">
+                <SectionHead title="Aussi cette semaine" id="also" />
+                <ul className="m-0 grid list-none gap-2 p-0">
+                  <Text>
+                    {hs.slice(1).map((h) => (
+                      <li key={h.kind} className="border-t border-hair py-2.5">
+                        <Text>{highlightHeadline(h)}</Text>
+                      </li>
+                    ))}
+                  </Text>
+                </ul>
+              </section>
+            ) : null}
+          </Text>
 
-          {row?.explanation ? (
-            <div className="data-block mt-10">
-              <p className="data-title">
-                <span className="label bg-ink px-1.5 py-0.5 text-paper">DATA</span>
-                <span className="label">Pourquoi ça bouge</span>
-              </p>
-              <p>{row.explanation.headline}</p>
-            </div>
-          ) : null}
-          {row?.take ? (
-            <div className="mt-6 max-w-2xl">
-              <TakeCard take={row.take} />
-            </div>
-          ) : null}
+          <Text>
+            {row?.explanation ? (
+              <div className="data-block mt-10">
+                <p className="data-title">
+                  <span className="label bg-ink px-1.5 py-0.5 text-paper">
+                    <Text>{'DATA'}</Text>
+                  </span>
+                  <span className="label">
+                    <Text>{'Pourquoi \u00E7a bouge'}</Text>
+                  </span>
+                </p>
+                <p>
+                  <Text>{row.explanation.headline}</Text>
+                </p>
+              </div>
+            ) : null}
+          </Text>
+          <Text>
+            {row?.take ? (
+              <div className="mt-6 max-w-2xl">
+                <TakeCard take={row.take} />
+              </div>
+            ) : null}
+          </Text>
         </div>
 
         <aside className="grid h-fit content-start gap-8">
-          {row ? (
-            <div>
-              <p className="label mb-2 border-t-4 border-ink pt-2">
-                Parcours dans le {chart.short}
-              </p>
-              <RankHistory
-                points={row.stats.points.map((p) => ({ week: p.week, rank: p.rank }))}
-                size={chart.size}
-                title={`Parcours de ${entity.name}`}
-              />
-            </div>
-          ) : null}
+          <Text>
+            {row ? (
+              <div>
+                <p className="label mb-2 border-t-4 border-ink pt-2">
+                  <Text>{'Parcours dans le '}</Text>
+                  <Text>{chart.short}</Text>
+                </p>
+                <RankHistory
+                  points={row.stats.points.map((p) => ({ week: p.week, rank: p.rank }))}
+                  size={chart.size}
+                  title={`Parcours de ${entity.name}`}
+                />
+              </div>
+            ) : null}
+          </Text>
           <div className="grid gap-2">
             <Link href={entityPath(entity)} className="btn btn-solid justify-between">
-              Fiche {entity.name} <span aria-hidden="true">→</span>
+              <Text>{'Fiche '}</Text>
+              <Text>{entity.name}</Text>{' '}
+              <span aria-hidden="true">
+                <Text>{'\u2192'}</Text>
+              </span>
             </Link>
             <Link href={`/charts/${chart.slug}/${week}`} className="btn justify-between">
-              Le classement de la semaine <span aria-hidden="true">→</span>
+              <Text>{'Le classement de la semaine '}</Text>
+              <span aria-hidden="true">
+                <Text>{'\u2192'}</Text>
+              </span>
             </Link>
             <Link href={`/charts/${chart.slug}/methodology`} className="btn justify-between">
-              Méthodologie <span aria-hidden="true">→</span>
+              <Text>{'M\u00E9thodologie '}</Text>
+              <span aria-hidden="true">
+                <Text>{'\u2192'}</Text>
+              </span>
             </Link>
           </div>
         </aside>

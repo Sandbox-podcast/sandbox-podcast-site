@@ -1,8 +1,9 @@
 'use client';
-
-import Link from 'next/link';
+import { Text, LocalizedElement } from '@/components/localization';
+import { LocalizedLink as Link } from '@/components/localization';
 import dynamic from 'next/dynamic';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { chartSelectionQuery, type ChartSelection } from '@/domain/chart-selection';
 import { formatCompact } from '@/domain/format';
 import {
   CHART_LABELS,
@@ -27,30 +28,49 @@ import {
   ChartsWatchlist,
 } from './charts-features';
 import { ChartMovement, ChartsPodium, ChartsRanking } from './charts-ranking';
-
 const ChartsShare = dynamic(() => import('./charts-share').then((module) => module.ChartsShare));
-
 export function ChartsExperience({
   data,
   initialChart = 'github',
   initialView,
   initialPeriod = 'week',
+  initialSelection,
 }: {
   data: ChartsData;
   initialChart?: ChartId;
   initialView?: string | undefined;
   initialPeriod?: ChartPeriod;
+  initialSelection?: ChartSelection;
 }) {
-  const [id, setId] = useState<ChartId>(initialChart);
-  const [week, setWeek] = useState(data.week);
-  const [period, setPeriod] = useState<ChartPeriod>(initialPeriod);
-  const [filter, setFilter] = useState('All');
+  const [id, setId] = useState<ChartId>(initialSelection?.chart ?? initialChart);
+  const [week, setWeek] = useState(
+    initialSelection?.week && data.weeks.includes(initialSelection.week)
+      ? initialSelection.week
+      : data.week,
+  );
+  const [period, setPeriod] = useState<ChartPeriod>(initialSelection?.period ?? initialPeriod);
+  const [filter, setFilter] = useState(initialSelection?.filter ?? 'All');
   const [view, setView] = useState(
-    initialView ?? (initialChart === 'models' ? 'quality' : 'momentum'),
+    initialSelection?.view ??
+      initialView ??
+      ((initialSelection?.chart ?? initialChart) === 'models' ? 'quality' : 'momentum'),
   );
   const [studio, setStudio] = useState(false);
   const [shareRow, setShareRow] = useState<ChartsRow | null>(null);
   const [archiveMonth, setArchiveMonth] = useState('all');
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    const search = chartSelectionQuery(url.search, {
+      chart: id === initialChart ? undefined : id,
+      week: week === data.week ? undefined : week,
+      filter,
+      period,
+      view: id === 'models' ? view : undefined,
+    });
+    if (url.search.slice(1) === search) return;
+    url.search = search;
+    window.history.replaceState(window.history.state, '', url.pathname + url.search + url.hash);
+  }, [id, week, filter, period, view, initialChart, data.week]);
   const series = data.series.find((item) => item.id === id);
   const meta = CHART_LABELS[id];
   const rows = useMemo(
@@ -104,86 +124,148 @@ export function ChartsExperience({
     <div className={`wrap sc-page${studio ? ' sc-studio' : ''}`}>
       <header className="sc-hero">
         <div className="sc-edition-meta">
-          <span>THE AI CHARTS</span>
-          <span>UPDATED EVERY MONDAY</span>
           <span>
-            {data.weeks.includes(week) && week !== data.weeks[0] ? 'ARCHIVE EDITION' : 'THIS WEEK'}
+            <Text>{'THE AI CHARTS'}</Text>
+          </span>
+          <span>
+            <Text>{'UPDATED EVERY MONDAY'}</Text>
+          </span>
+          <span>
+            <Text>
+              {data.weeks.includes(week) && week !== data.weeks[0]
+                ? 'ARCHIVE EDITION'
+                : 'THIS WEEK'}
+            </Text>
           </span>
         </div>
         <div className="sc-hero-main">
           <div className="sc-hero-title">
             <h1>
-              <span>SANDBOX</span>CHARTS<span className="sc-title-dot">.</span>
+              <span>
+                <Text>{'SANDBOX'}</Text>
+              </span>
+              <Text>{'CHARTS'}</Text>
+              <span className="sc-title-dot">
+                <Text>{'.'}</Text>
+              </span>
             </h1>
-            <p>The weekly charts of what matters in AI.</p>
+            <p>
+              <Text>{'The weekly charts of what matters in AI.'}</Text>
+            </p>
           </div>
           <div className="sc-week-stamp">
-            <span className="sc-label">WEEK</span>
-            <strong>{week.slice(-2)}</strong>
-            <span className="sc-label">{month}</span>
+            <span className="sc-label">
+              <Text>{'WEEK'}</Text>
+            </span>
+            <strong>
+              <Text>{week.slice(-2)}</Text>
+            </strong>
+            <span className="sc-label">
+              <Text>{month}</Text>
+            </span>
           </div>
         </div>
         <div className="sc-hero-bottom">
-          <p>{edition?.headline ?? "Qu'est-ce qui monte dans l'IA cette semaine ?"}</p>
-          <div className="sc-hero-moves" aria-label="Mouvements dans le classement">
-            {weeklyRows.slice(0, 3).map((row) => (
-              <span key={row.entity.slug}>
-                <b>{String(row.rank).padStart(2, '0')}</b>
-                <ChartMovement row={row} />
-              </span>
-            ))}
-          </div>
+          <p>
+            <Text>{edition?.headline ?? "Qu'est-ce qui monte dans l'IA cette semaine ?"}</Text>
+          </p>
+          <LocalizedElement
+            as="div"
+            className="sc-hero-moves"
+            aria-label="Mouvements dans le classement"
+          >
+            <Text>
+              {weeklyRows.slice(0, 3).map((row) => (
+                <span key={row.entity.slug}>
+                  <b>
+                    <Text>{String(row.rank).padStart(2, '0')}</Text>
+                  </b>
+                  <ChartMovement row={row} />
+                </span>
+              ))}
+            </Text>
+          </LocalizedElement>
         </div>
       </header>
-      {data.mode === 'fixtures' ? (
-        <p className="sc-data-state">
-          APERÇU LOCAL · Les chiffres de cet aperçu sont des fixtures de développement. Les éditions
-          de production utilisent les collectes GitHub.
-        </p>
-      ) : null}
-      <nav className="sc-chart-tabs" aria-label="Choisir un chart">
-        {(['github', 'skills', 'models', 'rising'] as const).map((chart, index) => (
-          <button
-            key={chart}
-            type="button"
-            aria-pressed={id === chart}
-            onClick={() => {
-              chooseChart(chart);
-            }}
-          >
-            <small>0{index + 1}</small>
-            <span>
-              {chart === 'github'
-                ? 'GitHub'
-                : chart === 'skills'
-                  ? 'Skills'
-                  : chart === 'models'
-                    ? 'Models'
-                    : 'Rising'}
-            </span>
-            <b>{chart === 'rising' ? '20' : 'TOP 20'}</b>
-          </button>
-        ))}
-      </nav>
-      <nav className="sc-content-nav" aria-label="Dans cette édition">
-        <a href="#sc-chart-title">Classement</a>
-        <a href="#sc-watchlist-title">Watchlist</a>
-        <a href="#sc-market-title">Signaux</a>
-        <a href="#sc-archive-title">Archives</a>
-        <Link href="/search">Rechercher</Link>
-      </nav>
+      <Text>
+        {data.mode === 'fixtures' ? (
+          <p className="sc-data-state">
+            <Text>
+              {
+                'APER\u00C7U LOCAL \u00B7 Les chiffres de cet aper\u00E7u sont des fixtures de d\u00E9veloppement. En production, les classements sont calcul\u00E9s depuis les relev\u00E9s PostgreSQL de leurs sources.'
+              }
+            </Text>
+          </p>
+        ) : null}
+      </Text>
+      <LocalizedElement as="nav" className="sc-chart-tabs" aria-label="Choisir un chart">
+        <Text>
+          {(['github', 'skills', 'models', 'rising'] as const).map((chart, index) => (
+            <button
+              key={chart}
+              type="button"
+              aria-pressed={id === chart}
+              onClick={() => {
+                chooseChart(chart);
+              }}
+            >
+              <small>
+                <Text>{'0'}</Text>
+                <Text>{index + 1}</Text>
+              </small>
+              <span>
+                <Text>
+                  {chart === 'github'
+                    ? 'GitHub'
+                    : chart === 'skills'
+                      ? 'Skills'
+                      : chart === 'models'
+                        ? 'Models'
+                        : 'Rising'}
+                </Text>
+              </span>
+              <b>
+                <Text>{chart === 'rising' ? '20' : 'TOP 20'}</Text>
+              </b>
+            </button>
+          ))}
+        </Text>
+      </LocalizedElement>
+      <LocalizedElement as="nav" className="sc-content-nav" aria-label="Dans cette édition">
+        <a href="#sc-chart-title">
+          <Text>{'Classement'}</Text>
+        </a>
+        <a href="#sc-watchlist-title">
+          <Text>{'Watchlist'}</Text>
+        </a>
+        <a href="#sc-market-title">
+          <Text>{'Signaux'}</Text>
+        </a>
+        <a href="#sc-archive-title">
+          <Text>{'Archives'}</Text>
+        </a>
+        <Link href="/search">
+          <Text>{'Rechercher'}</Text>
+        </Link>
+      </LocalizedElement>
       <section className="sc-chart" aria-labelledby="sc-chart-title">
         <div className="sc-chart-heading">
           <div>
             <p className="sc-label">
-              {id === 'rising' ? 'THE DISCOVERY CHART' : 'THE WEEKLY RANKING'}
+              <Text>{id === 'rising' ? 'THE DISCOVERY CHART' : 'THE WEEKLY RANKING'}</Text>
             </p>
-            <h2 id="sc-chart-title">{meta.title}</h2>
-            <p>{meta.subtitle}</p>
+            <h2 id="sc-chart-title">
+              <Text>{meta.title}</Text>
+            </h2>
+            <p>
+              <Text>{meta.subtitle}</Text>
+            </p>
           </div>
           <div className="sc-chart-tools">
             <label>
-              <span className="sr-only">Semaine du classement</span>
+              <span className="sr-only">
+                <Text>{'Semaine du classement'}</Text>
+              </span>
               <select
                 value={week}
                 onChange={(event) => {
@@ -191,11 +273,16 @@ export function ChartsExperience({
                   setShareRow(null);
                 }}
               >
-                {(data.weeks.length ? data.weeks : [data.week]).map((item) => (
-                  <option key={item} value={item}>
-                    W{item.slice(-2)} / {item.slice(0, 4)}
-                  </option>
-                ))}
+                <Text>
+                  {(data.weeks.length ? data.weeks : [data.week]).map((item) => (
+                    <option key={item} value={item}>
+                      <Text>{'W'}</Text>
+                      <Text>{item.slice(-2)}</Text>
+                      <Text>{' / '}</Text>
+                      <Text>{item.slice(0, 4)}</Text>
+                    </option>
+                  ))}
+                </Text>
               </select>
             </label>
             <button
@@ -205,7 +292,7 @@ export function ChartsExperience({
                 setStudio(!studio);
               }}
             >
-              {studio ? 'Quitter le mode 16:9' : 'MODE 16:9'}
+              <Text>{studio ? 'Quitter le mode 16:9' : 'MODE 16:9'}</Text>
             </button>
             <button
               type="button"
@@ -214,138 +301,188 @@ export function ChartsExperience({
                 setShareRow(visible[0] ?? null);
               }}
             >
-              SHARE CHART ↗
+              <Text>{'SHARE CHART \u2197'}</Text>
             </button>
           </div>
         </div>
         <div className="sc-controls">
-          <div className="sc-periods" role="group" aria-label="Période du classement">
-            {CHART_PERIODS.map((item) => (
-              <button
-                key={item.id}
-                type="button"
-                aria-pressed={period === item.id}
-                onClick={() => {
-                  setPeriod(item.id);
-                }}
-              >
-                {item.label}
-              </button>
-            ))}
-          </div>
-          <div
+          <LocalizedElement
+            as="div"
+            className="sc-periods"
+            role="group"
+            aria-label="Période du classement"
+          >
+            <Text>
+              {CHART_PERIODS.map((item) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  aria-pressed={period === item.id}
+                  onClick={() => {
+                    setPeriod(item.id);
+                  }}
+                >
+                  <Text>{item.label}</Text>
+                </button>
+              ))}
+            </Text>
+          </LocalizedElement>
+          <LocalizedElement
+            as="div"
             className="sc-filters"
             role="group"
             aria-label={id === 'models' ? 'Capacité du modèle' : 'Catégorie de projet'}
           >
-            {id === 'models'
-              ? MODEL_VIEWS.map((item) => {
-                  const supported =
-                    item.id === 'open' ||
-                    series?.dimensions.some((dimension) => dimension.id === item.id);
-                  return (
+            <Text>
+              {id === 'models'
+                ? MODEL_VIEWS.map((item) => {
+                    const supported =
+                      item.id === 'open' ||
+                      series?.dimensions.some((dimension) => dimension.id === item.id);
+                    return (
+                      <LocalizedElement
+                        as="button"
+                        type="button"
+                        key={item.id}
+                        aria-pressed={view === item.id}
+                        disabled={!supported}
+                        title={
+                          supported ? undefined : 'Aucune mesure disponible pour cette capacité'
+                        }
+                        onClick={() => {
+                          setView(item.id);
+                        }}
+                      >
+                        <Text>{item.label}</Text>
+                      </LocalizedElement>
+                    );
+                  })
+                : filters.map((item) => (
                     <button
+                      key={item}
                       type="button"
-                      key={item.id}
-                      aria-pressed={view === item.id}
-                      disabled={!supported}
-                      title={supported ? undefined : 'Aucune mesure disponible pour cette capacité'}
+                      aria-pressed={filter === item}
                       onClick={() => {
-                        setView(item.id);
+                        setFilter(item);
                       }}
                     >
-                      {item.label}
+                      <Text>{item}</Text>
                     </button>
-                  );
-                })
-              : filters.map((item) => (
-                  <button
-                    key={item}
-                    type="button"
-                    aria-pressed={filter === item}
-                    onClick={() => {
-                      setFilter(item);
-                    }}
-                  >
-                    {item}
-                  </button>
-                ))}
-          </div>
+                  ))}
+            </Text>
+          </LocalizedElement>
         </div>
-        {period !== 'week' ? (
-          <p className="sc-view-note" role="status">
-            Indice de présence aux meilleures places sur les semaines disponibles de la période. Les
-            valeurs brutes affichées sont les derniers relevés disponibles.
-            {period === 'month' ? ' Les semaines sont rattachées au mois de leur lundi.' : ''}
-          </p>
-        ) : id === 'models' && view !== 'quality' ? (
-          <p className="sc-view-note" role="status">
-            Vue par {MODEL_VIEWS.find((item) => item.id === view)?.label}. Les positions et
-            mouvements sont recalculés sur ce critère.
-          </p>
-        ) : null}
+        <Text>
+          {period !== 'week' ? (
+            <p className="sc-view-note" role="status">
+              <Text>
+                {
+                  'Indice de pr\u00E9sence aux meilleures places sur les semaines disponibles de la p\u00E9riode. Les valeurs brutes affich\u00E9es sont les derniers relev\u00E9s disponibles.'
+                }
+              </Text>
+              <Text>
+                {period === 'month' ? ' Les semaines sont rattachées au mois de leur lundi.' : ''}
+              </Text>
+            </p>
+          ) : id === 'models' && view !== 'quality' ? (
+            <p className="sc-view-note" role="status">
+              <Text>{'Vue par '}</Text>
+              <Text>{MODEL_VIEWS.find((item) => item.id === view)?.label}</Text>
+              <Text>
+                {'. Les positions et mouvements sont recalcul\u00E9s sur ce crit\u00E8re.'}
+              </Text>
+            </p>
+          ) : null}
+        </Text>
         <p className="sr-only" role="status" aria-live="polite">
-          {visible.length} entrées affichées dans {meta.title}.
+          <Text>{visible.length}</Text>
+          <Text>{' entr\u00E9es affich\u00E9es dans '}</Text>
+          <Text>{meta.title}</Text>
+          <Text>{'.'}</Text>
         </p>
-        {rows.length && visible.length === 0 ? (
-          <div className="empty-state">
-            <h3>Aucun projet dans cette catégorie pour cette édition.</h3>
-            <p>Les rangs des autres projets restent disponibles.</p>
-            <button
-              className="btn"
-              type="button"
-              onClick={() => {
-                setFilter('All');
-              }}
-            >
-              Toutes les catégories
-            </button>
-          </div>
-        ) : rows.length ? (
-          <>
-            <ChartsPodium rows={visible} period={period} />
-            <div className="sc-list-heading">
-              <span className="sc-label">RANK / MOVEMENT / PROJECT</span>
-              <span className="sc-label">MOMENTUM</span>
-            </div>
-            <ChartsRanking rows={visible} series={series} period={period} onShare={setShareRow} />
-            <div className="sc-chart-footer">
-              <span>
-                {visible.length} entrées{filter !== 'All' ? ` · filtre ${filter}` : ''} · les rangs
-                officiels sont conservés.
-              </span>
-              <Link href={`/charts/${meta.slug}/methodology`}>Méthodologie et sources ↗</Link>
-            </div>
-          </>
-        ) : (
-          <div className="sc-empty">
-            <span className="sc-empty-number">20</span>
-            <div>
-              <p className="sc-label">
-                {isUnavailable
-                  ? 'DATA TEMPORARILY UNAVAILABLE'
-                  : id === 'skills' || id === 'models'
-                    ? 'COMING NEXT'
-                    : 'BUILDING THE HISTORY'}
-              </p>
+        <Text>
+          {rows.length && visible.length === 0 ? (
+            <div className="empty-state">
               <h3>
-                {isUnavailable
-                  ? 'Les données sont momentanément indisponibles.'
-                  : id === 'skills' || id === 'models'
-                    ? 'La collecte de ce chart se prépare.'
-                    : 'Le premier classement se construit.'}
+                <Text>{'Aucun projet dans cette cat\u00E9gorie pour cette \u00E9dition.'}</Text>
               </h3>
               <p>
-                {isUnavailable
-                  ? 'Réessayez dans quelques instants.'
-                  : id === 'rising'
-                    ? "Rising attend une accélération mesurée sur deux périodes de sept jours. L'historique ne sera pas extrapolé."
-                    : 'La première édition sera publiée lorsque les dépôts suivis auront assez de relevés. Chaque position reposera sur des mesures enregistrées.'}
+                <Text>{'Les rangs des autres projets restent disponibles.'}</Text>
               </p>
-              <Link href={`/charts/${meta.slug}/methodology`}>Lire la méthode ↗</Link>
+              <button
+                className="btn"
+                type="button"
+                onClick={() => {
+                  setFilter('All');
+                }}
+              >
+                <Text>{'Toutes les cat\u00E9gories'}</Text>
+              </button>
             </div>
-          </div>
-        )}
+          ) : rows.length ? (
+            <>
+              <ChartsPodium rows={visible} period={period} />
+              <div className="sc-list-heading">
+                <span className="sc-label">
+                  <Text>{'RANK / MOVEMENT / PROJECT'}</Text>
+                </span>
+                <span className="sc-label">
+                  <Text>{'MOMENTUM'}</Text>
+                </span>
+              </div>
+              <ChartsRanking rows={visible} series={series} period={period} onShare={setShareRow} />
+              <div className="sc-chart-footer">
+                <span>
+                  <Text>{visible.length}</Text>
+                  <Text>{' entr\u00E9es'}</Text>
+                  <Text>{filter !== 'All' ? ` · filtre ${filter}` : ''}</Text>
+                  <Text>{' \u00B7 les rangs officiels sont conserv\u00E9s.'}</Text>
+                </span>
+                <Link href={`/charts/${meta.slug}/methodology`}>
+                  <Text>{'M\u00E9thodologie et sources \u2197'}</Text>
+                </Link>
+              </div>
+            </>
+          ) : (
+            <div className="sc-empty">
+              <span className="sc-empty-number">
+                <Text>{'20'}</Text>
+              </span>
+              <div>
+                <p className="sc-label">
+                  <Text>
+                    {isUnavailable
+                      ? 'DATA TEMPORARILY UNAVAILABLE'
+                      : id === 'skills' || id === 'models'
+                        ? 'COMING NEXT'
+                        : 'BUILDING THE HISTORY'}
+                  </Text>
+                </p>
+                <h3>
+                  <Text>
+                    {isUnavailable
+                      ? 'Les données sont momentanément indisponibles.'
+                      : id === 'skills' || id === 'models'
+                        ? 'La collecte de ce chart se prépare.'
+                        : 'Le premier classement se construit.'}
+                  </Text>
+                </h3>
+                <p>
+                  <Text>
+                    {isUnavailable
+                      ? 'Réessayez dans quelques instants.'
+                      : id === 'rising'
+                        ? "Rising attend une accélération mesurée sur deux périodes de sept jours. L'historique ne sera pas extrapolé."
+                        : 'La première édition sera publiée lorsque les dépôts suivis auront assez de relevés. Chaque position reposera sur des mesures enregistrées.'}
+                  </Text>
+                </p>
+                <Link href={`/charts/${meta.slug}/methodology`}>
+                  <Text>{'Lire la m\u00E9thode \u2197'}</Text>
+                </Link>
+              </div>
+            </div>
+          )}
+        </Text>
       </section>
       <div className="sc-secondary">
         <ChartsMovers rows={weeklyRows} />
@@ -353,120 +490,177 @@ export function ChartsExperience({
         <ChartsMarket data={data} week={week} />
         <ChartsMonthly data={data} week={week} />
         <ChartsRecords data={data} id={id} week={week} />
-        {episodes.length ? (
-          <section className="sc-podcast">
-            <span className="sc-label">ON THE PODCAST</span>
-            {episodes.map((episode) => (
-              <Link key={episode.number} href={episode.href}>
-                <b>DISCUSSED IN SANDBOX #{episode.number}</b>
-                <span>{episode.title} ↗</span>
-              </Link>
-            ))}
-          </section>
-        ) : null}
+        <Text>
+          {episodes.length ? (
+            <section className="sc-podcast">
+              <span className="sc-label">
+                <Text>{'ON THE PODCAST'}</Text>
+              </span>
+              <Text>
+                {episodes.map((episode) => (
+                  <Link key={episode.number} href={episode.href}>
+                    <b>
+                      <Text>{'DISCUSSED IN SANDBOX #'}</Text>
+                      <Text>{episode.number}</Text>
+                    </b>
+                    <span>
+                      <Text>{episode.title}</Text>
+                      <Text>{' \u2197'}</Text>
+                    </span>
+                  </Link>
+                ))}
+              </Text>
+            </section>
+          ) : null}
+        </Text>
         <section className="sc-archives" aria-labelledby="sc-archive-title">
           <div className="sc-section-heading">
             <div>
-              <p className="sc-label">EVERY WEEK LEAVES A TRACE</p>
-              <h2 id="sc-archive-title">THE ARCHIVES</h2>
+              <p className="sc-label">
+                <Text>{'EVERY WEEK LEAVES A TRACE'}</Text>
+              </p>
+              <h2 id="sc-archive-title">
+                <Text>{'THE ARCHIVES'}</Text>
+              </h2>
             </div>
             <label>
-              <span className="sr-only">Mois des archives</span>
+              <span className="sr-only">
+                <Text>{'Mois des archives'}</Text>
+              </span>
               <select
                 value={archiveMonth}
                 onChange={(event) => {
                   setArchiveMonth(event.target.value);
                 }}
               >
-                <option value="all">Tous les mois</option>
-                {months.map((item) => (
-                  <option key={item} value={item}>
-                    {new Intl.DateTimeFormat('fr-FR', {
-                      month: 'long',
-                      year: 'numeric',
-                      timeZone: 'UTC',
-                    }).format(new Date(`${item}-01T00:00:00Z`))}
-                  </option>
-                ))}
+                <option value="all">
+                  <Text>{'Tous les mois'}</Text>
+                </option>
+                <Text>
+                  {months.map((item) => (
+                    <option key={item} value={item}>
+                      <Text>
+                        {new Intl.DateTimeFormat('fr-FR', {
+                          month: 'long',
+                          year: 'numeric',
+                          timeZone: 'UTC',
+                        }).format(new Date(`${item}-01T00:00:00Z`))}
+                      </Text>
+                    </option>
+                  ))}
+                </Text>
               </select>
             </label>
           </div>
           <div className="sc-archive-weeks">
-            {data.weeks
-              .filter((item) => archiveMonth === 'all' || editionMonth(item) === archiveMonth)
-              .map((item) => (
-                <button
-                  key={item}
-                  type="button"
-                  aria-pressed={week === item}
-                  onClick={() => {
-                    setWeek(item);
-                    document.querySelector('.sc-hero')?.scrollIntoView({
-                      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches
-                        ? 'instant'
-                        : 'smooth',
-                    });
-                  }}
-                >
-                  <small>{item.slice(0, 4)}</small>
-                  <b>W{item.slice(-2)}</b>
-                </button>
-              ))}
+            <Text>
+              {data.weeks
+                .filter((item) => archiveMonth === 'all' || editionMonth(item) === archiveMonth)
+                .map((item) => (
+                  <button
+                    key={item}
+                    type="button"
+                    aria-pressed={week === item}
+                    onClick={() => {
+                      setWeek(item);
+                      document.querySelector('.sc-hero')?.scrollIntoView({
+                        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches
+                          ? 'instant'
+                          : 'smooth',
+                      });
+                    }}
+                  >
+                    <small>
+                      <Text>{item.slice(0, 4)}</Text>
+                    </small>
+                    <b>
+                      <Text>{'W'}</Text>
+                      <Text>{item.slice(-2)}</Text>
+                    </b>
+                  </button>
+                ))}
+            </Text>
           </div>
-          {!data.weeks.length ? (
-            <p className="sc-section-empty">
-              Les éditions figées apparaîtront ici après publication.
-            </p>
-          ) : (
-            <Link className="sc-archive-link" href={`/charts/${meta.slug}/${week}`}>
-              Ouvrir l'édition W{week.slice(-2)} ↗
-            </Link>
-          )}
+          <Text>
+            {!data.weeks.length ? (
+              <p className="sc-section-empty">
+                <Text>
+                  {'Les \u00E9ditions fig\u00E9es appara\u00EEtront ici apr\u00E8s publication.'}
+                </Text>
+              </p>
+            ) : (
+              <Link className="sc-archive-link" href={`/charts/${meta.slug}/${week}`}>
+                <Text>{"Ouvrir l'\u00E9dition W"}</Text>
+                <Text>{week.slice(-2)}</Text>
+                <Text>{' \u2197'}</Text>
+              </Link>
+            )}
+          </Text>
         </section>
         <section className="sc-newsletter" aria-labelledby="sc-newsletter-title">
           <div>
-            <p className="sc-label">SANDBOX CHARTS / EVERY MONDAY</p>
+            <p className="sc-label">
+              <Text>{'SANDBOX CHARTS / EVERY MONDAY'}</Text>
+            </p>
             <h2 id="sc-newsletter-title">
-              KNOW WHAT'S
+              <Text>{"KNOW WHAT'S"}</Text>
               <br />
-              MOVING<span>.</span>
+              <Text>{'MOVING'}</Text>
+              <span>
+                <Text>{'.'}</Text>
+              </span>
             </h2>
-            <p>Get SANDBOX CHARTS in your inbox every week.</p>
+            <p>
+              <Text>{'Get SANDBOX CHARTS in your inbox every week.'}</Text>
+            </p>
           </div>
           <div>
-            {data.newsletterUrl ? (
-              <a
-                className="btn btn-solid"
-                href={data.newsletterUrl}
-                target="_blank"
-                rel="noreferrer"
-              >
-                GET THE CHARTS ↗
-              </a>
-            ) : (
-              <>
-                <label>
-                  <span className="sr-only">Adresse email</span>
-                  <input type="email" placeholder="Votre adresse email" disabled />
-                </label>
-                <button className="btn btn-solid" type="button" disabled>
-                  GET THE CHARTS
-                </button>
-                <p>Les inscriptions ne sont pas encore ouvertes.</p>
-              </>
-            )}
+            <Text>
+              {data.newsletterUrl ? (
+                <a
+                  className="btn btn-solid"
+                  href={data.newsletterUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <Text>{'GET THE CHARTS \u2197'}</Text>
+                </a>
+              ) : (
+                <>
+                  <label>
+                    <span className="sr-only">
+                      <Text>{'Adresse email'}</Text>
+                    </span>
+                    <LocalizedElement
+                      as="input"
+                      type="email"
+                      placeholder="Votre adresse email"
+                      disabled
+                    />
+                  </label>
+                  <button className="btn btn-solid" type="button" disabled>
+                    <Text>{'GET THE CHARTS'}</Text>
+                  </button>
+                  <p>
+                    <Text>{'Les inscriptions ne sont pas encore ouvertes.'}</Text>
+                  </p>
+                </>
+              )}
+            </Text>
           </div>
         </section>
       </div>
-      {shareRow && currentShare ? (
-        <ChartsShare
-          content={currentShare}
-          url={`/charts/${meta.slug}/${week}?period=${period}${id === 'models' ? `&view=${encodeURIComponent(view)}` : ''}`}
-          onClose={() => {
-            setShareRow(null);
-          }}
-        />
-      ) : null}
+      <Text>
+        {shareRow && currentShare ? (
+          <ChartsShare
+            content={currentShare}
+            url={`/charts/${meta.slug}/${week}?period=${period}${id === 'models' ? `&view=${encodeURIComponent(view)}` : ''}`}
+            onClose={() => {
+              setShareRow(null);
+            }}
+          />
+        ) : null}
+      </Text>
     </div>
   );
 }

@@ -3,22 +3,27 @@ import { JsonLd } from '@/components/json-ld';
 import { sandboxChartsData } from '@/lib/sandbox-charts';
 import { absoluteUrl, breadcrumbLd, pageMetadata } from '@/lib/seo';
 import { hasIndexableChartCollection } from '@/domain/chart-seo';
-
-export async function generateMetadata() {
+import { chartSelectionSchema, hasChartSelectionQuery } from '@/domain/chart-selection';
+export async function generateMetadata({
+  searchParams = Promise.resolve({}),
+}: { searchParams?: Promise<Record<string, string | string[] | undefined>> } = {}) {
   const data = await sandboxChartsData();
   return pageMetadata({
     title: 'SANDBOX CHARTS | The weekly charts of what matters in AI.',
     description:
       'GitHub Top 20, Skills, Models et Rising. Les positions, les mouvements et les projets IA à surveiller, chaque semaine.',
     path: '/charts',
-    noindex: !hasIndexableChartCollection(data),
+    noindex: !hasIndexableChartCollection(data) || hasChartSelectionQuery(await searchParams),
   });
 }
-export default async function ChartsPage() {
+export default async function ChartsPage({
+  searchParams = Promise.resolve({}),
+}: { searchParams?: Promise<Record<string, string | string[] | undefined>> } = {}) {
   const data = await sandboxChartsData();
+  const selection = chartSelectionSchema.parse(await searchParams);
   return (
     <>
-      <ChartsExperience data={data} />
+      <ChartsExperience data={data} initialSelection={selection} />
       <JsonLd
         data={[
           {

@@ -58,13 +58,16 @@ export const MODEL_VIEWS = [
   { id: 'quality', label: 'Overall' },
   { id: 'coding', label: 'Coding' },
   { id: 'reasoning', label: 'Reasoning' },
-  { id: 'research', label: 'Research' },
-  { id: 'agents', label: 'Agentic' },
-  { id: 'image', label: 'Image' },
-  { id: 'video', label: 'Video' },
-  { id: 'open', label: 'Open Source' },
-  { id: 'speed', label: 'Fastest' },
-  { id: 'value', label: 'Best Value' },
+  { id: 'maths', label: 'Maths' },
+  { id: 'agents', label: 'Agents' },
+  { id: 'multimodal', label: 'Vision' },
+  { id: 'research', label: 'Search' },
+  { id: 'longContext', label: 'Context' },
+  { id: 'speed', label: 'Throughput' },
+  { id: 'price', label: 'Price' },
+  { id: 'reach', label: 'Reach' },
+  { id: 'value', label: 'Value' },
+  { id: 'open', label: 'Open weights' },
 ];
 
 export interface ChartsEntity extends Pick<
