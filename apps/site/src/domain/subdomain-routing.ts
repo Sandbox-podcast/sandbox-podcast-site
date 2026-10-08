@@ -26,7 +26,7 @@ export function shouldBypassSlidesRewrite(pathname: string): boolean {
 
 /**
  * Redirection visible (évite la boucle 307⇄308 sur le slash final).
- * `/episode-043` et `/episode-043/` → `/episode-043/index.html`
+ * `/episode-001` et `/episode-001/` → `/episode-001/index.html`
  */
 export function slidesBrowserRedirect(pathname: string): string | null {
   const deck = DECK_ROOT_RE.exec(pathname)?.[1];

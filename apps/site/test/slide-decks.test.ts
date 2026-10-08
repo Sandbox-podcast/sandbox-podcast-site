@@ -23,26 +23,26 @@ afterEach(() => {
 
 describe('slide decks', () => {
   it('extrait le titre HTML ou retombe sur le slug', () => {
-    expect(extractSlideTitle('<title>Sandbox — épisode 043</title>', 'episode-043')).toBe(
-      'Sandbox — épisode 043',
+    expect(extractSlideTitle('<title>Sandbox — épisode 001</title>', 'episode-001')).toBe(
+      'Sandbox — épisode 001',
     );
-    expect(extractSlideTitle('<html></html>', 'episode-043')).toBe('episode-043');
+    expect(extractSlideTitle('<html></html>', 'episode-001')).toBe('episode-001');
   });
 
   it('liste les dossiers qui contiennent un index.html', () => {
     const root = mkdtempSync(join(tmpdir(), 'slides-'));
     temps.push(root);
-    mkdirSync(join(root, 'episode-043'));
+    mkdirSync(join(root, 'episode-001'));
     mkdirSync(join(root, 'episode-044'));
     mkdirSync(join(root, 'draft-empty'));
     writeFileSync(join(root, 'episode-044', 'index.html'), '<title>Épisode 044</title>');
-    writeFileSync(join(root, 'episode-043', 'index.html'), '<title>Sandbox — épisode 043</title>');
+    writeFileSync(join(root, 'episode-001', 'index.html'), '<title>Sandbox — épisode 001</title>');
 
     expect(listSlideDecks(root)).toEqual([
       {
-        slug: 'episode-043',
-        title: 'Sandbox — épisode 043',
-        href: './episode-043/index.html',
+        slug: 'episode-001',
+        title: 'Sandbox — épisode 001',
+        href: './episode-001/index.html',
       },
       {
         slug: 'episode-044',
@@ -55,13 +55,13 @@ describe('slide decks', () => {
   it('rend une page d’index statique sans bundle Next', () => {
     const html = renderSlidesIndexHtml([
       {
-        slug: 'episode-043',
-        title: 'Sandbox — épisode 043',
-        href: './episode-043/index.html',
+        slug: 'episode-001',
+        title: 'Sandbox — épisode 001',
+        href: './episode-001/index.html',
       },
     ]);
     expect(html).toContain('<title>Présentations Sandbox</title>');
-    expect(html).toContain('href="./episode-043/index.html"');
+    expect(html).toContain('href="./episode-001/index.html"');
     expect(html).not.toContain('/_next/');
   });
 
@@ -86,19 +86,19 @@ describe('subdomain routing', () => {
   });
 
   it('canonise les decks vers index.html pour éviter la boucle de slash', () => {
-    expect(slidesBrowserRedirect('/episode-043')).toBe('/episode-043/index.html');
-    expect(slidesBrowserRedirect('/episode-043/')).toBe('/episode-043/index.html');
-    expect(slidesBrowserRedirect('/episode-043/index.html')).toBeNull();
+    expect(slidesBrowserRedirect('/episode-001')).toBe('/episode-001/index.html');
+    expect(slidesBrowserRedirect('/episode-001/')).toBe('/episode-001/index.html');
+    expect(slidesBrowserRedirect('/episode-001/index.html')).toBeNull();
     expect(slidesBrowserRedirect('/')).toBeNull();
   });
 
   it('réécrit vers des fichiers index.html et préserve les assets', () => {
     expect(slidesRewriteDestination('/')).toBe('/slides/index.html');
-    expect(slidesRewriteDestination('/episode-043/index.html')).toBe(
-      '/slides/episode-043/index.html',
+    expect(slidesRewriteDestination('/episode-001/index.html')).toBe(
+      '/slides/episode-001/index.html',
     );
-    expect(slidesRewriteDestination('/episode-043/assets/logo.png')).toBe(
-      '/slides/episode-043/assets/logo.png',
+    expect(slidesRewriteDestination('/episode-001/assets/logo.png')).toBe(
+      '/slides/episode-001/assets/logo.png',
     );
     expect(slidesRewriteDestination('/slides/index.html')).toBeNull();
     expect(slidesRewriteDestination('/_next/static/chunk.js')).toBeNull();
