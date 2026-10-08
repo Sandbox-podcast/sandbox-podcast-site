@@ -1,16 +1,21 @@
 export const SLIDES_HOST = 'slides.sandboxpodcast.fr';
 
-/** Rewrite hôte slides : la racine sert l’index ; le reste préserve le dossier du deck. */
+/**
+ * Rewrite hôte slides :
+ * - `/` → index HTML statique (pas de bundle `/_next`)
+ * - chemins deck/assets → `/slides/...`
+ * - exclure `/_next`, `/api`, etc. pour ne pas casser le runtime Next
+ */
 export const subdomainRewriteRules = [
   {
     source: '/',
     has: [{ type: 'host' as const, value: SLIDES_HOST }],
-    destination: '/presentations',
+    destination: '/slides/index.html',
   },
   {
-    source: '/:path+',
+    source: '/:path((?!_next(?:/|$)|api(?:/|$)|presentations(?:/|$)).*)',
     has: [{ type: 'host' as const, value: SLIDES_HOST }],
-    destination: '/slides/:path+',
+    destination: '/slides/:path',
   },
 ];
 
