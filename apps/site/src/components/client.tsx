@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { formatDate, formatRelative, formatTimeUtc } from '@/domain/format';
 import {
   parseSiteTheme,
@@ -45,11 +45,19 @@ export function ScrollState() {
 }
 
 export function ThemeSelector() {
+  const menu = useRef<HTMLDetailsElement>(null);
   const [theme, setTheme] = useState<SiteTheme>();
   const [storageWarning, setStorageWarning] = useState(false);
 
   useEffect(() => {
-    setTheme(parseSiteTheme(document.documentElement.getAttribute('data-theme')));
+    const syncTheme = (): void => {
+      setTheme(parseSiteTheme(document.documentElement.getAttribute('data-theme')));
+    };
+    syncTheme();
+    window.addEventListener('sandbox-theme-change', syncTheme);
+    return () => {
+      window.removeEventListener('sandbox-theme-change', syncTheme);
+    };
   }, []);
 
   const choose = (next: SiteTheme): void => {
@@ -59,16 +67,30 @@ export function ThemeSelector() {
       document.documentElement.removeAttribute('data-theme');
     }
     setTheme(next);
+    window.dispatchEvent(new Event('sandbox-theme-change'));
     try {
       localStorage.setItem(SITE_THEME_STORAGE_KEY, next);
       setStorageWarning(false);
+      if (menu.current) {
+        menu.current.open = false;
+        menu.current.querySelector('summary')?.focus();
+      }
     } catch {
       setStorageWarning(true);
     }
   };
 
   return (
-    <details className="theme-picker">
+    <details
+      className="theme-picker"
+      ref={menu}
+      onKeyDown={(event) => {
+        if (event.key === 'Escape' && menu.current?.open) {
+          menu.current.open = false;
+          menu.current.querySelector('summary')?.focus();
+        }
+      }}
+    >
       <summary className="btn theme-picker-trigger" aria-label="Choisir le thème">
         <span className="theme-picker-swatch" data-theme={theme ?? 'blue'} aria-hidden="true" />
         <span>Thème</span>
@@ -103,27 +125,54 @@ export function ThemeSelector() {
 
 export function CopyButton({ text, label = 'Copier le lien' }: { text: string; label?: string }) {
   const [done, setDone] = useState(false);
-  const copy = (): void => {
+  const [copyError, setCopyError] = useState(false);
+  const [manualLink, setManualLink] = useState('');
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(
+    () => () => {
+      if (timer.current) clearTimeout(timer.current);
+    },
+    [],
+  );
+  const copy = async (): Promise<void> => {
     const absolute = text.startsWith('/') ? `${window.location.origin}${text}` : text;
-    void navigator.clipboard.writeText(absolute).then(
-      () => {
-        setDone(true);
-        window.setTimeout(() => {
-          setDone(false);
-        }, 2000);
-      },
-      () => {
+    setCopyError(false);
+    try {
+      await navigator.clipboard.writeText(absolute);
+      setDone(true);
+      if (timer.current) clearTimeout(timer.current);
+      timer.current = setTimeout(() => {
         setDone(false);
-      },
-    );
+      }, 2500);
+    } catch {
+      setDone(false);
+      setCopyError(true);
+      setManualLink(absolute);
+    }
   };
   return (
-    <button type="button" className="btn" onClick={copy}>
-      {done ? 'Lien copié ✓' : label}
-      <span className="sr-only" role="status">
-        {done ? 'Lien copié dans le presse-papiers' : ''}
+    <span className="copy-feedback">
+      <button type="button" className="btn" onClick={() => void copy()}>
+        {done ? 'Lien copié' : label}
+      </button>
+      <span role="status" className={copyError ? undefined : 'sr-only'}>
+        {done
+          ? 'Lien copié dans le presse-papiers'
+          : copyError
+            ? 'Copie indisponible. Sélectionnez ce lien :'
+            : ''}
       </span>
-    </button>
+      {copyError ? (
+        <input
+          aria-label="Lien à copier"
+          readOnly
+          value={manualLink}
+          onFocus={(event) => {
+            event.currentTarget.select();
+          }}
+        />
+      ) : null}
+    </span>
   );
 }
 
@@ -183,7 +232,7 @@ export function YouTubeFacade({
         </svg>
       </span>
       <span className="youtube-facade-label label absolute bottom-3 left-4">
-        Lire sur YouTube · chargé au clic
+        Charger la vidéo YouTube
       </span>
     </button>
   );

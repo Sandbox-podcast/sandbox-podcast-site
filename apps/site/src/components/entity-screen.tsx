@@ -16,6 +16,8 @@ import { RankHistory, SeriesChart } from './charts-svg';
 import { JsonLd } from './json-ld';
 import { TakeCard } from './take-card';
 import { ExtLink, Mark, MoveBadge, RankNum, SectionHead } from './ui';
+import { Breadcrumbs } from './ui';
+import { episodeResourcePath } from '@/domain/discovery';
 
 function Kpi({
   label,
@@ -229,21 +231,14 @@ export function EntityScreen({ slug }: { slug: string }) {
   const { entity, appearances, takes } = view;
   const episodes = episodesForEntity(slug);
   const rivals = competitorsOf(entity);
-  const section =
-    entity.kind === 'project' ? 'Projects' : entity.kind === 'model' ? 'Models' : 'Tools';
   const path = entityPath(entity);
   const sameAs = entity.links.map((l) => l.url);
 
   return (
     <article className="wrap pt-6">
-      <nav aria-label="Fil d’Ariane" className="label mb-5 text-ink-2">
-        <Link href="/charts" className="underline decoration-2 underline-offset-4">
-          Charts
-        </Link>{' '}
-        / {section} / {entity.name}
-      </nav>
+      <Breadcrumbs items={[{ label: 'Classements', href: '/charts' }, { label: entity.name }]} />
 
-      <header className="grid gap-6 md:grid-cols-[auto_1fr] md:items-end">
+      <header className="entity-heading grid gap-6 md:grid-cols-[auto_1fr] md:items-end">
         <Mark entity={entity} size={104} />
         <div className="min-w-0">
           <p className="label mb-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-ink-2">
@@ -255,9 +250,7 @@ export function EntityScreen({ slug }: { slug: string }) {
             ) : null}
             {entity.openWeights === false ? <span className="chip">Poids fermés</span> : null}
           </p>
-          <h1 className="display" style={{ fontSize: 'clamp(3rem, 9vw, 7rem)' }}>
-            {entity.name}
-          </h1>
+          <h1 className="display">{entity.name}</h1>
           <p className="mt-3 max-w-3xl font-serif text-xl leading-snug md:text-2xl">
             {entity.tagline}
           </p>
@@ -278,7 +271,25 @@ export function EntityScreen({ slug }: { slug: string }) {
         ))}
       </div>
 
-      <div className="mt-12 grid gap-14">
+      <nav className="entity-section-nav" aria-label="Dans cette fiche">
+        {appearances.length > 0 ? (
+          <a className="chip" href="#entity-rankings">
+            Classements
+          </a>
+        ) : null}
+        <a className="chip" href="#takes">
+          Notre avis
+        </a>
+        <a className="chip" href="#about-entity">
+          À propos
+        </a>
+        {episodes.length > 0 ? (
+          <a className="chip" href="#in-episodes">
+            Dans les épisodes
+          </a>
+        ) : null}
+      </nav>
+      <div id="entity-rankings" className="mt-12 grid gap-14">
         {appearances.length > 0 ? (
           appearances.map((a) => <AppearanceBlock key={a.chart.slug} a={a} />)
         ) : (
@@ -350,7 +361,7 @@ export function EntityScreen({ slug }: { slug: string }) {
                         return (
                           <li key={m.label}>
                             <Link
-                              href={`/episodes/${String(episode.number)}#m-${String(idx)}`}
+                              href={episodeResourcePath(episode.number, idx)}
                               className="chip hover:bg-hl hover:text-on-hl"
                             >
                               {m.at !== undefined ? `▶ ${formatTimestamp(m.at)}` : 'Cité'} ·{' '}
@@ -399,7 +410,7 @@ export function EntityScreen({ slug }: { slug: string }) {
             url: absoluteUrl(path),
             sameAs,
             ...(entity.kind === 'project'
-              ? { codeRepositoryUrl: entity.links.find((l) => l.kind === 'github')?.url }
+              ? { codeRepository: entity.links.find((l) => l.kind === 'github')?.url }
               : { applicationCategory: 'Large language model' }),
             ...(entity.license ? { license: entity.license } : {}),
             ...(entity.org ? { author: { '@type': 'Organization', name: entity.org } } : {}),

@@ -1,4 +1,5 @@
 import type { EditableContent } from './admin-content.ts';
+import { editionMarkdown, editionsFromMarkdown } from './chart-edition.ts';
 import {
   chartSchema,
   entityLinkSchema,
@@ -146,6 +147,7 @@ export function serializeChartMarkdown(
     '## Limites',
     ...chart.methodology.limits.map((item) => `- ${item}`),
     '',
+    ...chart.editions.flatMap((edition) => [editionMarkdown(edition), '']),
     '## Entrées et avis',
     'Les rangs et les scores sont calculés à partir des relevés hebdomadaires.',
     '',
@@ -276,6 +278,7 @@ export function applyChartMarkdown(
   const description = section(sections, 'Présentation');
   const nextChart = chartSchema.parse({
     ...chart,
+    editions: editionsFromMarkdown(markdown),
     title,
     tagline: section(sections, 'Accroche'),
     description,

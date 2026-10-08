@@ -236,6 +236,42 @@ export const methodologySchema = z.object({
 });
 export type Methodology = z.infer<typeof methodologySchema>;
 
+/** Textes d'une édition. Les mesures et les rangs restent dans les snapshots. */
+export const chartEditionSchema = z
+  .object({
+    week: weekIdSchema,
+    headline: z.string().max(160).default(''),
+    monthlyHeadline: z.string().max(160).default(''),
+    watchlist: z
+      .array(z.object({ entity: slugSchema, reason: z.string().min(1).max(320) }))
+      .max(5)
+      .default([]),
+    insights: z
+      .array(
+        z.object({
+          entity: slugSchema,
+          whatItIs: z.string().max(320).default(''),
+          whyTrending: z.string().max(320).default(''),
+          whyMatters: z.string().max(320).default(''),
+          sandboxTake: z.string().max(320).default(''),
+          author: z.string().max(100).default(''),
+          bestFor: z.array(z.string().min(1).max(60)).max(5).default([]),
+        }),
+      )
+      .default([]),
+  })
+  .superRefine((edition, context) => {
+    for (const key of ['watchlist', 'insights'] as const) {
+      if (new Set(edition[key].map((item) => item.entity)).size !== edition[key].length)
+        context.addIssue({
+          code: 'custom',
+          path: [key],
+          message: 'Un projet ne peut figurer qu’une fois dans cette section.',
+        });
+    }
+  });
+export type ChartEdition = z.infer<typeof chartEditionSchema>;
+
 export const chartSchema = z.object({
   slug: slugSchema,
   title: z.string().min(1),
@@ -263,6 +299,7 @@ export const chartSchema = z.object({
   /** Départage à score égal. */
   tiebreak: z.string(),
   methodology: methodologySchema,
+  editions: z.array(chartEditionSchema).default([]),
   seo: z.object({
     title: z.string().min(1),
     description: z.string().min(1),

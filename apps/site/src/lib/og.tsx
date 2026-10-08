@@ -7,6 +7,7 @@ import { shortWeek, weekEnd, weekStart } from '@/domain/weeks';
 import { highlightHeadline } from './moves';
 import type { ChartView, Highlight } from './repository';
 import type { Entity, Episode, Story } from '@/domain/schema';
+import { chartRows, CHART_LABELS, type ChartId, type ChartsData } from '@/domain/sandbox-charts';
 
 /**
  * Cartes OpenGraph (1200×630) pour X, LinkedIn, Discord et Slack. Satori n'accepte ni les polices variables
@@ -66,6 +67,112 @@ function fonts(): Promise<FontSpec[]> {
 
 async function render(node: React.ReactElement): Promise<ImageResponse> {
   return new ImageResponse(node, { ...OG_SIZE, fonts: await fonts() });
+}
+
+/** Les cartes publiques utilisent le même jeu de données que SANDBOX CHARTS. */
+export function sandboxChartCard(data: ChartsData, id: ChartId) {
+  const rows = chartRows(data, id, data.week).slice(0, 3);
+  return render(
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        width: 1200,
+        height: 630,
+        background: '#05090d',
+        color: '#f4f7fa',
+        padding: 55,
+        fontFamily: 'Archivo',
+      }}
+    >
+      <div
+        style={{ display: 'flex', justifyContent: 'space-between', fontSize: 26, fontWeight: 800 }}
+      >
+        <span>SANDBOX CHARTS</span>
+        <span style={{ color: '#3cd6fc', fontFamily: 'Mono' }}>{data.week}</span>
+      </div>
+      <div
+        style={{
+          display: 'flex',
+          fontSize: 72,
+          fontWeight: 900,
+          letterSpacing: -4,
+          marginTop: 24,
+          marginBottom: 14,
+        }}
+      >
+        {CHART_LABELS[id].title}
+      </div>
+      {rows.length ? (
+        <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+          {rows.map((row) => (
+            <div
+              key={row.entity.slug}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                borderTop: '1px solid #294457',
+                padding: '15px 0',
+              }}
+            >
+              <span
+                style={{
+                  display: 'flex',
+                  width: 110,
+                  color: '#3cd6fc',
+                  fontSize: 52,
+                  fontWeight: 900,
+                }}
+              >
+                {String(row.rank).padStart(2, '0')}
+              </span>
+              <span
+                style={{
+                  display: 'flex',
+                  flex: 1,
+                  fontSize: Math.min(38, 540 / Math.max(1, row.entity.name.length * 0.6)),
+                  fontWeight: 800,
+                }}
+              >
+                {row.entity.name}
+              </span>
+              <span style={{ display: 'flex', fontFamily: 'Mono', fontSize: 22 }}>
+                {row.periodStars === null
+                  ? `${row.score.toFixed(1)} / 100`
+                  : `${row.periodStars > 0 ? '+' : ''}${formatCompact(row.periodStars)} STARS`}
+              </span>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div
+          style={{ display: 'flex', flex: 1, alignItems: 'center', color: '#3cd6fc', fontSize: 36 }}
+        >
+          {data.mode === 'unavailable'
+            ? 'Data temporarily unavailable.'
+            : 'Building the history. First edition coming next.'}
+        </div>
+      )}
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          marginTop: 'auto',
+          paddingTop: 18,
+          borderTop: '1px solid #294457',
+          fontSize: 16,
+          fontFamily: 'Mono',
+        }}
+      >
+        <span>
+          {data.mode === 'fixtures'
+            ? 'LOCAL PREVIEW / FIXTURES'
+            : 'THE WEEKLY CHARTS OF WHAT MATTERS IN AI.'}
+        </span>
+        <span>UPDATED EVERY MONDAY</span>
+      </div>
+    </div>,
+  );
 }
 
 const mono = { fontFamily: 'Mono', textTransform: 'uppercase', letterSpacing: 2 } as const;

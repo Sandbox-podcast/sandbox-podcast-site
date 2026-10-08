@@ -94,6 +94,25 @@ export function validateContent(content: Content, options: ValidateOptions = {})
 
   for (const chart of content.charts) {
     const where = `classement ${chart.slug}`;
+    duplicates(
+      `${where}, éditions`,
+      chart.editions.map((edition) => edition.week),
+    );
+    for (const edition of chart.editions) {
+      const editionWhere = `${where}, édition ${edition.week}`;
+      if (!(content.snapshots[chart.slug] ?? []).some((snapshot) => snapshot.week === edition.week))
+        error(editionWhere, 'aucun relevé pour cette semaine');
+      duplicates(
+        `${editionWhere}, watchlist`,
+        edition.watchlist.map((item) => item.entity),
+      );
+      duplicates(
+        `${editionWhere}, lectures`,
+        edition.insights.map((item) => item.entity),
+      );
+      for (const item of [...edition.watchlist, ...edition.insights])
+        entityRef(editionWhere, item.entity);
+    }
     if (RESERVED_CHART_SLUGS.has(chart.slug)) error(where, 'slug réservé à une route');
     const profile = profiles.get(chart.scoring);
     if (!profile) {

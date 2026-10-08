@@ -3,6 +3,27 @@ import type { CSSProperties, ReactNode } from 'react';
 import { formatDelta, padRank } from '@/domain/format';
 import type { Entity, MovementKind, StoryType } from '@/domain/schema';
 
+export function Breadcrumbs({ items }: { items: { label: string; href?: string }[] }) {
+  return (
+    <nav aria-label="Fil d'Ariane" className="breadcrumbs">
+      <ol>
+        <li>
+          <Link href="/">Accueil</Link>
+        </li>
+        {items.map((item, index) => (
+          <li key={`${item.label}-${String(index)}`}>
+            {item.href ? (
+              <Link href={item.href}>{item.label}</Link>
+            ) : (
+              <span aria-current="page">{item.label}</span>
+            )}
+          </li>
+        ))}
+      </ol>
+    </nav>
+  );
+}
+
 /** Monogramme coloré : l'identité visuelle d'une entité, sans image externe ni licence à gérer. */
 export function Mark({ entity, size = 52 }: { entity: Pick<Entity, 'mark'>; size?: number }) {
   const style = { '--mark': `${String(size)}px` } as CSSProperties;

@@ -2,10 +2,12 @@
 
 import { useCallback, useEffect, useMemo, useState, type SyntheticEvent } from 'react';
 import { z } from 'zod';
+import Link from 'next/link';
 import { editableContentSchema, type EditableContent } from '@/domain/admin-content';
 import { applyChartMarkdown, serializeChartMarkdown } from '@/domain/chart-markdown';
 import { type Episode, type Host, type Source, type Topic } from '@/domain/schema';
 import { AdminChartEditor } from './admin-chart-editor';
+import { AdminChartsConsole } from './admin-charts-console';
 import { SourceEditor, TopicEditor } from './admin-simple-content';
 import { EpisodeComposer } from './episode-composer';
 import { SiteSettingsEditor } from './site-settings-editor';
@@ -94,6 +96,7 @@ export function AdminConsole() {
   const [pending, setPending] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
   const load = useCallback(async () => {
     const nextStatus = await apiJson('/api/admin/session', adminStatusSchema);
@@ -136,8 +139,16 @@ export function AdminConsole() {
   }, [contentResponse]);
 
   async function refresh(): Promise<void> {
-    await load();
-    setMessage('Contenu rechargé depuis la dernière version du brouillon.');
+    setPending(true);
+    setMessage('');
+    try {
+      await load();
+      setMessage('Contenu rechargé.');
+    } catch (error) {
+      setMessage(errorMessage(error, 'Connexion au backoffice impossible. Réessayez.'));
+    } finally {
+      setPending(false);
+    }
   }
 
   async function submitLogin(event: SyntheticEvent<HTMLFormElement>): Promise<void> {
@@ -150,6 +161,7 @@ export function AdminConsole() {
         body: JSON.stringify({ username, password }),
       });
       setPassword('');
+      setShowPassword(false);
       await load();
       setMessage('Session ouverte.');
     } catch (error) {
@@ -317,9 +329,27 @@ export function AdminConsole() {
   if (!status) {
     return (
       <div className="admin-shell">
-        <p role="status" className="admin-note">
-          Connexion au backoffice…
-        </p>
+        {message ? (
+          <section className="empty-state admin-error-state">
+            <h1>Le studio est indisponible.</h1>
+            <p role="alert">{message}</p>
+            <button
+              className="btn btn-solid"
+              type="button"
+              onClick={() => void refresh()}
+              disabled={pending}
+            >
+              {pending ? 'Connexion en cours' : 'Réessayer'}
+            </button>
+            <Link className="text-action" href="/">
+              Retour au site
+            </Link>
+          </section>
+        ) : (
+          <p role="status" className="admin-note">
+            Chargement du studio éditorial...
+          </p>
+        )}
       </div>
     );
   }
@@ -330,7 +360,7 @@ export function AdminConsole() {
         <section className="admin-login panel" aria-labelledby="admin-login-title">
           <span className="eyebrow">Espace privé · Sandbox</span>
           <h1 id="admin-login-title" className="admin-title">
-            Backoffice podcasts
+            Studio éditorial
           </h1>
           <p className="admin-copy">
             Gérez les épisodes, leurs ressources et les classements du site.
@@ -347,6 +377,9 @@ export function AdminConsole() {
                 <span>Identifiant</span>
                 <input
                   autoComplete="username"
+                  autoCapitalize="none"
+                  spellCheck={false}
+                  disabled={pending}
                   type="text"
                   value={username}
                   onChange={(event) => {
@@ -355,28 +388,48 @@ export function AdminConsole() {
                   required
                 />
               </label>
-              <label className="admin-field">
-                <span>Mot de passe</span>
-                <input
-                  autoComplete="current-password"
-                  type="password"
-                  value={password}
-                  onChange={(event) => {
-                    setPassword(event.target.value);
-                  }}
-                  required
-                />
-              </label>
+              <div className="admin-field">
+                <label htmlFor="admin-password">Mot de passe</label>
+                <span className="admin-password">
+                  <input
+                    id="admin-password"
+                    autoComplete="current-password"
+                    type={showPassword ? 'text' : 'password'}
+                    disabled={pending}
+                    value={password}
+                    onChange={(event) => {
+                      setPassword(event.target.value);
+                    }}
+                    required
+                  />
+                  <button
+                    type="button"
+                    className="btn"
+                    aria-label={
+                      showPassword ? 'Masquer le mot de passe' : 'Afficher le mot de passe'
+                    }
+                    aria-pressed={showPassword}
+                    onClick={() => {
+                      setShowPassword((current) => !current);
+                    }}
+                  >
+                    {showPassword ? 'Masquer' : 'Afficher'}
+                  </button>
+                </span>
+              </div>
               <button className="btn btn-solid" type="submit" disabled={pending}>
-                Ouvrir une session
+                {pending ? 'Connexion en cours' : 'Se connecter'}
               </button>
             </form>
           )}
           {message ? (
-            <p className="admin-message" role="status">
+            <p className="admin-login-error" role="alert">
               {message}
             </p>
           ) : null}
+          <Link href="/" className="text-action">
+            Retour au site
+          </Link>
         </section>
       </div>
     );
@@ -388,7 +441,14 @@ export function AdminConsole() {
         <p role="status" className="admin-note">
           Chargement du contenu…
         </p>
-        {message ? <p role="alert">{message}</p> : null}
+        {message ? (
+          <div className="empty-state admin-error-state">
+            <p role="alert">{message}</p>
+            <button className="btn" type="button" onClick={() => void refresh()} disabled={pending}>
+              Réessayer
+            </button>
+          </div>
+        ) : null}
       </div>
     );
   }
@@ -411,6 +471,9 @@ export function AdminConsole() {
           </p>
         </div>
         <div className="admin-heading-actions">
+          <Link href="/" className="btn">
+            Voir le site
+          </Link>
           <span className="admin-status">
             {status.user?.displayName ?? status.username} · {status.user?.role ?? 'admin'}
           </span>
@@ -458,6 +521,7 @@ export function AdminConsole() {
             <button
               key={key}
               className={`admin-tab is-primary${activeCollection === key ? ' is-active' : ''}`}
+              aria-pressed={activeCollection === key}
               type="button"
               onClick={() => {
                 selectCollection(key);
@@ -469,6 +533,7 @@ export function AdminConsole() {
           <p className="admin-sidebar-label admin-sidebar-divider">Réglages</p>
           <button
             className={`admin-tab${activeCollection === 'site' ? ' is-active' : ''}`}
+            aria-pressed={activeCollection === 'site'}
             type="button"
             onClick={() => {
               setActiveCollection('site');
@@ -481,6 +546,7 @@ export function AdminConsole() {
             <button
               key={key}
               className={`admin-tab${activeCollection === key ? ' is-active' : ''}`}
+              aria-pressed={activeCollection === key}
               type="button"
               onClick={() => {
                 selectCollection(key);
@@ -529,6 +595,7 @@ export function AdminConsole() {
                       type="button"
                       key={episode.number}
                       className={`admin-record${selectedItem === String(episode.number) ? ' is-active' : ''}`}
+                      aria-pressed={selectedItem === String(episode.number)}
                       onClick={() => {
                         setSelectedItem(String(episode.number));
                       }}
@@ -583,6 +650,7 @@ export function AdminConsole() {
                       key={host.slug}
                       type="button"
                       className={`admin-record${selectedItem === host.slug ? ' is-active' : ''}`}
+                      aria-pressed={selectedItem === host.slug}
                       onClick={() => {
                         setSelectedItem(host.slug);
                         setRawError('');
@@ -664,63 +732,72 @@ export function AdminConsole() {
             </>
           ) : activeCollection === 'charts' ? (
             <>
-              <div className="admin-section-heading">
-                <div>
-                  <span className="eyebrow">Édition Markdown</span>
-                  <h2 id="admin-section-title">Classements</h2>
+              <AdminChartsConsole
+                permissions={status.user?.permissions ?? { draft: false, publish: false }}
+                author={status.user?.displayName ?? status.username ?? 'SANDBOX'}
+              />
+              <details className="admin-legacy-charts">
+                <summary className="admin-sidebar-label">
+                  Définitions des charts et contenu des archives locales
+                </summary>
+                <div className="admin-section-heading">
+                  <div>
+                    <span className="eyebrow">Édition Markdown</span>
+                    <h2 id="admin-section-title">Classements</h2>
+                  </div>
+                  <span className="admin-count">
+                    {String(contentResponse.content.charts.length)} classements
+                  </span>
                 </div>
-                <span className="admin-count">
-                  {String(contentResponse.content.charts.length)} classements
-                </span>
-              </div>
-              <div className="admin-editor-grid admin-chart-grid">
-                <nav className="admin-record-list" aria-label="Classements existants">
-                  {contentResponse.content.charts.map((chart) => (
-                    <button
-                      key={chart.slug}
-                      type="button"
-                      className={`admin-record${selectedItem === chart.slug ? ' is-active' : ''}`}
-                      onClick={() => {
-                        setSelectedItem(chart.slug);
+                <div className="admin-editor-grid admin-chart-grid">
+                  <nav className="admin-record-list" aria-label="Classements existants">
+                    {contentResponse.content.charts.map((chart) => (
+                      <button
+                        key={chart.slug}
+                        type="button"
+                        className={`admin-record${selectedItem === chart.slug ? ' is-active' : ''}`}
+                        onClick={() => {
+                          setSelectedItem(chart.slug);
+                          setRawError('');
+                        }}
+                      >
+                        <span className="admin-record-title">{chart.title}</span>
+                        <span className="admin-record-meta">{chart.slug}</span>
+                      </button>
+                    ))}
+                  </nav>
+                  {selectedItem ? (
+                    <AdminChartEditor
+                      key={selectedItem}
+                      markdown={chartMarkdown}
+                      onChange={setChartMarkdown}
+                      onSave={saveChartDocument}
+                      onReset={() => {
+                        setChartMarkdown(
+                          serializeChartMarkdown(
+                            contentResponse.content,
+                            selectedItem,
+                            contentResponse.chartEntries[selectedItem]?.entities ?? [],
+                          ),
+                        );
                         setRawError('');
                       }}
-                    >
-                      <span className="admin-record-title">{chart.title}</span>
-                      <span className="admin-record-meta">{chart.slug}</span>
-                    </button>
-                  ))}
-                </nav>
-                {selectedItem ? (
-                  <AdminChartEditor
-                    key={selectedItem}
-                    markdown={chartMarkdown}
-                    onChange={setChartMarkdown}
-                    onSave={saveChartDocument}
-                    onReset={() => {
-                      setChartMarkdown(
-                        serializeChartMarkdown(
-                          contentResponse.content,
-                          selectedItem,
-                          contentResponse.chartEntries[selectedItem]?.entities ?? [],
-                        ),
-                      );
-                      setRawError('');
-                    }}
-                    pending={pending || !status.user?.permissions.draft}
-                    error={rawError}
-                    week={contentResponse.chartEntries[selectedItem]?.week ?? null}
-                    entities={contentResponse.content.entities}
-                    rankedSlugs={contentResponse.chartEntries[selectedItem]?.entities ?? []}
-                    hosts={contentResponse.content.hosts}
-                    currentUsername={status.username}
-                  />
-                ) : (
-                  <div className="admin-empty">
-                    <h3>Choisissez un classement</h3>
-                    <p>Son contenu éditorial s’ouvre dans un seul document Markdown.</p>
-                  </div>
-                )}
-              </div>
+                      pending={pending || !status.user?.permissions.draft}
+                      error={rawError}
+                      week={contentResponse.chartEntries[selectedItem]?.week ?? null}
+                      entities={contentResponse.content.entities}
+                      rankedSlugs={contentResponse.chartEntries[selectedItem]?.entities ?? []}
+                      hosts={contentResponse.content.hosts}
+                      currentUsername={status.username}
+                    />
+                  ) : (
+                    <div className="admin-empty">
+                      <h3>Choisissez un classement</h3>
+                      <p>Son contenu éditorial s’ouvre dans un seul document Markdown.</p>
+                    </div>
+                  )}
+                </div>
+              </details>
             </>
           ) : (
             <>

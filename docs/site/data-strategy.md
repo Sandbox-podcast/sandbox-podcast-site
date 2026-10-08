@@ -1,5 +1,7 @@
 # Site média : stratégie d'alimentation des données
 
+Le nouveau pipeline GitHub de SANDBOX CHARTS est décrit dans [son guide](sandbox-charts.md) et [sa méthode](../sandbox-charts-methodology.md). Il utilise Postgres pour les relevés et éditions réels. Les connecteurs et fichiers présentés ci-dessous décrivent le pipeline historique de développement ; ses fixtures ne servent pas de données de production aux nouvelles routes de charts.
+
 Statut au 2026-10-06 : **seul le connecteur `mock` existe.** Les connecteurs réels ci-dessous sont des cibles documentées, aucun n'est écrit ni testé.
 
 ## Principes
