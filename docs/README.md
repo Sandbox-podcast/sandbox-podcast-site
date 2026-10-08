@@ -5,6 +5,7 @@ Le dépôt sert le site média `apps/site`. La documentation du travail précéd
 ## Site média
 
 UI/UX du site : [rapport du 8 octobre 2026](site/ui-ux-2026-10-08.md) et [DD-0005](design-decisions/DD-0005-ux-globale-du-site.md).
+Présentations d’épisode en HTML sur `slides.sandboxpodcast.fr` : [guide des slides](site/slides.md) et [DD-0007](design-decisions/DD-0007-sous-domaine-des-presentations.md).
 
 SANDBOX CHARTS : [guide d’exploitation](site/sandbox-charts.md), [fiche de mise en service Neon et Vercel](site/mise-en-service-neon-vercel.md), [rapport de livraison](site/sandbox-charts-livraison.md), [méthodologie](sandbox-charts-methodology.md), [ADR-0019](adr/ADR-0019-sandbox-charts-github-postgres.md) et [DD-0004](design-decisions/DD-0004-sandbox-charts.md).
 SEO international et i18n européenne (115 locales prioritaires) : [ADR-0020](adr/ADR-0020-architecture-seo-international-des-classements.md) et [feuille de route SEO](site/seo-roadmap.md).
