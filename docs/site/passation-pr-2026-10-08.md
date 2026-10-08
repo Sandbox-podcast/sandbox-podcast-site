@@ -15,14 +15,14 @@ Cette liste accompagne la PR `codex/remaining-seo-charts-handoff`. Elle sert de 
 ### 1. Relire et valider la PR
 
 - [ ] Examiner les changements de routes, migrations 0002 à 0004, pipeline GitHub, règles d'indexation et dépendances.
-- [ ] Lire tous les contrôles GitHub de cette PR et corriger les échecs de format, lint, types, tests, build, audit et Gitleaks.
-- [ ] Confirmer que le scan Gitleaks passe sur cette PR et qu'un push conserve bien le scan complet ; l'issue #4 ne se ferme qu'après fusion.
-- [ ] Vérifier le statut Vercel de la PR. La PR #8 avait un contrôle Vercel en échec au moment de l'audit ; identifier le projet lié et la cause avant de considérer les previews comme fiables.
+- [x] Contrôles GitHub de cette PR : qualité, audit, tests, build et Gitleaks réussis le 2026-10-08. Les contrôles devront être relancés après tout changement.
+- [x] Gitleaks passe sur la PR et sur le push de la branche. L'issue #4 sera fermée à la fusion.
+- [x] Le preview Vercel de cette PR a réussi sur `sandboxpodcastpro-5518/sandbox-podcast` le 2026-10-08.
 
 ### 2. Confirmer la cible de production avant toute opération
 
-- [ ] Avec le responsable, identifier le projet et l'équipe Vercel réellement reliés au dépôt, la branche de production, le Root Directory et le domaine canonique.
-- [ ] Lever l'ambiguïté entre `sandboxpodcastpro-5518/sandbox-podcast` / `www.sandboxpodcast.fr` (cible nommée dans l'ancienne note) et le projet accessible `sandbox-podcast-site`. Ne pas supposer qu'ils sont identiques.
+- [ ] Avec le responsable, confirmer que le projet Vercel identifié par le preview, `sandboxpodcastpro-5518/sandbox-podcast`, est bien celui de production et qu'il sert `www.sandboxpodcast.fr`.
+- [ ] Confirmer la branche de production, le Root Directory, la version Node et le domaine canonique dans les réglages du projet. Une session Vercel distincte ne pouvait lire que le projet `sandbox-podcast-site`; ne pas le confondre avec la cible du preview.
 - [ ] Identifier la base Neon déjà utilisée par le site, son historique réel et les rôles disponibles. Confirmer si Preview écrit dans une base séparée.
 - [ ] Si les accès restent indisponibles, laisser ces cases ouvertes et demander au propriétaire les accès ciblés ; ne pas créer un projet, domaine ou base de remplacement.
 
