@@ -10,8 +10,9 @@ import {
 } from '../src/domain/slide-decks';
 import {
   SLIDES_HOST,
+  isSlidesHost,
+  slidesRewriteDestination,
   subdomainRedirectRules,
-  subdomainRewriteRules,
 } from '../src/domain/subdomain-routing';
 
 const temps: string[] = [];
@@ -79,20 +80,22 @@ describe('slide decks', () => {
 });
 
 describe('subdomain routing', () => {
-  it('sert un index HTML statique et préserve /_next hors rewrite slides', () => {
+  it('reconnaît l’hôte slides', () => {
     expect(SLIDES_HOST).toBe('slides.sandboxpodcast.fr');
-    expect(subdomainRewriteRules).toEqual([
-      {
-        source: '/',
-        has: [{ type: 'host', value: SLIDES_HOST }],
-        destination: '/slides/index.html',
-      },
-      {
-        source: '/:path((?!_next(?:/|$)|api(?:/|$)|presentations(?:/|$)).*)',
-        has: [{ type: 'host', value: SLIDES_HOST }],
-        destination: '/slides/:path',
-      },
-    ]);
+    expect(isSlidesHost('slides.sandboxpodcast.fr')).toBe(true);
+    expect(isSlidesHost('slides.sandboxpodcast.fr:443')).toBe(true);
+    expect(isSlidesHost('www.sandboxpodcast.fr')).toBe(false);
+  });
+
+  it('réécrit la racine et les decks sans doubler /slides ni toucher /_next', () => {
+    expect(slidesRewriteDestination('/')).toBe('/slides/index.html');
+    expect(slidesRewriteDestination('/episode-043/')).toBe('/slides/episode-043/');
+    expect(slidesRewriteDestination('/episode-043/assets/logo.png')).toBe(
+      '/slides/episode-043/assets/logo.png',
+    );
+    expect(slidesRewriteDestination('/slides/index.html')).toBeNull();
+    expect(slidesRewriteDestination('/_next/static/chunk.js')).toBeNull();
+    expect(slidesRewriteDestination('/api/cron/github-daily')).toBeNull();
   });
 
   it('redirige un deck sans slash final vers le dossier', () => {
