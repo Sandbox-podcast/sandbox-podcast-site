@@ -1,5 +1,4 @@
 import type { NextConfig } from 'next';
-import { subdomainRedirectRules } from './src/domain/subdomain-routing';
 
 // Le rendu statique de Next utilise des scripts inline pour l'hydratation.
 // Cette politique limite les origines et les intégrations autorisées sans casser ce rendu.
@@ -32,7 +31,6 @@ const config: NextConfig = {
       { source: '/rankings/history/:week', destination: '/charts/history/:week', permanent: true },
       { source: '/rankings/:slug', destination: '/charts/:slug', permanent: true },
       { source: '/rankings/:slug/:rest*', destination: '/charts/:slug/:rest*', permanent: true },
-      ...subdomainRedirectRules,
     ]);
   },
   headers() {

@@ -1,5 +1,9 @@
 import { NextResponse, type NextRequest } from 'next/server';
-import { isSlidesHost, slidesRewriteDestination } from '@/domain/subdomain-routing';
+import {
+  isSlidesHost,
+  slidesBrowserRedirect,
+  slidesRewriteDestination,
+} from '@/domain/subdomain-routing';
 
 export function middleware(request: NextRequest) {
   if (!isSlidesHost(request.headers.get('host'))) {
@@ -7,6 +11,13 @@ export function middleware(request: NextRequest) {
   }
 
   const { pathname } = request.nextUrl;
+  const browserRedirect = slidesBrowserRedirect(pathname);
+  if (browserRedirect) {
+    const url = request.nextUrl.clone();
+    url.pathname = browserRedirect;
+    return NextResponse.redirect(url);
+  }
+
   const destination = slidesRewriteDestination(pathname);
   if (!destination) return NextResponse.next();
 
