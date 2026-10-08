@@ -9,7 +9,15 @@ apps/site/public/slides/
     └── assets/
 ```
 
-Le sous-domaine `slides.sandboxpodcast.fr` affiche d’abord la liste des supports (`/presentations` en interne). Chaque deck s’ouvre ensuite sur `https://slides.sandboxpodcast.fr/<episode>/` (exemple : `/episode-043/`). Les règles d’hôte sont dans `apps/site/src/domain/subdomain-routing.ts` : elles réécrivent les chemins du sous-domaine vers `public/slides/...` pour que les assets relatifs (`./assets/...`) se chargent correctement.
+Le sous-domaine `slides.sandboxpodcast.fr` affiche d’abord `public/slides/index.html` (liste des supports, sans JavaScript Next). Chaque deck s’ouvre ensuite sur `https://slides.sandboxpodcast.fr/<episode>/` (exemple : `/episode-043/`). Les règles d’hôte sont dans `apps/site/src/domain/subdomain-routing.ts` : elles réécrivent les chemins du sous-domaine vers `public/slides/...` (sauf `/_next` et `/api`) pour que les assets relatifs (`./assets/...`) se chargent correctement.
+
+Après ajout d’un dossier d’épisode, régénérer l’index :
+
+```powershell
+node --input-type=module -e "import { writeFileSync } from 'node:fs'; import { listSlideDecks, renderSlidesIndexHtml, slidesPublicRoot } from './src/domain/slide-decks.ts'; writeFileSync('public/slides/index.html', renderSlidesIndexHtml(listSlideDecks(slidesPublicRoot(process.cwd()))));"
+```
+
+depuis `apps/site`.
 
 Les mêmes fichiers restent accessibles sur le site principal via `/slides/<episode>/`.
 
