@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#05090d" />
     <meta
       name="description"
-      content="Présentation visuelle de l’épisode 001 de Sandbox : Radar, Build, Clash et Bêta."
+      content="Présentation visuelle de l’épisode 001 de Sandbox : Radar, Build (Sillage), Clash et Bêta."
     />
     <title>Sandbox — épisode 001</title>
     <style>
@@ -885,6 +885,32 @@
         color: var(--cyan-pale);
         font: 0.65rem var(--mono);
         letter-spacing: 0.1em;
+      }
+      /* Séquence Build · Sillage : carte d’identité, chiffres et clôture. */
+      .sillage-meta {
+        color: var(--muted);
+        font: 0.68rem var(--mono);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        text-align: center;
+      }
+      .sillage-stats {
+        align-self: center;
+        row-gap: clamp(1rem, 3vh, 2rem);
+      }
+      .sillage-outro {
+        justify-self: center;
+        display: grid;
+        justify-items: center;
+        gap: clamp(1rem, 3vh, 2rem);
+        margin: 0;
+      }
+      .sillage-outro img {
+        width: min(60%, 18rem);
+      }
+      .sillage-outro code {
+        color: var(--cyan-pale);
+        font: clamp(0.9rem, 1.4vw, 1.3rem) var(--mono);
       }
       .harness-note {
         color: var(--muted);
@@ -1910,189 +1936,105 @@
         <h2 class="sequence-title">LE B<span class="sequence-accent">U</span>ILD</h2>
       </section>
 
-      <section
-        class="slide source-slide"
-        aria-label="Explication visuelle d’un harnais pour agents de code"
-      >
+      <section class="slide source-slide" aria-label="Sillage, carte d’identité du projet">
         <div class="topline">
-          <span class="eyebrow">LE BUILD · 01</span><span class="meta">HARNESS ENGINEERING</span>
+          <span class="eyebrow">LE BUILD · 01</span><span class="meta">SILLAGE / NICO</span>
         </div>
         <div class="source-content">
           <div class="source-copy">
-            <p class="overline">LE HARNAIS</p>
-            <h2>C’est quoi,<br /><span class="accent">un harnais ?</span></h2>
-            <p class="source-hook">Contexte · outils · permissions · vérifications</p>
+            <p class="overline">CARTE D’IDENTITÉ</p>
+            <h2>Un espace de travail<br /><span class="accent">pour agents de code.</span></h2>
+            <p class="source-hook">Open source · auto-hébergé · CLI natifs</p>
             <ul class="source-points">
-              <li>Le CLI et le modèle restent le moteur</li>
-              <li>Le harnais prépare le cadre de travail</li>
-              <li>L’agent agit, vérifie et corrige</li>
+              <li>Auteur : Nico (MarlBurroW), un seul humain au clavier</li>
+              <li>Dépôt GitHub public, licence MIT</li>
+              <li>Premier commit le 27 juillet 2026, v0.16.0 le 8 octobre</li>
             </ul>
           </div>
-          <figure
-            class="harness-diagram"
-            aria-label="Schéma du fonctionnement d’un harnais d’agent de code"
+          <figure class="sillage-outro" aria-label="Logo et adresse du projet">
+            <img
+              src="./assets/sillage-logo.svg"
+              alt="Logo Sillage"
+              loading="lazy"
+              decoding="async"
+            />
+            <code>github.com/MarlBurroW/sillage</code>
+            <span class="sillage-meta">MIT · v0.16.0 · Claude Code · Codex · OpenCode</span>
+          </figure>
+        </div>
+        <div class="footline source-footline">
+          <span>Open source · MIT</span>
+          <a
+            class="source-link"
+            href="https://github.com/MarlBurroW/sillage"
+            target="_blank"
+            rel="noreferrer"
+            >Dépôt GitHub ↗</a
           >
-            <div class="harness-endpoint">Votre demande + le projet</div>
+        </div>
+      </section>
+
+      <section class="slide source-slide" aria-label="C’est quoi, Sillage : schéma">
+        <div class="topline">
+          <span class="eyebrow">LE BUILD · 02</span><span class="meta">LE PRINCIPE</span>
+        </div>
+        <div class="source-content">
+          <div class="source-copy">
+            <p class="overline">LE PRINCIPE</p>
+            <h2>C’est quoi,<br /><span class="accent">Sillage ?</span></h2>
+            <p class="source-hook">
+              Un serveur à moi, ouvert depuis le téléphone, qui pilote les CLI tels qu’ils sont.
+            </p>
+            <ul class="source-points">
+              <li>Claude Code, Codex et OpenCode passent par leurs portes officielles</li>
+              <li>Ce n’est pas un harnais : la boucle de l’agent reste au CLI</li>
+              <li>Il remplace la seule chose qui ne voyage pas : le terminal</li>
+            </ul>
+          </div>
+          <figure class="harness-diagram" aria-label="Schéma du fonctionnement de Sillage">
+            <div class="harness-endpoint">Téléphone ou navigateur · PWA</div>
             <div class="harness-flow-arrow" aria-hidden="true">↓</div>
             <div class="harness-frame">
-              <p class="harness-frame-title">Le harnais</p>
+              <p class="harness-frame-title">Sillage, sur mon serveur</p>
               <div class="harness-components">
-                <span>Contexte</span><span>Consignes</span><span>Mémoire</span> <span>Outils</span
-                ><span>Permissions</span><span>Vérifications</span>
+                <span>Journal rejouable</span><span>SILLAGE.md</span><span>Mémoire</span>
+                <span>Serveur MCP</span><span>Planification</span><span>Services</span>
               </div>
               <div class="engine-card">
-                <strong>CLI + modèle</strong><span>Claude Code · Codex · OpenCode</span>
+                <strong>CLI natifs, inchangés</strong><span>Claude Code · Codex · OpenCode</span>
               </div>
             </div>
             <div class="harness-flow-arrow" aria-hidden="true">↓</div>
-            <div class="harness-endpoint">Résultat vérifié</div>
+            <div class="harness-endpoint">Mes dépôts, sur ma machine</div>
           </figure>
         </div>
         <div class="footline"><span>LE BUILD</span><span>Schéma simplifié</span></div>
       </section>
 
-      <section class="slide source-slide" aria-label="Sillage en une phrase">
-        <div class="topline">
-          <span class="eyebrow">LE BUILD · 02</span><span class="meta">SILLAGE / NICO</span>
-        </div>
-        <div class="source-content">
-          <div class="source-copy">
-            <p class="overline">SILLAGE</p>
-            <h2>Un cockpit<br /><span class="accent">pour les agents.</span></h2>
-            <p class="source-hook">Claude Code · Codex · OpenCode</p>
-            <ul class="source-points">
-              <li>Pilote les CLI officiels dans une interface web</li>
-              <li>Auto-hébergé et open source</li>
-              <li>Accessible aussi depuis un téléphone</li>
-            </ul>
-          </div>
-          <figure
-            class="source-frame source-frame--zoomed"
-            style="--zoom: 2.4; --focus-x: 64%; --focus-y: 0%"
-          >
-            <img
-              src="./assets/source-sillage-codex.png"
-              alt="Capture de la conversation Codex dans l’interface Sillage"
-              loading="lazy"
-              decoding="async"
-            />
-          </figure>
-        </div>
-        <div class="footline source-footline">
-          <span>Capture de la source</span>
-          <a
-            class="source-link"
-            href="https://marlburrow.github.io/sillage/"
-            target="_blank"
-            rel="noreferrer"
-            >Projet Sillage ↗</a
-          >
-        </div>
-      </section>
-
-      <section class="slide source-slide" aria-label="Les sessions Sillage se coordonnent">
-        <div class="topline">
-          <span class="eyebrow">LE BUILD · 03</span><span class="meta">SESSIONS</span>
-        </div>
-        <div class="source-content">
-          <div class="source-copy">
-            <p class="overline">COORDINATION</p>
-            <h2>Ils voient<br /><span class="accent">le même projet.</span></h2>
-            <p class="source-hook">Des sessions qui se répondent et se relaient.</p>
-            <ul class="source-points">
-              <li>Les agents voient les autres sessions</li>
-              <li>Ils partagent décisions et fichiers modifiés</li>
-              <li>Ils peuvent s’envoyer des messages</li>
-            </ul>
-          </div>
-          <figure
-            class="source-frame source-frame--zoomed"
-            style="--image-ratio: 1.6727; --zoom: 2.7; --focus-x: 25%; --focus-y: 12%"
-          >
-            <img
-              src="./assets/source-sillage-board.png"
-              alt="Capture du tableau de projet et des sessions Sillage"
-              loading="lazy"
-              decoding="async"
-            />
-          </figure>
-        </div>
-        <div class="footline source-footline">
-          <span>Capture de la source</span>
-          <a
-            class="source-link"
-            href="https://marlburrow.github.io/sillage/#coordination"
-            target="_blank"
-            rel="noreferrer"
-            >Sillage · coordination ↗</a
-          >
-        </div>
-      </section>
-
       <section
         class="slide source-slide"
-        aria-label="Mémoire, consignes et outils partagés par Sillage"
+        aria-label="Le navigateur se ferme, l’agent continue, on répond du téléphone"
       >
         <div class="topline">
-          <span class="eyebrow">LE BUILD · 04</span><span class="meta">CONTEXTE COMMUN</span>
+          <span class="eyebrow">LE BUILD · 03</span><span class="meta">CONTINUITÉ</span>
         </div>
         <div class="source-content">
           <div class="source-copy">
-            <p class="overline">MÉMOIRE & OUTILS</p>
-            <h2>Un contexte<br /><span class="accent">commun.</span></h2>
-            <p class="source-hook">SILLAGE.md · mémoire · MCP · skills</p>
+            <p class="overline">LE SILLAGE</p>
+            <h2>Le navigateur se ferme,<br /><span class="accent">l’agent continue.</span></h2>
+            <p class="source-hook">La trace que le bateau laisse derrière lui.</p>
             <ul class="source-points">
-              <li>Des consignes globales et par projet</li>
-              <li>Ce qu’un agent apprend sert aux autres</li>
-              <li>MCP, skills et cartes de projet partagés</li>
+              <li>Le journal des événements fait foi, le fil se rejoue à la reconnexion</li>
+              <li>Permissions, questions, plans : on répond depuis le téléphone</li>
+              <li>
+                Push sans tiers, dictée avec le vocabulaire du dépôt, recadrage en cours de tour
+              </li>
             </ul>
           </div>
-          <figure
-            class="source-frame source-frame--zoomed"
-            style="--zoom: 3; --focus-x: 70%; --focus-y: 0%"
-          >
+          <figure class="source-frame" style="--image-ratio: 0.462">
             <img
-              src="./assets/source-sillage-mcp.png"
-              alt="Capture des réglages MCP partagés dans Sillage"
-              loading="lazy"
-              decoding="async"
-            />
-          </figure>
-        </div>
-        <div class="footline source-footline">
-          <span>Capture de la source</span>
-          <a
-            class="source-link"
-            href="https://marlburrow.github.io/sillage/#context"
-            target="_blank"
-            rel="noreferrer"
-            >Sillage · contexte ↗</a
-          >
-        </div>
-      </section>
-
-      <section
-        class="slide source-slide"
-        aria-label="Sillage fonctionne sur serveur et se reprend sur mobile"
-      >
-        <div class="topline">
-          <span class="eyebrow">LE BUILD · 05</span><span class="meta">MOBILITÉ</span>
-        </div>
-        <div class="source-content">
-          <div class="source-copy">
-            <p class="overline">CONTINUITÉ</p>
-            <h2>On reprend<br /><span class="accent">sur mobile.</span></h2>
-            <p class="source-hook">La session continue sur le serveur.</p>
-            <ul class="source-points">
-              <li>Le fil se retrouve sur téléphone</li>
-              <li>PWA, dictée et notifications push</li>
-              <li>On peut recadrer un agent en cours de tour</li>
-            </ul>
-          </div>
-          <figure class="source-frame">
-            <img
-              src="./assets/source-sillage-mobility-page.png"
-              alt="Capture de la section Continuité du site officiel Sillage"
+              src="./assets/sillage-mobile-chat.png"
+              alt="Capture d’une conversation Sillage sur téléphone"
               loading="lazy"
               decoding="async"
             />
@@ -2105,7 +2047,240 @@
             href="https://marlburrow.github.io/sillage/#anywhere"
             target="_blank"
             rel="noreferrer"
-            >Sillage · mobilité ↗</a
+            >Sillage · continuité ↗</a
+          >
+        </div>
+      </section>
+
+      <section class="slide source-slide" aria-label="Les sessions Sillage savent qui travaille">
+        <div class="topline">
+          <span class="eyebrow">LE BUILD · 04</span><span class="meta">COORDINATION</span>
+        </div>
+        <div class="source-content">
+          <div class="source-copy">
+            <p class="overline">SERVEUR MCP INTÉGRÉ</p>
+            <h2>Ils savent<br /><span class="accent">qui travaille.</span></h2>
+            <p class="source-hook">
+              Une vingtaine d’outils, montés d’office dans chaque conversation.
+            </p>
+            <ul class="source-points">
+              <li>Voir les autres sessions et qui a touché quel fichier</li>
+              <li>S’envoyer des messages, être prévenu d’une fin de session</li>
+              <li>Chercher dans tout l’historique, lancer une session</li>
+              <li class="source-point--caution">Ça coordonne, ça ne verrouille pas les fichiers</li>
+            </ul>
+          </div>
+          <figure
+            class="console"
+            aria-label="Schéma : sessions d’un projet et messages entre elles"
+          >
+            <div class="console-top">
+              <span>sandbox-podcast-site · sessions</span>
+              <div class="console-dots"><i></i><i></i><i></i></div>
+            </div>
+            <div class="console-body">
+              <div class="session">
+                <span class="agent-icon">CC</span>
+                <div>
+                  <strong>Slides de la séquence Build</strong
+                  ><small>claude · 12 fichiers modifiés</small>
+                </div>
+                <span class="pulse"></span>
+              </div>
+              <div class="session">
+                <span class="agent-icon">CX</span>
+                <div>
+                  <strong>Traductions des classements</strong><small>codex · 1 message reçu</small>
+                </div>
+                <span class="pulse"></span>
+              </div>
+              <div class="session">
+                <span class="agent-icon">OC</span>
+                <div>
+                  <strong>Audit des performances</strong
+                  ><small>opencode · terminée · notify_when_done</small>
+                </div>
+                <span class="pulse" style="background: #94b7c8; box-shadow: none"></span>
+              </div>
+            </div>
+            <div class="console-foot">
+              send_session_message → « je touche slide-decks.ts, attends la fin de mon tour »
+            </div>
+          </figure>
+        </div>
+        <div class="footline source-footline">
+          <span>Schéma simplifié</span>
+          <a
+            class="source-link"
+            href="https://marlburrow.github.io/sillage/#coordination"
+            target="_blank"
+            rel="noreferrer"
+            >Sillage · coordination ↗</a
+          >
+        </div>
+      </section>
+
+      <section
+        class="slide source-slide"
+        aria-label="Consignes, mémoire, skills, MCP et board partagés"
+      >
+        <div class="topline">
+          <span class="eyebrow">LE BUILD · 05</span><span class="meta">CONTEXTE COMMUN</span>
+        </div>
+        <div class="source-content">
+          <div class="source-copy">
+            <p class="overline">UNE SEULE FOIS</p>
+            <h2>Un contexte<br /><span class="accent">commun.</span></h2>
+            <p class="source-hook">Ce qu’un CLI apprend, les autres le savent.</p>
+            <ul class="source-points">
+              <li>SILLAGE.md : consignes globales et par projet, injectées dans les trois CLI</li>
+              <li>Une mémoire au format natif de Claude Code, partagée avec Codex et OpenCode</li>
+              <li>
+                Skills et serveurs MCP déclarés une fois, livrés à chacun sous sa forme native
+              </li>
+              <li>Le board : les agents y notent, ils ne déplacent pas les cartes</li>
+            </ul>
+          </div>
+          <figure class="memory-layout" aria-label="Schéma : les deux fichiers partagés">
+            <div class="memory-file">
+              <code>SILLAGE.md</code>
+              <p>Consignes communes à tous les projets, puis la partie propre à celui-ci.</p>
+              <div class="memory-links">
+                <span>Claude Code</span><span>Codex</span><span>OpenCode</span>
+              </div>
+            </div>
+            <div class="memory-file">
+              <code>MEMORY.md</code>
+              <p>
+                Un index, une note par fait. Claude écrit nativement, les autres passent par MCP.
+              </p>
+              <div class="memory-links">
+                <span>read_memory</span><span>write_memory</span><span>delete_memory</span>
+              </div>
+            </div>
+          </figure>
+        </div>
+        <div class="footline source-footline">
+          <span>Schéma simplifié</span>
+          <a
+            class="source-link"
+            href="https://marlburrow.github.io/sillage/#context"
+            target="_blank"
+            rel="noreferrer"
+            >Sillage · contexte ↗</a
+          >
+        </div>
+      </section>
+
+      <section class="slide source-slide" aria-label="Tâches planifiées et services">
+        <div class="topline">
+          <span class="eyebrow">LE BUILD · 06</span><span class="meta">SANS MOI</span>
+        </div>
+        <div class="source-content">
+          <div class="source-copy">
+            <p class="overline">PLANIFICATION</p>
+            <h2>Pendant que<br /><span class="accent">je suis absent.</span></h2>
+            <p class="source-hook">Le cron de Claude meurt avec sa session. Codex n’en a pas.</p>
+            <ul class="source-points">
+              <li>Un prompt rejoué à intervalle, en cron ou à une date</li>
+              <li>Session neuve, durée maximale, dernière réponse transmise</li>
+              <li>Page Services : les processus lancés par les agents, ports et origine</li>
+            </ul>
+          </div>
+          <figure
+            class="source-frame source-frame--zoomed"
+            style="--zoom: 1.45; --focus-x: 64%; --focus-y: 16%"
+          >
+            <img
+              src="./assets/sillage-schedule.png"
+              alt="Capture de la page de planification de Sillage"
+              loading="lazy"
+              decoding="async"
+            />
+          </figure>
+        </div>
+        <div class="footline source-footline">
+          <span>Capture de la source</span>
+          <a
+            class="source-link"
+            href="https://marlburrow.github.io/sillage/#schedule"
+            target="_blank"
+            rel="noreferrer"
+            >Sillage · planification ↗</a
+          >
+        </div>
+      </section>
+
+      <section
+        class="slide source-slide"
+        aria-label="Sillage en chiffres, construit depuis lui-même"
+      >
+        <div class="topline">
+          <span class="eyebrow">LE BUILD · 07</span><span class="meta">EN CHIFFRES</span>
+        </div>
+        <div class="source-content">
+          <div class="source-copy">
+            <p class="overline">MÉTA</p>
+            <h2>Construit depuis<br /><span class="accent">lui-même.</span></h2>
+            <p class="source-hook">
+              Claude Code et Codex ont écrit l’essentiel du code, depuis Sillage, souvent au
+              téléphone.
+            </p>
+            <ul class="source-points">
+              <li>Machine de départ : Ryzen 3, 15 Go de RAM dont 10 déjà pris</li>
+              <li>Pourquoi pas Rust : 50 Mo gagnés face aux 450 Mo d’une session Claude</li>
+            </ul>
+          </div>
+          <div class="radar-stats sillage-stats" aria-label="Chiffres du dépôt au 8 octobre 2026">
+            <div class="stat"><strong>10</strong><span>semaines</span></div>
+            <div class="stat"><strong>256</strong><span>commits</span></div>
+            <div class="stat"><strong>18</strong><span>versions</span></div>
+            <div class="stat"><strong>81 k</strong><span>lignes TypeScript</span></div>
+            <div class="stat"><strong>142</strong><span>tests serveur</span></div>
+            <div class="stat"><strong>3</strong><span>CLI pilotés</span></div>
+          </div>
+        </div>
+        <div class="footline"><span>LE BUILD</span><span>Dépôt au 8 octobre 2026</span></div>
+      </section>
+
+      <section
+        class="slide source-slide"
+        aria-label="Ce que Sillage n’est pas, et comment l’essayer"
+      >
+        <div class="topline">
+          <span class="eyebrow">LE BUILD · 08</span><span class="meta">LIMITES</span>
+        </div>
+        <div class="source-content">
+          <div class="source-copy">
+            <p class="overline">POUR FINIR</p>
+            <h2>Ce que ça<br /><span class="accent">n’est pas.</span></h2>
+            <p class="source-hook">Pas un IDE, pas du cloud, pas de sandbox.</p>
+            <ul class="source-points">
+              <li>Fait pour un cercle de confiance, pas pour une exposition publique</li>
+              <li>Ouvert : sous-agents côté Codex, recadrage en cours de tour côté Claude</li>
+              <li>Installation : Linux, macOS, WSL, Docker, Helm</li>
+            </ul>
+          </div>
+          <figure
+            class="source-frame source-frame--zoomed"
+            style="--zoom: 1.55; --focus-x: 46%; --focus-y: 30%"
+          >
+            <img
+              src="./assets/sillage-permission.png"
+              alt="Capture d’une demande de permission Bash dans Sillage"
+              loading="lazy"
+              decoding="async"
+            />
+          </figure>
+        </div>
+        <div class="footline source-footline">
+          <span>Capture de la source</span>
+          <a
+            class="source-link"
+            href="https://github.com/MarlBurroW/sillage"
+            target="_blank"
+            rel="noreferrer"
+            >Dépôt GitHub ↗</a
           >
         </div>
       </section>
