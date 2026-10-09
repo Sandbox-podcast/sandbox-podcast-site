@@ -1,6 +1,6 @@
 # Traductions locales de SANDBOX
 
-Les pages publiques partagent leurs composants et leurs données entre toutes les langues. Le sélecteur propose les 115 langues et variantes du registre. Le français utilise les chemins existants ; l'anglais utilise `/en`, les autres langues leur tag en minuscules, par exemple `/de-de/episodes/42`.
+Les pages publiques partagent leurs composants et leurs données dans les quatre langues du site : Français, Anglais, Espagnol et Allemand. Le français utilise les chemins existants ; les autres langues utilisent `/en`, `/es-es` et `/de-de`. Le sélecteur montre seulement ces quatre choix, selon [DD-0010](../design-decisions/DD-0010-quatre-langues-du-site.md).
 
 ## Fichiers
 
@@ -42,13 +42,13 @@ En local, les imports manuels sont enregistrés dans `.local/translations/publis
 
 Le rapport compte les entrées présentes ; ce nombre ne valide ni leur qualité ni leur relecture. Les noms propres, noms de produits et références techniques peuvent garder la même valeur dans le dictionnaire. Les paramètres numériques `count`, `number`, `size`, `score` et `delta` acceptent des nombres ; `rank` et `poolRank` acceptent aussi les ordinaux français utilisés par les calculs. Les phrases spécifiques sont traitées avant les modèles génériques de ponctuation.
 
-Les dates visibles sont formatées avec `Intl` et le fuseau UTC. Quand le moteur ne dispose pas d'une langue du registre, il utilise explicitement l'anglais pour ces formats afin de conserver un rendu stable.
+Les dates visibles sont formatées avec `Intl` et le fuseau UTC.
 
 ## Couverture actuelle
 
-Le français est la source. Le dictionnaire anglais contient les traductions des textes éditoriaux existants et de l'interface publique. Les commandes principales ont été ajoutées en allemand, espagnol, italien, portugais, néerlandais, polonais, suédois, danois, finnois, roumain, tchèque, slovaque, slovène, croate, hongrois, bulgare, grec, estonien, letton, lituanien, maltais, irlandais, norvégien bokmål, russe, ukrainien et turc.
+Le français est la source. Le dictionnaire anglais contient les traductions des textes éditoriaux existants et de l'interface publique. Les dictionnaires espagnol et allemand contiennent les commandes principales et les libellés des classements.
 
-Les autres fichiers reprennent les brouillons de libellés des classements. Les 114 fichiers ne contiennent donc pas encore tous les textes du site. Les phrases absentes restent françaises ; aucune traduction anglaise n'est présentée comme une traduction dans une autre langue. Une revue native reste nécessaire pour les langues régionales, les variantes et les longs textes éditoriaux.
+Ces deux dictionnaires restent partiels. Les phrases absentes restent françaises ; une revue native reste nécessaire pour les longs textes éditoriaux.
 
 Les pages partagées localisées restent `noindex`. L'ouverture de l'indexation nécessite une couverture complète de la page, une revue éditoriale et la publication autorisée décrites dans ADR-0020.
 
@@ -59,6 +59,6 @@ pnpm check
 pnpm --filter @podcast/site build
 ```
 
-Le test `localization.test.ts` vérifie les chemins dans les 115 langues, la conservation des paramètres et ancres, les routes précises, les dictionnaires disponibles, les assets de l'accueil, les chapitres et ressources d'un épisode, ainsi que la recherche dans les titres anglais.
+Le test `localization.test.ts` vérifie les chemins dans les quatre langues, la conservation des paramètres et ancres, les routes précises, les dictionnaires disponibles, les assets de l'accueil, les chapitres et ressources d'un épisode, ainsi que la recherche dans les titres anglais.
 
-Dans le navigateur, vérifier aussi le menu, sa recherche, Échap, une fiche podcast, une archive de classement et le menu sur un écran de téléphone. Une nouvelle langue doit être vérifiée sur les textes longs et les contenus de droite à gauche.
+Dans le navigateur, vérifier aussi le menu, Échap, une fiche podcast, une archive de classement et le menu sur un écran de téléphone. Vérifier les textes longs en espagnol et en allemand.
