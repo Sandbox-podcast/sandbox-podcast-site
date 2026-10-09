@@ -5,6 +5,8 @@
 - Déclenchement manuel et fichiers locaux : choix explicite de Lou
 - Architecture : décidée par l’agent sur délégation (PD-0003)
 
+Mise à jour du 2026-10-09 : le workflow manuel reste en place uniquement pour l'anglais, l'espagnol et l'allemand, conformément à [DD-0010](../design-decisions/DD-0010-quatre-langues-du-site.md). Les mentions de 115 langues ci-dessous décrivent le périmètre initial.
+
 ## Contexte
 
 Lou demande les mêmes pages, contenus et assets dans les 115 langues disponibles. Les textes éditoriaux du site sont encore simulés ; les classements de production utilisent des données réelles. Après avoir évoqué une génération automatique depuis l’admin, Lou précise que les traductions seront déclenchées manuellement par un prompt dans le harnais. Aucun service externe de traduction n’est prévu.

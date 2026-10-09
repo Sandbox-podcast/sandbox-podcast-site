@@ -1,6 +1,6 @@
 # Feuille de route SEO et recherches cibles
 
-État au 8 octobre 2026. Ce document distingue l'observation de SERP, les hypothèses d'intention et les mesures à collecter. Il ne promet pas la première position : aucun classement ne peut être garanti par un changement de code.
+État au 9 octobre 2026. Ce document distingue l'observation de SERP, les hypothèses d'intention et les mesures à collecter. Il ne promet pas la première position : aucun classement ne peut être garanti par un changement de code.
 
 ## Positionnement éditorial
 
@@ -13,7 +13,7 @@ Le site peut viser les recherches contenant « meilleur », mais un rang calcul�
 
 ## État de la traduction des classements
 
-Les libellés de l'interface des classements disposent maintenant de textes brouillons pour les 115 cibles du registre, servis par 109 traductions de langue ou d'écriture. Les variantes régionales réutilisent le brouillon de leur langue principale. La couverture inclut des langues régionales et minoritaires dont les textes demandent une revue particulièrement attentive. Aucun de ces brouillons n'a été relu par des locuteurs natifs : le français et l'anglais restent les seules interfaces approuvées, et toutes les autres locales restent `noindex`.
+Les classements disposent de libellés dans les quatre langues du site. Le français et l'anglais restent les seules interfaces approuvées. Les textes espagnols et allemands sont des brouillons à relire ; leurs pages restent `noindex`, selon [DD-0010](../design-decisions/DD-0010-quatre-langues-du-site.md).
 
 Cette couverture concerne seulement les libellés de classement. Chaque collection et chaque entité doit encore recevoir son propre titre, résumé, méthode et profil traduit dans les tables de localisation, puis être relu avant publication. Les pages ne deviennent indexables qu'après cette revue et la publication de données réelles suffisantes.
 
@@ -53,9 +53,9 @@ Les formulations ci-dessous sont des clusters prioritaires, pas des volumes mens
 | Profil      | `/charts/project/{slug}` ou futur profil skill/model | Source canonique, faits, compatibilité, historique et contenu distinctif ; liens vers les classements et épisodes concernés |
 | Média       | `/episodes/{number}`, `/topics/{slug}`               | Description utile, vidéo, transcript/chapitres s'ils sont fiables, ressources et liens vers les classements pertinents      |
 
-On conserve les chemins français déjà en usage. Les autres locales utilisent leur tag BCP 47 dans le préfixe (`/en/`, `/de-de/`, `/sr-cyrl-rs/`) et les mêmes identifiants d'entité et de données. Le registre courant donne 115 cibles européennes prioritaires. Le routage accepte aussi les tags canoniques avec un code de langue ISO 639-1/2/3 de deux ou trois lettres. La Commission européenne recense plus de 60 langues régionales ou minoritaires et le Conseil de l'Europe couvre 84 langues dans la Charte : le registre reste extensible et n'est pas une liste exhaustive de toutes les variétés linguistiques.
+On conserve les chemins français déjà en usage. Les trois autres langues utilisent `/en/`, `/es-es/` et `/de-de/`, avec les mêmes identifiants d'entité et de données. Les autres préfixes sont refusés.
 
-Le routage localisé est prêt pour des traductions enregistrées et relues. Seules les chaînes générales françaises et anglaises sont déclarées relues ; les autres variantes restent `noindex`. Les libellés des pages de classement ont un brouillon pour chacune des 115 cibles du registre. Une traduction de page média doit fournir ses propres titre, résumé, sections et chapitres dans `site_content_localizations`. Le système contrôle l'état éditorial, le hash de la source, le chemin canonique, `hreflang` et l'indexabilité avant sitemap.
+Le routage localisé est prêt pour des traductions enregistrées et relues. Seules les chaînes générales françaises et anglaises sont déclarées relues ; l'espagnol et l'allemand restent `noindex`. Une traduction de page média doit fournir ses propres titre, résumé, sections et chapitres dans `site_content_localizations`. Le système contrôle l'état éditorial, le hash de la source, le chemin canonique, `hreflang` et l'indexabilité avant sitemap.
 
 Les résultats de filtres arbitraires, de tri ou de paramètres URL ne créent pas une page indexable. Seules les combinaisons définies dans `ranking_collections` avec un contenu localisé distinct et une édition publiable ont un chemin canonique.
 
@@ -75,7 +75,7 @@ erDiagram
 - **Édition** : période, collection, version de méthode, configuration figée, taille de cohorte, date d'observation/publication et éventuelle note de correction. Une édition publiée n'est pas réécrite.
 - **Entrée** : rang, rang précédent, score, mesures brutes, sous-scores/dimensions, couverture, données manquantes, entité canonique et preuves associées.
 - **Preuve** : fait évalué (compatibilité, tâche, licence, résultat de benchmark, test fonctionnel), source, URL, valeur, date d'observation, date de vérification, évaluateur et type de source. Une affirmation sans source ou sans date n'alimente pas une recommandation.
-- **Traduction de collection/entité** : locale BCP 47, chemin localisé, titre visible, titre SEO, meta description, introduction, méthode, état de relecture, locale source et hash source. Les valeurs numériques et identifiants d'entité sont communs ; les textes sont séparés.
+- **Traduction de collection/entité** : une des quatre locales du site, chemin localisé, titre visible, titre SEO, meta description, introduction, méthode, état de relecture, locale source et hash source. Les valeurs numériques et identifiants d'entité sont communs ; les textes sont séparés.
 - **Intentions de recherche** : maintenues dans la feuille de route éditoriale/Search Console, pas dans les scores. Elles guident l'architecture sans devenir artificiellement une donnée de ranking.
 
 Les tables additives `ranking_collections`, `ranking_collection_localizations`, `ranking_entity_localizations` et `ranking_evidence` sont préparées par la migration 0003. La migration 0004 ajoute `site_content_localizations` pour les variantes de pages, épisodes, thèmes et fiches. Les méthodes existantes conservent leurs propres métriques et règles ; GitHub Stars ne devient pas une métrique universelle des skills, modèles et benchmarks.
