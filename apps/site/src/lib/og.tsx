@@ -238,9 +238,6 @@ const frame = (bg: string, fg: string) =>
   }) as const;
 
 export async function siteCard(): Promise<ImageResponse> {
-  const artwork = await readFile(
-    join(process.cwd(), 'public', 'episode-artwork', 'episode-42.png'),
-  );
   return render(
     <div
       style={{
@@ -254,18 +251,6 @@ export async function siteCard(): Promise<ImageResponse> {
         fontFamily: 'Archivo',
       }}
     >
-      <img
-        src={`data:image/png;base64,${artwork.toString('base64')}`}
-        alt=""
-        style={{
-          position: 'absolute',
-          left: 0,
-          top: 0,
-          width: 1200,
-          height: 630,
-          objectFit: 'cover',
-        }}
-      />
       <div
         style={{
           display: 'flex',
@@ -275,7 +260,7 @@ export async function siteCard(): Promise<ImageResponse> {
           width: '100%',
           height: '100%',
           background:
-            'linear-gradient(90deg, #05090d 0%, rgba(5, 9, 13, .95) 35%, rgba(5, 9, 13, .38) 72%, rgba(5, 9, 13, .08) 100%)',
+            'radial-gradient(circle at 78% 42%, rgba(28, 181, 237, 0.28) 0%, rgba(5, 9, 13, 0) 42%), linear-gradient(115deg, #05090d 0%, #0a1520 48%, #061018 100%)',
         }}
       />
       <div
