@@ -52,13 +52,21 @@ export function ChartsMini({ data, id }: { data: ChartsData; id: ChartId }) {
       <Text>
         {!rows.length ? (
           <p className="py-4 text-sm text-ink-2">
-            <Text>
-              {data.mode === 'unavailable'
-                ? 'Données temporairement indisponibles.'
-                : data.progress?.databaseReady
-                  ? `${String(data.progress.trackedRepositories)} dépôts suivis · historique ${String(data.progress.distinctSnapshotDays)}/${String(data.progress.requiredHistoryDays)} jours`
-                  : 'Collecte en préparation.'}
-            </Text>
+            {data.mode === 'unavailable' ? (
+              <Text>{'Données temporairement indisponibles.'}</Text>
+            ) : data.progress?.databaseReady ? (
+              <>
+                <Text>{String(data.progress.trackedRepositories)}</Text>
+                <Text>{' dépôts suivis'}</Text>
+                <Text>{' · historique '}</Text>
+                <Text>{String(data.progress.distinctSnapshotDays)}</Text>
+                <Text>{' / '}</Text>
+                <Text>{String(data.progress.requiredHistoryDays)}</Text>
+                <Text>{' jours'}</Text>
+              </>
+            ) : (
+              <Text>{'Collecte en préparation.'}</Text>
+            )}
           </p>
         ) : null}
       </Text>

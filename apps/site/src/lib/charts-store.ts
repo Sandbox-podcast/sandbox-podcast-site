@@ -641,7 +641,7 @@ export async function readChartsCollectionProgress(): Promise<ChartsCollectionPr
         and(
           eq(chartsJobRuns.status, 'success'),
           isNotNull(chartsJobRuns.finishedAt),
-          sql`${chartsJobRuns.kind} in ('github_daily_sync', 'github_discovery', 'skills_daily_sync', 'models_daily_sync')`,
+          sql`${chartsJobRuns.kind} in ('github_daily_sync', 'skills_daily_sync', 'models_daily_sync')`,
         ),
       )
       .orderBy(desc(chartsJobRuns.finishedAt))
