@@ -16,15 +16,13 @@ export default function AboutPage() {
     <div className="wrap about-social-page">
       <header className="about-social-heading">
         <p className="label text-ink-3">
-          <Text>{'L\u2019\u00E9quipe'}</Text>
+          <Text>{siteConfig.aboutEyebrow}</Text>
         </p>
         <h1 className="display">
-          <Text>{'Retrouvez-nous.'}</Text>
+          <Text>{siteConfig.aboutTitle}</Text>
         </h1>
         <p className="library-description">
-          <Text>
-            {"Lou, Nicolas et Lo\u00EFc. Les liens de l'\u00E9quipe Sandbox, r\u00E9unis ici."}
-          </Text>
+          <Text>{siteConfig.aboutIntro}</Text>
         </p>
       </header>
       <ul className="about-social-grid">

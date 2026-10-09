@@ -40,6 +40,7 @@ function liveData(): ChartsData {
     takes: [],
     episodes: [],
     newsletterUrl: null,
+    progress: null,
   };
 }
 

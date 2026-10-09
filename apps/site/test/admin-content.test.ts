@@ -4,7 +4,7 @@ import {
   assertNoEditorialRemovals,
   editableContentSchema,
 } from '../src/domain/admin-content.ts';
-import { hostSchema } from '../src/domain/schema.ts';
+import { episodeSchema, hostSchema } from '../src/domain/schema.ts';
 import { loadContent } from '../src/lib/load.ts';
 import {
   adminStorageMode,
@@ -52,6 +52,25 @@ describe('contenu éditable du backoffice', () => {
     expect(() => {
       assertNoEditorialRemovals(content, { ...content, stories: content.stories.slice(1) });
     }).toThrow(/Suppression refusée/);
+  });
+
+  it('autorise le retrait des épisodes uniquement signés par des animateurs placeholder', () => {
+    const content = editableFixture();
+    const demo = episodeSchema.parse({
+      number: 99,
+      title: 'Épisode de démonstration',
+      dek: 'Contenu simulé pour l’interface.',
+      publishedAt: '2026-10-01T12:00:00Z',
+      durationSec: 3600,
+      description: 'Description de démonstration pour vérifier le nettoyage admin.',
+      hosts: ['equipe-sandbox'],
+      topics: content.topics[0] ? [content.topics[0].slug] : [],
+      cover: { tone: 0, kicker: 'Épisode 99' },
+    });
+    const withDemo = { ...content, episodes: [demo, ...content.episodes] };
+    expect(() => {
+      assertNoEditorialRemovals(withDemo, content);
+    }).not.toThrow();
   });
 
   it('conserve un identifiant stable quand le slug d’un article change', () => {

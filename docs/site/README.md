@@ -116,7 +116,7 @@ Voir [data-strategy.md](data-strategy.md) : connecteurs prévus, provenance, rè
 
 ## Ce qui est fait, ce qui ne l'est pas
 
-Fait : 4 classements de 10 avec 16 semaines d'historique (démonstration), 3 épisodes, 55 fiches, 29 avis, bibliothèque média et pages de classement, recherche, import de métadonnées YouTube, formulaires d'édition des épisodes et réglages du site, brouillons et publication authentifiés, SEO (métadonnées, JSON-LD, sitemap, RSS), scripts de création de contenu.
+Fait : 4 classements de 10 avec 16 semaines d'historique (démonstration locale), bibliothèque podcast vide en attendant les vrais épisodes, 55 fiches, 29 avis, pages de classement avec avancement de collecte, recherche, import de métadonnées YouTube, formulaires d'édition des épisodes et réglages du site (dont À propos), brouillons et publication authentifiés, SEO (métadonnées, JSON-LD, sitemap, RSS), scripts de création de contenu.
 
 Fait : fondations i18n (préfixes BCP 47, registre de 115 cibles européennes prioritaires, schémas de traduction, statuts de revue, routes dynamiques, canoniques, hreflang et gates du sitemap). Les 24 modèles de pages publiques utilisent les mêmes composants et assets dans toutes les langues. Le sélecteur propose les 115 langues avec recherche et drapeaux. Les traductions locales anglaises couvrent les contenus existants ; les commandes communes sont présentes dans 26 autres langues. Les traductions complètes des autres langues restent à rédiger et à relire. Les pages localisées partagées restent `noindex` pendant cette préparation. Voir [le guide de traduction](traductions-locales.md).
 

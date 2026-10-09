@@ -89,16 +89,25 @@ export const getHost = (slug: string): Host => must(index().hosts.get(slug), `an
 export const getTopic = (slug: string): Topic => must(index().topics.get(slug), `thème ${slug}`);
 export const findTopic = (slug: string): Topic | undefined => index().topics.get(slug);
 export const getSource = (id: string): Source => must(index().sources.get(id), `source ${id}`);
+function isPublicEpisode(episode: Episode): boolean {
+  if (episode.status === 'draft') return false;
+  const hosts = content().hosts;
+  const placeholderSlugs = new Set(
+    hosts.filter((host) => host.placeholder).map((host) => host.slug),
+  );
+  if (episode.hosts.length === 0) return true;
+  return !episode.hosts.every((host) => placeholderSlugs.has(host));
+}
+
 export const getEpisode = (n: number): Episode | undefined => {
   const episode = index().episodes.get(n);
-  return episode?.status === 'draft' ? undefined : episode;
+  return episode && isPublicEpisode(episode) ? episode : undefined;
 };
 export const getStory = (slug: string): Story | undefined => index().stories.get(slug);
 
 export const allCharts = (): ChartDef[] => content().charts;
 export const allEntities = (): Entity[] => content().entities;
-export const allEpisodes = (): Episode[] =>
-  content().episodes.filter((episode) => episode.status !== 'draft');
+export const allEpisodes = (): Episode[] => content().episodes.filter(isPublicEpisode);
 export const allStories = (): Story[] => content().stories;
 export const allHosts = (): Host[] => content().hosts;
 export const allTopics = (): Topic[] => content().topics;

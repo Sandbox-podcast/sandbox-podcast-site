@@ -17,14 +17,6 @@
       "entity": "superpowers"
     },
     {
-      "kind": "episode",
-      "number": 40
-    },
-    {
-      "kind": "episode",
-      "number": 42
-    },
-    {
       "kind": "chart",
       "chart": "skills"
     }
@@ -75,7 +67,7 @@
     },
     {
       "type": "p",
-      "text": "On a passé une bonne partie de l'[[episode:40]] sur le sujet, et on y revient dans l'[[episode:42]]. Les deux projets cités ont leur fiche, avec leur historique de classement."
+      "text": "On a déjà abordé le sujet dans le podcast, et on y revient régulièrement. Les deux projets cités ont leur fiche, avec leur historique de classement."
     },
     {
       "type": "entity",

@@ -39,7 +39,8 @@ import {
   type TrackingStatus,
 } from '../domain/github-charts.ts';
 import { snapshotSchema, type Snapshot } from '../domain/schema.ts';
-import { previousWeek } from '../domain/weeks.ts';
+import type { ChartsCollectionProgress } from '../domain/sandbox-charts.ts';
+import { isoWeekOf, previousWeek } from '../domain/weeks.ts';
 
 export class ChartsUnavailableError extends Error {
   constructor() {
@@ -587,4 +588,85 @@ export async function chartsJobDashboard() {
     snapshotsToday,
     jobs,
   };
+}
+
+const GITHUB_HISTORY_DAYS = 7;
+
+function isMissingChartsTable(error: unknown): boolean {
+  let current: unknown = error;
+  for (let depth = 0; depth < 3; depth += 1) {
+    if (typeof current !== 'object' || current === null) return false;
+    const candidate = current as { code?: unknown; cause?: unknown };
+    if (candidate.code === '42P01') return true;
+    current = candidate.cause;
+  }
+  return false;
+}
+
+function emptyChartsProgress(databaseReady: boolean): ChartsCollectionProgress {
+  return {
+    databaseReady,
+    trackedRepositories: 0,
+    snapshotsToday: 0,
+    distinctSnapshotDays: 0,
+    requiredHistoryDays: GITHUB_HISTORY_DAYS,
+    lastSuccessfulCollectAt: null,
+    earliestPossibleEditionWeek: null,
+  };
+}
+
+/** Avancement public de la collecte GitHub, sans noms de dépôts ni scores. */
+export async function readChartsCollectionProgress(): Promise<ChartsCollectionProgress> {
+  if (!hasDatabaseConfiguration()) return emptyChartsProgress(false);
+  try {
+    const db = getDb();
+    const [trackedRow] = await db
+      .select({ count: sql<number>`count(*)::int` })
+      .from(githubProjects)
+      .where(sql`coalesce(${githubProjects.manualStatus}, ${githubProjects.status}) = 'tracked'`);
+    const [todayRow] = await db
+      .select({ count: sql<number>`count(*)::int` })
+      .from(githubDailySnapshots)
+      .where(eq(githubDailySnapshots.date, utcDate()));
+    const [dayStats] = await db
+      .select({
+        distinctDays: sql<number>`count(distinct ${githubDailySnapshots.date})::int`,
+        firstDate: sql<string | null>`min(${githubDailySnapshots.date})`,
+      })
+      .from(githubDailySnapshots);
+    const [lastJob] = await db
+      .select({ finishedAt: chartsJobRuns.finishedAt })
+      .from(chartsJobRuns)
+      .where(
+        and(
+          eq(chartsJobRuns.status, 'success'),
+          isNotNull(chartsJobRuns.finishedAt),
+          sql`${chartsJobRuns.kind} in ('github_daily_sync', 'github_discovery', 'skills_daily_sync', 'models_daily_sync')`,
+        ),
+      )
+      .orderBy(desc(chartsJobRuns.finishedAt))
+      .limit(1);
+
+    const firstDate = dayStats?.firstDate ?? null;
+    let earliestPossibleEditionWeek: string | null = null;
+    if (firstDate) {
+      const readyAt = new Date(
+        Date.parse(`${firstDate}T00:00:00Z`) + GITHUB_HISTORY_DAYS * 86_400_000,
+      );
+      earliestPossibleEditionWeek = isoWeekOf(readyAt);
+    }
+
+    return {
+      databaseReady: true,
+      trackedRepositories: trackedRow?.count ?? 0,
+      snapshotsToday: todayRow?.count ?? 0,
+      distinctSnapshotDays: dayStats?.distinctDays ?? 0,
+      requiredHistoryDays: GITHUB_HISTORY_DAYS,
+      lastSuccessfulCollectAt: lastJob?.finishedAt ?? null,
+      earliestPossibleEditionWeek,
+    };
+  } catch (error) {
+    if (isMissingChartsTable(error)) return emptyChartsProgress(false);
+    throw error;
+  }
 }

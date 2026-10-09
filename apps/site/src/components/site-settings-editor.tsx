@@ -193,6 +193,43 @@ export function SiteSettingsEditor({ initial, pending, onSave }: Props) {
         </p>
       </section>
 
+      <section className="admin-form-section" aria-labelledby="site-about-title">
+        <h3 id="site-about-title">Page À propos</h3>
+        <div className="admin-form-grid">
+          <label className="admin-field admin-span-2">
+            <span>Sur-titre</span>
+            <input
+              value={site.aboutEyebrow}
+              onChange={(event) => {
+                update('aboutEyebrow', event.target.value);
+              }}
+            />
+          </label>
+          <label className="admin-field admin-span-2">
+            <span>Titre</span>
+            <input
+              value={site.aboutTitle}
+              onChange={(event) => {
+                update('aboutTitle', event.target.value);
+              }}
+            />
+          </label>
+          <label className="admin-field admin-span-2">
+            <span>Introduction</span>
+            <textarea
+              rows={3}
+              value={site.aboutIntro}
+              onChange={(event) => {
+                update('aboutIntro', event.target.value);
+              }}
+            />
+          </label>
+        </div>
+        <p className="admin-help">
+          Ces textes précèdent les cartes de l’équipe sur la page publique À propos.
+        </p>
+      </section>
+
       <section className="admin-form-section" aria-labelledby="site-platforms-title">
         <h3 id="site-platforms-title">Plateformes du podcast</h3>
         <div className="admin-form-grid">

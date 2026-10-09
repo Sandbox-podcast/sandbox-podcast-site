@@ -55,7 +55,9 @@ export function ChartsMini({ data, id }: { data: ChartsData; id: ChartId }) {
             <Text>
               {data.mode === 'unavailable'
                 ? 'Données temporairement indisponibles.'
-                : 'Collecte en préparation.'}
+                : data.progress?.databaseReady
+                  ? `${String(data.progress.trackedRepositories)} dépôts suivis · historique ${String(data.progress.distinctSnapshotDays)}/${String(data.progress.requiredHistoryDays)} jours`
+                  : 'Collecte en préparation.'}
             </Text>
           </p>
         ) : null}

@@ -221,6 +221,36 @@ export function AdminChartsConsole({
                 >
                   Figer un brouillon
                 </button>
+                <button
+                  className="btn"
+                  type="button"
+                  disabled={!canManage}
+                  onClick={() =>
+                    void execute({ action: 'job', job: 'external-collect', dryRun: false })
+                  }
+                >
+                  Collecter Skills/Models
+                </button>
+                <button
+                  className="btn"
+                  type="button"
+                  disabled={!canManage}
+                  onClick={() =>
+                    void execute({ action: 'job', job: 'external-weekly', dryRun: true })
+                  }
+                >
+                  Simuler Skills/Models
+                </button>
+                <button
+                  className="btn"
+                  type="button"
+                  disabled={!canManage}
+                  onClick={() =>
+                    void execute({ action: 'job', job: 'external-weekly', dryRun: false })
+                  }
+                >
+                  Figer Skills/Models
+                </button>
               </div>
               {pending ? (
                 <p role="status">
@@ -228,9 +258,9 @@ export function AdminChartsConsole({
                 </p>
               ) : null}
               <p className="admin-help">
-                La collecte ne recrée aucun relevé manquant. Une édition attend au moins{' '}
+                La collecte ne recrée aucun relevé manquant. Une édition GitHub attend au moins{' '}
                 {data.config.minimumCandidates} projets éligibles et un relevé à J−7. Rising attend
-                aussi J−14.
+                aussi J−14. Skills/Models suivent leurs propres seuils de source et d’historique.
               </p>
               <h3>Dernières collectes</h3>
               <div className="ac-table-scroll">

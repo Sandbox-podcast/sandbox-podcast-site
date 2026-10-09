@@ -123,7 +123,7 @@ export class HuggingFaceClient {
       'author,createdAt,downloads,downloadsAllTime,gated,lastModified,likes,pipeline_tag,safetensors,tags',
     );
     const headers = new Headers();
-    const token = this.options.token ?? process.env['HUGGINGFACE_TOKEN'];
+    const token = this.options.token ?? process.env['HUGGINGFACE_TOKEN'] ?? process.env['HF_TOKEN'];
     if (token) headers.set('Authorization', `Bearer ${token}`);
     const result = z.array(hfModelSchema).parse(await getJson(url, headers, this.options.fetch));
     return result.filter((model) => !model.private);

@@ -8,7 +8,11 @@ import {
 } from '../domain/sandbox-charts.ts';
 import { isoWeekOf } from '../domain/weeks.ts';
 import { hasDatabaseConfiguration } from '../db/client.ts';
-import { liveChartEntities, readLiveWeeklySnapshots } from './charts-store.ts';
+import {
+  liveChartEntities,
+  readChartsCollectionProgress,
+  readLiveWeeklySnapshots,
+} from './charts-store.ts';
 import { readChartsEditorial } from './charts-editorial.ts';
 import { readPublishedEntitySources } from './external-charts-store.ts';
 import {
@@ -127,6 +131,7 @@ export const sandboxChartsData = cache(async function sandboxChartsData(
     newsletterUrl: process.env['CHARTS_NEWSLETTER_URL']?.startsWith('https://')
       ? process.env['CHARTS_NEWSLETTER_URL']
       : null,
+    progress: null,
   };
   if (fixtures) return data;
   data.series = data.series.map((item) => ({ ...item, snapshots: [], editions: item.editions }));
@@ -134,12 +139,25 @@ export const sandboxChartsData = cache(async function sandboxChartsData(
   data.takes = [];
   data.series = data.series.map((item) => ({ ...item, editions: [] }));
   data.episodes = [];
-  if (!hasDatabaseConfiguration()) return data;
+  if (!hasDatabaseConfiguration()) {
+    data.progress = {
+      databaseReady: false,
+      trackedRepositories: 0,
+      snapshotsToday: 0,
+      distinctSnapshotDays: 0,
+      requiredHistoryDays: 7,
+      lastSuccessfulCollectAt: null,
+      earliestPossibleEditionWeek: null,
+    };
+    return data;
+  }
   try {
-    const [snapshots, editorial] = await Promise.all([
+    const [snapshots, editorial, progress] = await Promise.all([
       readLiveWeeklySnapshots(),
       readChartsEditorial(),
+      readChartsCollectionProgress(),
     ]);
+    data.progress = progress;
     const slugs = [
       ...new Set([
         ...snapshots.flatMap((snapshot) => snapshot.entries.map((entry) => entry.entity)),
@@ -466,6 +484,15 @@ export const sandboxChartsData = cache(async function sandboxChartsData(
       );
   } catch (error) {
     data.mode = 'unavailable';
+    data.progress = {
+      databaseReady: false,
+      trackedRepositories: 0,
+      snapshotsToday: 0,
+      distinctSnapshotDays: 0,
+      requiredHistoryDays: 7,
+      lastSuccessfulCollectAt: null,
+      earliestPossibleEditionWeek: null,
+    };
     console.error('SANDBOX CHARTS unavailable:', error instanceof Error ? error.name : 'database');
   }
   return data;

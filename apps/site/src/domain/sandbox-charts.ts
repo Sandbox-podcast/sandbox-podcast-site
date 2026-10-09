@@ -132,6 +132,17 @@ export interface ChartsTake {
   text: string;
   author: string;
 }
+/** Avancement agrégé de la collecte, sans noms de dépôts ni scores. */
+export interface ChartsCollectionProgress {
+  databaseReady: boolean;
+  trackedRepositories: number;
+  snapshotsToday: number;
+  distinctSnapshotDays: number;
+  requiredHistoryDays: number;
+  lastSuccessfulCollectAt: string | null;
+  earliestPossibleEditionWeek: string | null;
+}
+
 export interface ChartsData {
   mode: 'live' | 'fixtures' | 'pending' | 'unavailable';
   week: string;
@@ -141,6 +152,7 @@ export interface ChartsData {
   takes: ChartsTake[];
   episodes: { number: number; title: string; chart: string; week: string; href: string }[];
   newsletterUrl: string | null;
+  progress: ChartsCollectionProgress | null;
 }
 export interface ChartsRow {
   entity: ChartsEntity;

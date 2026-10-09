@@ -20,10 +20,6 @@
     {
       "kind": "entity",
       "entity": "claude-fable-5-1"
-    },
-    {
-      "kind": "episode",
-      "number": 42
     }
   ],
   "body": [
