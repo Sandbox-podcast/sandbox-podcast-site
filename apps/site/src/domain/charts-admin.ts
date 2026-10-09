@@ -20,7 +20,7 @@ export const chartsAdminWriteSchema = z.discriminatedUnion('action', [
   z
     .object({
       action: z.literal('job'),
-      job: z.enum(['discover', 'collect', 'weekly']),
+      job: z.enum(['discover', 'collect', 'weekly', 'external-collect', 'external-weekly']),
       dryRun: z.boolean().default(false),
     })
     .strict(),

@@ -76,6 +76,12 @@ export const siteSettingsSchema = z.object({
   heroEyebrow: z.string().min(1),
   heroTitle: z.string().min(1),
   heroDek: z.string().min(1),
+  aboutEyebrow: z.string().min(1).default('L’équipe'),
+  aboutTitle: z.string().min(1).default('Retrouvez-nous.'),
+  aboutIntro: z
+    .string()
+    .min(1)
+    .default('Lou, Nicolas et Loïc. Les liens de l’équipe Sandbox, réunis ici.'),
   platforms: z.object({
     youtube: httpsUrlSchema,
     spotify: httpsUrlSchema,

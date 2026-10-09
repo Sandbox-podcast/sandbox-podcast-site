@@ -54,13 +54,13 @@ Pour les sources externes, lancer `charts:external-collect` puis `charts:externa
 
 `/admin`, section Classements :
 
-| Onglet                | Usage                                                                                      |
-| --------------------- | ------------------------------------------------------------------------------------------ |
-| Collectes             | Compteurs, journaux, erreurs, découverte, collecte, simulation et gel d'un brouillon       |
-| Dépôts suivis         | Recherche, pagination, catégorie, statut, mise en avant, derniers relevés                  |
-| Candidats             | Validation ou rejet des dépôts découverts                                                  |
-| Édition de la semaine | Lecture des scores figés, accroches, quatre champs de lecture, usages, watchlist et aperçu |
-| Méthode               | Versions, seuils, pondérations et liste d'exclusion pour les prochaines éditions           |
+| Onglet                | Usage                                                                                                               |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| Collectes             | Compteurs, journaux, erreurs, découverte GitHub, collecte GitHub et Skills/Models, simulation et gel d'un brouillon |
+| Dépôts suivis         | Recherche, pagination, catégorie, statut, mise en avant, derniers relevés                                           |
+| Candidats             | Validation ou rejet des dépôts découverts                                                                           |
+| Édition de la semaine | Lecture des scores figés, accroches, quatre champs de lecture, usages, watchlist et aperçu                          |
+| Méthode               | Versions, seuils, pondérations et liste d'exclusion pour les prochaines éditions                                    |
 
 Les mutations du catalogue, des jobs et de la méthode demandent le rôle admin. Un editor écrit ses brouillons ; seul un admin publie. Les autorisations et l'origine sont vérifiées par le serveur. Les conflits éditoriaux répondent 409, sans écraser le brouillon ouvert ailleurs.
 
@@ -80,6 +80,8 @@ Les mutations du catalogue, des jobs et de la méthode demandent le rôle admin.
 Les éditions GitHub, Rising, Skills et Models retournent les mouvements stockés, les mesures, la méthode, les composantes et leur provenance. Sans première édition, `current` répond 202 avec `status=pending` et aucune entrée. Une archive ou une fiche inconnue répond 404. Une panne de base répond 503 ; elle ne déclenche pas de secours simulé.
 
 Les pages `/charts`, `/charts/history`, `/charts/rising`, `/charts/project/:slug` et les archives utilisent cette même base. Les archives locales ne sont visibles en développement que sans base configurée. Les fichiers historiques du dépôt restent intacts. La politique d'indexation du reste du site demeure conditionnée à ses contenus réels et à `SITE_DATA_MODE`.
+
+Décidée par l'agent sur délégation (PD-0003) : tant qu'aucune édition n'est publiée, `/charts` et l'aperçu d'accueil affichent l'avancement agrégé de la collecte (dépôts suivis, relevés du jour, jours d'historique, dernier relevé réussi, première semaine possible) sans inventer de rangs. `HUGGINGFACE_TOKEN` et l'alias `HF_TOKEN` sont acceptés. Les jobs Skills/Models sont déclenchables depuis l'admin en plus du cron et du CLI.
 
 ## Contrôles avant livraison
 

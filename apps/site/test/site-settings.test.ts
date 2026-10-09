@@ -33,6 +33,17 @@ describe('réglages publics du site', () => {
     expect(siteSettingsSchema.parse(previousSettings).team).toEqual([]);
   });
 
+  it('conserve les textes À propos par défaut quand ils manquent encore', () => {
+    const previousSettings: Record<string, unknown> = { ...siteSettings };
+    delete previousSettings['aboutEyebrow'];
+    delete previousSettings['aboutTitle'];
+    delete previousSettings['aboutIntro'];
+    const site = siteSettingsSchema.parse(previousSettings);
+    expect(site.aboutEyebrow).toBe('L’équipe');
+    expect(site.aboutTitle).toBe('Retrouvez-nous.');
+    expect(site.aboutIntro).toContain('Lou, Nicolas et Loïc');
+  });
+
   it('emploie le domaine de production pour les URL canoniques Vercel', () => {
     expect(canonicalSiteUrl(undefined, 'sandbox-podcast.example.vercel.app')).toBe(
       'https://sandbox-podcast.example.vercel.app',

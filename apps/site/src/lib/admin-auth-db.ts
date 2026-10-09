@@ -1,4 +1,4 @@
-import { createHmac, scrypt, timingSafeEqual } from 'node:crypto';
+import { createHmac, randomBytes, scrypt, scryptSync, timingSafeEqual } from 'node:crypto';
 import { promisify } from 'node:util';
 import { permissionsForRole, type AdminUser } from '../domain/admin-users.ts';
 import {
@@ -13,11 +13,24 @@ import {
   databaseAdminById,
   databaseAdminByLogin,
   databaseAdminMode,
+  updateDatabaseAdminPassword,
   type StoredDatabaseAdmin,
 } from './admin-users-store.ts';
 
 const scryptAsync = promisify(scrypt);
 const DUMMY_HASH = `scrypt:${'0'.repeat(32)}:${'0'.repeat(128)}`;
+export const ADMIN_PASSWORD_MIN_LENGTH = 12;
+export const ADMIN_PASSWORD_MAX_LENGTH = 200;
+
+export class AdminPasswordChangeError extends Error {
+  readonly code: 'unavailable' | 'wrong_password' | 'same_password' | 'weak_password' | 'mismatch';
+
+  constructor(code: AdminPasswordChangeError['code'], message: string) {
+    super(message);
+    this.name = 'AdminPasswordChangeError';
+    this.code = code;
+  }
+}
 
 function secretReady(): boolean {
   return (process.env['SITE_ADMIN_SECRET'] ?? '').length >= 32;
@@ -133,4 +146,75 @@ export async function getAuthenticatedAdmin(request: Request): Promise<AdminUser
 
 export function adminCan(user: AdminUser, action: 'read' | 'draft' | 'publish'): boolean {
   return permissionsForRole(user.role)[action];
+}
+
+export async function adminCanChangePassword(): Promise<boolean> {
+  return secretReady() && (await databaseAdminMode());
+}
+
+export function hashAdminPassword(password: string): string {
+  const salt = randomBytes(16);
+  const hash = scryptSync(password, salt, 64);
+  return `scrypt:${salt.toString('hex')}:${hash.toString('hex')}`;
+}
+
+export async function changeAdminPassword(
+  user: AdminUser,
+  currentPassword: string,
+  newPassword: string,
+  confirmPassword: string,
+): Promise<{ user: AdminUser; session: { value: string; expiresAt: Date } }> {
+  if (!(await adminCanChangePassword())) {
+    throw new AdminPasswordChangeError(
+      'unavailable',
+      'Le changement de mot de passe est disponible uniquement pour les comptes stockés en base.',
+    );
+  }
+  if (
+    newPassword.length < ADMIN_PASSWORD_MIN_LENGTH ||
+    newPassword.length > ADMIN_PASSWORD_MAX_LENGTH
+  ) {
+    throw new AdminPasswordChangeError(
+      'weak_password',
+      `Le nouveau mot de passe doit contenir entre ${String(ADMIN_PASSWORD_MIN_LENGTH)} et ${String(ADMIN_PASSWORD_MAX_LENGTH)} caractères.`,
+    );
+  }
+  if (newPassword !== confirmPassword) {
+    throw new AdminPasswordChangeError(
+      'mismatch',
+      'La confirmation ne correspond pas au nouveau mot de passe.',
+    );
+  }
+  if (currentPassword === newPassword) {
+    throw new AdminPasswordChangeError(
+      'same_password',
+      'Le nouveau mot de passe doit être différent de l’actuel.',
+    );
+  }
+  const account = await databaseAdminById(user.id);
+  if (!account) {
+    throw new AdminPasswordChangeError(
+      'unavailable',
+      'Le changement de mot de passe est disponible uniquement pour les comptes stockés en base.',
+    );
+  }
+  const valid = await verifyDatabasePassword(currentPassword, account.passwordHash);
+  if (!valid) {
+    throw new AdminPasswordChangeError('wrong_password', 'Mot de passe actuel incorrect.');
+  }
+  const updated = await updateDatabaseAdminPassword(account.id, hashAdminPassword(newPassword));
+  if (!updated) {
+    throw new AdminPasswordChangeError(
+      'unavailable',
+      'Le compte n’a pas pu être mis à jour. Réessayez.',
+    );
+  }
+  const session = databaseSession(updated);
+  if (!session) {
+    throw new AdminPasswordChangeError(
+      'unavailable',
+      'Le mot de passe a été changé, mais la session n’a pas pu être renouvelée. Reconnectez-vous.',
+    );
+  }
+  return { user: updated, session };
 }

@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { permissionsForRole } from '@/domain/admin-users';
-import { adminAuthReady, getAuthenticatedAdmin } from '@/lib/admin-auth-db';
+import { adminAuthReady, adminCanChangePassword, getAuthenticatedAdmin } from '@/lib/admin-auth-db';
+import { adminCanManageUsers } from '@/lib/admin-users-manage';
 import { adminStorageMode } from '@/lib/admin-persistence';
 
 export const runtime = 'nodejs';
@@ -21,6 +22,8 @@ export async function GET(request: Request): Promise<NextResponse> {
           }
         : null,
       authConfigured: await adminAuthReady(),
+      canChangePassword: user ? await adminCanChangePassword() : false,
+      canManageUsers: user ? await adminCanManageUsers(user) : false,
       storageMode: adminStorageMode(),
     },
     { headers: { 'Cache-Control': 'no-store' } },

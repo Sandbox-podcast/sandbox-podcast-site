@@ -7,6 +7,7 @@ import { chartsAdminData } from '@/lib/charts-admin';
 import { modifyChartRepository, publishFrozenCharts, writeChartsConfig } from '@/lib/charts-store';
 import { writeChartsEditorial } from '@/lib/charts-editorial';
 import { ContentConflictError } from '@/lib/admin-content-conflict';
+import { collectExternalCharts, freezeExternalCharts } from '@/pipeline/external-jobs';
 import { collectGithub, discoverGithub, freezeGithubWeek } from '@/pipeline/github-jobs';
 
 export const runtime = 'nodejs';
@@ -80,7 +81,11 @@ export async function POST(request: Request) {
           ? await discoverGithub()
           : command.job === 'collect'
             ? await collectGithub()
-            : await freezeGithubWeek({ dryRun: command.dryRun, publish: false });
+            : command.job === 'external-collect'
+              ? await collectExternalCharts()
+              : command.job === 'external-weekly'
+                ? await freezeExternalCharts({ dryRun: command.dryRun, publish: false })
+                : await freezeGithubWeek({ dryRun: command.dryRun, publish: false });
       return Response.json(
         { ok: result.status !== 'failed', summary: result },
         { status: result.status === 'failed' ? 503 : 200 },

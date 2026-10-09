@@ -17,4 +17,6 @@ La PR #6 introduit des comptes en base et trois rôles, mais modifie l'ancienne 
 
 ## Conséquences
 
-Le déploiement du code seul conserve les comptes actuels. L'import est une opération distincte ; il faut sauvegarder la base et vérifier les accès des trois personnes avant de retirer `SITE_ADMIN_USERS`. Les rôles des comptes importés peuvent ensuite être ajustés en base. Aucune interface de gestion des comptes n'est ajoutée dans cette première étape.
+Le déploiement du code seul conserve les comptes actuels. L'import est une opération distincte ; il faut sauvegarder la base et vérifier les accès des trois personnes avant de retirer `SITE_ADMIN_USERS`. Les rôles des comptes importés peuvent ensuite être ajustés en base.
+
+Complément (2026-10-09, décidée par l'agent sur délégation PD-0003) : `/admin` expose la gestion des comptes pour les administrateurs authentifiés en base — création, changement de rôle ou de nom, réinitialisation de mot de passe, désactivation et réactivation. Le dernier administrateur actif ne peut pas être retiré ; un compte ne peut pas se désactiver ni se rétrograder lui-même.

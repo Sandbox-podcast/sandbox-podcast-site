@@ -3,7 +3,6 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it } from 'vitest';
 import { LocalizationProvider } from '../src/components/localization';
 import HomePage from '../src/app/(fr)/page';
-import EpisodePage from '../src/app/(fr)/episodes/[number]/page';
 import SearchPage from '../src/app/(fr)/search/page';
 import EpisodesPage from '../src/app/(fr)/episodes/page';
 import { EntityScreen } from '../src/components/entity-screen';
@@ -51,13 +50,12 @@ describe('langue et ressource', () => {
     );
     expect(html).toContain('value="protocol"');
     expect(html).toContain('value="oldest" selected=""');
-    expect(html).toContain('1 episode found');
-    expect(html).toContain('href="/en/episodes/42"');
-    expect(html).toContain('aria-label="Watch episode 42"');
+    expect(html).toContain('0 episodes found');
+    expect(html).toContain('Upcoming episodes will appear here.');
     expect(html).not.toContain('aria-label="Voir l’épisode');
   });
   it('conserve la ressource, la requête et les ancres pour les quatre langues', () => {
-    const path = '/episodes/42?q=Claude%20Code&type=resources#resource-2';
+    const path = '/episodes?q=Claude%20Code&type=resources#main';
     for (const { locale } of SITE_LOCALES) {
       const href = localizedHref('/en' + path, locale);
       expect(sourcePath(href)).toBe(path);
@@ -236,21 +234,22 @@ describe('même site en français et en anglais', () => {
     const sections = (html: string) => [...html.matchAll(/<section\b/g)].length;
     expect(assets(english)).toEqual(assets(french));
     expect(sections(english)).toBe(sections(french));
-    expect(english).toContain('href="/en/episodes/42"');
-    expect(english).toContain('Claude Code takes #1');
+    expect(english).toContain('Upcoming episodes will appear here.');
+    expect(english).toContain('No episodes published yet.');
+    expect(english).toContain('href="/en/episodes"');
     expect(english).not.toContain('Quatre classements');
   });
-  it('garde les ressources, chapitres et média sur une fiche traduite', async () => {
-    const page = await EpisodePage({ params: Promise.resolve({ number: '42' }) });
+  it('garde la bibliothèque podcast vide traduite sans fiche de démonstration', async () => {
+    const page = await EpisodesPage({ searchParams: Promise.resolve({}) });
     const dictionary = await siteDictionary('en');
     const html = renderToStaticMarkup(
       createElement(LocalizationProvider, { locale: 'en', dictionary, children: page }),
     );
-    expect(html).toContain('id="episode-video"');
-    expect(html).toContain('href="#chapters"');
-    expect(html).toContain('href="#mentions"');
-    expect(html).toContain('Chapters');
-    expect(html).toContain('href="/en/episodes/41"');
+    expect(html).toContain('All podcasts.');
+    expect(html).toContain('Upcoming episodes will appear here.');
+    expect(html).not.toContain('href="/en/episodes/40"');
+    expect(html).not.toContain('href="/en/episodes/41"');
+    expect(html).not.toContain('href="/en/episodes/42"');
   });
   it('traduit aussi les légendes et les textes conditionnels des fiches', async () => {
     const dictionary = await siteDictionary('en');
@@ -281,14 +280,13 @@ describe('même site en français et en anglais', () => {
     const dictionary = await siteDictionary('en');
     const page = await SearchPage({
       dictionary,
-      searchParams: Promise.resolve({ q: 'takes', type: 'episodes' }),
+      searchParams: Promise.resolve({ q: 'claude', type: 'entities' }),
     });
     const html = renderToStaticMarkup(
       createElement(LocalizationProvider, { locale: 'en', dictionary, children: page }),
     );
-    expect(html).toContain('Claude Code takes #1');
-    expect(html).toContain('href="/en/episodes/42"');
     expect(html).toContain('action="/en/search"');
+    expect(html).toContain('Projects and models');
     expect(html).not.toContain('Aucun résultat');
   });
 });

@@ -14,6 +14,7 @@ import {
   TRANSLATION_LOCALES,
 } from '../src/domain/content-translations.ts';
 import { loadContent } from '../src/lib/load.ts';
+import { newEpisode } from '../src/lib/scaffold.ts';
 import { LocalizationProvider, Text } from '../src/components/localization';
 import { AdminTranslations } from '../src/components/admin-translations';
 
@@ -49,8 +50,7 @@ describe('traductions produites manuellement dans le harnais', () => {
   });
   it('prépare tous les champs d’un nouvel épisode et garde les médias, noms et identifiants hors de la traduction', () => {
     const content = fixture();
-    const episode = content.episodes[0];
-    if (!episode) throw new Error('fixture');
+    const episode = newEpisode(content.episodes, new Date('2026-10-01T12:00:00Z'), ['lou']);
     const next = {
       ...content,
       episodes: [

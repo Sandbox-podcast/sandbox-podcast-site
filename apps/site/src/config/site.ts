@@ -44,6 +44,15 @@ export const siteConfig = {
   get heroDek(): string {
     return activeSiteSettings.heroDek;
   },
+  get aboutEyebrow(): string {
+    return activeSiteSettings.aboutEyebrow;
+  },
+  get aboutTitle(): string {
+    return activeSiteSettings.aboutTitle;
+  },
+  get aboutIntro(): string {
+    return activeSiteSettings.aboutIntro;
+  },
   get platforms(): SiteSettings['platforms'] {
     return activeSiteSettings.platforms;
   },

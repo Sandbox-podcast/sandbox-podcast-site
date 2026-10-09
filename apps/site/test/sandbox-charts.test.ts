@@ -80,6 +80,7 @@ function dataset(): ChartsData {
     takes: [],
     episodes: [],
     newsletterUrl: null,
+    progress: null,
   };
 }
 describe('présentation des charts', () => {

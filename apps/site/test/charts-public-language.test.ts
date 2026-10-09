@@ -21,6 +21,15 @@ const pending: ChartsData = {
   takes: [],
   episodes: [],
   newsletterUrl: null,
+  progress: {
+    databaseReady: true,
+    trackedRepositories: 12,
+    snapshotsToday: 0,
+    distinctSnapshotDays: 3,
+    requiredHistoryDays: 7,
+    lastSuccessfulCollectAt: '2026-10-08T02:00:00.000Z',
+    earliestPossibleEditionWeek: '2026-W42',
+  },
 };
 
 describe('classements publics en français', () => {
@@ -34,6 +43,13 @@ describe('classements publics en français', () => {
     expect(html).toContain('PARTAGER LE CLASSEMENT');
     expect(html).toContain('Aucune édition publiée pour ce classement.');
     expect(html).toContain('après la collecte des relevés et la publication d’une édition');
+    expect(html).toContain('12 dépôts suivis');
+    expect(html).toContain('Historique : ');
+    expect(html).toContain('3');
+    expect(html).toContain(' / ');
+    expect(html).toContain('7');
+    expect(html).toContain('Première édition possible : ');
+    expect(html).toContain('semaine 2026-W42');
     expect(html).toContain('LES ARCHIVES');
     expect(html).not.toContain('THE WEEKLY RANKING');
     expect(html).not.toContain('BUILDING THE HISTORY');

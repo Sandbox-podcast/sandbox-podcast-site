@@ -479,6 +479,55 @@ export function ChartsExperience({
                         : 'Le classement apparaîtra après la collecte des relevés et la publication d’une édition. Chaque position reposera sur des mesures enregistrées.'}
                   </Text>
                 </p>
+                <Text>
+                  {data.progress && !isUnavailable ? (
+                    <ul className="sc-progress">
+                      {!data.progress.databaseReady ? (
+                        <li>
+                          <Text>
+                            {
+                              'La collecte n’est pas encore activée sur cet environnement. Les rangs apparaîtront après la première édition publiée.'
+                            }
+                          </Text>
+                        </li>
+                      ) : (
+                        <>
+                          <li>
+                            <Text>{String(data.progress.trackedRepositories)}</Text>
+                            <Text>{' dépôts suivis'}</Text>
+                          </li>
+                          <li>
+                            <Text>{'Relevés du jour : '}</Text>
+                            <Text>{String(data.progress.snapshotsToday)}</Text>
+                          </li>
+                          <li>
+                            <Text>{'Historique : '}</Text>
+                            <Text>{String(data.progress.distinctSnapshotDays)}</Text>
+                            <Text>{' / '}</Text>
+                            <Text>{String(data.progress.requiredHistoryDays)}</Text>
+                            <Text>{' jours'}</Text>
+                          </li>
+                          <li>
+                            <Text>{'Dernier relevé réussi : '}</Text>
+                            <Text>
+                              {data.progress.lastSuccessfulCollectAt
+                                ? data.progress.lastSuccessfulCollectAt.slice(0, 10)
+                                : 'aucun pour le moment'}
+                            </Text>
+                          </li>
+                          <li>
+                            <Text>{'Première édition possible : '}</Text>
+                            <Text>
+                              {data.progress.earliestPossibleEditionWeek
+                                ? `semaine ${data.progress.earliestPossibleEditionWeek}`
+                                : 'après le démarrage de la collecte'}
+                            </Text>
+                          </li>
+                        </>
+                      )}
+                    </ul>
+                  ) : null}
+                </Text>
                 <Link href={`/charts/${meta.slug}/methodology`}>
                   <Text>{'Lire la m\u00E9thode \u2197'}</Text>
                 </Link>
