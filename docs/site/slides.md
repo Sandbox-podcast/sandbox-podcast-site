@@ -4,14 +4,14 @@ Les présentations partagées à l’écran sont des fichiers HTML statiques ser
 
 ```text
 apps/site/public/slides/
-└── episode-043/
+└── episode-001/
     ├── index.html
     └── assets/
 ```
 
-Le sous-domaine `slides.sandboxpodcast.fr` affiche d’abord `public/slides/index.html` (liste des supports, sans JavaScript Next). Chaque deck s’ouvre sur `https://slides.sandboxpodcast.fr/<episode>/index.html` (exemple : `/episode-043/index.html`) : cette URL stable évite la boucle de redirections slash de Next et garde `./assets/` corrects. Le middleware réécrit vers `public/slides/...` (sauf `/_next` et `/api`).
+Le sous-domaine `slides.sandboxpodcast.fr` affiche d’abord `public/slides/index.html` (liste des supports, sans JavaScript Next). Chaque deck s’ouvre sur `https://slides.sandboxpodcast.fr/<episode>/index.html` (exemple : `/episode-001/index.html`) : cette URL stable évite la boucle de redirections slash de Next et garde `./assets/` corrects. Le middleware réécrit vers `public/slides/...` (sauf `/_next` et `/api`).
 
-Après ajout d’un dossier d’épisode, régénérer l’index :
+Après ajout d’un dossier d’épisode, régénérer l’index puis le formater (`pnpm exec prettier --write public/slides/index.html`) :
 
 ```powershell
 node --input-type=module -e "import { writeFileSync } from 'node:fs'; import { listSlideDecks, renderSlidesIndexHtml, slidesPublicRoot } from './src/domain/slide-decks.ts'; writeFileSync('public/slides/index.html', renderSlidesIndexHtml(listSlideDecks(slidesPublicRoot(process.cwd()))));"
