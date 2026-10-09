@@ -38,17 +38,14 @@ export function localizedHref(href: string, locale: string = DEFAULT_SITE_LOCALE
   return `/${prefix}${path === '/' ? '' : path.startsWith('/?') || path.startsWith('/#') ? path.slice(1) : path}`;
 }
 
-export function localeCountry(locale: string): string | undefined {
-  const tag = new Intl.Locale(locale);
-  return tag.region?.toLowerCase() ?? (tag.language === 'en' ? 'gb' : undefined);
-}
-
-export function localeDirection(locale: string): 'ltr' | 'rtl' {
-  const tag = new Intl.Locale(locale);
-  return tag.script === 'Arab' ||
-    tag.script === 'Hebr' ||
-    tag.script === 'Syrc' ||
-    ['yi', 'ary', 'aii', 'acy'].includes(tag.language)
-    ? 'rtl'
-    : 'ltr';
+export function localeCountry(locale: string): string {
+  const countries: Record<string, string> = {
+    'fr-FR': 'fr',
+    en: 'gb',
+    'es-ES': 'es',
+    'de-DE': 'de',
+  };
+  const country = countries[locale];
+  if (!country) throw new RangeError(`Langue non prise en charge : ${locale}`);
+  return country;
 }

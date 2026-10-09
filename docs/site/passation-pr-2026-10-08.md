@@ -2,6 +2,8 @@
 
 Cette liste accompagne la PR `codex/remaining-seo-charts-handoff`. Elle sert de plan de travail à la personne ou à l'agent qui poursuivra le chantier. Les cases ouvertes correspondent à des travaux encore à faire ou à vérifier ; une réussite locale ne vaut pas validation de production.
 
+Mise à jour du 2026-10-09 : le périmètre initial de 115 locales cité dans cette passation a été remplacé par les quatre langues de [DD-0010](../design-decisions/DD-0010-quatre-langues-du-site.md).
+
 ## Ce que la PR apporte
 
 - Interface et modèle de données des classements SANDBOX CHARTS, snapshots GitHub, pages publiques et administration éditoriale.
@@ -47,7 +49,7 @@ Voir [mise-en-service-neon-vercel.md](mise-en-service-neon-vercel.md), [guide SA
 
 ### 5. Rendre le SEO international publiable
 
-- [ ] Faire relire les libellés des 115 locales par des personnes compétentes, puis marquer uniquement les traductions effectivement validées comme publiables.
+- [ ] Faire relire les libellés espagnols et allemands par des personnes compétentes, puis marquer uniquement les traductions effectivement validées comme publiables.
 - [ ] Ajouter les textes localisés distincts des collections et des entités (titre, résumé, description, méthode, métadonnées SEO), avec état éditorial et hash source.
 - [ ] Ajouter ou finaliser une interface d'administration des traductions et les contrôles de cohérence de version.
 - [ ] Vérifier en Preview les URLs, canonicals, liens `hreflang` réciproques, pages 404, robots, sitemap et absence de paramètres de filtre indexables.

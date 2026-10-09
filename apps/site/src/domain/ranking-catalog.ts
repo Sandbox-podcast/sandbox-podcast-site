@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { httpsUrlSchema, slugSchema } from './schema.ts';
-import { bcp47LocaleSchema, localizedPathMatchesLocale } from '../i18n/locales.ts';
+import { siteLocaleSchema, localizedPathMatchesLocale } from '../i18n/locales.ts';
 
 export const rankingEntityKindSchema = z.enum(['github_project', 'skill', 'mcp', 'model', 'agent']);
 export type RankingEntityKind = z.infer<typeof rankingEntityKindSchema>;
@@ -53,7 +53,7 @@ export const rankingCollectionSchema = z
   );
 export type RankingCollection = z.infer<typeof rankingCollectionSchema>;
 
-const localeSchema = bcp47LocaleSchema;
+const localeSchema = siteLocaleSchema;
 export { localeSchema as rankingLocaleSchema };
 
 const localizedPathSchema = z
