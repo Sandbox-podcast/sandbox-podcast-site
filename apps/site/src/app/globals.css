@@ -1210,10 +1210,9 @@ html[data-scrolled='true'] .site-header {
 }
 .admin-user-row {
   display: grid;
-  grid-template-columns: minmax(8rem, 1fr) minmax(7rem, 9rem) minmax(8rem, 1fr) minmax(
-      12rem,
-      1.4fr
-    ) auto;
+  grid-template-columns:
+    minmax(8rem, 1fr) minmax(7rem, 9rem) minmax(8rem, 1fr) minmax(12rem, 1.4fr)
+    auto;
   gap: 0.65rem 0.75rem;
   align-items: end;
   padding: 0.85rem 0.9rem;

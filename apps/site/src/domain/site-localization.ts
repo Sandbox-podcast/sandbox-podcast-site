@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { bcp47LocaleSchema, localizedPathMatchesLocale } from '../i18n/locales.ts';
+import { siteLocaleSchema, localizedPathMatchesLocale } from '../i18n/locales.ts';
 
 export const localizedContentKindSchema = z.enum(['home', 'episode', 'topic', 'entity', 'page']);
 export type LocalizedContentKind = z.infer<typeof localizedContentKindSchema>;
@@ -18,7 +18,7 @@ export const siteContentLocalizationSchema = z
   .object({
     contentKind: localizedContentKindSchema,
     contentKey: z.string().min(1).max(180),
-    locale: bcp47LocaleSchema,
+    locale: siteLocaleSchema,
     path: z
       .string()
       .min(1)
@@ -35,7 +35,7 @@ export const siteContentLocalizationSchema = z
     sections: z.array(localizedSectionSchema).min(1).max(40),
     chapters: z.array(localizedChapterSchema).max(500).default([]),
     state: z.enum(['draft', 'needs_review', 'reviewed', 'published']).default('draft'),
-    sourceLocale: bcp47LocaleSchema,
+    sourceLocale: siteLocaleSchema,
     sourceHash: z.string().min(16),
     reviewedAt: z.iso.datetime().optional(),
     publishedAt: z.iso.datetime().optional(),

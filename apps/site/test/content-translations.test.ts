@@ -31,14 +31,17 @@ const bundle = (text: string) => ({
 });
 
 describe('traductions produites manuellement dans le harnais', () => {
-  it('propose le parcours manuel aux 114 cibles et réserve l’import dans l’interface', () => {
+  it('propose le parcours manuel aux trois langues cibles et réserve l’import dans l’interface', () => {
     const readonly = renderToStaticMarkup(
       createElement(AdminTranslations, { canImport: false, revision: 'test' }),
     );
     const admin = renderToStaticMarkup(
       createElement(AdminTranslations, { canImport: true, revision: 'test' }),
     );
-    expect((admin.match(/<option /g) ?? []).length).toBe(114);
+    expect((admin.match(/<option /g) ?? []).length).toBe(3);
+    expect(admin).toContain('Espagnol');
+    expect(admin).toContain('Allemand');
+    expect(admin).not.toContain('Italiano');
     expect(admin).toContain('href="/api/admin/translations?locale=en"');
     expect(admin).toContain('Copier le prompt');
     expect(admin).toContain('Importer les traductions');
@@ -132,7 +135,7 @@ describe('traductions produites manuellement dans le harnais', () => {
     expect(texts).not.toContain('Lou');
     expect(texts).not.toContain('2026-W41');
   });
-  it('déduplique les textes et prépare seulement les traductions manquantes pour les 114 cibles', () => {
+  it('déduplique les textes et prépare seulement les traductions manquantes pour les trois cibles', () => {
     const next = translationSourcePack([
       { source: 'Bonjour', context: 'a' },
       { source: ' Bonjour ', context: 'b' },
@@ -142,7 +145,7 @@ describe('traductions produites manuellement dans le harnais', () => {
     expect(
       missingTranslationSources(next, { Bonjour: 'Hello' }).map((item) => item.source),
     ).toEqual(['constructor']);
-    expect(TRANSLATION_LOCALES).toHaveLength(114);
+    expect(TRANSLATION_LOCALES).toEqual(['en', 'es-ES', 'de-DE']);
     expect(translationHash(' Bonjour  le monde ')).toBe(translationHash('Bonjour le monde'));
   });
   it('importe un lot partiel valide qui est utilisable dans le rendu public', () => {
@@ -187,6 +190,7 @@ describe('traductions produites manuellement dans le harnais', () => {
     expect(() =>
       validateTranslatedBundle(pack, { ...bundle(valid), locale: '../../en' }),
     ).toThrow();
+    expect(() => validateTranslatedBundle(pack, { ...bundle(valid), locale: 'it-IT' })).toThrow();
     expect(() => validateTranslatedBundle(pack, bundle(''))).toThrow();
   });
 });

@@ -6,10 +6,10 @@ import HomePage from '../src/app/(fr)/page';
 import SearchPage from '../src/app/(fr)/search/page';
 import EpisodesPage from '../src/app/(fr)/episodes/page';
 import { EntityScreen } from '../src/components/entity-screen';
-import { EUROPEAN_LOCALE_TARGETS } from '../src/i18n/locales';
+import { SITE_LOCALES } from '../src/i18n/locales';
 import { siteDictionary } from '../src/i18n/dictionaries';
 import sourceCatalog from '../src/i18n/dictionaries/source-catalog.json';
-import { localizedHref, sourcePath, localeCountry, localeDirection } from '../src/i18n/routing';
+import { localizedHref, sourcePath, localeCountry } from '../src/i18n/routing';
 import { matchSharedPage, SHARED_PAGE_ROUTES } from '../src/i18n/page-routes';
 import { interpolateText, translateText } from '../src/i18n/translation';
 import { allEpisodes } from '../src/lib/repository';
@@ -54,14 +54,15 @@ describe('langue et ressource', () => {
     expect(html).toContain('Upcoming episodes will appear here.');
     expect(html).not.toContain('aria-label="Voir l’épisode');
   });
-  it('conserve la ressource, la requête et les ancres pour les 115 langues', () => {
+  it('conserve la ressource, la requête et les ancres pour les quatre langues', () => {
     const path = '/episodes?q=Claude%20Code&type=resources#main';
-    for (const { locale } of EUROPEAN_LOCALE_TARGETS) {
+    for (const { locale } of SITE_LOCALES) {
       const href = localizedHref('/en' + path, locale);
       expect(sourcePath(href)).toBe(path);
       expect(localizedHref(href, 'fr-FR')).toBe(path);
     }
     expect(localizedHref('/en?q=test#main', 'de-DE')).toBe('/de-de?q=test#main');
+    expect(sourcePath('/it-it/episodes/42')).toBe('/it-it/episodes/42');
   });
   it('garde les assets, les API et les liens externes à leur adresse', () => {
     for (const path of [
@@ -77,14 +78,14 @@ describe('langue et ressource', () => {
       expect(localizedHref(path, 'en')).toBe(path);
     }
   });
-  it('résout les variantes, le pays et le sens de lecture', () => {
-    expect(localizedHref('/charts', 'sr-Cyrl-RS')).toBe('/sr-cyrl-rs/charts');
+  it('associe chaque langue à son drapeau et refuse les autres', () => {
+    expect(localizedHref('/charts', 'es-ES')).toBe('/es-es/charts');
+    expect(localeCountry('fr-FR')).toBe('fr');
     expect(localeCountry('en')).toBe('gb');
-    expect(localeCountry('ca-ES-valencia')).toBe('es');
-    expect(localeCountry('yi')).toBeUndefined();
-    expect(localeDirection('yi')).toBe('rtl');
-    expect(localeDirection('ary-ES')).toBe('rtl');
-    expect(localeDirection('sr-Cyrl-RS')).toBe('ltr');
+    expect(localeCountry('es-ES')).toBe('es');
+    expect(localeCountry('de-DE')).toBe('de');
+    expect(() => localizedHref('/charts', 'it-IT')).toThrow();
+    expect(() => localeCountry('it-IT')).toThrow();
   });
 });
 
@@ -129,17 +130,18 @@ describe('textes locaux', () => {
     ).toBe('Editor');
   });
   it('charge un dictionnaire pour chaque langue proposée', async () => {
-    for (const { locale } of EUROPEAN_LOCALE_TARGETS) {
+    for (const { locale } of SITE_LOCALES) {
       const dictionary = await siteDictionary(locale);
       if (locale !== 'fr-FR') expect(dictionary['Classements']).toBeTruthy();
     }
+    await expect(siteDictionary('it-IT')).rejects.toThrow();
   });
   it('conserve les paramètres de chaque traduction locale et couvre le catalogue anglais', async () => {
     const placeholders = (source: string) =>
       [
         ...new Set([...source.matchAll(/\{([a-zA-Z][a-zA-Z0-9]*)\}/g)].map((match) => match[1])),
       ].sort();
-    for (const { locale } of EUROPEAN_LOCALE_TARGETS) {
+    for (const { locale } of SITE_LOCALES) {
       for (const [source, translation] of Object.entries(await siteDictionary(locale)))
         expect(placeholders(translation), `${locale}: ${source}`).toEqual(placeholders(source));
     }

@@ -3,7 +3,7 @@
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { isNavigationActive } from '@/domain/site-navigation';
-import { DEFAULT_SITE_LOCALE, EUROPEAN_LOCALE_TARGETS, localeLabel } from '@/i18n/locales';
+import { DEFAULT_SITE_LOCALE, SITE_LOCALES, localeLabel } from '@/i18n/locales';
 import { localizedHref, sourcePath } from '@/i18n/routing';
 import { LocalizedLink, useLocalization } from './localization';
 import { LocaleFlag } from './locale-flag';
@@ -91,33 +91,17 @@ export function MainNav({ locale = DEFAULT_SITE_LOCALE }: { locale?: string }) {
   );
 }
 
-const displayNames = new Intl.DisplayNames(['fr'], { type: 'language' });
-const englishDisplayNames = new Intl.DisplayNames(['en'], { type: 'language' });
-const languages = [...EUROPEAN_LOCALE_TARGETS].sort((a, b) => a.name.localeCompare(b.name, 'fr'));
-const normalize = (text: string) =>
-  text
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .toLocaleLowerCase();
-
 export function LocaleSwitcher({ locale = DEFAULT_SITE_LOCALE }: { locale?: string }) {
   const pathname = usePathname();
   const { t } = useLocalization();
   const [open, setOpen] = useState(false);
-  const [query, setQuery] = useState('');
   const [suffix, setSuffix] = useState('');
   const container = useRef<HTMLDivElement>(null);
   const trigger = useRef<HTMLButtonElement>(null);
-  const input = useRef<HTMLInputElement>(null);
-  const visible = languages.filter((item) =>
-    normalize(
-      `${item.name} ${displayNames.of(item.locale) ?? ''} ${englishDisplayNames.of(item.locale) ?? ''} ${item.locale}`,
-    ).includes(normalize(query)),
-  );
 
   useEffect(() => {
     if (!open) return;
-    input.current?.focus();
+    container.current?.querySelector<HTMLAnchorElement>('a[aria-current="true"]')?.focus();
     const dismiss = (event: PointerEvent) => {
       if (event.target instanceof Node && !container.current?.contains(event.target))
         setOpen(false);
@@ -151,7 +135,6 @@ export function LocaleSwitcher({ locale = DEFAULT_SITE_LOCALE }: { locale?: stri
         aria-controls="locale-options"
         onClick={() => {
           setSuffix(window.location.search + window.location.hash);
-          setQuery('');
           setOpen(!open);
         }}
       >
@@ -182,20 +165,8 @@ export function LocaleSwitcher({ locale = DEFAULT_SITE_LOCALE }: { locale?: stri
               ×
             </button>
           </div>
-          <label className="locale-search">
-            <span className="sr-only">{t('Rechercher une langue')}</span>
-            <input
-              ref={input}
-              type="search"
-              value={query}
-              placeholder={t('Rechercher une langue')}
-              onChange={(event) => {
-                setQuery(event.target.value);
-              }}
-            />
-          </label>
           <ul className="locale-options-list">
-            {visible.map((item) => (
+            {SITE_LOCALES.map((item) => (
               <li key={item.locale}>
                 <a
                   href={localizedHref(sourcePath(pathname) + suffix, item.locale)}
@@ -205,17 +176,11 @@ export function LocaleSwitcher({ locale = DEFAULT_SITE_LOCALE }: { locale?: stri
                 >
                   <LocaleFlag locale={item.locale} />
                   <span>{item.name}</span>
-                  <span className="locale-option-code">{item.locale.toUpperCase()}</span>
                   {item.locale === locale ? <span aria-hidden="true">✓</span> : null}
                 </a>
               </li>
             ))}
           </ul>
-          {visible.length === 0 ? (
-            <p role="status" className="locale-empty">
-              {t('Aucune langue trouvée')}
-            </p>
-          ) : null}
         </div>
       ) : null}
     </div>

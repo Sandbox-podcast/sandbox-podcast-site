@@ -13,7 +13,6 @@ import { Footer, Masthead } from '@/components/shell';
 import { LocalizationProvider, Text } from '@/components/localization';
 import { siteDictionary } from '@/i18n/dictionaries';
 import { translateText } from '@/i18n/translation';
-import { localeDirection } from '@/i18n/routing';
 import { preparePublishedEditorialContent } from '@/lib/admin-persistence';
 import { JsonLd } from '@/components/json-ld';
 import { isMock, siteConfig } from '@/config/site';
@@ -72,7 +71,7 @@ export default async function LocalizedRootLayout({
   const dictionary = await siteDictionary(locale);
   const messages = siteMessages('fr-FR');
   return (
-    <html lang={locale} dir={localeDirection(locale)}>
+    <html lang={locale}>
       <body>
         <LocalizationProvider locale={locale} dictionary={dictionary}>
           <a className="skip" href="#main">

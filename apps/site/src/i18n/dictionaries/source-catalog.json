@@ -721,10 +721,6 @@
     "translation": "",
     "sources": ["src/components/charts-features.tsx"]
   },
-  "Aucune langue trouvée": {
-    "translation": "",
-    "sources": ["src/components/nav.tsx"]
-  },
   "Aucune mesure disponible pour cette capacité": {
     "translation": "",
     "sources": ["src/components/charts-experience.tsx"]
@@ -3968,10 +3964,6 @@
   "Rechercher dans tout le site": {
     "translation": "",
     "sources": ["src/components/episode-library.tsx"]
-  },
-  "Rechercher une langue": {
-    "translation": "",
-    "sources": ["src/components/nav.tsx"]
   },
   "Recherchez un épisode, une ressource, un sujet ou un classement Sandbox.": {
     "translation": "",
