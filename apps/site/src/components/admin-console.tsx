@@ -8,6 +8,8 @@ import { applyChartMarkdown, serializeChartMarkdown } from '@/domain/chart-markd
 import { type Episode, type Host, type Source, type Topic } from '@/domain/schema';
 import { AdminChartEditor } from './admin-chart-editor';
 import { AdminChartsConsole } from './admin-charts-console';
+import { AdminPasswordForm } from './admin-password-form';
+import { AdminUsersPanel } from './admin-users-panel';
 import { SourceEditor, TopicEditor } from './admin-simple-content';
 import { EpisodeComposer } from './episode-composer';
 import { SiteSettingsEditor } from './site-settings-editor';
@@ -29,6 +31,8 @@ const adminStatusSchema = z.object({
     })
     .nullable(),
   authConfigured: z.boolean(),
+  canChangePassword: z.boolean().default(false),
+  canManageUsers: z.boolean().default(false),
   storageMode: storageModeSchema,
 });
 const contentResponseSchema = z.object({
@@ -503,6 +507,19 @@ export function AdminConsole() {
             ? 'Vous pouvez enregistrer des brouillons. La publication est réservée aux administrateurs.'
             : 'Accès en lecture seule : vous pouvez consulter le contenu.'}
         </div>
+      ) : null}
+
+      {status.canChangePassword ? (
+        <AdminPasswordForm pending={pending} onBusyChange={setPending} onMessage={setMessage} />
+      ) : null}
+
+      {status.canManageUsers ? (
+        <AdminUsersPanel
+          currentUsername={status.user?.username ?? status.username ?? ''}
+          pending={pending}
+          onBusyChange={setPending}
+          onMessage={setMessage}
+        />
       ) : null}
 
       <AdminTranslations
