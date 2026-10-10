@@ -49,7 +49,7 @@ Selon la note de transfert du 7 octobre, les deux variables `DATABASE_URL` et `P
 | `DATABASE_URL`       | Connexion Neon à la base Sandbox existante                               | Secret serveur. Confirmer avant de remplacer une variable déjà présente.                                 |
 | `GITHUB_TOKEN`       | Jeton GitHub autorisé à lire les dépôts publics utilisés par la collecte | Lecture seule. Ne pas lui accorder de droits d'écriture.                                                 |
 | `CRON_SECRET`        | Secret aléatoire d'au moins 16 caractères                                | Générer dans un gestionnaire de secrets et le configurer dans Production. Ne pas le réutiliser ailleurs. |
-| `VERCEL_OIDC_TOKEN`  | Jeton OIDC local, écrit par `vercel env pull`                            | En production, le cron lit l'en-tête `x-vercel-oidc-token`. Ne pas créer une valeur statique à la main.   |
+| `VERCEL_OIDC_TOKEN`  | Jeton OIDC local, écrit par `vercel env pull`                            | En production, le cron lit l'en-tête `x-vercel-oidc-token`. Ne pas créer une valeur statique à la main.  |
 | `HF_TOKEN`           | Jeton Hugging Face facultatif, lecture seule                             | Utile si le Hub applique une limite de débit aux lectures anonymes.                                      |
 | `OPENROUTER_API_KEY` | Clé OpenRouter facultative                                               | Ajoute les rangs hebdomadaires et débits; sans clé, ces signaux restent absents.                         |
 
