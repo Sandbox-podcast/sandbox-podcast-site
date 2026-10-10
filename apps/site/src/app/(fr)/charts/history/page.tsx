@@ -10,7 +10,7 @@ export async function generateMetadata() {
   return pageMetadata({
     title: 'Les archives · SANDBOX CHARTS',
     description:
-      'Les éditions hebdomadaires et leurs premières places, conservées avec leur méthode de calcul.',
+      'Les éditions publiées et leurs premières places, conservées avec leur méthode de calcul.',
     path: '/charts/history',
     noindex: !hasIndexableChartCollection(data),
   });

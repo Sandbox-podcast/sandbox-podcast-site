@@ -16,7 +16,7 @@ import {
   type ExternalObservation,
 } from '../domain/external-charts.ts';
 import { dateDaysAgo } from '../domain/github-charts.ts';
-import { previousWeek } from '../domain/weeks.ts';
+import { previousComparableEdition } from '../domain/weeks.ts';
 
 export interface ExternalCandidate {
   entity: typeof chartEntities.$inferSelect;
@@ -276,19 +276,15 @@ export async function freezeExternalEdition(
   const db = getDb();
   let written = 0;
   await db.transaction(async (tx) => {
-    const previous = (
-      await tx
-        .select()
-        .from(weeklyChartEditions)
-        .where(
-          and(
-            eq(weeklyChartEditions.chart, chart),
-            eq(weeklyChartEditions.week, previousWeek(week)),
-            isNotNull(weeklyChartEditions.publishedAt),
-          ),
-        )
-        .limit(1)
-    )[0];
+    const published = await tx
+      .select()
+      .from(weeklyChartEditions)
+      .where(and(eq(weeklyChartEditions.chart, chart), isNotNull(weeklyChartEditions.publishedAt)));
+    const previousId = previousComparableEdition(
+      published.map((row) => row.week),
+      week,
+    );
+    const previous = published.find((row) => row.week === previousId);
     const previousRanks = new Map(
       (previous?.payload.entries ?? []).map((entry) => [entry.entity, entry.rank]),
     );

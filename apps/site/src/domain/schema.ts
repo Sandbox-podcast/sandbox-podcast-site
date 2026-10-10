@@ -12,9 +12,14 @@ import { z } from 'zod';
 export const slugSchema = z
   .string()
   .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'slug en minuscules, chiffres et tirets');
-export const weekIdSchema = z
+const ISO_WEEK = String.raw`\d{4}-W(0[1-9]|[1-4]\d|5[0-3])`;
+const CALENDAR_DAY = String.raw`\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])`;
+
+export const weekIdSchema = z.string().regex(new RegExp(`^${ISO_WEEK}$`), 'semaine ISO AAAA-Wnn');
+/** Identifiant d'édition : semaine ISO historique ou jour de publication. */
+export const editionIdSchema = z
   .string()
-  .regex(/^\d{4}-W(0[1-9]|[1-4]\d|5[0-3])$/, 'semaine ISO AAAA-Wnn');
+  .regex(new RegExp(`^(${ISO_WEEK}|${CALENDAR_DAY})$`), 'édition AAAA-Wnn ou AAAA-MM-JJ');
 export const dateTimeSchema = z.iso.datetime();
 export const httpsUrlSchema = z.url().refine((u) => u.startsWith('https://'), 'URL https requise');
 
@@ -245,7 +250,7 @@ export type Methodology = z.infer<typeof methodologySchema>;
 /** Textes d'une édition. Les mesures et les rangs restent dans les snapshots. */
 export const chartEditionSchema = z
   .object({
-    week: weekIdSchema,
+    week: editionIdSchema,
     headline: z.string().max(160).default(''),
     monthlyHeadline: z.string().max(160).default(''),
     watchlist: z
@@ -330,7 +335,7 @@ export type SnapshotEntry = z.infer<typeof snapshotEntrySchema>;
 export const snapshotSchema = z
   .object({
     chart: slugSchema,
-    week: weekIdSchema,
+    week: editionIdSchema,
     publishedAt: dateTimeSchema,
     retrievedAt: dateTimeSchema,
     provenance: provenanceSchema,

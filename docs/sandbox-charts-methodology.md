@@ -41,7 +41,7 @@ Les trois premières composantes deviennent des percentiles dans le pool Rising.
 
 ## Éditions, mouvements et vues longues
 
-La semaine est une semaine ISO calculée en UTC. Les exécutions Vercel prévues sont : découverte quotidienne à 01:00 UTC, collecte à 02:00 UTC, classement le lundi à 03:00 UTC. Le gel automatique exige une collecte du jour terminée. Une édition existante ne se recalcule pas, même après une modification de la méthode.
+Une édition publiée est identifiée par sa date UTC (`AAAA-MM-JJ`). Les éditions déjà figées en semaine ISO restent valides et ne sont pas recalculées. Les exécutions Vercel prévues sont : découverte quotidienne à 01:00 UTC, collecte GitHub à 02:00 UTC, collecte Skills/Models à 02:30 UTC, gel à 03:00 UTC. Le gel automatique exige une collecte du jour terminée. Le score GitHub et Skills continue de comparer ce relevé à celui d'il y a sept jours. Le mouvement, lui, compare la nouvelle édition à la publication précédente lorsqu'elles se suivent d'au plus huit jours.
 
 Le mouvement vaut rang précédent − rang actuel. Un résultat positif monte, un résultat négatif descend, zéro reste stable. NEW désigne une absence dans l'édition précédente, y compris un retour. La première édition et une comparaison indisponible affichent un tiret dans l'interface.
 

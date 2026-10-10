@@ -59,7 +59,7 @@ Les vues **Reasoning** et **Maths** restent absentes tant qu'un jeu externe et l
 Les crons Vercel appellent les routes protégées par `CRON_SECRET` :
 
 - `external-daily` collecte les sources Skills et Models à 02:30 UTC ;
-- `github-weekly`, le lundi à 03:00 UTC, tente le gel GitHub/Rising puis Skills/Models. Le gel externe vérifie que les deux jobs quotidiens ont terminé le même jour.
+- `github-weekly`, chaque jour à 03:00 UTC, tente le gel GitHub/Rising puis Skills/Models. Le gel de chaque classement vérifie que sa collecte du jour est terminée. L'identifiant d'une nouvelle édition est la date UTC.
 
 Commandes locales, depuis la racine du dépôt :
 

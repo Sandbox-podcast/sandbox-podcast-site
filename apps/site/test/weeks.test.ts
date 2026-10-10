@@ -2,10 +2,14 @@ import { describe, expect, it } from 'vitest';
 import {
   addWeeks,
   compareWeeks,
+  editionMark,
+  editionsFollow,
   isoWeekOf,
   nextWeek,
   parseWeek,
+  previousComparableEdition,
   previousWeek,
+  shortWeek,
   weekEnd,
   weekRange,
   weekStart,
@@ -45,5 +49,17 @@ describe('semaines ISO', () => {
   it('refuse un identifiant mal formé', () => {
     expect(() => parseWeek('2026-41')).toThrow();
     expect(parseWeek('2026-W41')).toEqual({ year: 2026, week: 41 });
+  });
+
+  it('ordonne une édition datée après la semaine ISO qui la précède', () => {
+    expect(compareWeeks('2026-W41', '2026-10-11')).toBeLessThan(0);
+    expect(compareWeeks('2026-10-04', '2026-W41')).toBeLessThan(0);
+    expect(shortWeek('2026-10-11')).toBe('11.10');
+    expect(editionMark('2026-W41')).toBe('41');
+    expect(editionsFollow('2026-W40', '2026-W41')).toBe(true);
+    expect(editionsFollow('2026-W39', '2026-W41')).toBe(false);
+    expect(editionsFollow('2026-W41', '2026-10-11')).toBe(true);
+    expect(previousComparableEdition(['2026-W41', '2026-10-11'], '2026-10-12')).toBe('2026-10-11');
+    expect(() => previousWeek('2026-10-11')).toThrow();
   });
 });

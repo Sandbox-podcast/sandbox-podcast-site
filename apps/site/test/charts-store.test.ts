@@ -79,6 +79,7 @@ beforeAll(async () => {
     '0003_ranking_catalog_localization.sql',
     '0004_site_content_localizations.sql',
     '0005_external_chart_sources.sql',
+    '0007_daily_chart_editions.sql',
   ]) {
     for (const statement of readFileSync(`drizzle/${migration}`, 'utf8').split(
       '--> statement-breakpoint',
@@ -260,8 +261,8 @@ describe('pipeline charts sur Postgres', () => {
     await calculateGithubWeek({ date, publish: false });
     expect(await publicChartEdition('github')).toBeNull();
     const original = (await db.select().from(schema.weeklyChartEditions))[0]?.payload;
-    expect(await publishFrozenCharts('2026-W41')).toBe(2);
-    expect(await publishFrozenCharts('2026-W41')).toBe(0);
+    expect(await publishFrozenCharts(date)).toBe(2);
+    expect(await publishFrozenCharts(date)).toBe(0);
     expect((await db.select().from(schema.weeklyChartEditions))[0]?.payload).toEqual(original);
   });
   it('sépare commentaires, publication et métriques, avec conflit d’édition détecté', async () => {

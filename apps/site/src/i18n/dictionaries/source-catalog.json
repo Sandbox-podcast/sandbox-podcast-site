@@ -1539,7 +1539,7 @@
       "src/app/(fr)/charts/project/[slug]/page.tsx"
     ]
   },
-  "Édition : lundi à 03:00 UTC.": {
+  "Édition : chaque jour à 03:00 UTC.": {
     "translation": "",
     "sources": ["src/components/charts-methodology.tsx"]
   },
@@ -1547,7 +1547,7 @@
     "translation": "",
     "sources": ["src/components/charts-experience.tsx"]
   },
-  "Édition en cours · semaines disponibles jusqu'à W": {
+  "Édition en cours · jusqu’à": {
     "translation": "",
     "sources": ["src/components/charts-features.tsx"]
   },
@@ -1981,7 +1981,7 @@
     "translation": "",
     "sources": ["src/components/charts-methodology.tsx", "src/domain/sandbox-charts.ts"]
   },
-  "GitHub Top 20, Skills, Models et Rising. Les positions, les mouvements et les projets IA à surveiller, chaque semaine.": {
+  "GitHub Top 20, Skills, Models et Rising. Les positions, les mouvements et les projets IA à surveiller, chaque jour.": {
     "translation": "",
     "sources": ["src/app/(fr)/charts/page.tsx"]
   },
@@ -2229,6 +2229,10 @@
   "Intro to Large Language Models (A. Karpathy)": {
     "translation": "",
     "sources": ["content/episodes/042.json"]
+  },
+  "JOUR": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
   },
   "Jamais classé": {
     "translation": "",
@@ -2567,7 +2571,7 @@
     "translation": "",
     "sources": ["src/app/(fr)/not-found.tsx", "src/app/(fr)/page.tsx"]
   },
-  "Les classements hebdomadaires de ce qui compte dans l’IA.": {
+  "Les classements quotidiens de ce qui compte dans l’IA.": {
     "translation": "",
     "sources": ["src/app/(fr)/charts/page.tsx", "src/components/charts-experience.tsx"]
   },
@@ -2591,7 +2595,7 @@
     "translation": "",
     "sources": ["src/components/charts-experience.tsx"]
   },
-  "Les éditions hebdomadaires et leurs premières places, conservées avec leur méthode de calcul.": {
+  "Les éditions publiées et leurs premières places, conservées avec leur méthode de calcul.": {
     "translation": "",
     "sources": ["src/app/(fr)/charts/history/page.tsx"]
   },
@@ -2727,7 +2731,7 @@
     "translation": "",
     "sources": ["src/components/charts-methodology.tsx"]
   },
-  "Les vues mensuelles et sur trois mois mesurent la présence aux meilleures places : moyenne de 100 / rang sur les semaines disponibles, avec zéro point les semaines hors classement. Elles ne moyennent pas des scores normalisés de groupes différents. Une semaine appartient au mois de son lundi.": {
+  "Les vues mensuelles et sur trois mois mesurent la présence aux meilleures places : moyenne de 100 / rang sur les semaines disponibles, avec zéro point les semaines hors classement. Elles ne moyennent pas des scores normalisés de groupes différents. Une édition datée appartient à son mois. Une semaine ISO appartient au mois de son lundi.": {
     "translation": "",
     "sources": ["src/components/charts-methodology.tsx"]
   },
@@ -2959,11 +2963,11 @@
     "translation": "",
     "sources": ["src/components/cards.tsx"]
   },
-  "mis à jour chaque semaine": {
+  "mis à jour chaque jour": {
     "translation": "",
     "sources": ["src/app/(fr)/moves/[chart]/[week]/[entity]/page.tsx"]
   },
-  "MISE À JOUR CHAQUE LUNDI": {
+  "MISE À JOUR CHAQUE JOUR": {
     "translation": "",
     "sources": ["src/components/charts-experience.tsx"]
   },
@@ -3444,7 +3448,7 @@
     "translation": "",
     "sources": ["content/episodes/042.json"]
   },
-  "Ouvrir l'édition W": {
+  "Ouvrir l'édition": {
     "translation": "",
     "sources": ["src/components/charts-experience.tsx"]
   },
@@ -3924,7 +3928,7 @@
     "translation": "",
     "sources": ["src/components/charts-methodology.tsx"]
   },
-  "Recevez les classements SANDBOX chaque semaine par e-mail.": {
+  "Recevez les classements SANDBOX chaque jour par e-mail.": {
     "translation": "",
     "sources": ["src/components/charts-experience.tsx"]
   },
@@ -4144,11 +4148,11 @@
     "translation": "",
     "sources": ["src/app/(fr)/charts/rising/methodology/page.tsx"]
   },
-  "SANDBOX CHARTS · W": {
+  "SANDBOX CHARTS ·": {
     "translation": "",
     "sources": ["src/components/charts-mini.tsx"]
   },
-  "SANDBOX CHARTS / CHAQUE LUNDI": {
+  "SANDBOX CHARTS / CHAQUE JOUR": {
     "translation": "",
     "sources": ["src/components/charts-experience.tsx"]
   },
@@ -4156,7 +4160,7 @@
     "translation": "",
     "sources": ["src/components/charts-features.tsx"]
   },
-  "SANDBOX CHARTS | Les classements hebdomadaires de l’IA": {
+  "SANDBOX CHARTS | Les classements quotidiens de l’IA": {
     "translation": "",
     "sources": ["src/app/(fr)/charts/page.tsx"]
   },

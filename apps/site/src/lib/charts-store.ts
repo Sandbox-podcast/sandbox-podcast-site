@@ -40,7 +40,7 @@ import {
 } from '../domain/github-charts.ts';
 import { snapshotSchema, type Snapshot } from '../domain/schema.ts';
 import type { ChartsCollectionProgress } from '../domain/sandbox-charts.ts';
-import { isoWeekOf, previousWeek } from '../domain/weeks.ts';
+import { compareWeeks, previousComparableEdition } from '../domain/weeks.ts';
 
 export class ChartsUnavailableError extends Error {
   constructor() {
@@ -402,16 +402,17 @@ export async function readLiveWeeklySnapshots(publishedOnly = true): Promise<Sna
   const editions = await getDb()
     .select()
     .from(weeklyChartEditions)
-    .where(publishedOnly ? isNotNull(weeklyChartEditions.publishedAt) : undefined)
-    .orderBy(weeklyChartEditions.week);
-  return editions.map((edition) =>
-    snapshotSchema.parse({
-      ...edition.payload,
-      publishedAt: edition.publishedAt
-        ? new Date(edition.publishedAt).toISOString()
-        : edition.payload.publishedAt,
-    }),
-  );
+    .where(publishedOnly ? isNotNull(weeklyChartEditions.publishedAt) : undefined);
+  return editions
+    .map((edition) =>
+      snapshotSchema.parse({
+        ...edition.payload,
+        publishedAt: edition.publishedAt
+          ? new Date(edition.publishedAt).toISOString()
+          : edition.payload.publishedAt,
+      }),
+    )
+    .toSorted((left, right) => compareWeeks(left.week, right.week));
 }
 export async function freezeWeeklyCharts(
   week: string,
@@ -425,19 +426,20 @@ export async function freezeWeeklyCharts(
   await db.transaction(async (tx) => {
     for (const ranking of rankings) {
       if (ranking.entries.length === 0) continue;
-      const previous = (
-        await tx
-          .select()
-          .from(weeklyChartEditions)
-          .where(
-            and(
-              eq(weeklyChartEditions.chart, ranking.chart),
-              eq(weeklyChartEditions.week, previousWeek(week)),
-              isNotNull(weeklyChartEditions.publishedAt),
-            ),
-          )
-          .limit(1)
-      )[0];
+      const published = await tx
+        .select()
+        .from(weeklyChartEditions)
+        .where(
+          and(
+            eq(weeklyChartEditions.chart, ranking.chart),
+            isNotNull(weeklyChartEditions.publishedAt),
+          ),
+        );
+      const previousId = previousComparableEdition(
+        published.map((row) => row.week),
+        week,
+      );
+      const previous = published.find((row) => row.week === previousId);
       const previousEntries = previous?.payload.entries ?? [];
       const publishedAt = new Date().toISOString();
       const entries = ranking.entries.map((item) => ({
@@ -653,7 +655,7 @@ export async function readChartsCollectionProgress(): Promise<ChartsCollectionPr
       const readyAt = new Date(
         Date.parse(`${firstDate}T00:00:00Z`) + GITHUB_HISTORY_DAYS * 86_400_000,
       );
-      earliestPossibleEditionWeek = isoWeekOf(readyAt);
+      earliestPossibleEditionWeek = readyAt.toISOString().slice(0, 10);
     }
 
     return {

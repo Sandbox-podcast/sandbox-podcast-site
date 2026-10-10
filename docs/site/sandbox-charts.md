@@ -44,7 +44,7 @@ corepack pnpm --filter @podcast/site charts:weekly -- --draft
 
 Le seed relit jusqu'à trente dépôts publics du catalogue existant via GitHub. Il ajoute des candidats sans créer de métriques ni de faux historiques. Le mode dry run du seed ne sauvegarde rien. Celui du classement ne crée ni édition ni journal. `--date=YYYY-MM-DD` est disponible pour une simulation historique à partir de relevés existants ; les semaines futures sont refusées.
 
-Le mode brouillon fige les positions sans publier. Le cron hebdomadaire publie automatiquement les nouvelles éditions autorisées par le brief. Une publication manuelle s'effectue dans l'admin. Ne pas lancer un déploiement, une publication externe ou un push sans l'accord du propriétaire.
+Le mode brouillon fige les positions sans publier. Le cron de 03:00 UTC publie chaque jour une nouvelle édition lorsque la collecte du jour et l'historique requis sont là. Une édition existante n'est pas recalculée. Une publication manuelle s'effectue dans l'admin. Ne pas lancer un déploiement, une publication externe ou un push sans l'accord du propriétaire.
 
 La qualification après collecte promeut automatiquement les candidats qui remplissent les critères, sauf statut manuel. En cas de limite de durée ou de quota, relancer la collecte : les relevés du jour déjà sauvegardés sont ignorés. Un job de même type déjà en cours bloque une seconde exécution. Un bail de quinze minutes permet la reprise après interruption.
 

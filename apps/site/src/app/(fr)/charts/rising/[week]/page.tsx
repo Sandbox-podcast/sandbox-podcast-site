@@ -4,6 +4,7 @@ import { sandboxChartsData } from '@/lib/sandbox-charts';
 import { chartSelectionSchema, hasChartSelectionQuery } from '@/domain/chart-selection';
 import { hasChartEdition } from '@/domain/sandbox-charts';
 import { hasIndexableChartContent } from '@/domain/chart-seo';
+import { editionIdSchema } from '@/domain/schema';
 import { pageMetadata } from '@/lib/seo';
 export async function generateMetadata({
   params,
@@ -15,7 +16,7 @@ export async function generateMetadata({
   searchParams?: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const { week } = await params;
-  if (!/^\d{4}-W(0[1-9]|[1-4]\d|5[0-3])$/.test(week)) return {};
+  if (!editionIdSchema.safeParse(week).success) return {};
   const data = await sandboxChartsData(week);
   return pageMetadata({
     title: `RISING 20 · ${week} · SANDBOX CHARTS`,
@@ -37,7 +38,7 @@ export default async function RisingWeekPage({
 }) {
   const { week } = await params;
   const selection = chartSelectionSchema.parse(await searchParams);
-  if (!/^\d{4}-W(0[1-9]|[1-4]\d|5[0-3])$/.test(week)) notFound();
+  if (!editionIdSchema.safeParse(week).success) notFound();
   const data = await sandboxChartsData(week);
   if (data.mode !== 'unavailable' && !hasChartEdition(data, 'rising', week)) notFound();
   return (

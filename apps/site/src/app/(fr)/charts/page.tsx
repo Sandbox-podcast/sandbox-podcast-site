@@ -9,9 +9,9 @@ export async function generateMetadata({
 }: { searchParams?: Promise<Record<string, string | string[] | undefined>> } = {}) {
   const data = await sandboxChartsData();
   return pageMetadata({
-    title: 'SANDBOX CHARTS | Les classements hebdomadaires de l’IA',
+    title: 'SANDBOX CHARTS | Les classements quotidiens de l’IA',
     description:
-      'GitHub Top 20, Skills, Models et Rising. Les positions, les mouvements et les projets IA à surveiller, chaque semaine.',
+      'GitHub Top 20, Skills, Models et Rising. Les positions, les mouvements et les projets IA à surveiller, chaque jour.',
     path: '/charts',
     noindex: !hasIndexableChartCollection(data) || hasChartSelectionQuery(await searchParams),
   });

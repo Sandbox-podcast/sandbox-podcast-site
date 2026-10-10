@@ -17,7 +17,6 @@ import {
   type SkillScoreInput,
 } from '../domain/external-charts.ts';
 import { closestBaseline, utcDate, type DailyGithubSnapshot } from '../domain/github-charts.ts';
-import { isoWeekOf } from '../domain/weeks.ts';
 import { beginChartsJob, finishChartsJob, requireChartsDatabase } from '../lib/charts-store.ts';
 import {
   externalCandidates,
@@ -867,7 +866,7 @@ async function calculateExternalWeek(
     );
     return;
   }
-  const week = isoWeekOf(new Date(`${date}T00:00:00Z`));
+  const week = date;
   const [skillCandidates, modelCandidates] = await Promise.all([
     ready.skills ? externalCandidates('skill', date) : Promise.resolve([]),
     ready.models ? externalCandidates('model', date) : Promise.resolve([]),
@@ -883,7 +882,7 @@ async function calculateExternalWeek(
     const skillsShort = ready.skills && skills.length < 20;
     const modelsShort = ready.models && models.length < 20;
     summary.status = skillsShort || modelsShort ? 'insufficient_history' : 'success';
-    summary.details.push('Simulation : aucune édition hebdomadaire ni journal de job écrit.');
+    summary.details.push('Simulation : aucune édition ni journal de job écrit.');
     return;
   }
   let written = 0;

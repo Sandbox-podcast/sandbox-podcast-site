@@ -3,6 +3,6 @@
     { "path": "/api/cron/github-discovery", "schedule": "0 1 * * *" },
     { "path": "/api/cron/github-daily", "schedule": "0 2 * * *" },
     { "path": "/api/cron/external-daily", "schedule": "30 2 * * *" },
-    { "path": "/api/cron/github-weekly", "schedule": "0 3 * * 1" }
+    { "path": "/api/cron/github-weekly", "schedule": "0 3 * * *" }
   ]
 }

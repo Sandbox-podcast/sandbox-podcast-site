@@ -137,7 +137,7 @@ export function AdminChartsConsole({
           <span className="eyebrow">SANDBOX CHARTS · GitHub</span>
           <h2 id="admin-section-title">La fabrique des charts</h2>
           <p className="admin-copy">
-            Des relevés quotidiens, une édition figée chaque lundi, votre lecture de la semaine.
+            Des relevés quotidiens, une édition figée chaque matin, votre lecture du jour.
           </p>
         </div>
         <a className="btn" href="/charts" target="_blank" rel="noreferrer">

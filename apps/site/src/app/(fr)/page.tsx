@@ -9,7 +9,7 @@ import { JsonLd } from '@/components/json-ld';
 import { isMock, siteConfig } from '@/config/site';
 import { episodeArtwork } from '@/domain/episode-artwork';
 import { formatDateShort, formatDuration } from '@/domain/format';
-import { shortWeek } from '@/domain/weeks';
+import { editionMark } from '@/domain/weeks';
 import { allEpisodes, allTopics, getHost, getTopic } from '@/lib/repository';
 import { absoluteUrl, pageMetadata } from '@/lib/seo';
 import { preparePublishedEditorialContent } from '@/lib/admin-persistence';
@@ -199,7 +199,7 @@ export default async function HomePage() {
           <div>
             <p className="label text-ink-3">
               <Text>{'Semaine '}</Text>
-              <Text>{shortWeek(week).slice(1)}</Text>
+              <Text>{editionMark(week)}</Text>
             </p>
             <h2 id="ranking-shelf-title" className="section-title">
               <Text>{'Les classements'}</Text>

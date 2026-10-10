@@ -6,7 +6,7 @@ import {
   type ChartsData,
   type ChartsSeries,
 } from '../domain/sandbox-charts.ts';
-import { isoWeekOf } from '../domain/weeks.ts';
+import { compareWeeks, isoWeekOf } from '../domain/weeks.ts';
 import { hasDatabaseConfiguration } from '../db/client.ts';
 import {
   liveChartEntities,
@@ -171,12 +171,14 @@ export const sandboxChartsData = cache(async function sandboxChartsData(
       requestedWeek ??
       snapshots
         .map((snapshot) => snapshot.week)
-        .sort()
+        .toSorted(compareWeeks)
         .at(-1) ??
       week;
     data.week = week;
     data.mode = snapshots.length ? 'live' : 'pending';
-    data.weeks = [...new Set(snapshots.map((snapshot) => snapshot.week))].sort().reverse();
+    data.weeks = [...new Set(snapshots.map((snapshot) => snapshot.week))].toSorted((left, right) =>
+      compareWeeks(right, left),
+    );
     data.series = data.series.map((item) => {
       const itemSnapshots = snapshots.filter(
         (snapshot) => snapshot.chart === item.id || snapshot.chart === item.slug,

@@ -1,6 +1,7 @@
 import { Text, LocalizedElement } from '@/components/localization';
 import { LocalizedLink as Link } from '@/components/localization';
 import { chartRows, CHART_LABELS, type ChartId, type ChartsData } from '@/domain/sandbox-charts';
+import { shortWeek } from '@/domain/weeks';
 import { formatCompact, formatNumber } from '@/domain/format';
 import { ChartMovement } from './charts-ranking';
 export function ChartsMini({ data, id }: { data: ChartsData; id: ChartId }) {
@@ -14,8 +15,8 @@ export function ChartsMini({ data, id }: { data: ChartsData; id: ChartId }) {
     >
       <header className="mini-chart-heading mb-1">
         <p className="label text-ink-2">
-          <Text>{'SANDBOX CHARTS \u00B7 W'}</Text>
-          <Text>{data.week.slice(-2)}</Text>
+          <Text>{'SANDBOX CHARTS \u00B7 '}</Text>
+          <Text>{shortWeek(data.week)}</Text>
         </p>
         <h3 className="display mini-chart-title text-3xl">
           <Link href={`/charts/${meta.slug}`}>

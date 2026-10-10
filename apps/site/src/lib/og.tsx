@@ -3,7 +3,7 @@ import { join } from 'node:path';
 import { ImageResponse } from 'next/og';
 import { siteConfig } from '@/config/site';
 import { formatCompact, formatDayMonth, formatNumber, padRank } from '@/domain/format';
-import { shortWeek, weekEnd, weekStart } from '@/domain/weeks';
+import { editionEnd, editionMark, editionStart } from '@/domain/weeks';
 import { highlightHeadline } from './moves';
 import type { ChartView, Highlight } from './repository';
 import type { Entity, Episode, Story } from '@/domain/schema';
@@ -373,8 +373,8 @@ export async function chartCard(view: ChartView): Promise<ImageResponse> {
             {view.chart.code}
           </span>
           <span>
-            Week {shortWeek(view.week).slice(1)} · {formatDayMonth(weekStart(view.week))} –{' '}
-            {formatDayMonth(weekEnd(view.week))}
+            Week {editionMark(view.week)} · {formatDayMonth(editionStart(view.week))} –{' '}
+            {formatDayMonth(editionEnd(view.week))}
           </span>
         </div>
         <div
@@ -460,7 +460,7 @@ export async function chartCard(view: ChartView): Promise<ImageResponse> {
           );
         })}
       </div>
-      <Footer right={`Top ${String(view.chart.size)} · mis à jour chaque semaine`} />
+      <Footer right={`Top ${String(view.chart.size)} · mis à jour chaque jour`} />
     </div>,
   );
 }
@@ -486,7 +486,7 @@ export async function moveCard(
         }}
       >
         <span>{chart.title}</span>
-        <span>Week {shortWeek(week).slice(1)}</span>
+        <span>Week {editionMark(week)}</span>
       </div>
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <div

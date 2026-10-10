@@ -3,7 +3,6 @@ import {
   dateDaysAgo,
   qualifiesRepository,
   rankGithubProjects,
-  rankingWeek,
   utcDate,
   type DailyGithubSnapshot,
 } from '../domain/github-charts.ts';
@@ -228,7 +227,7 @@ export async function calculateGithubWeek(
   requireChartsDatabase();
   const date = z.iso.date().parse(options.date ?? utcDate());
   if (date > utcDate()) throw new Error('Une semaine future ne peut pas être calculée.');
-  const week = rankingWeek(date);
+  const week = date;
   const config = await readChartsConfig();
   const candidates = await weeklyCandidates(date, config);
   const entries = rankGithubProjects(candidates, config);

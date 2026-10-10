@@ -128,6 +128,17 @@ describe('présentation des charts', () => {
     expect(rows[1]?.score).toBe(50);
     expect(rows[0]?.movement.delta).toBe(1);
   });
+  it('compare une édition du jour à la publication précédente proche', () => {
+    const data = dataset();
+    const firstSeries = data.series[0];
+    if (!firstSeries) throw new Error('Série fixture absente');
+    const latest = firstSeries.snapshots.at(-1);
+    if (!latest) throw new Error('Fixture absente');
+    firstSeries.snapshots.push({ ...latest, week: '2026-10-11' });
+    expect(chartRows(data, 'github', '2026-10-11').every((row) => row.baseline)).toBe(false);
+    firstSeries.snapshots.push({ ...latest, week: '2026-10-20' });
+    expect(chartRows(data, 'github', '2026-10-20').every((row) => row.baseline)).toBe(true);
+  });
   it('ne compare pas une semaine à une archive éloignée si l’édition précédente manque', () => {
     const data = dataset();
     const firstSeries = data.series[0];

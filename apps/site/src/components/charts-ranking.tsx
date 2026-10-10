@@ -1,6 +1,7 @@
 import { Text, LocalizedElement, useLocalization } from '@/components/localization';
 import { LocalizedLink as Link } from '@/components/localization';
 import { formatCompact, formatNumber } from '@/domain/format';
+import { shortWeek } from '@/domain/weeks';
 import { interpolateText } from '@/i18n/translation';
 import {
   chartFilterLabel,
@@ -395,8 +396,7 @@ export function ChartsRanking({
                       {row.rankSeries.map((point) => (
                         <span key={point.week}>
                           <small>
-                            <Text>{'W'}</Text>
-                            <Text>{point.week.slice(-2)}</Text>
+                            <Text>{shortWeek(point.week)}</Text>
                           </small>
                           <b>
                             <Text>{point.rank === null ? '-' : `#${point.rank}`}</Text>

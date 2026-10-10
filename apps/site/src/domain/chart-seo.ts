@@ -1,4 +1,4 @@
-import { slugSchema } from './schema.ts';
+import { editionIdSchema, slugSchema } from './schema.ts';
 import type { ChartId, ChartsData } from './sandbox-charts.ts';
 
 export interface PublishedChartEditionForSitemap {
@@ -6,8 +6,6 @@ export interface PublishedChartEditionForSitemap {
   week: string;
   entries: number;
 }
-
-const WEEK_ID = /^\d{4}-W(0[1-9]|[1-4]\d|5[0-3])$/;
 
 export function chartIdForSlug(slug: string): ChartId | undefined {
   switch (slug) {
@@ -57,7 +55,8 @@ export function publishedChartSitemapPaths(
     models: new Set(),
   };
   for (const edition of editions) {
-    if (edition.entries > 0 && WEEK_ID.test(edition.week)) weeks[edition.chart].add(edition.week);
+    if (edition.entries > 0 && editionIdSchema.safeParse(edition.week).success)
+      weeks[edition.chart].add(edition.week);
   }
 
   const chartSlugs: Record<ChartId, string> = {

@@ -237,7 +237,7 @@ export async function ChartsMethodology({ rising = false }: { rising?: boolean }
             <p>
               <Text>
                 {
-                  'Les vues mensuelles et sur trois mois mesurent la pr\u00E9sence aux meilleures places : moyenne de 100 / rang sur les semaines disponibles, avec z\u00E9ro point les semaines hors classement. Elles ne moyennent pas des scores normalis\u00E9s de groupes diff\u00E9rents. Une semaine appartient au mois de son lundi.'
+                  'Les vues mensuelles et sur trois mois mesurent la pr\u00E9sence aux meilleures places : moyenne de 100 / rang sur les semaines disponibles, avec z\u00E9ro point les semaines hors classement. Elles ne moyennent pas des scores normalis\u00E9s de groupes diff\u00E9rents. Une édition datée appartient à son mois. Une semaine ISO appartient au mois de son lundi.'
                 }
               </Text>
             </p>
@@ -305,7 +305,7 @@ export async function ChartsMethodology({ rising = false }: { rising?: boolean }
             <br />
             <Text>{'Collecte : 02:00 UTC.'}</Text>
             <br />
-            <Text>{'\u00C9dition : lundi \u00E0 03:00 UTC.'}</Text>
+            <Text>{'\u00C9dition : chaque jour \u00E0 03:00 UTC.'}</Text>
           </p>
           <p>
             <Text>

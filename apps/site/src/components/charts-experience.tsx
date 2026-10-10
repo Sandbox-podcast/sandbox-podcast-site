@@ -20,7 +20,7 @@ import {
   type ChartsData,
   type ChartsRow,
 } from '@/domain/sandbox-charts';
-import { weekStart } from '@/domain/weeks';
+import { editionMark, editionStart, isCalendarEdition, shortWeek } from '@/domain/weeks';
 import { intlLocale } from '@/i18n/translation';
 import {
   ChartsMarket,
@@ -87,7 +87,7 @@ export function ChartsExperience({
     month: 'long',
     year: 'numeric',
     timeZone: 'UTC',
-  }).format(weekStart(week));
+  }).format(editionStart(week));
   const filters = id === 'skills' ? SKILL_FILTERS : PROJECT_FILTERS;
   const months = [...new Set(data.weeks.map(editionMonth))];
   const episodes = data.episodes.filter(
@@ -131,7 +131,7 @@ export function ChartsExperience({
             <Text>{'LES CLASSEMENTS IA'}</Text>
           </span>
           <span>
-            <Text>{'MISE À JOUR CHAQUE LUNDI'}</Text>
+            <Text>{'MISE À JOUR CHAQUE JOUR'}</Text>
           </span>
           <span>
             <Text>
@@ -153,15 +153,15 @@ export function ChartsExperience({
               </span>
             </h1>
             <p>
-              <Text>{'Les classements hebdomadaires de ce qui compte dans l’IA.'}</Text>
+              <Text>{'Les classements quotidiens de ce qui compte dans l’IA.'}</Text>
             </p>
           </div>
           <div className="sc-week-stamp">
             <span className="sc-label">
-              <Text>{'SEMAINE'}</Text>
+              <Text>{isCalendarEdition(week) ? 'JOUR' : 'SEMAINE'}</Text>
             </span>
             <strong>
-              <Text>{week.slice(-2)}</Text>
+              <Text>{editionMark(week)}</Text>
             </strong>
             <span className="sc-label">
               <Text>{month}</Text>
@@ -279,8 +279,7 @@ export function ChartsExperience({
                 <Text>
                   {(data.weeks.length ? data.weeks : [data.week]).map((item) => (
                     <option key={item} value={item}>
-                      <Text>{'W'}</Text>
-                      <Text>{item.slice(-2)}</Text>
+                      <Text>{shortWeek(item)}</Text>
                       <Text>{' / '}</Text>
                       <Text>{item.slice(0, 4)}</Text>
                     </option>
@@ -518,9 +517,8 @@ export function ChartsExperience({
                           <li>
                             <Text>{'Première édition possible : '}</Text>
                             <Text>
-                              {data.progress.earliestPossibleEditionWeek
-                                ? `semaine ${data.progress.earliestPossibleEditionWeek}`
-                                : 'après le démarrage de la collecte'}
+                              {data.progress.earliestPossibleEditionWeek ??
+                                'après le démarrage de la collecte'}
                             </Text>
                           </li>
                         </>
@@ -626,8 +624,7 @@ export function ChartsExperience({
                       <Text>{item.slice(0, 4)}</Text>
                     </small>
                     <b>
-                      <Text>{'W'}</Text>
-                      <Text>{item.slice(-2)}</Text>
+                      <Text>{shortWeek(item)}</Text>
                     </b>
                   </button>
                 ))}
@@ -642,8 +639,8 @@ export function ChartsExperience({
               </p>
             ) : (
               <Link className="sc-archive-link" href={`/charts/${meta.slug}/${week}`}>
-                <Text>{"Ouvrir l'\u00E9dition W"}</Text>
-                <Text>{week.slice(-2)}</Text>
+                <Text>{"Ouvrir l'\u00E9dition "}</Text>
+                <Text>{shortWeek(week)}</Text>
                 <Text>{' \u2197'}</Text>
               </Link>
             )}
@@ -652,7 +649,7 @@ export function ChartsExperience({
         <section className="sc-newsletter" aria-labelledby="sc-newsletter-title">
           <div>
             <p className="sc-label">
-              <Text>{'SANDBOX CHARTS / CHAQUE LUNDI'}</Text>
+              <Text>{'SANDBOX CHARTS / CHAQUE JOUR'}</Text>
             </p>
             <h2 id="sc-newsletter-title">
               <Text>{'SUIVEZ CE QUI'}</Text>
@@ -663,7 +660,7 @@ export function ChartsExperience({
               </span>
             </h2>
             <p>
-              <Text>{'Recevez les classements SANDBOX chaque semaine par e-mail.'}</Text>
+              <Text>{'Recevez les classements SANDBOX chaque jour par e-mail.'}</Text>
             </p>
           </div>
           <div>

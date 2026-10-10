@@ -36,7 +36,7 @@ describe('classements publics en français', () => {
   it('affiche un état d’attente exact et les commandes en français', () => {
     const html = renderToStaticMarkup(createElement(ChartsExperience, { data: pending }));
     expect(html).toContain('LES CLASSEMENTS IA');
-    expect(html).toContain('MISE À JOUR CHAQUE LUNDI');
+    expect(html).toContain('MISE À JOUR CHAQUE JOUR');
     expect(html).toContain('SEMAINE');
     expect(html).toContain('octobre 2026');
     expect(html).toContain('LE CLASSEMENT HEBDOMADAIRE');
@@ -49,7 +49,7 @@ describe('classements publics en français', () => {
     expect(html).toContain(' / ');
     expect(html).toContain('7');
     expect(html).toContain('Première édition possible : ');
-    expect(html).toContain('semaine 2026-W42');
+    expect(html).toContain('2026-W42');
     expect(html).toContain('LES ARCHIVES');
     expect(html).not.toContain('THE WEEKLY RANKING');
     expect(html).not.toContain('BUILDING THE HISTORY');
@@ -81,7 +81,7 @@ describe('classements publics en anglais', () => {
       }),
     );
     expect(html).toContain('THE AI CHARTS');
-    expect(html).toContain('UPDATED EVERY MONDAY');
+    expect(html).toContain('UPDATED EVERY DAY');
     expect(html).toContain('No edition has been published for this ranking.');
     expect(html).not.toContain('LES CLASSEMENTS IA');
     expect(html).not.toContain('Aucune édition publiée pour ce classement.');

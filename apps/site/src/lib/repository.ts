@@ -19,7 +19,7 @@ import type {
   Topic,
   Unit,
 } from '../domain/schema.ts';
-import { compareWeeks, nextWeek, previousWeek, weekEnd, weekStart } from '../domain/weeks.ts';
+import { compareWeeks, editionEnd, editionStart, nextWeek, previousWeek } from '../domain/weeks.ts';
 import { siteConfig } from '../config/site.ts';
 import { contentVersion, loadContent, type Content } from './load.ts';
 import { validateContent } from './validate.ts';
@@ -297,8 +297,8 @@ export function chartView(chartSlug: string, week?: string): ChartView {
     profile,
     snapshot,
     week: snapshot.week,
-    weekStartIso: weekStart(snapshot.week).toISOString(),
-    weekEndIso: weekEnd(snapshot.week).toISOString(),
+    weekStartIso: editionStart(snapshot.week).toISOString(),
+    weekEndIso: editionEnd(snapshot.week).toISOString(),
     isLatest: idx === history.length - 1,
     baseline,
     previousWeek: prev?.week ?? null,

@@ -7,6 +7,7 @@ import { pageMetadata } from '@/lib/seo';
 import { CHART_LABELS, hasChartEdition } from '@/domain/sandbox-charts';
 import { chartSelectionSchema, hasChartSelectionQuery } from '@/domain/chart-selection';
 import { chartIdForSlug, hasIndexableChartContent } from '@/domain/chart-seo';
+import { editionIdSchema } from '@/domain/schema';
 export const dynamicParams = true;
 export const dynamic = 'force-dynamic';
 interface Props {
@@ -19,7 +20,7 @@ interface Props {
 export async function generateMetadata({ params, searchParams }: Props) {
   const { slug, week } = await params;
   const chart = findChart(slug);
-  if (!chart || !/^\d{4}-W(0[1-9]|[1-4]\d|5[0-3])$/.test(week)) return {};
+  if (!chart || !editionIdSchema.safeParse(week).success) return {};
   const title =
     Object.values(CHART_LABELS).find((item) => item.slug === slug)?.title ?? 'MODELS TOP 20';
   const chartId = chartIdForSlug(slug);
@@ -41,7 +42,7 @@ export async function generateMetadata({ params, searchParams }: Props) {
 export default async function ChartWeekPage({ params, searchParams }: Props) {
   const { slug, week } = await params;
   const selection = chartSelectionSchema.parse(await searchParams);
-  if (!findChart(slug) || !/^\d{4}-W(0[1-9]|[1-4]\d|5[0-3])$/.test(week)) notFound();
+  if (!findChart(slug) || !editionIdSchema.safeParse(week).success) notFound();
   if (slug === 'github' || slug === 'skills' || slug === 'ai-models' || slug === 'open-source-ai') {
     const chartId = slug === 'ai-models' || slug === 'open-source-ai' ? 'models' : slug;
     const data = await sandboxChartsData(week);
