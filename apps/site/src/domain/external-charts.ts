@@ -49,9 +49,9 @@ export interface SkillScoreInput {
   entity: ExternalEntity;
   metrics: {
     installs: number;
-    installs7d: number;
+    installs7d: number | null;
     stars: number;
-    stars7d: number;
+    stars7d: number | null;
     forks: number;
     freshness: number;
   };
@@ -128,6 +128,12 @@ function combine(scores: readonly (number | null)[], weights: readonly number[])
   return coverage ? Math.round((weighted / coverage) * 100) / 100 : null;
 }
 
+function measuredNumbers(values: Record<string, number | null>): Record<string, number> {
+  return Object.fromEntries(
+    Object.entries(values).filter((entry): entry is [string, number] => entry[1] !== null),
+  );
+}
+
 function metricPercentiles<T extends { entity: ExternalEntity }>(
   candidates: readonly T[],
   value: (item: T) => number | null,
@@ -149,6 +155,8 @@ export function scoreSkills(
   size = 10,
 ): ScoredExternalEntity[] {
   if (!Number.isSafeInteger(size) || size < 1) throw new Error('Taille Skills invalide.');
+  if (candidates.length > 0 && candidates.every((item) => item.metrics.installs7d === null))
+    return rankSkillsByInstalls(candidates, size);
   const installGrowth = metricPercentiles(candidates, (item) => item.metrics.installs7d);
   const githubGrowth = metricPercentiles(candidates, (item) => item.metrics.stars7d);
   const installReach = metricPercentiles(candidates, (item) => item.metrics.installs);
@@ -181,19 +189,56 @@ export function scoreSkills(
               entity: item.entity,
               score,
               dimensions: { ...dimensions, momentum: score },
-              metrics: {
+              metrics: measuredNumbers({
                 installs: item.metrics.installs,
                 installs7d: item.metrics.installs7d,
                 stars: item.metrics.stars,
                 stars7d: item.metrics.stars7d,
                 forks: item.metrics.forks,
                 freshness: item.metrics.freshness,
-              },
+              }),
               sourceObservedAt: item.sourceObservedAt,
             },
           ];
     })
     .toSorted((a, b) => b.score - a.score || a.entity.slug.localeCompare(b.entity.slug))
+    .slice(0, size)
+    .map((item, index) => ({ ...item, rank: index + 1 }));
+}
+
+function rankSkillsByInstalls(
+  candidates: readonly SkillScoreInput[],
+  size: number,
+): ScoredExternalEntity[] {
+  const reach = metricPercentiles(candidates, (item) => item.metrics.installs);
+  return candidates
+    .flatMap((item) => {
+      const score = reach.get(item.entity.slug);
+      if (score === undefined) return [];
+      return [
+        {
+          entity: item.entity,
+          rank: 0,
+          score,
+          dimensions: { reach: score, momentum: score },
+          metrics: measuredNumbers({
+            installs: item.metrics.installs,
+            installs7d: item.metrics.installs7d,
+            stars: item.metrics.stars,
+            stars7d: item.metrics.stars7d,
+            forks: item.metrics.forks,
+            freshness: item.metrics.freshness,
+          }),
+          sourceObservedAt: item.sourceObservedAt,
+        },
+      ];
+    })
+    .toSorted(
+      (a, b) =>
+        b.score - a.score ||
+        (b.metrics['installs'] ?? 0) - (a.metrics['installs'] ?? 0) ||
+        a.entity.slug.localeCompare(b.entity.slug),
+    )
     .slice(0, size)
     .map((item, index) => ({ ...item, rank: index + 1 }));
 }
