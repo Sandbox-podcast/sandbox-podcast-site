@@ -2,6 +2,8 @@ import { describe, expect, it } from 'vitest';
 import {
   chartRows,
   chartsRecords,
+  editionWeekForChart,
+  latestEditionWeek,
   hasChartEdition,
   marketSignals,
   matchesChartFilter,
@@ -112,6 +114,33 @@ describe('présentation des charts', () => {
         (record) => record.label === 'PLUS LONGUE SÉRIE À LA 1RE PLACE',
       )?.value,
     ).toBe('1 sem.');
+  });
+  it('retient la dernière édition du classement demandé', () => {
+    const data = dataset();
+    data.week = '2026-10-10';
+    data.series.push({
+      id: 'models',
+      slug: 'ai-models',
+      primary: 'quality',
+      dimensions: [],
+      metrics: [],
+      editions: [],
+      snapshots: [
+        snapshotSchema.parse({
+          chart: 'models',
+          week: '2026-W41',
+          publishedAt: '2026-10-05T03:00:00Z',
+          retrievedAt: '2026-10-05T02:00:00Z',
+          provenance: 'auto',
+          entries: [{ entity: 'a', rank: 1, score: 100, dimensions: {}, metrics: {} }],
+        }),
+      ],
+    });
+    expect(latestEditionWeek(data, 'models')).toBe('2026-W41');
+    expect(editionWeekForChart(data, 'models')).toBe('2026-W41');
+    expect(editionWeekForChart(data, 'github')).toBe('2026-W41');
+    expect(chartRows(data, 'models', latestEditionWeek(data, 'models'))).toHaveLength(1);
+    expect(chartRows(data, 'models', data.week)).toEqual([]);
   });
   it('calcule les mouvements et garde une mesure absente comme absente', () => {
     const rows = chartRows(dataset(), 'github', '2026-W41');

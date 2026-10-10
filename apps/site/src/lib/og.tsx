@@ -7,7 +7,13 @@ import { editionEnd, editionMark, editionStart } from '@/domain/weeks';
 import { highlightHeadline } from './moves';
 import type { ChartView, Highlight } from './repository';
 import type { Entity, Episode, Story } from '@/domain/schema';
-import { chartRows, CHART_LABELS, type ChartId, type ChartsData } from '@/domain/sandbox-charts';
+import {
+  chartRows,
+  CHART_LABELS,
+  editionWeekForChart,
+  type ChartId,
+  type ChartsData,
+} from '@/domain/sandbox-charts';
 
 /**
  * Cartes OpenGraph (1200×630) pour X, LinkedIn, Discord et Slack. Satori n'accepte ni les polices variables
@@ -71,7 +77,8 @@ async function render(node: React.ReactElement): Promise<ImageResponse> {
 
 /** Les cartes publiques utilisent le même jeu de données que SANDBOX CHARTS. */
 export function sandboxChartCard(data: ChartsData, id: ChartId) {
-  const rows = chartRows(data, id, data.week).slice(0, 3);
+  const week = editionWeekForChart(data, id);
+  const rows = chartRows(data, id, week).slice(0, 3);
   return render(
     <div
       style={{
@@ -89,7 +96,7 @@ export function sandboxChartCard(data: ChartsData, id: ChartId) {
         style={{ display: 'flex', justifyContent: 'space-between', fontSize: 26, fontWeight: 800 }}
       >
         <span>SANDBOX CHARTS</span>
-        <span style={{ color: '#3cd6fc', fontFamily: 'Mono' }}>{data.week}</span>
+        <span style={{ color: '#3cd6fc', fontFamily: 'Mono' }}>{week}</span>
       </div>
       <div
         style={{

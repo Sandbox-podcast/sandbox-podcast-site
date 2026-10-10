@@ -235,6 +235,19 @@ function aggregateSnapshots(snapshots: Snapshot[]): Snapshot | undefined {
   return { ...last, entries };
 }
 
+export function latestEditionWeek(data: ChartsData, id: ChartId): string {
+  const weeks =
+    data.series.find((item) => item.id === id)?.snapshots.map((snapshot) => snapshot.week) ?? [];
+  return weeks.toSorted((left, right) => compareWeeks(right, left))[0] ?? data.week;
+}
+
+export function editionWeekForChart(data: ChartsData, id: ChartId): string {
+  const hasSelected = data.series
+    .find((item) => item.id === id)
+    ?.snapshots.some((snapshot) => snapshot.week === data.week);
+  return hasSelected ? data.week : latestEditionWeek(data, id);
+}
+
 export function chartRows(
   data: ChartsData,
   id: ChartId,

@@ -14,13 +14,20 @@ import {
   chartFilterLabel,
   chartRows,
   editionMonth,
+  latestEditionWeek,
   matchesChartFilter,
   type ChartId,
   type ChartPeriod,
   type ChartsData,
   type ChartsRow,
 } from '@/domain/sandbox-charts';
-import { editionMark, editionStart, isCalendarEdition, shortWeek } from '@/domain/weeks';
+import {
+  compareWeeks,
+  editionMark,
+  editionStart,
+  isCalendarEdition,
+  shortWeek,
+} from '@/domain/weeks';
 import { intlLocale } from '@/i18n/translation';
 import {
   ChartsMarket,
@@ -45,11 +52,12 @@ export function ChartsExperience({
   initialSelection?: ChartSelection;
 }) {
   const { locale, t } = useLocalization();
-  const [id, setId] = useState<ChartId>(initialSelection?.chart ?? initialChart);
+  const initialId = initialSelection?.chart ?? initialChart;
+  const [id, setId] = useState<ChartId>(initialId);
   const [week, setWeek] = useState(
     initialSelection?.week && data.weeks.includes(initialSelection.week)
       ? initialSelection.week
-      : data.week,
+      : latestEditionWeek(data, initialId),
   );
   const [period, setPeriod] = useState<ChartPeriod>(initialSelection?.period ?? initialPeriod);
   const [filter, setFilter] = useState(initialSelection?.filter ?? 'All');
@@ -65,7 +73,7 @@ export function ChartsExperience({
     const url = new URL(window.location.href);
     const search = chartSelectionQuery(url.search, {
       chart: id === initialChart ? undefined : id,
-      week: week === data.week ? undefined : week,
+      week: week === latestEditionWeek(data, id) ? undefined : week,
       filter,
       period,
       view: id === 'models' ? view : undefined,
@@ -73,8 +81,20 @@ export function ChartsExperience({
     if (url.search.slice(1) === search) return;
     url.search = search;
     window.history.replaceState(window.history.state, '', url.pathname + url.search + url.hash);
-  }, [id, week, filter, period, view, initialChart, data.week]);
+  }, [id, week, filter, period, view, initialChart, data]);
+  useEffect(() => {
+    const seriesForChart = data.series.find((item) => item.id === id);
+    if (seriesForChart?.snapshots.some((snapshot) => snapshot.week === week)) return;
+    const next = latestEditionWeek(data, id);
+    if (next !== week) setWeek(next);
+  }, [data, id, week]);
   const series = data.series.find((item) => item.id === id);
+  const chartWeeks = useMemo(() => {
+    const weeks = [...new Set(series?.snapshots.map((snapshot) => snapshot.week) ?? [])].toSorted(
+      (left, right) => compareWeeks(right, left),
+    );
+    return weeks.length ? weeks : [data.week];
+  }, [data.week, series]);
   const meta = CHART_LABELS[id];
   const rows = useMemo(
     () => chartRows(data, id, week, period, id === 'models' ? view : undefined),
@@ -89,7 +109,7 @@ export function ChartsExperience({
     timeZone: 'UTC',
   }).format(editionStart(week));
   const filters = id === 'skills' ? SKILL_FILTERS : PROJECT_FILTERS;
-  const months = [...new Set(data.weeks.map(editionMonth))];
+  const months = [...new Set(chartWeeks.map(editionMonth))];
   const episodes = data.episodes.filter(
     (episode) => episode.chart === series?.slug && episode.week === week,
   );
@@ -135,7 +155,7 @@ export function ChartsExperience({
           </span>
           <span>
             <Text>
-              {data.weeks.includes(week) && week !== data.weeks[0]
+              {chartWeeks.includes(week) && week !== chartWeeks[0]
                 ? 'ÉDITION ARCHIVÉE'
                 : 'CETTE SEMAINE'}
             </Text>
@@ -277,7 +297,7 @@ export function ChartsExperience({
                 }}
               >
                 <Text>
-                  {(data.weeks.length ? data.weeks : [data.week]).map((item) => (
+                  {chartWeeks.map((item) => (
                     <option key={item} value={item}>
                       <Text>{shortWeek(item)}</Text>
                       <Text>{' / '}</Text>
@@ -604,7 +624,7 @@ export function ChartsExperience({
           </div>
           <div className="sc-archive-weeks">
             <Text>
-              {data.weeks
+              {chartWeeks
                 .filter((item) => archiveMonth === 'all' || editionMonth(item) === archiveMonth)
                 .map((item) => (
                   <button
