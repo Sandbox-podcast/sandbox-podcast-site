@@ -174,6 +174,8 @@ describe('clients de sources', () => {
       const url = new URL(String(input));
       expect(url.pathname).toBe('/api/models');
       expect(url.searchParams.get('sort')).toBe('downloads');
+      expect(url.searchParams.getAll('expand')).toContain('downloads');
+      expect(url.searchParams.get('expand')).toBe('author');
       return jsonResponse([
         { id: 'org/model', author: 'org', downloads: 100, likes: 10, tags: ['license:apache-2.0'] },
         { id: 'org/private', private: true, downloads: 200, tags: [] },

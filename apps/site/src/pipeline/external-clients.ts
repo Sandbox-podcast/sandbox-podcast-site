@@ -118,10 +118,19 @@ export class HuggingFaceClient {
     url.searchParams.set('sort', 'downloads');
     url.searchParams.set('direction', '-1');
     url.searchParams.set('limit', String(limit));
-    url.searchParams.set(
-      'expand',
-      'author,createdAt,downloads,downloadsAllTime,gated,lastModified,likes,pipeline_tag,safetensors,tags',
-    );
+    for (const field of [
+      'author',
+      'createdAt',
+      'downloads',
+      'downloadsAllTime',
+      'gated',
+      'lastModified',
+      'likes',
+      'pipeline_tag',
+      'safetensors',
+      'tags',
+    ])
+      url.searchParams.append('expand', field);
     const headers = new Headers();
     const token = this.options.token ?? process.env['HUGGINGFACE_TOKEN'] ?? process.env['HF_TOKEN'];
     if (token) headers.set('Authorization', `Bearer ${token}`);
