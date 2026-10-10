@@ -138,11 +138,11 @@ function sourceFor(
   return source;
 }
 
-export async function collectSkills(): Promise<ExternalJobSummary> {
+export async function collectSkills(oidcToken?: string): Promise<ExternalJobSummary> {
   return runLogged('skills_daily_sync', async (summary) => {
     const githubToken = process.env['GITHUB_TOKEN'];
     if (!githubToken) throw new Error('GITHUB_TOKEN requis pour croiser les Skills.sh et GitHub.');
-    const client = new SkillsClient();
+    const client = new SkillsClient(oidcToken ? { token: oidcToken } : {});
     const pages = await Promise.all(
       (['all-time', 'trending'] as const).flatMap((view) =>
         [0, 1].map((page) => client.list(view, page)),
@@ -925,8 +925,8 @@ async function calculateExternalWeek(
   if (summary.failed) summary.status = written ? 'partial' : 'insufficient_history';
 }
 
-export async function collectExternalCharts(): Promise<ExternalJobSummary> {
-  const [skills, models] = await Promise.all([collectSkills(), collectModels()]);
+export async function collectExternalCharts(oidcToken?: string): Promise<ExternalJobSummary> {
+  const [skills, models] = await Promise.all([collectSkills(oidcToken), collectModels()]);
   return {
     processed: skills.processed + models.processed,
     succeeded: skills.succeeded + models.succeeded,

@@ -7,6 +7,7 @@ import { chartsAdminData } from '@/lib/charts-admin';
 import { modifyChartRepository, publishFrozenCharts, writeChartsConfig } from '@/lib/charts-store';
 import { writeChartsEditorial } from '@/lib/charts-editorial';
 import { ContentConflictError } from '@/lib/admin-content-conflict';
+import { vercelOidcToken } from '@/pipeline/external-clients';
 import { collectExternalCharts, freezeExternalCharts } from '@/pipeline/external-jobs';
 import { collectGithub, discoverGithub, freezeGithubWeek } from '@/pipeline/github-jobs';
 
@@ -82,7 +83,7 @@ export async function POST(request: Request) {
           : command.job === 'collect'
             ? await collectGithub()
             : command.job === 'external-collect'
-              ? await collectExternalCharts()
+              ? await collectExternalCharts(vercelOidcToken(request))
               : command.job === 'external-weekly'
                 ? await freezeExternalCharts({ dryRun: command.dryRun, publish: false })
                 : await freezeGithubWeek({ dryRun: command.dryRun, publish: false });

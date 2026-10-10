@@ -13,7 +13,7 @@ Les variables sont décrites dans [apps/site/.env.example](../../apps/site/.env.
 - `DATABASE_URL` ou `POSTGRES_URL` : base existante.
 - `GITHUB_TOKEN` : jeton autorisé à lire les dépôts publics via GraphQL et Search.
 - `CRON_SECRET` : secret d'au moins 16 caractères, transmis par Vercel comme Bearer.
-- `VERCEL_OIDC_TOKEN` : accès aux Skills.sh; activer OIDC Federation dans le projet Vercel.
+- `VERCEL_OIDC_TOKEN` : accès local aux Skills.sh, via `vercel env pull`. En production, la fonction cron reçoit le jeton dans `x-vercel-oidc-token` tant que la fédération OIDC du projet est en mode Team.
 - `OPENROUTER_API_KEY` : facultative, donne les signaux d'usage, débit, prix, contexte et Artificial Analysis.
 - `HUGGINGFACE_TOKEN` : facultative, augmente les limites d'accès au Hub.
 - `SITE_ADMIN_SECRET` et comptes admin existants : accès au backoffice.

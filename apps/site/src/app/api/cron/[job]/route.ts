@@ -1,6 +1,7 @@
 import { timingSafeEqual } from 'node:crypto';
 import { revalidatePath } from 'next/cache';
 import { collectGithub, discoverGithub, freezeGithubWeek } from '@/pipeline/github-jobs';
+import { vercelOidcToken } from '@/pipeline/external-clients';
 import { collectExternalCharts, freezeExternalCharts } from '@/pipeline/external-jobs';
 
 export const runtime = 'nodejs';
@@ -24,7 +25,8 @@ export async function GET(request: Request, { params }: { params: Promise<{ job:
     let summary;
     if (job === 'github-discovery') summary = await discoverGithub();
     else if (job === 'github-daily') summary = await collectGithub();
-    else if (job === 'external-daily') summary = await collectExternalCharts();
+    else if (job === 'external-daily')
+      summary = await collectExternalCharts(vercelOidcToken(request));
     else {
       const [github, external] = await Promise.all([freezeGithubWeek(), freezeExternalCharts()]);
       summary = {

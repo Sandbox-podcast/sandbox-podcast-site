@@ -63,6 +63,13 @@ const skillsPageSchema = z.object({
 });
 export type SkillsItem = z.infer<typeof skillsPageSchema>['data'][number];
 
+export function vercelOidcToken(request?: Request): string | undefined {
+  const header = request?.headers.get('x-vercel-oidc-token')?.trim();
+  if (header) return header;
+  const env = process.env['VERCEL_OIDC_TOKEN']?.trim();
+  return env || undefined;
+}
+
 export class SkillsClient {
   private readonly options: { token?: string | undefined; fetch?: typeof fetch };
 
@@ -71,8 +78,8 @@ export class SkillsClient {
   }
 
   async list(view: 'all-time' | 'trending', page = 0): Promise<SkillsItem[]> {
-    const token = this.options.token ?? process.env['VERCEL_OIDC_TOKEN'];
-    if (!token) throw new Error('VERCEL_OIDC_TOKEN requis pour l’API Skills.sh.');
+    const token = this.options.token ?? process.env['VERCEL_OIDC_TOKEN']?.trim();
+    if (!token) throw new Error('Jeton OIDC Vercel requis pour l’API Skills.sh.');
     const url = new URL('https://skills.sh/api/v1/skills');
     url.searchParams.set('view', view);
     url.searchParams.set('page', String(page));

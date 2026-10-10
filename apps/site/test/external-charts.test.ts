@@ -12,6 +12,7 @@ import {
   HuggingFaceClient,
   OpenRouterClient,
   SkillsClient,
+  vercelOidcToken,
 } from '../src/pipeline/external-clients.ts';
 
 function entity(slug: string): ExternalEntity {
@@ -77,6 +78,22 @@ describe('classements externes', () => {
     expect(rows[0]?.dimensions['growth']).toBe(100);
     expect(rows[0]?.dimensions['githubGrowth']).toBe(0);
     expect(rows[0]?.dimensions['freshness']).toBe(50);
+  });
+
+  it('classe la première édition par installations cumulées sans inventer de variation', () => {
+    const absolute = (slug: string, installs: number): SkillScoreInput => {
+      const row = skill(slug, 1, 1);
+      return {
+        ...row,
+        metrics: { ...row.metrics, installs, installs7d: null, stars7d: null },
+      };
+    };
+    const rows = scoreSkills([absolute('skill-low', 12), absolute('skill-high', 900)], 20);
+    expect(rows.map((row) => row.entity.slug)).toEqual(['skill-high', 'skill-low']);
+    expect(rows[0]?.metrics['installs']).toBe(900);
+    expect(rows[0]?.metrics['installs7d']).toBeUndefined();
+    expect(rows[0]?.metrics['stars7d']).toBeUndefined();
+    expect(rows[0]?.dimensions['reach']).toBe(100);
   });
 
   it('normalise chaque benchmark séparément et conserve le prix gratuit comme meilleur prix', () => {
@@ -167,6 +184,25 @@ describe('clients de sources', () => {
       'trending',
     );
     expect(result.map((item) => item.id)).toEqual(['owner/repo/skill']);
+  });
+
+  it('lit le jeton OIDC de la requête Vercel avant la variable locale', () => {
+    vi.stubEnv('VERCEL_OIDC_TOKEN', 'env-token');
+    const withHeader = new Request('https://www.sandboxpodcast.fr/api/cron/external-daily', {
+      headers: { 'x-vercel-oidc-token': 'header-token' },
+    });
+    expect(vercelOidcToken(withHeader)).toBe('header-token');
+    expect(
+      vercelOidcToken(
+        new Request('https://www.sandboxpodcast.fr/api/cron/external-daily', {
+          headers: { 'x-vercel-oidc-token': '   ' },
+        }),
+      ),
+    ).toBe('env-token');
+    expect(
+      vercelOidcToken(new Request('https://www.sandboxpodcast.fr/api/cron/external-daily')),
+    ).toBe('env-token');
+    vi.unstubAllEnvs();
   });
 
   it('ne lit que les modèles publics du Hub et conserve les colonnes de licence', async () => {
