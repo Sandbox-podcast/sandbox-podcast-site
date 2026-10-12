@@ -67,7 +67,7 @@ export function vercelOidcToken(request?: Request): string | undefined {
   const header = request?.headers.get('x-vercel-oidc-token')?.trim();
   if (header) return header;
   const env = process.env['VERCEL_OIDC_TOKEN']?.trim();
-  return env || undefined;
+  return env === '' ? undefined : env;
 }
 
 export class SkillsClient {
