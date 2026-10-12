@@ -58,7 +58,29 @@ describe('schéma des épisodes du catalogue', () => {
         ...episode,
         platforms: { youtubeId: 'dQw4w9WgXcQ' },
       }),
-    ).toBe('https://i.ytimg.com/vi/dQw4w9WgXcQ/hqdefault.jpg');
+    ).toBe('/api/youtube-thumbnail/dQw4w9WgXcQ');
+    const uploadedArtworkPath = `/api/episode-thumbnails/${'a'.repeat(64)}.webp`;
+    const custom = episodeSchema.parse({
+      ...draftEpisode,
+      cover: { ...draftEpisode.cover, uploadedArtworkPath },
+      platforms: {
+        youtubeId: 'dQw4w9WgXcQ',
+        thumbnailUrl: 'https://i.ytimg.com/vi/dQw4w9WgXcQ/maxresdefault.jpg',
+      },
+    });
+    expect(episodeArtwork(custom)).toBe(uploadedArtworkPath);
+    expect(
+      episodeArtwork({
+        ...custom,
+        cover: { ...custom.cover, uploadedArtworkPath: undefined },
+      }),
+    ).toBe('https://i.ytimg.com/vi/dQw4w9WgXcQ/maxresdefault.jpg');
+    expect(
+      episodeSchema.safeParse({
+        ...draftEpisode,
+        cover: { ...draftEpisode.cover, uploadedArtworkPath: '/api/episode-thumbnails/../x.webp' },
+      }).success,
+    ).toBe(false);
     expect(
       episodeSchema.safeParse({
         ...draftEpisode,

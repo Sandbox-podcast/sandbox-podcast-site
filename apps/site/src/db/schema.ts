@@ -2,6 +2,7 @@ import { sql } from 'drizzle-orm';
 import {
   integer,
   boolean,
+  customType,
   date,
   doublePrecision,
   index,
@@ -49,6 +50,19 @@ export const editorialDraftMeta = pgTable('editorial_draft_meta', {
   id: smallint('id').primaryKey().default(1),
   etag: text('etag').notNull(),
   updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'string' }).notNull().defaultNow(),
+});
+
+const imageBytes = customType<{ data: Buffer; driverData: Buffer }>({
+  dataType: () => 'bytea',
+});
+
+/** Images éditoriales immuables, adressées par leur empreinte SHA-256. */
+export const episodeThumbnails = pgTable('episode_thumbnails', {
+  sha256: text('sha256').primaryKey(),
+  image: imageBytes('image').notNull(),
+  width: integer('width').notNull(),
+  height: integer('height').notNull(),
+  createdAt: timestamp('created_at', { withTimezone: true, mode: 'string' }).notNull().defaultNow(),
 });
 
 /** Comptes du backoffice, migrés depuis SITE_ADMIN_USERS sans mot de passe en clair. */

@@ -2,6 +2,7 @@ import { Text, LocalizedElement } from '@/components/localization';
 import { LocalizedLink as Link } from '@/components/localization';
 import { notFound } from 'next/navigation';
 import { EpisodeCover } from '@/components/cards';
+import { episodeArtwork } from '@/domain/episode-artwork';
 import { CopyButton, YouTubeFacade } from '@/components/client';
 import { Breadcrumbs } from '@/components/ui';
 import { JsonLd } from '@/components/json-ld';
@@ -161,7 +162,7 @@ export default async function EpisodePage({ params }: Props) {
                 <YouTubeFacade
                   id={youtubeId}
                   title={episode.title}
-                  thumbnailUrl={episode.platforms.thumbnailUrl}
+                  thumbnailUrl={episodeArtwork(episode)}
                 />
               ) : (
                 <>
@@ -442,9 +443,9 @@ export default async function EpisodePage({ params }: Props) {
                   '@id': `${absoluteUrl(path)}#video`,
                   name: episode.title,
                   description: episode.dek,
-                  thumbnailUrl:
-                    episode.platforms.thumbnailUrl ??
-                    `https://i.ytimg.com/vi/${youtubeId}/hqdefault.jpg`,
+                  thumbnailUrl: absoluteUrl(
+                    episodeArtwork(episode) ?? `https://i.ytimg.com/vi/${youtubeId}/hqdefault.jpg`,
+                  ),
                   uploadDate: episode.publishedAt,
                   duration: isoDuration(episode.durationSec),
                   embedUrl: `https://www.youtube-nocookie.com/embed/${youtubeId}`,

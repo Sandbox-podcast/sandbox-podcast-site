@@ -62,7 +62,7 @@ Code : `src/domain` (logique pure, sans I/O), `src/i18n` (cibles, routage et cha
 - **RankSpark / RankHistory / SeriesChart** : graphiques SVG serveur, sans JavaScript, avec texte alternatif.
 - **TakeCard** et **data-block** : les deux seuls conteneurs d'information. Aucun composant ne mélange les deux.
 - **MiniChart** : aperçu d'un classement avec une hauteur de titre réservée pour aligner les aperçus.
-- **EpisodeCover** : couverture 16:9 typographique, remplacée par la miniature YouTube importée quand elle existe.
+- **EpisodeCover** : couverture 16:9 typographique, remplacée par la meilleure miniature YouTube disponible ou par le fichier haute définition choisi dans l'admin (voir [DD-0012](../design-decisions/DD-0012-miniatures-episodes.md)).
 - **EpisodeComposer** : création et modification d'un épisode depuis son URL YouTube. La Data API v3 renseigne les métadonnées complètes ; les horodatages et liens de la description alimentent les chapitres et une seule liste de ressources. Sans clé API, oEmbed ne donne que le titre, la chaîne et la miniature.
 - **Saisie rapide admin** : épisode prêt dès l'ouverture du backoffice, import au collage du lien, formulaires de thèmes et de sources sans JSON, avis et fiches ajoutés au Markdown par des actions guidées. Les détails secondaires se déplient au besoin et les brouillons sont enregistrés avant publication.
 - **ChartWeekSelect** : choix d'une semaine directement dans l'en-tête de chaque classement.

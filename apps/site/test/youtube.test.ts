@@ -3,6 +3,7 @@ import {
   parseYouTubeDescription,
   parseYouTubeDuration,
   parseYouTubeVideoId,
+  selectYouTubeThumbnail,
 } from '../src/domain/youtube.ts';
 
 describe('extraction d’un identifiant YouTube', () => {
@@ -20,6 +21,20 @@ describe('extraction d’un identifiant YouTube', () => {
 });
 
 describe('import des informations de la vidéo', () => {
+  it('choisit la meilleure miniature réellement annoncée par YouTube', () => {
+    const thumbnails = {
+      high: { url: 'https://i.ytimg.com/vi/dQw4w9WgXcQ/hqdefault.jpg', width: 480, height: 360 },
+      maxres: {
+        url: 'https://i.ytimg.com/vi/dQw4w9WgXcQ/maxresdefault.jpg',
+        width: 1280,
+        height: 720,
+      },
+    };
+    expect(selectYouTubeThumbnail(thumbnails, 'dQw4w9WgXcQ')).toBe(thumbnails.maxres.url);
+    expect(selectYouTubeThumbnail(undefined, 'dQw4w9WgXcQ')).toBe(
+      'https://i.ytimg.com/vi/dQw4w9WgXcQ/hqdefault.jpg',
+    );
+  });
   it('convertit la durée fournie par YouTube', () => {
     expect(parseYouTubeDuration('PT45M3S')).toBe(2703);
     expect(parseYouTubeDuration('PT1H2M')).toBe(3720);
