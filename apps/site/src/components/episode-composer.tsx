@@ -7,6 +7,8 @@ import { episodeSchema, type Episode, type Host, type Topic } from '@/domain/sch
 import { episodeArtwork } from '@/domain/episode-artwork';
 import { MENTION_KINDS } from '@/domain/kinds';
 import { parseYouTubeVideoId } from '@/domain/youtube';
+import { createEpisodeFromYouTube } from '@/domain/episode-import';
+import { formatDuration } from '@/domain/format';
 
 const youtubeMetadataSchema = z.object({
   videoId: z.string().regex(/^[A-Za-z0-9_-]{11}$/),
@@ -88,10 +90,10 @@ export function EpisodeComposer({
   );
   const inFlightVideoId = useRef<string | undefined>(undefined);
   const requestSerial = useRef(0);
+  const autoDescription = useRef<string | undefined>(undefined);
   const [metadata, setMetadata] = useState<YouTubeMetadata>();
   const [metadataPending, setMetadataPending] = useState(false);
   const [metadataError, setMetadataError] = useState('');
-  const [manualEntry, setManualEntry] = useState(Boolean(episode));
   const [title, setTitle] = useState(episode?.title ?? '');
   const [dek, setDek] = useState(episode?.dek ?? '');
   const [description, setDescription] = useState(episode?.description ?? '');
@@ -150,9 +152,10 @@ export function EpisodeComposer({
       candidate.platforms.youtubeId &&
       candidate.platforms.youtubeId === parseYouTubeVideoId(youtubeUrl),
   );
-  const showFields = Boolean(episode ?? metadata ?? manualEntry);
+  const requiresHostSelection = !hosts.some(
+    (host) => host.slug === defaultHostSlug && !host.placeholder,
+  );
   const missingFields = [
-    !episode && !parseYouTubeVideoId(youtubeUrl) && 'lien YouTube',
     !title.trim() && 'titre',
     !dek.trim() && 'résumé',
     !description.trim() && 'description',
@@ -202,9 +205,16 @@ export function EpisodeComposer({
       setMetadata(result);
       setTitle(result.title);
       setYoutubeUrl(result.url);
-      setManualEntry(true);
       if (newVideo || result.summary) setDek(result.summary ?? '');
-      if (newVideo || result.description) setDescription(result.description ?? '');
+      if (episode) {
+        if (newVideo || result.description) setDescription(result.description ?? '');
+      } else {
+        setDescription((current) => {
+          if (current.trim() && current !== autoDescription.current) return current;
+          autoDescription.current = result.description ?? '';
+          return result.description ?? '';
+        });
+      }
       if (newVideo || result.publishedAt)
         setPublishedAt(result.publishedAt ? localDateTime(result.publishedAt) : '');
       if (newVideo || result.durationSec)
@@ -280,6 +290,25 @@ export function EpisodeComposer({
       setError('Ajoutez le lien YouTube avant de publier ce nouvel épisode.');
       return;
     }
+    if (!episode) {
+      if (!metadata || metadata.videoId !== videoId) {
+        setError('Importez la vidéo YouTube avant d’enregistrer.');
+        return;
+      }
+      try {
+        const created = createEpisodeFromYouTube({
+          number: initialNumber,
+          metadata,
+          description,
+          hosts: selectedHosts,
+          status: action === 'publish' ? 'published' : 'draft',
+        });
+        await onSave(created, action);
+      } catch (reason) {
+        setError(reason instanceof Error ? reason.message : 'Vérifiez la vidéo et sa description.');
+      }
+      return;
+    }
     let date: string;
     try {
       date = new Date(publishedAt).toISOString();
@@ -288,15 +317,15 @@ export function EpisodeComposer({
       return;
     }
     const imported = metadata?.videoId === videoId ? metadata : undefined;
-    const sameVideo = episode?.platforms.youtubeId === videoId;
+    const sameVideo = episode.platforms.youtubeId === videoId;
     const platforms: Episode['platforms'] = {
-      ...episode?.platforms,
+      ...episode.platforms,
       youtubeId: videoId,
       youtubeUrl: videoId ? `https://www.youtube.com/watch?v=${videoId}` : undefined,
       youtubeChannel:
-        imported?.channel ?? (sameVideo ? episode?.platforms.youtubeChannel : undefined),
+        imported?.channel ?? (sameVideo ? episode.platforms.youtubeChannel : undefined),
       thumbnailUrl:
-        imported?.thumbnailUrl ?? (sameVideo ? episode?.platforms.thumbnailUrl : undefined),
+        imported?.thumbnailUrl ?? (sameVideo ? episode.platforms.thumbnailUrl : undefined),
       spotifyUrl: spotifyUrl.trim() || undefined,
       appleUrl: appleUrl.trim() || undefined,
     };
@@ -309,17 +338,17 @@ export function EpisodeComposer({
       durationSec: Number(durationSec),
       description,
       hosts: selectedHosts,
-      guests: episode?.guests ?? [],
+      guests: episode.guests,
       topics: selectedTopics,
       chapters,
       mentions: resources,
       sources: [],
       platforms,
       featured,
-      status: action === 'publish' ? 'published' : (episode?.status ?? 'draft'),
-      charts: episode?.charts ?? [],
+      status: action === 'publish' ? 'published' : episode.status,
+      charts: episode.charts,
       cover: {
-        ...(episode?.cover ?? { tone: 1, kicker: `Épisode ${String(initialNumber)}` }),
+        ...episode.cover,
         uploadedArtworkPath,
       },
     });
@@ -410,13 +439,92 @@ export function EpisodeComposer({
         {metadata ? (
           <p className="admin-help" role="status">
             {metadata.source === 'youtube-data-api'
-              ? `Vidéo importée · ${metadata.channel} · ${String(metadata.chapters?.length ?? 0)} chapitres et ${String(metadata.resources?.length ?? 0)} liens repérés dans la description. Vérifiez les champs avant publication.`
-              : `Titre et miniature importés · ${metadata.channel}. Ajoutez YOUTUBE_API_KEY au serveur pour récupérer aussi la date, la durée, la description, les chapitres et les liens.`}
+              ? `Vidéo importée · ${metadata.channel}. La date et la durée viennent de YouTube.`
+              : `Titre et miniature importés · ${metadata.channel}. Configurez YOUTUBE_API_KEY sur le serveur pour récupérer la date et la durée nécessaires à la création.`}
           </p>
         ) : null}
       </form>
 
-      {showFields ? (
+      {!episode ? (
+        <div className="episode-composer-form">
+          <label className="admin-field admin-span-2">
+            <span>2. Description et sources</span>
+            <textarea
+              rows={10}
+              value={description}
+              onChange={(event) => {
+                setDescription(event.target.value);
+              }}
+              placeholder={
+                'Présentez l’épisode, puis collez les liens des sources et les chapitres horodatés.\n\n00:00 Introduction\nSource : https://…'
+              }
+              required
+            />
+            <small>
+              Si YouTube fournit une description, elle est recopiée ici. Vous pouvez la compléter
+              avant de publier ; les liens et les horodatages seront extraits automatiquement.
+            </small>
+          </label>
+          {requiresHostSelection ? (
+            <fieldset className="admin-field admin-span-2">
+              <legend>Animateur de l’épisode</legend>
+              <div className="admin-check-list">
+                {hosts
+                  .filter((host) => !host.placeholder)
+                  .map((host) => (
+                    <label className="admin-check" key={host.slug}>
+                      <input
+                        type="checkbox"
+                        checked={selectedHosts.includes(host.slug)}
+                        onChange={() => {
+                          toggle(selectedHosts, setSelectedHosts, host.slug);
+                        }}
+                      />
+                      <span>{host.name}</span>
+                    </label>
+                  ))}
+              </div>
+            </fieldset>
+          ) : null}
+          <div className="episode-readiness admin-span-2" role="status">
+            <strong>Épisode {String(initialNumber)}</strong>
+            <span>
+              {metadata?.source === 'youtube-data-api' &&
+              metadata.durationSec &&
+              metadata.publishedAt
+                ? `${metadata.title} · ${formatDuration(metadata.durationSec)} · ${new Date(metadata.publishedAt).toLocaleDateString('fr-FR')}`
+                : 'Collez l’URL pour récupérer le titre, la date et la durée depuis YouTube.'}
+            </span>
+          </div>
+          {error ? (
+            <p className="admin-error admin-span-2" role="alert">
+              {error}
+            </p>
+          ) : null}
+          <p className="admin-help admin-span-2">
+            Le résumé, les chapitres et les ressources proviennent de cette description. Le
+            brouillon reste invisible sur le site jusqu’à sa publication.
+          </p>
+          <div className="admin-save-row admin-span-2">
+            <button
+              className="btn"
+              type="button"
+              onClick={() => void save('draft')}
+              disabled={pending || metadataPending}
+            >
+              Enregistrer le brouillon
+            </button>
+            <button
+              className="btn btn-solid"
+              type="button"
+              onClick={() => void save('publish')}
+              disabled={pending || metadataPending}
+            >
+              Publier l’épisode
+            </button>
+          </div>
+        </div>
+      ) : (
         <>
           <div className="episode-readiness" role="status">
             <strong>2. Vérifiez et publiez</strong>
@@ -526,19 +634,14 @@ export function EpisodeComposer({
                 required
               />
             </label>
-            <label className="admin-field">
-              <span>Durée · secondes</span>
-              <input
-                type="number"
-                min={60}
-                step={1}
-                value={durationSec}
-                onChange={(event) => {
-                  setDurationSec(event.target.value);
-                }}
-                required
-              />
-            </label>
+            <div className="admin-field">
+              <span>Durée YouTube</span>
+              <span className="admin-help">
+                {Number(durationSec) >= 60
+                  ? formatDuration(Number(durationSec))
+                  : 'Actualisez la vidéo depuis YouTube pour récupérer sa durée.'}
+              </span>
+            </div>
             <fieldset className="admin-field admin-span-2">
               <legend>Animateurs</legend>
               <div className="admin-check-list">
@@ -850,9 +953,7 @@ export function EpisodeComposer({
               </p>
             ) : null}
             <p className="admin-help admin-span-2">
-              {episode
-                ? 'Le brouillon ne modifie pas le site public avant publication.'
-                : 'En brouillon, le nouvel épisode reste invisible au public.'}
+              Le brouillon ne modifie pas le site public avant publication.
             </p>
             <div className="admin-save-row admin-span-2">
               <button
@@ -874,22 +975,6 @@ export function EpisodeComposer({
             </div>
           </div>
         </>
-      ) : (
-        <div className="admin-import-empty">
-          <p>
-            Commencez par coller une adresse YouTube. L’épisode {String(initialNumber)} et sa fiche
-            seront préparés automatiquement.
-          </p>
-          <button
-            className="btn"
-            type="button"
-            onClick={() => {
-              setManualEntry(true);
-            }}
-          >
-            Saisir sans import
-          </button>
-        </div>
       )}
     </section>
   );
