@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, type FormEvent } from 'react';
+import { useState, type SubmitEvent } from 'react';
 import { z } from 'zod';
 
 const okResponseSchema = z.object({ ok: z.literal(true) });
@@ -26,7 +26,7 @@ export function AdminPasswordForm({ pending, onBusyChange, onMessage }: Props) {
     setConfirmPassword('');
   }
 
-  async function submit(event: FormEvent<HTMLFormElement>): Promise<void> {
+  async function submit(event: SubmitEvent<HTMLFormElement>): Promise<void> {
     event.preventDefault();
     setLocalError('');
     setLocalSuccess('');
