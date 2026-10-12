@@ -262,11 +262,23 @@ export interface GithubScoredEntry {
   components: Record<string, number | null>;
   weights: Record<string, number>;
   coverage: number;
+  sourceScores?: Record<string, number>;
+  sourceWeights?: Record<string, number>;
+  scorecard?: ScorecardEvidence;
+}
+export interface ScorecardEvidence {
+  score: number;
+  assessedOn: string;
+  collectedAt: string;
+  overallScore?: number;
+  checksUsed?: number;
+  checkScores?: Record<string, number>;
 }
 export function rankGithubProjects(
   input: readonly { project: GithubChartProject; metrics: GithubComputedMetrics }[],
   config: GithubChartConfig,
   rising = false,
+  limit = config.size,
 ): GithubScoredEntry[] {
   const candidates = input.filter(
     (item) =>
@@ -349,8 +361,83 @@ export function rankGithubProjects(
         (b.metrics.stars7d ?? 0) - (a.metrics.stars7d ?? 0) ||
         a.project.slug.localeCompare(b.project.slug),
     )
+    .slice(0, limit)
+    .map((item, index) => ({ ...item, rank: index + 1 }));
+}
+
+export const SCORECARD_MAX_AGE_DAYS = 14;
+export const GITHUB_SOURCE_WEIGHTS = { github: 0.75, 'openssf-scorecard': 0.25 } as const;
+export const RISING_SOURCE_WEIGHTS = { github: 0.85, 'openssf-scorecard': 0.15 } as const;
+
+function admissibleScorecard(
+  evidence: ScorecardEvidence | undefined,
+  date: string,
+): evidence is ScorecardEvidence {
+  return Boolean(
+    evidence &&
+    Number.isFinite(evidence.score) &&
+    evidence.score >= 0 &&
+    evidence.score <= 10 &&
+    evidence.assessedOn >= dateDaysAgo(date, SCORECARD_MAX_AGE_DAYS) &&
+    evidence.assessedOn <= date,
+  );
+}
+
+/** Le score GitHub et l'analyse OpenSSF doivent tous deux être présents. */
+export function corroborateGithubRanking(
+  input: readonly { project: GithubChartProject; metrics: GithubComputedMetrics }[],
+  config: GithubChartConfig,
+  scorecards: ReadonlyMap<string, ScorecardEvidence>,
+  date: string,
+  rising = false,
+): GithubScoredEntry[] {
+  const weights = rising ? RISING_SOURCE_WEIGHTS : GITHUB_SOURCE_WEIGHTS;
+  return rankGithubProjects(input, config, rising, Math.max(1, input.length))
+    .flatMap((item) => {
+      const scorecard = scorecards.get(item.project.entityId);
+      if (!admissibleScorecard(scorecard, date)) return [];
+      const sourceScores = { github: item.score, 'openssf-scorecard': scorecard.score * 10 };
+      return [
+        {
+          ...item,
+          score:
+            Math.round(
+              (sourceScores.github * weights.github +
+                sourceScores['openssf-scorecard'] * weights['openssf-scorecard']) *
+                100,
+            ) / 100,
+          sourceScores,
+          sourceWeights: weights,
+          scorecard,
+        },
+      ];
+    })
+    .toSorted(
+      (a, b) =>
+        b.score - a.score ||
+        (b.metrics.stars7d ?? 0) - (a.metrics.stars7d ?? 0) ||
+        a.project.slug.localeCompare(b.project.slug),
+    )
     .slice(0, config.size)
     .map((item, index) => ({ ...item, rank: index + 1 }));
+}
+
+/** Borne supérieure des candidats non corroborés : OpenSSF pourrait valoir 100. */
+export function uncertainGithubCandidates(
+  input: readonly { project: GithubChartProject; metrics: GithubComputedMetrics }[],
+  ranked: readonly GithubScoredEntry[],
+  config: GithubChartConfig,
+  scorecards: ReadonlyMap<string, ScorecardEvidence>,
+  date: string,
+  rising = false,
+): number {
+  const weights = rising ? RISING_SOURCE_WEIGHTS : GITHUB_SOURCE_WEIGHTS;
+  const cutoff = ranked.length >= config.size ? (ranked[config.size - 1]?.score ?? null) : null;
+  return rankGithubProjects(input, config, rising, Math.max(1, input.length)).filter((item) => {
+    if (admissibleScorecard(scorecards.get(item.project.entityId), date)) return false;
+    const bestPossible = item.score * weights.github + 100 * weights['openssf-scorecard'];
+    return cutoff === null || bestPossible >= cutoff;
+  }).length;
 }
 export function weeklyGithubMovement(
   entity: string,
