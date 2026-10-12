@@ -1,6 +1,6 @@
 # Sources examinées pour les classements
 
-État au 2026-10-12. Une ligne de ce tableau désigne un fournisseur ou un jeu de mesures, pas nécessairement un avis indépendant. Les sources marquées "contexte" ne pèsent pas sur le score principal. Voir [ADR-0023](../adr/ADR-0023-classements-corrobores.md) pour les poids et les seuils.
+État au 2026-10-12. Une ligne de ce tableau désigne un fournisseur ou un jeu de mesures, pas nécessairement un avis indépendant. Les sources marquées "contexte" ne pèsent pas sur le score principal. Voir [ADR-0024](../adr/ADR-0024-classements-corrobores.md) pour les poids et les seuils.
 
 | Source                                                                                                       | Usage retenu                                                   | Limite ou décision                                                                                                                                                                                 |
 | ------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
