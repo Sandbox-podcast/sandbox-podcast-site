@@ -12,7 +12,8 @@ import { mentionTag } from '@/domain/kinds';
 import type { Episode } from '@/domain/schema';
 import { allEpisodes, getEpisode, getHost, getTopic } from '@/lib/repository';
 import { absoluteUrl, breadcrumbLd, pageMetadata } from '@/lib/seo';
-export const dynamicParams = false;
+// Les épisodes publiés dans l'admin après le build doivent aussi être accessibles.
+export const dynamicParams = true;
 export function generateStaticParams() {
   return allEpisodes().map((episode) => ({ number: String(episode.number) }));
 }
