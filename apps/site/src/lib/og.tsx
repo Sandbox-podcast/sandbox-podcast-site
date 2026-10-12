@@ -245,6 +245,7 @@ const frame = (bg: string, fg: string) =>
   }) as const;
 
 export async function siteCard(): Promise<ImageResponse> {
+  const logo = await readFile(join(process.cwd(), 'public', 'sandbox-logo.png'));
   return render(
     <div
       style={{
@@ -265,97 +266,46 @@ export async function siteCard(): Promise<ImageResponse> {
           left: 0,
           top: 0,
           width: '100%',
-          height: '100%',
-          background:
-            'radial-gradient(circle at 78% 42%, rgba(28, 181, 237, 0.28) 0%, rgba(5, 9, 13, 0) 42%), linear-gradient(115deg, #05090d 0%, #0a1520 48%, #061018 100%)',
+          height: 8,
+          background: '#1cb5ed',
         }}
       />
       <div
         style={{
           display: 'flex',
-          position: 'relative',
           flexDirection: 'column',
           justifyContent: 'space-between',
           width: '100%',
           height: '100%',
-          padding: '48px 54px',
+          padding: '62px 72px 50px',
         }}
       >
+        <img
+          src={`data:image/png;base64,${logo.toString('base64')}`}
+          alt=""
+          style={{ width: 864, height: 288, objectFit: 'contain' }}
+        />
         <div
           style={{
             display: 'flex',
-            alignItems: 'center',
-            fontSize: 35,
-            fontWeight: 900,
-            letterSpacing: -1,
-            textTransform: 'uppercase',
+            width: '100%',
+            borderTop: '2px solid #294457',
+            paddingTop: 28,
+            alignItems: 'flex-end',
           }}
         >
+          <span style={{ fontSize: 70, fontWeight: 900, letterSpacing: -2 }}>PODCASTS</span>
           <span
             style={{
-              display: 'flex',
-              width: 9,
-              height: 34,
-              background: '#1cb5ed',
-              marginRight: 14,
-            }}
-          />
-          {siteConfig.name}
-        </div>
-        <div style={{ display: 'flex', flexDirection: 'column', maxWidth: 770 }}>
-          <div
-            style={{
-              display: 'flex',
-              ...mono,
+              marginLeft: 46,
+              fontSize: 54,
+              fontWeight: 900,
+              letterSpacing: -2,
               color: '#3cd6fc',
-              fontSize: 23,
-              fontWeight: 700,
-              marginBottom: 16,
             }}
           >
-            LE PODCAST VIDÉO
-          </div>
-          <div
-            style={{
-              display: 'flex',
-              fontSize: 111,
-              fontWeight: 900,
-              lineHeight: 0.94,
-              letterSpacing: -5,
-              textTransform: 'uppercase',
-            }}
-          >
-            LA TECH
-          </div>
-          <div
-            style={{
-              display: 'flex',
-              fontSize: 111,
-              fontWeight: 900,
-              lineHeight: 0.94,
-              letterSpacing: -5,
-              textTransform: 'uppercase',
-            }}
-          >
-            EN CLAIR.
-          </div>
-          <div style={{ display: 'flex', marginTop: 24, fontSize: 28, fontWeight: 800 }}>
-            Épisodes, sources et classements tech.
-          </div>
-        </div>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            width: '100%',
-            ...mono,
-            color: '#ade9f9',
-            fontSize: 18,
-            fontWeight: 700,
-          }}
-        >
-          <span>IA · DÉVELOPPEMENT · OPEN SOURCE</span>
+            SANDBOX CHARTS
+          </span>
         </div>
       </div>
     </div>,

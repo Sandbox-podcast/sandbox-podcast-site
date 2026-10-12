@@ -11,7 +11,7 @@ import { Footer, Masthead } from '@/components/shell';
 import { JsonLd } from '@/components/json-ld';
 import { isMock, siteConfig } from '@/config/site';
 import { preparePublishedEditorialContent } from '@/lib/admin-persistence';
-import { absoluteUrl, robotsMetadata } from '@/lib/seo';
+import { absoluteUrl, openGraphLocaleForTag, robotsMetadata } from '@/lib/seo';
 
 export async function generateMetadata(): Promise<Metadata> {
   await preparePublishedEditorialContent();
@@ -26,7 +26,11 @@ export async function generateMetadata(): Promise<Metadata> {
     applicationName: siteConfig.name,
     robots: robotsMetadata(isMock),
     ...(googleSiteVerification ? { verification: { google: googleSiteVerification } } : {}),
-    openGraph: { type: 'website', siteName: siteConfig.name, locale: siteConfig.locale },
+    openGraph: {
+      type: 'website',
+      siteName: siteConfig.name,
+      locale: openGraphLocaleForTag(siteConfig.locale),
+    },
     twitter: { card: 'summary_large_image' },
     alternates: { types: { 'application/rss+xml': '/feed.xml' } },
   };

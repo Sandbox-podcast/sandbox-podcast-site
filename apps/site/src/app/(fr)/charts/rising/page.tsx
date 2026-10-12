@@ -11,6 +11,7 @@ export async function generateMetadata({
     title: 'SANDBOX CHARTS | Rising 20',
     description: "Les projets IA dont l'accélération mesurée mérite votre attention.",
     path: '/charts/rising',
+    ownImage: true,
     noindex:
       !hasIndexableChartContent(data, 'rising') || hasChartSelectionQuery(await searchParams),
   });

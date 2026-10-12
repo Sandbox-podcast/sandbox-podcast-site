@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: Props) {
   if (!episode) return {};
   return pageMetadata({
     title: `Épisode ${String(episode.number)} : ${episode.title}`,
-    description: `${episode.dek} Retrouvez la vidéo, les chapitres et les ressources citées.`,
+    description: episode.dek,
     path: `/episodes/${String(episode.number)}`,
     type: 'article',
     publishedTime: episode.publishedAt,

@@ -1,7 +1,7 @@
 import { OG_SIZE, OG_TYPE, siteCard } from '@/lib/og';
-import { siteConfig } from '@/config/site';
+import { SITE_SHARE_IMAGE_ALT } from '@/lib/seo';
 
-export const alt = `${siteConfig.name} : podcasts vidéo sur l’IA, le développement et l’open source`;
+export const alt = SITE_SHARE_IMAGE_ALT;
 export const size = OG_SIZE;
 export const contentType = OG_TYPE;
 
