@@ -1,8 +1,10 @@
 'use client';
 
 import { useRef, useState } from 'react';
+import Image from 'next/image';
 import { z } from 'zod';
 import { episodeSchema, type Episode, type Host, type Topic } from '@/domain/schema';
+import { episodeArtwork } from '@/domain/episode-artwork';
 import { MENTION_KINDS } from '@/domain/kinds';
 import { parseYouTubeVideoId } from '@/domain/youtube';
 
@@ -23,6 +25,11 @@ const youtubeMetadataSchema = z.object({
   source: z.enum(['youtube-data-api', 'oembed']),
 });
 type YouTubeMetadata = z.infer<typeof youtubeMetadataSchema>;
+const uploadedThumbnailSchema = z.object({
+  path: z.string().regex(/^\/api\/episode-thumbnails\/[a-f0-9]{64}\.webp$/),
+  width: z.number().int().min(1280),
+  height: z.number().int().min(720),
+});
 
 interface Props {
   initialNumber: number;
@@ -114,7 +121,29 @@ export function EpisodeComposer({
   ]);
   const [spotifyUrl, setSpotifyUrl] = useState(episode?.platforms.spotifyUrl ?? '');
   const [appleUrl, setAppleUrl] = useState(episode?.platforms.appleUrl ?? '');
+  const [uploadedArtworkPath, setUploadedArtworkPath] = useState(
+    episode?.cover.uploadedArtworkPath,
+  );
+  const [thumbnailPending, setThumbnailPending] = useState(false);
+  const [thumbnailError, setThumbnailError] = useState('');
+  const [thumbnailMessage, setThumbnailMessage] = useState('');
   const [error, setError] = useState('');
+  const currentVideoId = parseYouTubeVideoId(youtubeUrl);
+  const previewArtwork = episodeArtwork({
+    cover: {
+      ...(episode?.cover ?? { tone: 1, kicker: `Épisode ${String(initialNumber)}` }),
+      uploadedArtworkPath,
+    },
+    platforms: {
+      youtubeId: currentVideoId,
+      thumbnailUrl:
+        currentVideoId && metadata?.videoId === currentVideoId
+          ? metadata.thumbnailUrl
+          : currentVideoId && episode?.platforms.youtubeId === currentVideoId
+            ? episode.platforms.thumbnailUrl
+            : undefined,
+    },
+  });
   const duplicateEpisode = otherEpisodes.find(
     (candidate) =>
       candidate.number !== episode?.number &&
@@ -135,6 +164,10 @@ export function EpisodeComposer({
   function changeYouTubeUrl(value: string): void {
     setYoutubeUrl(value);
     const videoId = parseYouTubeVideoId(value);
+    if (videoId !== latestVideoId.current) {
+      setUploadedArtworkPath(undefined);
+      setThumbnailMessage('');
+    }
     latestVideoId.current = videoId;
     if (metadata?.videoId !== videoId) setMetadata(undefined);
     setMetadataError('');
@@ -161,6 +194,10 @@ export function EpisodeComposer({
       const result = youtubeMetadataSchema.parse(await response.json());
       if (latestVideoId.current !== result.videoId || requestSerial.current !== serial) return;
       const newVideo = lastImportedVideoId.current !== result.videoId;
+      if (newVideo) {
+        setUploadedArtworkPath(undefined);
+        setThumbnailMessage('');
+      }
       lastImportedVideoId.current = result.videoId;
       setMetadata(result);
       setTitle(result.title);
@@ -196,6 +233,35 @@ export function EpisodeComposer({
     } finally {
       if (inFlightVideoId.current === videoId) inFlightVideoId.current = undefined;
       if (requestSerial.current === serial) setMetadataPending(false);
+    }
+  }
+
+  async function uploadThumbnail(file: File): Promise<void> {
+    setThumbnailError('');
+    setThumbnailMessage('');
+    if (file.size > 5_000_000) {
+      setThumbnailError('La miniature doit faire au plus 5 Mo.');
+      return;
+    }
+    setThumbnailPending(true);
+    try {
+      const response = await fetch('/api/admin/episode-thumbnail', {
+        method: 'POST',
+        headers: { 'Content-Type': file.type },
+        body: file,
+      });
+      if (!response.ok) throw new Error(await readApiError(response));
+      const result = uploadedThumbnailSchema.parse(await response.json());
+      setUploadedArtworkPath(result.path);
+      setThumbnailMessage(
+        `Miniature ${String(result.width)} × ${String(result.height)} prête. Enregistrez le brouillon ou publiez l’épisode.`,
+      );
+    } catch (reason) {
+      setThumbnailError(
+        reason instanceof Error ? reason.message : 'Import de la miniature impossible.',
+      );
+    } finally {
+      setThumbnailPending(false);
     }
   }
 
@@ -252,7 +318,10 @@ export function EpisodeComposer({
       featured,
       status: action === 'publish' ? 'published' : (episode?.status ?? 'draft'),
       charts: episode?.charts ?? [],
-      cover: episode?.cover ?? { tone: 1, kicker: `Épisode ${String(initialNumber)}` },
+      cover: {
+        ...(episode?.cover ?? { tone: 1, kicker: `Épisode ${String(initialNumber)}` }),
+        uploadedArtworkPath,
+      },
     });
     if (!parsed.success) {
       const issue = parsed.error.issues[0];
@@ -358,6 +427,62 @@ export function EpisodeComposer({
             </span>
           </div>
           <div className="episode-composer-form">
+            <div className="admin-thumbnail admin-span-2">
+              <div>
+                <h3>Miniature de l’épisode</h3>
+                <p className="admin-help">
+                  Le site utilise la meilleure image YouTube disponible. Vous pouvez la remplacer
+                  par votre fichier 16:9, au moins 1280 × 720 px, JPEG, PNG ou WebP, 5 Mo maximum.
+                </p>
+                <label className="admin-field">
+                  <span>Importer une miniature haute définition</span>
+                  <input
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp"
+                    disabled={thumbnailPending || pending}
+                    onChange={(event) => {
+                      const file = event.currentTarget.files?.[0];
+                      event.currentTarget.value = '';
+                      if (file) void uploadThumbnail(file);
+                    }}
+                  />
+                </label>
+                {uploadedArtworkPath ? (
+                  <button
+                    className="btn"
+                    type="button"
+                    disabled={thumbnailPending || pending}
+                    onClick={() => {
+                      setUploadedArtworkPath(undefined);
+                      setThumbnailMessage(
+                        'Miniature personnalisée retirée. Enregistrez pour utiliser YouTube.',
+                      );
+                    }}
+                  >
+                    Revenir à la miniature YouTube
+                  </button>
+                ) : null}
+                {thumbnailPending ? <p role="status">Import de la miniature en cours…</p> : null}
+                {thumbnailMessage ? <p role="status">{thumbnailMessage}</p> : null}
+                {thumbnailError ? (
+                  <p className="admin-error" role="alert">
+                    {thumbnailError}
+                  </p>
+                ) : null}
+              </div>
+              {previewArtwork ? (
+                <Image
+                  src={previewArtwork}
+                  alt="Aperçu de la miniature de l’épisode"
+                  width={480}
+                  height={270}
+                  sizes="(max-width: 48rem) 100vw, 20rem"
+                  className="admin-thumbnail-preview"
+                />
+              ) : (
+                <p className="admin-thumbnail-empty">La miniature apparaîtra ici après l’import.</p>
+              )}
+            </div>
             <label className="admin-field admin-span-2">
               <span>Titre de l’épisode</span>
               <input
@@ -734,7 +859,7 @@ export function EpisodeComposer({
                 className="btn"
                 type="button"
                 onClick={() => void save('draft')}
-                disabled={pending}
+                disabled={pending || thumbnailPending}
               >
                 Enregistrer le brouillon
               </button>
@@ -742,7 +867,7 @@ export function EpisodeComposer({
                 className="btn btn-solid"
                 type="button"
                 onClick={() => void save('publish')}
-                disabled={pending}
+                disabled={pending || thumbnailPending}
               >
                 Publier l’épisode
               </button>
