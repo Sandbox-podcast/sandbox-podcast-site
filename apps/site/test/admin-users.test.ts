@@ -103,7 +103,7 @@ describe('comptes admin Postgres', () => {
     expect(await loginAdmin('lou', 'ancien-mot-de-passe')).toBeUndefined();
     expect((await loginAdmin('lou', 'nouveau-mot-de-passe'))?.user.username).toBe('lou');
     const stale = new Request('https://sandboxpodcast.fr/admin', {
-      headers: { cookie: `sandbox_admin_session=${before?.session.value ?? ''}` },
+      headers: { cookie: `sandbox_admin_session=${before.session.value}` },
     });
     expect(await getAuthenticatedAdmin(stale)).toBeUndefined();
     await expect(
