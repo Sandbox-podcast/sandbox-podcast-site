@@ -49,9 +49,9 @@ Selon la note de transfert du 7 octobre, les deux variables `DATABASE_URL` et `P
 | `DATABASE_URL`       | Connexion Neon à la base Sandbox existante                               | Secret serveur. Confirmer avant de remplacer une variable déjà présente.                                 |
 | `GITHUB_TOKEN`       | Jeton GitHub autorisé à lire les dépôts publics utilisés par la collecte | Lecture seule. Ne pas lui accorder de droits d'écriture.                                                 |
 | `CRON_SECRET`        | Secret aléatoire d'au moins 16 caractères                                | Générer dans un gestionnaire de secrets et le configurer dans Production. Ne pas le réutiliser ailleurs. |
-| `VERCEL_OIDC_TOKEN`  | Jeton OIDC local, écrit par `vercel env pull`                            | En production, le cron lit l'en-tête `x-vercel-oidc-token`. Ne pas créer une valeur statique à la main.  |
+| `VERCEL_OIDC_TOKEN`  | Jeton OIDC injecté par Vercel si la fédération OIDC est activée          | Active les appels Skills.sh authentifiés. Ne pas créer une valeur statique à la main.                    |
 | `HF_TOKEN`           | Jeton Hugging Face facultatif, lecture seule                             | Utile si le Hub applique une limite de débit aux lectures anonymes.                                      |
-| `OPENROUTER_API_KEY` | Clé OpenRouter facultative                                               | Ajoute les rangs hebdomadaires et débits; sans clé, ces signaux restent absents.                         |
+| `OPENROUTER_API_KEY` | Clé OpenRouter pour Models v2                                            | Donne le second évaluateur Artificial Analysis. Sans clé, aucune nouvelle édition Models n'est publiée.  |
 
 Conserver `SITE_ADMIN_SECRET`, `SITE_ADMIN_USERS` et les autres variables du site déjà configurées. Ne pas remplacer la politique actuelle `SITE_DATA_MODE` pour activer les classements : les autres contenus du site ont leur propre état de validation. `CHARTS_NEWSLETTER_URL` est facultative et ne doit pointer que vers un formulaire HTTPS existant.
 
@@ -59,7 +59,7 @@ Conserver `SITE_ADMIN_SECRET`, `SITE_ADMIN_USERS` et les autres variables du sit
 
 1. Déployer d'abord le commit relu en Preview. Vérifier que les pages s'affichent sans fixtures, que les éditions manquantes indiquent l'état d'attente et que les routes admin et cron refusent une requête anonyme.
 2. Après validation de Preview et application de 0002 à 0005, lancer le déploiement de la branche de production depuis le flux Vercel habituel. Vérifier que le plan autorise la durée de fonction `maxDuration: 300` définie pour les tâches de collecte.
-3. Contrôler les tâches déclarées dans `apps/site/vercel.json` : découverte GitHub tous les jours à 01:00 UTC, collecte quotidienne Skills/Models à 02:30 UTC et gel quotidien à 03:00 UTC. Vercel doit envoyer le secret Cron dans `Authorization: Bearer ...`. Le gel inclut GitHub, Skills et Models; une édition attend les seuils d'historique et de candidats documentés dans [le guide dédié](external-rankings.md).
+3. Contrôler les tâches déclarées dans `apps/site/vercel.json` : découverte GitHub tous les jours à 01:00 UTC, collecte quotidienne Skills/Models à 02:30 UTC et édition hebdomadaire le lundi à 03:00 UTC. Vercel doit envoyer le secret Cron dans `Authorization: Bearer ...`. Le gel hebdomadaire inclut GitHub, Skills et Models; une édition externe attend les seuils d'historique et de candidats documentés dans [le guide dédié](external-rankings.md).
 4. Depuis une copie locale sécurisée du commit relu, avec Node 24, pnpm 12 et les secrets nécessaires dans `apps/site/.env.local`, afficher d'abord le résultat de la simulation sans écriture :
 
    ```powershell
