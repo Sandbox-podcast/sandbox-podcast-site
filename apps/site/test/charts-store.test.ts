@@ -16,6 +16,8 @@ import {
   finishChartsJob,
   publishFrozenCharts,
   saveDailyBatch,
+  saveScorecardBatch,
+  scorecardsForProjects,
   upsertDiscoveredRepositories,
   writeChartsConfig,
 } from '../src/lib/charts-store.ts';
@@ -24,11 +26,29 @@ import { publicChartEdition, githubProjectDetail } from '../src/lib/charts-publi
 import { sandboxChartsData } from '../src/lib/sandbox-charts.ts';
 import { calculateGithubWeek, collectGithub } from '../src/pipeline/github-jobs.ts';
 import { GithubClient, GithubRateLimitError } from '../src/pipeline/github-client.ts';
+import { ScorecardClient } from '../src/pipeline/scorecard-client.ts';
 
 const pg = new PGlite();
 const db = drizzle(pg, { schema });
 vi.mock('../src/db/client.ts', () => ({ getDb: () => db, hasDatabaseConfiguration: () => true }));
 const date = '2026-10-05';
+function scorecardData(score: number) {
+  return {
+    score,
+    overallScore: score,
+    checksUsed: 6,
+    checkScores: Object.fromEntries(
+      [
+        'Code-Review',
+        'Security-Policy',
+        'Dangerous-Workflow',
+        'Token-Permissions',
+        'Pinned-Dependencies',
+        'Vulnerabilities',
+      ].map((name) => [name, score]),
+    ),
+  };
+}
 function repo(index: number) {
   return githubRepositorySchema.parse({
     id: index + 1,
@@ -49,7 +69,7 @@ function repo(index: number) {
     open_issues_count: 10,
   });
 }
-async function seed(history = true, count = 20) {
+async function seed(history = true, count = 20, withScorecard = true) {
   await upsertDiscoveredRepositories(Array.from({ length: count }, (_, index) => repo(index)));
   await db.update(schema.githubProjects).set({ status: 'tracked' });
   const projects = (await db.select().from(schema.githubProjects)).toSorted(
@@ -71,6 +91,16 @@ async function seed(history = true, count = 20) {
     })),
   );
   await saveDailyBatch(daily);
+  if (withScorecard)
+    await saveScorecardBatch(
+      projects.map((project) => ({
+        entityId: project.entityId,
+        fullName: project.fullName,
+        ...scorecardData(6.5 + (project.githubId % 3)),
+        assessedOn: '2026-10-04',
+        collectedAt: `${date}T02:15:00Z`,
+      })),
+    );
   return projects;
 }
 beforeAll(async () => {
@@ -79,7 +109,6 @@ beforeAll(async () => {
     '0003_ranking_catalog_localization.sql',
     '0004_site_content_localizations.sql',
     '0005_external_chart_sources.sql',
-    '0007_daily_chart_editions.sql',
   ]) {
     for (const statement of readFileSync(`drizzle/${migration}`, 'utf8').split(
       '--> statement-breakpoint',
@@ -214,6 +243,69 @@ describe('pipeline charts sur Postgres', () => {
     expect(await db.select().from(schema.weeklyChartEditions)).toHaveLength(0);
     expect(await db.select().from(schema.chartsJobRuns)).toHaveLength(0);
   });
+  it('réutilise les rapports OpenSSF récents sans rappeler leur API', async () => {
+    await seed();
+    vi.stubEnv('GITHUB_TOKEN', 'test-token');
+    const fetcher = vi.fn<typeof fetch>().mockRejectedValue(new Error('Appel inattendu.'));
+    const summary = await collectGithub(
+      new GithubClient(),
+      new Date(`${date}T12:00:00Z`),
+      new ScorecardClient({ fetch: fetcher }),
+    );
+    expect(summary.status).toBe('success');
+    expect(summary.snapshotsCreated).toBe(0);
+    expect(fetcher).not.toHaveBeenCalled();
+  });
+  it('attend une seconde source vérifiée et ignore un relevé collecté après la semaine simulée', async () => {
+    const projects = await seed(true, 20, false);
+    expect((await calculateGithubWeek({ date, dryRun: true })).entries).toHaveLength(0);
+    expect(
+      await saveScorecardBatch(
+        projects.map((project) => ({
+          entityId: project.entityId,
+          fullName: project.fullName,
+          ...scorecardData(8),
+          assessedOn: '2026-10-04',
+          collectedAt: '2026-10-06T01:00:00Z',
+        })),
+      ),
+    ).toBe(20);
+    expect(await scorecardsForProjects(projects, date)).toEqual(new Map());
+    expect((await calculateGithubWeek({ date, dryRun: true })).entries).toHaveLength(0);
+  });
+  it('refuse de stocker un relevé OpenSSF sans six contrôles vérifiables', async () => {
+    const [project] = await seed(true, 1, false);
+    if (!project) throw new Error('Fixture absente.');
+    await expect(
+      saveScorecardBatch([
+        {
+          entityId: project.entityId,
+          fullName: project.fullName,
+          ...scorecardData(8),
+          checksUsed: 5,
+          assessedOn: '2026-10-04',
+          collectedAt: `${date}T02:15:00Z`,
+        },
+      ]),
+    ).rejects.toThrow();
+    expect(await db.select().from(schema.chartSourceSnapshots)).toHaveLength(0);
+  });
+  it('ne publie pas si un dépôt sans second avis pourrait entrer dans le Top 20', async () => {
+    const projects = await seed(true, 21, false);
+    await saveScorecardBatch(
+      projects.slice(0, 20).map((project) => ({
+        entityId: project.entityId,
+        fullName: project.fullName,
+        ...scorecardData(8),
+        assessedOn: '2026-10-04',
+        collectedAt: `${date}T02:15:00Z`,
+      })),
+    );
+    const result = await calculateGithubWeek({ date, dryRun: true });
+    expect(result.entries).toHaveLength(20);
+    expect(result.uncertainCandidates).toBeGreaterThan(0);
+    expect(result.insufficientHistory).toBe(true);
+  });
   it('fige deux classements, rejoue sans doublon et conserve le scoring original après changement de config', async () => {
     await seed();
     expect((await calculateGithubWeek({ date })).written).toBe(2);
@@ -232,8 +324,16 @@ describe('pipeline charts sur Postgres', () => {
     expect(await db.select().from(schema.weeklyRankings)).toHaveLength(40);
     const api = await publicChartEdition('github');
     expect(api?.entries[0]?.status).toBe('new');
-    expect(api?.scoringVersion).toBe('github-momentum-v1');
+    expect(api?.scoringVersion).toBe('github-cross-source-v2');
     expect(api?.entries[0]?.provenance['coverage']).toBeCloseTo(0.9);
+    const sourceScores = api?.entries[0]?.provenance['sourceScores'] as
+      Record<string, unknown> | undefined;
+    expect(typeof sourceScores?.['github']).toBe('number');
+    expect(typeof sourceScores?.['openssf-scorecard']).toBe('number');
+    const sourceEvidence = api?.entries[0]?.provenance['sourceEvidence'] as
+      { checksUsed?: unknown; checkScores?: Record<string, unknown> } | undefined;
+    expect(sourceEvidence?.checksUsed).toBe(6);
+    expect(typeof sourceEvidence?.checkScores?.['Code-Review']).toBe('number');
     const publicData = await sandboxChartsData();
     expect(publicData.mode).toBe('live');
     expect(
@@ -261,8 +361,8 @@ describe('pipeline charts sur Postgres', () => {
     await calculateGithubWeek({ date, publish: false });
     expect(await publicChartEdition('github')).toBeNull();
     const original = (await db.select().from(schema.weeklyChartEditions))[0]?.payload;
-    expect(await publishFrozenCharts(date)).toBe(2);
-    expect(await publishFrozenCharts(date)).toBe(0);
+    expect(await publishFrozenCharts('2026-W41')).toBe(2);
+    expect(await publishFrozenCharts('2026-W41')).toBe(0);
     expect((await db.select().from(schema.weeklyChartEditions))[0]?.payload).toEqual(original);
   });
   it('sépare commentaires, publication et métriques, avec conflit d’édition détecté', async () => {

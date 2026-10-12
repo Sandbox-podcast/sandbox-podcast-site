@@ -6,6 +6,7 @@ import {
   githubMetrics,
   percentile,
   rankGithubProjects,
+  corroborateGithubRanking,
   rankingWeek,
   weeklyGithubMovement,
   type DailyGithubSnapshot,
@@ -133,6 +134,28 @@ describe('moteur GitHub réel', () => {
     }
     expect(percentile(1000, [100, 1000, 100000])).toBe(50);
     expect(percentile(100, [100, 100, 100])).toBe(50);
+  });
+  it('refuse un dépôt sans relevé OpenSSF frais et combine les deux fournisseurs', () => {
+    const input = [1000, 2000, 3000].map((gain, index) => ({
+      project: { ...project, slug: `repo-${index}`, entityId: `entity-${index}` },
+      metrics: githubMetrics(
+        project,
+        snapshot('2026-10-05', 20000 + gain),
+        [snapshot('2026-09-28', 20000)],
+        config,
+      ),
+    }));
+    const evidence = new Map([
+      ['entity-0', { score: 10, assessedOn: '2026-10-04', collectedAt: '2026-10-05T02:00:00Z' }],
+      ['entity-1', { score: 7, assessedOn: '2026-09-01', collectedAt: '2026-10-05T02:00:00Z' }],
+      ['entity-2', { score: 4, assessedOn: '2026-10-04', collectedAt: '2026-10-05T02:00:00Z' }],
+    ]);
+    const ranked = corroborateGithubRanking(input, config, evidence, '2026-10-05');
+    expect(ranked.map((item) => item.project.slug)).toEqual(['repo-2', 'repo-0']);
+    expect(ranked.every((item) => item.sourceScores?.['openssf-scorecard'] !== undefined)).toBe(
+      true,
+    );
+    expect(ranked.every((item) => item.score >= 0 && item.score <= 100)).toBe(true);
   });
   it('respecte les exclusions manuelles, les forks et les archives', () => {
     const metrics = githubMetrics(
