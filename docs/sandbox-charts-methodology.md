@@ -2,6 +2,12 @@
 
 Implémentation : [github-charts.ts](../apps/site/src/domain/github-charts.ts). La page publique présente la configuration de la dernière édition publiée ; chaque édition conserve sa propre version.
 
+## Nouveaux gels multi-sources
+
+Depuis [ADR-0023](adr/ADR-0023-classements-corrobores.md), le score GitHub détaillé ci-dessous est un sous-score. Le Top combine 75 % de ce sous-score et 25 % des pratiques évaluées par OpenSSF Scorecard. Rising combine 85 % de son sous-score GitHub et 15 % d'OpenSSF. Chaque dépôt classé doit avoir les deux sources, et la borne haute des dépôts non corroborés doit montrer qu'ils ne peuvent pas modifier le Top 20. Le collecteur conserve le rapport OpenSSF et sa date dans les relevés externes immuables.
+
+Les sections Momentum v1 et Rising v1 restent la définition des sous-scores GitHub et des éditions antérieures. La [liste des sources étudiées](site/multi-source-ranking-sources.md) distingue les évaluateurs utilisés des jeux dérivés ou non raccordés.
+
 ## Relevés et éligibilité
 
 GitHub fournit les stars, forks, watchers, issues ouvertes et, lorsque disponible, le nombre de commits sur la branche par défaut pendant les sept derniers jours. Le dépôt conserve l'identifiant GitHub pour suivre les renommages. La collecte des contributeurs et releases n'est pas branchée : ces valeurs restent nulles.
@@ -41,7 +47,7 @@ Les trois premières composantes deviennent des percentiles dans le pool Rising.
 
 ## Éditions, mouvements et vues longues
 
-Une édition publiée est identifiée par sa date UTC (`AAAA-MM-JJ`). Les éditions déjà figées en semaine ISO restent valides et ne sont pas recalculées. Les exécutions Vercel prévues sont : découverte quotidienne à 01:00 UTC, collecte GitHub à 02:00 UTC, collecte Skills/Models à 02:30 UTC, gel à 03:00 UTC. Le gel automatique exige une collecte du jour terminée. Le score GitHub et Skills continue de comparer ce relevé à celui d'il y a sept jours. Le mouvement, lui, compare la nouvelle édition à la publication précédente lorsqu'elles se suivent d'au plus huit jours.
+La semaine est une semaine ISO calculée en UTC. Les exécutions Vercel prévues sont : découverte quotidienne à 01:00 UTC, collecte à 02:00 UTC, classement le lundi à 03:00 UTC. Le gel automatique exige une collecte du jour terminée. Une édition existante ne se recalcule pas, même après une modification de la méthode.
 
 Le mouvement vaut rang précédent − rang actuel. Un résultat positif monte, un résultat négatif descend, zéro reste stable. NEW désigne une absence dans l'édition précédente, y compris un retour. La première édition et une comparaison indisponible affichent un tiret dans l'interface.
 
