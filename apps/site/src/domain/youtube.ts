@@ -16,6 +16,20 @@ export interface ParsedVideoDescription {
   appleUrl?: string;
 }
 
+/** Utilise la meilleure résolution annoncée par YouTube, sans supposer qu'elle existe. */
+export function selectYouTubeThumbnail(
+  thumbnails: Record<string, { url: string; width: number; height: number }> | undefined,
+  videoId: string,
+): string {
+  const available = Object.values(thumbnails ?? {})
+    .filter((thumbnail) => {
+      const url = new URL(thumbnail.url);
+      return url.protocol === 'https:' && url.hostname === 'i.ytimg.com';
+    })
+    .sort((a, b) => b.width * b.height - a.width * a.height);
+  return available[0]?.url ?? `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
+}
+
 export function parseYouTubeVideoId(value: string): string | undefined {
   let url: URL;
   try {

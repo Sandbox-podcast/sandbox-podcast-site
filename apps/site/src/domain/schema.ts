@@ -469,6 +469,10 @@ export const episodeSchema = z.object({
   cover: z.object({
     tone: z.number().int().min(0).max(6),
     kicker: z.string().min(1),
+    uploadedArtworkPath: z
+      .string()
+      .regex(/^\/api\/episode-thumbnails\/[a-f0-9]{64}\.webp$/)
+      .optional(),
     artworkPath: z
       .string()
       .regex(/^\/episode-artwork\/[a-z0-9-]+\.(?:png|jpg|webp)$/)

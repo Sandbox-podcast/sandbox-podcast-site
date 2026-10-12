@@ -201,8 +201,8 @@ a.chip {
   padding: clamp(1.5rem, 3.5vw, 3rem);
 }
 .featured-title {
-  max-width: 20ch;
-  font-size: clamp(2.5rem, 4.3vw, 4rem);
+  max-width: 21ch;
+  font-size: clamp(2.2rem, 3.5vw, 3.25rem);
   font-stretch: 90%;
   line-height: 1.02;
   letter-spacing: -0.04em;

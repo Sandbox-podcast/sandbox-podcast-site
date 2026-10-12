@@ -7,6 +7,7 @@ Le dépôt sert le site média `apps/site`. La documentation du travail précéd
 UI/UX du site : [rapport du 8 octobre 2026](site/ui-ux-2026-10-08.md) et [DD-0005](design-decisions/DD-0005-ux-globale-du-site.md).
 Présentations d’épisode en HTML sur `slides.sandboxpodcast.fr` : [guide des slides](site/slides.md) et [DD-0007](design-decisions/DD-0007-sous-domaine-des-presentations.md).
 Logo complet et navigation publique : [DD-0008](design-decisions/DD-0008-logo-et-navigation-publique.md).
+Miniatures haute définition des épisodes : [DD-0012](design-decisions/DD-0012-miniatures-episodes.md) et [guide éditorial](site/editorial-workflow.md).
 Langue des classements publics : [DD-0009](design-decisions/DD-0009-langue-des-classements.md).
 
 SANDBOX CHARTS : [guide d’exploitation](site/sandbox-charts.md), [sources externes Skills/Models](site/external-rankings.md), [fiche de mise en service Neon et Vercel](site/mise-en-service-neon-vercel.md), [rapport de livraison](site/sandbox-charts-livraison.md), [méthodologie](sandbox-charts-methodology.md), [ADR-0019](adr/ADR-0019-sandbox-charts-github-postgres.md), [ADR-0021](adr/ADR-0021-classements-externes-skills-models.md), [ADR-0023](adr/ADR-0023-editions-quotidiennes-des-classements.md) et [DD-0004](design-decisions/DD-0004-sandbox-charts.md).
