@@ -1769,10 +1769,6 @@
     "translation": "",
     "sources": ["src/i18n/messages.ts"]
   },
-  "Explorez les podcasts vidéo Sandbox sur l’IA, le développement et l’open source. Retrouvez les sources de chaque épisode et nos classements tech hebdomadaires.": {
-    "translation": "",
-    "sources": ["content/site.json"]
-  },
   "Export en cours": {
     "translation": "",
     "sources": ["src/components/charts-share.tsx"]
@@ -4135,6 +4131,10 @@
   "Sandbox /": {
     "translation": "",
     "sources": ["src/app/(fr)/about/page.tsx"]
+  },
+  "Sandbox, le podcast vidéo sur l'IA et la tech. Retrouvez les épisodes, leurs sources et les classements commentés.": {
+    "translation": "",
+    "sources": ["content/site.json"]
   },
   "SANDBOX CHARTS": {
     "translation": "",

@@ -13,6 +13,7 @@ export async function generateMetadata({
     description:
       'GitHub Top 20, Skills, Models et Rising. Les positions, les mouvements et les projets IA à surveiller, chaque jour.',
     path: '/charts',
+    ownImage: true,
     noindex: !hasIndexableChartCollection(data) || hasChartSelectionQuery(await searchParams),
   });
 }

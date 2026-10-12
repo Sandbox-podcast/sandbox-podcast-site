@@ -11,7 +11,7 @@ import { episodeArtwork } from '@/domain/episode-artwork';
 import { formatDateShort, formatDuration } from '@/domain/format';
 import { editionMark } from '@/domain/weeks';
 import { allEpisodes, allTopics, getHost, getTopic } from '@/lib/repository';
-import { absoluteUrl, pageMetadata } from '@/lib/seo';
+import { absoluteUrl, pageMetadata, siteShareImage } from '@/lib/seo';
 import { preparePublishedEditorialContent } from '@/lib/admin-persistence';
 const LATEST_EPISODES_LIMIT = 12;
 const TOPIC_EPISODES_LIMIT = 8;
@@ -235,7 +235,7 @@ export default async function HomePage() {
             name: siteConfig.name,
             description: siteConfig.description,
             url: absoluteUrl('/'),
-            image: absoluteUrl('/opengraph-image'),
+            image: siteShareImage().url,
             inLanguage: siteConfig.language,
           },
           {
