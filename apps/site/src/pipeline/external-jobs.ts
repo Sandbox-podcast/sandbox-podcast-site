@@ -22,7 +22,6 @@ import {
   utcDate,
   type DailyGithubSnapshot,
 } from '../domain/github-charts.ts';
-import { isoWeekOf } from '../domain/weeks.ts';
 import { beginChartsJob, finishChartsJob, requireChartsDatabase } from '../lib/charts-store.ts';
 import {
   externalCandidates,
@@ -144,11 +143,11 @@ function sourceFor(
   return source;
 }
 
-export async function collectSkills(): Promise<ExternalJobSummary> {
+export async function collectSkills(oidcToken?: string): Promise<ExternalJobSummary> {
   return runLogged('skills_daily_sync', async (summary) => {
     const githubToken = process.env['GITHUB_TOKEN'];
     if (!githubToken) throw new Error('GITHUB_TOKEN requis pour croiser les Skills.sh et GitHub.');
-    const client = new SkillsClient();
+    const client = new SkillsClient(oidcToken ? { token: oidcToken } : {});
     const pages = await Promise.all(
       (['all-time', 'trending'] as const).flatMap((view) =>
         [0, 1].map((page) => client.list(view, page)),
@@ -525,7 +524,31 @@ function mergeModelRecords(
       }
     }
   }
-  return { entities, observations, ambiguousMatches };
+  const kept = new Map<string, ExternalEntity>();
+  for (const entity of entities) {
+    const current = kept.get(entity.slug);
+    if (!current || entity.sources.length > current.sources.length) kept.set(entity.slug, entity);
+  }
+  const sourceKeys = new Set(
+    [...kept.values()].flatMap((entity) =>
+      entity.sources.map((source) =>
+        JSON.stringify([entity.slug, source.provider, source.externalId]),
+      ),
+    ),
+  );
+  return {
+    entities: [...kept.values()],
+    observations: observations.filter((observation) =>
+      sourceKeys.has(
+        JSON.stringify([
+          observation.entitySlug,
+          observation.source.provider,
+          observation.source.externalId,
+        ]),
+      ),
+    ),
+    ambiguousMatches,
+  };
 }
 
 export async function collectModels(): Promise<ExternalJobSummary> {
@@ -807,7 +830,7 @@ function editionEntries(
   }));
 }
 
-async function requireDailySources(today: string): Promise<boolean> {
+async function readyDailySources(today: string): Promise<{ skills: boolean; models: boolean }> {
   const jobs = await getDb()
     .select()
     .from(chartsJobRuns)
@@ -817,14 +840,15 @@ async function requireDailySources(today: string): Promise<boolean> {
   for (const job of jobs) {
     if (!latestByKind.has(job.kind)) latestByKind.set(job.kind, job);
   }
-  return (['skills_daily_sync', 'models_daily_sync'] as const).every((kind) => {
+  const ready = (kind: 'skills_daily_sync' | 'models_daily_sync') => {
     const current = latestByKind.get(kind);
     return Boolean(
       current?.finishedAt &&
       utcDate(new Date(current.finishedAt)) === today &&
       ['success', 'partial'].includes(current.status),
     );
-  });
+  };
+  return { skills: ready('skills_daily_sync'), models: ready('models_daily_sync') };
 }
 
 export async function freezeExternalCharts(
@@ -851,17 +875,18 @@ async function calculateExternalWeek(
   summary: ExternalJobSummary,
 ): Promise<void> {
   if (date > utcDate()) throw new Error('Une édition future ne peut pas être calculée.');
-  if (!(await requireDailySources(date))) {
+  const ready = await readyDailySources(date);
+  if (!ready.skills && !ready.models) {
     summary.status = 'skipped';
     summary.details.push(
       'Les collectes Skills.sh/GitHub et Models doivent être terminées le jour du gel.',
     );
     return;
   }
-  const week = isoWeekOf(new Date(`${date}T00:00:00Z`));
+  const week = date;
   const [skillCandidates, modelCandidates] = await Promise.all([
-    externalCandidates('skill', date),
-    externalCandidates('model', date),
+    ready.skills ? externalCandidates('skill', date) : Promise.resolve([]),
+    ready.models ? externalCandidates('model', date) : Promise.resolve([]),
   ]);
   const skills = scoreSkills(skillScoreInputs(skillCandidates, date), 20);
   const models = scoreModels(modelScoreInputs(modelCandidates, date), 20);
@@ -871,12 +896,16 @@ async function calculateExternalWeek(
     `${skills.length.toString()} skills et ${models.length.toString()} modèles disposent de l’historique et des signaux requis.`,
   );
   if (options.dryRun) {
-    summary.status = skills.length < 20 || models.length < 20 ? 'insufficient_history' : 'success';
-    summary.details.push('Simulation : aucune édition hebdomadaire ni journal de job écrit.');
+    const skillsShort = ready.skills && skills.length < 20;
+    const modelsShort = ready.models && models.length < 20;
+    summary.status = skillsShort || modelsShort ? 'insufficient_history' : 'success';
+    summary.details.push('Simulation : aucune édition ni journal de job écrit.');
     return;
   }
   let written = 0;
-  if (skills.length >= 20)
+  if (!ready.skills)
+    summary.details.push('Collecte Skills absente ou en échec : aucune édition Skills.');
+  else if (skills.length >= 20)
     written += await freezeExternalEdition(
       'skills',
       week,
@@ -894,7 +923,9 @@ async function calculateExternalWeek(
       options.publish ?? true,
     );
   else summary.failed++;
-  if (models.length >= 20)
+  if (!ready.models)
+    summary.details.push('Collecte Models absente ou en échec : aucune édition Models.');
+  else if (models.length >= 20)
     written += await freezeExternalEdition(
       'models',
       week,
@@ -917,8 +948,8 @@ async function calculateExternalWeek(
   if (summary.failed) summary.status = written ? 'partial' : 'insufficient_history';
 }
 
-export async function collectExternalCharts(): Promise<ExternalJobSummary> {
-  const [skills, models] = await Promise.all([collectSkills(), collectModels()]);
+export async function collectExternalCharts(oidcToken?: string): Promise<ExternalJobSummary> {
+  const [skills, models] = await Promise.all([collectSkills(oidcToken), collectModels()]);
   return {
     processed: skills.processed + models.processed,
     succeeded: skills.succeeded + models.succeeded,
