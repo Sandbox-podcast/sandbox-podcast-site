@@ -16,7 +16,13 @@ import {
   type ModelScoreInput,
   type SkillScoreInput,
 } from '../domain/external-charts.ts';
-import { closestBaseline, utcDate, type DailyGithubSnapshot } from '../domain/github-charts.ts';
+import {
+  closestBaseline,
+  dateDaysAgo,
+  utcDate,
+  type DailyGithubSnapshot,
+} from '../domain/github-charts.ts';
+import { isoWeekOf } from '../domain/weeks.ts';
 import { beginChartsJob, finishChartsJob, requireChartsDatabase } from '../lib/charts-store.ts';
 import {
   externalCandidates,
@@ -138,11 +144,11 @@ function sourceFor(
   return source;
 }
 
-export async function collectSkills(oidcToken?: string): Promise<ExternalJobSummary> {
+export async function collectSkills(): Promise<ExternalJobSummary> {
   return runLogged('skills_daily_sync', async (summary) => {
     const githubToken = process.env['GITHUB_TOKEN'];
     if (!githubToken) throw new Error('GITHUB_TOKEN requis pour croiser les Skills.sh et GitHub.');
-    const client = new SkillsClient(oidcToken ? { token: oidcToken } : {});
+    const client = new SkillsClient();
     const pages = await Promise.all(
       (['all-time', 'trending'] as const).flatMap((view) =>
         [0, 1].map((page) => client.list(view, page)),
@@ -280,6 +286,8 @@ function arenaModelRecords(rows: readonly ArenaModelResult[], day: string): Mode
   >();
   for (const row of rows) {
     if (row.category && row.category.toLowerCase() !== 'overall') continue;
+    if (row.leaderboard_publish_date > day || row.leaderboard_publish_date < dateDaysAgo(day, 14))
+      continue;
     const key = arenaKey(row);
     const current = grouped.get(key) ?? {
       name: row.model_name,
@@ -294,7 +302,7 @@ function arenaModelRecords(rows: readonly ArenaModelResult[], day: string): Mode
       current.metrics[`${row.config}Votes`] = votes;
     if (row.observation_count !== undefined)
       current.metrics[`${row.config}Observations`] = row.observation_count;
-    current.metrics[`${row.config}PublishedAt`] = row.leaderboard_publish_date ?? day;
+    current.metrics[`${row.config}PublishedAt`] = row.leaderboard_publish_date;
     grouped.set(key, current);
   }
   return [...grouped].map(([externalId, value]) => ({
@@ -362,7 +370,10 @@ function openRouterRecords(models: readonly OpenRouterModel[]): ModelRecord[] {
   });
 }
 
-function artificialAnalysisRecords(rows: readonly ArtificialAnalysisResult[]): ModelRecord[] {
+function artificialAnalysisRecords(
+  rows: readonly ArtificialAnalysisResult[],
+  asOf: string,
+): ModelRecord[] {
   return rows.map((row) => ({
     provider: 'artificial-analysis',
     externalId: row.model_permaslug,
@@ -375,6 +386,7 @@ function artificialAnalysisRecords(rows: readonly ArtificialAnalysisResult[]): M
       intelligenceIndex: row.intelligence_index ?? null,
       codingIndex: row.coding_index ?? null,
       agenticIndex: row.agentic_index ?? null,
+      benchmarkAsOf: asOf,
     },
   }));
 }
@@ -513,31 +525,7 @@ function mergeModelRecords(
       }
     }
   }
-  const kept = new Map<string, ExternalEntity>();
-  for (const entity of entities) {
-    const current = kept.get(entity.slug);
-    if (!current || entity.sources.length > current.sources.length) kept.set(entity.slug, entity);
-  }
-  const sourceKeys = new Set(
-    [...kept.values()].flatMap((entity) =>
-      entity.sources.map((source) =>
-        JSON.stringify([entity.slug, source.provider, source.externalId]),
-      ),
-    ),
-  );
-  return {
-    entities: [...kept.values()],
-    observations: observations.filter((observation) =>
-      sourceKeys.has(
-        JSON.stringify([
-          observation.entitySlug,
-          observation.source.provider,
-          observation.source.externalId,
-        ]),
-      ),
-    ),
-    ambiguousMatches,
-  };
+  return { entities, observations, ambiguousMatches };
 }
 
 export async function collectModels(): Promise<ExternalJobSummary> {
@@ -565,11 +553,17 @@ export async function collectModels(): Promise<ExternalJobSummary> {
         summary.failed++;
         summary.details.push('La liste OpenRouter est indisponible.');
       }
-      if (analysis.status === 'fulfilled')
-        records.push(...artificialAnalysisRecords(analysis.value));
+      if (
+        analysis.status === 'fulfilled' &&
+        analysis.value.asOf.slice(0, 10) <= day &&
+        analysis.value.asOf.slice(0, 10) >= dateDaysAgo(day, 14)
+      )
+        records.push(...artificialAnalysisRecords(analysis.value.rows, analysis.value.asOf));
       else {
         summary.failed++;
-        summary.details.push('Les indices Artificial Analysis via OpenRouter sont indisponibles.');
+        summary.details.push(
+          'Les indices Artificial Analysis via OpenRouter sont absents ou datent de plus de 14 jours.',
+        );
       }
     } else {
       summary.failed++;
@@ -813,7 +807,7 @@ function editionEntries(
   }));
 }
 
-async function readyDailySources(today: string): Promise<{ skills: boolean; models: boolean }> {
+async function requireDailySources(today: string): Promise<boolean> {
   const jobs = await getDb()
     .select()
     .from(chartsJobRuns)
@@ -823,15 +817,14 @@ async function readyDailySources(today: string): Promise<{ skills: boolean; mode
   for (const job of jobs) {
     if (!latestByKind.has(job.kind)) latestByKind.set(job.kind, job);
   }
-  const ready = (kind: 'skills_daily_sync' | 'models_daily_sync') => {
+  return (['skills_daily_sync', 'models_daily_sync'] as const).every((kind) => {
     const current = latestByKind.get(kind);
     return Boolean(
       current?.finishedAt &&
       utcDate(new Date(current.finishedAt)) === today &&
       ['success', 'partial'].includes(current.status),
     );
-  };
-  return { skills: ready('skills_daily_sync'), models: ready('models_daily_sync') };
+  });
 }
 
 export async function freezeExternalCharts(
@@ -858,18 +851,17 @@ async function calculateExternalWeek(
   summary: ExternalJobSummary,
 ): Promise<void> {
   if (date > utcDate()) throw new Error('Une édition future ne peut pas être calculée.');
-  const ready = await readyDailySources(date);
-  if (!ready.skills && !ready.models) {
+  if (!(await requireDailySources(date))) {
     summary.status = 'skipped';
     summary.details.push(
       'Les collectes Skills.sh/GitHub et Models doivent être terminées le jour du gel.',
     );
     return;
   }
-  const week = date;
+  const week = isoWeekOf(new Date(`${date}T00:00:00Z`));
   const [skillCandidates, modelCandidates] = await Promise.all([
-    ready.skills ? externalCandidates('skill', date) : Promise.resolve([]),
-    ready.models ? externalCandidates('model', date) : Promise.resolve([]),
+    externalCandidates('skill', date),
+    externalCandidates('model', date),
   ]);
   const skills = scoreSkills(skillScoreInputs(skillCandidates, date), 20);
   const models = scoreModels(modelScoreInputs(modelCandidates, date), 20);
@@ -879,42 +871,42 @@ async function calculateExternalWeek(
     `${skills.length.toString()} skills et ${models.length.toString()} modèles disposent de l’historique et des signaux requis.`,
   );
   if (options.dryRun) {
-    const skillsShort = ready.skills && skills.length < 20;
-    const modelsShort = ready.models && models.length < 20;
-    summary.status = skillsShort || modelsShort ? 'insufficient_history' : 'success';
-    summary.details.push('Simulation : aucune édition ni journal de job écrit.');
+    summary.status = skills.length < 20 || models.length < 20 ? 'insufficient_history' : 'success';
+    summary.details.push('Simulation : aucune édition hebdomadaire ni journal de job écrit.');
     return;
   }
   let written = 0;
-  if (!ready.skills)
-    summary.details.push('Collecte Skills absente ou en échec : aucune édition Skills.');
-  else if (skills.length >= 20)
+  if (skills.length >= 20)
     written += await freezeExternalEdition(
       'skills',
       week,
       date,
-      'skills-cross-source-v1',
+      'skills-cross-source-v2',
       {
         size: 20,
-        weights: { installs7d: 0.5, githubStars7d: 0.3, repositoryFreshness: 0.2 },
+        sourceWeights: { skillsSh: 0.5, github: 0.5 },
+        githubSubWeights: { stars7d: 0.6, repositoryFreshness: 0.4 },
+        disagreementPenalty: 0.2,
+        minimumSources: 2,
         minimumDays: 7,
       },
       editionEntries(skills),
       options.publish ?? true,
     );
   else summary.failed++;
-  if (!ready.models)
-    summary.details.push('Collecte Models absente ou en échec : aucune édition Models.');
-  else if (models.length >= 20)
+  if (models.length >= 20)
     written += await freezeExternalEdition(
       'models',
       week,
       date,
-      'models-cross-source-v1',
+      'models-cross-source-v2',
       {
         size: 20,
         minimumQualityCandidates: 20,
         qualityWeights: { arenaText: 0.5, artificialAnalysis: 0.5 },
+        minimumQualitySources: 2,
+        benchmarkMaximumAgeDays: 14,
+        disagreementPenalty: 0.2,
         valueWeights: { quality: 0.6, price: 0.4 },
       },
       editionEntries(models),
@@ -925,8 +917,8 @@ async function calculateExternalWeek(
   if (summary.failed) summary.status = written ? 'partial' : 'insufficient_history';
 }
 
-export async function collectExternalCharts(oidcToken?: string): Promise<ExternalJobSummary> {
-  const [skills, models] = await Promise.all([collectSkills(oidcToken), collectModels()]);
+export async function collectExternalCharts(): Promise<ExternalJobSummary> {
+  const [skills, models] = await Promise.all([collectSkills(), collectModels()]);
   return {
     processed: skills.processed + models.processed,
     succeeded: skills.succeeded + models.succeeded,
