@@ -2,6 +2,12 @@
 
 Implémentation : [github-charts.ts](../apps/site/src/domain/github-charts.ts). La page publique présente la configuration de la dernière édition publiée ; chaque édition conserve sa propre version.
 
+## Nouveaux gels multi-sources
+
+Depuis [ADR-0024](adr/ADR-0024-classements-corrobores.md), le score GitHub détaillé ci-dessous est un sous-score. Le Top combine 75 % de ce sous-score et 25 % des pratiques évaluées par OpenSSF Scorecard. Rising combine 85 % de son sous-score GitHub et 15 % d'OpenSSF. Chaque dépôt classé doit avoir les deux sources, et la borne haute des dépôts non corroborés doit montrer qu'ils ne peuvent pas modifier le Top 20. Le collecteur conserve le rapport OpenSSF et sa date dans les relevés externes immuables.
+
+Les sections Momentum v1 et Rising v1 restent la définition des sous-scores GitHub et des éditions antérieures. La [liste des sources étudiées](site/multi-source-ranking-sources.md) distingue les évaluateurs utilisés des jeux dérivés ou non raccordés.
+
 ## Relevés et éligibilité
 
 GitHub fournit les stars, forks, watchers, issues ouvertes et, lorsque disponible, le nombre de commits sur la branche par défaut pendant les sept derniers jours. Le dépôt conserve l'identifiant GitHub pour suivre les renommages. La collecte des contributeurs et releases n'est pas branchée : ces valeurs restent nulles.

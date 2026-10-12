@@ -11,6 +11,7 @@ Miniatures haute définition des épisodes : [DD-0012](design-decisions/DD-0012-
 Langue des classements publics : [DD-0009](design-decisions/DD-0009-langue-des-classements.md).
 
 SANDBOX CHARTS : [guide d’exploitation](site/sandbox-charts.md), [sources externes Skills/Models](site/external-rankings.md), [fiche de mise en service Neon et Vercel](site/mise-en-service-neon-vercel.md), [rapport de livraison](site/sandbox-charts-livraison.md), [méthodologie](sandbox-charts-methodology.md), [ADR-0019](adr/ADR-0019-sandbox-charts-github-postgres.md), [ADR-0021](adr/ADR-0021-classements-externes-skills-models.md), [ADR-0023](adr/ADR-0023-editions-quotidiennes-des-classements.md) et [DD-0004](design-decisions/DD-0004-sandbox-charts.md).
+Évolution multi-source des classements : [ADR-0024](adr/ADR-0024-classements-corrobores.md) et [onze sources examinées](site/multi-source-ranking-sources.md).
 Langues du site (français, anglais, espagnol, allemand) : [DD-0010](design-decisions/DD-0010-quatre-langues-du-site.md). Architecture SEO : [ADR-0020](adr/ADR-0020-architecture-seo-international-des-classements.md) et [feuille de route SEO](site/seo-roadmap.md).
 Pages et assets partagés entre langues, dictionnaires locaux : [DD-0006](design-decisions/DD-0006-pages-partagees-et-traductions-locales.md) et [guide de traduction](site/traductions-locales.md).
 Traductions déclenchées dans le harnais : [ADR-0022](adr/ADR-0022-traductions-manuelles-depuis-le-harnais.md) et [prompt, export/import et mise en service Neon](site/prompt-traductions-harnais.md).

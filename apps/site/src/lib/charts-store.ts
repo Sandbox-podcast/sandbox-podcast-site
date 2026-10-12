@@ -10,13 +10,17 @@ import {
   isNotNull,
   isNull,
   lt,
+  lte,
   notExists,
   or,
   sql,
 } from 'drizzle-orm';
+import { z } from 'zod';
 import { getDb, hasDatabaseConfiguration } from '../db/client.ts';
 import {
   chartEntities,
+  chartEntitySources,
+  chartSourceSnapshots,
   chartsConfiguration,
   chartsJobRuns,
   githubDailySnapshots,
@@ -26,6 +30,9 @@ import {
 } from '../db/schema.ts';
 import {
   DEFAULT_GITHUB_CHART_CONFIG,
+  SCORECARD_MAX_AGE_DAYS,
+  GITHUB_SOURCE_WEIGHTS,
+  RISING_SOURCE_WEIGHTS,
   dateDaysAgo,
   githubChartConfigSchema,
   githubMetrics,
@@ -36,6 +43,7 @@ import {
   type GithubChartProject,
   type GithubRepository,
   type GithubScoredEntry,
+  type ScorecardEvidence,
   type TrackingStatus,
 } from '../domain/github-charts.ts';
 import { snapshotSchema, type Snapshot } from '../domain/schema.ts';
@@ -397,6 +405,132 @@ export async function weeklyCandidates(date: string, config: GithubChartConfig) 
     };
   });
 }
+
+const scorecardProvider = 'openssf-scorecard';
+const scorecardPayloadSchema = z
+  .object({
+    score: z.number().min(0).max(10),
+    overallScore: z.number().min(0).max(10),
+    checksUsed: z.number().int().min(6).max(9),
+    checkScores: z.record(z.string(), z.number().min(0).max(10)),
+  })
+  .refine((value) => Object.keys(value.checkScores).length === value.checksUsed);
+
+export async function saveScorecardBatch(
+  results: readonly {
+    entityId: string;
+    fullName: string;
+    score: number;
+    overallScore: number;
+    checksUsed: number;
+    checkScores: Record<string, number>;
+    assessedOn: string;
+    collectedAt: string;
+  }[],
+): Promise<number> {
+  if (!results.length) return 0;
+  for (const result of results) scorecardPayloadSchema.parse(result);
+  const db = getDb();
+  return db.transaction(async (tx) => {
+    await tx
+      .insert(chartEntitySources)
+      .values(
+        results.map((result) => ({
+          id: randomUUID(),
+          entityId: result.entityId,
+          provider: scorecardProvider,
+          externalId: result.fullName,
+          url: `https://scorecard.dev/viewer/?uri=github.com/${result.fullName}`,
+          label: 'OpenSSF Scorecard',
+          updatedAt: result.collectedAt,
+        })),
+      )
+      .onConflictDoNothing();
+    const refs = await tx
+      .select()
+      .from(chartEntitySources)
+      .where(
+        and(
+          inArray(
+            chartEntitySources.entityId,
+            results.map((result) => result.entityId),
+          ),
+          eq(chartEntitySources.provider, scorecardProvider),
+        ),
+      );
+    const refIds = new Map(
+      refs.map((ref) => [JSON.stringify([ref.entityId, ref.externalId]), ref.id]),
+    );
+    const snapshots = results.map((result) => {
+      const refId = refIds.get(JSON.stringify([result.entityId, result.fullName]));
+      if (!refId) throw new Error(`Référence OpenSSF absente pour ${result.fullName}.`);
+      return {
+        id: randomUUID(),
+        entitySourceId: refId,
+        observedOn: result.assessedOn,
+        collectedAt: result.collectedAt,
+        payload: {
+          score: result.score,
+          overallScore: result.overallScore,
+          checksUsed: result.checksUsed,
+          checkScores: result.checkScores,
+        },
+      };
+    });
+    const inserted = await tx
+      .insert(chartSourceSnapshots)
+      .values(snapshots)
+      .onConflictDoNothing()
+      .returning({ id: chartSourceSnapshots.id });
+    return inserted.length;
+  });
+}
+
+export async function scorecardsForProjects(
+  projects: readonly { entityId: string; fullName: string }[],
+  date: string,
+): Promise<Map<string, ScorecardEvidence>> {
+  if (!projects.length) return new Map();
+  const names = new Map(
+    projects.map((project) => [project.entityId, project.fullName.toLowerCase()]),
+  );
+  const rows = await getDb()
+    .select({
+      ref: chartEntitySources,
+      snapshot: chartSourceSnapshots,
+    })
+    .from(chartEntitySources)
+    .innerJoin(chartSourceSnapshots, eq(chartSourceSnapshots.entitySourceId, chartEntitySources.id))
+    .where(
+      and(
+        inArray(
+          chartEntitySources.entityId,
+          projects.map((project) => project.entityId),
+        ),
+        eq(chartEntitySources.provider, scorecardProvider),
+        gte(chartSourceSnapshots.observedOn, dateDaysAgo(date, SCORECARD_MAX_AGE_DAYS)),
+        lte(chartSourceSnapshots.observedOn, date),
+        lte(chartSourceSnapshots.collectedAt, `${date}T23:59:59.999Z`),
+      ),
+    )
+    .orderBy(desc(chartSourceSnapshots.observedOn), desc(chartSourceSnapshots.collectedAt));
+  const latest = new Map<string, ScorecardEvidence>();
+  for (const row of rows) {
+    if (
+      latest.has(row.ref.entityId) ||
+      names.get(row.ref.entityId) !== row.ref.externalId.toLowerCase()
+    )
+      continue;
+    const parsed = scorecardPayloadSchema.safeParse(row.snapshot.payload);
+    if (!parsed.success) continue;
+    latest.set(row.ref.entityId, {
+      ...parsed.data,
+      assessedOn: row.snapshot.observedOn,
+      collectedAt: row.snapshot.collectedAt,
+    });
+  }
+  return latest;
+}
 export async function readLiveWeeklySnapshots(publishedOnly = true): Promise<Snapshot[]> {
   requireChartsDatabase();
   const editions = await getDb()
@@ -453,6 +587,9 @@ export async function freezeWeeklyCharts(
             ),
           ),
           [ranking.chart === 'github' ? 'momentum' : 'discovery']: item.score,
+          ...(item.sourceScores
+            ? { securityPractices: item.sourceScores['openssf-scorecard'] }
+            : {}),
         },
         metrics: Object.fromEntries(
           Object.entries({
@@ -465,6 +602,7 @@ export async function freezeWeeklyCharts(
             contributorsDelta: item.metrics.contributorsDelta,
             activityScore: item.metrics.activityScore,
             acceleration: item.metrics.acceleration,
+            scorecardScore: item.scorecard?.score ?? null,
           }).filter((pair): pair is [string, number] => pair[1] !== null),
         ),
       }));
@@ -487,8 +625,14 @@ export async function freezeWeeklyCharts(
           id,
           chart: ranking.chart,
           week,
-          scoringVersion: ranking.chart === 'github' ? config.version : config.risingVersion,
-          config,
+          scoringVersion:
+            ranking.chart === 'github' ? 'github-cross-source-v2' : 'rising-cross-source-v2',
+          config: {
+            ...config,
+            sourceWeights:
+              ranking.chart === 'github' ? GITHUB_SOURCE_WEIGHTS : RISING_SOURCE_WEIGHTS,
+            scorecardMaxAgeDays: SCORECARD_MAX_AGE_DAYS,
+          },
           payload,
           publishedAt: publish ? publishedAt : null,
         })
@@ -504,12 +648,27 @@ export async function freezeWeeklyCharts(
           score: item.score,
           ...weeklyGithubMovement(item.project.slug, item.rank, previousEntries),
           metadata: {
-            source: 'github',
+            sources: [
+              {
+                provider: 'github',
+                url: `https://github.com/${item.project.fullName}`,
+                observedAt: item.metrics.collectedAt,
+              },
+              {
+                provider: scorecardProvider,
+                url: `https://scorecard.dev/viewer/?uri=github.com/${item.project.fullName}`,
+                observedAt: item.scorecard?.assessedOn,
+              },
+            ],
             rawMetrics: item.metrics,
             components: item.components,
             weights: item.weights,
             coverage: item.coverage,
-            scoringVersion: ranking.chart === 'github' ? config.version : config.risingVersion,
+            sourceScores: item.sourceScores,
+            sourceWeights: item.sourceWeights,
+            sourceEvidence: item.scorecard,
+            scoringVersion:
+              ranking.chart === 'github' ? 'github-cross-source-v2' : 'rising-cross-source-v2',
             project: item.project,
           },
         })),

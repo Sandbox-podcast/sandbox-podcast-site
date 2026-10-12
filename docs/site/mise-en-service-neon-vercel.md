@@ -51,7 +51,7 @@ Selon la note de transfert du 7 octobre, les deux variables `DATABASE_URL` et `P
 | `CRON_SECRET`        | Secret aléatoire d'au moins 16 caractères                                | Générer dans un gestionnaire de secrets et le configurer dans Production. Ne pas le réutiliser ailleurs. |
 | `VERCEL_OIDC_TOKEN`  | Jeton OIDC local, écrit par `vercel env pull`                            | En production, le cron lit l'en-tête `x-vercel-oidc-token`. Ne pas créer une valeur statique à la main.  |
 | `HF_TOKEN`           | Jeton Hugging Face facultatif, lecture seule                             | Utile si le Hub applique une limite de débit aux lectures anonymes.                                      |
-| `OPENROUTER_API_KEY` | Clé OpenRouter facultative                                               | Ajoute les rangs hebdomadaires et débits; sans clé, ces signaux restent absents.                         |
+| `OPENROUTER_API_KEY` | Clé OpenRouter pour Models v2                                            | Donne le second évaluateur Artificial Analysis. Sans clé, aucune nouvelle édition Models n'est publiée.  |
 
 Conserver `SITE_ADMIN_SECRET`, `SITE_ADMIN_USERS` et les autres variables du site déjà configurées. Ne pas remplacer la politique actuelle `SITE_DATA_MODE` pour activer les classements : les autres contenus du site ont leur propre état de validation. `CHARTS_NEWSLETTER_URL` est facultative et ne doit pointer que vers un formulaire HTTPS existant.
 

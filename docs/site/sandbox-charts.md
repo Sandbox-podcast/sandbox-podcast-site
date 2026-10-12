@@ -3,6 +3,7 @@
 Le MVP GitHub réutilise Next.js 16, Neon/Postgres, Drizzle et l'authentification existante. Voir [ADR-0019](../adr/ADR-0019-sandbox-charts-github-postgres.md), [DD-0004](../design-decisions/DD-0004-sandbox-charts.md) et [la méthode](../sandbox-charts-methodology.md).
 
 Le périmètre livré, les fichiers et les vérifications figurent dans [le rapport de livraison locale](sandbox-charts-livraison.md).
+La [méthode multi-source](../adr/ADR-0024-classements-corrobores.md) demande un relevé OpenSSF Scorecard récent pour chaque dépôt classé. Le collecteur utilise son API publique sans nouveau secret. Une collecte partielle peut empêcher le gel si un dépôt sans second avis pourrait entrer dans le Top 20. La [revue des sources](multi-source-ranking-sources.md) documente onze fournisseurs ou jeux examinés.
 Pour transmettre l'activation au propriétaire Neon et au responsable Vercel, utiliser [la fiche de mise en service](mise-en-service-neon-vercel.md).
 Les collecteurs et critères des autres sources sont détaillés dans [le guide Skills/Models](external-rankings.md) et [ADR-0021](../adr/ADR-0021-classements-externes-skills-models.md).
 
@@ -14,7 +15,7 @@ Les variables sont décrites dans [apps/site/.env.example](../../apps/site/.env.
 - `GITHUB_TOKEN` : jeton autorisé à lire les dépôts publics via GraphQL et Search.
 - `CRON_SECRET` : secret d'au moins 16 caractères, transmis par Vercel comme Bearer.
 - `VERCEL_OIDC_TOKEN` : accès local aux Skills.sh, via `vercel env pull`. En production, la fonction cron reçoit le jeton dans `x-vercel-oidc-token` tant que la fédération OIDC du projet est en mode Team.
-- `OPENROUTER_API_KEY` : facultative, donne les signaux d'usage, débit, prix, contexte et Artificial Analysis.
+- `OPENROUTER_API_KEY` : nécessaire pour publier Models avec deux évaluateurs; donne aussi les signaux d'usage, débit, prix et contexte.
 - `HUGGINGFACE_TOKEN` : facultative, augmente les limites d'accès au Hub.
 - `SITE_ADMIN_SECRET` et comptes admin existants : accès au backoffice.
 - `CHARTS_NEWSLETTER_URL` : facultatif, page HTTPS du service d'inscription.

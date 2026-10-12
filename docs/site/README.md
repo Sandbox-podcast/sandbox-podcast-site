@@ -12,6 +12,8 @@ Ce site est un produit distinct de la plateforme de production de podcasts décr
 
 Les contenus initiaux du dépôt restent simulés et l’indexation demeure bloquée. SANDBOX CHARTS collecte GitHub, Skills.sh, Hugging Face, Arena et OpenRouter dans Postgres, conserve leurs relevés datés et publie des éditions hebdomadaires immuables sans secours par des fixtures. Les collecteurs Skills/Models sont implémentés, mais l'activation réelle attend la configuration des accès, la validation des conditions de source et l'application contrôlée de la migration 0005. Voir [le guide SANDBOX CHARTS](sandbox-charts.md), [les sources externes Skills/Models](external-rankings.md), [la fiche de mise en service](mise-en-service-neon-vercel.md), [le rapport local](sandbox-charts-livraison.md), [ADR-0019](../adr/ADR-0019-sandbox-charts-github-postgres.md), [ADR-0021](../adr/ADR-0021-classements-externes-skills-models.md) et [DD-0004](../design-decisions/DD-0004-sandbox-charts.md). Le passage global en `SITE_DATA_MODE=live` attend toujours des contenus vérifiés sur le reste du site.
 
+Les nouveaux gels suivent [ADR-0024](../adr/ADR-0024-classements-corrobores.md) : GitHub est croisé avec OpenSSF Scorecard, Skills.sh avec GitHub, et Arena avec Artificial Analysis pour le rang principal Models. La [revue de onze sources](multi-source-ranking-sources.md) explique les fournisseurs retenus et ceux dont les mesures ne peuvent pas être additionnées sans biaiser le résultat.
+
 ## 1. Architecture du produit
 
 Trois couches, qui ne se mélangent jamais, y compris dans l'interface :

@@ -80,7 +80,7 @@ describe('classements externes', () => {
     expect(rows[0]?.dimensions['freshness']).toBe(50);
   });
 
-  it('classe la première édition par installations cumulées sans inventer de variation', () => {
+  it('croise installations et stars à la première édition sans inventer de variation', () => {
     const absolute = (slug: string, installs: number): SkillScoreInput => {
       const row = skill(slug, 1, 1);
       return {
@@ -96,10 +96,19 @@ describe('classements externes', () => {
     expect(rows[0]?.dimensions['reach']).toBe(100);
   });
 
-  it('normalise chaque benchmark séparément et conserve le prix gratuit comme meilleur prix', () => {
+  it('ne publie pas de skill sans deuxième source à la première édition', () => {
+    const row = skill('skill-single-source', 1, 1);
+    expect(
+      scoreSkills([
+        { ...row, metrics: { ...row.metrics, installs7d: null, stars7d: null, stars: Number.NaN } },
+      ]),
+    ).toHaveLength(0);
+  });
+
+  it('exige deux évaluateurs indépendants pour le score principal des modèles', () => {
     const common = {
       arenaQuality: 1400,
-      artificialAnalysisIntelligence: null,
+      artificialAnalysisIntelligence: 80,
       arenaCoding: null,
       artificialAnalysisCoding: null,
       arenaAgent: null,
@@ -122,6 +131,7 @@ describe('classements externes', () => {
       }),
       model('model-beta', {
         ...common,
+        artificialAnalysisIntelligence: 60,
         verifiedReasoning: { gpqa: 10, humanitysLastExam: 0.9 },
         verifiedMaths: {},
         promptPricePerMillion: 1,
@@ -135,6 +145,14 @@ describe('classements externes', () => {
         promptPricePerMillion: null,
         completionPricePerMillion: null,
       }),
+      model('model-single-source', {
+        ...common,
+        artificialAnalysisIntelligence: null,
+        verifiedReasoning: {},
+        verifiedMaths: {},
+        promptPricePerMillion: null,
+        completionPricePerMillion: null,
+      }),
     ]);
     expect(ranked).toHaveLength(2);
     expect(ranked.find((row) => row.entity.slug === 'model-alpha')?.dimensions['reasoning']).toBe(
@@ -143,8 +161,40 @@ describe('classements externes', () => {
     expect(ranked.find((row) => row.entity.slug === 'model-beta')?.dimensions['reasoning']).toBe(
       50,
     );
-    expect(ranked.find((row) => row.entity.slug === 'model-alpha')?.dimensions['price']).toBe(100);
+    expect(
+      ranked.find((row) => row.entity.slug === 'model-alpha')?.metrics['blendedPricePerMillion'],
+    ).toBe(0);
+    expect(
+      ranked.find((row) => row.entity.slug === 'model-alpha')?.dimensions['value'],
+    ).toBeGreaterThan(
+      ranked.find((row) => row.entity.slug === 'model-beta')?.dimensions['value'] ?? 0,
+    );
     expect(ranked.find((row) => row.entity.slug === 'model-unrated')).toBeUndefined();
+    expect(ranked.find((row) => row.entity.slug === 'model-single-source')).toBeUndefined();
+    expect(ranked[0]?.metrics['sourceDisagreement']).toBeGreaterThanOrEqual(0);
+  });
+  it('ne présente pas de vue Value sans mesure de prix', () => {
+    const noPrice = model('model-no-price', {
+      arenaQuality: 1400,
+      artificialAnalysisIntelligence: 80,
+      arenaCoding: null,
+      artificialAnalysisCoding: null,
+      arenaAgent: null,
+      artificialAnalysisAgentic: null,
+      arenaVision: null,
+      arenaSearch: null,
+      verifiedReasoning: {},
+      verifiedMaths: {},
+      downloads30d: null,
+      likes: null,
+      openRouterWeeklyRank: null,
+      openRouterThroughputRank: null,
+      contextLength: null,
+      promptPricePerMillion: null,
+      completionPricePerMillion: null,
+    });
+    expect(scoreModels([noPrice])[0]?.dimensions['quality']).toBe(50);
+    expect(scoreModels([noPrice])[0]?.dimensions['value']).toBeUndefined();
   });
 });
 
@@ -237,6 +287,7 @@ describe('clients de sources', () => {
               rank: 1,
               category: 'overall',
               vote_count: 1200,
+              leaderboard_publish_date: '2026-10-08',
             },
           },
         ],

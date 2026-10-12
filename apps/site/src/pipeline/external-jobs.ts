@@ -16,7 +16,12 @@ import {
   type ModelScoreInput,
   type SkillScoreInput,
 } from '../domain/external-charts.ts';
-import { closestBaseline, utcDate, type DailyGithubSnapshot } from '../domain/github-charts.ts';
+import {
+  closestBaseline,
+  dateDaysAgo,
+  utcDate,
+  type DailyGithubSnapshot,
+} from '../domain/github-charts.ts';
 import { beginChartsJob, finishChartsJob, requireChartsDatabase } from '../lib/charts-store.ts';
 import {
   externalCandidates,
@@ -280,6 +285,8 @@ function arenaModelRecords(rows: readonly ArenaModelResult[], day: string): Mode
   >();
   for (const row of rows) {
     if (row.category && row.category.toLowerCase() !== 'overall') continue;
+    if (row.leaderboard_publish_date > day || row.leaderboard_publish_date < dateDaysAgo(day, 14))
+      continue;
     const key = arenaKey(row);
     const current = grouped.get(key) ?? {
       name: row.model_name,
@@ -294,7 +301,7 @@ function arenaModelRecords(rows: readonly ArenaModelResult[], day: string): Mode
       current.metrics[`${row.config}Votes`] = votes;
     if (row.observation_count !== undefined)
       current.metrics[`${row.config}Observations`] = row.observation_count;
-    current.metrics[`${row.config}PublishedAt`] = row.leaderboard_publish_date ?? day;
+    current.metrics[`${row.config}PublishedAt`] = row.leaderboard_publish_date;
     grouped.set(key, current);
   }
   return [...grouped].map(([externalId, value]) => ({
@@ -362,7 +369,10 @@ function openRouterRecords(models: readonly OpenRouterModel[]): ModelRecord[] {
   });
 }
 
-function artificialAnalysisRecords(rows: readonly ArtificialAnalysisResult[]): ModelRecord[] {
+function artificialAnalysisRecords(
+  rows: readonly ArtificialAnalysisResult[],
+  asOf: string,
+): ModelRecord[] {
   return rows.map((row) => ({
     provider: 'artificial-analysis',
     externalId: row.model_permaslug,
@@ -375,6 +385,7 @@ function artificialAnalysisRecords(rows: readonly ArtificialAnalysisResult[]): M
       intelligenceIndex: row.intelligence_index ?? null,
       codingIndex: row.coding_index ?? null,
       agenticIndex: row.agentic_index ?? null,
+      benchmarkAsOf: asOf,
     },
   }));
 }
@@ -565,11 +576,17 @@ export async function collectModels(): Promise<ExternalJobSummary> {
         summary.failed++;
         summary.details.push('La liste OpenRouter est indisponible.');
       }
-      if (analysis.status === 'fulfilled')
-        records.push(...artificialAnalysisRecords(analysis.value));
+      if (
+        analysis.status === 'fulfilled' &&
+        analysis.value.asOf.slice(0, 10) <= day &&
+        analysis.value.asOf.slice(0, 10) >= dateDaysAgo(day, 14)
+      )
+        records.push(...artificialAnalysisRecords(analysis.value.rows, analysis.value.asOf));
       else {
         summary.failed++;
-        summary.details.push('Les indices Artificial Analysis via OpenRouter sont indisponibles.');
+        summary.details.push(
+          'Les indices Artificial Analysis via OpenRouter sont absents ou datent de plus de 14 jours.',
+        );
       }
     } else {
       summary.failed++;
@@ -893,10 +910,13 @@ async function calculateExternalWeek(
       'skills',
       week,
       date,
-      'skills-cross-source-v1',
+      'skills-cross-source-v2',
       {
         size: 20,
-        weights: { installs7d: 0.5, githubStars7d: 0.3, repositoryFreshness: 0.2 },
+        sourceWeights: { skillsSh: 0.5, github: 0.5 },
+        githubSubWeights: { stars7d: 0.6, repositoryFreshness: 0.4 },
+        disagreementPenalty: 0.2,
+        minimumSources: 2,
         minimumDays: 7,
       },
       editionEntries(skills),
@@ -910,11 +930,14 @@ async function calculateExternalWeek(
       'models',
       week,
       date,
-      'models-cross-source-v1',
+      'models-cross-source-v2',
       {
         size: 20,
         minimumQualityCandidates: 20,
         qualityWeights: { arenaText: 0.5, artificialAnalysis: 0.5 },
+        minimumQualitySources: 2,
+        benchmarkMaximumAgeDays: 14,
+        disagreementPenalty: 0.2,
         valueWeights: { quality: 0.6, price: 0.4 },
       },
       editionEntries(models),

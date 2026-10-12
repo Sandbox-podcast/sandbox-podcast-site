@@ -4,6 +4,8 @@ Statut au 2026-10-08 : les collecteurs, le stockage PostgreSQL, les gels hebdoma
 
 La décision de conception est consignée dans [ADR-0021](../adr/ADR-0021-classements-externes-skills-models.md). Le pipeline GitHub existant reste décrit dans le [guide SANDBOX CHARTS](sandbox-charts.md).
 
+Depuis [ADR-0024](../adr/ADR-0024-classements-corrobores.md), les nouveaux gels Skills et Models demandent deux familles de mesures. Leur moyenne pondérée retire 20 % de l'écart moyen entre les familles. Models exige Arena et Artificial Analysis pour le rang principal; une seule évaluation ne suffit plus. Coding et Agents demandent aussi ces deux évaluateurs. Les mesures fournies par un seul service restent visibles comme données brutes et ne créent plus de dimension classante. Les formules ci-dessous décrivent la version initiale et restent utiles pour lire les anciennes éditions. La [revue des sources](multi-source-ranking-sources.md) explique les sources écartées.
+
 ## Sources branchées
 
 | Classement | Source                                                                                                       | Données prises                                                                                                                                                                                    | Conditions techniques                                                                                                                                                                  |
@@ -12,8 +14,8 @@ La décision de conception est consignée dans [ADR-0021](../adr/ADR-0021-classe
 | Skills     | [GitHub REST API](https://docs.github.com/en/rest/repos/repos#get-a-repository)                              | Dépôt associé, stars, forks, date de dernière activité, état archivé/fork/désactivé et sujets.                                                                                                    | `GITHUB_TOKEN`. Les dépôts privés, archivés, forks et désactivés sont exclus.                                                                                                          |
 | Models     | [Hugging Face Hub API](https://huggingface.co/docs/hub/api)                                                  | Jusqu'aux 500 modèles publics `text-generation` les plus téléchargés, leurs téléchargements sur 30 jours, likes, tags, licence déclarée et accès restreint.                                       | API publique; `HUGGINGFACE_TOKEN` est facultatif. Les résultats de model cards ne sont pas traités comme des évaluations vérifiées.                                                    |
 | Models     | [Arena Leaderboard Dataset](https://huggingface.co/datasets/lmarena-ai/leaderboard-dataset)                  | Dernières lignes des configurations texte, WebDev, agents, vision et recherche, avec rang, score, catégorie et nombre de votes/observations.                                                      | Dataset public; un score Arena ne contribue au classement qu'à partir de 1 000 votes, ou 1 000 observations pour les agents. Le lien vers la source et son attribution sont conservés. |
-| Models     | [OpenRouter Models API](https://openrouter.ai/docs/api/api-reference/models/get-models)                      | Modèles et rangs d'usage hebdomadaire/de débit, fenêtre de contexte, prix entrée/sortie.                                                                                                          | `OPENROUTER_API_KEY`, facultative. Sans cette clé, les données OpenRouter et Artificial Analysis manquent et le job est signalé partiel.                                               |
-| Models     | [Artificial Analysis via OpenRouter](https://openrouter.ai/docs/api/api-reference/benchmarks/get-benchmarks) | Intelligence Index, Coding Index et Agentic Index.                                                                                                                                                | Même clé facultative OpenRouter.                                                                                                                                                       |
+| Models     | [OpenRouter Models API](https://openrouter.ai/docs/api/api-reference/models/get-models)                      | Modèles et rangs d'usage hebdomadaire/de débit, fenêtre de contexte, prix entrée/sortie.                                                                                                          | `OPENROUTER_API_KEY`. Sans cette clé, la nouvelle édition Models attend sa seconde évaluation.                                                                                         |
+| Models     | [Artificial Analysis via OpenRouter](https://openrouter.ai/docs/api/api-reference/benchmarks/get-benchmarks) | Intelligence Index, Coding Index et Agentic Index.                                                                                                                                                | Même clé OpenRouter, nécessaire au rang principal Models v2.                                                                                                                           |
 
 Les appels externes sont limités aux APIs et vues prévues, validés par Zod, réalisés avec timeout, retries bornés et sans secours par des chiffres simulés. Les URL affichées sont en HTTPS. Une source en erreur n'est pas remplacée par une mesure inventée.
 
@@ -27,7 +29,7 @@ Les éditions publiées sont copiées dans `weekly_chart_editions` et `weekly_ra
 
 Les snapshots Git avec `provenance: mock` ne sont que des illustrations locales et peuvent contenir moins de vingt lignes. Ils ne sont pas servis en production; le collecteur ne publie une édition Skills ou Models qu'avec vingt candidats mesurables.
 
-## Méthode Skills
+## Méthode Skills v1, éditions antérieures
 
 Chaque candidat doit avoir un relevé du jour chez Skills.sh et GitHub ainsi que des relevés à environ J−7 (tolérance d'un jour) pour les compteurs d'installations et de stars. Son score est calculé ainsi :
 
@@ -37,7 +39,7 @@ Chaque candidat doit avoir un relevé du jour chez Skills.sh et GitHub ainsi que
 
 Chaque dimension est convertie en percentile parmi les candidats mesurables de la même édition; les valeurs égales reçoivent le rang moyen. Le classement ne paraît que si vingt candidats ont les mesures requises. Une édition sans sept jours d'historique n'est pas calculée.
 
-## Méthode Models
+## Méthode Models v1, éditions antérieures
 
 Le rang principal `quality` exige au moins une valeur de qualité : Elo texte Arena ou Intelligence Index Artificial Analysis. Chaque source est normalisée séparément en percentile parmi les candidats disponibles; la moyenne utilise 50 % par source et renormalise le poids si un seul percentile existe.
 
@@ -76,7 +78,7 @@ Après application contrôlée de la migration `0005`, les éditions publiées s
 ## À faire avant activation en production
 
 1. Confirmer les conditions de réutilisation, attribution et quotas de chaque service pour l'usage éditorial prévu.
-2. Configurer les valeurs côté Vercel : `DATABASE_URL`, `GITHUB_TOKEN`, `CRON_SECRET`, la fédération OIDC en mode Team, et si souhaité `OPENROUTER_API_KEY`/`HUGGINGFACE_TOKEN`. Ne pas coller un `VERCEL_OIDC_TOKEN` statique.
+2. Configurer les valeurs côté Vercel : `DATABASE_URL`, `GITHUB_TOKEN`, `CRON_SECRET`, la fédération OIDC en mode Team et `OPENROUTER_API_KEY` pour Models. `HUGGINGFACE_TOKEN` reste facultatif. Ne pas coller un `VERCEL_OIDC_TOKEN` statique.
 3. Appliquer la migration additive `0005_external_chart_sources.sql` sur la base visée après sauvegarde et contrôle du journal de migrations.
 4. Exécuter une collecte, attendre les historiques requis, faire un dry run et vérifier les sources ainsi que les vingt premières lignes avant d'ouvrir les éditions.
 

@@ -18,6 +18,7 @@ const contentSecurityPolicy = [
 
 const config: NextConfig = {
   reactStrictMode: true,
+  experimental: { cpus: 2 },
   poweredByHeader: false,
   serverExternalPackages: ['ws'],
   images: {
