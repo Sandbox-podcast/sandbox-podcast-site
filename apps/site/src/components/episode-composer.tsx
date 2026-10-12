@@ -345,10 +345,10 @@ export function EpisodeComposer({
       sources: [],
       platforms,
       featured,
-      status: action === 'publish' ? 'published' : (episode?.status ?? 'draft'),
-      charts: episode?.charts ?? [],
+      status: action === 'publish' ? 'published' : episode.status,
+      charts: episode.charts,
       cover: {
-        ...(episode?.cover ?? { tone: 1, kicker: `Épisode ${String(initialNumber)}` }),
+        ...episode.cover,
         uploadedArtworkPath,
       },
     });
