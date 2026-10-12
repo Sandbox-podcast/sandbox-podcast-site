@@ -41,11 +41,13 @@ const descriptions: Record<
 export async function ChartsMethodology({ rising = false }: { rising?: boolean }) {
   let config = DEFAULT_GITHUB_CHART_CONFIG;
   let publishedWeek: string | null = null;
+  let scoringVersion = rising ? 'rising-cross-source-v2' : 'github-cross-source-v2';
   if (hasDatabaseConfiguration()) {
     try {
       const edition = await publicChartEdition(rising ? 'rising' : 'github');
       config = edition ? githubChartConfigSchema.parse(edition.config) : await readChartsConfig();
       publishedWeek = edition?.weekId ?? null;
+      scoringVersion = edition?.scoringVersion ?? scoringVersion;
     } catch (error) {
       console.error(
         'Charts methodology unavailable:',
@@ -83,7 +85,7 @@ export async function ChartsMethodology({ rising = false }: { rising?: boolean }
           </Text>
         </p>
         <span className="sc-label">
-          <Text>{rising ? config.risingVersion : config.version}</Text>
+          <Text>{scoringVersion}</Text>
           <Text>{' \u00B7'}</Text>
           <Text> </Text>
           <Text>
@@ -123,6 +125,15 @@ export async function ChartsMethodology({ rising = false }: { rising?: boolean }
                 }
               </Text>
             </p>
+            {scoringVersion.endsWith('cross-source-v2') ? (
+              <p>
+                <Text>
+                  {
+                    "Le classement croise aussi un rapport OpenSSF Scorecard daté de quatorze jours au plus. Un dépôt sans ce second avis peut bloquer le gel s'il pourrait entrer dans le Top 20. Ce rapport décrit des pratiques détectables, sans garantir la sécurité du code."
+                  }
+                </Text>
+              </p>
+            ) : null}
           </section>
           <section id="method-eligibility">
             <h2>
@@ -222,6 +233,15 @@ export async function ChartsMethodology({ rising = false }: { rising?: boolean }
               <Text>{config.growthFloor}</Text>
               <Text>{' stars.'}</Text>
             </p>
+            {scoringVersion.endsWith('cross-source-v2') ? (
+              <p>
+                <Text>
+                  {rising
+                    ? 'Ce sous-score GitHub compte pour 85 %. Les 15 % restants viennent de neuf contrôles OpenSSF sélectionnés, avec au moins six résultats exploitables.'
+                    : 'Ce sous-score GitHub compte pour 75 %. Les 25 % restants viennent de neuf contrôles OpenSSF sélectionnés, avec au moins six résultats exploitables.'}
+                </Text>
+              </p>
+            ) : null}
           </section>
           <section id="method-history">
             <h2>
@@ -237,7 +257,7 @@ export async function ChartsMethodology({ rising = false }: { rising?: boolean }
             <p>
               <Text>
                 {
-                  'Les vues mensuelles et sur trois mois mesurent la pr\u00E9sence aux meilleures places : moyenne de 100 / rang sur les semaines disponibles, avec z\u00E9ro point les semaines hors classement. Elles ne moyennent pas des scores normalis\u00E9s de groupes diff\u00E9rents. Une édition datée appartient à son mois. Une semaine ISO appartient au mois de son lundi.'
+                  'Les vues mensuelles et sur trois mois mesurent la pr\u00E9sence aux meilleures places : moyenne de 100 / rang sur les semaines disponibles, avec z\u00E9ro point les semaines hors classement. Elles ne moyennent pas des scores normalis\u00E9s de groupes diff\u00E9rents. Une semaine appartient au mois de son lundi.'
                 }
               </Text>
             </p>
@@ -305,7 +325,7 @@ export async function ChartsMethodology({ rising = false }: { rising?: boolean }
             <br />
             <Text>{'Collecte : 02:00 UTC.'}</Text>
             <br />
-            <Text>{'\u00C9dition : chaque jour \u00E0 03:00 UTC.'}</Text>
+            <Text>{'\u00C9dition : lundi \u00E0 03:00 UTC.'}</Text>
           </p>
           <p>
             <Text>
