@@ -5,7 +5,7 @@ export const dynamic = 'force-dynamic';
 
 export async function GET(
   _request: Request,
-  context: RouteContext<'/api/episode-thumbnails/[filename]'>,
+  context: { params: Promise<{ filename: string }> },
 ): Promise<Response> {
   const { filename } = await context.params;
   const match = /^([a-f0-9]{64})\.webp$/.exec(filename);

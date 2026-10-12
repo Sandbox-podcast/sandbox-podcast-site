@@ -5,7 +5,7 @@ export const dynamic = 'force-dynamic';
 
 export async function GET(
   _request: Request,
-  context: RouteContext<'/api/youtube-thumbnail/[videoId]'>,
+  context: { params: Promise<{ videoId: string }> },
 ): Promise<Response> {
   const { videoId } = await context.params;
   if (!/^[A-Za-z0-9_-]{11}$/.test(videoId)) return new Response(null, { status: 404 });
