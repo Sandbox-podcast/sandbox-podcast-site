@@ -25,6 +25,7 @@ export async function generateMetadata() {
   });
 }
 export default async function HomePage() {
+  await preparePublishedEditorialContent();
   const episodes = allEpisodes().sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
   const featured = episodes.find((episode) => episode.featured) ?? episodes[0];
   const featuredArtwork = featured ? episodeArtwork(featured) : undefined;
