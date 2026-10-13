@@ -7,6 +7,7 @@ Le dépôt sert le site média `apps/site`. La documentation du travail précéd
 UI/UX du site : [rapport du 8 octobre 2026](site/ui-ux-2026-10-08.md) et [DD-0005](design-decisions/DD-0005-ux-globale-du-site.md).
 Présentations d’épisode en HTML sur `slides.sandboxpodcast.fr` : [guide des slides](site/slides.md) et [DD-0007](design-decisions/DD-0007-sous-domaine-des-presentations.md).
 Logo complet et navigation publique : [DD-0008](design-decisions/DD-0008-logo-et-navigation-publique.md).
+Automatisation YouTube : [guide d'exploitation](../tools/youtube-growth/README.md) et [ADR-0025](adr/ADR-0025-automatisation-chaine-youtube.md).
 Miniatures haute définition des épisodes : [DD-0012](design-decisions/DD-0012-miniatures-episodes.md) et [guide éditorial](site/editorial-workflow.md).
 Langue des classements publics : [DD-0009](design-decisions/DD-0009-langue-des-classements.md).
 
