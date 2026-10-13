@@ -8,6 +8,8 @@ La stratégie de découverte multilingue et le contrat de données pour les clas
 
 Le parcours média centré sur les podcasts, les ressources en barre latérale et la recherche sont définis par [DD-0003](../design-decisions/DD-0003-parcours-podcast-et-theme-rouge.md). [DD-0008](../design-decisions/DD-0008-logo-et-navigation-publique.md) fixe le logo complet, les sous-menus Podcasts et le retrait du choix de thème. Les articles historiques du dépôt ne sont plus publiés comme pages autonomes.
 
+La chaîne YouTube publique est [@SandboxFR](https://www.youtube.com/@SandboxFR). Son identité reprend le logo complet et le triangle du site ; voir [DD-0011](../design-decisions/DD-0011-identite-youtube-sandbox.md) et le [kit de chaîne](../../brand/youtube/README.md).
+
 [DD-0009](../design-decisions/DD-0009-langue-des-classements.md) fixe les libellés français des classements publics et un état d'attente explicite tant qu'aucune édition réelle n'est publiée.
 
 Ce site est un produit distinct de la plateforme de production de podcasts décrite dans le prompt maître : il n'en reprend ni les critères d'acceptation ni le Golden Path. Il vit dans le même dépôt parce que le monorepo (ADR-0001) prévoyait déjà une application Next.js.
