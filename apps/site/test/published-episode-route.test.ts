@@ -8,7 +8,7 @@ vi.mock('../src/lib/admin-persistence', async (importOriginal) => {
     preparePublishedEditorialContent: vi.fn(async () => undefined),
   };
 });
-import HomePage from '../src/app/(fr)/page';
+import HomePage, { dynamic as homeDynamic } from '../src/app/(fr)/page';
 import EpisodePage, {
   dynamicParams,
   generateStaticParams,
@@ -18,6 +18,10 @@ import { episodeSchema } from '../src/domain/schema';
 import { loadContent, setEditorialOverride } from '../src/lib/load';
 
 describe('épisodes publiés après le build', () => {
+  it('rend l’accueil à la requête pour lire la publication Postgres', () => {
+    expect(homeDynamic).toBe('force-dynamic');
+  });
+
   it('ouvre la fiche ciblée par le bouton de l’accueil', async () => {
     const buildNumbers = generateStaticParams().map(({ number }) => number);
     const base = loadContent();
