@@ -5,6 +5,8 @@ export const SHARED_PAGE_ROUTES = [
   '/topics',
   '/topics/:slug',
   '/about',
+  '/nos-projets',
+  '/nos-projets/:slug',
   '/search',
   '/latest',
   '/stories/:slug',

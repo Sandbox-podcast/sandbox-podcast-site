@@ -10,6 +10,7 @@ const PUBLIC_ROOTS = new Set([
   'moves',
   'latest',
   'about',
+  'nos-projets',
   'search',
 ]);
 
@@ -30,6 +31,7 @@ export function sourcePath(path: string): string {
 
 export function localizedHref(href: string, locale: string = DEFAULT_SITE_LOCALE): string {
   if (!href.startsWith('/') || href.startsWith('//')) return href;
+  if (/\.(?:webp|png|jpe?g|svg|mp4|webm)(?:[?#]|$)/i.test(href)) return href;
   const path = sourcePath(href);
   const first = path.split(/[?#]/)[0]?.split('/').find(Boolean);
   if (first && !PUBLIC_ROOTS.has(first)) return href;

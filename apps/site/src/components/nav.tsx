@@ -11,6 +11,7 @@ import { LocaleFlag } from './locale-flag';
 const ITEMS = [
   { href: '/episodes', label: 'Podcasts' },
   { href: '/charts', label: 'Classements' },
+  { href: '/nos-projets', label: 'Nos projets' },
   { href: '/about', label: 'À propos' },
 ];
 

@@ -146,6 +146,11 @@ export function Footer() {
                 <Text>{'\u00C0 propos'}</Text>
               </Link>
             </li>
+            <li>
+              <Link href="/nos-projets" className="hover:underline">
+                <Text>Nos projets</Text>
+              </Link>
+            </li>
             <Text>
               {charts.slice(0, 2).map((c) => (
                 <li key={c.slug}>
