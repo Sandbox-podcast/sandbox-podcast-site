@@ -2046,12 +2046,17 @@ html[data-scrolled='true'] .site-header {
   flex: 0 0 auto;
   text-align: right;
 }
+.episode-media {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
 .episode-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(17rem, 23rem);
+  grid-template-columns: minmax(0, 1.4fr) minmax(18rem, 1fr);
   align-items: start;
-  gap: clamp(1.5rem, 4vw, 3rem);
-  margin-top: 2rem;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
 }
 .episode-main {
   display: grid;
@@ -2137,6 +2142,14 @@ html[data-scrolled='true'] .site-header {
   padding: 0.3rem 0.6rem;
   border: 1px solid var(--hair);
 }
+.episode-chapters,
+.episode-resources {
+  min-width: 0;
+  padding: clamp(1rem, 2vw, 1.5rem);
+  border: 1px solid var(--hair);
+  border-radius: 0.85rem;
+  background: var(--paper-2);
+}
 .episode-resources {
   position: sticky;
   top: 6rem;
@@ -2144,10 +2157,6 @@ html[data-scrolled='true'] .site-header {
   max-height: calc(100vh - 7.5rem);
   align-content: start;
   overflow: auto;
-  padding: 1rem;
-  border: 1px solid var(--hair);
-  border-radius: 0.85rem;
-  background: var(--paper-2);
   scrollbar-width: thin;
 }
 .episode-resources h2 {

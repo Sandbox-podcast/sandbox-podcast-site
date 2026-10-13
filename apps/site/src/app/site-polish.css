@@ -471,6 +471,38 @@ a.chip {
   letter-spacing: -0.025em;
   text-transform: none;
 }
+.episode-page .episode-details-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.65rem;
+  padding: 0 0 1rem;
+  border-top: 0;
+  border-bottom: 1px solid var(--hair);
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 2vw, 1.3rem);
+  font-weight: 750;
+  letter-spacing: -0.025em;
+}
+.episode-details-count {
+  display: inline-grid;
+  min-width: 2rem;
+  height: 2rem;
+  flex-shrink: 0;
+  place-items: center;
+  padding-inline: 0.4rem;
+  border: 1px solid var(--hair);
+  border-radius: 0.45rem;
+  color: var(--ink-3);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+.episode-chapters .empty-note {
+  padding-block: 0.8rem;
+}
 .chapter-list {
   margin: 0;
   padding: 0;
@@ -489,7 +521,7 @@ a.chip {
   border-radius: 0.4rem;
 }
 a.chapter-row:hover {
-  background: var(--paper-2);
+  background: var(--paper-3);
 }
 .chapter-time {
   color: var(--hl);
@@ -510,6 +542,9 @@ a.chapter-row:hover {
 .resource-item small {
   font-size: 0.8rem;
   line-height: 1.55;
+}
+.episode-resources .resource-item {
+  font-size: 0.875rem;
 }
 .resource-item a:first-child {
   display: inline-block;
