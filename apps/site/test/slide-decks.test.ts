@@ -65,15 +65,37 @@ describe('slide decks', () => {
     expect(html.includes('/_next/')).toBe(false);
   });
 
-  it('fournit une diapositive vierge pour l’épisode 002', () => {
+  it('publie les 22 diapositives et cinq annexes de la Bêta pour l’épisode 002', () => {
     const html = readFileSync(
       join(slidesPublicRoot(process.cwd()), 'episode-002', 'index.html'),
       'utf8',
     );
-    expect(html).toContain('<title>Sandbox — épisode 002</title>');
-    expect(html).toContain(
-      '<main class="slide" aria-label="Diapositive vierge de l’épisode 002"></main>',
+    expect(html).toContain('<title>Sandbox — épisode 002 — La Bêta</title>');
+
+    const deckDataScript = /<script\s+id="deckData"[^>]*>([\s\S]*?)<\/script>/.exec(html);
+    const deckJson = deckDataScript?.[1];
+    expect(deckJson).toBeDefined();
+    if (!deckJson) throw new Error('Les données des diapositives sont absentes.');
+
+    const deck = JSON.parse(deckJson) as {
+      meta: { main: number; segment: string; title: string };
+      slides: { image: string; layout: string; n: number; title: string }[];
+    };
+
+    expect(deck.meta).toMatchObject({
+      main: 22,
+      segment: 'La Bêta',
+      title: "L'IA derrière le comptoir",
+    });
+    expect(deck.slides.map(({ n }) => n)).toEqual(
+      Array.from({ length: 27 }, (_, index) => index + 1),
     );
+    expect(deck.slides[0]).toMatchObject({
+      n: 1,
+      layout: 'cover',
+      title: "L'IA derrière\nle comptoir.",
+    });
+    expect(deck.slides.every(({ image }) => image.startsWith('data:image/'))).toBe(true);
   });
 
   it('place les huit slides de la Bêta après son intertitre', () => {
