@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" role="img" aria-labelledby="title desc">
+  <title id="title">PO/PM : tester la fonctionnalité dans le produit</title>
+  <desc id="desc">Le PO ou PM prototype une fonctionnalité dans une copie de travail du produit, teste le parcours et propose une PR aux développeurs. La factory de tests QA vérifie le fonctionnement de bout en bout.</desc>
+  <rect width="1920" height="1080" fill="#071016"/>
+  <path d="M96 94h1728v892H96z" fill="none" stroke="#17313d" stroke-width="2"/>
+  <circle cx="1680" cy="230" r="250" fill="#0b1d26"/>
+  <text x="132" y="154" fill="#12bce6" font-family="Arial,Helvetica,sans-serif" font-size="25" font-weight="700" letter-spacing="5">LE CLASH  /  03 · PO / PM</text>
+  <text x="132" y="292" fill="#eff6f9" font-family="Arial,Helvetica,sans-serif" font-size="68" font-weight="700" letter-spacing="-2">TESTER LA FONCTIONNALITÉ</text>
+  <text x="132" y="378" fill="#eff6f9" font-family="Arial,Helvetica,sans-serif" font-size="68" font-weight="700" letter-spacing="-2">DANS LE PRODUIT QUI TOURNE.</text>
+  <text x="136" y="442" fill="#9fb9c7" font-family="Arial,Helvetica,sans-serif" font-size="28">Moins de tickets à corriger en série. Plus de parcours à essayer.</text>
+
+  <path d="M250 621H1650" fill="none" stroke="#244451" stroke-width="6" stroke-linecap="round"/>
+  <path d="M510 621h32m-12-12 12 12-12 12M928 621h32m-12-12 12 12-12 12M1346 621h32m-12-12 12 12-12 12" fill="none" stroke="#12bce6" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <rect x="132" y="520" width="370" height="202" rx="10" fill="#102a35" stroke="#12bce6" stroke-width="2"/>
+  <text x="170" y="574" fill="#12bce6" font-family="Arial,Helvetica,sans-serif" font-size="22" font-weight="700" letter-spacing="2">01 / SANDBOX</text>
+  <text x="170" y="628" fill="#eff6f9" font-family="Arial,Helvetica,sans-serif" font-size="32" font-weight="700">Copie de travail</text>
+  <text x="170" y="674" fill="#9fb9c7" font-family="Arial,Helvetica,sans-serif" font-size="24">du produit</text>
+
+  <rect x="550" y="520" width="370" height="202" rx="10" fill="#0f2029" stroke="#274452" stroke-width="2"/>
+  <text x="588" y="574" fill="#12bce6" font-family="Arial,Helvetica,sans-serif" font-size="22" font-weight="700" letter-spacing="2">02 / PROTOTYPE</text>
+  <text x="588" y="628" fill="#eff6f9" font-family="Arial,Helvetica,sans-serif" font-size="32" font-weight="700">Feature testée</text>
+  <text x="588" y="674" fill="#9fb9c7" font-family="Arial,Helvetica,sans-serif" font-size="24">sur un vrai parcours</text>
+
+  <rect x="968" y="520" width="370" height="202" rx="10" fill="#0f2029" stroke="#274452" stroke-width="2"/>
+  <text x="1006" y="574" fill="#12bce6" font-family="Arial,Helvetica,sans-serif" font-size="22" font-weight="700" letter-spacing="2">03 / PROPOSITION</text>
+  <text x="1006" y="628" fill="#eff6f9" font-family="Arial,Helvetica,sans-serif" font-size="32" font-weight="700">PR aux devs</text>
+  <text x="1006" y="674" fill="#9fb9c7" font-family="Arial,Helvetica,sans-serif" font-size="24">à intégrer au produit</text>
+
+  <rect x="1386" y="520" width="402" height="202" rx="10" fill="#102a35" stroke="#12bce6" stroke-width="2"/>
+  <text x="1424" y="574" fill="#12bce6" font-family="Arial,Helvetica,sans-serif" font-size="22" font-weight="700" letter-spacing="2">04 / VÉRIFICATION</text>
+  <text x="1424" y="628" fill="#eff6f9" font-family="Arial,Helvetica,sans-serif" font-size="32" font-weight="700">Factory QA</text>
+  <text x="1424" y="674" fill="#9fb9c7" font-family="Arial,Helvetica,sans-serif" font-size="24">parcours de bout en bout</text>
+
+  <rect x="132" y="786" width="1656" height="110" rx="10" fill="#122b36"/>
+  <text x="170" y="832" fill="#12bce6" font-family="Arial,Helvetica,sans-serif" font-size="21" font-weight="700" letter-spacing="3">INVESTIR LE TEMPS GAGNÉ DANS LE CADRE</text>
+  <text x="170" y="872" fill="#eff6f9" font-family="Arial,Helvetica,sans-serif" font-size="27">Sandbox · prérequis · guidelines · tests</text>
+  <text x="136" y="958" fill="#9fb9c7" font-family="Arial,Helvetica,sans-serif" font-size="25">Mon critère : le comportement réel du produit, pas le volume de tickets générés.</text>
+</svg>

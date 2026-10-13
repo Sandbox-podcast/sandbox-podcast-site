@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" role="img" aria-labelledby="title desc">
+  <title id="title">QA : une factory de tests dans le flux</title>
+  <desc id="desc">Des scripts ou agents automatisent les tests unitaires, de régression, d’interface et de bout en bout à différents points de contrôle. La QA conçoit et améliore la factory.</desc>
+  <rect width="1920" height="1080" fill="#071016"/>
+  <path d="M96 94h1728v892H96z" fill="none" stroke="#17313d" stroke-width="2"/>
+  <text x="132" y="154" fill="#12bce6" font-family="Arial,Helvetica,sans-serif" font-size="25" font-weight="700" letter-spacing="5">LE CLASH  /  02 · QA</text>
+  <text x="132" y="294" fill="#eff6f9" font-family="Arial,Helvetica,sans-serif" font-size="72" font-weight="700" letter-spacing="-2">UNE FACTORY DE TESTS</text>
+  <text x="132" y="382" fill="#eff6f9" font-family="Arial,Helvetica,sans-serif" font-size="72" font-weight="700" letter-spacing="-2">QUI TOURNE DANS LE FLUX.</text>
+  <text x="136" y="446" fill="#9fb9c7" font-family="Arial,Helvetica,sans-serif" font-size="28">Des scripts ou agents intégrés au projet. Des contrôles à plusieurs étapes.</text>
+
+  <path d="M200 606H1718" fill="none" stroke="#244451" stroke-width="6" stroke-linecap="round"/>
+  <path d="M428 606h30m-12-12 12 12-12 12M763 606h30m-12-12 12 12-12 12M1098 606h30m-12-12 12 12-12 12M1433 606h30m-12-12 12 12-12 12" fill="none" stroke="#12bce6" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <rect x="132" y="526" width="290" height="160" rx="10" fill="#102a35" stroke="#12bce6" stroke-width="2"/>
+  <text x="277" y="586" text-anchor="middle" fill="#12bce6" font-family="Arial,Helvetica,sans-serif" font-size="21" font-weight="700" letter-spacing="2">POINT DE CONTRÔLE</text>
+  <text x="277" y="642" text-anchor="middle" fill="#eff6f9" font-family="Arial,Helvetica,sans-serif" font-size="34" font-weight="700">MERGE</text>
+
+  <rect x="467" y="526" width="290" height="160" rx="10" fill="#0f2029" stroke="#274452" stroke-width="2"/>
+  <text x="612" y="586" text-anchor="middle" fill="#9fb9c7" font-family="Arial,Helvetica,sans-serif" font-size="21" font-weight="700" letter-spacing="2">TESTS UNITAIRES</text>
+  <text x="612" y="642" text-anchor="middle" fill="#eff6f9" font-family="Arial,Helvetica,sans-serif" font-size="30" font-weight="700">RÈGLES</text>
+
+  <rect x="802" y="526" width="290" height="160" rx="10" fill="#0f2029" stroke="#274452" stroke-width="2"/>
+  <text x="947" y="586" text-anchor="middle" fill="#9fb9c7" font-family="Arial,Helvetica,sans-serif" font-size="21" font-weight="700" letter-spacing="2">RÉGRESSION</text>
+  <text x="947" y="642" text-anchor="middle" fill="#eff6f9" font-family="Arial,Helvetica,sans-serif" font-size="30" font-weight="700">PARCOURS</text>
+
+  <rect x="1137" y="526" width="290" height="160" rx="10" fill="#0f2029" stroke="#274452" stroke-width="2"/>
+  <text x="1282" y="586" text-anchor="middle" fill="#9fb9c7" font-family="Arial,Helvetica,sans-serif" font-size="21" font-weight="700" letter-spacing="2">FRONT</text>
+  <text x="1282" y="642" text-anchor="middle" fill="#eff6f9" font-family="Arial,Helvetica,sans-serif" font-size="30" font-weight="700">INTERFACE</text>
+
+  <rect x="1472" y="526" width="290" height="160" rx="10" fill="#102a35" stroke="#12bce6" stroke-width="2"/>
+  <text x="1617" y="586" text-anchor="middle" fill="#12bce6" font-family="Arial,Helvetica,sans-serif" font-size="21" font-weight="700" letter-spacing="2">BOUT EN BOUT</text>
+  <text x="1617" y="642" text-anchor="middle" fill="#eff6f9" font-family="Arial,Helvetica,sans-serif" font-size="30" font-weight="700">RELEASE</text>
+
+  <rect x="132" y="756" width="790" height="150" rx="10" fill="#0f2029" stroke="#274452" stroke-width="2"/>
+  <text x="170" y="810" fill="#12bce6" font-family="Arial,Helvetica,sans-serif" font-size="22" font-weight="700" letter-spacing="3">CADENCE À CHOISIR</text>
+  <text x="170" y="858" fill="#eff6f9" font-family="Arial,Helvetica,sans-serif" font-size="28">À chaque merge · régulièrement · avant release</text>
+
+  <rect x="958" y="756" width="830" height="150" rx="10" fill="#0f2029" stroke="#274452" stroke-width="2"/>
+  <text x="996" y="810" fill="#12bce6" font-family="Arial,Helvetica,sans-serif" font-size="22" font-weight="700" letter-spacing="3">LE RÔLE DE LA QA</text>
+  <text x="996" y="858" fill="#eff6f9" font-family="Arial,Helvetica,sans-serif" font-size="28">Cadrer les contrôles. Les fiabiliser. Les faire évoluer.</text>
+
+  <text x="136" y="958" fill="#9fb9c7" font-family="Arial,Helvetica,sans-serif" font-size="25">L’IA élargit ce qu’on peut tester. L’équipe choisit ce qui prouve que le produit fonctionne.</text>
+</svg>
