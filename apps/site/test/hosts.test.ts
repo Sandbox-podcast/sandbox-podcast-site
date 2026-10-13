@@ -17,6 +17,15 @@ describe('fiches des animateurs', () => {
     });
   });
 
+  it('affiche le pseudo et la photo de Lou', () => {
+    const lou = hostSchema
+      .array()
+      .parse(hosts)
+      .find((host) => host.slug === 'lou');
+    expect(lou?.aka).toBe('loukan42');
+    expect(lou?.photo).toBe('/team/lou.jpg');
+  });
+
   it('n’accepte que des photos servies par le site', () => {
     const withPhoto = (photo: string) => hostSchema.safeParse({ ...hosts[0], photo }).success;
     expect(withPhoto('/team/lou.webp')).toBe(true);

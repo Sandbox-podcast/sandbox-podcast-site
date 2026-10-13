@@ -5,6 +5,8 @@
     "handle": "@loukan42",
     "role": "Animateur Sandbox",
     "bio": "Présentation à compléter.",
+    "aka": "loukan42",
+    "photo": "/team/lou.jpg",
     "socials": {
       "github": "https://github.com/loukan42",
       "linkedin": "https://linkedin.com/louhusson",
@@ -30,7 +32,10 @@
     "name": "Loïc",
     "handle": "Profil à compléter",
     "role": "Animateur Sandbox",
-    "bio": "Présentation à compléter."
+    "bio": "Présentation à compléter.",
+    "socials": {
+      "github": "https://github.com/azerothl"
+    }
   },
   {
     "slug": "equipe-sandbox",
