@@ -52,6 +52,7 @@ import { compareWeeks, previousComparableEdition } from '../domain/weeks.ts';
 import { reviewedReferenceVersion, validateReferenceEdition } from './reference-publication.ts';
 import type { ReferenceArtifact } from './reference-artifact.ts';
 import { OPEN_SOURCE_LICENSE_IDS } from '../domain/reference-adapters.ts';
+import { refreshSlotId } from '../domain/chart-refresh.ts';
 
 export class ChartsUnavailableError extends Error {
   constructor() {
@@ -213,7 +214,7 @@ export function asProject(
     disabled: repo.disabled,
   };
 }
-export async function collectionBatch(date: string, limit = 100, afterId?: string) {
+export async function collectionBatch(slotId: string, limit = 100, afterId?: string) {
   return getDb()
     .select({ repo: githubProjects, entity: chartEntities })
     .from(githubProjects)
@@ -236,7 +237,7 @@ export async function collectionBatch(date: string, limit = 100, afterId?: strin
             .where(
               and(
                 eq(githubDailySnapshots.projectId, githubProjects.id),
-                eq(githubDailySnapshots.date, date),
+                eq(githubDailySnapshots.refreshSlotId, slotId),
               ),
             ),
         ),
@@ -262,14 +263,21 @@ export async function recentDailySnapshots(
           sql`${githubDailySnapshots.date} <= ${date}`,
         ),
       )
-      .orderBy(githubDailySnapshots.date)
+      .orderBy(githubDailySnapshots.date, githubDailySnapshots.collectedAt)
   ).map(asDaily);
 }
 export async function saveDailyBatch(snapshots: DailyGithubSnapshot[]): Promise<number> {
   if (snapshots.length === 0) return 0;
   const inserted = await getDb()
     .insert(githubDailySnapshots)
-    .values(snapshots.map((item) => ({ ...item, id: randomUUID(), source: 'github' })))
+    .values(
+      snapshots.map((item) => ({
+        ...item,
+        refreshSlotId: refreshSlotId(item.collectedAt),
+        id: randomUUID(),
+        source: 'github',
+      })),
+    )
     .onConflictDoNothing()
     .returning({ id: githubDailySnapshots.id });
   return inserted.length;
@@ -376,7 +384,7 @@ export async function finishChartsJob(
     })
     .where(eq(chartsJobRuns.id, id));
 }
-export async function weeklyCandidates(date: string, config: GithubChartConfig) {
+export async function weeklyCandidates(date: string, slotId: string, config: GithubChartConfig) {
   const projects = await getDb()
     .select({ repo: githubProjects, entity: chartEntities, snapshot: githubDailySnapshots })
     .from(githubProjects)
@@ -386,6 +394,7 @@ export async function weeklyCandidates(date: string, config: GithubChartConfig) 
       and(
         eq(githubDailySnapshots.projectId, githubProjects.id),
         eq(githubDailySnapshots.date, date),
+        eq(githubDailySnapshots.refreshSlotId, slotId),
       ),
     )
     .where(eq(chartEntities.active, true));
@@ -475,6 +484,7 @@ export async function saveScorecardBatch(
         id: randomUUID(),
         entitySourceId: refId,
         observedOn: result.assessedOn,
+        refreshSlotId: refreshSlotId(result.collectedAt),
         collectedAt: result.collectedAt,
         payload: {
           score: result.score,

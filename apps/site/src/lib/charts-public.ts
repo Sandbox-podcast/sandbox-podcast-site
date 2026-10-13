@@ -43,8 +43,8 @@ export const githubProjectDetail = cache(async function githubProjectDetail(slug
   const current = daily.at(-1);
   const project = asProject(row.repo, row.entity);
   const metrics = current ? githubMetrics(project, current, daily, await readChartsConfig()) : null;
-  const at30 = current ? closestBaseline(daily, current.date, 30, 1) : undefined;
-  const at90 = current ? closestBaseline(daily, current.date, 90, 1) : undefined;
+  const at30 = current ? closestBaseline(daily, current, 30, 1) : undefined;
+  const at90 = current ? closestBaseline(daily, current, 90, 1) : undefined;
   const orderedWeekly = weekly.toSorted((left, right) =>
     compareWeeks(left.edition.week, right.edition.week),
   );
@@ -75,7 +75,7 @@ export const githubProjectDetail = cache(async function githubProjectDetail(slug
     previousRank:
       github.find((entry) => entry.edition.week === previousWeekId)?.ranking.rank ?? null,
     bestRank: github.length ? Math.min(...github.map((entry) => entry.ranking.rank)) : null,
-    weeksInTop20: github.length,
+    editionsInTop20: github.length,
     firstAppearance: github[0]?.edition.week ?? null,
     growth30d: current && at30 ? current.stars - at30.stars : null,
     growth90d: current && at90 ? current.stars - at90.stars : null,

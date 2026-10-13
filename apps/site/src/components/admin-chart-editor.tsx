@@ -72,7 +72,7 @@ export function AdminChartEditor({
       setTakeText('');
       setQuickAction(null);
     } catch (reason) {
-      setQuickError(reason instanceof Error ? reason.message : 'Impossible d’ajouter cet avis.');
+      setQuickError(reason instanceof Error ? reason.message : "Impossible d'ajouter cet avis.");
     }
   }
 
@@ -98,7 +98,7 @@ export function AdminChartEditor({
       setEntityCategory('');
       setEntityTagline('');
     } catch (reason) {
-      setQuickError(reason instanceof Error ? reason.message : 'Impossible d’ajouter cette fiche.');
+      setQuickError(reason instanceof Error ? reason.message : "Impossible d'ajouter cette fiche.");
     }
   }
 
@@ -177,7 +177,7 @@ export function AdminChartEditor({
               </select>
             </label>
             <label className="admin-field admin-span-2">
-              <span>Votre avis sur la semaine {week ?? '—'}</span>
+              <span>Votre avis sur la semaine {week ?? '-'}</span>
               <textarea
                 rows={3}
                 maxLength={320}
@@ -215,7 +215,7 @@ export function AdminChartEditor({
               <input
                 type="url"
                 inputMode="url"
-                placeholder="https://github.com/…"
+                placeholder="https://github.com/..."
                 value={entityUrl}
                 onChange={(event) => {
                   setEntityUrl(event.target.value);
@@ -244,7 +244,7 @@ export function AdminChartEditor({
                 onChange={(event) => {
                   setEntityCategory(event.target.value);
                 }}
-                placeholder="Agent de code, modèle ouvert…"
+                placeholder="Agent de code, modèle ouvert..."
                 required
               />
             </label>
@@ -259,7 +259,7 @@ export function AdminChartEditor({
                 required
               />
               <small>
-                L’identifiant, le lien et l’organisation sont créés automatiquement. Vous pourrez
+                L'identifiant, le lien et l'organisation sont créés automatiquement. Vous pourrez
                 détailler la fiche dans le Markdown.
               </small>
             </label>
@@ -268,7 +268,7 @@ export function AdminChartEditor({
             Ajouter au brouillon
           </button>
           <p className="admin-help">
-            La fiche apparaît sur le site une fois incluse dans un relevé hebdomadaire.
+            La fiche apparaît dans le classement live après collecte et validation d'une édition.
           </p>
         </form>
       ) : null}

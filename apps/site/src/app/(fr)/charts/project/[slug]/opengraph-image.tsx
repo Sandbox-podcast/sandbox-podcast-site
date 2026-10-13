@@ -38,7 +38,7 @@ export default async function Image({ params }: { params: Promise<{ slug: string
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
         <span style={{ color: '#9baab5', fontSize: 30 }}>
-          {result?.project.fullName ?? 'Classement hebdomadaire des projets IA'}
+          {result?.project.fullName ?? 'Classement des projets open source sur GitHub'}
         </span>
         <strong style={{ fontSize: 76, letterSpacing: -3, lineHeight: 1.05 }}>
           {result?.project.name ?? 'Projet open source IA'}

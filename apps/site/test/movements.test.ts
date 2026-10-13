@@ -89,11 +89,11 @@ describe('historique', () => {
   it('calcule meilleure place, semaines dans le Top et séries consécutives', () => {
     const a = entityHistory(h, 'a', SIZE);
     expect(a.peak).toBe(1);
-    expect(a.weeksAtPeak).toBe(2);
-    expect(a.weeksInTop).toBe(5);
+    expect(a.editionsAtPeak).toBe(2);
+    expect(a.editionsInTop).toBe(5);
     expect(a.currentStreak).toBe(5);
-    expect(a.weeksAtNumberOne).toBe(2);
-    expect(a.firstWeek).toBe('2026-W30');
+    expect(a.editionsAtNumberOne).toBe(2);
+    expect(a.firstEdition).toBe('2026-W30');
     expect(a.currentRank).toBe(1);
     expect(a.previousRank).toBe(2);
   });
@@ -103,20 +103,20 @@ describe('historique', () => {
     expect(d.points.map((p) => p.inTop)).toEqual([false, true, true, false, false]);
     expect(d.currentStreak).toBe(0);
     expect(d.longestStreak).toBe(2);
-    expect(d.weeksInTop).toBe(2);
+    expect(d.editionsInTop).toBe(2);
   });
 
   it('retient la plus forte progression et la plus forte chute en une semaine', () => {
     const a = entityHistory(h, 'a', SIZE);
-    expect(a.biggestClimb).toEqual({ places: 1, week: '2026-W33' });
-    expect(a.biggestFall).toEqual({ places: 1, week: '2026-W31' });
+    expect(a.biggestClimb).toEqual({ places: 1, edition: '2026-W33' });
+    expect(a.biggestFall).toEqual({ places: 1, edition: '2026-W31' });
   });
 
   it('liste les règnes à la première place', () => {
     expect(reigns(h)).toEqual([
-      { entity: 'a', from: '2026-W30', to: '2026-W30', weeks: 1 },
-      { entity: 'b', from: '2026-W31', to: '2026-W33', weeks: 3 },
-      { entity: 'a', from: '2026-W34', to: '2026-W34', weeks: 1 },
+      { entity: 'a', from: '2026-W30', to: '2026-W30', editions: 1 },
+      { entity: 'b', from: '2026-W31', to: '2026-W33', editions: 3 },
+      { entity: 'a', from: '2026-W34', to: '2026-W34', editions: 1 },
     ]);
   });
 });

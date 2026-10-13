@@ -151,13 +151,13 @@ export function ChartsExperience({
             <Text>{'LES CLASSEMENTS TECH & IA'}</Text>
           </span>
           <span>
-            <Text>{'MISE À JOUR CHAQUE JOUR'}</Text>
+            <Text>{'ACTUALISÉ TOUTES LES 12 H'}</Text>
           </span>
           <span>
             <Text>
               {chartWeeks.includes(week) && week !== chartWeeks[0]
                 ? 'ÉDITION ARCHIVÉE'
-                : 'CETTE SEMAINE'}
+                : 'ÉDITION ACTUELLE'}
             </Text>
           </span>
         </div>
@@ -173,12 +173,16 @@ export function ChartsExperience({
               </span>
             </h1>
             <p>
-              <Text>{'Projets open source, skills et modèles IA à suivre chaque semaine.'}</Text>
+              <Text>
+                {
+                  'Projets open source, skills et modèles IA, classés et analysés deux fois par jour.'
+                }
+              </Text>
             </p>
           </div>
           <div className="sc-week-stamp">
             <span className="sc-label">
-              <Text>{isCalendarEdition(week) ? 'JOUR' : 'SEMAINE'}</Text>
+              <Text>{isCalendarEdition(week) ? 'ÉDITION' : 'SEMAINE'}</Text>
             </span>
             <strong>
               <Text>{editionMark(week)}</Text>
@@ -191,8 +195,7 @@ export function ChartsExperience({
         <div className="sc-hero-bottom">
           <p>
             <Text>
-              {edition?.headline ??
-                'Projets open source, skills et modèles IA à suivre cette semaine.'}
+              {edition?.headline ?? 'Chaque rang renvoie à ses mesures, ses sources et sa méthode.'}
             </Text>
           </p>
           <LocalizedElement
@@ -278,7 +281,7 @@ export function ChartsExperience({
         <div className="sc-chart-heading">
           <div>
             <p className="sc-label">
-              <Text>{id === 'rising' ? 'LES DÉCOUVERTES' : 'LE CLASSEMENT HEBDOMADAIRE'}</Text>
+              <Text>{id === 'rising' ? 'LES DÉCOUVERTES' : 'LE CLASSEMENT SANDBOX'}</Text>
             </p>
             <h2 id="sc-chart-title">
               <Text>{meta.title}</Text>
@@ -498,7 +501,7 @@ export function ChartsExperience({
                       ? 'Réessayez dans quelques instants.'
                       : id === 'rising'
                         ? "Rising attend une accélération mesurée sur deux périodes de sept jours. L'historique ne sera pas extrapolé."
-                        : 'Le classement apparaîtra après la collecte des relevés et la publication d’une édition. Chaque position reposera sur des mesures enregistrées.'}
+                        : "Le classement apparaîtra après la collecte des relevés et la publication d'une édition. Chaque position reposera sur des mesures enregistrées."}
                   </Text>
                 </p>
                 <Text>
@@ -508,7 +511,7 @@ export function ChartsExperience({
                         <li>
                           <Text>
                             {
-                              'La collecte n’est pas encore activée sur cet environnement. Les rangs apparaîtront après la première édition publiée.'
+                              "La collecte n'est pas encore activée sur cet environnement. Les rangs apparaîtront après la première édition publiée."
                             }
                           </Text>
                         </li>
@@ -590,7 +593,7 @@ export function ChartsExperience({
           <div className="sc-section-heading">
             <div>
               <p className="sc-label">
-                <Text>{'CHAQUE SEMAINE LAISSE UNE TRACE'}</Text>
+                <Text>{'CHAQUE ÉDITION LAISSE UNE TRACE'}</Text>
               </p>
               <h2 id="sc-archive-title">
                 <Text>{'LES ARCHIVES'}</Text>

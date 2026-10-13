@@ -1,4 +1,5 @@
 import { verifyReferenceArtifact, type ReferenceArtifact } from './reference-artifact.ts';
+import { isCalendarEdition, isoWeekOf } from '../domain/weeks.ts';
 
 export function reviewedReferenceVersion(
   version: string,
@@ -19,9 +20,14 @@ export function validateReferenceEdition(
   entries: readonly { entity: string; rank: number; score: number }[],
 ): ReferenceArtifact {
   const artifact = verifyReferenceArtifact(config['referenceRanking']);
+  const dateMatchesEdition = isCalendarEdition(date)
+    ? artifact.input.date === date.slice(0, 10)
+    : /^\d{4}-W\d{2}$/.test(date)
+      ? isoWeekOf(new Date(artifact.input.date + 'T00:00:00Z')) === date
+      : artifact.input.date === date;
   if (
     artifact.input.profile.chart !== chart ||
-    artifact.input.date !== date ||
+    !dateMatchesEdition ||
     artifact.input.profile.version !== version ||
     !artifact.report.publishable
   )

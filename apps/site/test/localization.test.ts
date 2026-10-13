@@ -272,7 +272,7 @@ describe('même site en français et en anglais', () => {
         children: createElement(EntityScreen, { slug: 'anthropic-skills' }),
       }),
     );
-    expect(html).toContain('weeks at this rank');
+    expect(html).toContain('editions at this rank');
     expect(html).toContain('in a row');
     expect(html).toContain('History of Skills Top 20. W26: no.7');
     expect(html).toContain('Position unchanged; Install growth');
@@ -281,7 +281,7 @@ describe('même site en français et en anglais', () => {
     expect(html).toContain('<title>W26: no.7</title>');
     expect(html).not.toContain('[object Object]');
     for (const french of [
-      'sem. à ce rang',
+      'éditions à ce rang',
       'd’affilée',
       'Place inchangée ;',
       'À propos de sa place',

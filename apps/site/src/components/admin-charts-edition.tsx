@@ -20,7 +20,7 @@ const fields: {
   { key: 'whatItIs', label: 'WHAT IT IS', help: 'Ce que fait le projet, en une ou deux phrases.' },
   {
     key: 'whyTrending',
-    label: 'WHY IT’S TRENDING',
+    label: "WHY IT'S TRENDING",
     help: 'Le fait observé qui explique le mouvement.',
   },
   { key: 'whyMatters', label: 'WHY IT MATTERS', help: 'Ce que cela change pour les utilisateurs.' },
@@ -125,7 +125,7 @@ export function AdminChartsEdition({
             setPreview(!preview);
           }}
         >
-          {preview ? 'Revenir à l’édition' : 'Aperçu des commentaires'}
+          {preview ? "Revenir à l'édition" : 'Aperçu des commentaires'}
         </button>
       </div>
       <p className="admin-help">
@@ -134,7 +134,7 @@ export function AdminChartsEdition({
       </p>
       <div className="admin-form-grid">
         <label className="admin-field">
-          <span>Accroche de la semaine</span>
+          <span>Accroche de l'édition</span>
           <input
             maxLength={160}
             value={notes.headline}
@@ -142,11 +142,11 @@ export function AdminChartsEdition({
             onChange={(event) => {
               setNotes({ ...notes, headline: event.target.value });
             }}
-            placeholder="Le fait marquant de cette semaine"
+            placeholder="Le fait marquant de cette édition"
           />
         </label>
         <label className="admin-field">
-          <span>Accroche de l’édition mensuelle</span>
+          <span>Accroche de l'édition mensuelle</span>
           <input
             maxLength={160}
             value={notes.monthlyHeadline}
@@ -158,7 +158,7 @@ export function AdminChartsEdition({
         </label>
       </div>
       <div className="ac-week-editor">
-        <nav className="ac-ranked-list" aria-label="Entrées de l’édition">
+        <nav className="ac-ranked-list" aria-label="Entrées de l'édition">
           {edition.entries.map((entry) => (
             <button
               type="button"
@@ -250,7 +250,7 @@ export function AdminChartsEdition({
         ) : null}
       </div>
       <section className="ac-watch-editor">
-        <h3>WATCHLIST · jusqu’à cinq projets</h3>
+        <h3>WATCHLIST · jusqu'à cinq projets</h3>
         <p className="admin-help">
           Choisissez un projet du catalogue et écrivez pourquoi vous le surveillez.
         </p>
@@ -291,7 +291,7 @@ export function AdminChartsEdition({
                 });
             }}
           >
-            {watchLoading ? 'Recherche…' : 'Rechercher'}
+            {watchLoading ? 'Recherche...' : 'Rechercher'}
           </button>
         </div>
         {notes.watchlist.map((item, index) => (
@@ -408,7 +408,7 @@ export function AdminChartsEdition({
             target="_blank"
             rel="noreferrer"
           >
-            Voir l’édition ↗
+            Voir l'édition ↗
           </a>
         )}
       </div>

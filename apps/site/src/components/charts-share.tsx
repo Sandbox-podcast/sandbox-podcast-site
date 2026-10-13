@@ -117,7 +117,7 @@ export function ChartsShare({
           src={source}
           width={SHARE_FORMATS[format].width}
           height={SHARE_FORMATS[format].height}
-          alt={`${content.name}, rang ${content.rank}, semaine ${content.week}`}
+          alt={`${content.name}, rang ${content.rank}, édition ${content.week}`}
         />
       </div>
       <div className="sc-share-actions">

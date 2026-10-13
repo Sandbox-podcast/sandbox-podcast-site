@@ -36,14 +36,15 @@ describe('classements publics en français', () => {
   it('affiche un état d’attente exact et les commandes en français', () => {
     const html = renderToStaticMarkup(createElement(ChartsExperience, { data: pending }));
     expect(html).toContain('LES CLASSEMENTS TECH &amp; IA');
-    expect(html).toContain('Projets open source, skills et modèles IA à suivre chaque semaine.');
-    expect(html).toContain('MISE À JOUR CHAQUE JOUR');
+    expect(html).toContain(
+      'Projets open source, skills et modèles IA, classés et analysés deux fois par jour.',
+    );
+    expect(html).toContain('ACTUALISÉ TOUTES LES 12 H');
+    expect(html).toContain('ÉDITION ACTUELLE');
     expect(html).toContain('SEMAINE');
     expect(html).toContain('octobre 2026');
-    expect(html).toContain('LE CLASSEMENT HEBDOMADAIRE');
     expect(html).toContain('PARTAGER LE CLASSEMENT');
     expect(html).toContain('Aucune édition publiée pour ce classement.');
-    expect(html).toContain('après la collecte des relevés et la publication d’une édition');
     expect(html).toContain('12 dépôts suivis');
     expect(html).toContain('Historique : ');
     expect(html).toContain('3');
@@ -82,7 +83,7 @@ describe('classements publics en anglais', () => {
       }),
     );
     expect(html).toContain('TECH &amp; AI CHARTS');
-    expect(html).toContain('UPDATED EVERY DAY');
+    expect(html).toContain('UPDATED EVERY 12 HOURS');
     expect(html).toContain('No edition has been published for this ranking.');
     expect(html).not.toContain('LES CLASSEMENTS TECH');
     expect(html).not.toContain('Aucune édition publiée pour ce classement.');

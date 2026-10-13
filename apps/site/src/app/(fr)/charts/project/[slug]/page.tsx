@@ -34,7 +34,7 @@ export async function generateMetadata({
   const projectDescription = result?.project.description?.trim();
   const description = [
     projectDescription,
-    `Rangs hebdomadaires et mesures GitHub observées pour ${result?.project.fullName ?? slug}.`,
+    `Rangs des éditions et mesures GitHub observées pour ${result?.project.fullName ?? slug}.`,
   ]
     .filter(Boolean)
     .join(' ')
@@ -55,7 +55,7 @@ const breakdownSchema = z.object({
   source: z.string(),
 });
 const number = (value: number | null | undefined): string =>
-  value === null || value === undefined ? '—' : formatCompact(value);
+  value === null || value === undefined ? '-' : formatCompact(value);
 export default async function Page({
   params,
 }: {
@@ -174,9 +174,9 @@ export default async function Page({
                 'CURRENT RANK',
                 result.currentRank === null ? 'Hors du top' : `#${result.currentRank}`,
               ],
-              ['PREVIOUS RANK', result.previousRank === null ? '—' : `#${result.previousRank}`],
-              ['BEST RANK', result.bestRank === null ? '—' : `#${result.bestRank}`],
-              ['WEEKS IN TOP 20', String(result.weeksInTop20)],
+              ['PREVIOUS RANK', result.previousRank === null ? '-' : `#${result.previousRank}`],
+              ['BEST RANK', result.bestRank === null ? '-' : `#${result.bestRank}`],
+              ['EDITIONS IN TOP 20', String(result.editionsInTop20)],
             ].map(([label, value]) => (
               <div key={label}>
                 <span className="sc-label">
@@ -204,7 +204,7 @@ export default async function Page({
                 [
                   'GROWTH 7D',
                   metrics?.growthPercentage === null || metrics?.growthPercentage === undefined
-                    ? '—'
+                    ? '-'
                     : `${metrics.growthPercentage.toFixed(1)} %`,
                 ],
               ].map(([label, value]) => (

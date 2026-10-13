@@ -3,6 +3,7 @@ import {
   addWeeks,
   compareWeeks,
   editionMark,
+  editionStart,
   editionsFollow,
   isoWeekOf,
   nextWeek,
@@ -55,6 +56,9 @@ describe('semaines ISO', () => {
     expect(compareWeeks('2026-W41', '2026-10-11')).toBeLessThan(0);
     expect(compareWeeks('2026-10-04', '2026-W41')).toBeLessThan(0);
     expect(shortWeek('2026-10-11')).toBe('11.10');
+    expect(shortWeek('2026-10-13T00:00Z')).toBe('13.10 00h');
+    expect(editionStart('2026-10-13T12:00Z').toISOString()).toBe('2026-10-13T12:00:00.000Z');
+    expect(compareWeeks('2026-10-13T00:00Z', '2026-10-13T12:00Z')).toBeLessThan(0);
     expect(editionMark('2026-W41')).toBe('41');
     expect(editionsFollow('2026-W40', '2026-W41')).toBe(true);
     expect(editionsFollow('2026-W39', '2026-W41')).toBe(false);

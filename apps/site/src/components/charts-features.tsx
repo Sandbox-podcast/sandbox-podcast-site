@@ -17,34 +17,38 @@ export function ChartsMovers({ rows }: { rows: ChartsRow[] }) {
   const groups = [
     {
       title: 'PLUS FORTES HAUSSES',
-      subtitle: 'Les progressions les plus nettes cette semaine.',
+      subtitle: "Les progressions les plus nettes depuis l'édition précédente.",
       kind: 'up',
       rows: rows
         .filter((row) => !row.baseline && row.movement.delta > 0)
         .toSorted((a, b) => b.movement.delta - a.movement.delta)
         .slice(0, 3),
-      empty: 'Aucune hausse de rang cette semaine.',
+      empty: "Aucune hausse de rang depuis l'édition précédente.",
     },
     {
-      title: 'NOUVEAUX CETTE SEMAINE',
+      title: 'NOUVELLES ENTRÉES',
       subtitle: 'Les nouvelles entrées dans le classement.',
       kind: 'new',
       rows: rows.filter((row) => !row.baseline && row.movement.kind === 'new').slice(0, 3),
-      empty: 'Aucune nouvelle entrée cette semaine.',
+      empty: "Aucune nouvelle entrée depuis l'édition précédente.",
     },
     {
       title: 'EN BAISSE',
-      subtitle: 'Les projets qui reculent cette semaine.',
+      subtitle: "Les projets qui reculent depuis l'édition précédente.",
       kind: 'down',
       rows: rows
         .filter((row) => !row.baseline && row.movement.delta < 0)
         .toSorted((a, b) => a.movement.delta - b.movement.delta)
         .slice(0, 3),
-      empty: 'Aucune baisse de rang cette semaine.',
+      empty: "Aucune baisse de rang depuis l'édition précédente.",
     },
   ];
   return (
-    <LocalizedElement as="section" className="sc-movers" aria-label="Les mouvements de la semaine">
+    <LocalizedElement
+      as="section"
+      className="sc-movers"
+      aria-label="Mouvements depuis l'édition précédente"
+    >
       <Text>
         {groups.map((group) => (
           <div className={`sc-feature sc-feature-${group.kind}`} key={group.title}>
@@ -70,7 +74,7 @@ export function ChartsMovers({ rows }: { rows: ChartsRow[] }) {
                           </Link>
                           <p className="sc-label">
                             <Text>
-                              {row.movement.previousRank ? `#${row.movement.previousRank} → ` : ''}
+                              {row.movement.previousRank ? `#${row.movement.previousRank} -> ` : ''}
                             </Text>
                             <Text>{'#'}</Text>
                             <Text>{row.rank}</Text>
@@ -179,7 +183,7 @@ export function ChartsMarket({ data, week }: { data: ChartsData; week: string })
       <div className="sc-section-heading">
         <div>
           <p className="sc-label">
-            <Text>{'SUIVRE L’ATTENTION'}</Text>
+            <Text>{"SUIVRE L'ATTENTION"}</Text>
           </p>
           <h2 id="sc-market-title">
             <Text>{'SIGNAUX DU MARCHÉ'}</Text>
@@ -316,7 +320,7 @@ export function ChartsMonthly({ data, week }: { data: ChartsData; week: string }
             </p>
           ) : (
             <p className="sc-label">
-              <Text>{'Calcul\u00E9 depuis les positions hebdomadaires du mois.'}</Text>
+              <Text>{'Calcul\u00E9 depuis les positions de chaque édition du mois.'}</Text>
             </p>
           )}
         </Text>

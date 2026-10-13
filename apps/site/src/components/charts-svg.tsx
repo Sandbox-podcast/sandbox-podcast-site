@@ -7,7 +7,7 @@ import { shortWeek } from '@/domain/weeks';
  * Le rang 1 est en haut : monter dans le classement, c'est monter sur le graphique.
  */
 const clamp = (n: number, lo: number, hi: number): number => Math.min(hi, Math.max(lo, n));
-/** Petite courbe de rang. `values` : rang dans le pool par semaine, null si l'entité n'était pas suivie. */
+/** Petite courbe de rang. `values` : rang dans le pool par édition, null si l'entité n'était pas suivie. */
 export function RankSpark({
   values,
   size,
@@ -38,7 +38,7 @@ export function RankSpark({
   });
   if (current) segments.push(current);
   const last = values[n - 1];
-  const description = `Rang sur ${String(n)} semaines : ${values.map((v) => (v === null ? 'hors suivi' : `n°${String(v)}`)).join(', ')}`;
+  const description = `Rang sur ${String(n)} éditions : ${values.map((v) => (v === null ? 'hors suivi' : `n°${String(v)}`)).join(', ')}`;
   return (
     <LocalizedElement
       as="svg"
@@ -233,7 +233,7 @@ export interface SeriesPoint {
   week: string;
   value: number | null;
 }
-/** Évolution d'une métrique (étoiles, score de benchmark…) : aire et courbe, sans axe superflu. */
+/** Évolution d'une métrique (étoiles, score de benchmark) : aire et courbe, sans axe superflu. */
 export function SeriesChart({
   points,
   unit,

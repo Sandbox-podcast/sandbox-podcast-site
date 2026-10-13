@@ -129,11 +129,12 @@ export const chartSourceSnapshots = pgTable(
       .notNull()
       .references(() => chartEntitySources.id),
     observedOn: date('observed_on', { mode: 'string' }).notNull(),
+    refreshSlotId: text('refresh_slot_id').notNull(),
     collectedAt: timestamp('collected_at', { withTimezone: true, mode: 'string' }).notNull(),
     payload: jsonb('metrics').notNull().$type<Record<string, unknown>>(),
   },
   (table) => [
-    uniqueIndex('chart_source_snapshot_day_idx').on(table.entitySourceId, table.observedOn),
+    uniqueIndex('chart_source_snapshot_slot_idx').on(table.entitySourceId, table.refreshSlotId),
     index('chart_source_snapshot_observed_idx').on(table.observedOn),
   ],
 );
@@ -186,6 +187,7 @@ export const githubDailySnapshots = pgTable(
       .notNull()
       .references(() => githubProjects.id),
     date: date('snapshot_date', { mode: 'string' }).notNull(),
+    refreshSlotId: text('refresh_slot_id').notNull(),
     stars: integer('stars').notNull(),
     forks: integer('forks').notNull(),
     watchers: integer('watchers'),
@@ -198,7 +200,7 @@ export const githubDailySnapshots = pgTable(
     source: text('source').notNull().default('github'),
   },
   (table) => [
-    uniqueIndex('github_daily_project_date_idx').on(table.projectId, table.date),
+    uniqueIndex('github_daily_project_slot_idx').on(table.projectId, table.refreshSlotId),
     index('github_daily_date_idx').on(table.date),
   ],
 );

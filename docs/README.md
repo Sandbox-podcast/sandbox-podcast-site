@@ -2,7 +2,7 @@
 
 Rapport local des classements v3 : [validation et limites](site/reference-ranking-delivery.md).
 
-Classements v3 et détection précoce GitHub : [conception et audit](site/reference-ranking-design.md), [configuration et reprise](site/reference-ranking-operations.md), [prompt réutilisable](site/prompt-classements-reference.md), [ADR-0026](adr/ADR-0026-classements-de-reference-ponderes.md) et [ADR-0027](adr/ADR-0027-detection-precoce-github.md). Le [README du dépôt](../README.md) décrit le fonctionnement global. Les profils v3 attendent leur calibration avant publication.
+Classements v3, deux publications quotidiennes et détection précoce GitHub : [conception et audit](site/reference-ranking-design.md), [configuration et reprise](site/reference-ranking-operations.md), [prompt réutilisable](site/prompt-classements-reference.md), [ADR-0026](adr/ADR-0026-classements-de-reference-ponderes.md), [ADR-0027](adr/ADR-0027-detection-precoce-github.md) et [ADR-0028](adr/ADR-0028-cadence-des-classements.md). Le [README du dépôt](../README.md) décrit le fonctionnement global. Les profils v3 attendent leur calibration avant publication.
 
 Le dépôt sert le site média `apps/site`. La documentation du travail précédent (plateforme de production de podcasts vidéo) est archivée dans [`../old/`](../old/README.md).
 
@@ -10,14 +10,14 @@ Le dépôt sert le site média `apps/site`. La documentation du travail précéd
 
 UI/UX du site : [rapport du 8 octobre 2026](site/ui-ux-2026-10-08.md) et [DD-0005](design-decisions/DD-0005-ux-globale-du-site.md).
 Profils d'animateurs et page À propos : [DD-0015](design-decisions/DD-0015-animateurs-source-page-a-propos.md).
-Présentations d’épisode en HTML sur `slides.sandboxpodcast.fr` : [guide des slides](site/slides.md) et [DD-0007](design-decisions/DD-0007-sous-domaine-des-presentations.md).
+Présentations d'épisode en HTML sur `slides.sandboxpodcast.fr` : [guide des slides](site/slides.md) et [DD-0007](design-decisions/DD-0007-sous-domaine-des-presentations.md).
 Logo complet et navigation publique : [DD-0008](design-decisions/DD-0008-logo-et-navigation-publique.md).
 Miniatures haute définition des épisodes : [DD-0012](design-decisions/DD-0012-miniatures-episodes.md) et [guide éditorial](site/editorial-workflow.md).
 Chaîne YouTube et kit graphique : [DD-0011](design-decisions/DD-0011-identite-youtube-sandbox.md) et [brand/youtube](../brand/youtube/README.md).
 Automatisation YouTube : [guide d'exploitation](../tools/youtube-growth/README.md) et [ADR-0025](adr/ADR-0025-automatisation-chaine-youtube.md).
 Langue des classements publics : [DD-0009](design-decisions/DD-0009-langue-des-classements.md).
 
-SANDBOX CHARTS : [guide d’exploitation](site/sandbox-charts.md), [sources externes Skills/Models](site/external-rankings.md), [fiche de mise en service Neon et Vercel](site/mise-en-service-neon-vercel.md), [rapport de livraison](site/sandbox-charts-livraison.md), [méthodologie](sandbox-charts-methodology.md), [ADR-0019](adr/ADR-0019-sandbox-charts-github-postgres.md), [ADR-0021](adr/ADR-0021-classements-externes-skills-models.md), [ADR-0023](adr/ADR-0023-editions-quotidiennes-des-classements.md) et [DD-0004](design-decisions/DD-0004-sandbox-charts.md).
+SANDBOX CHARTS : [guide d'exploitation](site/sandbox-charts.md), [sources externes Skills/Models](site/external-rankings.md), [fiche de mise en service Neon et Vercel](site/mise-en-service-neon-vercel.md), [rapport de livraison](site/sandbox-charts-livraison.md), [méthodologie](sandbox-charts-methodology.md), [ADR-0019](adr/ADR-0019-sandbox-charts-github-postgres.md), [ADR-0021](adr/ADR-0021-classements-externes-skills-models.md), [ADR-0023](adr/ADR-0023-editions-quotidiennes-des-classements.md) et [DD-0004](design-decisions/DD-0004-sandbox-charts.md).
 Évolution multi-source des classements : [ADR-0024](adr/ADR-0024-classements-corrobores.md) et [onze sources examinées](site/multi-source-ranking-sources.md).
 Langues du site (français, anglais, espagnol, allemand) : [DD-0010](design-decisions/DD-0010-quatre-langues-du-site.md). Architecture SEO : [ADR-0020](adr/ADR-0020-architecture-seo-international-des-classements.md) et [feuille de route SEO](site/seo-roadmap.md).
 Aperçus des liens partagés : [DD-0013](design-decisions/DD-0013-apercus-des-liens-partages.md).

@@ -39,6 +39,7 @@ import {
   conflictingModelIdentities,
 } from '../domain/reference-adapters.ts';
 import { createReferenceArtifact } from '../lib/reference-artifact.ts';
+import { refreshSlotForDate, refreshSlotId, isRefreshSlotId } from '../domain/chart-refresh.ts';
 import { reviewedReferenceVersion } from '../lib/reference-publication.ts';
 import {
   ARENA_CONFIGS,
@@ -642,7 +643,11 @@ function candidateSource(candidate: ExternalCandidate, provider: ExternalProvide
   const matching = candidate.sources
     .filter((item) => item.ref.provider === provider)
     .flatMap((item) => item.snapshots.map((snapshot) => ({ source: item.ref, snapshot })))
-    .toSorted((a, b) => a.snapshot.observedOn.localeCompare(b.snapshot.observedOn));
+    .toSorted(
+      (a, b) =>
+        a.snapshot.observedOn.localeCompare(b.snapshot.observedOn) ||
+        a.snapshot.collectedAt.localeCompare(b.snapshot.collectedAt),
+    );
   return matching.at(-1);
 }
 function payloadNumber(payload: Record<string, unknown>, key: string): number | null {
@@ -669,12 +674,12 @@ function closestPayload(
     pushedAt: null,
     collectedAt: snapshot.collectedAt,
   }));
-  const baseline = closestBaseline(
-    snapshots.filter((snapshot) => Number.isFinite(snapshot.stars)),
-    day,
-    7,
-    1,
-  );
+  const usable = snapshots.filter((snapshot) => Number.isFinite(snapshot.stars));
+  const reference = usable
+    .filter((snapshot) => snapshot.date === day)
+    .toSorted((a, b) => a.collectedAt.localeCompare(b.collectedAt))
+    .at(-1);
+  const baseline = reference ? closestBaseline(usable, reference, 7, 1) : undefined;
   const found = baseline?.stars;
   return baseline && found !== undefined
     ? { snapshotDate: baseline.date, value: found }
@@ -893,7 +898,10 @@ function editionEntries(
   }));
 }
 
-async function readyDailySources(today: string): Promise<{ skills: boolean; models: boolean }> {
+async function readyDailySources(
+  today: string,
+  slotId: string,
+): Promise<{ skills: boolean; models: boolean }> {
   const jobs = await getDb()
     .select()
     .from(chartsJobRuns)
@@ -908,6 +916,7 @@ async function readyDailySources(today: string): Promise<{ skills: boolean; mode
     return Boolean(
       current?.finishedAt &&
       utcDate(new Date(current.finishedAt)) === today &&
+      refreshSlotId(current.finishedAt) === slotId &&
       ['success', 'partial'].includes(current.status),
     );
   };
@@ -917,28 +926,34 @@ async function readyDailySources(today: string): Promise<{ skills: boolean; mode
 export async function freezeExternalCharts(
   options: {
     date?: string | undefined;
+    slotId?: string | undefined;
     dryRun?: boolean | undefined;
     publish?: boolean | undefined;
   } = {},
 ): Promise<ExternalJobSummary> {
   const date = z.iso.date().parse(options.date ?? utcDate());
+  const slotId =
+    options.slotId ?? (options.date ? refreshSlotForDate(date) : refreshSlotId(new Date()));
   if (options.dryRun) {
     const summary = emptySummary();
-    await calculateExternalWeek(date, options, summary);
+    await calculateExternalWeek(date, slotId, options, summary);
     return summary;
   }
   return runLogged('external_weekly_ranking', (summary) =>
-    calculateExternalWeek(date, options, summary),
+    calculateExternalWeek(date, slotId, options, summary),
   );
 }
 
 async function calculateExternalWeek(
   date: string,
+  slotId: string,
   options: { dryRun?: boolean | undefined; publish?: boolean | undefined },
   summary: ExternalJobSummary,
 ): Promise<void> {
   if (date > utcDate()) throw new Error('Une édition future ne peut pas être calculée.');
-  const ready = await readyDailySources(date);
+  if (!isRefreshSlotId(slotId) || slotId.slice(0, 10) !== date)
+    throw new Error('Le créneau doit appartenir à la date calculée.');
+  const ready = await readyDailySources(date, slotId);
   if (!ready.skills && !ready.models) {
     summary.status = 'skipped';
     summary.details.push(
@@ -946,10 +961,10 @@ async function calculateExternalWeek(
     );
     return;
   }
-  const week = date;
+  const week = slotId;
   const [skillCandidates, modelCandidates] = await Promise.all([
-    ready.skills ? externalCandidates('skill', date) : Promise.resolve([]),
-    ready.models ? externalCandidates('model', date) : Promise.resolve([]),
+    ready.skills ? externalCandidates('skill', date, 16, slotId) : Promise.resolve([]),
+    ready.models ? externalCandidates('model', date, 16, slotId) : Promise.resolve([]),
   ]);
   const skillInputs = skillScoreInputs(skillCandidates, date);
   const modelIdentityConflicts = conflictingModelIdentities(modelCandidates);

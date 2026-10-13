@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: Props) {
   if (slug === 'github')
     return pageMetadata({
       title: 'SANDBOX CHARTS · Méthode GitHub Top 20',
-      description: 'Sources, score, critères et limites du classement hebdomadaire GitHub.',
+      description: 'Sources, score, critères et limites des éditions du classement GitHub.',
       path: '/charts/github/methodology',
     });
   const chart = findChart(slug);
@@ -102,7 +102,7 @@ export default async function MethodologyPage({ params }: Props) {
       <div className="grid gap-x-12 gap-y-14 lg:grid-cols-[1fr_22rem]">
         <div className="grid gap-14">
           <section aria-labelledby="sources">
-            <SectionHead kicker="D’où viennent les chiffres" title="Sources" id="sources" />
+            <SectionHead kicker="D'où viennent les chiffres" title="Sources" id="sources" />
             <LocalizedElement
               as="div"
               className="scroll-x"
@@ -238,7 +238,7 @@ export default async function MethodologyPage({ params }: Props) {
           </section>
 
           <section aria-labelledby="limites">
-            <SectionHead kicker="Ce qu’on ne sait pas faire" title="Limites" id="limites" />
+            <SectionHead kicker="Ce qu'on ne sait pas faire" title="Limites" id="limites" />
             <ul className="m-0 grid list-none gap-3 p-0">
               <Text>
                 {m.limits.map((l) => (
