@@ -1,8 +1,11 @@
 # SANDBOX CHARTS : exploitation
 
+Pour les nouveaux profils v3 et les poussées d'étoiles, suivre [le guide de mise en service](reference-ranking-operations.md) et [la conception](reference-ranking-design.md). Les profils attendent leur revue ; la migration 0009 et les jobs intrajournaliers sont des ajouts à configurer. Les sections historiques de ce guide décrivent le MVP et ses premiers gels.
+
 Le MVP GitHub réutilise Next.js 16, Neon/Postgres, Drizzle et l'authentification existante. Voir [ADR-0019](../adr/ADR-0019-sandbox-charts-github-postgres.md), [DD-0004](../design-decisions/DD-0004-sandbox-charts.md) et [la méthode](../sandbox-charts-methodology.md).
 
 Le périmètre livré, les fichiers et les vérifications figurent dans [le rapport de livraison locale](sandbox-charts-livraison.md).
+La [méthode multi-source](../adr/ADR-0024-classements-corrobores.md) demande un relevé OpenSSF Scorecard récent pour chaque dépôt classé. Le collecteur utilise son API publique sans nouveau secret. Une collecte partielle peut empêcher le gel si un dépôt sans second avis pourrait entrer dans le Top 20. La [revue des sources](multi-source-ranking-sources.md) documente onze fournisseurs ou jeux examinés.
 Pour transmettre l'activation au propriétaire Neon et au responsable Vercel, utiliser [la fiche de mise en service](mise-en-service-neon-vercel.md).
 Les collecteurs et critères des autres sources sont détaillés dans [le guide Skills/Models](external-rankings.md) et [ADR-0021](../adr/ADR-0021-classements-externes-skills-models.md).
 
@@ -13,8 +16,8 @@ Les variables sont décrites dans [apps/site/.env.example](../../apps/site/.env.
 - `DATABASE_URL` ou `POSTGRES_URL` : base existante.
 - `GITHUB_TOKEN` : jeton autorisé à lire les dépôts publics via GraphQL et Search.
 - `CRON_SECRET` : secret d'au moins 16 caractères, transmis par Vercel comme Bearer.
-- `VERCEL_OIDC_TOKEN` : accès aux Skills.sh; activer OIDC Federation dans le projet Vercel.
-- `OPENROUTER_API_KEY` : facultative, donne les signaux d'usage, débit, prix, contexte et Artificial Analysis.
+- `VERCEL_OIDC_TOKEN` : accès local aux Skills.sh, via `vercel env pull`. En production, la fonction cron reçoit le jeton dans `x-vercel-oidc-token` tant que la fédération OIDC du projet est en mode Team.
+- `OPENROUTER_API_KEY` : nécessaire pour publier Models avec deux évaluateurs; donne aussi les signaux d'usage, débit, prix et contexte.
 - `HUGGINGFACE_TOKEN` : facultative, augmente les limites d'accès au Hub.
 - `SITE_ADMIN_SECRET` et comptes admin existants : accès au backoffice.
 - `CHARTS_NEWSLETTER_URL` : facultatif, page HTTPS du service d'inscription.
@@ -44,7 +47,7 @@ corepack pnpm --filter @podcast/site charts:weekly -- --draft
 
 Le seed relit jusqu'à trente dépôts publics du catalogue existant via GitHub. Il ajoute des candidats sans créer de métriques ni de faux historiques. Le mode dry run du seed ne sauvegarde rien. Celui du classement ne crée ni édition ni journal. `--date=YYYY-MM-DD` est disponible pour une simulation historique à partir de relevés existants ; les semaines futures sont refusées.
 
-Le mode brouillon fige les positions sans publier. Le cron hebdomadaire publie automatiquement les nouvelles éditions autorisées par le brief. Une publication manuelle s'effectue dans l'admin. Ne pas lancer un déploiement, une publication externe ou un push sans l'accord du propriétaire.
+Le mode brouillon fige les positions sans publier. Le cron de 03:00 UTC publie chaque jour une nouvelle édition lorsque la collecte du jour et l'historique requis sont là. Une édition existante n'est pas recalculée. Une publication manuelle s'effectue dans l'admin. Ne pas lancer un déploiement, une publication externe ou un push sans l'accord du propriétaire.
 
 La qualification après collecte promeut automatiquement les candidats qui remplissent les critères, sauf statut manuel. En cas de limite de durée ou de quota, relancer la collecte : les relevés du jour déjà sauvegardés sont ignorés. Un job de même type déjà en cours bloque une seconde exécution. Un bail de quinze minutes permet la reprise après interruption.
 
@@ -54,13 +57,13 @@ Pour les sources externes, lancer `charts:external-collect` puis `charts:externa
 
 `/admin`, section Classements :
 
-| Onglet                | Usage                                                                                      |
-| --------------------- | ------------------------------------------------------------------------------------------ |
-| Collectes             | Compteurs, journaux, erreurs, découverte, collecte, simulation et gel d'un brouillon       |
-| Dépôts suivis         | Recherche, pagination, catégorie, statut, mise en avant, derniers relevés                  |
-| Candidats             | Validation ou rejet des dépôts découverts                                                  |
-| Édition de la semaine | Lecture des scores figés, accroches, quatre champs de lecture, usages, watchlist et aperçu |
-| Méthode               | Versions, seuils, pondérations et liste d'exclusion pour les prochaines éditions           |
+| Onglet                | Usage                                                                                                               |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| Collectes             | Compteurs, journaux, erreurs, découverte GitHub, collecte GitHub et Skills/Models, simulation et gel d'un brouillon |
+| Dépôts suivis         | Recherche, pagination, catégorie, statut, mise en avant, derniers relevés                                           |
+| Candidats             | Validation ou rejet des dépôts découverts                                                                           |
+| Édition de la semaine | Lecture des scores figés, accroches, quatre champs de lecture, usages, watchlist et aperçu                          |
+| Méthode               | Versions, seuils, pondérations et liste d'exclusion pour les prochaines éditions                                    |
 
 Les mutations du catalogue, des jobs et de la méthode demandent le rôle admin. Un editor écrit ses brouillons ; seul un admin publie. Les autorisations et l'origine sont vérifiées par le serveur. Les conflits éditoriaux répondent 409, sans écraser le brouillon ouvert ailleurs.
 
@@ -80,6 +83,8 @@ Les mutations du catalogue, des jobs et de la méthode demandent le rôle admin.
 Les éditions GitHub, Rising, Skills et Models retournent les mouvements stockés, les mesures, la méthode, les composantes et leur provenance. Sans première édition, `current` répond 202 avec `status=pending` et aucune entrée. Une archive ou une fiche inconnue répond 404. Une panne de base répond 503 ; elle ne déclenche pas de secours simulé.
 
 Les pages `/charts`, `/charts/history`, `/charts/rising`, `/charts/project/:slug` et les archives utilisent cette même base. Les archives locales ne sont visibles en développement que sans base configurée. Les fichiers historiques du dépôt restent intacts. La politique d'indexation du reste du site demeure conditionnée à ses contenus réels et à `SITE_DATA_MODE`.
+
+Décidée par l'agent sur délégation (PD-0003) : tant qu'aucune édition n'est publiée, `/charts` et l'aperçu d'accueil affichent l'avancement agrégé de la collecte (dépôts suivis, relevés du jour, jours d'historique, dernier relevé réussi, première semaine possible) sans inventer de rangs. `HUGGINGFACE_TOKEN` et l'alias `HF_TOKEN` sont acceptés. Les jobs Skills/Models sont déclenchables depuis l'admin en plus du cron et du CLI.
 
 ## Contrôles avant livraison
 

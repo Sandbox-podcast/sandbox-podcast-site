@@ -88,6 +88,7 @@ export async function POST(request: Request): Promise<NextResponse> {
       parsed.data.expectedDraftEtag,
     );
     if (parsed.data.action === 'publish') {
+      revalidatePath('/', 'page');
       revalidatePath('/', 'layout');
       revalidatePath('/feed.xml');
       revalidatePath('/sitemap.xml');

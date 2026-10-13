@@ -4,8 +4,9 @@ import type { PublicRankingCollectionPage } from '@/lib/localized-content';
 import type { SiteContentLocalization } from '@/domain/site-localization';
 import type { HreflangPage } from '@/domain/ranking-catalog';
 import { localeLabel, localeRouteSegment } from '@/i18n/locales';
-import { siteMessages } from '@/i18n/messages';
+import { siteDictionary } from '@/i18n/dictionaries';
 import { formatRankingCount, rankingMessages } from '@/i18n/ranking-messages';
+import { translateText } from '@/i18n/translation';
 
 export function LocalizedRankingHub({
   pages,
@@ -264,14 +265,16 @@ export function LocalizedRankingPage({
   );
 }
 
-export function LocalizedSiteContentPage({
+export async function LocalizedSiteContentPage({
   page,
   alternates = [],
 }: {
   page: SiteContentLocalization;
   alternates?: HreflangPage[];
 }) {
-  const messages = siteMessages(page.locale);
+  const dictionary = await siteDictionary(page.locale);
+  const availableLanguages = translateText('Aussi disponible en', dictionary, page.locale);
+  const chapters = translateText('Chapitres', dictionary, page.locale);
   return (
     <article className="wrap localized-content" lang={page.locale}>
       <header className="localized-content-heading">
@@ -280,8 +283,8 @@ export function LocalizedSiteContentPage({
         <p>{page.introduction}</p>
       </header>
       {alternates.length > 1 ? (
-        <nav aria-label={messages.availableLanguages} className="localized-language-links">
-          <span>{messages.availableLanguages}:</span>
+        <nav aria-label={availableLanguages} className="localized-language-links">
+          <span>{availableLanguages}:</span>
           {alternates.map((alternate) => (
             <Link
               key={alternate.locale}
@@ -304,7 +307,7 @@ export function LocalizedSiteContentPage({
       ))}
       {page.chapters.length ? (
         <section>
-          <h2>{messages.chapters}</h2>
+          <h2>{chapters}</h2>
           <ol>
             {page.chapters.map((chapter) => (
               <li key={`${chapter.startSec}:${chapter.title}`}>

@@ -1,4 +1,5 @@
 import { Text, LocalizedElement } from '@/components/localization';
+import { episodeResources } from '@/domain/episode-resources';
 import { LocalizedLink as Link } from '@/components/localization';
 import { z } from 'zod';
 import { Breadcrumbs } from '@/components/ui';
@@ -61,20 +62,14 @@ export default async function SearchPage({ searchParams, dictionary = {} }: Prop
   );
   const topics = allTopics().filter((topic) => includes(topic.label, topic.description));
   const resources = allEpisodes()
-    .flatMap((episode) => [
-      ...episode.mentions.map((mention, index) => ({
+    .flatMap((episode) =>
+      episodeResources(episode).map((mention, index) => ({
         title: mention.label,
         detail: `${episode.title} · ${mention.kind}${mention.at === undefined ? '' : ` · ${String(Math.floor(mention.at / 60))} min`}`,
         href: episodeResourcePath(episode.number, index),
         searchable: [mention.label, mention.note, mention.kind],
       })),
-      ...episode.sources.map((source, index) => ({
-        title: source.label,
-        detail: `${episode.title} · ${source.publisher ?? source.kind}`,
-        href: episodeResourcePath(episode.number, episode.mentions.length + index),
-        searchable: [source.label, source.publisher, source.kind],
-      })),
-    ])
+    )
     .filter((resource) => includes(...resource.searchable));
   const count =
     episodes.length + entities.length + charts.length + topics.length + resources.length;

@@ -8,7 +8,7 @@ import { TakeCard } from '@/components/take-card';
 import { Breadcrumbs, Mark, MoveBadge, SectionHead } from '@/components/ui';
 import { siteConfig } from '@/config/site';
 import { formatCompact, formatDayMonth } from '@/domain/format';
-import { shortWeek, weekEnd, weekStart } from '@/domain/weeks';
+import { editionEnd, editionMark, editionStart } from '@/domain/weeks';
 import { highlightsFor, moveTriples } from '@/lib/move-params';
 import { highlightHeadline, sharePath } from '@/lib/moves';
 import { chartView, entityPath, findChart, findEntity, weeksOf } from '@/lib/repository';
@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: Props) {
   if (!first) return {};
   return pageMetadata({
     title: highlightHeadline(first),
-    description: `Semaine ${shortWeek(week).slice(1)} : ${hs.map(highlightHeadline).join(' ')}`,
+    description: `Semaine ${editionMark(week)} : ${hs.map(highlightHeadline).join(' ')}`,
     path: sharePath(chart, week, entity),
     ownImage: true,
   });
@@ -71,9 +71,9 @@ export default async function MovePage({ params, locale = 'fr-FR', dictionary = 
         <div>
           <p className="label mb-3 text-ink-2">
             <Text>{'Carte de partage \u00B7 '}</Text>
-            <Text>{formatDayMonth(weekStart(week))}</Text>
+            <Text>{formatDayMonth(editionStart(week))}</Text>
             <Text>{' \u2013 '}</Text>
-            <Text>{formatDayMonth(weekEnd(week))}</Text>
+            <Text>{formatDayMonth(editionEnd(week))}</Text>
           </p>
           <h1 className="move-title">
             <Text>{highlightHeadline(primary)}</Text>
@@ -91,7 +91,7 @@ export default async function MovePage({ params, locale = 'fr-FR', dictionary = 
               </span>
               <span>
                 <Text>{'Week '}</Text>
-                <Text>{shortWeek(week).slice(1)}</Text>
+                <Text>{editionMark(week)}</Text>
               </span>
             </p>
             <div className="flex items-center gap-4 md:gap-8">
@@ -120,7 +120,7 @@ export default async function MovePage({ params, locale = 'fr-FR', dictionary = 
               <Text>
                 {primary.stat
                   ? `+${formatCompact(primary.stat.value)} stars / 7 j`
-                  : 'mis à jour chaque semaine'}
+                  : 'mis à jour chaque jour'}
               </Text>
             </p>
           </LocalizedElement>

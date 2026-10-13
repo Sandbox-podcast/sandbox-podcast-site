@@ -3,7 +3,7 @@ import { readFileSync, writeFileSync, readdirSync, mkdirSync, existsSync } from 
 import { join, dirname, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { log } from 'node:console';
-import { EUROPEAN_LOCALE_TARGETS, localeRouteSegment } from '../src/i18n/locales.ts';
+import { SITE_LOCALES, localeRouteSegment } from '../src/i18n/locales.ts';
 import { rankingMessages } from '../src/i18n/ranking-messages.ts';
 import { parseInline } from '../src/domain/markup.ts';
 
@@ -144,7 +144,7 @@ if (existsSync(englishDictionary)) {
     if (/\{[a-zA-Z][a-zA-Z0-9]*\}/.test(key)) add(key, englishDictionary);
 }
 const french = rankingMessages('fr-FR');
-for (const target of EUROPEAN_LOCALE_TARGETS) {
+for (const target of SITE_LOCALES) {
   if (target.locale === 'fr-FR') continue;
   const file = join(dictionaries, `${localeRouteSegment(target.locale)}.json`);
   const translated = rankingMessages(target.locale);
@@ -168,7 +168,7 @@ const catalog = Object.fromEntries(
     .map(([key, paths]) => [key, { translation: '', sources: [...paths] }]),
 );
 writeFileSync(join(dictionaries, 'source-catalog.json'), JSON.stringify(catalog, null, 2) + '\n');
-const imports = EUROPEAN_LOCALE_TARGETS.filter((target) => target.locale !== 'fr-FR')
+const imports = SITE_LOCALES.filter((target) => target.locale !== 'fr-FR')
   .map(
     (target) =>
       `  '${target.locale}': () => import('./dictionaries/${localeRouteSegment(target.locale)}.json').then(module => module.default),`,
@@ -178,6 +178,4 @@ writeFileSync(
   join(site, 'src/i18n/dictionary-loaders.ts'),
   `// Généré par scripts/localization-catalog.mjs.\nimport type { TranslationDictionary } from './translation';\nexport const dictionaryLoaders: Record<string, () => Promise<TranslationDictionary>> = {\n${imports}\n};\n`,
 );
-log(
-  `${sources.size} textes sources et ${EUROPEAN_LOCALE_TARGETS.length - 1} dictionnaires locaux.`,
-);
+log(`${sources.size} textes sources et ${SITE_LOCALES.length - 1} dictionnaires locaux.`);

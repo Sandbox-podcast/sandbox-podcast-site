@@ -129,19 +129,31 @@ export async function getPublishedAdminContent(): Promise<EditableContent> {
   return (await readPublishedForSite()) ?? editableFromContent(loadContent());
 }
 
+function gitEditableContent(): EditableContent {
+  return editableFromContent(loadContent());
+}
+
 export async function getAdminContent(): Promise<{
   content: EditableContent;
   draftEtag: string | null;
   hasDraft: boolean;
 }> {
   if (adminStorageMode() === 'postgres') {
-    return postgresGetAdminContent();
+    try {
+      return await postgresGetAdminContent();
+    } catch (error) {
+      // Une base peut être liée avant la migration éditoriale 0000.
+      if (isMissingEditorialTable(error)) {
+        return { content: gitEditableContent(), draftEtag: null, hasDraft: false };
+      }
+      throw error;
+    }
   }
 
   if (adminStorageMode() === 'unavailable') {
     await preparePublishedEditorialContent();
     return {
-      content: editableFromContent(loadContent()),
+      content: gitEditableContent(),
       draftEtag: null,
       hasDraft: false,
     };
@@ -151,7 +163,7 @@ export async function getAdminContent(): Promise<{
   const local = await readLocalStore();
   const published = local.published;
   const draft = local.draft;
-  const content = draft ?? published ?? editableFromContent(loadContent());
+  const content = draft ?? published ?? gitEditableContent();
   return { content, draftEtag: null, hasDraft: Boolean(draft) };
 }
 
@@ -165,14 +177,24 @@ export async function saveAdminContent(
   }
 
   if (adminStorageMode() === 'postgres') {
-    const saved = await postgresSaveAdminContent(value, action, expectedDraftEtag);
-    if (action === 'publish') {
-      const content = editableContentSchema.parse(value);
-      publishedCache = content;
-      publishedLoadedAt = Date.now();
-      setEditorialOverride(content);
+    try {
+      const saved = await postgresSaveAdminContent(value, action, expectedDraftEtag);
+      if (action === 'publish') {
+        const content = editableContentSchema.parse(value);
+        publishedCache = content;
+        publishedLoadedAt = Date.now();
+        setEditorialOverride(content);
+      }
+      return saved;
+    } catch (error) {
+      if (isMissingEditorialTable(error)) {
+        throw new Error(
+          'Les tables éditoriales Postgres manquent. Appliquez les migrations Drizzle sur Neon avant de publier.',
+          { cause: error },
+        );
+      }
+      throw error;
     }
-    return saved;
   }
 
   await preparePublishedEditorialContent();

@@ -1,7 +1,7 @@
 import { z } from 'zod';
-import { EUROPEAN_LOCALE_TARGETS, DEFAULT_SITE_LOCALE } from '../i18n/locales.ts';
+import { SITE_LOCALES, DEFAULT_SITE_LOCALE } from '../i18n/locales.ts';
 
-export const TRANSLATION_LOCALES: readonly string[] = EUROPEAN_LOCALE_TARGETS.map(
+export const TRANSLATION_LOCALES: readonly string[] = SITE_LOCALES.map(
   (item) => item.locale,
 ).filter((locale) => locale !== DEFAULT_SITE_LOCALE);
 export const translationSourceSchema = z.object({

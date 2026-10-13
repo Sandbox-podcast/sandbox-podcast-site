@@ -8,13 +8,16 @@ import { applyChartMarkdown, serializeChartMarkdown } from '@/domain/chart-markd
 import { type Episode, type Host, type Source, type Topic } from '@/domain/schema';
 import { AdminChartEditor } from './admin-chart-editor';
 import { AdminChartsConsole } from './admin-charts-console';
+import { AdminPasswordForm } from './admin-password-form';
+import { AdminUsersPanel } from './admin-users-panel';
 import { SourceEditor, TopicEditor } from './admin-simple-content';
 import { EpisodeComposer } from './episode-composer';
 import { SiteSettingsEditor } from './site-settings-editor';
 import { AdminTranslations } from './admin-translations';
+import { AdminSlides } from './admin-slides';
 
 type CollectionKey = 'episodes' | 'charts' | 'hosts' | 'topics' | 'sources';
-type SectionKey = CollectionKey | 'site';
+type SectionKey = CollectionKey | 'site' | 'slides';
 type HostSocialKey = keyof Host['socials'];
 const storageModeSchema = z.enum(['local', 'postgres', 'unavailable']);
 const adminStatusSchema = z.object({
@@ -29,6 +32,8 @@ const adminStatusSchema = z.object({
     })
     .nullable(),
   authConfigured: z.boolean(),
+  canChangePassword: z.boolean().default(false),
+  canManageUsers: z.boolean().default(false),
   storageMode: storageModeSchema,
 });
 const contentResponseSchema = z.object({
@@ -281,6 +286,22 @@ export function AdminConsole() {
     });
   }
 
+  function updateHostProfile(hostSlug: string, field: 'aka' | 'photo', value: string): void {
+    setRawError('');
+    setContentResponse((current) => {
+      if (!current) return current;
+      return {
+        ...current,
+        content: {
+          ...current.content,
+          hosts: current.content.hosts.map((host) =>
+            host.slug === hostSlug ? { ...host, [field]: value.trim() || undefined } : host,
+          ),
+        },
+      };
+    });
+  }
+
   async function saveHostLinks(action: 'draft' | 'publish'): Promise<void> {
     if (!contentResponse) return;
     setRawError('');
@@ -505,6 +526,19 @@ export function AdminConsole() {
         </div>
       ) : null}
 
+      {status.canChangePassword ? (
+        <AdminPasswordForm pending={pending} onBusyChange={setPending} onMessage={setMessage} />
+      ) : null}
+
+      {status.canManageUsers ? (
+        <AdminUsersPanel
+          currentUsername={status.user?.username ?? status.username ?? ''}
+          pending={pending}
+          onBusyChange={setPending}
+          onMessage={setMessage}
+        />
+      ) : null}
+
       <AdminTranslations
         canImport={status.user?.permissions.publish ?? false}
         revision={contentResponse.draftEtag ?? 'local'}
@@ -536,6 +570,16 @@ export function AdminConsole() {
               {label} <span>{String(counts[key] ?? 0)}</span>
             </button>
           ))}
+          <button
+            className={`admin-tab is-primary${activeCollection === 'slides' ? ' is-active' : ''}`}
+            aria-pressed={activeCollection === 'slides'}
+            type="button"
+            onClick={() => {
+              setActiveCollection('slides');
+            }}
+          >
+            Slides
+          </button>
           <p className="admin-sidebar-label admin-sidebar-divider">Réglages</p>
           <button
             className={`admin-tab${activeCollection === 'site' ? ' is-active' : ''}`}
@@ -583,6 +627,8 @@ export function AdminConsole() {
                 }}
               />
             </>
+          ) : activeCollection === 'slides' ? (
+            <AdminSlides />
           ) : activeCollection === 'episodes' ? (
             <>
               <div className="admin-section-heading">
@@ -677,9 +723,33 @@ export function AdminConsole() {
                         <p className="admin-help">
                           {selectedHost.placeholder
                             ? 'Cette signature conserve les anciens épisodes et avis simulés sans les attribuer à Lou, Nicolas ou Loïc.'
-                            : 'Ce profil est lié aux épisodes et aux avis. Sa carte publique se modifie dans « Identité du site ».'}
+                            : 'Le nom et les liens de ce profil apparaissent sur la page À propos.'}
                         </p>
                       </div>
+                      {!selectedHost.placeholder && (
+                        <>
+                          <label className="admin-field">
+                            <span>Aka (pseudo)</span>
+                            <input
+                              placeholder="Facultatif"
+                              value={selectedHost.aka ?? ''}
+                              onChange={(event) => {
+                                updateHostProfile(selectedHost.slug, 'aka', event.target.value);
+                              }}
+                            />
+                          </label>
+                          <label className="admin-field">
+                            <span>Photo</span>
+                            <input
+                              placeholder="/team/prenom.jpg (fichier dans public/)"
+                              value={selectedHost.photo ?? ''}
+                              onChange={(event) => {
+                                updateHostProfile(selectedHost.slug, 'photo', event.target.value);
+                              }}
+                            />
+                          </label>
+                        </>
+                      )}
                       {!selectedHost.placeholder &&
                         hostSocialFields.map(({ key, label, placeholder }) => (
                           <label className="admin-field admin-span-2" key={key}>
@@ -731,7 +801,7 @@ export function AdminConsole() {
                 ) : (
                   <div className="admin-empty">
                     <h3>Sélectionnez un profil</h3>
-                    <p>Ajoutez les liens publics de chaque animateur.</p>
+                    <p>Les liens de ces profils apparaissent sur la page À propos.</p>
                   </div>
                 )}
               </div>

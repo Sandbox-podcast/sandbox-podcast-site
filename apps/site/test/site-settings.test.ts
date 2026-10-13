@@ -2,60 +2,49 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import siteSettings from '../content/site.json';
-import { canonicalSiteUrl } from '../src/config/site.ts';
+import { canonicalSiteUrl, youtubeChannelUrl } from '../src/config/site.ts';
 import { siteSettingsSchema } from '../src/domain/schema.ts';
 
 describe('réglages publics du site', () => {
-  it('affiche les trois membres confirmés et uniquement les liens connus', () => {
-    const site = siteSettingsSchema.parse(siteSettings);
-    expect(site.team.map(({ name }) => name)).toEqual(['Lou', 'Nicolas', 'Loïc']);
-    expect(site.team[0]?.socials).toEqual({
-      github: 'https://github.com/loukan42',
-      linkedin: 'https://linkedin.com/louhusson',
-      x: 'https://x.com/loukan42',
+  it('ignore les anciennes cartes de l’équipe dans les réglages', () => {
+    const settings = siteSettingsSchema.parse({
+      ...siteSettings,
+      team: [{ name: 'Loïc', socials: { github: 'https://github.com/azerothl' } }],
     });
-    expect(site.team[1]?.aka).toBe('MarlburroW');
-    expect(site.team[1]?.photo).toBe('/team/nicolas.jpg');
-    expect(site.team[1]?.socials).toEqual({
-      github: 'https://github.com/MarlBurroW',
-      linkedin: 'https://www.linkedin.com/in/nicolas-varrot-b6b05857/',
-      x: 'https://x.com/MarlburroW38',
-    });
-    expect(site.team[2]?.socials).toEqual({});
+    expect(Object.hasOwn(settings, 'team')).toBe(false);
   });
 
-  it('refuse les liens non sécurisés dans les cartes de l’équipe', () => {
-    expect(
-      siteSettingsSchema.safeParse({
-        ...siteSettings,
-        team: [{ name: 'Lou', socials: { github: 'http://github.com/loukan42' } }],
-      }).success,
-    ).toBe(false);
-  });
-
-  it('n’accepte que des photos servies par le site', () => {
-    const withPhoto = (photo: string) =>
-      siteSettingsSchema.safeParse({ ...siteSettings, team: [{ name: 'Lou', photo, socials: {} }] })
-        .success;
-    expect(withPhoto('/team/lou.webp')).toBe(true);
-    expect(withPhoto('https://evil.example/lou.jpg')).toBe(false);
-    expect(withPhoto('/team/../secret.jpg')).toBe(false);
-  });
-
-  it('garde la compatibilité avec les anciens réglages sans cartes d’équipe', () => {
+  it('garde la compatibilité avec les anciens réglages sans texte À propos', () => {
     const previousSettings: Record<string, unknown> = { ...siteSettings };
-    delete previousSettings['team'];
-    expect(siteSettingsSchema.parse(previousSettings).team).toEqual([]);
+    delete previousSettings['aboutEyebrow'];
+    delete previousSettings['aboutTitle'];
+    delete previousSettings['aboutIntro'];
+    const site = siteSettingsSchema.parse(previousSettings);
+    expect(site.aboutEyebrow).toBe('L’équipe');
+    expect(site.aboutTitle).toBe('Retrouvez-nous.');
+    expect(site.aboutIntro).toBe('Retrouvez les animateurs de Sandbox et leurs liens publics.');
   });
 
-  it('emploie le domaine de production pour les URL canoniques Vercel', () => {
+  it('emploie le domaine public pour les URL canoniques Vercel', () => {
     expect(canonicalSiteUrl(undefined, 'sandbox-podcast.example.vercel.app')).toBe(
-      'https://sandbox-podcast.example.vercel.app',
+      'https://www.sandboxpodcast.fr',
     );
     expect(canonicalSiteUrl('https://sandbox.example', 'preview.example.vercel.app')).toBe(
       'https://sandbox.example',
     );
+    expect(canonicalSiteUrl('https://sandbox-podcast.vercel.app')).toBe(
+      'https://www.sandboxpodcast.fr',
+    );
     expect(canonicalSiteUrl()).toBe('http://localhost:3000');
+  });
+
+  it('remplace une ancienne URL YouTube générique par la chaîne officielle', () => {
+    expect(youtubeChannelUrl('https://www.youtube.com/')).toBe(
+      'https://www.youtube.com/@SandboxFR',
+    );
+    expect(youtubeChannelUrl('https://www.youtube.com/@SandboxFR')).toBe(
+      'https://www.youtube.com/@SandboxFR',
+    );
   });
 
   it('ne rend plus de bandeau de démonstration dans la structure publique', () => {

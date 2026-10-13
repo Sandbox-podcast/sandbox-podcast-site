@@ -16,7 +16,14 @@
     "name": "Nicolas",
     "handle": "Profil à compléter",
     "role": "Animateur Sandbox",
-    "bio": "Présentation à compléter."
+    "bio": "Présentation à compléter.",
+    "aka": "MarlburroW",
+    "photo": "/team/nicolas.jpg",
+    "socials": {
+      "github": "https://github.com/MarlBurroW",
+      "linkedin": "https://www.linkedin.com/in/nicolas-varrot-b6b05857/",
+      "x": "https://x.com/MarlburroW38"
+    }
   },
   {
     "slug": "loic",

@@ -2,6 +2,7 @@ import { sql } from 'drizzle-orm';
 import {
   integer,
   boolean,
+  customType,
   date,
   doublePrecision,
   index,
@@ -21,6 +22,7 @@ import type {
 } from '../domain/ranking-catalog.ts';
 import type { SiteContentLocalization } from '../domain/site-localization.ts';
 import type { ChartEdition, Snapshot } from '../domain/schema.ts';
+import type { GithubBurst } from '../domain/github-bursts.ts';
 
 /** Couche éditoriale : brouillon admin ou version servie au site. */
 export type EditorialLayer = 'draft' | 'published';
@@ -49,6 +51,19 @@ export const editorialDraftMeta = pgTable('editorial_draft_meta', {
   id: smallint('id').primaryKey().default(1),
   etag: text('etag').notNull(),
   updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'string' }).notNull().defaultNow(),
+});
+
+const imageBytes = customType<{ data: Buffer; driverData: Buffer }>({
+  dataType: () => 'bytea',
+});
+
+/** Images éditoriales immuables, adressées par leur empreinte SHA-256. */
+export const episodeThumbnails = pgTable('episode_thumbnails', {
+  sha256: text('sha256').primaryKey(),
+  image: imageBytes('image').notNull(),
+  width: integer('width').notNull(),
+  height: integer('height').notNull(),
+  createdAt: timestamp('created_at', { withTimezone: true, mode: 'string' }).notNull().defaultNow(),
 });
 
 /** Comptes du backoffice, migrés depuis SITE_ADMIN_USERS sans mot de passe en clair. */
@@ -187,6 +202,50 @@ export const githubDailySnapshots = pgTable(
     index('github_daily_date_idx').on(table.date),
   ],
 );
+export const githubStarObservations = pgTable(
+  'github_star_observations',
+  {
+    id: text('id').primaryKey(),
+    projectId: text('github_project_id')
+      .notNull()
+      .references(() => githubProjects.id),
+    observedAt: timestamp('observed_at', { withTimezone: true, mode: 'string' }).notNull(),
+    stars: integer('stars').notNull(),
+  },
+  (table) => [
+    uniqueIndex('github_star_observations_project_time_idx').on(table.projectId, table.observedAt),
+    index('github_star_observations_time_idx').on(table.observedAt),
+  ],
+);
+
+export const githubBurstEvents = pgTable(
+  'github_burst_events',
+  {
+    id: text('id').primaryKey(),
+    projectId: text('github_project_id')
+      .notNull()
+      .references(() => githubProjects.id),
+    observedAt: timestamp('observed_at', { withTimezone: true, mode: 'string' }).notNull(),
+    windowHours: integer('window_hours').notNull(),
+    evidence: jsonb('evidence').notNull().$type<GithubBurst>(),
+  },
+  (table) => [
+    uniqueIndex('github_burst_events_project_window_time_idx').on(
+      table.projectId,
+      table.windowHours,
+      table.observedAt,
+    ),
+    index('github_burst_events_time_idx').on(table.observedAt),
+  ],
+);
+
+export const githubTrendingObservations = pgTable('github_trending_observations', {
+  id: text('id').primaryKey(),
+  observedAt: timestamp('observed_at', { withTimezone: true, mode: 'string' }).notNull().unique(),
+  repositories: jsonb('repositories').notNull().$type<string[]>(),
+  sha256: text('sha256').notNull(),
+});
+
 export const weeklyChartEditions = pgTable(
   'weekly_chart_editions',
   {

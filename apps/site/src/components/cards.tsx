@@ -2,6 +2,7 @@ import { Text, LocalizedElement } from '@/components/localization';
 import { LocalizedLink as Link } from '@/components/localization';
 import Image from 'next/image';
 import { episodeArtwork } from '@/domain/episode-artwork';
+import { verifiedEpisodeDuration } from '@/domain/episode-presentation';
 import { formatDateShort, formatDuration, formatNumber } from '@/domain/format';
 import type { Entity, Episode, Story } from '@/domain/schema';
 import { plainText } from '@/domain/markup';
@@ -119,6 +120,7 @@ export function EpisodeCover({
 export function EpisodeCard({ episode }: { episode: Episode }) {
   const href = `/episodes/${String(episode.number)}`;
   const artwork = episodeArtwork(episode);
+  const durationSec = verifiedEpisodeDuration(episode);
   return (
     <article className="episode-card">
       <Link href={href} className="episode-card-poster-link">
@@ -146,9 +148,11 @@ export function EpisodeCard({ episode }: { episode: Episode }) {
           <h3 className="episode-card-title">
             <Text>{episode.title}</Text>
           </h3>
-          <span className="episode-card-poster-duration label">
-            <Text>{formatDuration(episode.durationSec)}</Text>
-          </span>
+          {durationSec !== undefined ? (
+            <span className="episode-card-poster-duration label">
+              <Text>{formatDuration(durationSec)}</Text>
+            </span>
+          ) : null}
         </div>
       </Link>
       <p className="episode-card-under label">
@@ -177,9 +181,12 @@ export function EpisodeCard({ episode }: { episode: Episode }) {
           <Text>{episode.number}</Text>
           <Text>{' \u00B7 '}</Text>
           <Text>{formatDateShort(episode.publishedAt)}</Text>
-          <Text>{' \u00B7'}</Text>
-          <Text> </Text>
-          <Text>{formatDuration(episode.durationSec)}</Text>
+          {durationSec !== undefined ? (
+            <>
+              <Text>{' \u00B7 '}</Text>
+              <Text>{formatDuration(durationSec)}</Text>
+            </>
+          ) : null}
         </p>
         <p className="episode-card-popover-dek">
           <Text>{episode.dek}</Text>

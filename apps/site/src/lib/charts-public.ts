@@ -1,7 +1,7 @@
-import { and, desc, eq, inArray, isNotNull } from 'drizzle-orm';
+import { and, eq, inArray, isNotNull } from 'drizzle-orm';
 import { cache } from 'react';
 import { z } from 'zod';
-import { previousWeek } from '../domain/weeks.ts';
+import { compareWeeks, previousComparableEdition } from '../domain/weeks.ts';
 import { getDb, hasDatabaseConfiguration } from '../db/client.ts';
 import {
   chartEntities,
@@ -39,37 +39,48 @@ export const githubProjectDetail = cache(async function githubProjectDetail(slug
     .innerJoin(weeklyChartEditions, eq(weeklyChartEditions.id, weeklyRankings.editionId))
     .where(
       and(eq(weeklyRankings.entityId, row.entity.id), isNotNull(weeklyChartEditions.publishedAt)),
-    )
-    .orderBy(weeklyChartEditions.week);
+    );
   const current = daily.at(-1);
   const project = asProject(row.repo, row.entity);
   const metrics = current ? githubMetrics(project, current, daily, await readChartsConfig()) : null;
   const at30 = current ? closestBaseline(daily, current.date, 30, 1) : undefined;
   const at90 = current ? closestBaseline(daily, current.date, 90, 1) : undefined;
-  const github = weekly.filter((entry) => entry.edition.chart === 'github');
-  const latest = await getDb()
-    .select({ week: weeklyChartEditions.week })
-    .from(weeklyChartEditions)
-    .where(and(eq(weeklyChartEditions.chart, 'github'), isNotNull(weeklyChartEditions.publishedAt)))
-    .orderBy(desc(weeklyChartEditions.week))
-    .limit(1);
+  const orderedWeekly = weekly.toSorted((left, right) =>
+    compareWeeks(left.edition.week, right.edition.week),
+  );
+  const github = orderedWeekly.filter((entry) => entry.edition.chart === 'github');
+  const publishedWeeks = (
+    await getDb()
+      .select({ week: weeklyChartEditions.week })
+      .from(weeklyChartEditions)
+      .where(
+        and(eq(weeklyChartEditions.chart, 'github'), isNotNull(weeklyChartEditions.publishedAt)),
+      )
+  )
+    .map((edition) => edition.week)
+    .toSorted(compareWeeks);
+  const currentWeek = publishedWeeks.at(-1) ?? null;
+  const previousWeekId = currentWeek
+    ? previousComparableEdition(
+        github.map((entry) => entry.edition.week),
+        currentWeek,
+      )
+    : undefined;
   return {
     project,
     githubUrl: row.entity.sourceUrl,
     metrics,
-    currentWeek: latest[0]?.week ?? null,
-    currentRank:
-      github.find((entry) => entry.edition.week === latest[0]?.week)?.ranking.rank ?? null,
+    currentWeek,
+    currentRank: github.find((entry) => entry.edition.week === currentWeek)?.ranking.rank ?? null,
     previousRank:
-      github.find((entry) => latest[0] && entry.edition.week === previousWeek(latest[0].week))
-        ?.ranking.rank ?? null,
+      github.find((entry) => entry.edition.week === previousWeekId)?.ranking.rank ?? null,
     bestRank: github.length ? Math.min(...github.map((entry) => entry.ranking.rank)) : null,
     weeksInTop20: github.length,
     firstAppearance: github[0]?.edition.week ?? null,
     growth30d: current && at30 ? current.stars - at30.stars : null,
     growth90d: current && at90 ? current.stars - at90.stars : null,
     daily,
-    weekly: weekly.map(({ ranking, edition }) => ({
+    weekly: orderedWeekly.map(({ ranking, edition }) => ({
       chart: edition.chart,
       week: edition.week,
       rank: ranking.rank,
@@ -89,15 +100,16 @@ export async function publicChartHistory(chart: PublicChartId) {
   const editions = await getDb()
     .select()
     .from(weeklyChartEditions)
-    .where(and(eq(weeklyChartEditions.chart, chart), isNotNull(weeklyChartEditions.publishedAt)))
-    .orderBy(desc(weeklyChartEditions.week));
-  return editions.map((edition) => ({
-    chart,
-    week: edition.week,
-    publishedAt: edition.publishedAt,
-    scoringVersion: edition.scoringVersion,
-    entries: edition.payload.entries.length,
-  }));
+    .where(and(eq(weeklyChartEditions.chart, chart), isNotNull(weeklyChartEditions.publishedAt)));
+  return editions
+    .toSorted((left, right) => compareWeeks(right.week, left.week))
+    .map((edition) => ({
+      chart,
+      week: edition.week,
+      publishedAt: edition.publishedAt,
+      scoringVersion: edition.scoringVersion,
+      entries: edition.payload.entries.length,
+    }));
 }
 
 export async function publicGithubRankedProjectSlugs(): Promise<string[]> {
@@ -124,9 +136,7 @@ export async function publicChartEdition(chart: PublicChartId, week?: string) {
           isNotNull(weeklyChartEditions.publishedAt),
         ),
       )
-      .orderBy(desc(weeklyChartEditions.week))
-      .limit(1)
-  )[0];
+  ).toSorted((left, right) => compareWeeks(right.week, left.week))[0];
   if (!edition) return null;
   const rankings = await getDb()
     .select()
@@ -153,7 +163,7 @@ export async function publicChartEdition(chart: PublicChartId, week?: string) {
     publishedAt: edition.publishedAt,
     frozenAt: edition.frozenAt,
     scoringVersion: edition.scoringVersion,
-    config: edition.config,
+    config: publicEditionConfig(edition.config),
     entries: edition.payload.entries.map((entry) => {
       const ranking = rankings.find((item) => item.rank === entry.rank);
       const metadata = z.record(z.string(), z.unknown()).parse(ranking?.metadata ?? {});
@@ -200,6 +210,42 @@ export async function publicChartEdition(chart: PublicChartId, week?: string) {
       };
     }),
   };
+}
+
+/** Le gros manifeste reste sur l'endpoint de téléchargement, hors de la réponse courante. */
+function publicEditionConfig(raw: unknown): Record<string, unknown> {
+  const config = z.record(z.string(), z.unknown()).parse(raw);
+  const proof = config['referenceRanking'];
+  if (!proof) return config;
+  const header = z
+    .object({
+      schemaVersion: z.literal(1),
+      sha256: z.string(),
+      input: z.object({ profile: z.unknown(), date: z.string() }),
+    })
+    .parse(proof);
+  return { ...config, referenceRanking: header };
+}
+
+export async function publicReferenceArtifact(
+  chart: PublicChartId,
+  week?: string,
+): Promise<unknown> {
+  if (!hasDatabaseConfiguration()) return null;
+  const editions = await getDb()
+    .select({ week: weeklyChartEditions.week, config: weeklyChartEditions.config })
+    .from(weeklyChartEditions)
+    .where(
+      and(
+        eq(weeklyChartEditions.chart, chart),
+        week ? eq(weeklyChartEditions.week, week) : undefined,
+        isNotNull(weeklyChartEditions.publishedAt),
+      ),
+    );
+  const edition = editions.toSorted((a, b) => compareWeeks(b.week, a.week))[0];
+  return edition
+    ? (z.record(z.string(), z.unknown()).parse(edition.config)['referenceRanking'] ?? null)
+    : null;
 }
 export type ChartsApiResult<T> =
   { ok: true; response: Response; data: T } | { ok: false; response: Response };

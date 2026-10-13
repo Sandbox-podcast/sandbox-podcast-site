@@ -1,10 +1,10 @@
 import { z } from 'zod';
-import { weekIdSchema } from './schema.ts';
+import { editionIdSchema } from './schema.ts';
 import { PROJECT_FILTERS, SKILL_FILTERS } from './sandbox-charts.ts';
 
 export const chartSelectionSchema = z.object({
   chart: z.enum(['github', 'skills', 'models', 'rising']).optional().catch(undefined),
-  week: weekIdSchema.optional().catch(undefined),
+  week: editionIdSchema.optional().catch(undefined),
   filter: z
     .enum([...PROJECT_FILTERS, ...SKILL_FILTERS])
     .optional()

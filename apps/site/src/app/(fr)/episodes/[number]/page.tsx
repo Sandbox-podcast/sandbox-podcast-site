@@ -2,59 +2,67 @@ import { Text, LocalizedElement } from '@/components/localization';
 import { LocalizedLink as Link } from '@/components/localization';
 import { notFound } from 'next/navigation';
 import { EpisodeCover } from '@/components/cards';
+import { EpisodeDescription } from '@/components/episode-description';
+import { episodeArtwork } from '@/domain/episode-artwork';
+import {
+  episodeChapters,
+  episodeVideoClips,
+  episodeStartOffset,
+  verifiedEpisodeDuration,
+} from '@/domain/episode-presentation';
+import { episodeResources } from '@/domain/episode-resources';
+import { indexableEpisode } from '@/domain/episode-seo';
 import { CopyButton, YouTubeFacade } from '@/components/client';
 import { Breadcrumbs } from '@/components/ui';
 import { JsonLd } from '@/components/json-ld';
 import { siteConfig } from '@/config/site';
-import { formatDate, formatDuration, formatTimestamp, isoDuration } from '@/domain/format';
-import { mentionTag } from '@/domain/kinds';
+import { formatDate, formatDurationExact, formatTimestamp, isoDuration } from '@/domain/format';
 import type { Episode } from '@/domain/schema';
 import { allEpisodes, getEpisode, getHost, getTopic } from '@/lib/repository';
+import { preparePublishedEditorialContent } from '@/lib/admin-persistence';
 import { absoluteUrl, breadcrumbLd, pageMetadata } from '@/lib/seo';
-export const dynamicParams = false;
-export function generateStaticParams() {
-  return allEpisodes().map((episode) => ({ number: String(episode.number) }));
-}
+// Les épisodes publiés dans l'admin après le build doivent aussi être accessibles.
+export const dynamic = 'force-dynamic';
+export const dynamicParams = true;
 interface Props {
   params: Promise<{
     number: string;
   }>;
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
 }
 const find = (raw: string): Episode | undefined => getEpisode(Number(raw));
 export async function generateMetadata({ params }: Props) {
+  await preparePublishedEditorialContent();
   const { number } = await params;
   const episode = find(number);
   if (!episode) return {};
   return pageMetadata({
     title: `Épisode ${String(episode.number)} : ${episode.title}`,
-    description: `${episode.dek} Retrouvez la vidéo, les chapitres et les ressources citées.`,
+    description: episode.dek,
     path: `/episodes/${String(episode.number)}`,
     type: 'article',
     publishedTime: episode.publishedAt,
     ownImage: true,
+    noindex: !indexableEpisode(episode),
   });
 }
-export default async function EpisodePage({ params }: Props) {
+export default async function EpisodePage({ params, searchParams }: Props) {
+  await preparePublishedEditorialContent();
   const { number } = await params;
   const episode = find(number);
   if (!episode) notFound();
   const youtubeId = episode.platforms.youtubeId;
-  const youtubeAt = (at: number): string | undefined =>
-    youtubeId ? `https://www.youtube.com/watch?v=${youtubeId}&t=${String(at)}s` : undefined;
+  const chapters = episodeChapters(episode);
+  const durationSec = verifiedEpisodeDuration(episode);
+  const startAt = episodeStartOffset((await searchParams)?.['t'], durationSec);
+  const episodeAt = (at: number): string | undefined =>
+    youtubeId ? `/episodes/${String(episode.number)}?t=${String(at)}#episode-video` : undefined;
   const all = allEpisodes().sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
   const idx = all.findIndex((item) => item.number === episode.number);
   const older = all[idx + 1];
   const newer = all[idx - 1];
   const path = `/episodes/${String(episode.number)}`;
-  const resources: Episode['mentions'] = [
-    ...episode.mentions,
-    ...episode.sources.map((source) => ({
-      kind: source.kind,
-      label: source.label,
-      url: source.url,
-      note: source.publisher ?? mentionTag(source.kind),
-    })),
-  ];
+  const resources = episodeResources(episode);
   return (
     <article className="wrap episode-page pt-6">
       <Breadcrumbs
@@ -73,9 +81,11 @@ export default async function EpisodePage({ params }: Props) {
           <span>
             <Text>{formatDate(episode.publishedAt)}</Text>
           </span>
-          <span>
-            <Text>{formatDuration(episode.durationSec)}</Text>
-          </span>
+          {durationSec !== undefined ? (
+            <span>
+              <Text>{formatDurationExact(durationSec)}</Text>
+            </span>
+          ) : null}
           <span>
             <Text>{episode.hosts.map((host) => getHost(host).name).join(' · ')}</Text>
           </span>
@@ -137,7 +147,7 @@ export default async function EpisodePage({ params }: Props) {
         <a href="#chapters">
           <Text>{'Chapitres '}</Text>
           <span>
-            <Text>{episode.chapters.length}</Text>
+            <Text>{chapters.length}</Text>
           </span>
         </a>
         <a href="#mentions">
@@ -161,7 +171,8 @@ export default async function EpisodePage({ params }: Props) {
                 <YouTubeFacade
                   id={youtubeId}
                   title={episode.title}
-                  thumbnailUrl={episode.platforms.thumbnailUrl}
+                  {...(startAt !== undefined ? { startAt } : {})}
+                  thumbnailUrl={episodeArtwork(episode)}
                 />
               ) : (
                 <>
@@ -185,9 +196,7 @@ export default async function EpisodePage({ params }: Props) {
             <h2 id="episode-about" className="label border-t-2 border-ink pt-2">
               <Text>{'\u00C0 propos de l\u2019\u00E9pisode'}</Text>
             </h2>
-            <p className="episode-description">
-              <Text>{episode.description}</Text>
-            </p>
+            <EpisodeDescription markdown={episode.description} />
             <Text>
               {episode.topics.length > 0 ? (
                 <p className="mt-4 flex flex-wrap gap-2">
@@ -209,15 +218,15 @@ export default async function EpisodePage({ params }: Props) {
               <Text>{'Chapitres '}</Text>
               <span className="text-ink-3">
                 <Text>{'\u00B7 '}</Text>
-                <Text>{episode.chapters.length}</Text>
+                <Text>{chapters.length}</Text>
               </span>
             </h2>
             <Text>
-              {episode.chapters.length > 0 ? (
+              {chapters.length > 0 ? (
                 <ol className="chapter-list">
                   <Text>
-                    {episode.chapters.map((chapter) => {
-                      const timestamp = youtubeAt(chapter.at);
+                    {chapters.map((chapter) => {
+                      const timestamp = episodeAt(chapter.at);
                       const content = (
                         <>
                           <span className="chapter-time">
@@ -237,15 +246,10 @@ export default async function EpisodePage({ params }: Props) {
                         <li key={chapter.at}>
                           <Text>
                             {timestamp ? (
-                              <a
-                                className="chapter-row"
-                                href={timestamp}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                              >
+                              <a className="chapter-row" href={timestamp}>
                                 <Text>{content}</Text>
                                 <span className="sr-only">
-                                  <Text>{'(YouTube, nouvel onglet)'}</Text>
+                                  <Text>{'(lecteur vidéo)'}</Text>
                                 </span>
                               </a>
                             ) : (
@@ -318,7 +322,7 @@ export default async function EpisodePage({ params }: Props) {
                   <Text>
                     {resources.map((mention, index) => {
                       const timestamp =
-                        mention.at === undefined ? undefined : youtubeAt(mention.at);
+                        mention.at === undefined ? undefined : episodeAt(mention.at);
                       return (
                         <li
                           className="resource-item"
@@ -338,12 +342,7 @@ export default async function EpisodePage({ params }: Props) {
                           </Text>
                           <Text>
                             {timestamp ? (
-                              <a
-                                className="resource-time"
-                                href={timestamp}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                              >
+                              <a className="resource-time" href={timestamp}>
                                 <Text>{'Voir \u00E0 '}</Text>
                                 <Text>{formatTimestamp(mention.at ?? 0)}</Text>
                                 <Text>{' \u2197'}</Text>
@@ -427,7 +426,7 @@ export default async function EpisodePage({ params }: Props) {
             episodeNumber: episode.number,
             description: episode.description,
             datePublished: episode.publishedAt,
-            timeRequired: isoDuration(episode.durationSec),
+            ...(durationSec !== undefined ? { timeRequired: isoDuration(durationSec) } : {}),
             url: absoluteUrl(path),
             inLanguage: siteConfig.language,
             partOfSeries: { '@type': 'PodcastSeries', name: siteConfig.name, url: siteConfig.url },
@@ -442,12 +441,14 @@ export default async function EpisodePage({ params }: Props) {
                   '@id': `${absoluteUrl(path)}#video`,
                   name: episode.title,
                   description: episode.dek,
-                  thumbnailUrl:
-                    episode.platforms.thumbnailUrl ??
-                    `https://i.ytimg.com/vi/${youtubeId}/hqdefault.jpg`,
+                  thumbnailUrl: absoluteUrl(
+                    episodeArtwork(episode) ?? `https://i.ytimg.com/vi/${youtubeId}/hqdefault.jpg`,
+                  ),
                   uploadDate: episode.publishedAt,
-                  duration: isoDuration(episode.durationSec),
+                  ...(durationSec !== undefined ? { duration: isoDuration(durationSec) } : {}),
                   embedUrl: `https://www.youtube-nocookie.com/embed/${youtubeId}`,
+                  mainEntityOfPage: absoluteUrl(path),
+                  hasPart: episodeVideoClips(chapters, durationSec, absoluteUrl(path)),
                 },
               ]
             : []),

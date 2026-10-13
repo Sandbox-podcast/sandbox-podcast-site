@@ -19,7 +19,7 @@ import type {
   Topic,
   Unit,
 } from '../domain/schema.ts';
-import { compareWeeks, nextWeek, previousWeek, weekEnd, weekStart } from '../domain/weeks.ts';
+import { compareWeeks, editionEnd, editionStart, nextWeek, previousWeek } from '../domain/weeks.ts';
 import { siteConfig } from '../config/site.ts';
 import { contentVersion, loadContent, type Content } from './load.ts';
 import { validateContent } from './validate.ts';
@@ -89,18 +89,28 @@ export const getHost = (slug: string): Host => must(index().hosts.get(slug), `an
 export const getTopic = (slug: string): Topic => must(index().topics.get(slug), `thème ${slug}`);
 export const findTopic = (slug: string): Topic | undefined => index().topics.get(slug);
 export const getSource = (id: string): Source => must(index().sources.get(id), `source ${id}`);
+function isPublicEpisode(episode: Episode): boolean {
+  if (episode.status === 'draft') return false;
+  const hosts = content().hosts;
+  const placeholderSlugs = new Set(
+    hosts.filter((host) => host.placeholder).map((host) => host.slug),
+  );
+  if (episode.hosts.length === 0) return true;
+  return !episode.hosts.every((host) => placeholderSlugs.has(host));
+}
+
 export const getEpisode = (n: number): Episode | undefined => {
   const episode = index().episodes.get(n);
-  return episode?.status === 'draft' ? undefined : episode;
+  return episode && isPublicEpisode(episode) ? episode : undefined;
 };
 export const getStory = (slug: string): Story | undefined => index().stories.get(slug);
 
 export const allCharts = (): ChartDef[] => content().charts;
 export const allEntities = (): Entity[] => content().entities;
-export const allEpisodes = (): Episode[] =>
-  content().episodes.filter((episode) => episode.status !== 'draft');
+export const allEpisodes = (): Episode[] => content().episodes.filter(isPublicEpisode);
 export const allStories = (): Story[] => content().stories;
 export const allHosts = (): Host[] => content().hosts;
+export const publicHosts = (): Host[] => allHosts().filter((host) => !host.placeholder);
 export const allTopics = (): Topic[] => content().topics;
 
 export const entityPath = (entity: Pick<Entity, 'kind' | 'slug'>): string =>
@@ -288,8 +298,8 @@ export function chartView(chartSlug: string, week?: string): ChartView {
     profile,
     snapshot,
     week: snapshot.week,
-    weekStartIso: weekStart(snapshot.week).toISOString(),
-    weekEndIso: weekEnd(snapshot.week).toISOString(),
+    weekStartIso: editionStart(snapshot.week).toISOString(),
+    weekEndIso: editionEnd(snapshot.week).toISOString(),
     isLatest: idx === history.length - 1,
     baseline,
     previousWeek: prev?.week ?? null,

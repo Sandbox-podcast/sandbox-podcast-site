@@ -46,12 +46,16 @@ export const externalObservationSchema = z.object({
 export type ExternalObservation = z.infer<typeof externalObservationSchema>;
 
 export interface SkillScoreInput {
+  referenceEvidence?: Record<
+    string,
+    { observedOn: string; evidenceUrl: string; sampleSize?: number }
+  >;
   entity: ExternalEntity;
   metrics: {
     installs: number;
-    installs7d: number;
+    installs7d: number | null;
     stars: number;
-    stars7d: number;
+    stars7d: number | null;
     forks: number;
     freshness: number;
   };
@@ -59,6 +63,10 @@ export interface SkillScoreInput {
 }
 
 export interface ModelScoreInput {
+  referenceEvidence?: Record<
+    string,
+    { observedOn: string; evidenceUrl: string; sampleSize?: number }
+  >;
   entity: ExternalEntity;
   metrics: {
     arenaQuality: number | null;
@@ -104,7 +112,7 @@ function percentile(
     let end = start + 1;
     while (end < sorted.length && sorted[end]?.[1] === value) end++;
     const averageRank = (start + end - 1) / 2;
-    const score = sorted.length < 2 ? 100 : (averageRank / (sorted.length - 1)) * 100;
+    const score = sorted.length < 2 ? 50 : (averageRank / (sorted.length - 1)) * 100;
     for (let index = start; index < end; index++) {
       const slug = sorted[index]?.[0];
       if (slug) scores.set(slug, Math.round(score * 100) / 100);
@@ -128,6 +136,35 @@ function combine(scores: readonly (number | null)[], weights: readonly number[])
   return coverage ? Math.round((weighted / coverage) * 100) / 100 : null;
 }
 
+function measuredNumbers(values: Record<string, number | null>): Record<string, number> {
+  return Object.fromEntries(
+    Object.entries(values).filter((entry): entry is [string, number] => entry[1] !== null),
+  );
+}
+
+/** Moyenne pondérée conservatrice. Une source seule ne produit jamais un classement. */
+function consensus(
+  scores: readonly (number | null)[],
+  weights: readonly number[],
+): { score: number; disagreement: number } | null {
+  const observed = scores.flatMap((score, index) => {
+    const weight = weights[index];
+    return score !== null && Number.isFinite(score) && weight !== undefined && weight > 0
+      ? [{ score, weight }]
+      : [];
+  });
+  if (observed.length < 2) return null;
+  const totalWeight = observed.reduce((sum, item) => sum + item.weight, 0);
+  const mean = observed.reduce((sum, item) => sum + item.score * item.weight, 0) / totalWeight;
+  const disagreement =
+    observed.reduce((sum, item) => sum + Math.abs(item.score - mean) * item.weight, 0) /
+    totalWeight;
+  return {
+    score: Math.round(Math.max(0, mean - disagreement * 0.2) * 100) / 100,
+    disagreement: Math.round(disagreement * 100) / 100,
+  };
+}
+
 function metricPercentiles<T extends { entity: ExternalEntity }>(
   candidates: readonly T[],
   value: (item: T) => number | null,
@@ -149,6 +186,8 @@ export function scoreSkills(
   size = 10,
 ): ScoredExternalEntity[] {
   if (!Number.isSafeInteger(size) || size < 1) throw new Error('Taille Skills invalide.');
+  if (candidates.length > 0 && candidates.every((item) => item.metrics.installs7d === null))
+    return rankSkillsByReach(candidates, size);
   const installGrowth = metricPercentiles(candidates, (item) => item.metrics.installs7d);
   const githubGrowth = metricPercentiles(candidates, (item) => item.metrics.stars7d);
   const installReach = metricPercentiles(candidates, (item) => item.metrics.installs);
@@ -170,25 +209,27 @@ export function scoreSkills(
           ? { freshness: freshness.get(item.entity.slug) ?? 0 }
           : {}),
       };
-      const score = combine(
-        [dimensions.growth ?? null, dimensions.githubGrowth ?? null, dimensions.freshness ?? null],
-        [0.5, 0.3, 0.2],
+      const githubSignal = combine(
+        [dimensions.githubGrowth ?? null, dimensions.freshness ?? null],
+        [0.6, 0.4],
       );
-      return score === null
+      const agreement = consensus([dimensions.growth ?? null, githubSignal], [0.5, 0.5]);
+      return agreement === null
         ? []
         : [
             {
               entity: item.entity,
-              score,
-              dimensions: { ...dimensions, momentum: score },
-              metrics: {
+              score: agreement.score,
+              dimensions: { ...dimensions, momentum: agreement.score },
+              metrics: measuredNumbers({
                 installs: item.metrics.installs,
                 installs7d: item.metrics.installs7d,
                 stars: item.metrics.stars,
                 stars7d: item.metrics.stars7d,
                 forks: item.metrics.forks,
                 freshness: item.metrics.freshness,
-              },
+                sourceDisagreement: agreement.disagreement,
+              }),
               sourceObservedAt: item.sourceObservedAt,
             },
           ];
@@ -198,15 +239,63 @@ export function scoreSkills(
     .map((item, index) => ({ ...item, rank: index + 1 }));
 }
 
-function safeNaturalLog(value: number | null): number | null {
-  return value !== null && value > 0 ? Math.log(value) : null;
+function rankSkillsByReach(
+  candidates: readonly SkillScoreInput[],
+  size: number,
+): ScoredExternalEntity[] {
+  const installs = metricPercentiles(candidates, (item) => item.metrics.installs);
+  const stars = metricPercentiles(candidates, (item) => item.metrics.stars);
+  return candidates
+    .flatMap((item) => {
+      const agreement = consensus(
+        [installs.get(item.entity.slug) ?? null, stars.get(item.entity.slug) ?? null],
+        [0.5, 0.5],
+      );
+      if (agreement === null) return [];
+      return [
+        {
+          entity: item.entity,
+          rank: 0,
+          score: agreement.score,
+          dimensions: {
+            reach: installs.get(item.entity.slug) ?? 0,
+            githubReach: stars.get(item.entity.slug) ?? 0,
+            momentum: agreement.score,
+          },
+          metrics: measuredNumbers({
+            installs: item.metrics.installs,
+            installs7d: item.metrics.installs7d,
+            stars: item.metrics.stars,
+            stars7d: item.metrics.stars7d,
+            forks: item.metrics.forks,
+            freshness: item.metrics.freshness,
+            sourceDisagreement: agreement.disagreement,
+          }),
+          sourceObservedAt: item.sourceObservedAt,
+        },
+      ];
+    })
+    .toSorted(
+      (a, b) =>
+        b.score - a.score ||
+        (b.metrics['installs'] ?? 0) - (a.metrics['installs'] ?? 0) ||
+        a.entity.slug.localeCompare(b.entity.slug),
+    )
+    .slice(0, size)
+    .map((item, index) => ({ ...item, rank: index + 1 }));
 }
-
 export function scoreModels(
-  candidates: readonly ModelScoreInput[],
+  rawCandidates: readonly ModelScoreInput[],
   size = 10,
 ): ScoredExternalEntity[] {
   if (!Number.isSafeInteger(size) || size < 1) throw new Error('Taille Models invalide.');
+  const candidates = rawCandidates.filter(
+    (item) =>
+      item.metrics.arenaQuality !== null &&
+      Number.isFinite(item.metrics.arenaQuality) &&
+      item.metrics.artificialAnalysisIntelligence !== null &&
+      Number.isFinite(item.metrics.artificialAnalysisIntelligence),
+  );
   const arenaQuality = metricPercentiles(candidates, (item) => item.metrics.arenaQuality);
   const aaQuality = metricPercentiles(
     candidates,
@@ -216,21 +305,11 @@ export function scoreModels(
   const aaCoding = metricPercentiles(candidates, (item) => item.metrics.artificialAnalysisCoding);
   const arenaAgent = metricPercentiles(candidates, (item) => item.metrics.arenaAgent);
   const aaAgent = metricPercentiles(candidates, (item) => item.metrics.artificialAnalysisAgentic);
-  const arenaVision = metricPercentiles(candidates, (item) => item.metrics.arenaVision);
-  const arenaSearch = metricPercentiles(candidates, (item) => item.metrics.arenaSearch);
   const reachDownloads = metricPercentiles(candidates, (item) => item.metrics.downloads30d);
   const reachOpenRouter = metricPercentiles(
     candidates,
     (item) => item.metrics.openRouterWeeklyRank,
     false,
-  );
-  const throughput = metricPercentiles(
-    candidates,
-    (item) => item.metrics.openRouterThroughputRank,
-    false,
-  );
-  const context = metricPercentiles(candidates, (item) =>
-    safeNaturalLog(item.metrics.contextLength),
   );
   const blendedPrice = new Map(
     candidates.map((item) => {
@@ -277,30 +356,29 @@ export function scoreModels(
 
   const rows = candidates.flatMap((item) => {
     const slug = item.entity.slug;
-    const quality = combine(
+    const qualityAgreement = consensus(
       [arenaQuality.get(slug) ?? null, aaQuality.get(slug) ?? null],
       [0.5, 0.5],
     );
-    if (quality === null) return [];
-    const coding = combine([arenaCoding.get(slug) ?? null, aaCoding.get(slug) ?? null], [0.5, 0.5]);
-    const agents = combine([arenaAgent.get(slug) ?? null, aaAgent.get(slug) ?? null], [0.5, 0.5]);
-    const reach = combine(
+    if (qualityAgreement === null) return [];
+    const quality = qualityAgreement.score;
+    const coding = consensus(
+      [arenaCoding.get(slug) ?? null, aaCoding.get(slug) ?? null],
+      [0.5, 0.5],
+    );
+    const agents = consensus([arenaAgent.get(slug) ?? null, aaAgent.get(slug) ?? null], [0.5, 0.5]);
+    const reach = consensus(
       [reachDownloads.get(slug) ?? null, reachOpenRouter.get(slug) ?? null],
       [0.5, 0.5],
     );
-    const value = combine([quality, price.get(slug) ?? null], [0.6, 0.4]);
+    const value = price.has(slug) ? combine([quality, price.get(slug) ?? null], [0.6, 0.4]) : null;
     const dimensions = {
       quality,
-      ...(coding !== null ? { coding } : {}),
+      ...(coding !== null ? { coding: coding.score } : {}),
       ...(reasoning.has(slug) ? { reasoning: reasoning.get(slug) ?? 0 } : {}),
       ...(maths.has(slug) ? { maths: maths.get(slug) ?? 0 } : {}),
-      ...(agents !== null ? { agents } : {}),
-      ...(arenaVision.has(slug) ? { multimodal: arenaVision.get(slug) ?? 0 } : {}),
-      ...(arenaSearch.has(slug) ? { research: arenaSearch.get(slug) ?? 0 } : {}),
-      ...(context.has(slug) ? { longContext: context.get(slug) ?? 0 } : {}),
-      ...(throughput.has(slug) ? { speed: throughput.get(slug) ?? 0 } : {}),
-      ...(price.has(slug) ? { price: price.get(slug) ?? 0 } : {}),
-      ...(reach !== null ? { reach } : {}),
+      ...(agents !== null ? { agents: agents.score } : {}),
+      ...(reach !== null ? { reach: reach.score } : {}),
       ...(value !== null ? { value } : {}),
     };
     const metrics: Record<string, number> = {};
@@ -323,6 +401,7 @@ export function scoreModels(
     add('blendedPricePerMillion', blendedPrice.get(slug) ?? null);
     add('openRouterWeeklyRank', item.metrics.openRouterWeeklyRank);
     add('openRouterThroughputRank', item.metrics.openRouterThroughputRank);
+    add('sourceDisagreement', qualityAgreement.disagreement);
     for (const [key, number] of Object.entries(item.metrics.verifiedReasoning))
       add(`verified_${key}`, number);
     for (const [key, number] of Object.entries(item.metrics.verifiedMaths))
@@ -347,6 +426,14 @@ export function scoreModels(
 export function normalizeModelAlias(value: string): string {
   const withoutNamespace = value.trim().split('/').at(-1) ?? value;
   return withoutNamespace.toLowerCase().replace(/[^a-z0-9]+/g, '');
+}
+
+/** Signature conservatrice : les versions, efforts de raisonnement et quantifications restent distincts. */
+export function modelVariantSignature(value: string): string {
+  return (value.trim().split('/').at(-1) ?? value)
+    .normalize('NFKC')
+    .toLowerCase()
+    .replace(/[\s_]+/g, '-');
 }
 
 export function slugifyExternalId(value: string): string {

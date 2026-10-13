@@ -16,7 +16,8 @@ import {
   type ExternalObservation,
 } from '../domain/external-charts.ts';
 import { dateDaysAgo } from '../domain/github-charts.ts';
-import { previousWeek } from '../domain/weeks.ts';
+import { previousComparableEdition } from '../domain/weeks.ts';
+import { reviewedReferenceVersion, validateReferenceEdition } from './reference-publication.ts';
 
 export interface ExternalCandidate {
   entity: typeof chartEntities.$inferSelect;
@@ -234,9 +235,9 @@ export async function externalCandidates(
   }
   return entities.map((entity) => ({
     entity,
-    sources: (sourcesByEntity.get(entity.id) ?? []).flatMap((ref) => {
+    sources: (sourcesByEntity.get(entity.id) ?? []).map((ref) => {
       const items = snapshotsBySource.get(ref.id) ?? [];
-      return items.length ? [{ ref, snapshots: items }] : [];
+      return { ref, snapshots: items };
     }),
   }));
 }
@@ -273,22 +274,31 @@ export async function freezeExternalEdition(
     if (entry.rank !== index + 1) throw new Error('Le rang doit être contigu avant le gel.');
     return entry;
   });
+  const referenceRanking = scoringVersion.endsWith('-reference-v3')
+    ? validateReferenceEdition(
+        config,
+        chart,
+        date,
+        scoringVersion,
+        parsedEntries.map((entry) => ({
+          entity: entry.slug,
+          rank: entry.rank,
+          score: entry.score,
+        })),
+      )
+    : null;
   const db = getDb();
   let written = 0;
   await db.transaction(async (tx) => {
-    const previous = (
-      await tx
-        .select()
-        .from(weeklyChartEditions)
-        .where(
-          and(
-            eq(weeklyChartEditions.chart, chart),
-            eq(weeklyChartEditions.week, previousWeek(week)),
-            isNotNull(weeklyChartEditions.publishedAt),
-          ),
-        )
-        .limit(1)
-    )[0];
+    const published = await tx
+      .select()
+      .from(weeklyChartEditions)
+      .where(and(eq(weeklyChartEditions.chart, chart), isNotNull(weeklyChartEditions.publishedAt)));
+    const previousId = previousComparableEdition(
+      published.map((row) => row.week),
+      week,
+    );
+    const previous = published.find((row) => row.week === previousId);
     const previousRanks = new Map(
       (previous?.payload.entries ?? []).map((entry) => [entry.entity, entry.rank]),
     );
@@ -333,7 +343,10 @@ export async function freezeExternalEdition(
         scoringVersion,
         config,
         payload,
-        publishedAt: publish ? publishedAt : null,
+        publishedAt:
+          publish && (!referenceRanking || reviewedReferenceVersion(scoringVersion))
+            ? publishedAt
+            : null,
       })
       .onConflictDoNothing()
       .returning({ id: weeklyChartEditions.id });
@@ -364,6 +377,9 @@ export async function freezeExternalEdition(
             sources: entry.sources,
             sourceObservedAt: entry.sourceObservedAt,
             scoringVersion,
+            ...(referenceRanking
+              ? { reference: referenceRanking.report.rows.find((row) => row.entity === entry.slug) }
+              : {}),
           },
         };
       }),

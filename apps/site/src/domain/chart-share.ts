@@ -1,3 +1,5 @@
+import { shortWeek } from './weeks.ts';
+
 export const SHARE_FORMATS = {
   linkedin: { label: 'LinkedIn', width: 1200, height: 630 },
   x: { label: 'X', width: 1600, height: 900 },
@@ -16,6 +18,7 @@ export interface ChartShareContent {
   growth: string;
   fixture: boolean;
 }
+
 const escape = (value: string): string =>
   value.replace(
     /[&<>"']/g,
@@ -32,5 +35,5 @@ export function chartShareSvg(content: ChartShareContent, format: ShareFormat): 
   const nameY = tall ? height * 0.59 : height * 0.7;
   const name = content.name.toUpperCase();
   const size = Math.min(74 * scale, (width * 0.82) / Math.max(1, name.length * 0.61));
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}"><rect width="100%" height="100%" fill="#05090d"/><g font-family="Arial, sans-serif" fill="#f4f7fa"><text x="${header}" y="${header}" font-size="${22 * scale}" font-weight="700" letter-spacing="3">SANDBOX CHARTS</text><text x="${width - header}" y="${header}" text-anchor="end" font-size="${22 * scale}" fill="#3cd6fc">W${escape(content.week.slice(-2))} / ${escape(content.week.slice(0, 4))}</text><path d="M${header},${header + 30 * scale}H${width - header}" stroke="#294457"/><text x="${header}" y="${rankY}" font-size="${tall ? width * 0.37 : height * 0.42}" font-weight="900" fill="#3cd6fc">${String(content.rank).padStart(2, '0')}</text><text x="${width - header}" y="${rankY - 30 * scale}" text-anchor="end" font-size="${60 * scale}" font-weight="700">${escape(content.movement)}</text><text x="${header}" y="${nameY}" font-size="${size}" font-weight="900">${escape(name)}</text><text x="${header}" y="${nameY + 65 * scale}" font-size="${30 * scale}" fill="#ade9f9">${escape(content.stat)} ${escape(content.growth)}</text><text x="${header}" y="${height - header}" font-size="${18 * scale}" fill="#9baebb">${escape(content.title)}${content.fixture ? ' / FIXTURES' : ''}</text><text x="${width - header}" y="${height - header}" text-anchor="end" font-size="${18 * scale}">sandboxpodcast.fr</text></g></svg>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}"><rect width="100%" height="100%" fill="#05090d"/><g font-family="Arial, sans-serif" fill="#f4f7fa"><text x="${header}" y="${header}" font-size="${22 * scale}" font-weight="700" letter-spacing="3">SANDBOX CHARTS</text><text x="${width - header}" y="${header}" text-anchor="end" font-size="${22 * scale}" fill="#3cd6fc">${escape(shortWeek(content.week))} / ${escape(content.week.slice(0, 4))}</text><path d="M${header},${header + 30 * scale}H${width - header}" stroke="#294457"/><text x="${header}" y="${rankY}" font-size="${tall ? width * 0.37 : height * 0.42}" font-weight="900" fill="#3cd6fc">${String(content.rank).padStart(2, '0')}</text><text x="${width - header}" y="${rankY - 30 * scale}" text-anchor="end" font-size="${60 * scale}" font-weight="700">${escape(content.movement)}</text><text x="${header}" y="${nameY}" font-size="${size}" font-weight="900">${escape(name)}</text><text x="${header}" y="${nameY + 65 * scale}" font-size="${30 * scale}" fill="#ade9f9">${escape(content.stat)} ${escape(content.growth)}</text><text x="${header}" y="${height - header}" font-size="${18 * scale}" fill="#9baebb">${escape(content.title)}${content.fixture ? ' / FIXTURES' : ''}</text><text x="${width - header}" y="${height - header}" text-anchor="end" font-size="${18 * scale}">sandboxpodcast.fr</text></g></svg>`;
 }

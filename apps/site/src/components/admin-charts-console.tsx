@@ -137,7 +137,7 @@ export function AdminChartsConsole({
           <span className="eyebrow">SANDBOX CHARTS · GitHub</span>
           <h2 id="admin-section-title">La fabrique des charts</h2>
           <p className="admin-copy">
-            Des relevés quotidiens, une édition figée chaque lundi, votre lecture de la semaine.
+            Des relevés quotidiens, une édition figée chaque matin, votre lecture du jour.
           </p>
         </div>
         <a className="btn" href="/charts" target="_blank" rel="noreferrer">
@@ -221,6 +221,36 @@ export function AdminChartsConsole({
                 >
                   Figer un brouillon
                 </button>
+                <button
+                  className="btn"
+                  type="button"
+                  disabled={!canManage}
+                  onClick={() =>
+                    void execute({ action: 'job', job: 'external-collect', dryRun: false })
+                  }
+                >
+                  Collecter Skills/Models
+                </button>
+                <button
+                  className="btn"
+                  type="button"
+                  disabled={!canManage}
+                  onClick={() =>
+                    void execute({ action: 'job', job: 'external-weekly', dryRun: true })
+                  }
+                >
+                  Simuler Skills/Models
+                </button>
+                <button
+                  className="btn"
+                  type="button"
+                  disabled={!canManage}
+                  onClick={() =>
+                    void execute({ action: 'job', job: 'external-weekly', dryRun: false })
+                  }
+                >
+                  Figer Skills/Models
+                </button>
               </div>
               {pending ? (
                 <p role="status">
@@ -228,9 +258,9 @@ export function AdminChartsConsole({
                 </p>
               ) : null}
               <p className="admin-help">
-                La collecte ne recrée aucun relevé manquant. Une édition attend au moins{' '}
+                La collecte ne recrée aucun relevé manquant. Une édition GitHub attend au moins{' '}
                 {data.config.minimumCandidates} projets éligibles et un relevé à J−7. Rising attend
-                aussi J−14.
+                aussi J−14. Skills/Models suivent leurs propres seuils de source et d’historique.
               </p>
               <h3>Dernières collectes</h3>
               <div className="ac-table-scroll">

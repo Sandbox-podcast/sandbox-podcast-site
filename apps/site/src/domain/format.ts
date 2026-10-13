@@ -83,11 +83,22 @@ export const formatTimeUtc = (iso: string | Date): string => `${timeUtc.format(n
 
 /** « 1 h 12 » ou « 58 min » */
 export function formatDuration(sec: number): string {
-  const h = Math.floor(sec / 3600);
-  const m = Math.round((sec % 3600) / 60);
+  const totalMinutes = Math.round(sec / 60);
+  const h = Math.floor(totalMinutes / 60);
+  const m = totalMinutes % 60;
   return h > 0
     ? `${String(h)}${NBSP}h${NBSP}${String(m).padStart(2, '0')}`
     : `${String(m)}${NBSP}min`;
+}
+
+/** Durée exacte d'une vidéo, secondes comprises. */
+export function formatDurationExact(sec: number): string {
+  const h = Math.floor(sec / 3600);
+  const m = Math.floor((sec % 3600) / 60);
+  const s = sec % 60;
+  return h > 0
+    ? `${String(h)}${NBSP}h ${String(m)}${NBSP}min ${String(s)}${NBSP}s`
+    : `${String(m)}${NBSP}min ${String(s)}${NBSP}s`;
 }
 
 /** « 12:03 » ou « 1:02:15 » : horodatage dans l'épisode. */

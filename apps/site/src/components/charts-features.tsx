@@ -10,7 +10,7 @@ import {
   type ChartsData,
   type ChartsRow,
 } from '@/domain/sandbox-charts';
-import { weekStart } from '@/domain/weeks';
+import { editionMark, editionStart } from '@/domain/weeks';
 import { intlLocale } from '@/i18n/translation';
 import { ChartMovement } from './charts-ranking';
 export function ChartsMovers({ rows }: { rows: ChartsRow[] }) {
@@ -243,7 +243,7 @@ export function ChartsMonthly({ data, week }: { data: ChartsData; week: string }
     month: 'long',
     year: 'numeric',
     timeZone: 'UTC',
-  }).format(weekStart(week));
+  }).format(editionStart(week));
   const leaders = (['github', 'skills', 'models'] as const).flatMap((id) => {
     const first = chartMonthRows(data, id, week)[0];
     return first ? [{ id, first }] : [];
@@ -271,8 +271,8 @@ export function ChartsMonthly({ data, week }: { data: ChartsData; week: string }
           <Text>{headline ?? 'Les projets qui ont tenu les premières places ce mois-ci.'}</Text>
         </p>
         <p className="sc-label">
-          <Text>{"\u00C9dition en cours \u00B7 semaines disponibles jusqu'\u00E0 W"}</Text>
-          <Text>{week.slice(-2)}</Text>
+          <Text>{'\u00C9dition en cours \u00B7 jusqu\u2019\u00E0 '}</Text>
+          <Text>{editionMark(week)}</Text>
         </p>
       </div>
       <div className="sc-monthly-winners">

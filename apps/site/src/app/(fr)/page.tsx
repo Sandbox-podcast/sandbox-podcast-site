@@ -8,23 +8,33 @@ import { sandboxChartsData } from '@/lib/sandbox-charts';
 import { JsonLd } from '@/components/json-ld';
 import { isMock, siteConfig } from '@/config/site';
 import { episodeArtwork } from '@/domain/episode-artwork';
+import { indexableEpisode } from '@/domain/episode-seo';
+import { hasIndexableChartCollection } from '@/domain/chart-seo';
 import { formatDateShort, formatDuration } from '@/domain/format';
-import { shortWeek } from '@/domain/weeks';
+import { editionMark } from '@/domain/weeks';
 import { allEpisodes, allTopics, getHost, getTopic } from '@/lib/repository';
-import { absoluteUrl, pageMetadata } from '@/lib/seo';
+import { absoluteUrl, pageMetadata, siteShareImage } from '@/lib/seo';
 import { preparePublishedEditorialContent } from '@/lib/admin-persistence';
+
+// Le build ne lit pas Postgres : l'accueil doit charger la publication à chaque requête.
+export const dynamic = 'force-dynamic';
+
 const LATEST_EPISODES_LIMIT = 12;
 const TOPIC_EPISODES_LIMIT = 8;
 export async function generateMetadata() {
   await preparePublishedEditorialContent();
+  const hasPublishedEpisode = allEpisodes().some(indexableEpisode);
+  const hasPublishedCharts = hasIndexableChartCollection(await sandboxChartsData());
   return pageMetadata({
     title: `${siteConfig.name} — Podcasts vidéo, sources et classements tech`,
     description: siteConfig.description,
     path: '/',
+    noindex: !hasPublishedEpisode && !hasPublishedCharts,
     ownImage: true,
   });
 }
 export default async function HomePage() {
+  await preparePublishedEditorialContent();
   const episodes = allEpisodes().sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
   const featured = episodes.find((episode) => episode.featured) ?? episodes[0];
   const featuredArtwork = featured ? episodeArtwork(featured) : undefined;
@@ -199,7 +209,7 @@ export default async function HomePage() {
           <div>
             <p className="label text-ink-3">
               <Text>{'Semaine '}</Text>
-              <Text>{shortWeek(week).slice(1)}</Text>
+              <Text>{editionMark(week)}</Text>
             </p>
             <h2 id="ranking-shelf-title" className="section-title">
               <Text>{'Les classements'}</Text>
@@ -235,7 +245,7 @@ export default async function HomePage() {
             name: siteConfig.name,
             description: siteConfig.description,
             url: absoluteUrl('/'),
-            image: absoluteUrl('/opengraph-image'),
+            image: siteShareImage().url,
             inLanguage: siteConfig.language,
           },
           {

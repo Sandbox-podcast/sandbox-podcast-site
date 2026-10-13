@@ -14,7 +14,13 @@ import {
 import { localeRouteSegment, localeTagFromRouteSegment } from '@/i18n/locales';
 import { isLocaleUiReviewed } from '@/i18n/messages';
 import { hasRankingUiTranslation, rankingMessages } from '@/i18n/ranking-messages';
-import { pageMetadata, absoluteUrl, openGraphLocaleForTag, robotsMetadata } from '@/lib/seo';
+import {
+  pageMetadata,
+  absoluteUrl,
+  openGraphLocaleForTag,
+  robotsMetadata,
+  siteShareImage,
+} from '@/lib/seo';
 import {
   publicLocalizedSitePageByPath,
   publicRankingCollectionPageByPath,
@@ -100,6 +106,7 @@ export async function generateMetadata({
     const description = metadata.description
       ? translateText(metadata.description, dictionary, locale)
       : metadata.description;
+    const image = siteShareImage();
     return {
       ...metadata,
       title,
@@ -110,6 +117,7 @@ export async function generateMetadata({
         ...metadata.openGraph,
         ...(typeof title === 'string' ? { title } : {}),
         ...(description ? { description } : {}),
+        images: [image],
         url: absoluteUrl(pathName),
         locale: openGraphLocaleForTag(locale),
       },
@@ -117,6 +125,7 @@ export async function generateMetadata({
         ...metadata.twitter,
         ...(typeof title === 'string' ? { title } : {}),
         ...(description ? { description } : {}),
+        images: [{ url: image.url, alt: image.alt }],
       },
     };
   }

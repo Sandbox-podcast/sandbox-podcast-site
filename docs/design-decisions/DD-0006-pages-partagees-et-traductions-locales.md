@@ -5,6 +5,8 @@
 - Conception : décidée par l'agent sur délégation (PD-0003)
 - Mode de traduction : fichiers locaux, choisi par Lou
 
+Mise à jour du 2026-10-09 : le sélecteur à 115 langues et la recherche décrits ci-dessous sont remplacés par les quatre choix de [DD-0010](DD-0010-quatre-langues-du-site.md). Les pages partagées et les fichiers locaux sont conservés.
+
 Le changement de langue doit ouvrir la même ressource avec les mêmes contenus, sections, médias et interactions. L'ancien accueil anglais utilisait une page simplifiée indépendante, ce qui supprimait les couvertures, les fiches et une partie de la navigation.
 
 Les 24 modèles de routes publiques utilisent désormais les composants français communs. Un dictionnaire local traduit leurs textes visibles et leurs attributs accessibles. Les slugs, identifiants, classements, mesures, sources et fichiers médias restent communs. Les liens internes et les formulaires conservent le préfixe de langue. Le sélecteur garde la page courante, les paramètres de recherche et l'ancre.

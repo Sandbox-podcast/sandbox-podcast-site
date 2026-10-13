@@ -2,7 +2,7 @@
 
 import { useState, type ChangeEvent } from 'react';
 import { z } from 'zod';
-import { EUROPEAN_LOCALE_TARGETS, DEFAULT_SITE_LOCALE } from '@/i18n/locales';
+import { SITE_LOCALES, DEFAULT_SITE_LOCALE } from '@/i18n/locales';
 import { translatedBundleSchema } from '@/domain/content-translation-schema';
 
 // Les schémas client sont séparés des fonctions de hash Node utilisées par le harnais.
@@ -69,13 +69,11 @@ export function AdminTranslations({
                 setLocale(event.target.value);
               }}
             >
-              {EUROPEAN_LOCALE_TARGETS.filter((item) => item.locale !== DEFAULT_SITE_LOCALE).map(
-                (item) => (
-                  <option key={item.locale} value={item.locale}>
-                    {item.name} · {item.locale}
-                  </option>
-                ),
-              )}
+              {SITE_LOCALES.filter((item) => item.locale !== DEFAULT_SITE_LOCALE).map((item) => (
+                <option key={item.locale} value={item.locale}>
+                  {item.name} · {item.locale}
+                </option>
+              ))}
             </select>
           </label>
           <a

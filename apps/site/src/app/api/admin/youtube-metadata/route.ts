@@ -4,6 +4,7 @@ import {
   parseYouTubeDescription,
   parseYouTubeDuration,
   parseYouTubeVideoId,
+  selectYouTubeThumbnail,
 } from '@/domain/youtube';
 import { originIsSameSite } from '@/lib/admin-auth';
 import { adminCan, getAuthenticatedAdmin } from '@/lib/admin-auth-db';
@@ -29,6 +30,12 @@ const videoListSchema = z.object({
         description: z.string().max(10_000),
         channelTitle: z.string().trim().min(1).max(200),
         publishedAt: z.iso.datetime(),
+        thumbnails: z
+          .record(
+            z.string(),
+            z.object({ url: z.url(), width: z.number().int(), height: z.number().int() }),
+          )
+          .optional(),
       }),
       contentDetails: z.object({ duration: z.string() }),
     }),
@@ -56,7 +63,7 @@ async function fullMetadata(videoId: string, apiKey: string) {
     url: `https://www.youtube.com/watch?v=${videoId}`,
     title: video.snippet.title,
     channel: video.snippet.channelTitle,
-    thumbnailUrl: `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`,
+    thumbnailUrl: selectYouTubeThumbnail(video.snippet.thumbnails, videoId),
     description: video.snippet.description,
     summary: details.summary,
     publishedAt: video.snippet.publishedAt,

@@ -1,5 +1,6 @@
 import { randomUUID } from 'node:crypto';
-import { desc, eq, inArray } from 'drizzle-orm';
+import { eq, inArray } from 'drizzle-orm';
+import { compareWeeks } from '../domain/weeks.ts';
 import { getDb } from '../db/client.ts';
 import { chartEntities, chartsEditorial, weeklyChartEditions } from '../db/schema.ts';
 import { chartEditionSchema, type ChartEdition } from '../domain/schema.ts';
@@ -22,9 +23,7 @@ export async function readAdminChartEdition(id?: string) {
       .select()
       .from(weeklyChartEditions)
       .where(id ? eq(weeklyChartEditions.id, id) : eq(weeklyChartEditions.chart, 'github'))
-      .orderBy(desc(weeklyChartEditions.week))
-      .limit(1)
-  )[0];
+  ).toSorted((left, right) => compareWeeks(right.week, left.week))[0];
   if (!edition) return null;
   const [notes, entities] = await Promise.all([
     getDb().select().from(chartsEditorial).where(eq(chartsEditorial.editionId, edition.id)),

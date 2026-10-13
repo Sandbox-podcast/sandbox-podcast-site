@@ -16,10 +16,6 @@
       "kind": "chart",
       "chart": "github",
       "week": "2026-W41"
-    },
-    {
-      "kind": "episode",
-      "number": 42
     }
   ],
   "body": [
@@ -72,7 +68,7 @@
     },
     {
       "type": "p",
-      "text": "On en parle dans l'[[episode:42]], avec les trois autres classements de la semaine. Notre avis est sur la page du projet, séparé des chiffres."
+      "text": "On en parle avec les trois autres classements de la semaine. Notre avis est sur la page du projet, séparé des chiffres."
     }
   ],
   "sources": [

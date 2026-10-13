@@ -23,7 +23,7 @@ describe('squelettes de contenu', () => {
 
   it("numérote l'épisode suivant et produit un contenu valide", () => {
     const episode = newEpisode(content.episodes, now, ['lou']);
-    expect(episode.number).toBe(43);
+    expect(episode.number).toBe(1);
     const check = validateContent({ ...content, episodes: [episode, ...content.episodes] });
     expect(check.filter((i) => i.level === 'error')).toEqual([]);
   });

@@ -55,6 +55,9 @@ export function editorialTranslationSources(content: EditableContent): Translati
     'heroEyebrow',
     'heroTitle',
     'heroDek',
+    'aboutEyebrow',
+    'aboutTitle',
+    'aboutIntro',
   ] as const)
     add(content.site[field], `site.${field}`);
   for (const host of content.hosts) {

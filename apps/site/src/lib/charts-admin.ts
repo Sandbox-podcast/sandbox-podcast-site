@@ -1,5 +1,5 @@
-import { desc } from 'drizzle-orm';
 import { getDb, hasDatabaseConfiguration } from '../db/client.ts';
+import { compareWeeks } from '../domain/weeks.ts';
 import { weeklyChartEditions } from '../db/schema.ts';
 import { chartsAdminResponseSchema, type ChartsAdminResponse } from '../domain/charts-admin.ts';
 import {
@@ -43,7 +43,12 @@ export async function chartsAdminData(
       readChartsConfig(),
       chartCatalog(page, status, search),
       chartsJobDashboard(),
-      getDb().select().from(weeklyChartEditions).orderBy(desc(weeklyChartEditions.week)).limit(32),
+      getDb()
+        .select()
+        .from(weeklyChartEditions)
+        .then((rows) =>
+          rows.toSorted((left, right) => compareWeeks(right.week, left.week)).slice(0, 32),
+        ),
     ]);
     const candidates = await weeklyCandidates(utcDate(), config);
     const scores = new Map(

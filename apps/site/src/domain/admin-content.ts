@@ -44,6 +44,9 @@ const stableIdentifiers = {
 
 /** Refuse la suppression d’une entrée existante ; le backoffice ne réécrit pas les snapshots. */
 export function assertNoEditorialRemovals(current: EditableContent, next: EditableContent): void {
+  const placeholderHosts = new Set(
+    current.hosts.filter((host) => host.placeholder).map((host) => host.slug),
+  );
   for (const key of Object.keys(stableIdentifiers) as (keyof typeof stableIdentifiers)[]) {
     const field = stableIdentifiers[key];
     const identity = (item: object): string => {
@@ -55,6 +58,16 @@ export function assertNoEditorialRemovals(current: EditableContent, next: Editab
     };
     const incoming = new Set(next[key].map(identity));
     const removed = current[key].filter((item) => !incoming.has(identity(item)));
+    if (key === 'episodes') {
+      const blocked = removed.filter((item) => {
+        const hosts = (item as { hosts: string[] }).hosts;
+        return hosts.length === 0 || !hosts.every((host) => placeholderHosts.has(host));
+      });
+      if (blocked.length > 0) {
+        throw new Error(`Suppression refusée dans « ${key} » : le contenu existant est conservé.`);
+      }
+      continue;
+    }
     if (removed.length > 0) {
       throw new Error(`Suppression refusée dans « ${key} » : le contenu existant est conservé.`);
     }

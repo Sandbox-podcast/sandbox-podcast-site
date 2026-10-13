@@ -3,6 +3,7 @@ import {
   formatCompact,
   formatDelta,
   formatDuration,
+  formatDurationExact,
   formatNumber,
   formatTimestamp,
   padRank,
@@ -81,6 +82,8 @@ describe('formats', () => {
   it('formate les durées et les horodatages', () => {
     expect(formatDuration(4580)).toBe('1 h 16');
     expect(formatDuration(3300)).toBe('55 min');
+    expect(formatDuration(3599)).toBe('1 h 00');
+    expect(formatDurationExact(4702)).toBe('1 h 18 min 22 s');
     expect(formatTimestamp(312)).toBe('5:12');
     expect(formatTimestamp(4105)).toBe('1:08:25');
     expect(padRank(3)).toBe('03');

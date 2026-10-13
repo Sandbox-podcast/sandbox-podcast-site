@@ -1,6 +1,6 @@
 import { publicChartEdition, chartsApiResponse } from '@/lib/charts-public';
 import type { PublicChartId } from '@/lib/charts-public';
-import { weekIdSchema } from '@/domain/schema';
+import { editionIdSchema } from '@/domain/schema';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -11,7 +11,7 @@ export async function GET(
   const { chart, edition } = await params;
   if (
     !['github', 'rising', 'skills', 'models'].includes(chart) ||
-    (edition !== 'current' && !weekIdSchema.safeParse(edition).success)
+    (edition !== 'current' && !editionIdSchema.safeParse(edition).success)
   )
     return Response.json({ error: 'Classement ou semaine introuvable.' }, { status: 404 });
   const result = await chartsApiResponse(() =>

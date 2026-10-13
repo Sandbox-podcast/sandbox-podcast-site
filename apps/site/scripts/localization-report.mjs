@@ -3,7 +3,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { log } from 'node:console';
 import { argv } from 'node:process';
-import { EUROPEAN_LOCALE_TARGETS, localeRouteSegment } from '../src/i18n/locales.ts';
+import { SITE_LOCALES, localeRouteSegment } from '../src/i18n/locales.ts';
 
 const dictionaries = join(
   dirname(dirname(fileURLToPath(import.meta.url))),
@@ -11,7 +11,7 @@ const dictionaries = join(
 );
 const catalog = JSON.parse(readFileSync(join(dictionaries, 'source-catalog.json'), 'utf8'));
 const requestedLocale = argv.find((argument) => argument.startsWith('--locale='))?.slice(9);
-const targets = EUROPEAN_LOCALE_TARGETS.filter(
+const targets = SITE_LOCALES.filter(
   (target) => target.locale !== 'fr-FR' && (!requestedLocale || target.locale === requestedLocale),
 );
 if (!targets.length)

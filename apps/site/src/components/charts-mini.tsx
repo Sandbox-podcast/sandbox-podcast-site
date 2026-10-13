@@ -1,11 +1,19 @@
 import { Text, LocalizedElement } from '@/components/localization';
 import { LocalizedLink as Link } from '@/components/localization';
-import { chartRows, CHART_LABELS, type ChartId, type ChartsData } from '@/domain/sandbox-charts';
+import {
+  chartRows,
+  CHART_LABELS,
+  editionWeekForChart,
+  type ChartId,
+  type ChartsData,
+} from '@/domain/sandbox-charts';
+import { shortWeek } from '@/domain/weeks';
 import { formatCompact, formatNumber } from '@/domain/format';
 import { ChartMovement } from './charts-ranking';
 export function ChartsMini({ data, id }: { data: ChartsData; id: ChartId }) {
   const meta = CHART_LABELS[id];
-  const rows = chartRows(data, id, data.week).slice(0, 3);
+  const week = editionWeekForChart(data, id);
+  const rows = chartRows(data, id, week).slice(0, 3);
   return (
     <LocalizedElement
       as="section"
@@ -14,8 +22,8 @@ export function ChartsMini({ data, id }: { data: ChartsData; id: ChartId }) {
     >
       <header className="mini-chart-heading mb-1">
         <p className="label text-ink-2">
-          <Text>{'SANDBOX CHARTS \u00B7 W'}</Text>
-          <Text>{data.week.slice(-2)}</Text>
+          <Text>{'SANDBOX CHARTS \u00B7 '}</Text>
+          <Text>{shortWeek(week)}</Text>
         </p>
         <h3 className="display mini-chart-title text-3xl">
           <Link href={`/charts/${meta.slug}`}>
@@ -52,11 +60,21 @@ export function ChartsMini({ data, id }: { data: ChartsData; id: ChartId }) {
       <Text>
         {!rows.length ? (
           <p className="py-4 text-sm text-ink-2">
-            <Text>
-              {data.mode === 'unavailable'
-                ? 'Données temporairement indisponibles.'
-                : 'Collecte en préparation.'}
-            </Text>
+            {data.mode === 'unavailable' ? (
+              <Text>{'Données temporairement indisponibles.'}</Text>
+            ) : data.progress?.databaseReady ? (
+              <>
+                <Text>{String(data.progress.trackedRepositories)}</Text>
+                <Text>{' dépôts suivis'}</Text>
+                <Text>{' · historique '}</Text>
+                <Text>{String(data.progress.distinctSnapshotDays)}</Text>
+                <Text>{' / '}</Text>
+                <Text>{String(data.progress.requiredHistoryDays)}</Text>
+                <Text>{' jours'}</Text>
+              </>
+            ) : (
+              <Text>{'Collecte en préparation.'}</Text>
+            )}
           </p>
         ) : null}
       </Text>

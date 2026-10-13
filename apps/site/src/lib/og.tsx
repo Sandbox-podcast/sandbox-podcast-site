@@ -3,11 +3,17 @@ import { join } from 'node:path';
 import { ImageResponse } from 'next/og';
 import { siteConfig } from '@/config/site';
 import { formatCompact, formatDayMonth, formatNumber, padRank } from '@/domain/format';
-import { shortWeek, weekEnd, weekStart } from '@/domain/weeks';
+import { editionEnd, editionMark, editionStart } from '@/domain/weeks';
 import { highlightHeadline } from './moves';
 import type { ChartView, Highlight } from './repository';
 import type { Entity, Episode, Story } from '@/domain/schema';
-import { chartRows, CHART_LABELS, type ChartId, type ChartsData } from '@/domain/sandbox-charts';
+import {
+  chartRows,
+  CHART_LABELS,
+  editionWeekForChart,
+  type ChartId,
+  type ChartsData,
+} from '@/domain/sandbox-charts';
 
 /**
  * Cartes OpenGraph (1200×630) pour X, LinkedIn, Discord et Slack. Satori n'accepte ni les polices variables
@@ -71,7 +77,8 @@ async function render(node: React.ReactElement): Promise<ImageResponse> {
 
 /** Les cartes publiques utilisent le même jeu de données que SANDBOX CHARTS. */
 export function sandboxChartCard(data: ChartsData, id: ChartId) {
-  const rows = chartRows(data, id, data.week).slice(0, 3);
+  const week = editionWeekForChart(data, id);
+  const rows = chartRows(data, id, week).slice(0, 3);
   return render(
     <div
       style={{
@@ -89,7 +96,7 @@ export function sandboxChartCard(data: ChartsData, id: ChartId) {
         style={{ display: 'flex', justifyContent: 'space-between', fontSize: 26, fontWeight: 800 }}
       >
         <span>SANDBOX CHARTS</span>
-        <span style={{ color: '#3cd6fc', fontFamily: 'Mono' }}>{data.week}</span>
+        <span style={{ color: '#3cd6fc', fontFamily: 'Mono' }}>{week}</span>
       </div>
       <div
         style={{
@@ -238,9 +245,7 @@ const frame = (bg: string, fg: string) =>
   }) as const;
 
 export async function siteCard(): Promise<ImageResponse> {
-  const artwork = await readFile(
-    join(process.cwd(), 'public', 'episode-artwork', 'episode-42.png'),
-  );
+  const logo = await readFile(join(process.cwd(), 'public', 'sandbox-logo.png'));
   return render(
     <div
       style={{
@@ -254,18 +259,6 @@ export async function siteCard(): Promise<ImageResponse> {
         fontFamily: 'Archivo',
       }}
     >
-      <img
-        src={`data:image/png;base64,${artwork.toString('base64')}`}
-        alt=""
-        style={{
-          position: 'absolute',
-          left: 0,
-          top: 0,
-          width: 1200,
-          height: 630,
-          objectFit: 'cover',
-        }}
-      />
       <div
         style={{
           display: 'flex',
@@ -273,97 +266,46 @@ export async function siteCard(): Promise<ImageResponse> {
           left: 0,
           top: 0,
           width: '100%',
-          height: '100%',
-          background:
-            'linear-gradient(90deg, #05090d 0%, rgba(5, 9, 13, .95) 35%, rgba(5, 9, 13, .38) 72%, rgba(5, 9, 13, .08) 100%)',
+          height: 8,
+          background: '#1cb5ed',
         }}
       />
       <div
         style={{
           display: 'flex',
-          position: 'relative',
           flexDirection: 'column',
           justifyContent: 'space-between',
           width: '100%',
           height: '100%',
-          padding: '48px 54px',
+          padding: '62px 72px 50px',
         }}
       >
+        <img
+          src={`data:image/png;base64,${logo.toString('base64')}`}
+          alt=""
+          style={{ width: 864, height: 288, objectFit: 'contain' }}
+        />
         <div
           style={{
             display: 'flex',
-            alignItems: 'center',
-            fontSize: 35,
-            fontWeight: 900,
-            letterSpacing: -1,
-            textTransform: 'uppercase',
+            width: '100%',
+            borderTop: '2px solid #294457',
+            paddingTop: 28,
+            alignItems: 'flex-end',
           }}
         >
+          <span style={{ fontSize: 70, fontWeight: 900, letterSpacing: -2 }}>PODCASTS</span>
           <span
             style={{
-              display: 'flex',
-              width: 9,
-              height: 34,
-              background: '#1cb5ed',
-              marginRight: 14,
-            }}
-          />
-          {siteConfig.name}
-        </div>
-        <div style={{ display: 'flex', flexDirection: 'column', maxWidth: 770 }}>
-          <div
-            style={{
-              display: 'flex',
-              ...mono,
+              marginLeft: 46,
+              fontSize: 54,
+              fontWeight: 900,
+              letterSpacing: -2,
               color: '#3cd6fc',
-              fontSize: 23,
-              fontWeight: 700,
-              marginBottom: 16,
             }}
           >
-            LE PODCAST VIDÉO
-          </div>
-          <div
-            style={{
-              display: 'flex',
-              fontSize: 111,
-              fontWeight: 900,
-              lineHeight: 0.94,
-              letterSpacing: -5,
-              textTransform: 'uppercase',
-            }}
-          >
-            LA TECH
-          </div>
-          <div
-            style={{
-              display: 'flex',
-              fontSize: 111,
-              fontWeight: 900,
-              lineHeight: 0.94,
-              letterSpacing: -5,
-              textTransform: 'uppercase',
-            }}
-          >
-            EN CLAIR.
-          </div>
-          <div style={{ display: 'flex', marginTop: 24, fontSize: 28, fontWeight: 800 }}>
-            Épisodes, sources et classements tech.
-          </div>
-        </div>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            width: '100%',
-            ...mono,
-            color: '#ade9f9',
-            fontSize: 18,
-            fontWeight: 700,
-          }}
-        >
-          <span>IA · DÉVELOPPEMENT · OPEN SOURCE</span>
+            SANDBOX CHARTS
+          </span>
         </div>
       </div>
     </div>,
@@ -388,8 +330,8 @@ export async function chartCard(view: ChartView): Promise<ImageResponse> {
             {view.chart.code}
           </span>
           <span>
-            Week {shortWeek(view.week).slice(1)} · {formatDayMonth(weekStart(view.week))} –{' '}
-            {formatDayMonth(weekEnd(view.week))}
+            Week {editionMark(view.week)} · {formatDayMonth(editionStart(view.week))} –{' '}
+            {formatDayMonth(editionEnd(view.week))}
           </span>
         </div>
         <div
@@ -475,7 +417,7 @@ export async function chartCard(view: ChartView): Promise<ImageResponse> {
           );
         })}
       </div>
-      <Footer right={`Top ${String(view.chart.size)} · mis à jour chaque semaine`} />
+      <Footer right={`Top ${String(view.chart.size)} · mis à jour chaque jour`} />
     </div>,
   );
 }
@@ -501,7 +443,7 @@ export async function moveCard(
         }}
       >
         <span>{chart.title}</span>
-        <span>Week {shortWeek(week).slice(1)}</span>
+        <span>Week {editionMark(week)}</span>
       </div>
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <div

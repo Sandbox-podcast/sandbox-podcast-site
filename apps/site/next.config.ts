@@ -8,16 +8,17 @@ const contentSecurityPolicy = [
   "object-src 'none'",
   "form-action 'self'",
   "frame-ancestors 'self'",
-  "script-src 'self' 'unsafe-inline' https://va.vercel-scripts.com",
+  "script-src 'self' 'unsafe-inline' https://va.vercel-scripts.com https://www.youtube.com",
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: https://i.ytimg.com",
   "font-src 'self' data:",
   "connect-src 'self' https://vitals.vercel-insights.com",
-  'frame-src https://www.youtube-nocookie.com',
+  "frame-src 'self' https://www.youtube-nocookie.com https://www.youtube.com",
 ].join('; ');
 
 const config: NextConfig = {
   reactStrictMode: true,
+  experimental: { cpus: 2 },
   poweredByHeader: false,
   serverExternalPackages: ['ws'],
   images: {

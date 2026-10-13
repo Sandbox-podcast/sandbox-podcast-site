@@ -1,10 +1,18 @@
 import type { Episode } from './schema';
 
-/** La miniature de la vraie vidéo prend le relais du visuel de démonstration. */
+/** Le fichier choisi dans l'admin prime sur YouTube, qui prime sur le visuel de démonstration. */
 export function episodeArtwork(episode: Pick<Episode, 'cover' | 'platforms'>): string | undefined {
-  if (episode.platforms.thumbnailUrl) return episode.platforms.thumbnailUrl;
+  if (episode.cover.uploadedArtworkPath) return episode.cover.uploadedArtworkPath;
+  const thumbnailUrl = episode.platforms.thumbnailUrl;
+  if (thumbnailUrl) {
+    const lowResolution =
+      /^https:\/\/i\.ytimg\.com\/vi\/([A-Za-z0-9_-]{11})\/(?:default|mqdefault|hqdefault|sddefault)\.jpg$/i.exec(
+        thumbnailUrl,
+      );
+    return lowResolution ? `/api/youtube-thumbnail/${lowResolution[1]}` : thumbnailUrl;
+  }
   if (episode.platforms.youtubeId) {
-    return `https://i.ytimg.com/vi/${episode.platforms.youtubeId}/hqdefault.jpg`;
+    return `/api/youtube-thumbnail/${episode.platforms.youtubeId}`;
   }
   return episode.cover.artworkPath;
 }

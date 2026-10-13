@@ -14,13 +14,20 @@ import {
   chartFilterLabel,
   chartRows,
   editionMonth,
+  latestEditionWeek,
   matchesChartFilter,
   type ChartId,
   type ChartPeriod,
   type ChartsData,
   type ChartsRow,
 } from '@/domain/sandbox-charts';
-import { weekStart } from '@/domain/weeks';
+import {
+  compareWeeks,
+  editionMark,
+  editionStart,
+  isCalendarEdition,
+  shortWeek,
+} from '@/domain/weeks';
 import { intlLocale } from '@/i18n/translation';
 import {
   ChartsMarket,
@@ -45,11 +52,12 @@ export function ChartsExperience({
   initialSelection?: ChartSelection;
 }) {
   const { locale, t } = useLocalization();
-  const [id, setId] = useState<ChartId>(initialSelection?.chart ?? initialChart);
+  const initialId = initialSelection?.chart ?? initialChart;
+  const [id, setId] = useState<ChartId>(initialId);
   const [week, setWeek] = useState(
     initialSelection?.week && data.weeks.includes(initialSelection.week)
       ? initialSelection.week
-      : data.week,
+      : latestEditionWeek(data, initialId),
   );
   const [period, setPeriod] = useState<ChartPeriod>(initialSelection?.period ?? initialPeriod);
   const [filter, setFilter] = useState(initialSelection?.filter ?? 'All');
@@ -65,7 +73,7 @@ export function ChartsExperience({
     const url = new URL(window.location.href);
     const search = chartSelectionQuery(url.search, {
       chart: id === initialChart ? undefined : id,
-      week: week === data.week ? undefined : week,
+      week: week === latestEditionWeek(data, id) ? undefined : week,
       filter,
       period,
       view: id === 'models' ? view : undefined,
@@ -73,8 +81,20 @@ export function ChartsExperience({
     if (url.search.slice(1) === search) return;
     url.search = search;
     window.history.replaceState(window.history.state, '', url.pathname + url.search + url.hash);
-  }, [id, week, filter, period, view, initialChart, data.week]);
+  }, [id, week, filter, period, view, initialChart, data]);
+  useEffect(() => {
+    const seriesForChart = data.series.find((item) => item.id === id);
+    if (seriesForChart?.snapshots.some((snapshot) => snapshot.week === week)) return;
+    const next = latestEditionWeek(data, id);
+    if (next !== week) setWeek(next);
+  }, [data, id, week]);
   const series = data.series.find((item) => item.id === id);
+  const chartWeeks = useMemo(() => {
+    const weeks = [...new Set(series?.snapshots.map((snapshot) => snapshot.week) ?? [])].toSorted(
+      (left, right) => compareWeeks(right, left),
+    );
+    return weeks.length ? weeks : [data.week];
+  }, [data.week, series]);
   const meta = CHART_LABELS[id];
   const rows = useMemo(
     () => chartRows(data, id, week, period, id === 'models' ? view : undefined),
@@ -87,9 +107,9 @@ export function ChartsExperience({
     month: 'long',
     year: 'numeric',
     timeZone: 'UTC',
-  }).format(weekStart(week));
+  }).format(editionStart(week));
   const filters = id === 'skills' ? SKILL_FILTERS : PROJECT_FILTERS;
-  const months = [...new Set(data.weeks.map(editionMonth))];
+  const months = [...new Set(chartWeeks.map(editionMonth))];
   const episodes = data.episodes.filter(
     (episode) => episode.chart === series?.slug && episode.week === week,
   );
@@ -128,14 +148,14 @@ export function ChartsExperience({
       <header className="sc-hero">
         <div className="sc-edition-meta">
           <span>
-            <Text>{'LES CLASSEMENTS IA'}</Text>
+            <Text>{'LES CLASSEMENTS TECH & IA'}</Text>
           </span>
           <span>
-            <Text>{'MISE À JOUR CHAQUE LUNDI'}</Text>
+            <Text>{'MISE À JOUR CHAQUE JOUR'}</Text>
           </span>
           <span>
             <Text>
-              {data.weeks.includes(week) && week !== data.weeks[0]
+              {chartWeeks.includes(week) && week !== chartWeeks[0]
                 ? 'ÉDITION ARCHIVÉE'
                 : 'CETTE SEMAINE'}
             </Text>
@@ -153,15 +173,15 @@ export function ChartsExperience({
               </span>
             </h1>
             <p>
-              <Text>{'Les classements hebdomadaires de ce qui compte dans l’IA.'}</Text>
+              <Text>{'Projets open source, skills et modèles IA à suivre chaque semaine.'}</Text>
             </p>
           </div>
           <div className="sc-week-stamp">
             <span className="sc-label">
-              <Text>{'SEMAINE'}</Text>
+              <Text>{isCalendarEdition(week) ? 'JOUR' : 'SEMAINE'}</Text>
             </span>
             <strong>
-              <Text>{week.slice(-2)}</Text>
+              <Text>{editionMark(week)}</Text>
             </strong>
             <span className="sc-label">
               <Text>{month}</Text>
@@ -170,7 +190,10 @@ export function ChartsExperience({
         </div>
         <div className="sc-hero-bottom">
           <p>
-            <Text>{edition?.headline ?? "Qu'est-ce qui monte dans l'IA cette semaine ?"}</Text>
+            <Text>
+              {edition?.headline ??
+                'Projets open source, skills et modèles IA à suivre cette semaine.'}
+            </Text>
           </p>
           <LocalizedElement
             as="div"
@@ -277,10 +300,9 @@ export function ChartsExperience({
                 }}
               >
                 <Text>
-                  {(data.weeks.length ? data.weeks : [data.week]).map((item) => (
+                  {chartWeeks.map((item) => (
                     <option key={item} value={item}>
-                      <Text>{'W'}</Text>
-                      <Text>{item.slice(-2)}</Text>
+                      <Text>{shortWeek(item)}</Text>
                       <Text>{' / '}</Text>
                       <Text>{item.slice(0, 4)}</Text>
                     </option>
@@ -479,6 +501,54 @@ export function ChartsExperience({
                         : 'Le classement apparaîtra après la collecte des relevés et la publication d’une édition. Chaque position reposera sur des mesures enregistrées.'}
                   </Text>
                 </p>
+                <Text>
+                  {data.progress && !isUnavailable ? (
+                    <ul className="sc-progress">
+                      {!data.progress.databaseReady ? (
+                        <li>
+                          <Text>
+                            {
+                              'La collecte n’est pas encore activée sur cet environnement. Les rangs apparaîtront après la première édition publiée.'
+                            }
+                          </Text>
+                        </li>
+                      ) : (
+                        <>
+                          <li>
+                            <Text>{String(data.progress.trackedRepositories)}</Text>
+                            <Text>{' dépôts suivis'}</Text>
+                          </li>
+                          <li>
+                            <Text>{'Relevés du jour : '}</Text>
+                            <Text>{String(data.progress.snapshotsToday)}</Text>
+                          </li>
+                          <li>
+                            <Text>{'Historique : '}</Text>
+                            <Text>{String(data.progress.distinctSnapshotDays)}</Text>
+                            <Text>{' / '}</Text>
+                            <Text>{String(data.progress.requiredHistoryDays)}</Text>
+                            <Text>{' jours'}</Text>
+                          </li>
+                          <li>
+                            <Text>{'Dernier relevé réussi : '}</Text>
+                            <Text>
+                              {data.progress.lastSuccessfulCollectAt
+                                ? data.progress.lastSuccessfulCollectAt.slice(0, 10)
+                                : 'aucun pour le moment'}
+                            </Text>
+                          </li>
+                          <li>
+                            <Text>{'Première édition possible : '}</Text>
+                            <Text>
+                              {data.progress.earliestPossibleEditionWeek ??
+                                'après le démarrage de la collecte'}
+                            </Text>
+                          </li>
+                        </>
+                      )}
+                    </ul>
+                  ) : null}
+                </Text>
                 <Link href={`/charts/${meta.slug}/methodology`}>
                   <Text>{'Lire la m\u00E9thode \u2197'}</Text>
                 </Link>
@@ -557,7 +627,7 @@ export function ChartsExperience({
           </div>
           <div className="sc-archive-weeks">
             <Text>
-              {data.weeks
+              {chartWeeks
                 .filter((item) => archiveMonth === 'all' || editionMonth(item) === archiveMonth)
                 .map((item) => (
                   <button
@@ -577,8 +647,7 @@ export function ChartsExperience({
                       <Text>{item.slice(0, 4)}</Text>
                     </small>
                     <b>
-                      <Text>{'W'}</Text>
-                      <Text>{item.slice(-2)}</Text>
+                      <Text>{shortWeek(item)}</Text>
                     </b>
                   </button>
                 ))}
@@ -593,8 +662,8 @@ export function ChartsExperience({
               </p>
             ) : (
               <Link className="sc-archive-link" href={`/charts/${meta.slug}/${week}`}>
-                <Text>{"Ouvrir l'\u00E9dition W"}</Text>
-                <Text>{week.slice(-2)}</Text>
+                <Text>{"Ouvrir l'\u00E9dition "}</Text>
+                <Text>{shortWeek(week)}</Text>
                 <Text>{' \u2197'}</Text>
               </Link>
             )}
@@ -603,7 +672,7 @@ export function ChartsExperience({
         <section className="sc-newsletter" aria-labelledby="sc-newsletter-title">
           <div>
             <p className="sc-label">
-              <Text>{'SANDBOX CHARTS / CHAQUE LUNDI'}</Text>
+              <Text>{'SANDBOX CHARTS / CHAQUE JOUR'}</Text>
             </p>
             <h2 id="sc-newsletter-title">
               <Text>{'SUIVEZ CE QUI'}</Text>
@@ -614,7 +683,7 @@ export function ChartsExperience({
               </span>
             </h2>
             <p>
-              <Text>{'Recevez les classements SANDBOX chaque semaine par e-mail.'}</Text>
+              <Text>{'Recevez les classements SANDBOX chaque jour par e-mail.'}</Text>
             </p>
           </div>
           <div>

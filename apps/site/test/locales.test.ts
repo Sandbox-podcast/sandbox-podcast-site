@@ -1,46 +1,49 @@
 import { describe, expect, it } from 'vitest';
 import {
-  bcp47LocaleSchema,
   DEFAULT_SITE_LOCALE,
-  EUROPEAN_LOCALE_TARGETS,
+  SITE_LOCALES,
   localeRouteSegment,
   localeTagFromRouteSegment,
   localizedPathMatchesLocale,
+  siteLocaleSchema,
 } from '../src/i18n/locales.ts';
 import { isLocaleUiReviewed } from '../src/i18n/messages.ts';
 import { siteContentLocalizationSchema } from '../src/domain/site-localization.ts';
 
-describe('routage i18n BCP 47', () => {
-  it('couvre les langues officielles européennes et un ensemble régional élargi', () => {
-    expect(EUROPEAN_LOCALE_TARGETS.length).toBe(115);
-    expect(
-      EUROPEAN_LOCALE_TARGETS.every(({ locale }) => bcp47LocaleSchema.safeParse(locale).success),
-    ).toBe(true);
-    expect(new Set(EUROPEAN_LOCALE_TARGETS.map(({ locale }) => locale)).size).toBe(
-      EUROPEAN_LOCALE_TARGETS.length,
-    );
+describe('routage des quatre langues du site', () => {
+  it('ne propose que les langues demandées', () => {
+    expect(SITE_LOCALES).toEqual([
+      { locale: 'fr-FR', name: 'Français' },
+      { locale: 'en', name: 'Anglais' },
+      { locale: 'es-ES', name: 'Espagnol' },
+      { locale: 'de-DE', name: 'Allemand' },
+    ]);
+    for (const { locale } of SITE_LOCALES)
+      expect(siteLocaleSchema.safeParse(locale).success).toBe(true);
+    for (const locale of ['it-IT', 'br-FR', 'fr-CA', 'en-US', 'sr-Cyrl-RS'])
+      expect(siteLocaleSchema.safeParse(locale).success).toBe(false);
   });
 
-  it('préserve les URLs françaises et distingue les écritures d’une langue', () => {
+  it('préserve les URLs françaises et les trois préfixes autorisés', () => {
     expect(localeRouteSegment(DEFAULT_SITE_LOCALE)).toBeNull();
     expect(localeRouteSegment('en')).toBe('en');
-    expect(localeRouteSegment('sr-Cyrl-RS')).toBe('sr-cyrl-rs');
-    expect(localeRouteSegment('sr-Latn-RS')).toBe('sr-latn-rs');
-    expect(localeRouteSegment('fr-CA')).toBe('fr-ca');
+    expect(localeRouteSegment('es-ES')).toBe('es-es');
     expect(localeRouteSegment('de-DE')).toBe('de-de');
-    expect(localeTagFromRouteSegment('sr-cyrl-rs')).toBe('sr-Cyrl-RS');
+    expect(localeTagFromRouteSegment('en')).toBe('en');
+    expect(localeTagFromRouteSegment('es-es')).toBe('es-ES');
     expect(localeTagFromRouteSegment('de-de')).toBe('de-DE');
-    expect(localeTagFromRouteSegment('charts')).toBeUndefined();
-    expect(localeTagFromRouteSegment('fr-fr')).toBeUndefined();
-    expect(localeTagFromRouteSegment('en-us-u-ca-gregory')).toBe('en-US-u-ca-gregory');
+    for (const segment of ['charts', 'fr-fr', 'it-it', 'br-fr', 'en-us', 'sr-cyrl-rs'])
+      expect(localeTagFromRouteSegment(segment)).toBeUndefined();
+    expect(() => localeRouteSegment('it-IT')).toThrow();
   });
 
   it('refuse d’associer le mauvais préfixe à une traduction', () => {
     expect(localizedPathMatchesLocale('/charts/skills/claude-code', 'fr-FR')).toBe(true);
     expect(localizedPathMatchesLocale('/en/charts/skills/claude-code', 'fr-FR')).toBe(false);
     expect(localizedPathMatchesLocale('/en/charts/skills/claude-code', 'en')).toBe(true);
-    expect(localizedPathMatchesLocale('/sr-cyrl-rs/charts/skills', 'sr-Cyrl-RS')).toBe(true);
+    expect(localizedPathMatchesLocale('/es-es/charts/skills', 'es-ES')).toBe(true);
     expect(localizedPathMatchesLocale('/de-de/charts/skills', 'fr-FR')).toBe(false);
+    expect(localizedPathMatchesLocale('/it-it/charts/skills', 'fr-FR')).toBe(false);
     expect(localizedPathMatchesLocale('/fr-fr/charts/skills', 'fr-FR')).toBe(false);
     expect(localizedPathMatchesLocale('/charts/skills/claude-code', 'fr-FR')).toBe(true);
   });
@@ -49,7 +52,7 @@ describe('routage i18n BCP 47', () => {
     expect(isLocaleUiReviewed('fr-FR')).toBe(true);
     expect(isLocaleUiReviewed('en')).toBe(true);
     expect(isLocaleUiReviewed('de-DE')).toBe(false);
-    expect(isLocaleUiReviewed('ca-ES')).toBe(false);
+    expect(isLocaleUiReviewed('es-ES')).toBe(false);
   });
 
   it('valide le contenu traduit et le statut de relecture', () => {
@@ -78,6 +81,13 @@ describe('routage i18n BCP 47', () => {
     expect(siteContentLocalizationSchema.safeParse(base).success).toBe(true);
     expect(
       siteContentLocalizationSchema.safeParse({ ...base, path: '/de/episodes/12' }).success,
+    ).toBe(false);
+    expect(
+      siteContentLocalizationSchema.safeParse({
+        ...base,
+        locale: 'it-IT',
+        path: '/it-it/episodes/12',
+      }).success,
     ).toBe(false);
     expect(
       siteContentLocalizationSchema.safeParse({ ...base, path: '/en/episodes/12/' }).success,

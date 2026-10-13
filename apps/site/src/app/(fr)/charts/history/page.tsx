@@ -5,12 +5,13 @@ import { chartRows, CHART_LABELS, type ChartId } from '@/domain/sandbox-charts';
 import { sandboxChartsData } from '@/lib/sandbox-charts';
 import { pageMetadata } from '@/lib/seo';
 import { hasIndexableChartCollection } from '@/domain/chart-seo';
+export const dynamic = 'force-dynamic';
 export async function generateMetadata() {
   const data = await sandboxChartsData();
   return pageMetadata({
     title: 'Les archives · SANDBOX CHARTS',
     description:
-      'Les éditions hebdomadaires et leurs premières places, conservées avec leur méthode de calcul.',
+      'Les éditions publiées et leurs premières places, conservées avec leur méthode de calcul.',
     path: '/charts/history',
     noindex: !hasIndexableChartCollection(data),
   });

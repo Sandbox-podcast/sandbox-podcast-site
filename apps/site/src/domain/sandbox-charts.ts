@@ -1,7 +1,7 @@
 import { entityHistory } from './history.ts';
 import { computeMovements } from './movements.ts';
 import type { ChartEdition, Entity, Movement, Snapshot, SnapshotEntry } from './schema.ts';
-import { compareWeeks, previousWeek, weekStart } from './weeks.ts';
+import { compareWeeks, editionStart, editionsFollow, previousComparableEdition } from './weeks.ts';
 
 export type ChartId = 'github' | 'skills' | 'models' | 'rising';
 export type ChartPeriod = 'week' | 'month' | 'quarter' | 'all';
@@ -14,7 +14,7 @@ export const CHART_PERIODS: { id: ChartPeriod; label: string; weeks: number | nu
 export const CHART_LABELS: Record<ChartId, { title: string; subtitle: string; slug: string }> = {
   github: {
     title: 'GITHUB TOP 20',
-    subtitle: 'Les projets IA qui progressent le plus vite sur GitHub.',
+    subtitle: 'Les projets open source qui progressent le plus vite sur GitHub.',
     slug: 'github',
   },
   skills: {
@@ -132,6 +132,17 @@ export interface ChartsTake {
   text: string;
   author: string;
 }
+/** Avancement agrégé de la collecte, sans noms de dépôts ni scores. */
+export interface ChartsCollectionProgress {
+  databaseReady: boolean;
+  trackedRepositories: number;
+  snapshotsToday: number;
+  distinctSnapshotDays: number;
+  requiredHistoryDays: number;
+  lastSuccessfulCollectAt: string | null;
+  earliestPossibleEditionWeek: string | null;
+}
+
 export interface ChartsData {
   mode: 'live' | 'fixtures' | 'pending' | 'unavailable';
   week: string;
@@ -141,6 +152,7 @@ export interface ChartsData {
   takes: ChartsTake[];
   episodes: { number: number; title: string; chart: string; week: string; href: string }[];
   newsletterUrl: string | null;
+  progress: ChartsCollectionProgress | null;
 }
 export interface ChartsRow {
   entity: ChartsEntity;
@@ -223,6 +235,19 @@ function aggregateSnapshots(snapshots: Snapshot[]): Snapshot | undefined {
   return { ...last, entries };
 }
 
+export function latestEditionWeek(data: ChartsData, id: ChartId): string {
+  const weeks =
+    data.series.find((item) => item.id === id)?.snapshots.map((snapshot) => snapshot.week) ?? [];
+  return weeks.toSorted((left, right) => compareWeeks(right, left))[0] ?? data.week;
+}
+
+export function editionWeekForChart(data: ChartsData, id: ChartId): string {
+  const hasSelected = data.series
+    .find((item) => item.id === id)
+    ?.snapshots.some((snapshot) => snapshot.week === data.week);
+  return hasSelected ? data.week : latestEditionWeek(data, id);
+}
+
 export function chartRows(
   data: ChartsData,
   id: ChartId,
@@ -236,6 +261,7 @@ export function chartRows(
   const dimension = view === 'open' ? series.primary : (view ?? series.primary);
   const history = series.snapshots
     .filter((snapshot) => compareWeeks(snapshot.week, week) <= 0)
+    .toSorted((left, right) => compareWeeks(left.week, right.week))
     .map((snapshot) => ({
       ...snapshot,
       entries: rankedEntries(snapshot, dimension, series.primary, entities, view === 'open'),
@@ -248,26 +274,29 @@ export function chartRows(
   )
     .toISOString()
     .slice(0, 7);
-  const windowEnd = weekStart(week).getTime();
+  const windowEnd = editionStart(week).getTime();
   const quarterStart = windowEnd - 12 * 7 * 86400000;
   const currentWindow =
     period === 'month'
       ? history.filter((item) => editionMonth(item.week) === selectedMonth)
       : period === 'quarter'
-        ? history.filter((item) => weekStart(item.week).getTime() >= quarterStart)
+        ? history.filter((item) => editionStart(item.week).getTime() >= quarterStart)
         : history;
   const selected = period === 'week' ? history.at(-1) : aggregateSnapshots(currentWindow);
   if (!selected) return [];
+  const earlier = history.at(-2);
   const previous =
     period === 'all'
       ? undefined
       : period === 'week'
-        ? history.find((item) => item.week === previousWeek(week))
+        ? earlier && editionsFollow(earlier.week, week)
+          ? earlier
+          : undefined
         : aggregateSnapshots(
             period === 'month'
               ? history.filter((item) => editionMonth(item.week) === priorMonth)
               : history.filter((item) => {
-                  const time = weekStart(item.week).getTime();
+                  const time = editionStart(item.week).getTime();
                   return time < quarterStart && time >= quarterStart - 13 * 7 * 86400000;
                 }),
           );
@@ -353,7 +382,11 @@ export function risingSnapshots(sources: readonly ChartsSeries[]): Snapshot[] {
     const selected: Snapshot[] = [];
     for (const source of sources) {
       const snapshot = source.snapshots.find((item) => item.week === week);
-      const previous = source.snapshots.find((item) => item.week === previousWeek(week));
+      const previousId = previousComparableEdition(
+        source.snapshots.map((item) => item.week),
+        week,
+      );
+      const previous = source.snapshots.find((item) => item.week === previousId);
       if (!snapshot) continue;
       selected.push(snapshot);
       const stars = snapshot.entries
@@ -404,12 +437,12 @@ export function risingSnapshots(sources: readonly ChartsSeries[]): Snapshot[] {
         selected
           .map((item) => item.publishedAt)
           .sort()
-          .at(-1) ?? weekStart(week).toISOString(),
+          .at(-1) ?? editionStart(week).toISOString(),
       retrievedAt:
         selected
           .map((item) => item.retrievedAt)
           .sort()
-          .at(-1) ?? weekStart(week).toISOString(),
+          .at(-1) ?? editionStart(week).toISOString(),
       provenance: selected.some((item) => item.provenance === 'mock') ? 'mock' : 'auto',
       entries,
     };
@@ -417,7 +450,7 @@ export function risingSnapshots(sources: readonly ChartsSeries[]): Snapshot[] {
 }
 
 export function editionMonth(week: string): string {
-  return weekStart(week).toISOString().slice(0, 7);
+  return editionStart(week).toISOString().slice(0, 7);
 }
 export function chartMonthRows(data: ChartsData, id: ChartId, week: string): ChartsRow[] {
   const month = editionMonth(week);
@@ -443,7 +476,11 @@ export function marketSignals(data: ChartsData, week: string): MarketSignal[] {
   for (const series of data.series.filter((item) => item.id === 'github' || item.id === 'skills')) {
     for (const entry of series.snapshots.find((snapshot) => snapshot.week === week)?.entries ?? [])
       current.set(entry.entity, entry);
-    for (const entry of series.snapshots.find((snapshot) => snapshot.week === previousWeek(week))
+    const previousId = previousComparableEdition(
+      series.snapshots.map((snapshot) => snapshot.week),
+      week,
+    );
+    for (const entry of series.snapshots.find((snapshot) => snapshot.week === previousId)
       ?.entries ?? [])
       previous.set(entry.entity, entry);
   }
@@ -489,7 +526,10 @@ export function chartsRecords(
   for (const snapshot of history.toSorted((a, b) => compareWeeks(a.week, b.week))) {
     const leader = snapshot.entries.find((entry) => entry.rank === 1)?.entity;
     streak =
-      leader && leader === previousLeader && previousEdition === previousWeek(snapshot.week)
+      leader &&
+      leader === previousLeader &&
+      previousEdition &&
+      editionsFollow(previousEdition, snapshot.week)
         ? streak + 1
         : 1;
     if (leader) streaks.set(leader, Math.max(streaks.get(leader) ?? 0, streak));

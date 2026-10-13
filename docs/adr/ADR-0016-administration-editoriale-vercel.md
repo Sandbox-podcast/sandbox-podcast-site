@@ -55,3 +55,15 @@ Les thèmes et les sources de classement ont des formulaires : leurs identifiant
 Décidés par l'agent sur délégation (PD-0003), à la demande d'une optimisation de l'interface, du code, des performances et de la sécurité. L'interface admin compacte sa navigation sur tablette et mobile. Le code des éditeurs d'articles et de JSON générique, devenus inaccessibles, est retiré ; les réponses des API d'administration sont validées côté client avant d'alimenter l'interface. La connexion borne la taille du corps reçu et compare aussi les utilisateurs inconnus avec une empreinte factice pour réduire les écarts de temps de réponse. Une politique CSP couvre les origines nécessaires en production et les routes d'administration refusent la mise en cache. La CSP autorise encore les scripts et styles intégrés requis par le rendu statique actuel ; la limitation des connexions reste en mémoire par instance. Aucun de ces changements ne modifie les permissions ou le mécanisme de publication.
 
 Ce constat précédait le push de la branche locale. La persistance de la PR #2 a ensuite été portée dans `apps/site` sans modifier les comptes nominatifs ni les permissions. Voir [ADR-0017](ADR-0017-persistance-editoriale-postgres.md) et [la transmission Vercel](../site/transmission-vercel-2026-10-07.md).
+
+## Création d'épisode par URL et description — 2026-10-12
+
+Décidée par l'agent sur délégation (PD-0003), à la demande du propriétaire de réduire la saisie d'un épisode. La création ne présente que l'URL YouTube et une description complète contenant les sources. La vidéo fournit le titre, la date, la durée, la chaîne et la miniature via YouTube Data API v3 ; le texte collé fournit le résumé, les chapitres horodatés et les liens. La description YouTube est proposée si le champ est encore vide. L'animateur est repris du compte admin quand un profil correspondant existe ; sinon, l'équipe le choisit. La durée n'est plus modifiable en secondes dans le formulaire.
+
+La création exige l'import complet : sans `YOUTUBE_API_KEY` ou si la date ou la durée manque, l'admin affiche la configuration requise et refuse l'enregistrement. Aucune durée ou date n'est inventée. L'édition détaillée des épisodes déjà enregistrés reste disponible ; brouillon et publication restent deux actions distinctes, avec les permissions serveur existantes.
+
+## Source des profils publics : 2026-10-13
+
+À la demande explicite de la propriétaire, la collection Animateurs devient la source unique des noms et liens sociaux affichés sur `/about`. Les choix de compatibilité avec les réglages déjà enregistrés et l'exclusion des signatures de démonstration sont décidés par l'agent sur délégation (PD-0003).
+
+La page affiche les animateurs qui ne sont pas des profils de remplacement, dans l'ordre de la collection, avec leurs liens GitHub, LinkedIn et X. "Identité du site" conserve les textes de la page À propos, mais ne contient plus de cartes d'équipe. Le champ `team` des anciens réglages est ignoré par le schéma Zod ; aucune migration Postgres n'est requise.

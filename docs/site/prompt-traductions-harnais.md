@@ -23,14 +23,14 @@ node scripts/localization-work.ts validate --source CHEMIN_EXPORT_JSON --file CH
 Puis complète le dictionnaire local avec :
 node scripts/localization-work.ts import --source CHEMIN_EXPORT_JSON --file CHEMIN_LOT_TRADUIT
 
-Conserve une copie de chaque lot terminé avant de préparer le suivant : prepare remplace le fichier de travail. Recommence jusqu’à ce que prepare annonce zéro texte manquant pour cette langue. Pour une demande portant sur toutes les langues, travaille successivement sur les 114 cibles hors français. Ne remplis pas une langue avec du français ou de l’anglais pour masquer un manque. Si tu ne sais pas traduire une langue avec assez de fiabilité, garde ses entrées manquantes et signale précisément lesquelles nécessitent une revue native.
+Conserve une copie de chaque lot terminé avant de préparer le suivant : prepare remplace le fichier de travail. Recommence jusqu’à ce que prepare annonce zéro texte manquant pour cette langue. Pour une demande portant sur toutes les langues, travaille successivement sur `en`, `es-ES` et `de-DE`. Ne remplis pas une langue avec du français ou de l’anglais pour masquer un manque. Si tu ne sais pas traduire une langue avec assez de fiabilité, garde ses entrées manquantes et signale précisément lesquelles nécessitent une revue native.
 
-Livre les JSON terminés pour l’import dans l’admin, ainsi que les fichiers locaux modifiés. Valide avec pnpm check et un build du site. Vérifie les pages, les métadonnées, la recherche, les ancres, les assets, les textes longs et le sens RTL dans le navigateur. Donne la couverture réelle par langue et les langues restant à relire. La validation du format ne constitue pas une revue linguistique.
+Livre les JSON terminés pour l’import dans l’admin, ainsi que les fichiers locaux modifiés. Valide avec pnpm check et un build du site. Vérifie les pages, les métadonnées, la recherche, les ancres, les assets et les textes longs dans le navigateur. Donne la couverture réelle par langue et les langues restant à relire. La validation du format ne constitue pas une revue linguistique.
 
 Ne contacte aucun service externe de traduction et ne crée pas de compte. Ne publie pas en production, ne pousse pas Git et ne change pas l’indexation sans autorisation explicite.
 ```
 
-Remplacer `LANGUE_CIBLE` par le tag du registre, par exemple `en`, `de-DE`, `es-ES` ou `sr-Cyrl-RS`. Les noms de fichiers utilisent les minuscules : `de-de-work.json`. La commande `prepare --locale all` prépare le premier lot des 114 cibles ; la traduction et la revue restent à effectuer.
+Remplacer `LANGUE_CIBLE` par `en`, `es-ES` ou `de-DE`. Les noms de fichiers utilisent les minuscules : `de-de-work.json`. La commande `prepare --locale all` prépare un lot pour chacune des trois cibles ; la traduction et la revue restent à effectuer.
 
 ## Avec un contenu publié depuis l’admin
 

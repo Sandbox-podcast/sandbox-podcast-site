@@ -3,6 +3,16 @@ import { isMock, siteConfig } from '@/config/site';
 import { hreflangAlternates, type HreflangPage } from '@/domain/ranking-catalog';
 
 export const absoluteUrl = (path: string): string => new URL(path, siteConfig.url).toString();
+export const SITE_SHARE_IMAGE_ALT = 'Sandbox : podcasts et classements tech';
+
+export function siteShareImage() {
+  return {
+    url: absoluteUrl('/api/social-image'),
+    width: 1200,
+    height: 630,
+    alt: SITE_SHARE_IMAGE_ALT,
+  } as const;
+}
 
 /** Format attendu par Open Graph : `language_TERRITORY`, sans sous-tag de script. */
 export function openGraphLocaleForTag(locale: string): string {
@@ -30,22 +40,25 @@ interface PageMeta {
   type?: 'website' | 'article';
   publishedTime?: string;
   modifiedTime?: string;
+  /** `false` autorise une page vérifiée même si d'autres contenus restent simulés. */
   noindex?: boolean;
   keywords?: string[];
   /** Variantes localisées indexables de cette même page. */
   localizedAlternates?: readonly HreflangPage[];
-  /** La route a son propre `opengraph-image` : on n'impose pas l'image du site. */
+  /** La route a son propre `opengraph-image` : Next.js publie son URL avec une empreinte. */
   ownImage?: boolean;
 }
 
 /**
  * Métadonnées d'une page : titre, description, URL canonique, OpenGraph et cartes X/LinkedIn/Discord/Slack.
- * L'image OpenGraph vient du fichier `opengraph-image.tsx` le plus proche de la route.
- * En mode démonstration, aucune page n'est indexable : on ne publie pas de fausses données dans Google.
+ * Les pages avec carte dédiée utilisent le fichier `opengraph-image.tsx` de leur route.
+ * Les autres utilisent une image de marque à URL stable.
+ * Une page explicitement vérifiée peut être indexée sans exposer les fixtures du reste du site.
  */
 export function pageMetadata(meta: PageMeta): Metadata {
-  const blocked = isMock || meta.noindex === true;
-  const openGraphLocale = meta.locale ? openGraphLocaleForTag(meta.locale) : siteConfig.locale;
+  const blocked = meta.noindex === true || (isMock && meta.noindex !== false);
+  const openGraphLocale = openGraphLocaleForTag(meta.locale ?? siteConfig.locale);
+  const fallbackImage = siteShareImage();
   const languages =
     !blocked && meta.localizedAlternates
       ? hreflangAlternates(meta.localizedAlternates, siteConfig.url)
@@ -66,8 +79,7 @@ export function pageMetadata(meta: PageMeta): Metadata {
       url: meta.path,
       siteName: siteConfig.name,
       locale: openGraphLocale,
-      // Définir `openGraph` remplace celui du parent : sans image explicite, la page perdrait l'image du site.
-      ...(meta.ownImage ? {} : { images: [{ url: '/opengraph-image', width: 1200, height: 630 }] }),
+      ...(meta.ownImage ? {} : { images: [fallbackImage] }),
       ...(meta.publishedTime ? { publishedTime: meta.publishedTime } : {}),
       ...(meta.modifiedTime ? { modifiedTime: meta.modifiedTime } : {}),
     },
@@ -75,7 +87,7 @@ export function pageMetadata(meta: PageMeta): Metadata {
       card: 'summary_large_image',
       title: meta.title,
       description: meta.description,
-      ...(meta.ownImage ? {} : { images: ['/opengraph-image'] }),
+      ...(meta.ownImage ? {} : { images: [{ url: fallbackImage.url, alt: fallbackImage.alt }] }),
     },
   };
 }

@@ -1,5 +1,7 @@
 # Tests et Quality Gates
 
+Livraison du 13 octobre 2026, classements v3 et détection précoce : `corepack pnpm check` réussi, 345 tests dans 59 fichiers, build Next.js réussi. Les tests couvrent les budgets de sources, bornes des candidats incomplets, sensibilité, rejeu, gel Models et GitHub sur Postgres, migration 0009, poussées intrajournalières et Trending. Les contrôles API, navigateur, CLI et l'alerte de dépendance modérée préexistante sont détaillés dans [le rapport de livraison](site/reference-ranking-delivery.md). Les inventaires historiques ci-dessous décrivent les étapes précédentes.
+
 Référence : §32 à §35 du prompt maître de la plateforme vidéo (archivé : `old/PODCAST_PLATFORM_MASTER_PROMPT.md`).
 
 ## Commandes
@@ -50,6 +52,6 @@ Chrome desktop uniquement ([PD-0001](../old/docs/product-decisions/PD-0001-navig
 
 ## SANDBOX CHARTS
 
-Les tests du pipeline GitHub couvrent les différences J−7, la tolérance de date, l’accélération J−14, les percentiles, les petits dénominateurs, les poids manquants et les exclusions. Les tests PGlite exécutent les migrations 0002 à 0004 et vérifient le gel, les relances, le dry run, le verrou des jobs, les erreurs partielles, les quotas, les commentaires séparés, les conflits ETag et les localisations publiées. Les tests i18n valident les tags BCP 47, les préfixes de route, les 115 cibles européennes et les états de relecture.
+Les tests du pipeline GitHub couvrent les différences J−7, la tolérance de date, l’accélération J−14, les percentiles, les petits dénominateurs, les poids manquants et les exclusions. Les tests PGlite exécutent les migrations 0002 à 0004 et vérifient le gel, les relances, le dry run, le verrou des jobs, les erreurs partielles, les quotas, les commentaires séparés, les conflits ETag et les localisations publiées. Les tests i18n valident les quatre langues, leurs préfixes, le refus des autres locales et les états de relecture.
 
 Les tests d’API vérifient les permissions viewer/editor/admin, l’origine des mutations, le refus d’édition des compteurs et le secret du cron. Les tests de présentation couvrent les périodes, les rangs conservés sous filtre, les données absentes, le Markdown et l’échappement des cartes de partage. Les gates du dépôt restent `pnpm check` et le build.

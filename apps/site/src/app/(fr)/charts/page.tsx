@@ -9,10 +9,11 @@ export async function generateMetadata({
 }: { searchParams?: Promise<Record<string, string | string[] | undefined>> } = {}) {
   const data = await sandboxChartsData();
   return pageMetadata({
-    title: 'SANDBOX CHARTS | Les classements hebdomadaires de l’IA',
+    title: 'SANDBOX CHARTS | Classements open source, skills et IA',
     description:
-      'GitHub Top 20, Skills, Models et Rising. Les positions, les mouvements et les projets IA à surveiller, chaque semaine.',
+      'Classements GitHub de projets open source, skills et modèles IA. Popularité, progression, qualité et méthodes publiques.',
     path: '/charts',
+    ownImage: true,
     noindex: !hasIndexableChartCollection(data) || hasChartSelectionQuery(await searchParams),
   });
 }
@@ -31,7 +32,7 @@ export default async function ChartsPage({
             '@type': 'CollectionPage',
             name: 'SANDBOX CHARTS',
             url: absoluteUrl('/charts'),
-            description: 'Les classements hebdomadaires de ce qui compte dans l’IA.',
+            description: 'Projets open source, skills et modèles IA à suivre chaque semaine.',
           },
           breadcrumbLd([
             { name: 'Accueil', path: '/' },

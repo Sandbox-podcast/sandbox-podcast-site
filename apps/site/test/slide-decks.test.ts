@@ -62,14 +62,67 @@ describe('slide decks', () => {
     ]);
     expect(html).toContain('<title>Présentations Sandbox</title>');
     expect(html).toContain('href="./episode-001/index.html"');
-    expect(html).not.toContain('/_next/');
+    expect(html.includes('/_next/')).toBe(false);
+  });
+
+  it('publie les 22 diapositives et cinq annexes de la Bêta pour l’épisode 002', () => {
+    const html = readFileSync(
+      join(slidesPublicRoot(process.cwd()), 'episode-002', 'index.html'),
+      'utf8',
+    );
+    expect(html).toContain('<title>Sandbox — épisode 002 — La Bêta</title>');
+
+    const deckDataScript = /<script\s+id="deckData"[^>]*>([\s\S]*?)<\/script>/.exec(html);
+    const deckJson = deckDataScript?.[1];
+    expect(deckJson).toBeDefined();
+    if (!deckJson) throw new Error('Les données des diapositives sont absentes.');
+
+    const deck = JSON.parse(deckJson) as {
+      meta: { main: number; segment: string; title: string };
+      slides: { image: string; layout: string; n: number; title: string }[];
+    };
+
+    expect(deck.meta).toMatchObject({
+      main: 22,
+      segment: 'La Bêta',
+      title: "L'IA derrière le comptoir",
+    });
+    expect(deck.slides.map(({ n }) => n)).toEqual(
+      Array.from({ length: 27 }, (_, index) => index + 1),
+    );
+    expect(deck.slides[0]).toMatchObject({
+      n: 1,
+      layout: 'cover',
+      title: "L'IA derrière\nle comptoir.",
+    });
+    expect(deck.slides.every(({ image }) => image.startsWith('data:image/'))).toBe(true);
+  });
+
+  it('place les huit slides de la Bêta après son intertitre', () => {
+    const root = slidesPublicRoot(process.cwd());
+    const html = readFileSync(join(root, 'episode-001', 'index.html'), 'utf8');
+    const slideCount = [...html.matchAll(/<section\s+class="slide[^"]*"/g)].length;
+    const betaSlides = [...html.matchAll(/id="beta-slide-(\d+)"/g)].map((match) =>
+      Number(match[1]),
+    );
+
+    expect(slideCount).toBe(27);
+    expect(betaSlides).toEqual([1, 2, 3, 4, 5, 6, 7, 8]);
+    expect(html.indexOf('id="beta-slide-1"')).toBeGreaterThan(
+      html.indexOf('aria-label="Séquence La Bêta"'),
+    );
+    expect(html).toContain('sandbox="allow-scripts"');
+
+    const demo = readFileSync(join(root, 'episode-001', 'assets', 'beta-demo.html'), 'utf8');
+    expect(demo).toContain("default-src 'none'");
+    expect(demo).toContain("connect-src 'none'");
   });
 
   it('garde public/slides/index.html aligné avec les decks du dépôt', () => {
     const decks = listSlideDecks(slidesPublicRoot(process.cwd()));
     const actual = readFileSync(join(process.cwd(), 'public/slides/index.html'), 'utf8');
     expect(decks.length).toBeGreaterThan(0);
-    expect(actual).not.toContain('/_next/');
+    expect(actual.includes('/_next/')).toBe(false);
     for (const deck of decks) {
       expect(actual).toContain(`href="${deck.href}"`);
       expect(actual).toContain(deck.title);

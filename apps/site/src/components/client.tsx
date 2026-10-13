@@ -123,7 +123,7 @@ export function YouTubeFacade({
   startAt?: number;
   thumbnailUrl?: string | undefined;
 }) {
-  const [active, setActive] = useState(false);
+  const [active, setActive] = useState(startAt !== undefined);
   if (active) {
     const start = startAt ? `&start=${String(startAt)}` : '';
     return (

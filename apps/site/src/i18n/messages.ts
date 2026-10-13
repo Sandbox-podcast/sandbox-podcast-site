@@ -96,7 +96,7 @@ export function siteMessages(locale: string): SiteMessages {
   return MESSAGES[siteMessageLocale(locale)];
 }
 
-/** Les autres langues peuvent être prévisualisées, mais pas indexées tant que l'interface n'est pas relue. */
+/** L'espagnol et l'allemand restent hors indexation tant que leur interface n'est pas relue. */
 export function isLocaleUiReviewed(locale: string): boolean {
-  return locale === 'fr-FR' || locale === 'fr' || locale === 'en';
+  return locale === 'fr-FR' || locale === 'en';
 }

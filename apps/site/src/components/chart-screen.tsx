@@ -3,7 +3,7 @@ import { LocalizedLink as Link } from '@/components/localization';
 import { JsonLd } from '@/components/json-ld';
 import { formatDate, formatDayMonth, formatNumber, pluralize } from '@/domain/format';
 import type { Reign } from '@/domain/history';
-import { shortWeek, weekEnd, weekStart } from '@/domain/weeks';
+import { editionEnd, editionMark, editionStart, shortWeek } from '@/domain/weeks';
 import { absoluteUrl, breadcrumbLd } from '@/lib/seo';
 import { episodesForChart } from '@/lib/graph';
 import { chartView, entityPath, getEntity, weeksOf, type ChartView } from '@/lib/repository';
@@ -243,12 +243,12 @@ export function ChartScreen({ slug, week }: { slug: string; week?: string }) {
             </span>
             <span>
               <Text>{'Semaine '}</Text>
-              <Text>{shortWeek(view.week).slice(1)}</Text>
+              <Text>{editionMark(view.week)}</Text>
               <Text>{' \u00B7 '}</Text>
-              <Text>{formatDayMonth(weekStart(view.week))}</Text>
+              <Text>{formatDayMonth(editionStart(view.week))}</Text>
               <Text>{' \u2013'}</Text>
               <Text> </Text>
-              <Text>{formatDayMonth(weekEnd(view.week))}</Text>
+              <Text>{formatDayMonth(editionEnd(view.week))}</Text>
             </span>
             <Text>
               {view.isLatest ? null : (
@@ -353,7 +353,7 @@ export function ChartScreen({ slug, week }: { slug: string; week?: string }) {
           {
             '@context': 'https://schema.org',
             '@type': 'ItemList',
-            name: `${chart.title} : semaine ${shortWeek(view.week).slice(1)}`,
+            name: `${chart.title} : semaine ${editionMark(view.week)}`,
             description: chart.description,
             itemListOrder: 'https://schema.org/ItemListOrderAscending',
             numberOfItems: listing.length,

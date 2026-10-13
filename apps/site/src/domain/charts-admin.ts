@@ -4,7 +4,7 @@ import {
   githubChartConfigSchema,
   trackingStatusSchema,
 } from './github-charts.ts';
-import { chartEditionSchema, snapshotEntrySchema, weekIdSchema } from './schema.ts';
+import { chartEditionSchema, editionIdSchema, snapshotEntrySchema } from './schema.ts';
 
 export const chartsAdminWriteSchema = z.discriminatedUnion('action', [
   z
@@ -20,11 +20,11 @@ export const chartsAdminWriteSchema = z.discriminatedUnion('action', [
   z
     .object({
       action: z.literal('job'),
-      job: z.enum(['discover', 'collect', 'weekly']),
+      job: z.enum(['discover', 'collect', 'weekly', 'external-collect', 'external-weekly']),
       dryRun: z.boolean().default(false),
     })
     .strict(),
-  z.object({ action: z.literal('publish'), week: weekIdSchema }).strict(),
+  z.object({ action: z.literal('publish'), week: editionIdSchema }).strict(),
   z
     .object({
       action: z.literal('editorial'),

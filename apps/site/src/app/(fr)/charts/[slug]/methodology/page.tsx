@@ -5,11 +5,12 @@ import { TimeAgo } from '@/components/client';
 import { JsonLd } from '@/components/json-ld';
 import { Breadcrumbs, ExtLink, SectionHead } from '@/components/ui';
 import { describeDimension } from '@/domain/scoring';
-import { shortWeek } from '@/domain/weeks';
+import { editionMark, shortWeek } from '@/domain/weeks';
 import { lastUpdated } from '@/lib/graph';
 import { allCharts, findChart, getProfile, getSource, snapshotsOf } from '@/lib/repository';
 import { absoluteUrl, breadcrumbLd, pageMetadata } from '@/lib/seo';
 import { ChartsMethodology } from '@/components/charts-methodology';
+import { ReferenceMethodology } from '@/components/reference-methodology';
 export const dynamicParams = false;
 export function generateStaticParams() {
   return allCharts().map((c) => ({ slug: c.slug }));
@@ -38,6 +39,8 @@ export async function generateMetadata({ params }: Props) {
 export default async function MethodologyPage({ params }: Props) {
   const { slug } = await params;
   if (slug === 'github') return <ChartsMethodology />;
+  if (slug === 'skills' || slug === 'ai-models')
+    return <ReferenceMethodology chart={slug === 'skills' ? 'skills' : 'models'} />;
   const chart = findChart(slug);
   if (!chart) notFound();
   const profile = getProfile(chart);
@@ -71,7 +74,7 @@ export default async function MethodologyPage({ params }: Props) {
           <TimeAgo iso={updated.publishedAt} />
           <Text>{' \u00B7 semaine'}</Text>
           <Text> </Text>
-          <Text>{shortWeek(updated.week).slice(1)}</Text>
+          <Text>{editionMark(updated.week)}</Text>
           <Text>{' \u00B7 '}</Text>
           <Text>{history.length}</Text>
           <Text>{' semaines d\u2019historique'}</Text>

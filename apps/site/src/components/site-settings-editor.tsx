@@ -3,14 +3,7 @@
 import { useEffect, useState } from 'react';
 import { siteSettingsSchema, type SiteSettings } from '@/domain/schema';
 
-type SocialKey = keyof SiteSettings['team'][number]['socials'];
 type PlatformKey = keyof SiteSettings['platforms'];
-
-const socialFields: { key: SocialKey; label: string; placeholder: string }[] = [
-  { key: 'github', label: 'GitHub', placeholder: 'https://github.com/…' },
-  { key: 'linkedin', label: 'LinkedIn', placeholder: 'https://linkedin.com/in/…' },
-  { key: 'x', label: 'X', placeholder: 'https://x.com/…' },
-];
 
 const platformFields: { key: PlatformKey; label: string }[] = [
   { key: 'youtube', label: 'YouTube' },
@@ -42,46 +35,6 @@ export function SiteSettingsEditor({ initial, pending, onSave }: Props) {
     setSite((current) => ({
       ...current,
       platforms: { ...current.platforms, [key]: value },
-    }));
-    setError('');
-  }
-
-  function updateMember(index: number, name: string): void {
-    setSite((current) => ({
-      ...current,
-      team: current.team.map((member, i) => (i === index ? { ...member, name } : member)),
-    }));
-    setError('');
-  }
-
-  function updateAka(index: number, value: string): void {
-    const aka = value.trim() || undefined;
-    setSite((current) => ({
-      ...current,
-      team: current.team.map((member, i) => (i === index ? { ...member, aka } : member)),
-    }));
-    setError('');
-  }
-
-  function updatePhoto(index: number, value: string): void {
-    const photo = value.trim() || undefined;
-    setSite((current) => ({
-      ...current,
-      team: current.team.map((member, i) => (i === index ? { ...member, photo } : member)),
-    }));
-    setError('');
-  }
-
-  function updateSocial(index: number, key: SocialKey, value: string): void {
-    setSite((current) => ({
-      ...current,
-      team: current.team.map((member, i) => {
-        if (i !== index) return member;
-        const socials = { ...member.socials };
-        const trimmed = value.trim();
-        socials[key] = trimmed || undefined;
-        return { ...member, socials };
-      }),
     }));
     setError('');
   }
@@ -211,6 +164,43 @@ export function SiteSettingsEditor({ initial, pending, onSave }: Props) {
         </p>
       </section>
 
+      <section className="admin-form-section" aria-labelledby="site-about-title">
+        <h3 id="site-about-title">Page À propos</h3>
+        <div className="admin-form-grid">
+          <label className="admin-field admin-span-2">
+            <span>Sur-titre</span>
+            <input
+              value={site.aboutEyebrow}
+              onChange={(event) => {
+                update('aboutEyebrow', event.target.value);
+              }}
+            />
+          </label>
+          <label className="admin-field admin-span-2">
+            <span>Titre</span>
+            <input
+              value={site.aboutTitle}
+              onChange={(event) => {
+                update('aboutTitle', event.target.value);
+              }}
+            />
+          </label>
+          <label className="admin-field admin-span-2">
+            <span>Introduction</span>
+            <textarea
+              rows={3}
+              value={site.aboutIntro}
+              onChange={(event) => {
+                update('aboutIntro', event.target.value);
+              }}
+            />
+          </label>
+        </div>
+        <p className="admin-help">
+          Ces textes précèdent les profils des animateurs sur la page À propos.
+        </p>
+      </section>
+
       <section className="admin-form-section" aria-labelledby="site-platforms-title">
         <h3 id="site-platforms-title">Plateformes du podcast</h3>
         <div className="admin-form-grid">
@@ -226,88 +216,6 @@ export function SiteSettingsEditor({ initial, pending, onSave }: Props) {
                 }}
               />
             </label>
-          ))}
-        </div>
-      </section>
-
-      <section className="admin-form-section" aria-labelledby="site-team-title">
-        <div className="admin-section-heading">
-          <h3 id="site-team-title">Cartes de l’équipe</h3>
-          <button
-            type="button"
-            className="btn"
-            onClick={() => {
-              update('team', [...site.team, { name: '', socials: {} }]);
-            }}
-          >
-            Ajouter une personne ＋
-          </button>
-        </div>
-        <p className="admin-help">
-          Ces noms et liens apparaissent sur la page À propos. Laissez une URL vide si le profil
-          n’existe pas encore.
-        </p>
-        <div className="admin-team-list">
-          {site.team.map((member, index) => (
-            <div className="admin-team-card" key={index}>
-              <div className="admin-team-card-head">
-                <span className="label">Carte {String(index + 1).padStart(2, '0')}</span>
-                <button
-                  type="button"
-                  onClick={() => {
-                    update(
-                      'team',
-                      site.team.filter((_, i) => i !== index),
-                    );
-                  }}
-                >
-                  Retirer
-                </button>
-              </div>
-              <label className="admin-field">
-                <span>Prénom</span>
-                <input
-                  value={member.name}
-                  onChange={(event) => {
-                    updateMember(index, event.target.value);
-                  }}
-                />
-              </label>
-              <label className="admin-field">
-                <span>Aka (pseudo)</span>
-                <input
-                  placeholder="Facultatif"
-                  value={member.aka ?? ''}
-                  onChange={(event) => {
-                    updateAka(index, event.target.value);
-                  }}
-                />
-              </label>
-              <label className="admin-field">
-                <span>Photo</span>
-                <input
-                  placeholder="/team/prenom.jpg (fichier dans public/)"
-                  value={member.photo ?? ''}
-                  onChange={(event) => {
-                    updatePhoto(index, event.target.value);
-                  }}
-                />
-              </label>
-              {socialFields.map(({ key, label, placeholder }) => (
-                <label className="admin-field" key={key}>
-                  <span>{label}</span>
-                  <input
-                    type="url"
-                    inputMode="url"
-                    placeholder={placeholder}
-                    value={member.socials[key] ?? ''}
-                    onChange={(event) => {
-                      updateSocial(index, key, event.target.value);
-                    }}
-                  />
-                </label>
-              ))}
-            </div>
           ))}
         </div>
       </section>

@@ -4,6 +4,8 @@
 - Statut : accepté pour l'implémentation locale
 - Décision : décidée par l'agent sur délégation (PD-0003)
 
+Mise à jour du 2026-10-09 : le périmètre de 115 locales et le routage ouvert décrits ci-dessous sont remplacés par les quatre langues de [DD-0010](../design-decisions/DD-0010-quatre-langues-du-site.md).
+
 ## Contexte
 
 Le site poursuit deux objectifs éditoriaux complémentaires : une bibliothèque de podcasts vidéo qui donne envie d'enchaîner les épisodes, et une destination de référence pour suivre les classements tech et IA. Les classements existants sont surtout modélisés comme des familles techniques (`github`, `skills`, `models`, `rising`). Cette forme ne suffit pas à représenter les intentions de recherche comme « meilleurs skills pour Claude Code », un cas d'usage précis ou une langue donnée.

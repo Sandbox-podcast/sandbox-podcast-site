@@ -13,6 +13,9 @@ export default defineConfig(
       '.site-publish/**',
       // Archive du travail sur la plateforme vidéo : plus dans l'espace de travail pnpm, hors des contrôles.
       'old/**',
+      // Brouillons locaux hors du dépôt.
+      'scripts/_tmp-*/**',
+      'scripts/_tmp-*',
     ],
   },
   js.configs.recommended,

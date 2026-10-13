@@ -21,19 +21,36 @@ const pending: ChartsData = {
   takes: [],
   episodes: [],
   newsletterUrl: null,
+  progress: {
+    databaseReady: true,
+    trackedRepositories: 12,
+    snapshotsToday: 0,
+    distinctSnapshotDays: 3,
+    requiredHistoryDays: 7,
+    lastSuccessfulCollectAt: '2026-10-08T02:00:00.000Z',
+    earliestPossibleEditionWeek: '2026-W42',
+  },
 };
 
 describe('classements publics en français', () => {
   it('affiche un état d’attente exact et les commandes en français', () => {
     const html = renderToStaticMarkup(createElement(ChartsExperience, { data: pending }));
-    expect(html).toContain('LES CLASSEMENTS IA');
-    expect(html).toContain('MISE À JOUR CHAQUE LUNDI');
+    expect(html).toContain('LES CLASSEMENTS TECH &amp; IA');
+    expect(html).toContain('Projets open source, skills et modèles IA à suivre chaque semaine.');
+    expect(html).toContain('MISE À JOUR CHAQUE JOUR');
     expect(html).toContain('SEMAINE');
     expect(html).toContain('octobre 2026');
     expect(html).toContain('LE CLASSEMENT HEBDOMADAIRE');
     expect(html).toContain('PARTAGER LE CLASSEMENT');
     expect(html).toContain('Aucune édition publiée pour ce classement.');
     expect(html).toContain('après la collecte des relevés et la publication d’une édition');
+    expect(html).toContain('12 dépôts suivis');
+    expect(html).toContain('Historique : ');
+    expect(html).toContain('3');
+    expect(html).toContain(' / ');
+    expect(html).toContain('7');
+    expect(html).toContain('Première édition possible : ');
+    expect(html).toContain('2026-W42');
     expect(html).toContain('LES ARCHIVES');
     expect(html).not.toContain('THE WEEKLY RANKING');
     expect(html).not.toContain('BUILDING THE HISTORY');
@@ -47,7 +64,7 @@ describe('classements publics en français', () => {
       '3 MOIS',
       'DEPUIS LE DÉBUT',
     ]);
-    expect(CHART_LABELS.github.subtitle).toContain('Les projets IA');
+    expect(CHART_LABELS.github.subtitle).toContain('Les projets open source');
     expect(chartFilterLabel('All')).toBe('Toutes');
     expect(chartFilterLabel('Coding')).toBe('Code');
     expect(chartFilterLabel('MCP')).toBe('MCP');
@@ -64,10 +81,10 @@ describe('classements publics en anglais', () => {
         children: createElement(ChartsExperience, { data: pending }),
       }),
     );
-    expect(html).toContain('THE AI CHARTS');
-    expect(html).toContain('UPDATED EVERY MONDAY');
+    expect(html).toContain('TECH &amp; AI CHARTS');
+    expect(html).toContain('UPDATED EVERY DAY');
     expect(html).toContain('No edition has been published for this ranking.');
-    expect(html).not.toContain('LES CLASSEMENTS IA');
+    expect(html).not.toContain('LES CLASSEMENTS TECH');
     expect(html).not.toContain('Aucune édition publiée pour ce classement.');
   });
 

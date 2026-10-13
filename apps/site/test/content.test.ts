@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { computeMovements } from '../src/domain/movements.ts';
+import { episodeSchema } from '../src/domain/schema.ts';
 import { loadContent } from '../src/lib/load.ts';
 import { validateContent } from '../src/lib/validate.ts';
 import { mockConnector, mockPublishedAt } from '../src/pipeline/mock/index.ts';
@@ -15,10 +16,22 @@ describe('contenu du site', () => {
 
   it('refuse les vidéos dupliquées et les fiches liées à un classement inconnu', () => {
     const candidate = structuredClone(content);
-    if (!candidate.episodes[0] || !candidate.episodes[1] || !candidate.entities[0])
-      throw new Error('fixture');
-    candidate.episodes[0].platforms.youtubeId = '12345678901';
-    candidate.episodes[1].platforms.youtubeId = '12345678901';
+    if (!candidate.entities[0]) throw new Error('fixture');
+    const baseEpisode = episodeSchema.parse({
+      number: 1,
+      title: 'Épisode A',
+      dek: 'Résumé A pour la validation des doublons YouTube.',
+      publishedAt: '2026-10-01T12:00:00Z',
+      durationSec: 3600,
+      description: 'Description A pour la validation des doublons YouTube.',
+      hosts: ['lou'],
+      platforms: { youtubeId: '12345678901' },
+      cover: { tone: 0, kicker: 'Épisode 1' },
+    });
+    candidate.episodes = [
+      baseEpisode,
+      episodeSchema.parse({ ...baseEpisode, number: 2, title: 'Épisode B' }),
+    ];
     candidate.entities[0].editorialCharts = ['introuvable'];
     const errors = validateContent(candidate).filter((issue) => issue.level === 'error');
     expect(
@@ -29,7 +42,7 @@ describe('contenu du site', () => {
     );
   });
 
-  it('contient de quoi comprendre le produit : 4 classements de 10, 3 épisodes, plusieurs articles', () => {
+  it('contient de quoi comprendre le produit : 4 classements de 10, aucun épisode de démo, plusieurs articles', () => {
     expect(content.charts).toHaveLength(4);
     for (const chart of content.charts) {
       const last = content.snapshots[chart.slug]?.at(-1);
@@ -38,7 +51,7 @@ describe('contenu du site', () => {
         last?.provenance === 'mock' ? 1 : chart.size,
       );
     }
-    expect(content.episodes).toHaveLength(3);
+    expect(content.episodes).toHaveLength(0);
     expect(content.stories.length).toBeGreaterThanOrEqual(8);
   });
 
@@ -51,9 +64,6 @@ describe('contenu du site', () => {
     expect(content.hosts.filter((host) => host.placeholder).map((host) => host.slug)).toEqual([
       'equipe-sandbox',
     ]);
-    expect(
-      content.episodes.every((episode) => episode.hosts.every((host) => host === 'equipe-sandbox')),
-    ).toBe(true);
     expect(content.takes.every((take) => take.host === 'equipe-sandbox')).toBe(true);
     expect(content.stories.every((story) => story.author === 'equipe-sandbox')).toBe(true);
   });

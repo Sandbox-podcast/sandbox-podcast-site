@@ -27,7 +27,7 @@ Tant que les vraies vidéos ne sont pas renseignées, trois visuels originaux de
 
 Les métadonnées de l'accueil décrivent la bibliothèque de podcasts vidéo, les sources par épisode et les classements. La carte de partage reprend le studio illustré de l'épisode à la une, dans la palette bleu nuit et cyan. Le favicon et l'icône mobile simplifient le « A » triangulaire du logo fourni ; ils restent cyan quel que soit le thème choisi dans le navigateur, car les aperçus et icônes ne connaissent pas ce choix local.
 
-Le propriétaire a ensuite demandé de retirer les libellés « Mode démonstration » et les marqueurs similaires de l'interface publique. La décision technique, prise par l'agent sur délégation (PD-0003), est de conserver le `noindex` et un sitemap vide tant que les données restent simulées. Les robots peuvent lire les pages pour constater ce `noindex`. Le moteur de recherche interne reste toujours non indexable. L'URL canonique utilise le domaine de production Vercel si `SITE_URL` n'est pas défini.
+Le propriétaire a ensuite demandé de retirer les libellés « Mode démonstration » et les marqueurs similaires de l'interface publique. La décision technique, prise par l'agent sur délégation (PD-0003), est de conserver le `noindex` et un sitemap vide tant que les données restent simulées. Les robots peuvent lire les pages pour constater ce `noindex`. Le moteur de recherche interne reste toujours non indexable. Depuis la révision de [DD-0013](DD-0013-apercus-des-liens-partages.md) du 2026-10-13, l'URL canonique utilise le domaine public si `SITE_URL` n'est pas défini.
 
 Le 2026-10-07, le propriétaire a signalé que `www.sandboxpodcast.fr` affichait encore l'ancien bandeau. Le code local ne le rend plus ; le domaine sert toujours un déploiement antérieur. La suppression visible sur ce domaine exige une nouvelle mise en ligne du code, sans passer `SITE_DATA_MODE` à `live` tant que les données simulées n'ont pas été remplacées.
 
@@ -40,3 +40,5 @@ Le 2026-10-07, la propriétaire a demandé un document Markdown par classement d
 ## Portée et limites
 
 Les épisodes livrés dans le dépôt restent des données de démonstration et ne contiennent pas encore leurs propres identifiants YouTube. Les couvertures typographiques servent donc de repli. La récupération oEmbed nécessite l'accès réseau depuis le site déployé et une session backoffice valide. La récupération complète nécessite en plus `YOUTUBE_API_KEY`. L'API officielle fournit la description et la durée, mais aucun découpage en chapitres automatiques ; l'extraction se limite aux horodatages réellement présents dans la description de la vidéo.
+
+Mise à jour 2026-10-13 (décidée par l'agent sur délégation PD-0003) : la description d'épisode saisie ou importée dans l'admin conserve son Markdown source. Le formulaire montre un aperçu et la fiche publique rend le même contenu avec paragraphes, listes et liens. Le HTML éditorial n'est pas exécuté et les images distantes ne sont pas intégrées.

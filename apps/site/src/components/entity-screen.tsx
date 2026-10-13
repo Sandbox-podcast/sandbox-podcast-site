@@ -8,7 +8,7 @@ import {
   formatTimestamp,
   ordinal,
 } from '@/domain/format';
-import { shortWeek } from '@/domain/weeks';
+import { editionMark, shortWeek } from '@/domain/weeks';
 import { competitorsOf, episodesForEntity } from '@/lib/graph';
 import { absoluteUrl, breadcrumbLd } from '@/lib/seo';
 import { entityPath, entityView, getTopic, type Appearance } from '@/lib/repository';
@@ -64,7 +64,7 @@ function AppearanceBlock({ a }: { a: Appearance }) {
           <p className="label text-ink-2">
             <Text>{chart.code}</Text>
             <Text>{' \u00B7 semaine '}</Text>
-            <Text>{shortWeek(a.week).slice(1)}</Text>
+            <Text>{editionMark(a.week)}</Text>
           </p>
           <h3 className="display text-4xl">
             <Link
@@ -420,7 +420,7 @@ export function EntityScreen({ slug }: { slug: string }) {
                               >
                                 <Text>{t.chart.title}</Text>
                               </Link>
-                              , semaine {shortWeek(t.week).slice(1)}
+                              , semaine {editionMark(t.week)}
                             </>
                           ) : (
                             'Avis général'

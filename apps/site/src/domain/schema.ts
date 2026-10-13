@@ -12,9 +12,14 @@ import { z } from 'zod';
 export const slugSchema = z
   .string()
   .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'slug en minuscules, chiffres et tirets');
-export const weekIdSchema = z
+const ISO_WEEK = String.raw`\d{4}-W(0[1-9]|[1-4]\d|5[0-3])`;
+const CALENDAR_DAY = String.raw`\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])`;
+
+export const weekIdSchema = z.string().regex(new RegExp(`^${ISO_WEEK}$`), 'semaine ISO AAAA-Wnn');
+/** Identifiant d'édition : semaine ISO historique ou jour de publication. */
+export const editionIdSchema = z
   .string()
-  .regex(/^\d{4}-W(0[1-9]|[1-4]\d|5[0-3])$/, 'semaine ISO AAAA-Wnn');
+  .regex(new RegExp(`^(${ISO_WEEK}|${CALENDAR_DAY})$`), 'édition AAAA-Wnn ou AAAA-MM-JJ');
 export const dateTimeSchema = z.iso.datetime();
 export const httpsUrlSchema = z.url().refine((u) => u.startsWith('https://'), 'URL https requise');
 
@@ -35,6 +40,13 @@ export const hostSchema = z.object({
   handle: z.string().min(1),
   role: z.string().min(1),
   bio: z.string().min(1),
+  /** Pseudonyme affiché sous le prénom sur /about (« Aka »). */
+  aka: z.string().trim().min(1).optional(),
+  /** Photo servie depuis `public/`, par exemple `/team/nicolas.jpg`. */
+  photo: z
+    .string()
+    .regex(/^\/[\w/-]+\.(?:jpe?g|png|webp)$/, 'chemin local attendu, ex. /team/nom.jpg')
+    .optional(),
   socials: z
     .object({
       linkedin: httpsUrlSchema.optional(),
@@ -76,30 +88,17 @@ export const siteSettingsSchema = z.object({
   heroEyebrow: z.string().min(1),
   heroTitle: z.string().min(1),
   heroDek: z.string().min(1),
+  aboutEyebrow: z.string().min(1).default('L’équipe'),
+  aboutTitle: z.string().min(1).default('Retrouvez-nous.'),
+  aboutIntro: z
+    .string()
+    .min(1)
+    .default('Retrouvez les animateurs de Sandbox et leurs liens publics.'),
   platforms: z.object({
     youtube: httpsUrlSchema,
     spotify: httpsUrlSchema,
     apple: httpsUrlSchema,
   }),
-  team: z
-    .array(
-      z.object({
-        name: z.string().min(1),
-        /** Pseudonyme affiché sous le prénom (« Aka »). */
-        aka: z.string().trim().min(1).optional(),
-        /** Photo servie depuis `public/`, par exemple `/team/nicolas.jpg`. */
-        photo: z
-          .string()
-          .regex(/^\/[\w/-]+\.(?:jpe?g|png|webp)$/, 'chemin local attendu, ex. /team/nom.jpg')
-          .optional(),
-        socials: z.object({
-          github: httpsUrlSchema.optional(),
-          linkedin: httpsUrlSchema.optional(),
-          x: httpsUrlSchema.optional(),
-        }),
-      }),
-    )
-    .default([]),
 });
 export type SiteSettings = z.infer<typeof siteSettingsSchema>;
 
@@ -246,7 +245,7 @@ export type Methodology = z.infer<typeof methodologySchema>;
 /** Textes d'une édition. Les mesures et les rangs restent dans les snapshots. */
 export const chartEditionSchema = z
   .object({
-    week: weekIdSchema,
+    week: editionIdSchema,
     headline: z.string().max(160).default(''),
     monthlyHeadline: z.string().max(160).default(''),
     watchlist: z
@@ -331,7 +330,7 @@ export type SnapshotEntry = z.infer<typeof snapshotEntrySchema>;
 export const snapshotSchema = z
   .object({
     chart: slugSchema,
-    week: weekIdSchema,
+    week: editionIdSchema,
     publishedAt: dateTimeSchema,
     retrievedAt: dateTimeSchema,
     provenance: provenanceSchema,
@@ -403,6 +402,8 @@ export type MentionKind = z.infer<typeof mentionKindSchema>;
 export const mentionSchema = z.object({
   kind: mentionKindSchema,
   label: z.string().min(1),
+  /** Les liens issus du Markdown restent synchronisés ; les autres sont édités à la main. */
+  origin: z.literal('description').optional(),
   /** Absent : lien à compléter (signalé par la page d'administration, jamais inventé). */
   url: httpsUrlSchema.optional(),
   entity: slugSchema.optional(),
@@ -465,6 +466,10 @@ export const episodeSchema = z.object({
   cover: z.object({
     tone: z.number().int().min(0).max(6),
     kicker: z.string().min(1),
+    uploadedArtworkPath: z
+      .string()
+      .regex(/^\/api\/episode-thumbnails\/[a-f0-9]{64}\.webp$/)
+      .optional(),
     artworkPath: z
       .string()
       .regex(/^\/episode-artwork\/[a-z0-9-]+\.(?:png|jpg|webp)$/)
