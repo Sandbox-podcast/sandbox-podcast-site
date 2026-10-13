@@ -9,6 +9,12 @@ vi.mock('../src/lib/admin-persistence', async (importOriginal) => {
   };
 });
 import HomePage, { dynamic as homeDynamic } from '../src/app/(fr)/page';
+import TopicsPage, { dynamic as topicsDynamic } from '../src/app/(fr)/topics/page';
+import TopicPage, {
+  dynamic as topicDynamic,
+  dynamicParams as topicDynamicParams,
+} from '../src/app/(fr)/topics/[slug]/page';
+import { GET as getFeed, dynamic as feedDynamic } from '../src/app/feed.xml/route';
 import EpisodePage, {
   dynamicParams,
   generateStaticParams,
@@ -18,8 +24,12 @@ import { episodeSchema } from '../src/domain/schema';
 import { loadContent, setEditorialOverride } from '../src/lib/load';
 
 describe('épisodes publiés après le build', () => {
-  it('rend l’accueil à la requête pour lire la publication Postgres', () => {
+  it('rend les vues éditoriales à la requête pour lire la publication Postgres', () => {
     expect(homeDynamic).toBe('force-dynamic');
+    expect(topicsDynamic).toBe('force-dynamic');
+    expect(topicDynamic).toBe('force-dynamic');
+    expect(topicDynamicParams).toBe(true);
+    expect(feedDynamic).toBe('force-dynamic');
   });
 
   it('ouvre la fiche ciblée par le bouton de l’accueil', async () => {
@@ -60,6 +70,17 @@ describe('épisodes publiés après le build', () => {
         createElement('div', null, await EpisodePage({ params: Promise.resolve({ number: '1' }) })),
       );
       expect(detail).toContain('Épisode publié après le build');
+
+      const topics = renderToStaticMarkup(await TopicsPage());
+      expect(topics).toContain('1 épisode');
+      const topic = renderToStaticMarkup(
+        await TopicPage({ params: Promise.resolve({ slug: 'agents' }) }),
+      );
+      expect(topic).toContain('Épisode publié après le build');
+
+      const rss = await getFeed();
+      expect(rss.status).toBe(200);
+      expect(await rss.text()).toContain('Épisode publié après le build');
     } finally {
       setEditorialOverride(undefined);
     }

@@ -5,7 +5,11 @@ import { EpisodeCard } from '@/components/cards';
 import { Breadcrumbs } from '@/components/ui';
 import { allEpisodes, allTopics, findTopic } from '@/lib/repository';
 import { pageMetadata } from '@/lib/seo';
-export const dynamicParams = false;
+import { preparePublishedEditorialContent } from '@/lib/admin-persistence';
+
+export const dynamic = 'force-dynamic';
+export const dynamicParams = true;
+
 export function generateStaticParams() {
   return allTopics().map((topic) => ({ slug: topic.slug }));
 }
@@ -15,6 +19,7 @@ interface Props {
   }>;
 }
 export async function generateMetadata({ params }: Props) {
+  await preparePublishedEditorialContent();
   const { slug } = await params;
   const topic = findTopic(slug);
   if (!topic) return {};
@@ -25,6 +30,7 @@ export async function generateMetadata({ params }: Props) {
   });
 }
 export default async function TopicPage({ params }: Props) {
+  await preparePublishedEditorialContent();
   const { slug } = await params;
   const topic = findTopic(slug);
   if (!topic) notFound();
