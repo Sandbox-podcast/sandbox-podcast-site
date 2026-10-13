@@ -118,58 +118,38 @@ export function ChartsWatchlist({
       const entity = data.entities.find((candidate) => candidate.slug === item.entity);
       return entity ? [{ ...item, entity }] : [];
     }) ?? [];
+  if (!items.length) return null;
   return (
     <section className="sc-watchlist" aria-labelledby="sc-watchlist-title">
       <div>
-        <p className="sc-label">
-          <Text>{'LA SÉLECTION DE LA RÉDACTION'}</Text>
-        </p>
         <h2 id="sc-watchlist-title">
-          <Text>{'SANDBOX'}</Text>
-          <br />
-          <Text>{'À SUIVRE'}</Text>
-          <span>
-            <Text>{'.'}</Text>
-          </span>
+          <Text>{'À suivre'}</Text>
         </h2>
-        <p>
-          <Text>{'Pas encore en tête, mais déjà à suivre.'}</Text>
-        </p>
       </div>
       <div className="sc-watch-items">
         <Text>
-          {items.length ? (
-            items.map((item, index) => (
-              <article key={item.entity.slug}>
-                <span className="sc-watch-number">
-                  <Text>{'0'}</Text>
-                  <Text>{index + 1}</Text>
-                </span>
-                <div>
-                  <p className="sc-label">
-                    <Text namespace="category">{chartFilterLabel(item.entity.category)}</Text>
-                  </p>
-                  <h3>
-                    <Link href={item.entity.href}>
-                      <Text>{item.entity.name}</Text>
-                      <Text>{' \u2197'}</Text>
-                    </Link>
-                  </h3>
-                  <p>
-                    <Text>{item.reason}</Text>
-                  </p>
-                </div>
-              </article>
-            ))
-          ) : (
-            <p className="sc-watch-pending">
-              <Text>
-                {
-                  "L'\u00E9quipe n'a pas encore ajout\u00E9 sa s\u00E9lection pour cette \u00E9dition."
-                }
-              </Text>
-            </p>
-          )}
+          {items.map((item, index) => (
+            <article key={item.entity.slug}>
+              <span className="sc-watch-number">
+                <Text>{'0'}</Text>
+                <Text>{index + 1}</Text>
+              </span>
+              <div>
+                <p className="sc-label">
+                  <Text namespace="category">{chartFilterLabel(item.entity.category)}</Text>
+                </p>
+                <h3>
+                  <Link href={item.entity.href}>
+                    <Text>{item.entity.name}</Text>
+                    <Text>{' \u2197'}</Text>
+                  </Link>
+                </h3>
+                <p>
+                  <Text>{item.reason}</Text>
+                </p>
+              </div>
+            </article>
+          ))}
         </Text>
       </div>
     </section>

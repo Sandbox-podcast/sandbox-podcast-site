@@ -5214,5 +5214,97 @@
   "τ-bench": {
     "translation": "",
     "sources": ["content/scoring/models.json", "content/sources.json"]
+  },
+  "Aperçu local. Données de démonstration.": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Choisir un classement": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Cette édition": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Ce mois": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "3 mois": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Tout l'historique": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Période": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Capacité": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Options": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Partager": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Mode 16:9": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Méthodologie et sources": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Évolution": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Projet": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Modèle": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Skill": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Étoiles": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Tendance": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Indice de présence aux meilleures places. Les métriques proviennent des derniers relevés disponibles.": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Positions recalculées selon la capacité choisie.": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Recevoir les classements par e-mail": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Historique insuffisant": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx"]
+  },
+  "Actualisé toutes les 12 h": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
   }
 }
