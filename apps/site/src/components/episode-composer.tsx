@@ -471,7 +471,9 @@ export function EpisodeComposer({
             {description.trim() ? (
               <EpisodeDescription markdown={description} />
             ) : (
-              <p className="admin-help">L’aperçu apparaît dès que vous saisissez une description.</p>
+              <p className="admin-help">
+                L’aperçu apparaît dès que vous saisissez une description.
+              </p>
             )}
           </div>
           {requiresHostSelection ? (
