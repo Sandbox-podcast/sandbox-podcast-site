@@ -4,6 +4,8 @@ L'évolution v3 des classements et la détection des poussées d'étoiles sont d
 
 Application : [`apps/site`](../../apps/site). Décision de fond : [ADR-0015](../adr/ADR-0015-site-media-et-classements.md). Direction artistique et nommage : [DD-0001](../design-decisions/DD-0001-direction-artistique-du-site.md).
 
+La rubrique `/nos-projets` présente les applications personnelles de l'équipe avec leurs fiches, captures et vidéos. Voir [le guide et l'inventaire](nos-projets.md) et [DD-0018](../design-decisions/DD-0018-catalogue-nos-projets.md).
+
 La présentation compacte des classements suit [DD-0017](../design-decisions/DD-0017-interface-compacte-des-classements.md) : liste unique, filtres regroupés et détails à la demande. Voir [le rapport de validation](refonte-charts-2026-10-13.md).
 
 La collection Animateurs alimente les profils publics de `/about`, y compris les liens sociaux ([DD-0015](../design-decisions/DD-0015-animateurs-source-page-a-propos.md)).

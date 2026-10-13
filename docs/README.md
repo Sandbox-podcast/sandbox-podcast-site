@@ -8,6 +8,8 @@ Le dépôt sert le site média `apps/site`. La documentation du travail précéd
 
 ## Site média
 
+Catalogue Nos projets : [guide et inventaire](site/nos-projets.md) et [DD-0018](design-decisions/DD-0018-catalogue-nos-projets.md).
+
 UI/UX du site : [rapport du 8 octobre 2026](site/ui-ux-2026-10-08.md) et [DD-0005](design-decisions/DD-0005-ux-globale-du-site.md).
 Profils d'animateurs et page À propos : [DD-0015](design-decisions/DD-0015-animateurs-source-page-a-propos.md).
 Présentations d'épisode en HTML sur `slides.sandboxpodcast.fr` : [guide des slides](site/slides.md) et [DD-0007](design-decisions/DD-0007-sous-domaine-des-presentations.md).

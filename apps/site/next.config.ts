@@ -12,6 +12,7 @@ const contentSecurityPolicy = [
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: https://i.ytimg.com",
   "font-src 'self' data:",
+  "media-src 'self' https://marlburrow.github.io https://raw.githubusercontent.com",
   "connect-src 'self' https://vitals.vercel-insights.com",
   "frame-src 'self' https://www.youtube-nocookie.com https://www.youtube.com",
 ].join('; ');

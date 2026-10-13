@@ -15,6 +15,8 @@ import {
 } from '@/lib/repository';
 import { pageMetadata } from '@/lib/seo';
 import { translateText, type TranslationDictionary } from '@/i18n/translation';
+import { personalProjects } from '@/lib/personal-projects';
+import { PROJECT_CREATORS, personalProjectPath } from '@/domain/personal-projects';
 export const dynamic = 'force-dynamic';
 export const metadata = pageMetadata({
   title: 'Rechercher dans les podcasts et classements',
@@ -30,7 +32,7 @@ interface Props {
   }>;
 }
 const searchTypeSchema = z
-  .enum(['all', 'episodes', 'resources', 'entities', 'charts', 'topics'])
+  .enum(['all', 'episodes', 'resources', 'entities', 'charts', 'topics', 'personal-projects'])
   .catch('all');
 export default async function SearchPage({ searchParams, dictionary = {} }: Props) {
   const params = await searchParams;
@@ -61,6 +63,14 @@ export default async function SearchPage({ searchParams, dictionary = {} }: Prop
     includes(chart.title, chart.short, chart.tagline, chart.description),
   );
   const topics = allTopics().filter((topic) => includes(topic.label, topic.description));
+  const teamProjects = personalProjects.filter((project) =>
+    includes(
+      project.name,
+      project.tagline,
+      PROJECT_CREATORS[project.creator].name,
+      ...project.description,
+    ),
+  );
   const resources = allEpisodes()
     .flatMap((episode) =>
       episodeResources(episode).map((mention, index) => ({
@@ -72,11 +82,17 @@ export default async function SearchPage({ searchParams, dictionary = {} }: Prop
     )
     .filter((resource) => includes(...resource.searchable));
   const count =
-    episodes.length + entities.length + charts.length + topics.length + resources.length;
+    episodes.length +
+    entities.length +
+    charts.length +
+    topics.length +
+    resources.length +
+    teamProjects.length;
   const facets = [
     { id: 'all', label: 'Tout', count },
     { id: 'episodes', label: 'Podcasts', count: episodes.length },
     { id: 'resources', label: 'Ressources', count: resources.length },
+    { id: 'personal-projects', label: 'Nos projets', count: teamProjects.length },
     { id: 'charts', label: 'Classements', count: charts.length },
     { id: 'entities', label: 'Projets et modèles', count: entities.length },
     { id: 'topics', label: 'Thèmes', count: topics.length },
@@ -274,6 +290,28 @@ export default async function SearchPage({ searchParams, dictionary = {} }: Prop
                 </Link>
               ))}
             </Text>
+          </section>
+        ) : null}
+      </Text>
+
+      <Text>
+        {teamProjects.length > 0 && (type === 'all' || type === 'personal-projects') ? (
+          <section className="search-results" aria-labelledby="search-personal-projects">
+            <h2 id="search-personal-projects" className="section-title">
+              <Text>Nos projets</Text> <span>{teamProjects.length}</span>
+            </h2>
+            {teamProjects.map((project) => (
+              <Link
+                key={project.slug}
+                className="search-result"
+                href={personalProjectPath(project.slug)}
+              >
+                <span className="search-result-title">{project.name}</span>
+                <span className="search-result-detail">
+                  <Text>{project.tagline}</Text>
+                </span>
+              </Link>
+            ))}
           </section>
         ) : null}
       </Text>

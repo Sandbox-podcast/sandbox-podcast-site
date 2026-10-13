@@ -24,6 +24,8 @@ import * as ModelTask from '@/app/(fr)/charts/models/[task]/page';
 import * as Rising from '@/app/(fr)/charts/rising/page';
 import * as RisingWeek from '@/app/(fr)/charts/rising/[week]/page';
 import * as RisingMethod from '@/app/(fr)/charts/rising/methodology/page';
+import * as PersonalProjects from '@/app/(fr)/nos-projets/page';
+import * as PersonalProject from '@/app/(fr)/nos-projets/[slug]/page';
 import type { SharedPageRoute } from '@/i18n/page-routes';
 import type { TranslationDictionary } from '@/i18n/translation';
 
@@ -63,6 +65,14 @@ export const sharedPages: Record<SharedPageRoute, SharedPage> = {
     metadata: (o) => Topic.generateMetadata({ params: slugParams(o) }),
   },
   '/about': { render: () => <About.default />, metadata: () => About.metadata },
+  '/nos-projets': {
+    render: () => <PersonalProjects.default />,
+    metadata: () => PersonalProjects.metadata,
+  },
+  '/nos-projets/:slug': {
+    render: (o) => <PersonalProject.default params={slugParams(o)} />,
+    metadata: (o) => PersonalProject.generateMetadata({ params: slugParams(o) }),
+  },
   '/search': {
     render: (o) => <Search.default searchParams={o.searchParams} dictionary={o.dictionary} />,
     metadata: () => Search.metadata,

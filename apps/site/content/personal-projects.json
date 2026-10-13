@@ -1,0 +1,1771 @@
+[
+  {
+    "slug": "sillage",
+    "name": "Sillage",
+    "creator": "nicolas",
+    "category": "ai",
+    "tagline": "Un espace de travail pour vos agents de code.",
+    "url": "https://marlburrow.github.io/sillage/",
+    "repository": "https://github.com/MarlBurroW/sillage",
+    "access": "self-hosted",
+    "platforms": ["Navigateur", "Linux", "macOS", "Windows / WSL2"],
+    "color": "#71364f",
+    "icon": {
+      "src": "/nos-projets/sillage/icon.webp",
+      "alt": "Icône de Sillage",
+      "sourceUrl": "https://marlburrow.github.io/sillage/favicon.svg",
+      "kind": "logo"
+    },
+    "cover": {
+      "src": "/nos-projets/sillage/board.webp",
+      "alt": "Présentation de Sillage",
+      "sourceUrl": "https://marlburrow.github.io/sillage/screenshots/board-dark.png",
+      "kind": "artwork"
+    },
+    "images": [
+      {
+        "src": "/nos-projets/sillage/board.webp",
+        "alt": "Un tableau pour suivre le travail",
+        "sourceUrl": "https://marlburrow.github.io/sillage/screenshots/board-dark.png",
+        "kind": "screenshot"
+      },
+      {
+        "src": "/nos-projets/sillage/git.webp",
+        "alt": "Relire les modifications Git",
+        "sourceUrl": "https://marlburrow.github.io/sillage/screenshots/panel-git-dark.png",
+        "kind": "screenshot"
+      },
+      {
+        "src": "/nos-projets/sillage/files.webp",
+        "alt": "Les fichiers à côté de la conversation",
+        "sourceUrl": "https://marlburrow.github.io/sillage/screenshots/panel-files-dark.png",
+        "kind": "screenshot"
+      },
+      {
+        "src": "/nos-projets/sillage/schedule.webp",
+        "alt": "Planifier les prochaines tâches",
+        "sourceUrl": "https://marlburrow.github.io/sillage/screenshots/schedule-dark.png",
+        "kind": "screenshot"
+      }
+    ],
+    "videos": [
+      {
+        "title": "Sillage en 54 secondes",
+        "src": "https://marlburrow.github.io/sillage/film/sillage-film.mp4",
+        "sourceUrl": "https://marlburrow.github.io/sillage/",
+        "kind": "presentation",
+        "poster": "/nos-projets/sillage/video-poster.webp"
+      }
+    ],
+    "description": [
+      "Sillage réunit Claude Code, Codex et OpenCode dans un espace de travail à héberger sur sa machine ou son serveur. Les agents utilisent leurs outils natifs et vos comptes. Le navigateur donne accès aux conversations, aux projets et aux demandes de permission, depuis un ordinateur comme depuis un téléphone.",
+      "Chaque projet possède un tableau de tâches, ses fichiers, ses branches Git et l'historique des échanges. Les sessions peuvent retrouver les décisions précédentes, partager des instructions et laisser du contexte aux autres agents. Les tâches planifiées démarrent de nouvelles sessions selon la cadence choisie."
+    ],
+    "features": [
+      "Retrouver une session depuis un autre appareil.",
+      "Organiser les projets et les tâches.",
+      "Relire les fichiers et les différences Git.",
+      "Partager les instructions, la mémoire et les outils MCP.",
+      "Planifier des tâches."
+    ],
+    "sources": [
+      {
+        "label": "Présentation du projet",
+        "url": "https://marlburrow.github.io/sillage/"
+      },
+      {
+        "label": "Dépôt et documentation",
+        "url": "https://github.com/MarlBurroW/sillage"
+      }
+    ],
+    "verifiedAt": "2026-10-13"
+  },
+  {
+    "slug": "boostback",
+    "name": "Boostback",
+    "creator": "nicolas",
+    "category": "games",
+    "tagline": "Pilotez le retour de Super Heavy.",
+    "url": "https://boostback.space/",
+    "access": "website",
+    "platforms": ["Navigateur"],
+    "color": "#315f91",
+    "icon": {
+      "src": "/nos-projets/boostback/icon.webp",
+      "alt": "Icône de Boostback",
+      "sourceUrl": "https://boostback.space/apple-touch-icon.png",
+      "kind": "logo"
+    },
+    "cover": {
+      "src": "/nos-projets/boostback/boostback-flight.webp",
+      "alt": "Le vol et les instruments",
+      "sourceUrl": "https://boostback.space/",
+      "kind": "screenshot"
+    },
+    "images": [
+      {
+        "src": "/nos-projets/boostback/boostback-flight.webp",
+        "alt": "Le vol et les instruments",
+        "sourceUrl": "https://boostback.space/",
+        "kind": "screenshot"
+      },
+      {
+        "src": "/nos-projets/boostback/boostback-menu.webp",
+        "alt": "Choisir son vol",
+        "sourceUrl": "https://boostback.space/",
+        "kind": "screenshot"
+      }
+    ],
+    "videos": [],
+    "description": [
+      "Boostback est un jeu de pilotage spatial en 3D. Vous prenez les commandes du booster Super Heavy pour le ramener vers Starbase et tenter de l'attraper avec les bras de Mechazilla.",
+      "Il faut gérer la poussée et la trajectoire pendant le vol retour, puis réussir l'approche de la tour. Le jeu se lance gratuitement dans un navigateur sur ordinateur et propose un classement des pilotes."
+    ],
+    "features": [
+      "Piloter le booster pendant son vol retour.",
+      "Ajuster la poussée et la trajectoire.",
+      "Tenter la capture par Mechazilla.",
+      "Comparer son résultat au classement."
+    ],
+    "sources": [
+      {
+        "label": "Présentation du projet",
+        "url": "https://boostback.space/"
+      }
+    ],
+    "verifiedAt": "2026-10-13"
+  },
+  {
+    "slug": "ballcam",
+    "name": "BallCam.tv",
+    "creator": "nicolas",
+    "category": "games",
+    "tagline": "Vos replays Rocket League, sous tous les angles.",
+    "url": "https://ballcam.tv/",
+    "access": "website",
+    "platforms": ["Navigateur"],
+    "color": "#117e84",
+    "icon": {
+      "src": "/nos-projets/ballcam/icon.webp",
+      "alt": "Icône de BallCam.tv",
+      "sourceUrl": "https://ballcam.tv/apple-touch-icon.png?v=2",
+      "kind": "logo"
+    },
+    "cover": {
+      "src": "/nos-projets/ballcam/cover.webp",
+      "alt": "Présentation de BallCam.tv",
+      "sourceUrl": "https://ballcam.tv/brand/og-default.png",
+      "kind": "artwork"
+    },
+    "images": [
+      {
+        "src": "/nos-projets/ballcam/ballcam-replay.webp",
+        "alt": "Le détail du replay",
+        "sourceUrl": "https://ballcam.tv/replays/e082171f-c826-4ff9-bc06-d2ccb4af0dcb",
+        "kind": "screenshot"
+      },
+      {
+        "src": "/nos-projets/ballcam/ballcam-capture.webp",
+        "alt": "Découvrir BallCam",
+        "sourceUrl": "https://ballcam.tv/",
+        "kind": "screenshot"
+      }
+    ],
+    "videos": [],
+    "description": [
+      "BallCam transforme les fichiers de replay Rocket League en matchs à explorer en 3D dans le navigateur. Vous pouvez revoir une action, changer de point de vue et partager un replay avec votre équipe ou votre coach.",
+      "Les séances de visionnage permettent de regarder ensemble et de discuter d'une décision de jeu. Le studio de clips sert à enregistrer un mouvement de caméra ou à définir un trajet avec des images clés, puis à partager le résultat. La bibliothèque publique se consulte sans compte."
+    ],
+    "features": [
+      "Importer un fichier .replay et revoir le match en 3D.",
+      "Comparer les points de vue des joueurs.",
+      "Regarder et analyser une action en équipe.",
+      "Créer des clips avec une caméra libre ou des images clés."
+    ],
+    "sources": [
+      {
+        "label": "Présentation du projet",
+        "url": "https://ballcam.tv/"
+      }
+    ],
+    "verifiedAt": "2026-10-13"
+  },
+  {
+    "slug": "point-zero",
+    "name": "Point Zero",
+    "creator": "nicolas",
+    "category": "science",
+    "tagline": "Explorer l'échelle d'une explosion en 3D.",
+    "url": "https://pointzero.marlburrow.dev/",
+    "access": "website",
+    "platforms": ["Navigateur"],
+    "color": "#c56532",
+    "icon": {
+      "src": "/nos-projets/point-zero/icon.webp",
+      "alt": "Icône de Point Zero",
+      "sourceUrl": "https://pointzero.marlburrow.dev/favicon.svg",
+      "kind": "logo"
+    },
+    "cover": {
+      "src": "/nos-projets/point-zero/cover.webp",
+      "alt": "Présentation de Point Zero",
+      "sourceUrl": "https://pointzero.marlburrow.dev/social/point-zero-og-v1.png",
+      "kind": "artwork"
+    },
+    "images": [
+      {
+        "src": "/nos-projets/point-zero/point-zero-simulation.webp",
+        "alt": "Explorer la simulation",
+        "sourceUrl": "https://pointzero.marlburrow.dev/",
+        "kind": "screenshot"
+      },
+      {
+        "src": "/nos-projets/point-zero/point-zero-map.webp",
+        "alt": "Choisir un lieu sur la carte",
+        "sourceUrl": "https://pointzero.marlburrow.dev/",
+        "kind": "screenshot"
+      },
+      {
+        "src": "/nos-projets/point-zero/cover.webp",
+        "alt": "L'univers de Point Zero",
+        "sourceUrl": "https://pointzero.marlburrow.dev/social/point-zero-og-v1.png",
+        "kind": "artwork"
+      }
+    ],
+    "videos": [],
+    "description": [
+      "Point Zero représente une explosion nucléaire en trois dimensions, à l'endroit choisi sur la carte. La simulation affiche les zones d'impact et donne un repère visuel sur l'échelle du phénomène.",
+      "Le choix du lieu et de la puissance modifie la simulation. Les estimations d'impact humain utilisent les données de population WorldPop. Elles sont illustratives et ne constituent pas une prévision opérationnelle."
+    ],
+    "features": [
+      "Choisir un lieu sur Terre.",
+      "Comparer différentes puissances.",
+      "Explorer les zones d'impact sur la carte 3D.",
+      "Consulter les estimations illustratives."
+    ],
+    "sources": [
+      {
+        "label": "Présentation du projet",
+        "url": "https://pointzero.marlburrow.dev/"
+      }
+    ],
+    "verifiedAt": "2026-10-13"
+  },
+  {
+    "slug": "hivekeep",
+    "name": "Hivekeep",
+    "creator": "nicolas",
+    "category": "ai",
+    "tagline": "Une équipe d'agents IA, hébergée chez vous.",
+    "url": "https://hivekeep.app/",
+    "repository": "https://github.com/MarlBurroW/hivekeep",
+    "access": "self-hosted",
+    "platforms": ["Navigateur", "Serveur personnel"],
+    "color": "#77529c",
+    "icon": {
+      "src": "/nos-projets/hivekeep/icon.webp",
+      "alt": "Icône de Hivekeep",
+      "sourceUrl": "https://raw.githubusercontent.com/MarlBurroW/hivekeep/main/docs/assets/logo.png",
+      "kind": "logo"
+    },
+    "cover": {
+      "src": "/nos-projets/hivekeep/cover.webp",
+      "alt": "Présentation de Hivekeep",
+      "sourceUrl": "https://raw.githubusercontent.com/MarlBurroW/hivekeep/main/site/public/og-image.png",
+      "kind": "artwork"
+    },
+    "images": [
+      {
+        "src": "/nos-projets/hivekeep/chat-briefing.webp",
+        "alt": "Les conversations et le briefing",
+        "sourceUrl": "https://raw.githubusercontent.com/MarlBurroW/hivekeep/main/docs/assets/screenshots/chat-briefing.webp",
+        "kind": "screenshot"
+      },
+      {
+        "src": "/nos-projets/hivekeep/miniapp-timer.webp",
+        "alt": "Les mini-apps dans la conversation",
+        "sourceUrl": "https://raw.githubusercontent.com/MarlBurroW/hivekeep/main/docs/assets/screenshots/miniapp-timer.webp",
+        "kind": "screenshot"
+      },
+      {
+        "src": "/nos-projets/hivekeep/files.webp",
+        "alt": "L'espace de fichiers",
+        "sourceUrl": "https://raw.githubusercontent.com/MarlBurroW/hivekeep/main/docs/assets/screenshots/files.webp",
+        "kind": "screenshot"
+      },
+      {
+        "src": "/nos-projets/hivekeep/token-usage.webp",
+        "alt": "Le suivi de la consommation",
+        "sourceUrl": "https://raw.githubusercontent.com/MarlBurroW/hivekeep/main/docs/assets/screenshots/token-usage.webp",
+        "kind": "screenshot"
+      }
+    ],
+    "videos": [
+      {
+        "title": "Premiers pas avec Hivekeep",
+        "src": "https://raw.githubusercontent.com/MarlBurroW/hivekeep/main/site/public/videos/onboarding.mp4",
+        "sourceUrl": "https://hivekeep.app/#demo",
+        "kind": "demo",
+        "poster": "/nos-projets/hivekeep/video-poster.webp"
+      }
+    ],
+    "description": [
+      "Hivekeep est une plateforme à héberger chez soi pour faire travailler une équipe d'agents IA. Chaque agent conserve sa mémoire, sa conversation, ses outils et son espace de travail. Les agents peuvent se déléguer des tâches et collaborer.",
+      "L'interface web regroupe les conversations, fichiers, mini-apps et tâches programmées. Plusieurs messageries peuvent être reliées aux agents, dont Telegram, WhatsApp, Slack, Discord, Signal et Matrix. Hivekeep est le nouveau nom de KinBot."
+    ],
+    "features": [
+      "Créer des agents avec une mémoire persistante.",
+      "Faire collaborer les agents.",
+      "Programmer des tâches.",
+      "Utiliser les fichiers et les mini-apps.",
+      "Suivre la consommation de tokens."
+    ],
+    "sources": [
+      {
+        "label": "Présentation du projet",
+        "url": "https://hivekeep.app/"
+      },
+      {
+        "label": "Dépôt et documentation",
+        "url": "https://github.com/MarlBurroW/hivekeep"
+      }
+    ],
+    "verifiedAt": "2026-10-13"
+  },
+  {
+    "slug": "akasha-os",
+    "name": "Akasha OS",
+    "creator": "loic",
+    "category": "ai",
+    "tagline": "Conversations, agents et outils en local.",
+    "url": "https://azerothl.github.io/akasha-os/",
+    "repository": "https://github.com/azerothl/akasha-os",
+    "access": "desktop",
+    "platforms": ["Ordinateur"],
+    "color": "#486e79",
+    "icon": {
+      "src": "/nos-projets/akasha-os/icon.webp",
+      "alt": "Icône de Akasha OS",
+      "sourceUrl": "https://raw.githubusercontent.com/azerothl/akasha-os/main/branding/logo/icon-512.png",
+      "kind": "logo"
+    },
+    "cover": {
+      "src": "/nos-projets/akasha-os/chat.webp",
+      "alt": "Présentation de Akasha OS",
+      "sourceUrl": "https://raw.githubusercontent.com/azerothl/akasha-os/main/website/media/chat.png",
+      "kind": "artwork"
+    },
+    "images": [
+      {
+        "src": "/nos-projets/akasha-os/chat.webp",
+        "alt": "Les conversations",
+        "sourceUrl": "https://raw.githubusercontent.com/azerothl/akasha-os/main/website/media/chat.png",
+        "kind": "screenshot"
+      },
+      {
+        "src": "/nos-projets/akasha-os/create.webp",
+        "alt": "Les espaces de création",
+        "sourceUrl": "https://raw.githubusercontent.com/azerothl/akasha-os/main/website/media/create.png",
+        "kind": "screenshot"
+      },
+      {
+        "src": "/nos-projets/akasha-os/salon.webp",
+        "alt": "Le salon des agents",
+        "sourceUrl": "https://raw.githubusercontent.com/azerothl/akasha-os/main/website/media/salon.png",
+        "kind": "screenshot"
+      }
+    ],
+    "videos": [],
+    "description": [
+      "Akasha OS réunit conversations, modèles, mémoire et outils dans un environnement local. Les actions des agents passent par des capacités explicites. Les sessions persistantes, notes et tâches restent réunies dans la même application.",
+      "La version Preview comprend la gestion des agents, des modèles et des espaces de création. Elle s'installe sur un système existant : le projet ne distribue pas encore une image de système d'exploitation amorçable."
+    ],
+    "features": [
+      "Retrouver des conversations persistantes.",
+      "Organiser les notes et les tâches.",
+      "Gérer les agents et les modèles.",
+      "Utiliser les espaces de création."
+    ],
+    "sources": [
+      {
+        "label": "Présentation du projet",
+        "url": "https://azerothl.github.io/akasha-os/"
+      },
+      {
+        "label": "Dépôt et documentation",
+        "url": "https://github.com/azerothl/akasha-os"
+      }
+    ],
+    "verifiedAt": "2026-10-13"
+  },
+  {
+    "slug": "song-maker",
+    "name": "Song Maker",
+    "creator": "loic",
+    "category": "music",
+    "tagline": "Générer, éditer et mixer un morceau.",
+    "url": "https://www.song-maker.app/fr",
+    "repository": "https://github.com/azerothl/song-maker",
+    "access": "desktop",
+    "platforms": ["Windows", "macOS", "Linux"],
+    "color": "#733c9e",
+    "icon": {
+      "src": "/nos-projets/song-maker/icon.webp",
+      "alt": "Icône de Song Maker",
+      "sourceUrl": "https://raw.githubusercontent.com/azerothl/song-maker/main/src-tauri/icons/icon.png",
+      "kind": "logo"
+    },
+    "cover": {
+      "src": "/nos-projets/song-maker/editing.webp",
+      "alt": "Présentation de Song Maker",
+      "sourceUrl": "https://raw.githubusercontent.com/azerothl/song-maker/main/docs/maintenance/clip-editing-2026-10-01/native-reopened.jpg",
+      "kind": "artwork"
+    },
+    "images": [
+      {
+        "src": "/nos-projets/song-maker/editing.webp",
+        "alt": "L'édition des clips",
+        "sourceUrl": "https://raw.githubusercontent.com/azerothl/song-maker/main/docs/maintenance/clip-editing-2026-10-01/native-reopened.jpg",
+        "kind": "screenshot"
+      },
+      {
+        "src": "/nos-projets/song-maker/arrangement.webp",
+        "alt": "L'arrangement du morceau",
+        "sourceUrl": "https://raw.githubusercontent.com/azerothl/song-maker/main/docs/maintenance/arrangement-2026-10-01/native-marker-bounded.jpg",
+        "kind": "screenshot"
+      }
+    ],
+    "videos": [
+      {
+        "title": "Un aperçu de l'atelier musical",
+        "src": "https://raw.githubusercontent.com/azerothl/song-maker/main/marketing/elevator-pitch/song-maker-pitch-30s.mp4",
+        "sourceUrl": "https://github.com/azerothl/song-maker/blob/main/marketing/elevator-pitch/README.md",
+        "kind": "presentation",
+        "poster": "/nos-projets/song-maker/video-poster.webp"
+      }
+    ],
+    "description": [
+      "Song Maker est un atelier musical local. Un style et des paroles servent à générer une chanson avec YuE2. Les prises peuvent ensuite être comparées, éditées et séparées en pistes avec HTDemucs.",
+      "L'application réunit les outils de production et de mix, une partition MIDI/ABC et les exports WAV, FLAC et MP3. Le code et les versions pour Windows, macOS et Linux sont publics."
+    ],
+    "features": [
+      "Générer une chanson à partir d'un style et de paroles.",
+      "Comparer et éditer les prises.",
+      "Séparer le morceau en pistes.",
+      "Travailler la partition et le mix.",
+      "Exporter en WAV, FLAC ou MP3."
+    ],
+    "sources": [
+      {
+        "label": "Présentation du projet",
+        "url": "https://www.song-maker.app/fr"
+      },
+      {
+        "label": "Dépôt et documentation",
+        "url": "https://github.com/azerothl/song-maker"
+      }
+    ],
+    "verifiedAt": "2026-10-13"
+  },
+  {
+    "slug": "akasha",
+    "name": "Akasha",
+    "creator": "loic",
+    "category": "ai",
+    "tagline": "Un assistant IA local, avec mémoire.",
+    "url": "https://azerothl.github.io/Akasha_app/",
+    "repository": "https://github.com/azerothl/Akasha",
+    "access": "desktop",
+    "platforms": ["Windows", "macOS", "Linux"],
+    "color": "#3b8791",
+    "icon": {
+      "src": "/nos-projets/akasha/icon.webp",
+      "alt": "Icône de Akasha",
+      "sourceUrl": "https://raw.githubusercontent.com/azerothl/Akasha/main/apps/akasha-ui/public/akasha-icon.png",
+      "kind": "logo"
+    },
+    "cover": {
+      "src": "/nos-projets/akasha/chat.webp",
+      "alt": "Présentation de Akasha",
+      "sourceUrl": "https://azerothl.github.io/Akasha_app/assets/screenshots/ui-chat.png",
+      "kind": "artwork"
+    },
+    "images": [
+      {
+        "src": "/nos-projets/akasha/chat.webp",
+        "alt": "La conversation avec l'assistant",
+        "sourceUrl": "https://azerothl.github.io/Akasha_app/assets/screenshots/ui-chat.png",
+        "kind": "screenshot"
+      },
+      {
+        "src": "/nos-projets/akasha/cookbook-recipes.webp",
+        "alt": "Le carnet de recettes",
+        "sourceUrl": "https://azerothl.github.io/Akasha_app/assets/screenshots/ui-cookbook-recipes.png",
+        "kind": "screenshot"
+      },
+      {
+        "src": "/nos-projets/akasha/compare.webp",
+        "alt": "Comparer les modèles",
+        "sourceUrl": "https://azerothl.github.io/Akasha_app/assets/screenshots/ui-compare.png",
+        "kind": "screenshot"
+      },
+      {
+        "src": "/nos-projets/akasha/mission.webp",
+        "alt": "Suivre une mission",
+        "sourceUrl": "https://azerothl.github.io/Akasha_app/assets/screenshots/ui-mission.png",
+        "kind": "screenshot"
+      },
+      {
+        "src": "/nos-projets/akasha/notes.webp",
+        "alt": "Retrouver les notes",
+        "sourceUrl": "https://azerothl.github.io/Akasha_app/assets/screenshots/ui-notes.png",
+        "kind": "screenshot"
+      }
+    ],
+    "videos": [],
+    "description": [
+      "Akasha est un assistant IA qui fonctionne autour d'un service restant actif sur la machine. Il dispose d'une interface desktop et terminal, d'une mémoire et de tâches planifiées.",
+      "Les skills et plugins étendent ses fonctions. Des canaux comme Telegram, Discord et Slack peuvent être reliés au même service. Le modèle embarqué fonctionne sans compte cloud obligatoire ; les fournisseurs externes restent optionnels."
+    ],
+    "features": [
+      "Dialoguer dans l'application ou le terminal.",
+      "Conserver une mémoire et des notes.",
+      "Programmer des tâches.",
+      "Relier des messageries et ajouter des plugins."
+    ],
+    "sources": [
+      {
+        "label": "Présentation du projet",
+        "url": "https://azerothl.github.io/Akasha_app/"
+      },
+      {
+        "label": "Dépôt et documentation",
+        "url": "https://github.com/azerothl/Akasha"
+      }
+    ],
+    "verifiedAt": "2026-10-13"
+  },
+  {
+    "slug": "not-my-fault",
+    "name": "Not My Fault",
+    "creator": "lou",
+    "category": "games",
+    "tagline": "Une crise. Des indices. Votre équipe.",
+    "url": "https://nmf.okodukai.fr/",
+    "access": "website",
+    "platforms": ["Navigateur"],
+    "color": "#266951",
+    "icon": {
+      "src": "/nos-projets/not-my-fault/icon.webp",
+      "alt": "Icône de Not My Fault",
+      "sourceUrl": "https://nmf.okodukai.fr/icon.png",
+      "kind": "logo"
+    },
+    "cover": {
+      "src": "/nos-projets/not-my-fault/cover.webp",
+      "alt": "Présentation de Not My Fault",
+      "sourceUrl": "https://nmf.okodukai.fr/opengraph-image.png",
+      "kind": "artwork"
+    },
+    "images": [
+      {
+        "src": "/nos-projets/not-my-fault/ship.webp",
+        "alt": "La mission Ship Happens",
+        "sourceUrl": "https://nmf.okodukai.fr/assets/missions/ship-happens/key-art.webp",
+        "kind": "artwork"
+      },
+      {
+        "src": "/nos-projets/not-my-fault/panel-command.webp",
+        "alt": "Le panneau de commandement",
+        "sourceUrl": "https://nmf.okodukai.fr/assets/missions/ship-happens/panels/emergency-evacuation-command-v6.webp",
+        "kind": "artwork"
+      },
+      {
+        "src": "/nos-projets/not-my-fault/panel-navigation.webp",
+        "alt": "Le panneau de navigation",
+        "sourceUrl": "https://nmf.okodukai.fr/assets/missions/ship-happens/panels/navigation-lights-command-v6.webp",
+        "kind": "artwork"
+      }
+    ],
+    "videos": [
+      {
+        "title": "Les missions et le mode PvP",
+        "src": "/nos-projets/not-my-fault/presentation.mp4",
+        "sourceUrl": "https://x.com/loukan42/status/2107086681832673784",
+        "kind": "presentation",
+        "poster": "/nos-projets/not-my-fault/video-poster.webp"
+      }
+    ],
+    "description": [
+      "Not My Fault est un jeu de communication : chaque joueur possède des outils et des informations que les autres ne voient pas. L'équipe doit décrire ses écrans, partager ses indices et décider avant la fin du compte à rebours.",
+      "Une partie coopérative réunit deux à cinq joueurs dans le navigateur. Le mode PvP oppose deux équipes sur une même mission. Le lien de la salle se partage aux participants, sans compte obligatoire ni installation. Un appel vocal habituel peut accompagner la partie."
+    ],
+    "features": [
+      "Jouer des rôles aux informations différentes.",
+      "Résoudre des missions coopératives chronométrées.",
+      "Opposer deux équipes en mode PvP.",
+      "Rejoindre une salle depuis son lien."
+    ],
+    "sources": [
+      {
+        "label": "Présentation du projet",
+        "url": "https://nmf.okodukai.fr/"
+      },
+      {
+        "label": "Annonce des missions et du mode PvP",
+        "url": "https://x.com/loukan42/status/2107086681832673784"
+      }
+    ],
+    "verifiedAt": "2026-10-13"
+  },
+  {
+    "slug": "okodukai",
+    "name": "Okodukai",
+    "creator": "lou",
+    "category": "education",
+    "tagline": "Apprendre à gérer son argent en jouant.",
+    "url": "https://okodukai.fr/",
+    "repository": "https://github.com/loukan42/okodukai",
+    "access": "website",
+    "platforms": ["Navigateur"],
+    "color": "#66774a",
+    "icon": {
+      "src": "/nos-projets/okodukai/icon.webp",
+      "alt": "Icône de Okodukai",
+      "sourceUrl": "https://okodukai.fr/icons/logo-mark.png",
+      "kind": "logo"
+    },
+    "cover": {
+      "src": "/nos-projets/okodukai/cover.webp",
+      "alt": "Présentation de Okodukai",
+      "sourceUrl": "https://okodukai.fr/social/okodukai-share.jpg",
+      "kind": "artwork"
+    },
+    "images": [
+      {
+        "src": "/nos-projets/okodukai/parent.webp",
+        "alt": "Le tableau de bord des parents",
+        "sourceUrl": "https://okodukai.fr/assets/screens/parent-dashboard-1440.webp",
+        "kind": "screenshot"
+      },
+      {
+        "src": "/nos-projets/okodukai/home.webp",
+        "alt": "L'accueil de l'enfant",
+        "sourceUrl": "https://raw.githubusercontent.com/loukan42/okodukai/main/docs/screenshots/child-experience-home-375.png",
+        "kind": "screenshot"
+      },
+      {
+        "src": "/nos-projets/okodukai/quests.webp",
+        "alt": "Les quêtes à accomplir",
+        "sourceUrl": "https://raw.githubusercontent.com/loukan42/okodukai/main/docs/screenshots/child-experience-quests-375.png",
+        "kind": "screenshot"
+      },
+      {
+        "src": "/nos-projets/okodukai/vault.webp",
+        "alt": "Le Coffre magique",
+        "sourceUrl": "https://raw.githubusercontent.com/loukan42/okodukai/main/docs/screenshots/child-experience-vault-375.png",
+        "kind": "screenshot"
+      }
+    ],
+    "videos": [
+      {
+        "title": "Découvrir la tirelire virtuelle",
+        "src": "/nos-projets/okodukai/presentation.mp4",
+        "sourceUrl": "https://www.linkedin.com/posts/louhusson_vous-vous-souvenez-de-votre-premi%C3%A8re-tirelire-activity-7510591208352690176-gPYe",
+        "kind": "presentation",
+        "poster": "/nos-projets/okodukai/video-poster.webp"
+      }
+    ],
+    "description": [
+      "Okodukai est une tirelire virtuelle pour apprendre à gérer son argent. L'enfant gagne des pièces grâce aux quêtes proposées par ses parents, puis choisit de les dépenser dans la boutique familiale, de les garder dans son Coffre magique ou de découvrir les placements dans une simulation.",
+      "Les parents définissent les quêtes, valident leur réalisation et choisissent les récompenses. Ils règlent les retraits et l'accès aux placements. Les pièces ne s'achètent pas et ne se convertissent pas en euros. Les cartes à collectionner se gagnent en accomplissant les quêtes."
+    ],
+    "features": [
+      "Créer et valider des quêtes familiales.",
+      "Choisir des récompenses dans la boutique.",
+      "Épargner dans le Coffre magique.",
+      "Découvrir les placements simulés.",
+      "Gagner des cartes à collectionner."
+    ],
+    "sources": [
+      {
+        "label": "Présentation du projet",
+        "url": "https://okodukai.fr/"
+      },
+      {
+        "label": "Dépôt et documentation",
+        "url": "https://github.com/loukan42/okodukai"
+      }
+    ],
+    "verifiedAt": "2026-10-13"
+  },
+  {
+    "slug": "heros-de-la-classe",
+    "name": "Héros de la classe",
+    "creator": "lou",
+    "category": "education",
+    "tagline": "Des histoires pour réviser du CP au CM2.",
+    "url": "https://herosdelaclasse.com/",
+    "repository": "https://github.com/loukan42/herosdelaclasse",
+    "access": "website",
+    "platforms": ["Navigateur"],
+    "color": "#966f3f",
+    "icon": {
+      "src": "/nos-projets/heros-de-la-classe/icon.webp",
+      "alt": "Icône de Héros de la classe",
+      "sourceUrl": "https://raw.githubusercontent.com/loukan42/herosdelaclasse/main/src/assets/logo.png",
+      "kind": "logo"
+    },
+    "cover": {
+      "src": "/nos-projets/heros-de-la-classe/cover.webp",
+      "alt": "Présentation de Héros de la classe",
+      "sourceUrl": "https://raw.githubusercontent.com/loukan42/herosdelaclasse/main/src/assets/cover-logo.png",
+      "kind": "artwork"
+    },
+    "images": [
+      {
+        "src": "/nos-projets/heros-de-la-classe/heros-matieres.webp",
+        "alt": "Les matières et leurs aventures",
+        "sourceUrl": "https://herosdelaclasse.com/grade/CP",
+        "kind": "screenshot"
+      },
+      {
+        "src": "/nos-projets/heros-de-la-classe/heros-classes.webp",
+        "alt": "Choisir son niveau",
+        "sourceUrl": "https://herosdelaclasse.com/",
+        "kind": "screenshot"
+      },
+      {
+        "src": "/nos-projets/heros-de-la-classe/cover.webp",
+        "alt": "Les aventures de Héros de la classe",
+        "sourceUrl": "https://raw.githubusercontent.com/loukan42/herosdelaclasse/main/src/assets/cover-logo.png",
+        "kind": "artwork"
+      }
+    ],
+    "videos": [],
+    "description": [
+      "Héros de la classe propose des histoires interactives pour réviser le programme du CP au CM2. L'enfant choisit une aventure et prend des décisions au fil des pages. Ses choix orientent la suite du récit.",
+      "Les histoires associent illustrations, lecture et notions scolaires. La personnalisation du prénom permet à l'enfant de se retrouver dans l'aventure. Les profils, la progression sauvegardée et les cartes à collectionner accompagnent les prochaines visites."
+    ],
+    "features": [
+      "Choisir la suite de l'histoire.",
+      "Réviser des notions du CP au CM2.",
+      "Personnaliser le prénom du héros.",
+      "Retrouver sa progression et ses cartes."
+    ],
+    "sources": [
+      {
+        "label": "Présentation du projet",
+        "url": "https://herosdelaclasse.com/"
+      },
+      {
+        "label": "Dépôt et documentation",
+        "url": "https://github.com/loukan42/herosdelaclasse"
+      }
+    ],
+    "verifiedAt": "2026-10-13"
+  },
+  {
+    "slug": "politiquizz",
+    "name": "Politiquizz",
+    "creator": "lou",
+    "category": "culture",
+    "tagline": "Comparer ses opinions aux votes et programmes.",
+    "url": "https://comprendrelapolitique.vercel.app/",
+    "repository": "https://github.com/loukan42/comprendrelapolitique",
+    "access": "website",
+    "platforms": ["Navigateur"],
+    "color": "#3b5597",
+    "icon": {
+      "src": "/nos-projets/politiquizz/icon.webp",
+      "alt": "Icône de Politiquizz",
+      "sourceUrl": "https://comprendrelapolitique.vercel.app/assets/favicon-rfV766eT.png",
+      "kind": "logo"
+    },
+    "cover": {
+      "src": "/nos-projets/politiquizz/cover.webp",
+      "alt": "Présentation de Politiquizz",
+      "sourceUrl": "https://comprendrelapolitique.vercel.app/assets/politiquiz-BdAActCQ.png",
+      "kind": "artwork"
+    },
+    "images": [
+      {
+        "src": "/nos-projets/politiquizz/politiquizz-quiz.webp",
+        "alt": "Le quiz des votes",
+        "sourceUrl": "https://comprendrelapolitique.vercel.app/quiz",
+        "kind": "screenshot"
+      },
+      {
+        "src": "/nos-projets/politiquizz/politiquizz-home.webp",
+        "alt": "Explorer les données politiques",
+        "sourceUrl": "https://comprendrelapolitique.vercel.app/",
+        "kind": "screenshot"
+      }
+    ],
+    "videos": [],
+    "description": [
+      "Politiquizz rend les données politiques françaises plus faciles à explorer. Les quiz proposent de répondre à des questions de fond, puis de comparer ses réponses aux votes des groupes à l'Assemblée nationale ou aux propositions des programmes.",
+      "Le site permet aussi de comparer les candidats, de consulter les lois et les votes, de parcourir les thèmes de société et d'examiner les engagements des quinquennats. Les informations sont reliées à leurs sources publiques et une page explique la méthode."
+    ],
+    "features": [
+      "Répondre aux quiz sur les votes et programmes.",
+      "Comparer les positions des candidats.",
+      "Explorer les lois, votes et thèmes.",
+      "Consulter les engagements et leurs sources."
+    ],
+    "sources": [
+      {
+        "label": "Présentation du projet",
+        "url": "https://comprendrelapolitique.vercel.app/"
+      },
+      {
+        "label": "Dépôt et documentation",
+        "url": "https://github.com/loukan42/comprendrelapolitique"
+      }
+    ],
+    "verifiedAt": "2026-10-13"
+  },
+  {
+    "slug": "mindodyssey",
+    "name": "MindOdyssey",
+    "creator": "lou",
+    "category": "education",
+    "tagline": "Grandir à travers les époques de l'Histoire.",
+    "url": "https://loukan42.github.io/MindOdyssey-public/",
+    "repository": "https://github.com/loukan42/MindOdyssey-public",
+    "access": "preview",
+    "platforms": ["Navigateur"],
+    "color": "#4d814c",
+    "icon": {
+      "src": "/nos-projets/mindodyssey/icon.webp",
+      "alt": "Icône de MindOdyssey",
+      "sourceUrl": "https://loukan42.github.io/MindOdyssey-public/favicon.png",
+      "kind": "logo"
+    },
+    "cover": {
+      "src": "/nos-projets/mindodyssey/cover.webp",
+      "alt": "Présentation de MindOdyssey",
+      "sourceUrl": "https://loukan42.github.io/MindOdyssey-public/theme/partage.jpg",
+      "kind": "artwork"
+    },
+    "images": [
+      {
+        "src": "/nos-projets/mindodyssey/village.webp",
+        "alt": "Le village préhistorique",
+        "sourceUrl": "https://loukan42.github.io/MindOdyssey-public/theme/village.webp",
+        "kind": "artwork"
+      },
+      {
+        "src": "/nos-projets/mindodyssey/cover.webp",
+        "alt": "L'univers de MindOdyssey",
+        "sourceUrl": "https://loukan42.github.io/MindOdyssey-public/theme/partage.jpg",
+        "kind": "artwork"
+      }
+    ],
+    "videos": [],
+    "description": [
+      "MindOdyssey prépare un jeu d'aventure éducatif pour les enfants de 7 à 12 ans. L'enfant commence dans un village préhistorique. Les personnages lui confient des missions pour progresser et débloquer de nouveaux villages jusqu'à l'époque contemporaine.",
+      "Chaque monde correspond à une période de l'Histoire. Les missions mobilisent lecture, calcul, logique et connaissances historiques. La page publique présente le projet, construit par deux pères de famille, et permet de rejoindre la liste des familles intéressées par la bêta."
+    ],
+    "features": [
+      "Découvrir les dix mondes annoncés.",
+      "Explorer des villages et leurs missions.",
+      "Suivre l'avancement du projet.",
+      "Rejoindre la liste d'attente de la bêta."
+    ],
+    "sources": [
+      {
+        "label": "Présentation du projet",
+        "url": "https://loukan42.github.io/MindOdyssey-public/"
+      },
+      {
+        "label": "Dépôt et documentation",
+        "url": "https://github.com/loukan42/MindOdyssey-public"
+      }
+    ],
+    "verifiedAt": "2026-10-13"
+  },
+  {
+    "slug": "pinchchat",
+    "name": "PinchChat",
+    "creator": "nicolas",
+    "category": "ai",
+    "tagline": "Une interface de conversation pour OpenClaw.",
+    "url": "https://marlburrow.github.io/pinchchat/",
+    "repository": "https://github.com/MarlBurroW/pinchchat",
+    "access": "self-hosted",
+    "platforms": ["Navigateur"],
+    "color": "#923f41",
+    "icon": {
+      "src": "/nos-projets/pinchchat/icon.webp",
+      "alt": "Icône de PinchChat",
+      "sourceUrl": "https://raw.githubusercontent.com/MarlBurroW/pinchchat/main/public/logo.png",
+      "kind": "logo"
+    },
+    "cover": {
+      "src": "/nos-projets/pinchchat/cover.webp",
+      "alt": "Présentation de PinchChat",
+      "sourceUrl": "https://raw.githubusercontent.com/MarlBurroW/pinchchat/main/public/og-card.png",
+      "kind": "artwork"
+    },
+    "images": [
+      {
+        "src": "/nos-projets/pinchchat/chat.webp",
+        "alt": "Les conversations et les outils",
+        "sourceUrl": "https://raw.githubusercontent.com/MarlBurroW/pinchchat/main/public/screenshot.png",
+        "kind": "screenshot"
+      }
+    ],
+    "videos": [],
+    "description": [
+      "PinchChat permet de suivre les réponses et les actions de son agent OpenClaw en temps réel. Il réunit les conversations, tâches de fond et sessions d'agents dans une interface personnalisable.",
+      "La vue scindée, la recherche et l'export Markdown servent à retrouver les échanges. Les appels d'outils et la consommation de contexte restent visibles. L'interface existe en français et en anglais et peut s'installer comme une PWA."
+    ],
+    "features": [
+      "Suivre les réponses en streaming.",
+      "Inspecter les appels d'outils et le contexte.",
+      "Rechercher et exporter les conversations.",
+      "Utiliser la vue scindée et les thèmes."
+    ],
+    "sources": [
+      {
+        "label": "Présentation du projet",
+        "url": "https://marlburrow.github.io/pinchchat/"
+      },
+      {
+        "label": "Dépôt et documentation",
+        "url": "https://github.com/MarlBurroW/pinchchat"
+      }
+    ],
+    "verifiedAt": "2026-10-13"
+  },
+  {
+    "slug": "three-observers",
+    "name": "Three Observers",
+    "creator": "nicolas",
+    "category": "science",
+    "tagline": "Le même ciel, vu depuis trois endroits.",
+    "url": "https://marlburrow.github.io/three-observers/",
+    "repository": "https://github.com/MarlBurroW/three-observers",
+    "access": "website",
+    "platforms": ["Navigateur"],
+    "color": "#354c80",
+    "images": [
+      {
+        "src": "/nos-projets/three-observers/three-observers-sky.webp",
+        "alt": "Le ciel depuis trois observateurs",
+        "sourceUrl": "https://marlburrow.github.io/three-observers/",
+        "kind": "screenshot"
+      }
+    ],
+    "videos": [],
+    "description": [
+      "Three Observers compare le ciel vu depuis trois endroits de la Terre au même instant. La simulation affiche côte à côte un globe et un modèle de Terre plate pour observer les conséquences de leur géométrie sur le mouvement apparent des étoiles.",
+      "Les trois observateurs peuvent être déplacés. Les vues du ciel et à la première personne, l'orientation synchronisée et les réglages du firmament servent à examiner les différences entre les représentations."
+    ],
+    "features": [
+      "Déplacer les trois observateurs.",
+      "Comparer les deux géométries.",
+      "Observer le ciel ou passer à la première personne.",
+      "Synchroniser l'orientation des vues."
+    ],
+    "sources": [
+      {
+        "label": "Présentation du projet",
+        "url": "https://marlburrow.github.io/three-observers/"
+      },
+      {
+        "label": "Dépôt et documentation",
+        "url": "https://github.com/MarlBurroW/three-observers"
+      }
+    ],
+    "verifiedAt": "2026-10-13"
+  },
+  {
+    "slug": "aigora",
+    "name": "Aigora",
+    "creator": "nicolas",
+    "category": "culture",
+    "tagline": "La carte politique des modèles de langage.",
+    "url": "https://github.com/MarlBurroW/aigora",
+    "repository": "https://github.com/MarlBurroW/aigora",
+    "access": "source",
+    "platforms": ["Code source"],
+    "color": "#994b60",
+    "icon": {
+      "src": "/nos-projets/aigora/icon.webp",
+      "alt": "Icône de Aigora",
+      "sourceUrl": "https://raw.githubusercontent.com/MarlBurroW/aigora/main/frontend/app/icon.svg",
+      "kind": "logo"
+    },
+    "images": [],
+    "videos": [],
+    "description": [
+      "Aigora compare les réponses des modèles de langage au questionnaire politique Politiscales. Pour chaque modèle, le projet publie les réponses, les scores par axe et le prompt employé.",
+      "Les graphiques radar, classements et comparaisons rendent les résultats consultables. Le site annoncé renvoyait une erreur 404 lors de la vérification du 13 octobre 2026 ; la fiche renvoie donc au dépôt public et à sa méthode."
+    ],
+    "features": [
+      "Lire les réponses brutes des modèles.",
+      "Comparer les scores politiques par axe.",
+      "Consulter le prompt et la méthode."
+    ],
+    "sources": [
+      {
+        "label": "Présentation du projet",
+        "url": "https://github.com/MarlBurroW/aigora"
+      }
+    ],
+    "verifiedAt": "2026-10-13"
+  },
+  {
+    "slug": "mission-maison",
+    "name": "Mission Maison",
+    "creator": "loic",
+    "category": "tools",
+    "tagline": "Les tâches de la semaine et les récompenses.",
+    "url": "https://family-tasks-tracker.vercel.app/",
+    "repository": "https://github.com/azerothl/family_tasks_tracker",
+    "access": "website",
+    "platforms": ["Navigateur"],
+    "color": "#17324d",
+    "images": [
+      {
+        "src": "/nos-projets/mission-maison/mission-maison-week.webp",
+        "alt": "Les tâches de la semaine",
+        "sourceUrl": "https://family-tasks-tracker.vercel.app/",
+        "kind": "screenshot"
+      }
+    ],
+    "videos": [],
+    "description": [
+      "Mission Maison suit les tâches familiales dans une interface adaptée au mobile. Les validations sont organisées par semaine, avec des points et des récompenses.",
+      "Les prénoms, tâches et règles se modifient dans les réglages. Les données sont conservées dans le navigateur avec localStorage."
+    ],
+    "features": [
+      "Préparer les tâches familiales.",
+      "Valider les tâches de la semaine.",
+      "Suivre les points et récompenses.",
+      "Adapter les prénoms et les règles."
+    ],
+    "sources": [
+      {
+        "label": "Présentation du projet",
+        "url": "https://family-tasks-tracker.vercel.app/"
+      },
+      {
+        "label": "Dépôt et documentation",
+        "url": "https://github.com/azerothl/family_tasks_tracker"
+      }
+    ],
+    "verifiedAt": "2026-10-13",
+    "icon": {
+      "src": "/nos-projets/mission-maison/icon.webp",
+      "alt": "Icône de Mission Maison",
+      "sourceUrl": "https://github.com/azerothl/family_tasks_tracker/blob/main/dist/index.html",
+      "kind": "logo"
+    }
+  },
+  {
+    "slug": "akasha-code-studio",
+    "name": "Akasha Code Studio",
+    "creator": "loic",
+    "category": "ai",
+    "tagline": "Travailler sur le code avec les agents Akasha.",
+    "url": "https://github.com/azerothl/Akasha-code-studio",
+    "repository": "https://github.com/azerothl/Akasha-code-studio",
+    "access": "source",
+    "platforms": ["Code source", "Interface web locale"],
+    "color": "#375c7d",
+    "icon": {
+      "src": "/nos-projets/akasha-code-studio/icon.webp",
+      "alt": "Icône de Akasha Code Studio",
+      "sourceUrl": "https://raw.githubusercontent.com/azerothl/Akasha-code-studio/main/public/akasha-icon.png",
+      "kind": "logo"
+    },
+    "images": [],
+    "videos": [],
+    "description": [
+      "Code Studio est l'interface web du daemon Akasha pour les projets de développement. Elle permet de créer des espaces de travail, demander des modifications aux agents et éditer les fichiers.",
+      "Les tâches, aperçus, branches Git et builds sont documentés dans le guide d'utilisation. Le code est public ; aucun paquet npm ni version installable n'a été confirmé lors de la vérification."
+    ],
+    "features": [
+      "Créer des espaces de travail.",
+      "Demander des modifications aux agents.",
+      "Éditer les fichiers et suivre les tâches.",
+      "Ouvrir les aperçus et inspecter les branches Git."
+    ],
+    "sources": [
+      {
+        "label": "Présentation du projet",
+        "url": "https://github.com/azerothl/Akasha-code-studio"
+      }
+    ],
+    "verifiedAt": "2026-10-13"
+  },
+  {
+    "slug": "rbitnet",
+    "name": "Rbitnet",
+    "creator": "loic",
+    "category": "ai",
+    "tagline": "Un moteur d'inférence local écrit en Rust.",
+    "url": "https://azerothl.github.io/Rbitnet/",
+    "repository": "https://github.com/azerothl/Rbitnet",
+    "access": "self-hosted",
+    "platforms": ["Ordinateur", "Serveur local"],
+    "color": "#3b685e",
+    "icon": {
+      "src": "/nos-projets/rbitnet/icon.webp",
+      "alt": "Icône de Rbitnet",
+      "sourceUrl": "https://raw.githubusercontent.com/azerothl/Rbitnet/main/website/assets/brand/rbitnet-icon-512.png",
+      "kind": "logo"
+    },
+    "cover": {
+      "src": "/nos-projets/rbitnet/cover.webp",
+      "alt": "Présentation de Rbitnet",
+      "sourceUrl": "https://raw.githubusercontent.com/azerothl/Rbitnet/main/website/assets/brand/rbitnet-hero-atmosphere.jpg",
+      "kind": "artwork"
+    },
+    "images": [
+      {
+        "src": "/nos-projets/rbitnet/cover.webp",
+        "alt": "L'univers de Rbitnet",
+        "sourceUrl": "https://raw.githubusercontent.com/azerothl/Rbitnet/main/website/assets/brand/rbitnet-hero-atmosphere.jpg",
+        "kind": "artwork"
+      }
+    ],
+    "videos": [],
+    "description": [
+      "Rbitnet fournit un moteur d'inférence local écrit en Rust et un serveur HTTP compatible avec l'API OpenAI. Il charge des modèles GGUF selon les architectures prises en charge dans sa documentation.",
+      "Il sert notamment de moteur local à Akasha. Le dépôt publie les versions et les instructions pour l'exécuter ou l'intégrer à d'autres outils."
+    ],
+    "features": [
+      "Exécuter les modèles GGUF pris en charge.",
+      "Exposer une API HTTP compatible avec OpenAI.",
+      "Utiliser un moteur local depuis Akasha."
+    ],
+    "sources": [
+      {
+        "label": "Présentation du projet",
+        "url": "https://azerothl.github.io/Rbitnet/"
+      },
+      {
+        "label": "Dépôt et documentation",
+        "url": "https://github.com/azerothl/Rbitnet"
+      }
+    ],
+    "verifiedAt": "2026-10-13"
+  },
+  {
+    "slug": "akasha-model",
+    "name": "Akasha Model",
+    "creator": "loic",
+    "category": "ai",
+    "tagline": "Évaluer des choix et contrôler les outils.",
+    "url": "https://azerothl.github.io/akasha-model/",
+    "repository": "https://github.com/azerothl/akasha-model",
+    "access": "source",
+    "platforms": ["Python", "Code source"],
+    "color": "#645590",
+    "cover": {
+      "src": "/nos-projets/akasha-model/ready.webp",
+      "alt": "Présentation de Akasha Model",
+      "sourceUrl": "https://raw.githubusercontent.com/azerothl/akasha-model/main/site/assets/visual-demo-ready.webp",
+      "kind": "artwork"
+    },
+    "images": [
+      {
+        "src": "/nos-projets/akasha-model/ready.webp",
+        "alt": "Un contrôle autorisé",
+        "sourceUrl": "https://raw.githubusercontent.com/azerothl/akasha-model/main/site/assets/visual-demo-ready.webp",
+        "kind": "screenshot"
+      },
+      {
+        "src": "/nos-projets/akasha-model/blocked.webp",
+        "alt": "Un contrôle bloqué",
+        "sourceUrl": "https://raw.githubusercontent.com/azerothl/akasha-model/main/site/assets/visual-demo-blocked.webp",
+        "kind": "screenshot"
+      },
+      {
+        "src": "/nos-projets/akasha-model/tetris.webp",
+        "alt": "Une démonstration sur Tetris",
+        "sourceUrl": "https://raw.githubusercontent.com/azerothl/akasha-model/main/site/assets/tetris-demo-midgame.webp",
+        "kind": "screenshot"
+      }
+    ],
+    "videos": [
+      {
+        "title": "Extraits sur Doom et les échecs",
+        "src": "https://raw.githubusercontent.com/azerothl/akasha-model/main/docs/jevre-demo-10s-bgm.mp4",
+        "sourceUrl": "https://github.com/azerothl/akasha-model",
+        "kind": "demo",
+        "poster": "/nos-projets/akasha-model/ready.webp"
+      }
+    ],
+    "description": [
+      "Akasha Model évalue une liste d'options et renvoie des distributions de probabilités en un passage. Les questions peuvent prendre la forme d'un choix, d'un score ou d'une condition.",
+      "Son usage principal dans Akasha OS est le contrôle d'un appel d'outil avant son exécution : autoriser, s'abstenir ou bloquer. Le dépôt contient des démonstrations textuelles et visuelles. Les extraits de jeu présentés sont des exemples choisis, pas une mesure de performances typiques."
+    ],
+    "features": [
+      "Évaluer plusieurs options.",
+      "Retourner des scores ou probabilités.",
+      "Contrôler les appels d'outils avant exécution.",
+      "Explorer les démonstrations du dépôt."
+    ],
+    "sources": [
+      {
+        "label": "Présentation du projet",
+        "url": "https://azerothl.github.io/akasha-model/"
+      },
+      {
+        "label": "Dépôt et documentation",
+        "url": "https://github.com/azerothl/akasha-model"
+      }
+    ],
+    "verifiedAt": "2026-10-13"
+  },
+  {
+    "slug": "akasha-companion",
+    "name": "Akasha Companion",
+    "creator": "loic",
+    "category": "tools",
+    "tagline": "Un compagnon vocal pour dialoguer avec Akasha.",
+    "url": "https://github.com/azerothl/Akasha_companion",
+    "repository": "https://github.com/azerothl/Akasha_companion",
+    "access": "source",
+    "platforms": ["ESP32-S3"],
+    "color": "#346d78",
+    "images": [],
+    "videos": [],
+    "description": [
+      "Ce firmware transforme une carte Freenove ESP32-S3 Display FNK0104B en compagnon vocal du daemon Akasha. Le microphone et le haut-parleur servent à dialoguer sur le réseau local.",
+      "L'écran affiche un avatar pendant les échanges. Le dépôt fournit les guides de flash, d'utilisation et de connexion au daemon. Il s'agit d'un projet matériel à monter, pas d'un appareil commercial prêt à l'emploi."
+    ],
+    "features": [
+      "Dialoguer avec Akasha sur le réseau local.",
+      "Afficher un avatar sur l'écran.",
+      "Flasher et configurer le firmware documenté."
+    ],
+    "sources": [
+      {
+        "label": "Présentation du projet",
+        "url": "https://github.com/azerothl/Akasha_companion"
+      }
+    ],
+    "verifiedAt": "2026-10-13"
+  },
+  {
+    "slug": "offline-memory",
+    "name": "OpenClaw Offline Memory",
+    "creator": "loic",
+    "category": "ai",
+    "tagline": "Une mémoire locale pour les agents OpenClaw.",
+    "url": "https://akashabot.github.io/openclaw-memory-offline-sqlite/",
+    "repository": "https://github.com/AkashaBot/openclaw-memory-offline-sqlite",
+    "access": "self-hosted",
+    "platforms": ["OpenClaw", "MCP", "Ligne de commande"],
+    "color": "#46667b",
+    "images": [],
+    "videos": [],
+    "description": [
+      "Offline Memory conserve et recherche les souvenirs des agents dans une base SQLite. Il associe une recherche lexicale FTS5/BM25, un classement sémantique optionnel et une attribution par entité et session.",
+      "L'extraction de faits et le graphe de connaissances relient les informations. Un plugin pour OpenClaw, un serveur MCP et une interface en ligne de commande sont publiés. Le projet est développé sous le compte AkashaBot, piloté par Loïc."
+    ],
+    "features": [
+      "Conserver les souvenirs dans SQLite.",
+      "Rechercher les faits et sessions.",
+      "Explorer le graphe de connaissances.",
+      "Relier OpenClaw, MCP ou la ligne de commande."
+    ],
+    "sources": [
+      {
+        "label": "Présentation du projet",
+        "url": "https://akashabot.github.io/openclaw-memory-offline-sqlite/"
+      },
+      {
+        "label": "Dépôt et documentation",
+        "url": "https://github.com/AkashaBot/openclaw-memory-offline-sqlite"
+      },
+      {
+        "label": "Lien public entre Loïc et AkashaBot",
+        "url": "https://fr.linkedin.com/posts/louhusson_openclaw-moltbook-clawhub-chronologie-activity-7427969861684764672-0vj5"
+      }
+    ],
+    "verifiedAt": "2026-10-13"
+  },
+  {
+    "slug": "llm-router",
+    "name": "LLM Router",
+    "creator": "loic",
+    "category": "ai",
+    "tagline": "Router les requêtes entre plusieurs modèles.",
+    "url": "https://akashabot.github.io/llm-router/",
+    "repository": "https://github.com/AkashaBot/llm-router",
+    "access": "self-hosted",
+    "platforms": ["API", "Serveur personnel"],
+    "color": "#565284",
+    "images": [],
+    "videos": [],
+    "description": [
+      "LLM Router expose un point d'entrée compatible avec OpenAI et sélectionne un modèle selon la tâche. Il peut associer OpenRouter, OpenAI, Anthropic, Google et Ollama dans des chaînes de repli.",
+      "Le code documente le suivi des coûts et de la latence ainsi que la désactivation temporaire des modèles en échec. Le projet est publié sous le compte AkashaBot, piloté par Loïc."
+    ],
+    "features": [
+      "Répartir les requêtes selon la tâche.",
+      "Configurer plusieurs fournisseurs et des replis.",
+      "Suivre les coûts et la latence.",
+      "Écarter temporairement un modèle en échec."
+    ],
+    "sources": [
+      {
+        "label": "Présentation du projet",
+        "url": "https://akashabot.github.io/llm-router/"
+      },
+      {
+        "label": "Dépôt et documentation",
+        "url": "https://github.com/AkashaBot/llm-router"
+      }
+    ],
+    "verifiedAt": "2026-10-13"
+  },
+  {
+    "slug": "clawscope",
+    "name": "ClawScope",
+    "creator": "loic",
+    "category": "ai",
+    "tagline": "Voir les souvenirs et l'activité de son agent.",
+    "url": "https://github.com/AkashaBot/openclaw-clawscope",
+    "repository": "https://github.com/AkashaBot/openclaw-clawscope",
+    "access": "self-hosted",
+    "platforms": ["Navigateur", "OpenClaw"],
+    "color": "#3b6873",
+    "images": [],
+    "videos": [],
+    "description": [
+      "ClawScope est un tableau de bord local pour OpenClaw. Il regroupe la recherche dans la mémoire, une chronologie et un graphe de connaissances.",
+      "Le tableau de bord suit aussi les sessions, activités et tâches planifiées. Il utilise la base SQLite du projet Offline Memory. Le code est publié sous le compte AkashaBot, piloté par Loïc."
+    ],
+    "features": [
+      "Rechercher dans les souvenirs.",
+      "Parcourir la chronologie et le graphe.",
+      "Suivre les sessions et tâches planifiées."
+    ],
+    "sources": [
+      {
+        "label": "Présentation du projet",
+        "url": "https://github.com/AkashaBot/openclaw-clawscope"
+      }
+    ],
+    "verifiedAt": "2026-10-13"
+  },
+  {
+    "slug": "cloudflare-dns-swarm",
+    "name": "Cloudflare DNS Swarm",
+    "creator": "nicolas",
+    "category": "tools",
+    "tagline": "Vos DNS suivent vos conteneurs Docker.",
+    "url": "https://github.com/MarlBurroW/cloudflare-dns-swarm",
+    "repository": "https://github.com/MarlBurroW/cloudflare-dns-swarm",
+    "access": "self-hosted",
+    "platforms": ["Docker", "Docker Swarm"],
+    "color": "#9b6537",
+    "images": [],
+    "videos": [],
+    "description": [
+      "Ce service maintient les enregistrements DNS Cloudflare à partir des labels des conteneurs Docker et des services Swarm. Il observe leurs événements pour créer ou mettre à jour les entrées correspondantes.",
+      "Il prend en charge plusieurs types d'enregistrements, la gestion de l'IP publique et une détection optionnelle des labels Traefik. Le README présente le projet comme un travail en cours."
+    ],
+    "features": [
+      "Créer et mettre à jour les entrées DNS depuis les labels.",
+      "Utiliser Docker autonome ou Swarm.",
+      "Gérer les entrées A, AAAA, CNAME, MX et TXT.",
+      "Lire les labels Traefik en option."
+    ],
+    "sources": [
+      {
+        "label": "Présentation du projet",
+        "url": "https://github.com/MarlBurroW/cloudflare-dns-swarm"
+      }
+    ],
+    "verifiedAt": "2026-10-13"
+  },
+  {
+    "slug": "google-home-notification-gateway",
+    "name": "Google Home Notification Gateway",
+    "creator": "nicolas",
+    "category": "tools",
+    "tagline": "Des notifications vocales sur Google Home.",
+    "url": "https://github.com/MarlBurroW/google-home-notification-gateway",
+    "repository": "https://github.com/MarlBurroW/google-home-notification-gateway",
+    "access": "source",
+    "platforms": ["macOS", "Google Home"],
+    "color": "#456b80",
+    "images": [
+      {
+        "src": "/nos-projets/google-home-notification-gateway/admin.webp",
+        "sourceUrl": "https://content.screencast.com/users/marlburrow/folders/Snagit/media/da213002-2fe9-40d3-a31c-edd5af85a64c/2018-03-27_21-48-59.png",
+        "alt": "Le panneau de notifications",
+        "kind": "screenshot"
+      }
+    ],
+    "videos": [],
+    "description": [
+      "Envoyez une requête HTTP pour faire lire une notification par vos appareils Google Home. Le panneau d'administration configure les appareils, les clés API et les requêtes à envoyer depuis un script ou une automatisation IFTTT.",
+      "Une notification peut viser un appareil ou tous les appareils, dans la langue choisie. Ce projet ancien reste disponible en code source. Son README signale un fonctionnement sur macOS et des problèmes de dépendances sur Windows et Linux."
+    ],
+    "features": [
+      "Envoyer une notification vocale par HTTP.",
+      "Choisir les appareils et la langue.",
+      "Configurer les clés API dans l'administration.",
+      "Préparer les requêtes pour les automatisations."
+    ],
+    "sources": [
+      {
+        "label": "Présentation du projet",
+        "url": "https://github.com/MarlBurroW/google-home-notification-gateway"
+      }
+    ],
+    "verifiedAt": "2026-10-13"
+  },
+  {
+    "slug": "streamdeck-uptime-kuma",
+    "name": "Streamdeck Uptime Kuma",
+    "creator": "nicolas",
+    "category": "tools",
+    "tagline": "L'état de vos services sur votre Stream Deck.",
+    "url": "https://github.com/MarlBurroW/Streamdeck-Uptime-Kuma",
+    "repository": "https://github.com/MarlBurroW/Streamdeck-Uptime-Kuma",
+    "access": "extension",
+    "platforms": ["Windows", "macOS", "Stream Deck"],
+    "color": "#65783c",
+    "icon": {
+      "src": "/nos-projets/streamdeck-uptime-kuma/icon.webp",
+      "alt": "Icône de Streamdeck Uptime Kuma",
+      "sourceUrl": "https://raw.githubusercontent.com/MarlBurroW/Streamdeck-Uptime-Kuma/main/public/logo@2x.png",
+      "kind": "logo"
+    },
+    "cover": {
+      "src": "/nos-projets/streamdeck-uptime-kuma/preview.webp",
+      "alt": "Présentation de Streamdeck Uptime Kuma",
+      "sourceUrl": "https://raw.githubusercontent.com/MarlBurroW/Streamdeck-Uptime-Kuma/main/public/previews/1-preview.png",
+      "kind": "artwork"
+    },
+    "images": [
+      {
+        "src": "/nos-projets/streamdeck-uptime-kuma/preview.webp",
+        "alt": "Les moniteurs sur le Stream Deck",
+        "sourceUrl": "https://raw.githubusercontent.com/MarlBurroW/Streamdeck-Uptime-Kuma/main/public/previews/1-preview.png",
+        "kind": "artwork"
+      },
+      {
+        "src": "/nos-projets/streamdeck-uptime-kuma/settings.webp",
+        "sourceUrl": "https://user-images.githubusercontent.com/3024430/210131410-6e23f1eb-adc8-44be-94a7-494435a519f9.png",
+        "alt": "Configurer les moniteurs",
+        "kind": "screenshot"
+      },
+      {
+        "src": "/nos-projets/streamdeck-uptime-kuma/device.webp",
+        "sourceUrl": "https://user-images.githubusercontent.com/3024430/210131465-d45265e8-5095-466c-bbfe-cef4931330a3.jpeg",
+        "alt": "Le Stream Deck en service",
+        "kind": "artwork"
+      }
+    ],
+    "videos": [],
+    "description": [
+      "Gardez l'état de vos services Uptime Kuma sous les yeux sur votre Stream Deck. Chaque touche affiche une mesure et peut changer l'information affichée ou suspendre un moniteur.",
+      "Le plugin suit l'état, les temps de réponse et la disponibilité sur 24 heures ou 30 jours. Les mises à jour passent par Socket.IO. Le manifeste indique Windows et macOS, avec une prise en charge du Stream Deck+."
+    ],
+    "features": [
+      "Afficher l'état et le ping des moniteurs.",
+      "Suivre la disponibilité sur 24 heures et 30 jours.",
+      "Suspendre ou reprendre un moniteur.",
+      "Changer la mesure affichée depuis une touche."
+    ],
+    "sources": [
+      {
+        "label": "Présentation du projet",
+        "url": "https://github.com/MarlBurroW/Streamdeck-Uptime-Kuma"
+      },
+      {
+        "label": "Présentation par Nicolas sur LinkedIn",
+        "url": "https://fr.linkedin.com/posts/nicolas-varrot-b6b05857_opensource-monitoring-devops-activity-7241826962791366656-9kV5"
+      }
+    ],
+    "verifiedAt": "2026-10-13"
+  },
+  {
+    "slug": "raycast-uptime-kuma",
+    "name": "Raycast Uptime Kuma",
+    "creator": "nicolas",
+    "category": "tools",
+    "tagline": "Vos moniteurs Uptime Kuma dans Raycast.",
+    "url": "https://www.raycast.com/MarlburroW/uptime-kuma",
+    "repository": "https://github.com/MarlBurroW/Raycast-Uptime-Kuma",
+    "access": "extension",
+    "platforms": ["macOS", "Raycast"],
+    "color": "#8a3e46",
+    "icon": {
+      "src": "/nos-projets/raycast-uptime-kuma/icon.webp",
+      "alt": "Icône de Raycast Uptime Kuma",
+      "sourceUrl": "https://raw.githubusercontent.com/MarlBurroW/Raycast-Uptime-Kuma/main/assets/extension_icon.png",
+      "kind": "logo"
+    },
+    "cover": {
+      "src": "/nos-projets/raycast-uptime-kuma/screen-1.webp",
+      "alt": "Présentation de Raycast Uptime Kuma",
+      "sourceUrl": "https://raw.githubusercontent.com/MarlBurroW/Raycast-Uptime-Kuma/main/metadata/uptime-kuma-1.png",
+      "kind": "artwork"
+    },
+    "images": [
+      {
+        "src": "/nos-projets/raycast-uptime-kuma/screen-1.webp",
+        "alt": "La liste des moniteurs",
+        "sourceUrl": "https://raw.githubusercontent.com/MarlBurroW/Raycast-Uptime-Kuma/main/metadata/uptime-kuma-1.png",
+        "kind": "screenshot"
+      },
+      {
+        "src": "/nos-projets/raycast-uptime-kuma/screen-2.webp",
+        "alt": "Le détail du moniteur",
+        "sourceUrl": "https://raw.githubusercontent.com/MarlBurroW/Raycast-Uptime-Kuma/main/metadata/uptime-kuma-2.png",
+        "kind": "screenshot"
+      }
+    ],
+    "videos": [],
+    "description": [
+      "Consultez vos moniteurs Uptime Kuma depuis Raycast. L'extension affiche leur disponibilité, leur temps de réponse et leurs derniers heartbeats.",
+      "Les actions servent à ouvrir un moniteur ou son URL, à le suspendre et à le reprendre. L'extension accepte l'authentification à deux facteurs et suit les changements avec Socket.IO."
+    ],
+    "features": [
+      "Consulter les états et temps de réponse.",
+      "Voir les derniers heartbeats.",
+      "Ouvrir, suspendre ou reprendre un moniteur.",
+      "Utiliser l'authentification à deux facteurs."
+    ],
+    "sources": [
+      {
+        "label": "Présentation du projet",
+        "url": "https://www.raycast.com/MarlburroW/uptime-kuma"
+      },
+      {
+        "label": "Dépôt et documentation",
+        "url": "https://github.com/MarlBurroW/Raycast-Uptime-Kuma"
+      }
+    ],
+    "verifiedAt": "2026-10-13"
+  },
+  {
+    "slug": "teamspeak-mcp",
+    "name": "TeamSpeak MCP",
+    "creator": "nicolas",
+    "category": "ai",
+    "tagline": "Connecter un assistant IA à TeamSpeak.",
+    "url": "https://github.com/MarlBurroW/teamspeak-mcp",
+    "repository": "https://github.com/MarlBurroW/teamspeak-mcp",
+    "access": "self-hosted",
+    "platforms": ["Python", "Docker", "MCP"],
+    "color": "#3c638c",
+    "images": [],
+    "videos": [],
+    "description": [
+      "TeamSpeak MCP relie un assistant IA à un serveur TeamSpeak. Il peut consulter les utilisateurs et les canaux, envoyer des messages et exécuter les opérations d'administration exposées par le serveur.",
+      "Les outils documentés couvrent aussi les permissions, groupes, diagnostics, logs, fichiers et snapshots. Le projet se distribue sur PyPI et peut fonctionner avec Python ou Docker."
+    ],
+    "features": [
+      "Consulter les utilisateurs et canaux.",
+      "Envoyer des messages et des pokes.",
+      "Administrer les groupes et permissions.",
+      "Lire les diagnostics et journaux."
+    ],
+    "sources": [
+      {
+        "label": "Présentation du projet",
+        "url": "https://github.com/MarlBurroW/teamspeak-mcp"
+      },
+      {
+        "label": "Distribution Python",
+        "url": "https://pypi.org/project/teamspeak-mcp/"
+      }
+    ],
+    "verifiedAt": "2026-10-13"
+  },
+  {
+    "slug": "bot-hub",
+    "name": "Bot Hub",
+    "creator": "nicolas",
+    "category": "ai",
+    "tagline": "Un relais de conversation entre agents.",
+    "url": "https://github.com/MarlBurroW/bot-hub",
+    "repository": "https://github.com/MarlBurroW/bot-hub",
+    "access": "self-hosted",
+    "platforms": ["OpenClaw", "WebSocket"],
+    "color": "#5e4d84",
+    "images": [],
+    "videos": [],
+    "description": [
+      "Bot Hub permet à plusieurs bots OpenClaw de discuter entre eux. Chaque bot rejoint des salons et conserve une session de conversation dédiée à chaque salon.",
+      "Le relais WebSocket gère les messages, la présence, l'authentification et la reconnexion. Le service et son plugin OpenClaw sont publiés dans le même dépôt."
+    ],
+    "features": [
+      "Relier plusieurs agents à des salons.",
+      "Diffuser les messages et suivre la présence.",
+      "Authentifier les connexions.",
+      "Retrouver la connexion après une interruption."
+    ],
+    "sources": [
+      {
+        "label": "Présentation du projet",
+        "url": "https://github.com/MarlBurroW/bot-hub"
+      }
+    ],
+    "verifiedAt": "2026-10-13"
+  },
+  {
+    "slug": "bot-chronicles",
+    "name": "Bot Chronicles",
+    "creator": "nicolas",
+    "category": "culture",
+    "tagline": "Les chroniques de deux agents IA.",
+    "url": "https://bot-chronicles.marlburrow.io/",
+    "repository": "https://github.com/MarlBurroW/bot-chronicles",
+    "access": "website",
+    "platforms": ["Navigateur"],
+    "color": "#5e4c7e",
+    "icon": {
+      "src": "/nos-projets/bot-chronicles/icon.webp",
+      "alt": "Icône de Bot Chronicles",
+      "sourceUrl": "https://raw.githubusercontent.com/MarlBurroW/bot-chronicles/main/public/favicon.svg",
+      "kind": "logo"
+    },
+    "cover": {
+      "src": "/nos-projets/bot-chronicles/cover.webp",
+      "alt": "Présentation de Bot Chronicles",
+      "sourceUrl": "https://raw.githubusercontent.com/MarlBurroW/bot-chronicles/main/public/images/hero-banner.png",
+      "kind": "artwork"
+    },
+    "images": [
+      {
+        "src": "/nos-projets/bot-chronicles/cover.webp",
+        "alt": "L'univers de Bot Chronicles",
+        "sourceUrl": "https://raw.githubusercontent.com/MarlBurroW/bot-chronicles/main/public/images/hero-banner.png",
+        "kind": "artwork"
+      }
+    ],
+    "videos": [],
+    "description": [
+      "Bot Chronicles est un blog écrit par deux agents IA, Marlbot et Pelouse. Ils utilisent Bot Hub pour choisir leurs sujets et rédiger des articles sur leurs expériences d'agents et leur infrastructure.",
+      "Le site rassemble leurs publications et illustrations, une présentation des auteurs et un flux RSS. Le code des pages et des articles est public."
+    ],
+    "features": [
+      "Lire les articles de Marlbot et Pelouse.",
+      "Découvrir leurs expériences et leur infrastructure.",
+      "Suivre les nouvelles publications par RSS."
+    ],
+    "sources": [
+      {
+        "label": "Présentation du projet",
+        "url": "https://bot-chronicles.marlburrow.io/"
+      },
+      {
+        "label": "Dépôt et documentation",
+        "url": "https://github.com/MarlBurroW/bot-chronicles"
+      }
+    ],
+    "verifiedAt": "2026-10-13"
+  },
+  {
+    "slug": "cursor-chat",
+    "name": "Cursor Chat",
+    "creator": "nicolas",
+    "category": "tools",
+    "tagline": "Un chat créé avec Cursor.",
+    "url": "https://github.com/MarlBurroW/cursor-chat",
+    "repository": "https://github.com/MarlBurroW/cursor-chat",
+    "access": "source",
+    "platforms": ["Code source", "Docker"],
+    "color": "#3e6562",
+    "images": [],
+    "videos": [],
+    "description": [
+      "Cursor Chat est une application multi-utilisateurs créée avec Cursor pour expérimenter le développement par conversations avec l'IA. Elle propose des échanges en temps réel et conserve l'historique des messages.",
+      "Les utilisateurs connectés sont visibles et l'historique se charge progressivement. Le dépôt documente des thèmes clair et sombre et un déploiement Docker. Aucun site public actif n'a été confirmé."
+    ],
+    "features": [
+      "Échanger des messages en temps réel.",
+      "Retrouver l'historique des conversations.",
+      "Voir les utilisateurs connectés.",
+      "Choisir un thème clair ou sombre."
+    ],
+    "sources": [
+      {
+        "label": "Présentation du projet",
+        "url": "https://github.com/MarlBurroW/cursor-chat"
+      }
+    ],
+    "verifiedAt": "2026-10-13"
+  },
+  {
+    "slug": "rust-commander",
+    "name": "Rust Commander",
+    "creator": "nicolas",
+    "category": "tools",
+    "tagline": "Administrer un serveur Rust depuis le chat.",
+    "url": "https://github.com/MarlBurroW/rust-commander",
+    "repository": "https://github.com/MarlBurroW/rust-commander",
+    "access": "source",
+    "platforms": ["Slack", "Discord", "Serveur Rust"],
+    "color": "#905a42",
+    "images": [
+      {
+        "src": "/nos-projets/rust-commander/chat.webp",
+        "sourceUrl": "https://i.imgur.com/jrV4gPp.jpg",
+        "alt": "Le chat relié au serveur Rust",
+        "kind": "screenshot"
+      }
+    ],
+    "videos": [],
+    "description": [
+      "Rust Commander permet d'administrer un serveur du jeu Rust depuis Slack ou Discord. Le bot relaie les conversations et les logs et transmet des commandes à la console.",
+      "Il peut envoyer des alertes sur des mots-clés, se reconnecter et gérer plusieurs serveurs. Un système de plugins étend son comportement. Ce projet ancien est présenté à partir de son code public et de sa documentation."
+    ],
+    "features": [
+      "Relier le chat du jeu à Slack ou Discord.",
+      "Lire les logs et envoyer des commandes.",
+      "Recevoir des alertes sur mots-clés.",
+      "Configurer plusieurs serveurs et des plugins."
+    ],
+    "sources": [
+      {
+        "label": "Présentation du projet",
+        "url": "https://github.com/MarlBurroW/rust-commander"
+      }
+    ],
+    "verifiedAt": "2026-10-13"
+  },
+  {
+    "slug": "chromehue",
+    "name": "ChromeHue",
+    "creator": "nicolas",
+    "category": "tools",
+    "tagline": "Contrôler les ampoules Philips Hue depuis Chrome.",
+    "url": "https://www.avforums.com/threads/philips-hue-discussion-help-experiences.1785387/page-15#post-22411719",
+    "access": "archived",
+    "platforms": ["Chrome", "Philips Hue"],
+    "color": "#6b5d91",
+    "images": [],
+    "videos": [],
+    "description": [
+      "ChromeHue est une extension Chrome de contrôle des ampoules Philips Hue, publiée par MarlBurroW en 2015. Sa présentation historique et ses captures sont encore accessibles dans l'annonce de l'auteur.",
+      "La disponibilité actuelle de l'extension n'a pas été confirmée. Cette fiche conserve la trace du projet et renvoie à sa présentation d'origine."
+    ],
+    "features": [
+      "Consulter la présentation historique.",
+      "Retrouver les fonctionnalités et captures publiées par l'auteur."
+    ],
+    "sources": [
+      {
+        "label": "Présentation du projet",
+        "url": "https://www.avforums.com/threads/philips-hue-discussion-help-experiences.1785387/page-15#post-22411719"
+      }
+    ],
+    "verifiedAt": "2026-10-13"
+  }
+]
