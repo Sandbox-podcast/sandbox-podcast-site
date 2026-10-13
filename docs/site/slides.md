@@ -21,6 +21,8 @@ depuis `apps/site`.
 
 Les mêmes fichiers restent accessibles sur le site principal via `/slides/<episode>/`.
 
+Dans `/admin`, la section « Slides » affiche cet index dans un aperçu. Un clic sur un support l'ouvre dans le même cadre ; un bouton permet de revenir à la liste et « Ouvrir en grand » affiche l'index dans un nouvel onglet. Le cadre utilise `iframe sandbox="allow-scripts"` pour que le JavaScript de navigation fonctionne sans donner au support l'origine de l'administration. La politique CSP autorise ce cadre de même origine.
+
 Les vues de sujet restent courtes et associent leurs points clés à une capture de la source citée, enregistrée dans `assets/`. La vue qui définit le harnais utilise un schéma explicatif. Les visuels pleine page marquent les séquences ; leur nom est toujours centré en bas avec la même typographie.
 
 ## Mise en service du sous-domaine

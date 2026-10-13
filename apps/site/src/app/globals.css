@@ -2043,6 +2043,68 @@ html[data-scrolled='true'] .site-header {
   color: var(--ink-2);
   font-size: 1rem;
   line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+.episode-description > * + * {
+  margin-top: 0.9rem;
+}
+.episode-description p,
+.episode-description li {
+  white-space: pre-line;
+}
+.episode-description h3,
+.episode-description h4 {
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-weight: 800;
+  line-height: 1.3;
+}
+.episode-description h3 {
+  font-size: 1.2rem;
+}
+.episode-description h4 {
+  font-size: 1.05rem;
+}
+.episode-description ul,
+.episode-description ol {
+  padding-left: 1.5rem;
+}
+.episode-description ul {
+  list-style: disc;
+}
+.episode-description ol {
+  list-style: decimal;
+}
+.episode-description a {
+  color: var(--hl);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+.episode-description code,
+.episode-description pre {
+  font-family: var(--font-mono);
+}
+.episode-description pre {
+  overflow-x: auto;
+  padding: 0.9rem;
+  border-radius: 0.5rem;
+  background: var(--paper-2);
+  white-space: pre;
+}
+.episode-description blockquote {
+  padding-left: 0.9rem;
+  border-left: 3px solid var(--hl);
+}
+.episode-description table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+}
+.episode-description th,
+.episode-description td {
+  padding: 0.3rem 0.6rem;
+  border: 1px solid var(--hair);
 }
 .episode-resources {
   position: sticky;
@@ -2334,6 +2396,24 @@ fieldset.admin-field {
 }
 .episode-composer-form .admin-save-row {
   margin-top: 0.25rem;
+}
+.episode-markdown-preview {
+  min-width: 0;
+  max-height: 22rem;
+  overflow: auto;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--hair);
+  border-radius: 0.6rem;
+  background: var(--paper-2);
+}
+.episode-markdown-preview h3 {
+  color: var(--ink);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+.episode-markdown-preview .episode-description {
+  margin-top: 0.7rem;
+  font-size: 0.9rem;
 }
 .admin-repeater {
   display: grid;
@@ -2633,6 +2713,31 @@ fieldset.admin-field {
 .admin-workspace {
   min-height: 38rem;
   padding: clamp(1rem, 2.5vw, 1.8rem);
+}
+.admin-slides-guide {
+  max-width: 48rem;
+  margin-bottom: 0.75rem;
+  color: var(--ink-2);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+.admin-slides-reset {
+  margin-bottom: 1rem;
+}
+.admin-slides-frame {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  min-height: 19rem;
+  overflow: hidden;
+  border: 1px solid var(--hair);
+  border-radius: 0.75rem;
+  background: var(--paper-2);
+}
+.admin-slides-frame iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
 }
 .admin-section-heading {
   margin-bottom: 1.25rem;

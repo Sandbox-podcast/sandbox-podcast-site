@@ -26,3 +26,4 @@ Mise à jour 2026-10-08 (issue #13, décidée par l’agent sur délégation PD-
 Mise à jour 2026-10-08 (suite) : index HTML statique et exclusion de `/_next` du rewrite (404 / MIME type sur le sous-domaine).
 Mise à jour 2026-10-08 (suite) : routage hôte déplacé dans `middleware.ts` car la racine `/` restait en 404 via `[locale]`.
 Mise à jour 2026-10-08 (suite) : fin de boucle de redirections sur les decks (`/episode-001` ⇄ `/episode-001/`) via `…/index.html`.
+Mise à jour 2026-10-13 (décidée par l'agent sur délégation PD-0003) : l'administration propose une section de consultation des slides. Elle embarque l'index statique du site principal dans une iframe avec `sandbox="allow-scripts"` et permet l'ouverture dans un onglet. Le contenu des decks et leur mode de déploiement ne changent pas.
