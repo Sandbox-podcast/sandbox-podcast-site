@@ -2,6 +2,7 @@ import { Text, LocalizedElement, useLocalization } from '@/components/localizati
 import { LocalizedLink as Link } from '@/components/localization';
 import { formatCompact, formatNumber } from '@/domain/format';
 import { shortWeek } from '@/domain/weeks';
+import { ChartLogo } from './chart-logo';
 import { interpolateText } from '@/i18n/translation';
 import {
   chartFilterLabel,
@@ -236,12 +237,17 @@ export function ChartsRanking({
                 </span>
                 <ChartMovement row={row} />
                 <div className="sc-row-identity">
-                  <h3>
-                    <Text>{row.entity.name}</Text>
-                  </h3>
-                  <p>
-                    <Text>{row.entity.github?.repo ?? row.entity.org ?? row.entity.category}</Text>
-                  </p>
+                  <ChartLogo entity={row.entity} />
+                  <div>
+                    <h3>
+                      <Text>{row.entity.name}</Text>
+                    </h3>
+                    <p>
+                      <Text>
+                        {row.entity.github?.repo ?? row.entity.org ?? row.entity.category}
+                      </Text>
+                    </p>
+                  </div>
                 </div>
                 <MomentumValue row={row} period={period} compact />
                 <div className="sc-row-spark">
