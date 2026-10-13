@@ -21,3 +21,7 @@ Les liens sociaux étaient saisis à deux endroits : dans les fiches Animateurs 
 - Une publication de liens dans Animateurs met à jour `/about`.
 - L'admin n'expose plus un second formulaire de cartes d'équipe dans « Identité du site ».
 - La source de contenu pour les traductions de `/about` suit les noms et liens des animateurs publiés.
+
+## Complément du 2026-10-13
+
+Les fiches Animateurs portent aussi deux champs facultatifs affichés sur `/about` : `aka` (pseudo sous le prénom, casse conservée) et `photo` (chemin d'un fichier servi depuis `public/`, par exemple `/team/nicolas.jpg` ; les URL externes sont refusées par le schéma). Une carte avec photo affiche un portrait carré bord à bord à la place du monogramme. L'admin saisit le chemin, mais ne téléverse pas le fichier : la photo s'ajoute par un commit.

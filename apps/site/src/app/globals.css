@@ -1740,9 +1740,10 @@ html[data-scrolled='true'] .site-header {
 .about-social-person {
   position: relative;
   display: flex;
+  --card-pad: clamp(1.25rem, 2.3vw, 2rem);
   min-height: 22rem;
   flex-direction: column;
-  padding: clamp(1.25rem, 2.3vw, 2rem);
+  padding: var(--card-pad);
   overflow: hidden;
   border: 1px solid var(--hair);
   border-radius: 1rem;
@@ -1780,6 +1781,31 @@ html[data-scrolled='true'] .site-header {
   font-size: 1.7rem;
   font-weight: 800;
 }
+/* Carte avec photo : portrait carré bord à bord, l'étiquette passe par-dessus. */
+.about-social-portrait {
+  position: relative;
+  order: -1;
+  aspect-ratio: 1;
+  margin: calc(-1 * var(--card-pad)) calc(-1 * var(--card-pad)) 1.5rem;
+  overflow: hidden;
+}
+.about-social-portrait::after {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 55%, var(--paper-2));
+  content: '';
+}
+.about-social-portrait img {
+  object-fit: cover;
+  object-position: 50% 30%;
+}
+.about-social-person:has(.about-social-portrait) .about-social-card-top {
+  position: absolute;
+  z-index: 1;
+  top: var(--card-pad);
+  left: var(--card-pad);
+  color: var(--ink);
+}
 .about-social-card-body {
   display: flex;
   flex: 1;
@@ -1793,6 +1819,11 @@ html[data-scrolled='true'] .site-header {
   font-weight: 900;
   letter-spacing: -0.055em;
   line-height: 1;
+}
+.about-social-aka {
+  text-transform: none;
+  margin-top: 0.5rem;
+  color: var(--ink-3);
 }
 .about-social-card-rule {
   display: block;

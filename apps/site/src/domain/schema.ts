@@ -44,6 +44,13 @@ export const hostSchema = z.object({
   handle: z.string().min(1),
   role: z.string().min(1),
   bio: z.string().min(1),
+  /** Pseudonyme affiché sous le prénom sur /about (« Aka »). */
+  aka: z.string().trim().min(1).optional(),
+  /** Photo servie depuis `public/`, par exemple `/team/nicolas.jpg`. */
+  photo: z
+    .string()
+    .regex(/^\/[\w/-]+\.(?:jpe?g|png|webp)$/, 'chemin local attendu, ex. /team/nom.jpg')
+    .optional(),
   socials: z
     .object({
       linkedin: httpsUrlSchema.optional(),

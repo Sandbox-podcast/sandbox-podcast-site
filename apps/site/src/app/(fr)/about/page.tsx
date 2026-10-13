@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { Text, LocalizedElement } from '@/components/localization';
 import { siteConfig } from '@/config/site';
 import { preparePublishedEditorialContent } from '@/lib/admin-persistence';
@@ -45,14 +46,32 @@ export default async function AboutPage() {
                     <Text>{'Sandbox / '}</Text>
                     <Text>{String(index + 1).padStart(2, '0')}</Text>
                   </span>
-                  <span className="about-social-monogram" aria-hidden="true">
-                    <Text>{host.name.slice(0, 1)}</Text>
-                  </span>
+                  {host.photo ? null : (
+                    <span className="about-social-monogram" aria-hidden="true">
+                      <Text>{host.name.slice(0, 1)}</Text>
+                    </span>
+                  )}
                 </div>
+                {host.photo ? (
+                  <div className="about-social-portrait">
+                    <Image
+                      src={host.photo}
+                      alt={`Portrait de ${host.name}`}
+                      fill
+                      sizes="(max-width: 48rem) 88vw, 26rem"
+                    />
+                  </div>
+                ) : null}
                 <div className="about-social-card-body">
                   <h2>
                     <Text>{host.name}</Text>
                   </h2>
+                  {host.aka ? (
+                    <p className="about-social-aka label">
+                      <Text>{'Aka '}</Text>
+                      <Text>{host.aka}</Text>
+                    </p>
+                  ) : null}
                   <span className="about-social-card-rule" aria-hidden="true" />
                 </div>
                 <Text>
