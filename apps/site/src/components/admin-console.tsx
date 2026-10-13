@@ -707,7 +707,7 @@ export function AdminConsole() {
                         <p className="admin-help">
                           {selectedHost.placeholder
                             ? 'Cette signature conserve les anciens épisodes et avis simulés sans les attribuer à Lou, Nicolas ou Loïc.'
-                            : 'Ce profil est lié aux épisodes et aux avis. Sa carte publique se modifie dans « Identité du site ».'}
+                            : 'Le nom et les liens de ce profil apparaissent sur la page À propos.'}
                         </p>
                       </div>
                       {!selectedHost.placeholder &&
@@ -761,7 +761,7 @@ export function AdminConsole() {
                 ) : (
                   <div className="admin-empty">
                     <h3>Sélectionnez un profil</h3>
-                    <p>Ajoutez les liens publics de chaque animateur.</p>
+                    <p>Les liens de ces profils apparaissent sur la page À propos.</p>
                   </div>
                 )}
               </div>
