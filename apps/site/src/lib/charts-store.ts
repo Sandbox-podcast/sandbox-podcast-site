@@ -49,6 +49,9 @@ import {
 import { snapshotSchema, type Snapshot } from '../domain/schema.ts';
 import type { ChartsCollectionProgress } from '../domain/sandbox-charts.ts';
 import { compareWeeks, previousComparableEdition } from '../domain/weeks.ts';
+import { reviewedReferenceVersion, validateReferenceEdition } from './reference-publication.ts';
+import type { ReferenceArtifact } from './reference-artifact.ts';
+import { OPEN_SOURCE_LICENSE_IDS } from '../domain/reference-adapters.ts';
 
 export class ChartsUnavailableError extends Error {
   constructor() {
@@ -115,6 +118,7 @@ export async function upsertDiscoveredRepositories(
           name: repo.name,
           description: repo.description,
           sourceUrl: repo.html_url,
+          license: repo.license?.spdx_id ?? null,
           websiteUrl: repo.homepage?.startsWith('https://') ? repo.homepage : null,
         })),
       )
@@ -125,6 +129,7 @@ export async function upsertDiscoveredRepositories(
           description: sql`excluded.description`,
           sourceUrl: sql`excluded.source_url`,
           websiteUrl: sql`excluded.website_url`,
+          license: sql`excluded.license`,
           updatedAt: sql`now()`,
         },
       });
@@ -198,6 +203,8 @@ export function asProject(
     category: entity.category,
     fullName: repo.fullName,
     language: repo.language,
+    license: entity.license,
+    discoveredAt: repo.discoveredAt,
     createdAt: repo.githubCreatedAt,
     status: repo.status,
     manualStatus: repo.manualStatus,
@@ -548,11 +555,55 @@ export async function readLiveWeeklySnapshots(publishedOnly = true): Promise<Sna
     )
     .toSorted((left, right) => compareWeeks(left.week, right.week));
 }
+/** Les dépôts suivis sans relevé du jour restent des candidats inconnus. */
+export async function unobservedGithubCandidates(
+  date: string,
+  config: GithubChartConfig,
+  minimumDays = 7,
+): Promise<string[]> {
+  const rows = await getDb()
+    .select({ repo: githubProjects, entity: chartEntities })
+    .from(githubProjects)
+    .innerJoin(chartEntities, eq(chartEntities.id, githubProjects.entityId))
+    .where(
+      and(
+        eq(chartEntities.active, true),
+        sql`coalesce(${githubProjects.manualStatus}, ${githubProjects.status}) = 'tracked'`,
+        eq(githubProjects.archived, false),
+        eq(githubProjects.fork, false),
+        eq(githubProjects.disabled, false),
+        lte(githubProjects.discoveredAt, `${dateDaysAgo(date, minimumDays)}T23:59:59.999Z`),
+        notExists(
+          getDb()
+            .select({ id: githubDailySnapshots.id })
+            .from(githubDailySnapshots)
+            .where(
+              and(
+                eq(githubDailySnapshots.projectId, githubProjects.id),
+                eq(githubDailySnapshots.date, date),
+              ),
+            ),
+        ),
+      ),
+    );
+  return rows
+    .filter(
+      ({ repo, entity }) =>
+        OPEN_SOURCE_LICENSE_IDS.has(entity.license ?? '') &&
+        !config.blacklist.some((name) => name.toLowerCase() === repo.fullName.toLowerCase()),
+    )
+    .map(({ entity }) => entity.slug);
+}
+
 export async function freezeWeeklyCharts(
   week: string,
   date: string,
   config: GithubChartConfig,
-  rankings: { chart: 'github' | 'rising'; entries: GithubScoredEntry[] }[],
+  rankings: {
+    chart: 'github' | 'rising';
+    entries: GithubScoredEntry[];
+    referenceRanking?: ReferenceArtifact;
+  }[],
   publish: boolean,
 ): Promise<number> {
   const db = getDb();
@@ -576,6 +627,8 @@ export async function freezeWeeklyCharts(
       const previous = published.find((row) => row.week === previousId);
       const previousEntries = previous?.payload.entries ?? [];
       const publishedAt = new Date().toISOString();
+      const proof = ranking.referenceRanking;
+      const referenceRows = new Map(proof?.report.rows.map((row) => [row.entity, row]) ?? []);
       const entries = ranking.entries.map((item) => ({
         entity: item.project.slug,
         rank: item.rank,
@@ -603,6 +656,10 @@ export async function freezeWeeklyCharts(
             activityScore: item.metrics.activityScore,
             acceleration: item.metrics.acceleration,
             scorecardScore: item.scorecard?.score ?? null,
+            sourceDisagreement: referenceRows.get(item.project.slug)?.disagreement ?? null,
+            sensitivityBestRank: referenceRows.get(item.project.slug)?.sensitivity.bestRank ?? null,
+            sensitivityWorstRank:
+              referenceRows.get(item.project.slug)?.sensitivity.worstRank ?? null,
           }).filter((pair): pair is [string, number] => pair[1] !== null),
         ),
       }));
@@ -618,6 +675,17 @@ export async function freezeWeeklyCharts(
         provenance: 'auto',
         entries,
       });
+      if (proof)
+        validateReferenceEdition(
+          { referenceRanking: proof },
+          ranking.chart,
+          date,
+          proof.input.profile.version,
+          entries,
+        );
+      const scoringVersion =
+        proof?.input.profile.version ??
+        (ranking.chart === 'github' ? 'github-cross-source-v2' : 'rising-cross-source-v2');
       const id = randomUUID();
       const inserted = await tx
         .insert(weeklyChartEditions)
@@ -625,16 +693,20 @@ export async function freezeWeeklyCharts(
           id,
           chart: ranking.chart,
           week,
-          scoringVersion:
-            ranking.chart === 'github' ? 'github-cross-source-v2' : 'rising-cross-source-v2',
+          scoringVersion,
           config: {
             ...config,
-            sourceWeights:
-              ranking.chart === 'github' ? GITHUB_SOURCE_WEIGHTS : RISING_SOURCE_WEIGHTS,
+            sourceWeights: proof
+              ? ranking.entries[0]?.sourceWeights
+              : ranking.chart === 'github'
+                ? GITHUB_SOURCE_WEIGHTS
+                : RISING_SOURCE_WEIGHTS,
             scorecardMaxAgeDays: SCORECARD_MAX_AGE_DAYS,
+            ...(proof ? { referenceRanking: proof } : {}),
           },
           payload,
-          publishedAt: publish ? publishedAt : null,
+          publishedAt:
+            publish && (!proof || reviewedReferenceVersion(scoringVersion)) ? publishedAt : null,
         })
         .onConflictDoNothing()
         .returning({ id: weeklyChartEditions.id });
@@ -667,8 +739,10 @@ export async function freezeWeeklyCharts(
             sourceScores: item.sourceScores,
             sourceWeights: item.sourceWeights,
             sourceEvidence: item.scorecard,
-            scoringVersion:
-              ranking.chart === 'github' ? 'github-cross-source-v2' : 'rising-cross-source-v2',
+            scoringVersion,
+            ...(proof
+              ? { reference: proof.report.rows.find((row) => row.entity === item.project.slug) }
+              : {}),
             project: item.project,
           },
         })),
@@ -679,11 +753,38 @@ export async function freezeWeeklyCharts(
   return written;
 }
 export async function publishFrozenCharts(week: string): Promise<number> {
+  const drafts = await getDb()
+    .select()
+    .from(weeklyChartEditions)
+    .where(and(eq(weeklyChartEditions.week, week), isNull(weeklyChartEditions.publishedAt)));
+  for (const draft of drafts) {
+    if (!draft.scoringVersion.endsWith('-reference-v3')) continue;
+    if (!reviewedReferenceVersion(draft.scoringVersion))
+      throw new Error(
+        `Revue de calibration requise pour ${draft.scoringVersion}. Configurer CHARTS_REVIEWED_PROFILE_VERSIONS.`,
+      );
+    validateReferenceEdition(
+      draft.config,
+      draft.chart,
+      draft.week,
+      draft.scoringVersion,
+      draft.payload.entries,
+    );
+  }
+  if (!drafts.length) return 0;
   return (
     await getDb()
       .update(weeklyChartEditions)
       .set({ publishedAt: new Date().toISOString() })
-      .where(and(eq(weeklyChartEditions.week, week), isNull(weeklyChartEditions.publishedAt)))
+      .where(
+        and(
+          inArray(
+            weeklyChartEditions.id,
+            drafts.map((draft) => draft.id),
+          ),
+          isNull(weeklyChartEditions.publishedAt),
+        ),
+      )
       .returning({ id: weeklyChartEditions.id })
   ).length;
 }

@@ -1,5 +1,7 @@
 # Méthodologie SANDBOX CHARTS
 
+Les profils v3 initiaux sont définis par [ADR-0026](adr/ADR-0026-classements-de-reference-ponderes.md) et [la conception de référence](site/reference-ranking-design.md). Ils attendent leur calibration. Ils utilisent des budgets de famille inégaux, une pénalité de désaccord, des bornes pour les candidats incomplets et une preuve rejouable. Les formules v1 et v2 de ce document restent celles des éditions historiques et des sous-scores GitHub. Les poussées intrajournalières suivent [ADR-0027](adr/ADR-0027-detection-precoce-github.md) et restent distinctes du rang officiel.
+
 Implémentation : [github-charts.ts](../apps/site/src/domain/github-charts.ts). La page publique présente la configuration de la dernière édition publiée ; chaque édition conserve sa propre version.
 
 ## Nouveaux gels multi-sources

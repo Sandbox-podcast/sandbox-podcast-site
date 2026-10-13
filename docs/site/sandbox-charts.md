@@ -1,5 +1,7 @@
 # SANDBOX CHARTS : exploitation
 
+Pour les nouveaux profils v3 et les poussées d'étoiles, suivre [le guide de mise en service](reference-ranking-operations.md) et [la conception](reference-ranking-design.md). Les profils attendent leur revue ; la migration 0009 et les jobs intrajournaliers sont des ajouts à configurer. Les sections historiques de ce guide décrivent le MVP et ses premiers gels.
+
 Le MVP GitHub réutilise Next.js 16, Neon/Postgres, Drizzle et l'authentification existante. Voir [ADR-0019](../adr/ADR-0019-sandbox-charts-github-postgres.md), [DD-0004](../design-decisions/DD-0004-sandbox-charts.md) et [la méthode](../sandbox-charts-methodology.md).
 
 Le périmètre livré, les fichiers et les vérifications figurent dans [le rapport de livraison locale](sandbox-charts-livraison.md).

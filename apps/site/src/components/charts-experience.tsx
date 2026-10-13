@@ -148,7 +148,7 @@ export function ChartsExperience({
       <header className="sc-hero">
         <div className="sc-edition-meta">
           <span>
-            <Text>{'LES CLASSEMENTS IA'}</Text>
+            <Text>{'LES CLASSEMENTS TECH & IA'}</Text>
           </span>
           <span>
             <Text>{'MISE À JOUR CHAQUE JOUR'}</Text>
@@ -173,7 +173,7 @@ export function ChartsExperience({
               </span>
             </h1>
             <p>
-              <Text>{'Les classements quotidiens de ce qui compte dans l’IA.'}</Text>
+              <Text>{'Projets open source, skills et modèles IA à suivre chaque semaine.'}</Text>
             </p>
           </div>
           <div className="sc-week-stamp">
@@ -190,7 +190,10 @@ export function ChartsExperience({
         </div>
         <div className="sc-hero-bottom">
           <p>
-            <Text>{edition?.headline ?? "Qu'est-ce qui monte dans l'IA cette semaine ?"}</Text>
+            <Text>
+              {edition?.headline ??
+                'Projets open source, skills et modèles IA à suivre cette semaine.'}
+            </Text>
           </p>
           <LocalizedElement
             as="div"

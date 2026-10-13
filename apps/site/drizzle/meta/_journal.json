@@ -64,6 +64,13 @@
       "when": 1791831600000,
       "tag": "0008_episode_thumbnails",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1791842400000,
+      "tag": "0009_github_bursts",
+      "breakpoints": true
     }
   ]
 }

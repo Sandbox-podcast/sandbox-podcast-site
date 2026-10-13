@@ -1,5 +1,7 @@
 # Site média : conception
 
+L'évolution v3 des classements et la détection des poussées d'étoiles sont décrites dans [conception et audit](reference-ranking-design.md), [le guide d'activation](reference-ranking-operations.md), ADR-0026 et ADR-0027. Les nouveaux profils pondèrent les familles différemment, conservent une preuve rejouable et attendent leur revue avant publication. Les descriptions d'ADR-0024 ci-dessous concernent la méthode précédente ; les éditions historiques la conservent.
+
 Application : [`apps/site`](../../apps/site). Décision de fond : [ADR-0015](../adr/ADR-0015-site-media-et-classements.md). Direction artistique et nommage : [DD-0001](../design-decisions/DD-0001-direction-artistique-du-site.md).
 
 Les images et métadonnées de partage sont définies dans [DD-0013](../design-decisions/DD-0013-apercus-des-liens-partages.md).

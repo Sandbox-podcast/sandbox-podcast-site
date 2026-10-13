@@ -10,6 +10,7 @@ import { lastUpdated } from '@/lib/graph';
 import { allCharts, findChart, getProfile, getSource, snapshotsOf } from '@/lib/repository';
 import { absoluteUrl, breadcrumbLd, pageMetadata } from '@/lib/seo';
 import { ChartsMethodology } from '@/components/charts-methodology';
+import { ReferenceMethodology } from '@/components/reference-methodology';
 export const dynamicParams = false;
 export function generateStaticParams() {
   return allCharts().map((c) => ({ slug: c.slug }));
@@ -38,6 +39,8 @@ export async function generateMetadata({ params }: Props) {
 export default async function MethodologyPage({ params }: Props) {
   const { slug } = await params;
   if (slug === 'github') return <ChartsMethodology />;
+  if (slug === 'skills' || slug === 'ai-models')
+    return <ReferenceMethodology chart={slug === 'skills' ? 'skills' : 'models'} />;
   const chart = findChart(slug);
   if (!chart) notFound();
   const profile = getProfile(chart);

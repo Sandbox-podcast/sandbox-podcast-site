@@ -12,6 +12,11 @@ import {
 } from '@/domain/sandbox-charts';
 const signedCompact = (value: number): string => `${value > 0 ? '+' : ''}${formatCompact(value)}`;
 const signedGrowth = (value: number): string => `${value > 0 ? '+' : ''}${formatNumber(value, 1)}%`;
+const referenceMetricLabels: Record<string, string> = {
+  sourceDisagreement: 'Désaccord entre les familles',
+  sensitivityBestRank: 'Meilleur rang dans les scénarios de pondération',
+  sensitivityWorstRank: 'Dernier rang dans les scénarios de pondération',
+};
 export function ChartMovement({ row }: { row: ChartsRow }) {
   const { movement, baseline } = row;
   const visual = baseline
@@ -428,6 +433,11 @@ export function ChartsRanking({
                   <summary>
                     <Text>{'Mesures, composants du score et sources'}</Text>
                   </summary>
+                  {row.metrics['sensitivityBestRank'] !== undefined ? (
+                    <p>
+                      <Text>{`Selon les scénarios de pondération, ce projet se situe entre les rangs ${row.metrics['sensitivityBestRank']} et ${row.metrics['sensitivityWorstRank']}. Ces bornes ne sont pas un intervalle de confiance.`}</Text>
+                    </p>
+                  ) : null}
                   <dl>
                     <Text>
                       {Object.entries(row.metrics).map(([key, value]) => {
@@ -435,7 +445,7 @@ export function ChartsRanking({
                         return (
                           <div key={key}>
                             <dt>
-                              <Text>{metric?.label ?? key}</Text>
+                              <Text>{referenceMetricLabels[key] ?? metric?.label ?? key}</Text>
                             </dt>
                             <dd>
                               <Text>{formatNumber(value, Number.isInteger(value) ? 0 : 1)}</Text>

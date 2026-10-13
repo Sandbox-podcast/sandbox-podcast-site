@@ -18,6 +18,7 @@ const repositoryGraphSchema = z.object({
   homepageUrl: z.string().nullable(),
   url: z.url(),
   primaryLanguage: z.object({ name: z.string() }).nullable(),
+  licenseInfo: z.object({ spdxId: z.string().nullable() }).nullable().optional(),
   createdAt: z.iso.datetime(),
   updatedAt: z.iso.datetime(),
   pushedAt: z.iso.datetime().nullable(),
@@ -163,8 +164,16 @@ export class GithubClient {
     topic: string,
     page = 1,
   ): Promise<{ repositories: GithubRepository[]; next: boolean }> {
+    return this.searchQuery(`topic:${topic} fork:false archived:false is:public`, page);
+  }
+  async searchQuery(
+    search: string,
+    page = 1,
+  ): Promise<{ repositories: GithubRepository[]; next: boolean; incomplete: boolean }> {
+    if (!search || search.length > 256 || !Number.isInteger(page) || page < 1 || page > 10)
+      throw new Error('Recherche GitHub invalide.');
     const query = new URLSearchParams({
-      q: `topic:${topic} fork:false archived:false is:public`,
+      q: search,
       sort: 'updated',
       order: 'desc',
       per_page: '100',
@@ -177,7 +186,11 @@ export class GithubClient {
         items: z.array(githubRepositorySchema),
       })
       .parse(await this.request(`/search/repositories?${query}`));
-    return { repositories: parsed.items, next: page * 100 < Math.min(parsed.total_count, 1000) };
+    return {
+      repositories: parsed.items,
+      next: page * 100 < Math.min(parsed.total_count, 1000),
+      incomplete: parsed.incomplete_results || parsed.total_count > 1000,
+    };
   }
   /** Vingt dépôts par appel, sans pagination des commits ou N+1 réseau. */
   async batch(fullNames: readonly string[], since: string): Promise<GithubBatchResult[]> {
@@ -185,7 +198,7 @@ export class GithubClient {
       throw new Error('Lot GitHub invalide (20 dépôts maximum).');
     if (!(this.options.token ?? process.env['GITHUB_TOKEN']))
       throw new Error('GITHUB_TOKEN requis pour la collecte GraphQL.');
-    const fields = `databaseId name nameWithOwner owner { login } description homepageUrl url primaryLanguage { name } createdAt updatedAt pushedAt defaultBranchRef { name target { ... on Commit { history(since: $since) { totalCount } } } } isArchived isFork isDisabled isPrivate stargazerCount forkCount watchers { totalCount } issues(states: OPEN) { totalCount } pullRequests(states: OPEN) { totalCount } repositoryTopics(first: 20) { nodes { topic { name } } }`;
+    const fields = `databaseId name nameWithOwner owner { login } description homepageUrl url primaryLanguage { name } licenseInfo { spdxId } createdAt updatedAt pushedAt defaultBranchRef { name target { ... on Commit { history(since: $since) { totalCount } } } } isArchived isFork isDisabled isPrivate stargazerCount forkCount watchers { totalCount } issues(states: OPEN) { totalCount } pullRequests(states: OPEN) { totalCount } repositoryTopics(first: 20) { nodes { topic { name } } }`;
     const repos = fullNames
       .map((name, index) => {
         const [owner, repo] = name.split('/');
@@ -234,6 +247,7 @@ export class GithubClient {
           homepage: repo.homepageUrl,
           html_url: repo.url,
           language: repo.primaryLanguage?.name ?? null,
+          license: repo.licenseInfo?.spdxId ? { spdx_id: repo.licenseInfo.spdxId } : null,
           created_at: repo.createdAt,
           updated_at: repo.updatedAt,
           pushed_at: repo.pushedAt,

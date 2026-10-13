@@ -1,5 +1,9 @@
 # Documentation
 
+Rapport local des classements v3 : [validation et limites](site/reference-ranking-delivery.md).
+
+Classements v3 et détection précoce GitHub : [conception et audit](site/reference-ranking-design.md), [configuration et reprise](site/reference-ranking-operations.md), [prompt réutilisable](site/prompt-classements-reference.md), [ADR-0026](adr/ADR-0026-classements-de-reference-ponderes.md) et [ADR-0027](adr/ADR-0027-detection-precoce-github.md). Le [README du dépôt](../README.md) décrit le fonctionnement global. Les profils v3 attendent leur calibration avant publication.
+
 Le dépôt sert le site média `apps/site`. La documentation du travail précédent (plateforme de production de podcasts vidéo) est archivée dans [`../old/`](../old/README.md).
 
 ## Site média

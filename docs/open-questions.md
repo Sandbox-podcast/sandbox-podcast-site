@@ -1,5 +1,7 @@
 # Questions ouvertes
 
+Classements v3 : la calibration des poids sur un historique réel, les droits de redistribution des sources, les variantes de modèles non raccordées, le budget et la cadence intrajournalière restent à valider par le responsable. Les étapes et paramètres sont dans [le guide de mise en service](site/reference-ranking-operations.md). Les connecteurs Trending et poussées sont désactivés par défaut ; les nouveaux profils restent en brouillon. La couverture mondiale et une avance sur Trending restent des résultats à mesurer.
+
 Chaque question sera posée en QCM au moment où elle devient nécessaire. Statut : **bloquante** (la partie concernée ne peut pas avancer correctement sans la réponse) ou **structurante** (une hypothèse temporaire réversible est possible, elle est alors isolée derrière une configuration et signalée).
 
 | Sujet                                                                                                                                   | Statut                                        | Concerne                                    | Hypothèse temporaire                                                                                                                                                  |

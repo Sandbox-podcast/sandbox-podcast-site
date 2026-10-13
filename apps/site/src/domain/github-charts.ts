@@ -92,6 +92,7 @@ export const githubRepositorySchema = z.object({
   subscribers_count: z.number().int().nonnegative().nullable().optional(),
   open_issues_count: z.number().int().nonnegative(),
   topics: z.array(z.string()).default([]),
+  license: z.object({ spdx_id: z.string() }).nullable().optional(),
 });
 export type GithubRepository = z.infer<typeof githubRepositorySchema>;
 export interface DailyGithubSnapshot {
@@ -108,6 +109,8 @@ export interface DailyGithubSnapshot {
   collectedAt: string;
 }
 export interface GithubChartProject {
+  license?: string | null;
+  discoveredAt?: string;
   id: string;
   entityId: string;
   slug: string;
