@@ -13,6 +13,10 @@ import { editionMark } from '@/domain/weeks';
 import { allEpisodes, allTopics, getHost, getTopic } from '@/lib/repository';
 import { absoluteUrl, pageMetadata, siteShareImage } from '@/lib/seo';
 import { preparePublishedEditorialContent } from '@/lib/admin-persistence';
+
+// Le build ne lit pas Postgres : l'accueil doit charger la publication à chaque requête.
+export const dynamic = 'force-dynamic';
+
 const LATEST_EPISODES_LIMIT = 12;
 const TOPIC_EPISODES_LIMIT = 8;
 export async function generateMetadata() {
