@@ -1,6 +1,13 @@
 import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
+vi.mock('../src/lib/admin-persistence', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('../src/lib/admin-persistence')>();
+  return {
+    ...actual,
+    preparePublishedEditorialContent: vi.fn(async () => undefined),
+  };
+});
 import HomePage from '../src/app/(fr)/page';
 import EpisodePage, {
   dynamicParams,

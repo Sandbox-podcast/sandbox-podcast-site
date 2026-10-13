@@ -4,8 +4,8 @@ import { describe, expect, it } from 'vitest';
 import { EpisodeDescription } from '../src/components/episode-description';
 import { EpisodeComposer } from '../src/components/episode-composer';
 import { LocalizationProvider } from '../src/components/localization';
-import { loadContent } from '../src/lib/load';
 import { episodeSchema } from '../src/domain/schema';
+import { loadContent } from '../src/lib/load';
 
 describe('description Markdown d’un épisode', () => {
   it('rend les paragraphes, listes, liens YouTube et styles dans la fiche', () => {
@@ -49,40 +49,23 @@ describe('description Markdown d’un épisode', () => {
     expect(html).toContain('<strong>Hello</strong> world.');
   });
 
-  it('renders Markdown in the edit form', () => {
+  it('propose le même rendu dans le formulaire d’édition', () => {
     const content = loadContent();
     const episode = episodeSchema.parse({
       number: 999,
-      title: 'Test episode',
-      dek: 'Short summary.',
+      title: 'Épisode de test',
+      dek: 'Résumé de test.',
       publishedAt: '2026-10-07T10:00:00.000Z',
       durationSec: 1800,
-      description: '**Important text**\n\n- One point',
-      hosts: ['equipe-sandbox'],
+      description: '**Texte important**\n\n- Un point',
+      hosts: ['lou'],
       topics: [],
-      cover: { tone: 1, kicker: 'Episode 999' },
+      cover: { tone: 1, kicker: 'Test' },
     });
-    const props = {
-      initialNumber: episode.number,
-      hosts: content.hosts,
-      topics: content.topics,
-      otherEpisodes: content.episodes,
-      onSelectEpisode: () => undefined,
-      pending: false,
-      onSave: () => Promise.resolve(),
-    };
-    const html = renderToStaticMarkup(createElement(EpisodeComposer, { ...props, episode }));
-
-    expect(html).toContain('episode-markdown-preview');
-    expect(html).toContain('<strong>Important text</strong>');
-    expect(html).toContain('<ul>');
-  });
-
-  it('shows the Markdown preview in the create form', () => {
-    const content = loadContent();
     const html = renderToStaticMarkup(
       createElement(EpisodeComposer, {
-        initialNumber: 999,
+        initialNumber: episode.number,
+        episode,
         hosts: content.hosts,
         topics: content.topics,
         otherEpisodes: content.episodes,
@@ -92,6 +75,9 @@ describe('description Markdown d’un épisode', () => {
       }),
     );
 
-    expect(html).toContain('episode-markdown-preview');
+    expect(html).toContain('Aperçu de la description');
+    expect(html).toContain('<strong>Texte important</strong>');
+    expect(html).toContain('<ul>');
+    expect(html).toContain('**Texte important**');
   });
 });

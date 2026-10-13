@@ -37,6 +37,8 @@ Résolues par l'agent le 2026-10-06, sur délégation (réversibles, à confirme
 
 Résolues par l'agent le 2026-10-06, sur délégation (réversibles) : site média en Next.js avec contenu JSON et snapshots immuables ([ADR-0015](adr/ADR-0015-site-media-et-classements.md)). Décidées avec la charte du propriétaire : identité Sandbox, bleu nuit et cyan ([DD-0002](design-decisions/DD-0002-charte-sandbox-bleu-nuit-cyan.md)), backoffice éditorial ([ADR-0016](adr/ADR-0016-administration-editoriale-vercel.md)), puis persistance Postgres issue de la PR #2 ([ADR-0017](adr/ADR-0017-persistance-editoriale-postgres.md)).
 
+Le 2026-10-09, le domaine public `www.sandboxpodcast.fr` et la chaîne YouTube `@SandboxFR` ont été vérifiés. La chaîne publiée renvoie vers le site ; la configuration locale du site pointe vers la chaîne et attend sa prochaine livraison. L'identité YouTube suit [DD-0011](design-decisions/DD-0011-identite-youtube-sandbox.md). Les vrais épisodes restent à publier.
+
 Le 2026-10-07, la propriétaire a défini le parcours public comme une bibliothèque de podcasts vidéo avec ressources par épisode, une section de classements distincte, la non-publication d'articles autonomes et un thème rouge optionnel ([DD-0003](design-decisions/DD-0003-parcours-podcast-et-theme-rouge.md)).
 
 Le 2026-10-09, Lou a limité le site au français, à l'anglais, à l'espagnol et à l'allemand. Le français reste sans préfixe pour préserver les URLs existantes ; les autres utilisent `/en`, `/es-es` et `/de-de`. Les libellés espagnols et allemands attendent une revue native ; seules les langues avec interface et contenu relus peuvent être indexées ([DD-0010](design-decisions/DD-0010-quatre-langues-du-site.md)).
