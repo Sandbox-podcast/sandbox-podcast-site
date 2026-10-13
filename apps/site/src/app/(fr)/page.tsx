@@ -8,6 +8,8 @@ import { sandboxChartsData } from '@/lib/sandbox-charts';
 import { JsonLd } from '@/components/json-ld';
 import { isMock, siteConfig } from '@/config/site';
 import { episodeArtwork } from '@/domain/episode-artwork';
+import { indexableEpisode } from '@/domain/episode-seo';
+import { hasIndexableChartCollection } from '@/domain/chart-seo';
 import { formatDateShort, formatDuration } from '@/domain/format';
 import { editionMark } from '@/domain/weeks';
 import { allEpisodes, allTopics, getHost, getTopic } from '@/lib/repository';
@@ -21,10 +23,13 @@ const LATEST_EPISODES_LIMIT = 12;
 const TOPIC_EPISODES_LIMIT = 8;
 export async function generateMetadata() {
   await preparePublishedEditorialContent();
+  const hasPublishedEpisode = allEpisodes().some(indexableEpisode);
+  const hasPublishedCharts = hasIndexableChartCollection(await sandboxChartsData());
   return pageMetadata({
     title: `${siteConfig.name} — Podcasts vidéo, sources et classements tech`,
     description: siteConfig.description,
     path: '/',
+    noindex: !hasPublishedEpisode && !hasPublishedCharts,
     ownImage: true,
   });
 }

@@ -14,7 +14,9 @@ Le visuel générique devient une carte 1200 x 630 avec le logo officiel, le fon
 
 Une route stable, `/api/social-image`, sert ce visuel aux pages sans carte dédiée et aux pages localisées. Les pages françaises avec une carte dédiée laissent Next.js produire l'URL avec empreinte pour Open Graph et X. La même image est annoncée pour les deux réseaux. Les variantes localisées gardent leurs titres et descriptions traduits et utilisent la carte de marque tant qu'aucun visuel traduit ne leur est associé.
 
-Le domaine des liens absolus vient de `SITE_URL` ou de `VERCEL_PROJECT_PRODUCTION_URL`, comme pour les URL canoniques. Le blocage d'indexation des contenus de démonstration reste en place.
+Le domaine des liens absolus vient de `SITE_URL` ou, sur Vercel, du domaine public `www.sandboxpodcast.fr`, comme pour les URL canoniques. Les contenus de démonstration restent en `noindex` ; les pages publiées et vérifiées suivent l'indexation sélective de [DD-0014](DD-0014-indexation-selective-et-duree-youtube.md).
+
+Révision du 2026-10-13, décidée par l'agent sur délégation (PD-0003) : le sous-domaine `vercel.app` annoncé par l'environnement ne sert plus d'URL canonique. Le domaine public confirmé pour ce site prévaut lorsqu'aucune URL explicite hors Vercel n'est configurée.
 
 ## Vérification
 

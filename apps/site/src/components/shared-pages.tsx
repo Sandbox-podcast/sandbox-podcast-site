@@ -57,7 +57,7 @@ export const sharedPages: Record<SharedPageRoute, SharedPage> = {
     metadata: (o) =>
       Episode.generateMetadata({ params: Promise.resolve({ number: value(o, 'number') }) }),
   },
-  '/topics': { render: () => <Topics.default />, metadata: () => Topics.metadata },
+  '/topics': { render: () => <Topics.default />, metadata: () => Topics.generateMetadata() },
   '/topics/:slug': {
     render: (o) => <Topic.default params={slugParams(o)} />,
     metadata: (o) => Topic.generateMetadata({ params: slugParams(o) }),

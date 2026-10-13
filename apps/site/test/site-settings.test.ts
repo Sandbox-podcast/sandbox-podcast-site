@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import siteSettings from '../content/site.json';
-import { canonicalSiteUrl } from '../src/config/site.ts';
+import { canonicalSiteUrl, youtubeChannelUrl } from '../src/config/site.ts';
 import { siteSettingsSchema } from '../src/domain/schema.ts';
 
 describe('réglages publics du site', () => {
@@ -44,14 +44,26 @@ describe('réglages publics du site', () => {
     expect(site.aboutIntro).toContain('Lou, Nicolas et Loïc');
   });
 
-  it('emploie le domaine de production pour les URL canoniques Vercel', () => {
+  it('emploie le domaine public pour les URL canoniques Vercel', () => {
     expect(canonicalSiteUrl(undefined, 'sandbox-podcast.example.vercel.app')).toBe(
-      'https://sandbox-podcast.example.vercel.app',
+      'https://www.sandboxpodcast.fr',
     );
     expect(canonicalSiteUrl('https://sandbox.example', 'preview.example.vercel.app')).toBe(
       'https://sandbox.example',
     );
+    expect(canonicalSiteUrl('https://sandbox-podcast.vercel.app')).toBe(
+      'https://www.sandboxpodcast.fr',
+    );
     expect(canonicalSiteUrl()).toBe('http://localhost:3000');
+  });
+
+  it('remplace une ancienne URL YouTube générique par la chaîne officielle', () => {
+    expect(youtubeChannelUrl('https://www.youtube.com/')).toBe(
+      'https://www.youtube.com/@SandboxFR',
+    );
+    expect(youtubeChannelUrl('https://www.youtube.com/@SandboxFR')).toBe(
+      'https://www.youtube.com/@SandboxFR',
+    );
   });
 
   it('ne rend plus de bandeau de démonstration dans la structure publique', () => {

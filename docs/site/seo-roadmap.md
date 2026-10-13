@@ -2,6 +2,8 @@
 
 État au 9 octobre 2026. Ce document distingue l'observation de SERP, les hypothèses d'intention et les mesures à collecter. Il ne promet pas la première position : aucun classement ne peut être garanti par un changement de code.
 
+Mise à jour du 13 octobre 2026 : [DD-0014](../design-decisions/DD-0014-indexation-selective-et-duree-youtube.md) autorise l'indexation sélective des pages françaises avec contenu publié et des classements reposant sur des éditions réelles. Les fixtures, pages vides et traductions non relues restent en `noindex`. Les résultats réels d'indexation et de visibilité devront être suivis dans Search Console après déploiement.
+
 ## Positionnement éditorial
 
 Deux chemins d'entrée se renforcent :

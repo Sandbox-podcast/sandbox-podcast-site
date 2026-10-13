@@ -11,14 +11,14 @@ import { publicLocalizedSitePages, publicRankingCollectionPages } from '@/lib/lo
 import { isLocaleUiReviewed } from '@/i18n/messages';
 import { localeRouteSegment } from '@/i18n/locales';
 import { allEntities, allEpisodes, allTopics, entityPath } from '@/lib/repository';
+import { indexableEpisode } from '@/domain/episode-seo';
 import { uniqueSitemapEntries } from '@/domain/site-sitemap';
 
-export const revalidate = 3600;
+export const dynamic = 'force-dynamic';
 
-/** En mode démonstration, on ne déclare rien aux moteurs de recherche : les pages sont en noindex. */
+/** Chaque URL annoncée correspond à un contenu réellement publié et indexable. */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   await preparePublishedEditorialContent();
-  if (isMock) return [];
   const entry = (
     path: string,
     lastModified?: string,
@@ -73,19 +73,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     week: edition.week,
     entries: edition.entries,
   }));
-  const chartEntries = publishedChartSitemapPaths(editions, projects).map((path) => {
-    const priority =
-      path === '/charts'
-        ? 0.9
-        : path.endsWith('/methodology')
-          ? 0.6
-          : path === '/charts/history'
+  const chartEntries = publishedChartSitemapPaths(editions, projects)
+    .filter((path) => !isMock || !path.endsWith('/methodology'))
+    .map((path) => {
+      const priority =
+        path === '/charts'
+          ? 0.9
+          : path.endsWith('/methodology')
             ? 0.6
-            : path.startsWith('/charts/project/')
-              ? 0.5
-              : 0.3;
-    return entry(path, undefined, priority);
-  });
+            : path === '/charts/history'
+              ? 0.6
+              : path.startsWith('/charts/project/')
+                ? 0.5
+                : 0.3;
+      return entry(path, undefined, priority);
+    });
   const localizedEntries = [
     ...localizedRankings
       .filter((page) => isLocaleUiReviewed(page.localization.locale))
@@ -105,16 +107,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       }),
     ),
   ].map((path) => entry(path, undefined, 0.8));
+  const episodes = allEpisodes().filter(indexableEpisode);
+  const topics = allTopics().filter((topic) =>
+    episodes.some((episode) => episode.topics.includes(topic.slug)),
+  );
   return uniqueSitemapEntries([
-    entry('/', undefined, 1),
+    ...(episodes.length || chartEntries.length ? [entry('/', undefined, 1)] : []),
     ...chartEntries,
     ...localizedEntries,
     ...localizedRankingHubs,
-    entry('/episodes', undefined, 0.8),
-    ...allEpisodes().map((e) => entry(`/episodes/${String(e.number)}`, e.publishedAt, 0.8)),
-    entry('/topics', undefined, 0.5),
-    ...allTopics().map((t) => entry(`/topics/${t.slug}`, undefined, 0.4)),
-    ...allEntities().map((e) => entry(entityPath(e), undefined, 0.6)),
+    ...(episodes.length ? [entry('/episodes', undefined, 0.8)] : []),
+    ...episodes.map((e) => entry(`/episodes/${String(e.number)}`, e.publishedAt, 0.8)),
+    ...(topics.length ? [entry('/topics', undefined, 0.5)] : []),
+    ...topics.map((t) => entry(`/topics/${t.slug}`, undefined, 0.4)),
+    ...(!isMock ? allEntities().map((e) => entry(entityPath(e), undefined, 0.6)) : []),
     entry('/about', undefined, 0.4),
   ]);
 }

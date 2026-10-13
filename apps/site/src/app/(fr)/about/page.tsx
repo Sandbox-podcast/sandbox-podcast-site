@@ -1,17 +1,21 @@
 import { Text, LocalizedElement } from '@/components/localization';
 import { siteConfig } from '@/config/site';
+import { preparePublishedEditorialContent } from '@/lib/admin-persistence';
 import { pageMetadata } from '@/lib/seo';
+export const dynamic = 'force-dynamic';
 export const metadata = pageMetadata({
   title: 'Retrouvez l’équipe Sandbox',
   description: 'Les profils GitHub, LinkedIn et X de Lou, Nicolas et Loïc, l’équipe Sandbox.',
   path: '/about',
+  noindex: false,
 });
 const networks = [
   { key: 'github', label: 'GitHub' },
   { key: 'linkedin', label: 'LinkedIn' },
   { key: 'x', label: 'X' },
 ] as const;
-export default function AboutPage() {
+export default async function AboutPage() {
+  await preparePublishedEditorialContent();
   return (
     <div className="wrap about-social-page">
       <header className="about-social-heading">

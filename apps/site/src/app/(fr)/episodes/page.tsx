@@ -6,23 +6,30 @@ import { siteConfig } from '@/config/site';
 import { allEpisodes, allTopics, getTopic } from '@/lib/repository';
 import { pageMetadata } from '@/lib/seo';
 import { episodeSelectionSchema } from '@/domain/episode-selection';
+import { verifiedEpisodeDuration } from '@/domain/episode-presentation';
+import { indexableEpisode } from '@/domain/episode-seo';
+import { preparePublishedEditorialContent } from '@/lib/admin-persistence';
 
 interface Props {
   searchParams?: Promise<Record<string, string | string[] | undefined>>;
 }
 
 export async function generateMetadata({ searchParams = Promise.resolve({}) }: Props = {}) {
+  await preparePublishedEditorialContent();
   const query = await searchParams;
   return pageMetadata({
     title: 'Podcasts : tous les épisodes',
     description:
       'Retrouvez les épisodes Sandbox, leurs chapitres et les ressources mentionnées pendant les émissions.',
     path: '/episodes',
-    noindex: ['q', 'topic', 'sort'].some((key) => query[key] !== undefined),
+    noindex:
+      !allEpisodes().some(indexableEpisode) ||
+      ['q', 'topic', 'sort'].some((key) => query[key] !== undefined),
   });
 }
 
 export default async function EpisodesPage({ searchParams = Promise.resolve({}) }: Props = {}) {
+  await preparePublishedEditorialContent();
   const selection = episodeSelectionSchema.parse(await searchParams);
   const episodes = allEpisodes().toSorted((a, b) => b.publishedAt.localeCompare(a.publishedAt));
   const topics = allTopics().filter((topic) =>
@@ -72,7 +79,7 @@ export default async function EpisodesPage({ searchParams = Promise.resolve({}) 
         entries={episodes.map((episode) => ({
           number: episode.number,
           publishedAt: episode.publishedAt,
-          durationSec: episode.durationSec,
+          durationSec: verifiedEpisodeDuration(episode) ?? Number.MAX_SAFE_INTEGER,
           topics: episode.topics,
           searchable: [
             episode.title,

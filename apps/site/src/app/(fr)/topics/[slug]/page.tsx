@@ -6,6 +6,7 @@ import { Breadcrumbs } from '@/components/ui';
 import { allEpisodes, allTopics, findTopic } from '@/lib/repository';
 import { pageMetadata } from '@/lib/seo';
 import { preparePublishedEditorialContent } from '@/lib/admin-persistence';
+import { indexableEpisode } from '@/domain/episode-seo';
 
 export const dynamic = 'force-dynamic';
 export const dynamicParams = true;
@@ -27,6 +28,9 @@ export async function generateMetadata({ params }: Props) {
     title: `${topic.label} : les épisodes du podcast`,
     description: topic.description,
     path: `/topics/${topic.slug}`,
+    noindex: !allEpisodes().some(
+      (episode) => indexableEpisode(episode) && episode.topics.includes(slug),
+    ),
   });
 }
 export default async function TopicPage({ params }: Props) {

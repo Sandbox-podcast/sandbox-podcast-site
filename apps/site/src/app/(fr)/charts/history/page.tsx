@@ -5,6 +5,7 @@ import { chartRows, CHART_LABELS, type ChartId } from '@/domain/sandbox-charts';
 import { sandboxChartsData } from '@/lib/sandbox-charts';
 import { pageMetadata } from '@/lib/seo';
 import { hasIndexableChartCollection } from '@/domain/chart-seo';
+export const dynamic = 'force-dynamic';
 export async function generateMetadata() {
   const data = await sandboxChartsData();
   return pageMetadata({

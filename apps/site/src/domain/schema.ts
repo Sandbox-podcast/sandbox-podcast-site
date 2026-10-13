@@ -407,6 +407,8 @@ export type MentionKind = z.infer<typeof mentionKindSchema>;
 export const mentionSchema = z.object({
   kind: mentionKindSchema,
   label: z.string().min(1),
+  /** Les liens issus du Markdown restent synchronisés ; les autres sont édités à la main. */
+  origin: z.literal('description').optional(),
   /** Absent : lien à compléter (signalé par la page d'administration, jamais inventé). */
   url: httpsUrlSchema.optional(),
   entity: slugSchema.optional(),

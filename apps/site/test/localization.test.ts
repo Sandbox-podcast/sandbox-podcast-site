@@ -21,6 +21,18 @@ import {
 import { episodeSelectionSchema, episodeSelectionQuery } from '../src/domain/episode-selection';
 
 describe('langue et ressource', () => {
+  it('traduit les textes publiés de la page À propos en anglais', async () => {
+    const dictionary = await siteDictionary('en');
+    expect(translateText('L’équipe', dictionary, 'en')).toBe('The team');
+    expect(translateText('Retrouvez-nous.', dictionary, 'en')).toBe('Find us online.');
+    expect(
+      translateText(
+        'Lou, Nicolas et Loïc. Les liens de l’équipe Sandbox, réunis ici.',
+        dictionary,
+        'en',
+      ),
+    ).toBe("Lou, Nicolas and Loïc. The Sandbox team's links, together in one place.");
+  });
   it('conserve les filtres des podcasts et ignore les valeurs invalides', () => {
     const selection = episodeSelectionSchema.parse({
       q: 'agent',
