@@ -1,6 +1,6 @@
 # Nos projets
 
-Catalogue : `/nos-projets`. Fiches : `/nos-projets/[slug]`. Décision : [DD-0018](../design-decisions/DD-0018-catalogue-nos-projets.md).
+Catalogue : `/nos-projets`. Fiches : `/nos-projets/[slug]`. Décision : [DD-0019](../design-decisions/DD-0019-catalogue-nos-projets.md).
 
 Les 34 fiches proviennent des sites publics, des dépôts et des annonces des créateurs, vérifiés le 13 octobre 2026. Les descriptions sont reformulées en français. Les sources précises de chaque fiche et de chaque image sont conservées dans [le catalogue JSON](../../apps/site/content/personal-projects.json).
 
@@ -49,7 +49,7 @@ Les tests du catalogue couvrent les attributions, les doublons, les URL HTTPS, l
 
 Vérifications navigateur effectuées : ouverture d'une fiche depuis le catalogue, recherche vide et remise à zéro, filtre Éducation avec créateur Lou, agrandissement et navigation entre captures, fermeture avec Échap et lecture du film Sillage. Le catalogue et la fiche ont été examinés à 390 pixels de large, sans débordement horizontal ni image manquante.
 
-Validation sur la branche isolée : `pnpm check` complet réussi, avec 370 tests dans 64 fichiers. `pnpm build` réussi, avec 213 pages générées. Les 41 routes HTTP contrôlées répondent 200 ; une fiche inconnue répond 404. Le sitemap contient les 34 fiches. Les deux vidéos locales répondent 206 aux requêtes de lecture partielle.
+Validation sur la branche isolée : `pnpm check` complet réussi, avec 392 tests dans 65 fichiers. `pnpm build` réussi, avec 213 pages générées. Les 41 routes HTTP contrôlées répondent 200 ; une fiche inconnue répond 404. Le sitemap contient les 34 fiches. Les deux vidéos locales répondent 206 aux requêtes de lecture partielle.
 
 Le premier contrôle du checkout principal rencontrait des fins de ligne Windows CRLF et plus de 5 000 fichiers de copies temporaires sous `.local`. Les vérifications finales ont été faites dans un worktree propre, avec des fins de ligne LF, sans désactiver de règle ni inclure ces copies dans la PR.
 

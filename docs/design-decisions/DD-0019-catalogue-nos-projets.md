@@ -1,4 +1,4 @@
-# DD-0018 : Catalogue Nos projets
+# DD-0019 : Catalogue Nos projets
 
 - Date : 2026-10-13
 - Statut : implémenté localement, publication par PR demandée par Lou
