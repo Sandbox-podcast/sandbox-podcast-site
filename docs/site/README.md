@@ -2,6 +2,8 @@
 
 Application : [`apps/site`](../../apps/site). Décision de fond : [ADR-0015](../adr/ADR-0015-site-media-et-classements.md). Direction artistique et nommage : [DD-0001](../design-decisions/DD-0001-direction-artistique-du-site.md).
 
+La collection Animateurs alimente les profils publics de `/about`, y compris les liens sociaux ([DD-0015](../design-decisions/DD-0015-animateurs-source-page-a-propos.md)).
+
 Les images et métadonnées de partage sont définies dans [DD-0013](../design-decisions/DD-0013-apercus-des-liens-partages.md).
 
 La stratégie de découverte multilingue et le contrat de données pour les classements sont définis dans [ADR-0020](../adr/ADR-0020-architecture-seo-international-des-classements.md) et [la feuille de route SEO](seo-roadmap.md). [DD-0010](../design-decisions/DD-0010-quatre-langues-du-site.md) limite le site au français, à l'anglais, à l'espagnol et à l'allemand. Les chemins français restent sans préfixe ; les autres utilisent `/en`, `/es-es` et `/de-de`. Seules les traductions relues et reliées à des données réelles peuvent sortir du `noindex`.
@@ -51,7 +53,7 @@ Un graphe de contenus relie les entités (projets et modèles), les classements 
 | `/stories/[slug]`                                       | ancienne route redirigée vers la bibliothèque d'épisodes                                           |
 | `/projects/[slug]`, `/models/[slug]`                    | fiche d'entité : rang actuel et précédent, pic, semaines au Top, courbes, avis, épisodes           |
 | `/topics`, `/topics/[slug]`                             | thèmes et sélections d'épisodes                                                                    |
-| `/about`                                                | cartes de Lou, Nicolas et Loïc, avec les profils sociaux disponibles                               |
+| `/about`                                                | profils et liens sociaux des animateurs publiés                                                    |
 | `/en`, `/en/charts`                                     | mêmes pages et assets que le français, textes anglais dans les dictionnaires locaux                |
 | `/es-es/…`, `/de-de/…`                                  | pages publiques partagées, dictionnaire local espagnol ou allemand                                 |
 | `/charts/skills/[plateforme]`, `/charts/models/[tâche]` | pages d'intention SEO à données réelles, méthode, sources et texte localisé relu                   |
@@ -73,7 +75,7 @@ Code : `src/domain` (logique pure, sans I/O), `src/i18n` (cibles, routage et cha
 - **Saisie rapide admin** : épisode prêt dès l'ouverture du backoffice, import au collage du lien, formulaires de thèmes et de sources sans JSON, avis et fiches ajoutés au Markdown par des actions guidées. Les détails secondaires se déplient au besoin et les brouillons sont enregistrés avant publication.
 - **ChartWeekSelect** : choix d'une semaine directement dans l'en-tête de chaque classement.
 - **Chart Markdown** : document éditorial unique par classement dans l'admin, avec présentation, méthode, fiches et avis. Les snapshots et scores restent structurés et immuables.
-- **SiteSettingsEditor** : réglages de marque, métadescription, plateformes et cartes de l'équipe sur `/about`.
+- **SiteSettingsEditor** : réglages de marque, métadescription, plateformes et textes de la page À propos. Les noms et liens des animateurs viennent de leur collection éditoriale.
 - **ShareCard + opengraph-image** : cartes de partage et images 1200×630 pour X, LinkedIn, Discord et Slack. La carte d'accueil utilise un visuel original de studio ; le favicon SVG et l'icône Apple reprennent le signe triangulaire Sandbox.
 
 ## 4. Modèle de données

@@ -6,34 +6,15 @@ import { canonicalSiteUrl, youtubeChannelUrl } from '../src/config/site.ts';
 import { siteSettingsSchema } from '../src/domain/schema.ts';
 
 describe('réglages publics du site', () => {
-  it('affiche les trois membres confirmés et uniquement les liens connus', () => {
-    const site = siteSettingsSchema.parse(siteSettings);
-    expect(site.team.map(({ name }) => name)).toEqual(['Lou', 'Nicolas', 'Loïc']);
-    expect(site.team[0]?.socials).toEqual({
-      github: 'https://github.com/loukan42',
-      linkedin: 'https://linkedin.com/louhusson',
-      x: 'https://x.com/loukan42',
+  it('ignore les anciennes cartes de l’équipe dans les réglages', () => {
+    const settings = siteSettingsSchema.parse({
+      ...siteSettings,
+      team: [{ name: 'Loïc', socials: { github: 'https://github.com/azerothl' } }],
     });
-    expect(site.team[1]?.socials).toEqual({});
-    expect(site.team[2]?.socials).toEqual({});
+    expect(Object.hasOwn(settings, 'team')).toBe(false);
   });
 
-  it('refuse les liens non sécurisés dans les cartes de l’équipe', () => {
-    expect(
-      siteSettingsSchema.safeParse({
-        ...siteSettings,
-        team: [{ name: 'Lou', socials: { github: 'http://github.com/loukan42' } }],
-      }).success,
-    ).toBe(false);
-  });
-
-  it('garde la compatibilité avec les anciens réglages sans cartes d’équipe', () => {
-    const previousSettings: Record<string, unknown> = { ...siteSettings };
-    delete previousSettings['team'];
-    expect(siteSettingsSchema.parse(previousSettings).team).toEqual([]);
-  });
-
-  it('conserve les textes À propos par défaut quand ils manquent encore', () => {
+  it('garde la compatibilité avec les anciens réglages sans texte À propos', () => {
     const previousSettings: Record<string, unknown> = { ...siteSettings };
     delete previousSettings['aboutEyebrow'];
     delete previousSettings['aboutTitle'];
@@ -41,7 +22,7 @@ describe('réglages publics du site', () => {
     const site = siteSettingsSchema.parse(previousSettings);
     expect(site.aboutEyebrow).toBe('L’équipe');
     expect(site.aboutTitle).toBe('Retrouvez-nous.');
-    expect(site.aboutIntro).toContain('Lou, Nicolas et Loïc');
+    expect(site.aboutIntro).toBe('Retrouvez les animateurs de Sandbox et leurs liens publics.');
   });
 
   it('emploie le domaine public pour les URL canoniques Vercel', () => {

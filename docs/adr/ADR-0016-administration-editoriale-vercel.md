@@ -61,3 +61,9 @@ Ce constat précédait le push de la branche locale. La persistance de la PR #2 
 Décidée par l'agent sur délégation (PD-0003), à la demande du propriétaire de réduire la saisie d'un épisode. La création ne présente que l'URL YouTube et une description complète contenant les sources. La vidéo fournit le titre, la date, la durée, la chaîne et la miniature via YouTube Data API v3 ; le texte collé fournit le résumé, les chapitres horodatés et les liens. La description YouTube est proposée si le champ est encore vide. L'animateur est repris du compte admin quand un profil correspondant existe ; sinon, l'équipe le choisit. La durée n'est plus modifiable en secondes dans le formulaire.
 
 La création exige l'import complet : sans `YOUTUBE_API_KEY` ou si la date ou la durée manque, l'admin affiche la configuration requise et refuse l'enregistrement. Aucune durée ou date n'est inventée. L'édition détaillée des épisodes déjà enregistrés reste disponible ; brouillon et publication restent deux actions distinctes, avec les permissions serveur existantes.
+
+## Source des profils publics : 2026-10-13
+
+À la demande explicite de la propriétaire, la collection Animateurs devient la source unique des noms et liens sociaux affichés sur `/about`. Les choix de compatibilité avec les réglages déjà enregistrés et l'exclusion des signatures de démonstration sont décidés par l'agent sur délégation (PD-0003).
+
+La page affiche les animateurs qui ne sont pas des profils de remplacement, dans l'ordre de la collection, avec leurs liens GitHub, LinkedIn et X. "Identité du site" conserve les textes de la page À propos, mais ne contient plus de cartes d'équipe. Le champ `team` des anciens réglages est ignoré par le schéma Zod ; aucune migration Postgres n'est requise.

@@ -9,22 +9,10 @@
   "heroDek": "Chaque semaine, nos épisodes vidéo explorent les outils, les modèles et les idées qui changent le travail. Retrouvez aussi les sources citées et les classements commentés.",
   "aboutEyebrow": "L’équipe",
   "aboutTitle": "Retrouvez-nous.",
-  "aboutIntro": "Lou, Nicolas et Loïc. Les liens de l’équipe Sandbox, réunis ici.",
+  "aboutIntro": "Retrouvez les animateurs de Sandbox et leurs liens publics.",
   "platforms": {
     "youtube": "https://www.youtube.com/@SandboxFR",
     "spotify": "https://open.spotify.com",
     "apple": "https://podcasts.apple.com"
-  },
-  "team": [
-    {
-      "name": "Lou",
-      "socials": {
-        "github": "https://github.com/loukan42",
-        "linkedin": "https://linkedin.com/louhusson",
-        "x": "https://x.com/loukan42"
-      }
-    },
-    { "name": "Nicolas", "socials": {} },
-    { "name": "Loïc", "socials": {} }
-  ]
+  }
 }
