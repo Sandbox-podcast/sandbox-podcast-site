@@ -7,9 +7,13 @@ import { episodeSchema, type Episode, type Host, type Topic } from '@/domain/sch
 import { episodeArtwork } from '@/domain/episode-artwork';
 import { MENTION_KINDS } from '@/domain/kinds';
 import { parseYouTubeVideoId } from '@/domain/youtube';
+import { mergeDescriptionResources } from '@/domain/episode-resources';
+import { episodeChapters } from '@/domain/episode-presentation';
 import { createEpisodeFromYouTube } from '@/domain/episode-import';
-import { formatDuration } from '@/domain/format';
+import { parseYouTubeDescription } from '@/domain/youtube';
+import { formatDuration, formatDurationExact } from '@/domain/format';
 import { EpisodeDescription } from './episode-description';
+import { YouTubeDurationProbe } from './youtube-duration-probe';
 
 const youtubeMetadataSchema = z.object({
   videoId: z.string().regex(/^[A-Za-z0-9_-]{11}$/),
@@ -112,16 +116,24 @@ export function EpisodeComposer({
   );
   const [selectedTopics, setSelectedTopics] = useState<string[]>(episode?.topics ?? []);
   const [featured, setFeatured] = useState(episode?.featured ?? false);
-  const [chapters, setChapters] = useState<Episode['chapters']>(episode?.chapters ?? []);
-  const [resources, setResources] = useState<Episode['mentions']>([
-    ...(episode?.mentions ?? []),
-    ...(episode?.sources ?? []).map((source) => ({
-      kind: source.kind,
-      label: source.label,
-      url: source.url,
-      note: source.publisher,
-    })),
-  ]);
+  const [chapters, setChapters] = useState<Episode['chapters']>(
+    episode ? episodeChapters(episode) : [],
+  );
+  const [resources, setResources] = useState<Episode['mentions']>(() =>
+    mergeDescriptionResources(
+      [
+        ...(episode?.mentions ?? []),
+        ...(episode?.sources ?? []).map((source) => ({
+          kind: source.kind,
+          label: source.label,
+          url: source.url,
+          note: source.publisher,
+        })),
+      ],
+      episode?.description ?? '',
+      episode?.platforms.youtubeId,
+    ),
+  );
   const [spotifyUrl, setSpotifyUrl] = useState(episode?.platforms.spotifyUrl ?? '');
   const [appleUrl, setAppleUrl] = useState(episode?.platforms.appleUrl ?? '');
   const [uploadedArtworkPath, setUploadedArtworkPath] = useState(
@@ -132,6 +144,11 @@ export function EpisodeComposer({
   const [thumbnailMessage, setThumbnailMessage] = useState('');
   const [error, setError] = useState('');
   const currentVideoId = parseYouTubeVideoId(youtubeUrl);
+  const needsDurationProbe =
+    currentVideoId &&
+    ((metadata?.source === 'oembed' && metadata.videoId === currentVideoId) ||
+      (episode?.platforms.youtubeId === currentVideoId &&
+        (metadata?.videoId !== currentVideoId || metadata.source === 'oembed')));
   const previewArtwork = episodeArtwork({
     cover: {
       ...(episode?.cover ?? { tone: 1, kicker: `Épisode ${String(initialNumber)}` }),
@@ -162,6 +179,9 @@ export function EpisodeComposer({
     !description.trim() && 'description',
     !publishedAt && 'date',
     (!durationSec || Number(durationSec) < 60) && 'durée',
+    [...chapters, ...parseYouTubeDescription(description).chapters].some(
+      (chapter) => chapter.at >= Number(durationSec),
+    ) && 'durée YouTube incohérente avec les chapitres',
     selectedHosts.length === 0 && 'animateur',
   ].filter((value): value is string => typeof value === 'string');
 
@@ -223,7 +243,10 @@ export function EpisodeComposer({
           result.durationSec && result.durationSec >= 60 ? String(result.durationSec) : '',
         );
       if (newVideo || result.chapters?.length) setChapters(result.chapters ?? []);
-      const importedResources = result.resources;
+      const importedResources = result.resources?.map((resource) => ({
+        ...resource,
+        origin: 'description' as const,
+      }));
       if (newVideo) {
         setResources(importedResources ?? []);
       } else if (importedResources?.length) {
@@ -291,6 +314,16 @@ export function EpisodeComposer({
       setError('Ajoutez le lien YouTube avant de publier ce nouvel épisode.');
       return;
     }
+    if (
+      [...chapters, ...parseYouTubeDescription(description).chapters].some(
+        (chapter) => chapter.at >= Number(durationSec),
+      )
+    ) {
+      setError(
+        'La durée enregistrée est plus courte que les chapitres. Actualisez la vidéo YouTube.',
+      );
+      return;
+    }
     if (!episode) {
       if (!metadata || metadata.videoId !== videoId) {
         setError('Importez la vidéo YouTube avant d’enregistrer.');
@@ -342,7 +375,7 @@ export function EpisodeComposer({
       guests: episode.guests,
       topics: selectedTopics,
       chapters,
-      mentions: resources,
+      mentions: mergeDescriptionResources(resources, description, videoId),
       sources: [],
       platforms,
       featured,
@@ -441,8 +474,19 @@ export function EpisodeComposer({
           <p className="admin-help" role="status">
             {metadata.source === 'youtube-data-api'
               ? `Vidéo importée · ${metadata.channel}. La date et la durée viennent de YouTube.`
-              : `Titre et miniature importés · ${metadata.channel}. Configurez YOUTUBE_API_KEY sur le serveur pour récupérer la date et la durée nécessaires à la création.`}
+              : `Vidéo importée · ${metadata.channel}. La durée est lue automatiquement dans le lecteur ; la date de publication reste celle enregistrée.`}
           </p>
+        ) : null}
+        {needsDurationProbe && currentVideoId ? (
+          <YouTubeDurationProbe
+            videoId={currentVideoId}
+            onDuration={(value) => {
+              setDurationSec(String(value));
+              setMetadata((current) =>
+                current?.videoId === currentVideoId ? { ...current, durationSec: value } : current,
+              );
+            }}
+          />
         ) : null}
       </form>
 
@@ -631,10 +675,17 @@ export function EpisodeComposer({
                 onChange={(event) => {
                   setDescription(event.target.value);
                 }}
+                onBlur={(event) => {
+                  const markdown = event.currentTarget.value;
+                  setResources((current) =>
+                    mergeDescriptionResources(current, markdown, currentVideoId),
+                  );
+                }}
                 required
               />
               <small>
-                Paragraphes, titres, listes, gras et liens https:// sont affichés sur la fiche.
+                Les liens HTTPS du Markdown sont ajoutés automatiquement aux ressources quand vous
+                quittez ce champ ou enregistrez. Les ressources saisies à la main sont conservées.
               </small>
             </label>
             <div className="episode-markdown-preview admin-span-2">
@@ -662,7 +713,7 @@ export function EpisodeComposer({
               <span>Durée YouTube</span>
               <span className="admin-help">
                 {Number(durationSec) >= 60
-                  ? formatDuration(Number(durationSec))
+                  ? formatDurationExact(Number(durationSec))
                   : 'Actualisez la vidéo depuis YouTube pour récupérer sa durée.'}
               </span>
             </div>
@@ -830,8 +881,9 @@ export function EpisodeComposer({
                   <div>
                     <h3 id="admin-mentions-title">Ressources</h3>
                     <p className="admin-help">
-                      Liens cités dans la vidéo ou utilisés pour préparer l’épisode. Ils
-                      apparaissent ensemble dans la barre latérale.
+                      Les liens de la description sont déjà ajoutés ici. Vous pouvez corriger leur
+                      nom ou leur type et ajouter d’autres ressources à la main. Retirez un lien du
+                      Markdown pour le supprimer de cette liste.
                     </p>
                   </div>
                   <button
@@ -847,16 +899,21 @@ export function EpisodeComposer({
                 {resources.map((mention, index) => (
                   <div className="admin-repeater-card" key={index}>
                     <div className="admin-repeater-heading">
-                      <span className="label">Ressource {String(index + 1)}</span>
-                      <button
-                        type="button"
-                        className="admin-repeater-remove"
-                        onClick={() => {
-                          setResources((current) => current.filter((_, i) => i !== index));
-                        }}
-                      >
-                        Retirer
-                      </button>
+                      <span className="label">
+                        Ressource {String(index + 1)}
+                        {mention.origin === 'description' ? ' · Markdown' : ''}
+                      </span>
+                      {mention.origin !== 'description' ? (
+                        <button
+                          type="button"
+                          className="admin-repeater-remove"
+                          onClick={() => {
+                            setResources((current) => current.filter((_, i) => i !== index));
+                          }}
+                        >
+                          Retirer
+                        </button>
+                      ) : null}
                     </div>
                     <div className="admin-form-grid">
                       <label className="admin-field">
@@ -921,11 +978,16 @@ export function EpisodeComposer({
                         />
                       </label>
                       <label className="admin-field admin-span-2">
-                        <span>Lien · facultatif</span>
+                        <span>
+                          {mention.origin === 'description'
+                            ? 'Lien · modifier dans la description'
+                            : 'Lien · facultatif'}
+                        </span>
                         <input
                           type="url"
                           inputMode="url"
                           value={mention.url ?? ''}
+                          readOnly={mention.origin === 'description'}
                           onChange={(event) => {
                             setResources((current) =>
                               current.map((item, i) =>

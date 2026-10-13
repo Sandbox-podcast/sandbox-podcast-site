@@ -3,13 +3,23 @@ import { LocalizedLink as Link } from '@/components/localization';
 import { Breadcrumbs } from '@/components/ui';
 import { allEpisodes, allTopics } from '@/lib/repository';
 import { pageMetadata } from '@/lib/seo';
-export const metadata = pageMetadata({
-  title: 'Explorer les podcasts par thème',
-  description:
-    'Parcourez les épisodes Sandbox par sujet : IA, développement, modèles ouverts et outils.',
-  path: '/topics',
-});
-export default function TopicsPage() {
+import { preparePublishedEditorialContent } from '@/lib/admin-persistence';
+import { indexableEpisode } from '@/domain/episode-seo';
+
+export const dynamic = 'force-dynamic';
+
+export async function generateMetadata() {
+  await preparePublishedEditorialContent();
+  return pageMetadata({
+    title: 'Explorer les podcasts par thème',
+    description:
+      'Parcourez les épisodes Sandbox par sujet : IA, développement, modèles ouverts et outils.',
+    path: '/topics',
+    noindex: !allEpisodes().some((episode) => indexableEpisode(episode) && episode.topics.length),
+  });
+}
+export default async function TopicsPage() {
+  await preparePublishedEditorialContent();
   const episodes = allEpisodes();
   const topics = allTopics().map((topic) => ({
     topic,

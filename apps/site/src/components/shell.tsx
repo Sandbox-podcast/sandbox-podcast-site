@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { siteConfig } from '@/config/site';
 import { allEpisodes } from '@/lib/repository';
 import { CHART_LABELS } from '@/domain/sandbox-charts';
+import { latestSitePublication } from '@/domain/site-freshness';
 import { lastUpdated } from '@/lib/graph';
 import { LocaleSwitcher, MainNav } from './nav';
 import { ScrollState, TimeAgo } from './client';
@@ -89,7 +90,8 @@ export function Footer() {
             <Text>{siteConfig.tagline}</Text> <Text>{messages.podcastsDescription}</Text>
           </p>
           <p className="label mt-4 opacity-70">
-            <Text>{messages.updated}</Text> <TimeAgo iso={updated.publishedAt} />
+            <Text>{messages.updated}</Text>{' '}
+            <TimeAgo iso={latestSitePublication(updated.publishedAt, episodes)} />
           </p>
         </div>
         <LocalizedElement as="nav" aria-label="Podcasts">

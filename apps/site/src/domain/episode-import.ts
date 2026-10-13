@@ -1,5 +1,6 @@
 import { episodeSchema, type Episode } from './schema.ts';
-import { parseYouTubeDescription, parseYouTubeVideoId } from './youtube.ts';
+import { mergeDescriptionResources } from './episode-resources.ts';
+import { parseYouTubeDescription } from './youtube.ts';
 
 export interface YouTubeEpisodeMetadata {
   videoId: string;
@@ -51,9 +52,10 @@ export function createEpisodeFromYouTube(input: {
     description,
     hosts: input.hosts,
     chapters: details.chapters.filter((chapter) => chapter.at < durationSec),
-    mentions: details.resources.filter(
-      (resource) => parseYouTubeVideoId(resource.url) !== metadata.videoId,
-    ),
+    mentions: mergeDescriptionResources([], description, metadata.videoId).filter((resource) => {
+      const host = new URL(resource.url ?? '').hostname;
+      return host !== 'open.spotify.com' && host !== 'podcasts.apple.com';
+    }),
     sources: [],
     platforms: {
       youtubeId: metadata.videoId,

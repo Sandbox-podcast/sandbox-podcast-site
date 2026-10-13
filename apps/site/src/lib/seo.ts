@@ -40,6 +40,7 @@ interface PageMeta {
   type?: 'website' | 'article';
   publishedTime?: string;
   modifiedTime?: string;
+  /** `false` autorise une page vérifiée même si d'autres contenus restent simulés. */
   noindex?: boolean;
   keywords?: string[];
   /** Variantes localisées indexables de cette même page. */
@@ -52,10 +53,10 @@ interface PageMeta {
  * Métadonnées d'une page : titre, description, URL canonique, OpenGraph et cartes X/LinkedIn/Discord/Slack.
  * Les pages avec carte dédiée utilisent le fichier `opengraph-image.tsx` de leur route.
  * Les autres utilisent une image de marque à URL stable.
- * En mode démonstration, aucune page n'est indexable : on ne publie pas de fausses données dans Google.
+ * Une page explicitement vérifiée peut être indexée sans exposer les fixtures du reste du site.
  */
 export function pageMetadata(meta: PageMeta): Metadata {
-  const blocked = isMock || meta.noindex === true;
+  const blocked = meta.noindex === true || (isMock && meta.noindex !== false);
   const openGraphLocale = openGraphLocaleForTag(meta.locale ?? siteConfig.locale);
   const fallbackImage = siteShareImage();
   const languages =

@@ -3,7 +3,8 @@ import { feed } from '@/lib/graph';
 import { absoluteUrl } from '@/lib/seo';
 import { preparePublishedEditorialContent } from '@/lib/admin-persistence';
 
-export const revalidate = 3600;
+// Le build ne lit pas Postgres : les nouveaux épisodes doivent apparaître dès la publication.
+export const dynamic = 'force-dynamic';
 
 const xml = (s: string): string =>
   s

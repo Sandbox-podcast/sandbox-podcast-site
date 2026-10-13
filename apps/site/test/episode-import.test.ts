@@ -42,7 +42,12 @@ describe('création simplifiée d’un épisode', () => {
       { at: 312, title: 'Démonstration' },
     ]);
     expect(episode.mentions).toEqual([
-      { kind: 'repo', label: 'Code source', url: 'https://github.com/sandbox/demo' },
+      {
+        kind: 'repo',
+        label: 'Code source',
+        url: 'https://github.com/sandbox/demo',
+        origin: 'description',
+      },
     ]);
     expect(episode.platforms).toMatchObject({
       youtubeId: metadata.videoId,
@@ -83,5 +88,24 @@ describe('création simplifiée d’un épisode', () => {
         status: 'draft',
       }),
     ).toThrow('Aucun animateur');
+  });
+
+  it('crée les ressources depuis les liens Markdown de la description', () => {
+    const episode = createEpisodeFromYouTube({
+      number: 44,
+      metadata,
+      description: `Un épisode sur les outils IA.\n\n[Le dépôt](https://github.com/sandbox/demo)\n[Spotify](https://open.spotify.com/episode/123)`,
+      hosts: ['lou'],
+      status: 'draft',
+    });
+    expect(episode.mentions).toEqual([
+      {
+        kind: 'repo',
+        label: 'Le dépôt',
+        url: 'https://github.com/sandbox/demo',
+        origin: 'description',
+      },
+    ]);
+    expect(episode.platforms.spotifyUrl).toBe('https://open.spotify.com/episode/123');
   });
 });
