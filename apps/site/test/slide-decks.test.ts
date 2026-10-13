@@ -62,14 +62,25 @@ describe('slide decks', () => {
     ]);
     expect(html).toContain('<title>Présentations Sandbox</title>');
     expect(html).toContain('href="./episode-001/index.html"');
-    expect(html).not.toContain('/_next/');
+    expect(html.includes('/_next/')).toBe(false);
+  });
+
+  it('fournit une diapositive vierge pour l’épisode 002', () => {
+    const html = readFileSync(
+      join(slidesPublicRoot(process.cwd()), 'episode-002', 'index.html'),
+      'utf8',
+    );
+    expect(html).toContain('<title>Sandbox — épisode 002</title>');
+    expect(html).toContain(
+      '<main class="slide" aria-label="Diapositive vierge de l’épisode 002"></main>',
+    );
   });
 
   it('garde public/slides/index.html aligné avec les decks du dépôt', () => {
     const decks = listSlideDecks(slidesPublicRoot(process.cwd()));
     const actual = readFileSync(join(process.cwd(), 'public/slides/index.html'), 'utf8');
     expect(decks.length).toBeGreaterThan(0);
-    expect(actual).not.toContain('/_next/');
+    expect(actual.includes('/_next/')).toBe(false);
     for (const deck of decks) {
       expect(actual).toContain(`href="${deck.href}"`);
       expect(actual).toContain(deck.title);

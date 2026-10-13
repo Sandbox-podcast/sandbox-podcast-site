@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#05090d" />
+    <meta name="description" content="Diapositive vierge de l’épisode 002 de Sandbox." />
+    <title>Sandbox — épisode 002</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #05090d;
+        --night: #071a29;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+      }
+
+      body {
+        overflow: hidden;
+        background: var(--bg);
+      }
+
+      .slide {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        isolation: isolate;
+        background:
+          radial-gradient(ellipse at 78% 24%, rgb(28 181 237 / 10%), transparent 36%),
+          linear-gradient(145deg, var(--bg), #07131d 65%, var(--night));
+      }
+
+      .slide::before {
+        position: absolute;
+        z-index: -1;
+        inset: 0;
+        background-image:
+          linear-gradient(rgb(87 145 177 / 8%) 1px, transparent 1px),
+          linear-gradient(90deg, rgb(87 145 177 / 8%) 1px, transparent 1px);
+        background-position: center center;
+        background-size: 5.4rem 5.4rem;
+        content: '';
+        mask-image: linear-gradient(90deg, transparent, #000 35%, #000 80%, transparent);
+        opacity: 0.32;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="slide" aria-label="Diapositive vierge de l’épisode 002"></main>
+  </body>
+</html>
