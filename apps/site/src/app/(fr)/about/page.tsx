@@ -1,11 +1,12 @@
 import { Text, LocalizedElement } from '@/components/localization';
 import { siteConfig } from '@/config/site';
 import { preparePublishedEditorialContent } from '@/lib/admin-persistence';
+import { publicHosts } from '@/lib/repository';
 import { pageMetadata } from '@/lib/seo';
 export const dynamic = 'force-dynamic';
 export const metadata = pageMetadata({
   title: 'Retrouvez l’équipe Sandbox',
-  description: 'Les profils GitHub, LinkedIn et X de Lou, Nicolas et Loïc, l’équipe Sandbox.',
+  description: 'Les profils GitHub, LinkedIn et X des animateurs Sandbox.',
   path: '/about',
   noindex: false,
 });
@@ -16,6 +17,7 @@ const networks = [
 ] as const;
 export default async function AboutPage() {
   await preparePublishedEditorialContent();
+  const hosts = publicHosts();
   return (
     <div className="wrap about-social-page">
       <header className="about-social-heading">
@@ -31,31 +33,31 @@ export default async function AboutPage() {
       </header>
       <ul className="about-social-grid">
         <Text>
-          {siteConfig.team.map((member, index) => {
+          {hosts.map((host, index) => {
             const links = networks.flatMap(({ key, label }) => {
-              const href = member.socials[key];
+              const href = host.socials[key];
               return href ? [{ href, label }] : [];
             });
             return (
-              <li className="about-social-person" key={member.name}>
+              <li className="about-social-person" key={host.slug}>
                 <div className="about-social-card-top">
                   <span className="label">
                     <Text>{'Sandbox / '}</Text>
                     <Text>{String(index + 1).padStart(2, '0')}</Text>
                   </span>
                   <span className="about-social-monogram" aria-hidden="true">
-                    <Text>{member.name.slice(0, 1)}</Text>
+                    <Text>{host.name.slice(0, 1)}</Text>
                   </span>
                 </div>
                 <div className="about-social-card-body">
                   <h2>
-                    <Text>{member.name}</Text>
+                    <Text>{host.name}</Text>
                   </h2>
                   <span className="about-social-card-rule" aria-hidden="true" />
                 </div>
                 <Text>
                   {links.length > 0 ? (
-                    <LocalizedElement as="nav" aria-label={`Profils de ${member.name}`}>
+                    <LocalizedElement as="nav" aria-label={`Profils de ${host.name}`}>
                       <Text>
                         {links.map(({ href, label }) => (
                           <a href={href} target="_blank" rel="noopener noreferrer" key={label}>

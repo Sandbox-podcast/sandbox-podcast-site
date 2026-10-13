@@ -28,7 +28,7 @@ import {
   weeklyChartEditions,
   weeklyRankings,
 } from '@/db/schema';
-import { allEntities, allEpisodes, allTopics } from '@/lib/repository';
+import { allEntities, allEpisodes, allTopics, publicHosts } from '@/lib/repository';
 
 export interface PublicRankingCollectionPage {
   collection: RankingCollection;
@@ -67,7 +67,10 @@ const sourceForSiteLocalization = (localization: SiteContentLocalization): unkno
       return allEntities().find((entity) => entity.slug === localization.contentKey);
     case 'page':
       if (localization.contentKey !== 'about') return undefined;
-      return { name: siteConfig.name, team: siteConfig.team };
+      return {
+        name: siteConfig.name,
+        hosts: publicHosts().map(({ slug, name, socials }) => ({ slug, name, socials })),
+      };
   }
 };
 

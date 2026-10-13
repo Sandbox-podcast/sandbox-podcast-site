@@ -90,24 +90,12 @@ export const siteSettingsSchema = z.object({
   aboutIntro: z
     .string()
     .min(1)
-    .default('Lou, Nicolas et Loïc. Les liens de l’équipe Sandbox, réunis ici.'),
+    .default('Retrouvez les animateurs de Sandbox et leurs liens publics.'),
   platforms: z.object({
     youtube: httpsUrlSchema,
     spotify: httpsUrlSchema,
     apple: httpsUrlSchema,
   }),
-  team: z
-    .array(
-      z.object({
-        name: z.string().min(1),
-        socials: z.object({
-          github: httpsUrlSchema.optional(),
-          linkedin: httpsUrlSchema.optional(),
-          x: httpsUrlSchema.optional(),
-        }),
-      }),
-    )
-    .default([]),
 });
 export type SiteSettings = z.infer<typeof siteSettingsSchema>;
 

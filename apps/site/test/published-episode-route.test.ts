@@ -55,7 +55,11 @@ describe('épisodes publiés après le build', () => {
     });
     const published = editableContentSchema.parse({
       site: { ...base.site, aboutTitle: 'Équipe publiée après le build' },
-      hosts: base.hosts,
+      hosts: base.hosts.map((host) =>
+        host.slug === 'loic'
+          ? { ...host, socials: { ...host.socials, github: 'https://github.com/azerothl' } }
+          : host,
+      ),
       topics: base.topics,
       sources: base.sources,
       scoring: base.scoring,
@@ -81,6 +85,9 @@ describe('épisodes publiés après le build', () => {
       expect(detail).not.toContain('13 min');
       const about = renderToStaticMarkup(await AboutPage());
       expect(about).toContain('Équipe publiée après le build');
+      expect(about).toContain('aria-label="Profils de Loïc"');
+      expect(about).toContain('href="https://github.com/azerothl"');
+      expect(about.includes('Équipe Sandbox')).toBe(false);
 
       const topics = renderToStaticMarkup(await TopicsPage());
       expect(topics).toContain('1 épisode');

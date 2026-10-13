@@ -72,9 +72,6 @@ export const siteConfig = {
       youtube: youtubeChannelUrl(activeSiteSettings.platforms.youtube),
     };
   },
-  get team(): SiteSettings['team'] {
-    return activeSiteSettings.team;
-  },
   url: canonicalSiteUrl(process.env['SITE_URL'], process.env['VERCEL_PROJECT_PRODUCTION_URL']),
   locale: 'fr-FR',
   language: 'fr',

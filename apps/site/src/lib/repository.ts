@@ -110,6 +110,7 @@ export const allEntities = (): Entity[] => content().entities;
 export const allEpisodes = (): Episode[] => content().episodes.filter(isPublicEpisode);
 export const allStories = (): Story[] => content().stories;
 export const allHosts = (): Host[] => content().hosts;
+export const publicHosts = (): Host[] => allHosts().filter((host) => !host.placeholder);
 export const allTopics = (): Topic[] => content().topics;
 
 export const entityPath = (entity: Pick<Entity, 'kind' | 'slug'>): string =>
