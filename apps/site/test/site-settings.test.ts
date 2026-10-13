@@ -14,7 +14,13 @@ describe('réglages publics du site', () => {
       linkedin: 'https://linkedin.com/louhusson',
       x: 'https://x.com/loukan42',
     });
-    expect(site.team[1]?.socials).toEqual({});
+    expect(site.team[1]?.aka).toBe('MarlburroW');
+    expect(site.team[1]?.photo).toBe('/team/nicolas.jpg');
+    expect(site.team[1]?.socials).toEqual({
+      github: 'https://github.com/MarlBurroW',
+      linkedin: 'https://www.linkedin.com/in/nicolas-varrot-b6b05857/',
+      x: 'https://x.com/MarlburroW38',
+    });
     expect(site.team[2]?.socials).toEqual({});
   });
 
@@ -25,6 +31,15 @@ describe('réglages publics du site', () => {
         team: [{ name: 'Lou', socials: { github: 'http://github.com/loukan42' } }],
       }).success,
     ).toBe(false);
+  });
+
+  it('n’accepte que des photos servies par le site', () => {
+    const withPhoto = (photo: string) =>
+      siteSettingsSchema.safeParse({ ...siteSettings, team: [{ name: 'Lou', photo, socials: {} }] })
+        .success;
+    expect(withPhoto('/team/lou.webp')).toBe(true);
+    expect(withPhoto('https://evil.example/lou.jpg')).toBe(false);
+    expect(withPhoto('/team/../secret.jpg')).toBe(false);
   });
 
   it('garde la compatibilité avec les anciens réglages sans cartes d’équipe', () => {

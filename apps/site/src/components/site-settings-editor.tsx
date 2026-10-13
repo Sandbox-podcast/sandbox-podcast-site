@@ -54,6 +54,24 @@ export function SiteSettingsEditor({ initial, pending, onSave }: Props) {
     setError('');
   }
 
+  function updateAka(index: number, value: string): void {
+    const aka = value.trim() || undefined;
+    setSite((current) => ({
+      ...current,
+      team: current.team.map((member, i) => (i === index ? { ...member, aka } : member)),
+    }));
+    setError('');
+  }
+
+  function updatePhoto(index: number, value: string): void {
+    const photo = value.trim() || undefined;
+    setSite((current) => ({
+      ...current,
+      team: current.team.map((member, i) => (i === index ? { ...member, photo } : member)),
+    }));
+    setError('');
+  }
+
   function updateSocial(index: number, key: SocialKey, value: string): void {
     setSite((current) => ({
       ...current,
@@ -252,6 +270,26 @@ export function SiteSettingsEditor({ initial, pending, onSave }: Props) {
                   value={member.name}
                   onChange={(event) => {
                     updateMember(index, event.target.value);
+                  }}
+                />
+              </label>
+              <label className="admin-field">
+                <span>Aka (pseudo)</span>
+                <input
+                  placeholder="Facultatif"
+                  value={member.aka ?? ''}
+                  onChange={(event) => {
+                    updateAka(index, event.target.value);
+                  }}
+                />
+              </label>
+              <label className="admin-field">
+                <span>Photo</span>
+                <input
+                  placeholder="/team/prenom.jpg (fichier dans public/)"
+                  value={member.photo ?? ''}
+                  onChange={(event) => {
+                    updatePhoto(index, event.target.value);
                   }}
                 />
               </label>

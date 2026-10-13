@@ -21,7 +21,16 @@
         "x": "https://x.com/loukan42"
       }
     },
-    { "name": "Nicolas", "socials": {} },
+    {
+      "name": "Nicolas",
+      "aka": "MarlburroW",
+      "photo": "/team/nicolas.jpg",
+      "socials": {
+        "github": "https://github.com/MarlBurroW",
+        "linkedin": "https://www.linkedin.com/in/nicolas-varrot-b6b05857/",
+        "x": "https://x.com/MarlburroW38"
+      }
+    },
     { "name": "Loïc", "socials": {} }
   ]
 }

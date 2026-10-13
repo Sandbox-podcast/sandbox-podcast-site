@@ -85,6 +85,13 @@ export const siteSettingsSchema = z.object({
     .array(
       z.object({
         name: z.string().min(1),
+        /** Pseudonyme affiché sous le prénom (« Aka »). */
+        aka: z.string().trim().min(1).optional(),
+        /** Photo servie depuis `public/`, par exemple `/team/nicolas.jpg`. */
+        photo: z
+          .string()
+          .regex(/^\/[\w/-]+\.(?:jpe?g|png|webp)$/, 'chemin local attendu, ex. /team/nom.jpg')
+          .optional(),
         socials: z.object({
           github: httpsUrlSchema.optional(),
           linkedin: httpsUrlSchema.optional(),
