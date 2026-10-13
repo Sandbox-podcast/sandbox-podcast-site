@@ -14,7 +14,7 @@ export const CHART_PERIODS: { id: ChartPeriod; label: string; weeks: number | nu
 export const CHART_LABELS: Record<ChartId, { title: string; subtitle: string; slug: string }> = {
   github: {
     title: 'GITHUB TOP 20',
-    subtitle: 'Les projets IA qui progressent le plus vite sur GitHub.',
+    subtitle: 'Les projets open source qui progressent le plus vite sur GitHub.',
     slug: 'github',
   },
   skills: {

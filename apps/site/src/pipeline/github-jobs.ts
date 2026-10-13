@@ -1,10 +1,8 @@
 import { z } from 'zod';
 import {
   dateDaysAgo,
-  corroborateGithubRanking,
   qualifiesRepository,
   rankGithubProjects,
-  uncertainGithubCandidates,
   utcDate,
   type DailyGithubSnapshot,
 } from '../domain/github-charts.ts';
@@ -25,9 +23,14 @@ import {
   setRepositoryError,
   upsertDiscoveredRepositories,
   weeklyCandidates,
+  unobservedGithubCandidates,
 } from '../lib/charts-store.ts';
 import { GithubClient, GithubRateLimitError } from './github-client.ts';
 import { ScorecardClient } from './scorecard-client.ts';
+import { githubDiscoveryPlan } from '../domain/github-discovery.ts';
+import { githubReferenceInput } from '../domain/reference-adapters.ts';
+import { createReferenceArtifact, type ReferenceArtifact } from '../lib/reference-artifact.ts';
+import { rankGithubProjects as githubBaseRanking } from '../domain/github-charts.ts';
 
 export const DISCOVERY_TOPICS = [
   'artificial-intelligence',
@@ -91,7 +94,7 @@ async function runLogged(
 export async function discoverGithub(client = new GithubClient()): Promise<ChartsJobSummary> {
   return runLogged('github_discovery', async (summary) => {
     const deadline = Date.now() + 220000;
-    for (const topic of DISCOVERY_TOPICS) {
+    for (const query of githubDiscoveryPlan(utcDate())) {
       if (Date.now() > deadline) {
         summary.status = 'partial';
         summary.details.push(
@@ -101,15 +104,19 @@ export async function discoverGithub(client = new GithubClient()): Promise<Chart
       }
       for (let page = 1; page <= 2; page++) {
         try {
-          const result = await client.search(topic, page);
+          const result = await client.searchQuery(query, page);
           summary.processed += result.repositories.length;
           await upsertDiscoveredRepositories(result.repositories);
           summary.succeeded += result.repositories.length;
+          if (result.incomplete || (page === 2 && result.next)) {
+            summary.status = 'partial';
+            summary.details.push(`Partition non exhaustive : ${query}`);
+          }
           if (!result.next) break;
         } catch (error) {
           summary.failed++;
           summary.details.push(
-            `${topic} : ${error instanceof Error ? error.message : 'recherche indisponible'}`,
+            `${query} : ${error instanceof Error ? error.message : 'recherche indisponible'}`,
           );
           if (error instanceof GithubRateLimitError) {
             summary.status = 'partial';
@@ -303,24 +310,52 @@ export async function calculateGithubWeek(
     candidates.map(({ project }) => project),
     date,
   );
-  const entries = corroborateGithubRanking(candidates, config, scorecards, date);
-  const rising = corroborateGithubRanking(candidates, config, scorecards, date, true);
-  const uncertainCandidates = uncertainGithubCandidates(
-    candidates,
-    entries,
-    config,
-    scorecards,
-    date,
+  const [unobserved, risingUnobserved] = await Promise.all([
+    unobservedGithubCandidates(date, config),
+    unobservedGithubCandidates(date, config, 14),
+  ]);
+  const referenceRanking = createReferenceArtifact(
+    githubReferenceInput(candidates, config, scorecards, date, false, unobserved),
   );
-  const risingUncertainCandidates = uncertainGithubCandidates(
-    candidates,
-    rising,
-    config,
-    scorecards,
-    date,
-    true,
+  const risingReferenceRanking = createReferenceArtifact(
+    githubReferenceInput(candidates, config, scorecards, date, true, risingUnobserved),
   );
-  const insufficientHistory = entries.length < config.minimumCandidates || uncertainCandidates > 0;
+  const present = (proof: ReferenceArtifact, isRising: boolean) => {
+    const allowed = new Set(proof.input.candidates);
+    const base = new Map(
+      githubBaseRanking(
+        candidates.filter(({ project }) => allowed.has(project.slug)),
+        config,
+        isRising,
+        Math.max(1, candidates.length),
+      ).map((row) => [row.project.slug, row]),
+    );
+    return proof.report.rows.map((row) => {
+      const item = base.get(row.entity);
+      if (!item) throw new Error('Projet classé sans données GitHub.');
+      const scorecard = scorecards.get(item.project.entityId);
+      return {
+        ...item,
+        rank: row.rank,
+        score: row.score,
+        sourceScores: { github: item.score, 'openssf-scorecard': (scorecard?.score ?? 0) * 10 },
+        sourceWeights: {
+          github: proof.input.profile.families[0]?.weight ?? 0,
+          'openssf-scorecard': proof.input.profile.families[1]?.weight ?? 0,
+        },
+        ...(scorecard ? { scorecard } : {}),
+      };
+    });
+  };
+  const entries = present(referenceRanking, false);
+  const rising = present(risingReferenceRanking, true);
+  const uncertainCandidates = referenceRanking.report.excluded.filter(
+    (item) => item.canEnterTop,
+  ).length;
+  const risingUncertainCandidates = risingReferenceRanking.report.excluded.filter(
+    (item) => item.canEnterTop,
+  ).length;
+  const insufficientHistory = !referenceRanking.report.publishable;
   const result = {
     week,
     date,
@@ -329,7 +364,9 @@ export async function calculateGithubWeek(
     uncertainCandidates,
     risingUncertainCandidates,
     trackedWithSnapshot: candidates.length,
-    scoringVersion: 'github-cross-source-v2',
+    scoringVersion: referenceRanking.input.profile.version,
+    referenceRanking,
+    risingReferenceRanking,
     entries,
     rising,
     written: 0,
@@ -341,8 +378,12 @@ export async function calculateGithubWeek(
     date,
     config,
     [
-      { chart: 'github', entries },
-      { chart: 'rising', entries: risingUncertainCandidates ? [] : rising },
+      { chart: 'github', entries, referenceRanking },
+      {
+        chart: 'rising',
+        entries: risingReferenceRanking.report.publishable ? rising : [],
+        referenceRanking: risingReferenceRanking,
+      },
     ],
     options.publish ?? true,
   );

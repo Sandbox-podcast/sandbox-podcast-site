@@ -5,6 +5,7 @@ import { DEFAULT_GITHUB_CHART_CONFIG, githubChartConfigSchema } from '@/domain/g
 import { hasDatabaseConfiguration } from '@/db/client';
 import { publicChartEdition } from '@/lib/charts-public';
 import { readChartsConfig } from '@/lib/charts-store';
+import { ReferenceMethodology } from './reference-methodology';
 const descriptions: Record<
   string,
   {
@@ -45,6 +46,8 @@ export async function ChartsMethodology({ rising = false }: { rising?: boolean }
   if (hasDatabaseConfiguration()) {
     try {
       const edition = await publicChartEdition(rising ? 'rising' : 'github');
+      if (edition?.scoringVersion.endsWith('-reference-v3'))
+        return <ReferenceMethodology chart={rising ? 'rising' : 'github'} />;
       config = edition ? githubChartConfigSchema.parse(edition.config) : await readChartsConfig();
       publishedWeek = edition?.weekId ?? null;
       scoringVersion = edition?.scoringVersion ?? scoringVersion;
@@ -55,6 +58,7 @@ export async function ChartsMethodology({ rising = false }: { rising?: boolean }
       );
     }
   }
+  if (!publishedWeek) return <ReferenceMethodology chart={rising ? 'rising' : 'github'} />;
   const title = rising ? 'RISING 20' : 'GITHUB TOP 20';
   const weights = rising ? config.rising : config.momentum;
   return (

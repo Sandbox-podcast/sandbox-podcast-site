@@ -7,6 +7,7 @@ import {
   externalEntitySchema,
   externalObservationSchema,
   normalizeModelAlias,
+  modelVariantSignature,
   scoreModels,
   scoreSkills,
   slugifyExternalId,
@@ -31,6 +32,14 @@ import {
   type ExternalCandidate,
 } from '../lib/external-charts-store.ts';
 import { GithubClient } from './github-client.ts';
+import {
+  skillsReferenceInput,
+  modelsReferenceInput,
+  externalReferenceEntries,
+  conflictingModelIdentities,
+} from '../domain/reference-adapters.ts';
+import { createReferenceArtifact } from '../lib/reference-artifact.ts';
+import { reviewedReferenceVersion } from '../lib/reference-publication.ts';
 import {
   ARENA_CONFIGS,
   ArenaClient,
@@ -454,7 +463,14 @@ function mergeModelRecords(
         items.push(record);
         byProvider.set(record.provider, items);
       }
-      const ambiguous = [...byProvider.values()].some((items) => items.length > 1);
+      const ambiguous =
+        org === 'unknown' ||
+        new Set(
+          organizationRecords.map((record) =>
+            modelVariantSignature(record.name || record.externalId),
+          ),
+        ).size > 1 ||
+        [...byProvider.values()].some((items) => items.length > 1);
       const partitions = ambiguous
         ? organizationRecords.map((record) => [record])
         : [organizationRecords];
@@ -643,7 +659,7 @@ function closestPayload(
   const snapshots: DailyGithubSnapshot[] = source.snapshots.map((snapshot) => ({
     projectId: source.ref.id,
     date: snapshot.observedOn,
-    stars: payloadNumber(snapshot.payload, valueKey) ?? 0,
+    stars: payloadNumber(snapshot.payload, valueKey) ?? Number.NaN,
     forks: 0,
     watchers: null,
     openIssues: 0,
@@ -653,7 +669,12 @@ function closestPayload(
     pushedAt: null,
     collectedAt: snapshot.collectedAt,
   }));
-  const baseline = closestBaseline(snapshots, day, 7, 1);
+  const baseline = closestBaseline(
+    snapshots.filter((snapshot) => Number.isFinite(snapshot.stars)),
+    day,
+    7,
+    1,
+  );
   const found = baseline?.stars;
   return baseline && found !== undefined
     ? { snapshotDate: baseline.date, value: found }
@@ -690,7 +711,6 @@ function skillScoreInputs(
     if (installs === null || stars === null || forks === null || !pushedAt) return [];
     const oldInstalls = closestPayload(candidate, 'skills-sh', day, 'installs');
     const oldStars = closestPayload(candidate, 'github', day, 'stars');
-    if (!oldInstalls || !oldStars) return [];
     const ageDays = Math.max(0, (Date.parse(`${day}T00:00:00Z`) - Date.parse(pushedAt)) / 86400000);
     const sourceRefs = candidate.sources.map(({ ref }) => ({
       provider: ref.provider,
@@ -716,13 +736,29 @@ function skillScoreInputs(
         entity,
         metrics: {
           installs,
-          installs7d: installs - oldInstalls.value,
+          installs7d: oldInstalls
+            ? ((installs - oldInstalls.value) * 7) /
+              ((Date.parse(day) - Date.parse(oldInstalls.snapshotDate)) / 86400000)
+            : null,
           stars,
-          stars7d: stars - oldStars.value,
+          stars7d: oldStars
+            ? ((stars - oldStars.value) * 7) /
+              ((Date.parse(day) - Date.parse(oldStars.snapshotDate)) / 86400000)
+            : null,
           forks,
           freshness: 100 * Math.exp(-ageDays / 30),
         },
         sourceObservedAt: [skillSnapshot.snapshot.collectedAt, githubSnapshot.snapshot.collectedAt],
+        referenceEvidence: {
+          'skills-installs': {
+            observedOn: skillSnapshot.snapshot.observedOn,
+            evidenceUrl: skillSnapshot.source.url,
+          },
+          'skill-repository': {
+            observedOn: githubSnapshot.snapshot.observedOn,
+            evidenceUrl: githubSnapshot.source.url,
+          },
+        },
       },
     ];
   });
@@ -778,6 +814,14 @@ function modelScoreInputs(
       sources,
     });
     const sourceObservedAt = [...latest.values()].map(({ snapshot }) => snapshot.collectedAt);
+    const arenaDate =
+      typeof arena?.['text_style_controlPublishedAt'] === 'string'
+        ? arena['text_style_controlPublishedAt']
+        : null;
+    const analysisDate =
+      typeof aa?.['benchmarkAsOf'] === 'string' ? aa['benchmarkAsOf'].slice(0, 10) : null;
+    const arenaEvidenceUrl = latest.get('arena')?.source.url;
+    const analysisEvidenceUrl = latest.get('artificial-analysis')?.source.url;
     return [
       {
         entity,
@@ -804,6 +848,25 @@ function modelScoreInputs(
           ),
         },
         sourceObservedAt,
+        referenceEvidence: {
+          ...(arenaDate && arenaEvidenceUrl
+            ? {
+                'arena-text': {
+                  observedOn: arenaDate,
+                  evidenceUrl: arenaEvidenceUrl,
+                  sampleSize: numberAt(arena, 'text_style_controlVotes') ?? 0,
+                },
+              }
+            : {}),
+          ...(analysisDate && analysisEvidenceUrl
+            ? {
+                'artificial-analysis': {
+                  observedOn: analysisDate,
+                  evidenceUrl: analysisEvidenceUrl,
+                },
+              }
+            : {}),
+        },
       },
     ];
   });
@@ -888,16 +951,65 @@ async function calculateExternalWeek(
     ready.skills ? externalCandidates('skill', date) : Promise.resolve([]),
     ready.models ? externalCandidates('model', date) : Promise.resolve([]),
   ]);
-  const skills = scoreSkills(skillScoreInputs(skillCandidates, date), 20);
-  const models = scoreModels(modelScoreInputs(modelCandidates, date), 20);
+  const skillInputs = skillScoreInputs(skillCandidates, date);
+  const modelIdentityConflicts = conflictingModelIdentities(modelCandidates);
+  const modelInputs = modelScoreInputs(
+    modelCandidates.filter((candidate) => !modelIdentityConflicts.has(candidate.entity.slug)),
+    date,
+  );
+  if (modelIdentityConflicts.size)
+    summary.details.push(
+      `${modelIdentityConflicts.size.toString()} identités Models contradictoires mises en attente de raccordement manuel.`,
+    );
+  const skillInputsBySlug = new Map(skillInputs.map((item) => [item.entity.slug, item]));
+  const skillUniverse = skillCandidates
+    .filter((candidate) => {
+      const repository = candidateSource(candidate, 'github')?.snapshot.payload;
+      const known = skillInputsBySlug.get(candidate.entity.slug);
+      const enrollmentReady =
+        (known?.metrics.installs7d !== null &&
+          known?.metrics.installs7d !== undefined &&
+          known.metrics.stars7d !== null) ||
+        candidate.entity.createdAt.slice(0, 10) <= dateDaysAgo(date, 7);
+      return (
+        enrollmentReady &&
+        repository?.['archived'] !== true &&
+        repository?.['fork'] !== true &&
+        repository?.['disabled'] !== true
+      );
+    })
+    .map((candidate) => candidate.entity.slug);
+  summary.details.push(
+    `${(skillCandidates.length - skillUniverse.length).toString()} skills hors du pool éligible, dont les nouveaux candidats encore en constitution de baseline.`,
+  );
+  const modelUniverse = modelCandidates
+    .filter((candidate) =>
+      candidate.sources.some(
+        ({ ref }) => ref.provider === 'arena' || ref.provider === 'artificial-analysis',
+      ),
+    )
+    .map((candidate) => candidate.entity.slug);
+  const skillUniverseSet = new Set(skillUniverse);
+  const skillsProof = createReferenceArtifact(
+    skillsReferenceInput(
+      skillInputs.filter((item) => skillUniverseSet.has(item.entity.slug)),
+      date,
+      skillUniverse,
+    ),
+  );
+  const modelsProof = createReferenceArtifact(
+    modelsReferenceInput(modelInputs, date, modelUniverse),
+  );
+  const skills = externalReferenceEntries(skillsProof.input, skillsProof.report.rows, skillInputs);
+  const models = externalReferenceEntries(modelsProof.input, modelsProof.report.rows, modelInputs);
   summary.processed = skillCandidates.length + modelCandidates.length;
   summary.succeeded = skills.length + models.length;
   summary.details.push(
     `${skills.length.toString()} skills et ${models.length.toString()} modèles disposent de l’historique et des signaux requis.`,
   );
   if (options.dryRun) {
-    const skillsShort = ready.skills && skills.length < 20;
-    const modelsShort = ready.models && models.length < 20;
+    const skillsShort = ready.skills && !skillsProof.report.publishable;
+    const modelsShort = ready.models && !modelsProof.report.publishable;
     summary.status = skillsShort || modelsShort ? 'insufficient_history' : 'success';
     summary.details.push('Simulation : aucune édition ni journal de job écrit.');
     return;
@@ -905,15 +1017,16 @@ async function calculateExternalWeek(
   let written = 0;
   if (!ready.skills)
     summary.details.push('Collecte Skills absente ou en échec : aucune édition Skills.');
-  else if (skills.length >= 20)
+  else if (skillsProof.report.publishable)
     written += await freezeExternalEdition(
       'skills',
       week,
       date,
-      'skills-cross-source-v2',
+      skillsProof.input.profile.version,
       {
         size: 20,
-        sourceWeights: { skillsSh: 0.5, github: 0.5 },
+        referenceRanking: skillsProof,
+        sourceWeights: { skillsSh: 0.7, github: 0.3 },
         githubSubWeights: { stars7d: 0.6, repositoryFreshness: 0.4 },
         disagreementPenalty: 0.2,
         minimumSources: 2,
@@ -925,16 +1038,17 @@ async function calculateExternalWeek(
   else summary.failed++;
   if (!ready.models)
     summary.details.push('Collecte Models absente ou en échec : aucune édition Models.');
-  else if (models.length >= 20)
+  else if (modelsProof.report.publishable)
     written += await freezeExternalEdition(
       'models',
       week,
       date,
-      'models-cross-source-v2',
+      modelsProof.input.profile.version,
       {
         size: 20,
         minimumQualityCandidates: 20,
-        qualityWeights: { arenaText: 0.5, artificialAnalysis: 0.5 },
+        referenceRanking: modelsProof,
+        qualityWeights: { arenaText: 0.4, artificialAnalysis: 0.6 },
         minimumQualitySources: 2,
         benchmarkMaximumAgeDays: 14,
         disagreementPenalty: 0.2,
@@ -945,6 +1059,19 @@ async function calculateExternalWeek(
     );
   else summary.failed++;
   summary.snapshotsCreated = written;
+  for (const proof of [skillsProof, modelsProof])
+    summary.details.push(
+      `${proof.input.profile.chart} : ${proof.report.eligibleCount.toString()}/${proof.report.candidateCount.toString()} candidats complets ; ${proof.report.excluded.filter((item) => item.canEnterTop).length.toString()} candidats incomplets pouvant entrer dans le Top ; ${proof.report.sensitivityScenarios.toString()} scénarios de sensibilité.`,
+    );
+  if (
+    written &&
+    [skillsProof, modelsProof].some(
+      (proof) => !reviewedReferenceVersion(proof.input.profile.version),
+    )
+  )
+    summary.details.push(
+      'Profils v3 en attente de revue : les éditions correspondantes sont conservées en brouillon. Configurer CHARTS_REVIEWED_PROFILE_VERSIONS après validation.',
+    );
   if (summary.failed) summary.status = written ? 'partial' : 'insufficient_history';
 }
 

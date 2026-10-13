@@ -1,5 +1,7 @@
 # SANDBOX CHARTS : sources externes Skills et Models
 
+Évolution v3 : [conception et audit](reference-ranking-design.md) et [configuration](reference-ranking-operations.md). Les nouveaux gels pondèrent Skills.sh/GitHub à 70/30 et Artificial Analysis/Arena à 60/40, contrôlent les candidats incomplets et conservent une preuve rejouable. Ce guide conserve le contexte des versions précédentes et des premiers connecteurs.
+
 Statut au 2026-10-08 : les collecteurs, le stockage PostgreSQL, les gels hebdomadaires, les routes et la planification locale sont implémentés. Les données ne sont pas encore activées en production : la migration `0005_external_chart_sources` doit être appliquée par le responsable de la base et les accès aux sources doivent être configurés. Aucune clé ni migration Neon n'a été créée ou utilisée pendant le développement.
 
 La décision de conception est consignée dans [ADR-0021](../adr/ADR-0021-classements-externes-skills-models.md). Le pipeline GitHub existant reste décrit dans le [guide SANDBOX CHARTS](sandbox-charts.md).

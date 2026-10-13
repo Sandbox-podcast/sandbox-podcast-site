@@ -2567,11 +2567,11 @@
     "translation": "",
     "sources": ["src/app/(fr)/not-found.tsx", "src/app/(fr)/page.tsx"]
   },
-  "Les classements quotidiens de ce qui compte dans l’IA.": {
+  "Projets open source, skills et modèles IA à suivre chaque semaine.": {
     "translation": "",
-    "sources": ["src/app/(fr)/charts/page.tsx", "src/components/charts-experience.tsx"]
+    "sources": ["src/components/charts-experience.tsx"]
   },
-  "LES CLASSEMENTS IA": {
+  "LES CLASSEMENTS TECH & IA": {
     "translation": "",
     "sources": ["src/components/charts-experience.tsx"]
   },
@@ -3832,7 +3832,7 @@
     "translation": "",
     "sources": ["src/app/(fr)/search/page.tsx"]
   },
-  "Qu'est-ce qui monte dans l'IA cette semaine ?": {
+  "Projets open source, skills et modèles IA à suivre cette semaine.": {
     "translation": "",
     "sources": ["src/components/charts-experience.tsx"]
   },
@@ -4160,7 +4160,7 @@
     "translation": "",
     "sources": ["src/components/charts-features.tsx"]
   },
-  "SANDBOX CHARTS | Les classements quotidiens de l’IA": {
+  "SANDBOX CHARTS | Classements open source, skills et IA": {
     "translation": "",
     "sources": ["src/app/(fr)/charts/page.tsx"]
   },

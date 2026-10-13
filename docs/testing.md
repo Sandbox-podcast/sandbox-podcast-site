@@ -1,5 +1,7 @@
 # Tests et Quality Gates
 
+Livraison du 13 octobre 2026, classements v3 et détection précoce : `corepack pnpm check` réussi, 345 tests dans 59 fichiers, build Next.js réussi. Les tests couvrent les budgets de sources, bornes des candidats incomplets, sensibilité, rejeu, gel Models et GitHub sur Postgres, migration 0009, poussées intrajournalières et Trending. Les contrôles API, navigateur, CLI et l'alerte de dépendance modérée préexistante sont détaillés dans [le rapport de livraison](site/reference-ranking-delivery.md). Les inventaires historiques ci-dessous décrivent les étapes précédentes.
+
 Référence : §32 à §35 du prompt maître de la plateforme vidéo (archivé : `old/PODCAST_PLATFORM_MASTER_PROMPT.md`).
 
 ## Commandes

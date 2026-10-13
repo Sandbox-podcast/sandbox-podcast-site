@@ -3,6 +3,7 @@ import { revalidatePath } from 'next/cache';
 import { collectGithub, discoverGithub, freezeGithubWeek } from '@/pipeline/github-jobs';
 import { vercelOidcToken } from '@/pipeline/external-clients';
 import { collectExternalCharts, freezeExternalCharts } from '@/pipeline/external-jobs';
+import { collectGithubBursts, discoverGithubTrending } from '@/pipeline/github-bursts-jobs';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -19,11 +20,22 @@ export async function GET(request: Request, { params }: { params: Promise<{ job:
   )
     return Response.json({ error: 'Accès refusé.' }, { status: 401 });
   const { job } = await params;
-  if (!['github-discovery', 'github-daily', 'github-weekly', 'external-daily'].includes(job))
+  if (
+    ![
+      'github-discovery',
+      'github-daily',
+      'github-weekly',
+      'external-daily',
+      'github-bursts',
+      'github-trending',
+    ].includes(job)
+  )
     return Response.json({ error: 'Job inconnu.' }, { status: 404 });
   try {
     let summary;
     if (job === 'github-discovery') summary = await discoverGithub();
+    else if (job === 'github-bursts') summary = await collectGithubBursts();
+    else if (job === 'github-trending') summary = await discoverGithubTrending();
     else if (job === 'github-daily') summary = await collectGithub();
     else if (job === 'external-daily')
       summary = await collectExternalCharts(vercelOidcToken(request));
