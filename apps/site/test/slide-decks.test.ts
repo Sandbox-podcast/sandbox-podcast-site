@@ -65,6 +65,26 @@ describe('slide decks', () => {
     expect(html).not.toContain('/_next/');
   });
 
+  it('place les huit slides de la Bêta après son intertitre', () => {
+    const root = slidesPublicRoot(process.cwd());
+    const html = readFileSync(join(root, 'episode-001', 'index.html'), 'utf8');
+    const slideCount = [...html.matchAll(/<section\s+class="slide[^"]*"/g)].length;
+    const betaSlides = [...html.matchAll(/id="beta-slide-(\d+)"/g)].map((match) =>
+      Number(match[1]),
+    );
+
+    expect(slideCount).toBe(23);
+    expect(betaSlides).toEqual([1, 2, 3, 4, 5, 6, 7, 8]);
+    expect(html.indexOf('id="beta-slide-1"')).toBeGreaterThan(
+      html.indexOf('aria-label="Séquence La Bêta"'),
+    );
+    expect(html).toContain('sandbox="allow-scripts"');
+
+    const demo = readFileSync(join(root, 'episode-001', 'assets', 'beta-demo.html'), 'utf8');
+    expect(demo).toContain("default-src 'none'");
+    expect(demo).toContain("connect-src 'none'");
+  });
+
   it('garde public/slides/index.html aligné avec les decks du dépôt', () => {
     const decks = listSlideDecks(slidesPublicRoot(process.cwd()));
     const actual = readFileSync(join(process.cwd(), 'public/slides/index.html'), 'utf8');

@@ -146,6 +146,97 @@
           linear-gradient(180deg, rgb(2 6 10 / 48%), rgb(2 6 10 / 12%) 45%, rgb(2 6 10 / 58%)),
           url('./assets/beta-hero.png') center / cover no-repeat;
       }
+      .slide--beta-content {
+        grid-template-rows: 1fr;
+        gap: 0;
+        padding: 0;
+        background: #080a0d;
+      }
+      .slide--beta-content::before {
+        display: none;
+      }
+      .slide--beta-content > svg {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+      .slide--beta-content .hotspot {
+        cursor: pointer;
+      }
+      .slide--beta-content .hotspot:focus-visible {
+        outline: none;
+      }
+      .slide--beta-content .hotspot:focus-visible rect {
+        stroke: white;
+        stroke-width: 3;
+      }
+      .beta-demo-modal[hidden] {
+        display: none;
+      }
+      .beta-demo-modal {
+        position: fixed;
+        z-index: 40;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        padding: clamp(0.75rem, 3vh, 2rem);
+        background: rgb(0 0 0 / 86%);
+      }
+      .beta-demo-dialog {
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr);
+        width: min(1100px, 96vw);
+        height: min(820px, 94dvh);
+        overflow: hidden;
+        border: 1px solid #3c4753;
+        border-radius: 12px;
+        background: #f4f4ee;
+        color: #132733;
+        box-shadow: 0 18px 60px rgb(0 0 0 / 65%);
+      }
+      .beta-demo-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 0.75rem 1rem;
+        background: #0c2836;
+        color: #d0f2f7;
+      }
+      .beta-demo-bar h2 {
+        margin: 0;
+        font: 700 0.72rem var(--mono);
+        letter-spacing: 0.08em;
+      }
+      .beta-demo-close {
+        border: 1px solid #456171;
+        border-radius: 6px;
+        padding: 0.5rem 0.75rem;
+        background: transparent;
+        color: inherit;
+        cursor: pointer;
+      }
+      .beta-demo-close:focus-visible {
+        outline: 2px solid var(--cyan-bright);
+        outline-offset: 2px;
+      }
+      .beta-demo-frame {
+        width: 100%;
+        height: 100%;
+        border: 0;
+        background: #f4f4ee;
+      }
+      @media (max-width: 640px) {
+        .beta-demo-dialog {
+          width: 100%;
+          height: 100%;
+          border-radius: 8px;
+        }
+        .beta-demo-bar {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+      }
       .slide--section-radar {
         background:
           linear-gradient(90deg, rgb(3 8 14 / 88%), rgb(3 8 14 / 68%) 42%, rgb(3 8 14 / 12%)),
@@ -2116,17 +2207,1789 @@
         </h2>
       </section>
 
-      <section class="slide slide--beta" aria-label="Séquence La Bêta, sujet à définir">
+      <section class="slide slide--beta" aria-label="Séquence La Bêta">
         <h2 class="sequence-title">LA BÊT<span class="sequence-accent">A</span></h2>
       </section>
+
+      <section
+        class="slide slide--beta-content"
+        id="beta-slide-1"
+        aria-label="B&#234;ta 1/8 : L’IA derri&#232;re le comptoir"
+      >
+        <svg
+          preserveAspectRatio="xMidYMid meet"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 1920 1080"
+          role="img"
+          aria-labelledby="beta-slide-1-title-1"
+        >
+          <title id="beta-slide-1-title-1">L’IA derrière le comptoir</title>
+          <rect width="1920" height="1080" fill="#080A0D" />
+          <text
+            x="109.44"
+            y="95.28"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="24"
+            font-weight="700"
+            fill="#00BFE8"
+            text-anchor="start"
+            data-box="109.44,69.12,576,36"
+          >
+            LA BÊTA · 01
+          </text>
+          <text
+            x="1805.76"
+            y="94.60000000000001"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="22"
+            font-weight="400"
+            fill="#A4ABB4"
+            text-anchor="end"
+            data-box="1224,69.12,581.76,36"
+          >
+            ARTISANS / COMMERÇANTS
+          </text>
+          <text
+            x="109.44"
+            y="1025.9"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="23"
+            font-weight="700"
+            fill="#F6F6F3"
+            text-anchor="start"
+            data-box="109.44,1002.24,24.48,31.68"
+          >
+            S
+          </text>
+          <path
+            d="M 152.64000000000001 1005.84 L 164.16 1027.44 L 141.12 1027.44 Z"
+            fill="none"
+            stroke="#00BFE8"
+            stroke-width="3.4"
+          />
+          <text
+            x="169.92"
+            y="1025.56"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="22"
+            font-weight="700"
+            fill="#F6F6F3"
+            text-anchor="start"
+            data-box="169.92,1002.24,144,31.68"
+          >
+            N D B O X
+          </text>
+          <text
+            x="1807.1999999999998"
+            y="1025.56"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="22"
+            font-weight="400"
+            fill="#A4ABB4"
+            text-anchor="end"
+            data-box="1670.3999999999999,1002.24,136.79999999999998,31.68"
+          >
+            01 / 08
+          </text>
+          <text
+            x="109.44"
+            y="397.24"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="118"
+            font-weight="700"
+            fill="#F6F6F3"
+            text-anchor="start"
+            data-box="109.44,292.32,1008,129.6"
+          >
+            L’IA derrière
+          </text>
+          <text
+            x="109.44"
+            y="528.28"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="118"
+            font-weight="700"
+            fill="#F6F6F3"
+            text-anchor="start"
+            data-box="109.44,423.36,1008,129.6"
+          >
+            le comptoir.
+          </text>
+          <text
+            x="115.2"
+            y="665.0799999999999"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="46"
+            font-weight="400"
+            fill="#A4ABB4"
+            text-anchor="start"
+            data-box="115.2,619.1999999999999,936,60.48"
+          >
+            Des outils pour votre quotidien.
+          </text>
+          <line
+            x1="1198.08"
+            y1="272.15999999999997"
+            x2="1198.08"
+            y2="272.15999999999997"
+            stroke="#2A3038"
+            stroke-width="2"
+          />
+          <rect
+            x="1206.72"
+            y="290.88"
+            width="2.5919999999999996"
+            height="449.28000000000003"
+            rx="0"
+            fill="#2A3038"
+          />
+          <text
+            x="1301.7599999999998"
+            y="471.48"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="222"
+            font-weight="700"
+            fill="#00BFE8"
+            text-anchor="start"
+            data-box="1301.7599999999998,272.15999999999997,410.40000000000003,247.68"
+          >
+            ½
+          </text>
+          <text
+            x="1313.28"
+            y="588.9999999999999"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="70"
+            font-weight="700"
+            fill="#F6F6F3"
+            text-anchor="start"
+            data-box="1313.28,524.16,432,82.08"
+          >
+            journée
+          </text>
+          <text
+            x="1316.16"
+            y="680.4000000000001"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="36"
+            font-weight="400"
+            fill="#A4ABB4"
+            text-anchor="start"
+            data-box="1316.16,645.1200000000001,450.71999999999997,46.08"
+          >
+            pour un premier
+          </text>
+          <text
+            x="1316.16"
+            y="736.44"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="42"
+            font-weight="700"
+            fill="#F6F6F3"
+            text-anchor="start"
+            data-box="1316.16,696.96,450.71999999999997,50.4"
+          >
+            prototype.
+          </text>
+        </svg>
+      </section>
+
+      <section
+        class="slide slide--beta-content"
+        id="beta-slide-2"
+        aria-label="B&#234;ta 2/8 : Quatre m&#233;tiers. Quatre id&#233;es."
+      >
+        <svg
+          preserveAspectRatio="xMidYMid meet"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 1920 1080"
+          role="img"
+          aria-labelledby="beta-slide-2-title-2"
+        >
+          <title id="beta-slide-2-title-2">Quatre métiers. Quatre idées.</title>
+          <rect width="1920" height="1080" fill="#080A0D" />
+          <text
+            x="109.44"
+            y="95.28"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="24"
+            font-weight="700"
+            fill="#00BFE8"
+            text-anchor="start"
+            data-box="109.44,69.12,576,36"
+          >
+            LA BÊTA · 02
+          </text>
+          <text
+            x="1805.76"
+            y="94.60000000000001"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="22"
+            font-weight="400"
+            fill="#A4ABB4"
+            text-anchor="end"
+            data-box="1224,69.12,581.76,36"
+          >
+            DES USAGES CONCRETS
+          </text>
+          <text
+            x="109.44"
+            y="1025.9"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="23"
+            font-weight="700"
+            fill="#F6F6F3"
+            text-anchor="start"
+            data-box="109.44,1002.24,24.48,31.68"
+          >
+            S
+          </text>
+          <path
+            d="M 152.64000000000001 1005.84 L 164.16 1027.44 L 141.12 1027.44 Z"
+            fill="none"
+            stroke="#00BFE8"
+            stroke-width="3.4"
+          />
+          <text
+            x="169.92"
+            y="1025.56"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="22"
+            font-weight="700"
+            fill="#F6F6F3"
+            text-anchor="start"
+            data-box="169.92,1002.24,144,31.68"
+          >
+            N D B O X
+          </text>
+          <text
+            x="1807.1999999999998"
+            y="1025.56"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="22"
+            font-weight="400"
+            fill="#A4ABB4"
+            text-anchor="end"
+            data-box="1670.3999999999999,1002.24,136.79999999999998,31.68"
+          >
+            02 / 08
+          </text>
+          <text
+            x="109.44"
+            y="401.96"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="98"
+            font-weight="700"
+            fill="#F6F6F3"
+            text-anchor="start"
+            data-box="109.44,303.84,799.1999999999999,129.6"
+          >
+            Quatre métiers.
+          </text>
+          <text
+            x="109.44"
+            y="533"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="98"
+            font-weight="700"
+            fill="#F6F6F3"
+            text-anchor="start"
+            data-box="109.44,434.88,799.1999999999999,129.6"
+          >
+            Quatre idées.
+          </text>
+          <text
+            x="908.64"
+            y="288.2"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="26"
+            font-weight="700"
+            fill="#00BFE8"
+            text-anchor="start"
+            data-box="908.64,257.76,396,43.199999999999996"
+          >
+            01
+          </text>
+          <text
+            x="908.64"
+            y="385.59999999999997"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="52"
+            font-weight="700"
+            fill="#F6F6F3"
+            text-anchor="start"
+            data-box="908.64,332.64,411.84,70.56"
+          >
+            Boutique
+          </text>
+          <text
+            x="908.64"
+            y="464.44"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="34"
+            font-weight="400"
+            fill="#A4ABB4"
+            text-anchor="start"
+            data-box="908.64,420.48,416.16,64.8"
+          >
+            Fidélité &amp; relances
+          </text>
+          <line x1="908.64" y1="514.08" x2="1296" y2="514.08" stroke="#2A3038" stroke-width="2" />
+          <text
+            x="1368"
+            y="288.2"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="26"
+            font-weight="700"
+            fill="#00BFE8"
+            text-anchor="start"
+            data-box="1368,257.76,396,43.199999999999996"
+          >
+            02
+          </text>
+          <text
+            x="1368"
+            y="385.59999999999997"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="52"
+            font-weight="700"
+            fill="#F6F6F3"
+            text-anchor="start"
+            data-box="1368,332.64,411.84,70.56"
+          >
+            Plombier
+          </text>
+          <text
+            x="1368"
+            y="464.44"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="34"
+            font-weight="400"
+            fill="#A4ABB4"
+            text-anchor="start"
+            data-box="1368,420.48,416.16,64.8"
+          >
+            Demandes de devis
+          </text>
+          <line
+            x1="1368"
+            y1="514.08"
+            x2="1755.3600000000001"
+            y2="514.08"
+            stroke="#2A3038"
+            stroke-width="2"
+          />
+          <text
+            x="908.64"
+            y="613.64"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="26"
+            font-weight="700"
+            fill="#00BFE8"
+            text-anchor="start"
+            data-box="908.64,583.1999999999999,396,43.199999999999996"
+          >
+            03
+          </text>
+          <text
+            x="908.64"
+            y="711.04"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="52"
+            font-weight="700"
+            fill="#F6F6F3"
+            text-anchor="start"
+            data-box="908.64,658.08,411.84,70.56"
+          >
+            Coiffeur
+          </text>
+          <text
+            x="908.64"
+            y="789.8799999999999"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="34"
+            font-weight="400"
+            fill="#A4ABB4"
+            text-anchor="start"
+            data-box="908.64,745.92,416.16,64.8"
+          >
+            Rappels de rendez-vous
+          </text>
+          <line x1="908.64" y1="839.52" x2="1296" y2="839.52" stroke="#2A3038" stroke-width="2" />
+          <text
+            x="1368"
+            y="613.64"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="26"
+            font-weight="700"
+            fill="#00BFE8"
+            text-anchor="start"
+            data-box="1368,583.1999999999999,396,43.199999999999996"
+          >
+            04
+          </text>
+          <text
+            x="1368"
+            y="711.04"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="52"
+            font-weight="700"
+            fill="#F6F6F3"
+            text-anchor="start"
+            data-box="1368,658.08,411.84,70.56"
+          >
+            Boulanger
+          </text>
+          <text
+            x="1368"
+            y="789.8799999999999"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="34"
+            font-weight="400"
+            fill="#A4ABB4"
+            text-anchor="start"
+            data-box="1368,745.92,416.16,64.8"
+          >
+            Commandes &amp; retraits
+          </text>
+          <line
+            x1="1368"
+            y1="839.52"
+            x2="1755.3600000000001"
+            y2="839.52"
+            stroke="#2A3038"
+            stroke-width="2"
+          />
+        </svg>
+      </section>
+
+      <section
+        class="slide slide--beta-content"
+        id="beta-slide-3"
+        aria-label="B&#234;ta 3/8 : Une boutique. Un outil &#224; elle."
+      >
+        <svg
+          preserveAspectRatio="xMidYMid meet"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 1920 1080"
+          role="img"
+          aria-labelledby="beta-slide-3-title-3"
+        >
+          <title id="beta-slide-3-title-3">Une boutique. Un outil à elle.</title>
+          <rect width="1920" height="1080" fill="#080A0D" />
+          <text
+            x="109.44"
+            y="95.28"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="24"
+            font-weight="700"
+            fill="#00BFE8"
+            text-anchor="start"
+            data-box="109.44,69.12,576,36"
+          >
+            LA BÊTA · 03
+          </text>
+          <text
+            x="1805.76"
+            y="94.60000000000001"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="22"
+            font-weight="400"
+            fill="#A4ABB4"
+            text-anchor="end"
+            data-box="1224,69.12,581.76,36"
+          >
+            LE COMPTOIR D’ANNA / DÉMO
+          </text>
+          <text
+            x="109.44"
+            y="1025.9"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="23"
+            font-weight="700"
+            fill="#F6F6F3"
+            text-anchor="start"
+            data-box="109.44,1002.24,24.48,31.68"
+          >
+            S
+          </text>
+          <path
+            d="M 152.64000000000001 1005.84 L 164.16 1027.44 L 141.12 1027.44 Z"
+            fill="none"
+            stroke="#00BFE8"
+            stroke-width="3.4"
+          />
+          <text
+            x="169.92"
+            y="1025.56"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="22"
+            font-weight="700"
+            fill="#F6F6F3"
+            text-anchor="start"
+            data-box="169.92,1002.24,144,31.68"
+          >
+            N D B O X
+          </text>
+          <text
+            x="1807.1999999999998"
+            y="1025.56"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="22"
+            font-weight="400"
+            fill="#A4ABB4"
+            text-anchor="end"
+            data-box="1670.3999999999999,1002.24,136.79999999999998,31.68"
+          >
+            03 / 08
+          </text>
+          <text
+            x="109.44"
+            y="400.52000000000004"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="98"
+            font-weight="700"
+            fill="#F6F6F3"
+            text-anchor="start"
+            data-box="109.44,302.40000000000003,823.68,129.6"
+          >
+            Une boutique.
+          </text>
+          <text
+            x="109.44"
+            y="531.5600000000001"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="98"
+            font-weight="700"
+            fill="#F6F6F3"
+            text-anchor="start"
+            data-box="109.44,433.44000000000005,823.68,129.6"
+          >
+            Un outil à elle.
+          </text>
+          <text
+            x="115.2"
+            y="689.0000000000001"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="38"
+            font-weight="400"
+            fill="#A4ABB4"
+            text-anchor="start"
+            data-box="115.2,645.1200000000001,760.32,61.92"
+          >
+            Clients · achats · fidélité · SMS
+          </text>
+          <rect
+            x="946.08"
+            y="214.56"
+            width="856.8000000000001"
+            height="681.1200000000001"
+            rx="14.4"
+            fill="#12161C"
+            stroke="#2A3038"
+            stroke-width="2"
+          />
+          <text
+            x="996.48"
+            y="296.1600000000001"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="24"
+            font-weight="700"
+            fill="#A4ABB4"
+            text-anchor="start"
+            data-box="996.48,266.40000000000003,740.16,43.199999999999996"
+          >
+            LE COMPTOIR D’ANNA
+          </text>
+          <line
+            x1="996.48"
+            y1="345.59999999999997"
+            x2="1745.2800000000002"
+            y2="345.59999999999997"
+            stroke="#2A3038"
+            stroke-width="2"
+          />
+          <text
+            x="996.48"
+            y="452.40000000000003"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="60"
+            font-weight="700"
+            fill="#F6F6F3"
+            text-anchor="start"
+            data-box="996.48,394.56000000000006,705.6,74.88"
+          >
+            Camille
+          </text>
+          <text
+            x="997.92"
+            y="573.0799999999999"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="74"
+            font-weight="700"
+            fill="#A4ABB4"
+            text-anchor="start"
+            data-box="997.92,501.12,394.56000000000006,93.60000000000001"
+          >
+            62 + 38
+          </text>
+          <text
+            x="1414.08"
+            y="572.4"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="72"
+            font-weight="700"
+            fill="#00BFE8"
+            text-anchor="start"
+            data-box="1414.08,501.12,321.12,93.60000000000001"
+          >
+            100 pts
+          </text>
+          <rect
+            x="997.92"
+            y="640.8000000000001"
+            width="740.16"
+            height="8.64"
+            rx="0"
+            fill="#00BFE8"
+          />
+          <text
+            x="997.92"
+            y="729.4"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="34"
+            font-weight="400"
+            fill="#A4ABB4"
+            text-anchor="start"
+            data-box="997.92,692.64,740.16,50.4"
+          >
+            Un achat. Des points. Un historique.
+          </text>
+          <rect
+            x="997.92"
+            y="783.36"
+            width="349.92"
+            height="61.92"
+            rx="5.040000000000001"
+            fill="#00BFE8"
+          />
+          <text
+            x="1173.6"
+            y="818.9200000000001"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="22"
+            font-weight="700"
+            fill="#080A0D"
+            text-anchor="middle"
+            data-box="1010.8799999999999,790.5600000000001,325.43999999999994,41.76"
+          >
+            OUVRIR LA DÉMO
+          </text>
+          <g
+            role="button"
+            tabindex="0"
+            aria-label="Ouvrir la d&#233;mo"
+            class="hotspot"
+            data-action="demo"
+          >
+            <rect x="997.92" y="783.36" width="349.92" height="61.92" fill="transparent" />
+          </g>
+          <text
+            x="1735.2"
+            y="819.7480000000002"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="20.2"
+            font-weight="400"
+            fill="#A4ABB4"
+            text-anchor="end"
+            data-box="1375.2,790.5600000000001,360,44.64"
+          >
+            Données fictives. Aucun SMS réel.
+          </text>
+        </svg>
+      </section>
+
+      <section
+        class="slide slide--beta-content"
+        id="beta-slide-4"
+        aria-label="B&#234;ta 4/8 : Chaque outil, son r&#244;le."
+      >
+        <svg
+          preserveAspectRatio="xMidYMid meet"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 1920 1080"
+          role="img"
+          aria-labelledby="beta-slide-4-title-4"
+        >
+          <title id="beta-slide-4-title-4">Chaque outil, son rôle.</title>
+          <rect width="1920" height="1080" fill="#080A0D" />
+          <text
+            x="109.44"
+            y="95.28"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="24"
+            font-weight="700"
+            fill="#00BFE8"
+            text-anchor="start"
+            data-box="109.44,69.12,576,36"
+          >
+            LA BÊTA · 04
+          </text>
+          <text
+            x="1805.76"
+            y="94.60000000000001"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="22"
+            font-weight="400"
+            fill="#A4ABB4"
+            text-anchor="end"
+            data-box="1224,69.12,581.76,36"
+          >
+            LES OUTILS
+          </text>
+          <text
+            x="109.44"
+            y="1025.9"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="23"
+            font-weight="700"
+            fill="#F6F6F3"
+            text-anchor="start"
+            data-box="109.44,1002.24,24.48,31.68"
+          >
+            S
+          </text>
+          <path
+            d="M 152.64000000000001 1005.84 L 164.16 1027.44 L 141.12 1027.44 Z"
+            fill="none"
+            stroke="#00BFE8"
+            stroke-width="3.4"
+          />
+          <text
+            x="169.92"
+            y="1025.56"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="22"
+            font-weight="700"
+            fill="#F6F6F3"
+            text-anchor="start"
+            data-box="169.92,1002.24,144,31.68"
+          >
+            N D B O X
+          </text>
+          <text
+            x="1807.1999999999998"
+            y="1025.56"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="22"
+            font-weight="400"
+            fill="#A4ABB4"
+            text-anchor="end"
+            data-box="1670.3999999999999,1002.24,136.79999999999998,31.68"
+          >
+            04 / 08
+          </text>
+          <text
+            x="109.44"
+            y="411.28000000000003"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="100"
+            font-weight="700"
+            fill="#F6F6F3"
+            text-anchor="start"
+            data-box="109.44,312.48,741.6,129.6"
+          >
+            Chaque outil,
+          </text>
+          <text
+            x="109.44"
+            y="542.3199999999999"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="100"
+            font-weight="700"
+            fill="#F6F6F3"
+            text-anchor="start"
+            data-box="109.44,443.52,741.6,129.6"
+          >
+            son rôle.
+          </text>
+          <text
+            x="900"
+            y="304.88000000000005"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="56"
+            font-weight="700"
+            fill="#F6F6F3"
+            text-anchor="start"
+            data-box="900,247.68,417.59999999999997,76.32000000000001"
+          >
+            ChatGPT
+          </text>
+          <text
+            x="900"
+            y="378.03999999999996"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="34"
+            font-weight="400"
+            fill="#A4ABB4"
+            text-anchor="start"
+            data-box="900,342.71999999999997,417.59999999999997,47.52"
+          >
+            Décrire le besoin
+          </text>
+          <line x1="900" y1="426.24" x2="1294.56" y2="426.24" stroke="#2A3038" stroke-width="2" />
+          <text
+            x="1383.84"
+            y="304.88000000000005"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="56"
+            font-weight="700"
+            fill="#F6F6F3"
+            text-anchor="start"
+            data-box="1383.84,247.68,417.59999999999997,76.32000000000001"
+          >
+            Codex
+          </text>
+          <text
+            x="1383.84"
+            y="378.03999999999996"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="34"
+            font-weight="400"
+            fill="#A4ABB4"
+            text-anchor="start"
+            data-box="1383.84,342.71999999999997,417.59999999999997,47.52"
+          >
+            Construire l’outil
+          </text>
+          <line
+            x1="1383.84"
+            y1="426.24"
+            x2="1778.4"
+            y2="426.24"
+            stroke="#2A3038"
+            stroke-width="2"
+          />
+          <text
+            x="900"
+            y="538.16"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="56"
+            font-weight="700"
+            fill="#F6F6F3"
+            text-anchor="start"
+            data-box="900,480.96,417.59999999999997,76.32000000000001"
+          >
+            GitHub
+          </text>
+          <text
+            x="900"
+            y="611.3199999999999"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="34"
+            font-weight="400"
+            fill="#A4ABB4"
+            text-anchor="start"
+            data-box="900,576,417.59999999999997,47.52"
+          >
+            Code &amp; versions
+          </text>
+          <line x1="900" y1="659.52" x2="1294.56" y2="659.52" stroke="#2A3038" stroke-width="2" />
+          <text
+            x="1383.84"
+            y="538.16"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="56"
+            font-weight="700"
+            fill="#F6F6F3"
+            text-anchor="start"
+            data-box="1383.84,480.96,417.59999999999997,76.32000000000001"
+          >
+            Supabase
+          </text>
+          <text
+            x="1383.84"
+            y="611.3199999999999"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="34"
+            font-weight="400"
+            fill="#A4ABB4"
+            text-anchor="start"
+            data-box="1383.84,576,417.59999999999997,47.52"
+          >
+            Données clients
+          </text>
+          <line
+            x1="1383.84"
+            y1="659.52"
+            x2="1778.4"
+            y2="659.52"
+            stroke="#2A3038"
+            stroke-width="2"
+          />
+          <text
+            x="900"
+            y="771.4399999999999"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="56"
+            font-weight="700"
+            fill="#F6F6F3"
+            text-anchor="start"
+            data-box="900,714.24,417.59999999999997,76.32000000000001"
+          >
+            Vercel
+          </text>
+          <text
+            x="900"
+            y="844.5999999999999"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="34"
+            font-weight="400"
+            fill="#A4ABB4"
+            text-anchor="start"
+            data-box="900,809.28,417.59999999999997,47.52"
+          >
+            Mettre en ligne
+          </text>
+          <line
+            x1="900"
+            y1="892.8000000000001"
+            x2="1294.56"
+            y2="892.8000000000001"
+            stroke="#2A3038"
+            stroke-width="2"
+          />
+          <text
+            x="1383.84"
+            y="771.4399999999999"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="56"
+            font-weight="700"
+            fill="#F6F6F3"
+            text-anchor="start"
+            data-box="1383.84,714.24,417.59999999999997,76.32000000000001"
+          >
+            OVHcloud
+          </text>
+          <text
+            x="1383.84"
+            y="844.5999999999999"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="34"
+            font-weight="400"
+            fill="#A4ABB4"
+            text-anchor="start"
+            data-box="1383.84,809.28,417.59999999999997,47.52"
+          >
+            Domaine &amp; SMS
+          </text>
+          <line
+            x1="1383.84"
+            y1="892.8000000000001"
+            x2="1778.4"
+            y2="892.8000000000001"
+            stroke="#2A3038"
+            stroke-width="2"
+          />
+        </svg>
+      </section>
+
+      <section
+        class="slide slide--beta-content"
+        id="beta-slide-5"
+        aria-label="B&#234;ta 5/8 : Le budget, sans surprise."
+      >
+        <svg
+          preserveAspectRatio="xMidYMid meet"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 1920 1080"
+          role="img"
+          aria-labelledby="beta-slide-5-title-5"
+        >
+          <title id="beta-slide-5-title-5">Le budget, sans surprise.</title>
+          <rect width="1920" height="1080" fill="#080A0D" />
+          <text
+            x="109.44"
+            y="95.28"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="24"
+            font-weight="700"
+            fill="#00BFE8"
+            text-anchor="start"
+            data-box="109.44,69.12,576,36"
+          >
+            LA BÊTA · 05
+          </text>
+          <text
+            x="1805.76"
+            y="94.60000000000001"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="22"
+            font-weight="400"
+            fill="#A4ABB4"
+            text-anchor="end"
+            data-box="1224,69.12,581.76,36"
+          >
+            ORDRES DE GRANDEUR / OCT. 2026
+          </text>
+          <text
+            x="109.44"
+            y="1025.9"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="23"
+            font-weight="700"
+            fill="#F6F6F3"
+            text-anchor="start"
+            data-box="109.44,1002.24,24.48,31.68"
+          >
+            S
+          </text>
+          <path
+            d="M 152.64000000000001 1005.84 L 164.16 1027.44 L 141.12 1027.44 Z"
+            fill="none"
+            stroke="#00BFE8"
+            stroke-width="3.4"
+          />
+          <text
+            x="169.92"
+            y="1025.56"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="22"
+            font-weight="700"
+            fill="#F6F6F3"
+            text-anchor="start"
+            data-box="169.92,1002.24,144,31.68"
+          >
+            N D B O X
+          </text>
+          <text
+            x="1807.1999999999998"
+            y="1025.56"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="22"
+            font-weight="400"
+            fill="#A4ABB4"
+            text-anchor="end"
+            data-box="1670.3999999999999,1002.24,136.79999999999998,31.68"
+          >
+            05 / 08
+          </text>
+          <text
+            x="109.44"
+            y="298.35999999999996"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="94"
+            font-weight="700"
+            fill="#F6F6F3"
+            text-anchor="start"
+            data-box="109.44,203.04,1699.2,126.72"
+          >
+            Le budget, sans surprise.
+          </text>
+          <text
+            x="119.52"
+            y="538.64"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="140"
+            font-weight="700"
+            fill="#00BFE8"
+            text-anchor="start"
+            data-box="119.52,411.84,544.3199999999999,158.4"
+          >
+            20 $
+          </text>
+          <text
+            x="119.52"
+            y="615.5599999999998"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="38"
+            font-weight="400"
+            fill="#A4ABB4"
+            text-anchor="start"
+            data-box="119.52,578.8799999999999,515.52,47.52"
+          >
+            / mois
+          </text>
+          <text
+            x="119.52"
+            y="729.9200000000001"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="44"
+            font-weight="700"
+            fill="#F6F6F3"
+            text-anchor="start"
+            data-box="119.52,678.24,537.12,73.44"
+          >
+            ChatGPT Plus + Codex
+          </text>
+          <rect
+            x="676.8000000000001"
+            y="420.48"
+            width="1.728"
+            height="348.48"
+            rx="0"
+            fill="#2A3038"
+          />
+          <text
+            x="701.28"
+            y="538.64"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="140"
+            font-weight="700"
+            fill="#00BFE8"
+            text-anchor="start"
+            data-box="701.28,411.84,544.3199999999999,158.4"
+          >
+            20 $
+          </text>
+          <text
+            x="701.28"
+            y="615.5599999999998"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="38"
+            font-weight="400"
+            fill="#A4ABB4"
+            text-anchor="start"
+            data-box="701.28,578.8799999999999,515.52,47.52"
+          >
+            / mois
+          </text>
+          <text
+            x="701.28"
+            y="729.9200000000001"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="44"
+            font-weight="700"
+            fill="#F6F6F3"
+            text-anchor="start"
+            data-box="701.28,678.24,537.12,73.44"
+          >
+            Vercel Pro
+          </text>
+          <rect x="1258.56" y="420.48" width="1.728" height="348.48" rx="0" fill="#2A3038" />
+          <text
+            x="1283.04"
+            y="532.52"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="122"
+            font-weight="700"
+            fill="#00BFE8"
+            text-anchor="start"
+            data-box="1283.04,411.84,544.3199999999999,158.4"
+          >
+            ≈ 10 €
+          </text>
+          <text
+            x="1283.04"
+            y="615.5599999999998"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="38"
+            font-weight="400"
+            fill="#A4ABB4"
+            text-anchor="start"
+            data-box="1283.04,578.8799999999999,515.52,47.52"
+          >
+            / an
+          </text>
+          <text
+            x="1283.04"
+            y="729.9200000000001"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="44"
+            font-weight="700"
+            fill="#F6F6F3"
+            text-anchor="start"
+            data-box="1283.04,678.24,537.12,73.44"
+          >
+            Domaine .fr
+          </text>
+          <text
+            x="119.52"
+            y="873.4"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="34"
+            font-weight="400"
+            fill="#A4ABB4"
+            text-anchor="start"
+            data-box="119.52,833.76,1699.2,56.160000000000004"
+          >
+            SMS : ~0,06 € HT / envoi court · Base de données : selon l’offre
+          </text>
+          <text
+            x="119.52"
+            y="944.88"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="24"
+            font-weight="400"
+            fill="#727984"
+            text-anchor="start"
+            data-box="119.52,915.84,1699.2,41.76"
+          >
+            Vercel Hobby : personnel, non commercial. Tarifs indicatifs, taxes et quotas à vérifier.
+          </text>
+        </svg>
+      </section>
+
+      <section
+        class="slide slide--beta-content"
+        id="beta-slide-6"
+        aria-label="B&#234;ta 6/8 : Commencez par le raconter."
+      >
+        <svg
+          preserveAspectRatio="xMidYMid meet"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 1920 1080"
+          role="img"
+          aria-labelledby="beta-slide-6-title-6"
+        >
+          <title id="beta-slide-6-title-6">Commencez par le raconter.</title>
+          <rect width="1920" height="1080" fill="#080A0D" />
+          <text
+            x="109.44"
+            y="95.28"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="24"
+            font-weight="700"
+            fill="#00BFE8"
+            text-anchor="start"
+            data-box="109.44,69.12,576,36"
+          >
+            LA BÊTA · 06
+          </text>
+          <text
+            x="1805.76"
+            y="94.60000000000001"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="22"
+            font-weight="400"
+            fill="#A4ABB4"
+            text-anchor="end"
+            data-box="1224,69.12,581.76,36"
+          >
+            LA MÉTHODE / CHATGPT VOCAL
+          </text>
+          <text
+            x="109.44"
+            y="1025.9"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="23"
+            font-weight="700"
+            fill="#F6F6F3"
+            text-anchor="start"
+            data-box="109.44,1002.24,24.48,31.68"
+          >
+            S
+          </text>
+          <path
+            d="M 152.64000000000001 1005.84 L 164.16 1027.44 L 141.12 1027.44 Z"
+            fill="none"
+            stroke="#00BFE8"
+            stroke-width="3.4"
+          />
+          <text
+            x="169.92"
+            y="1025.56"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="22"
+            font-weight="700"
+            fill="#F6F6F3"
+            text-anchor="start"
+            data-box="169.92,1002.24,144,31.68"
+          >
+            N D B O X
+          </text>
+          <text
+            x="1807.1999999999998"
+            y="1025.56"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="22"
+            font-weight="400"
+            fill="#A4ABB4"
+            text-anchor="end"
+            data-box="1670.3999999999999,1002.24,136.79999999999998,31.68"
+          >
+            06 / 08
+          </text>
+          <text
+            x="109.44"
+            y="402.72"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="96"
+            font-weight="700"
+            fill="#F6F6F3"
+            text-anchor="start"
+            data-box="109.44,305.28000000000003,835.1999999999999,129.6"
+          >
+            Commencez
+          </text>
+          <text
+            x="109.44"
+            y="533.7600000000001"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="96"
+            font-weight="700"
+            fill="#F6F6F3"
+            text-anchor="start"
+            data-box="109.44,436.32000000000005,835.1999999999999,129.6"
+          >
+            par le raconter.
+          </text>
+          <text
+            x="116.64000000000001"
+            y="681.72"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="42"
+            font-weight="400"
+            fill="#A4ABB4"
+            text-anchor="start"
+            data-box="116.64000000000001,639.36,770.4,56.160000000000004"
+          >
+            ChatGPT · mode vocal
+          </text>
+          <rect x="957.6" y="259.2" width="5.76" height="525.6" rx="0" fill="#00BFE8" />
+          <text
+            x="1010.8799999999999"
+            y="371.8"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="58"
+            font-weight="700"
+            fill="#F6F6F3"
+            text-anchor="start"
+            data-box="1010.8799999999999,306.71999999999997,770.4,90.72"
+          >
+            « Crée-moi un prompt
+          </text>
+          <text
+            x="1010.8799999999999"
+            y="474.04"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="58"
+            font-weight="700"
+            fill="#F6F6F3"
+            text-anchor="start"
+            data-box="1010.8799999999999,408.96,770.4,90.72"
+          >
+            pour créer un logiciel.
+          </text>
+          <text
+            x="1010.8799999999999"
+            y="595.08"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="54"
+            font-weight="400"
+            fill="#A4ABB4"
+            text-anchor="start"
+            data-box="1010.8799999999999,537.12,737.28,79.2"
+          >
+            Je suis fleuriste,
+          </text>
+          <text
+            x="1010.8799999999999"
+            y="687.24"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="54"
+            font-weight="400"
+            fill="#A4ABB4"
+            text-anchor="start"
+            data-box="1010.8799999999999,629.28,737.28,79.2"
+          >
+            et je veux… »
+          </text>
+          <text
+            x="116.64000000000001"
+            y="910.8000000000001"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="36"
+            font-weight="400"
+            fill="#A4ABB4"
+            text-anchor="start"
+            data-box="116.64000000000001,868.32,1670.3999999999999,60.48"
+          >
+            Votre métier → votre problème → le résultat attendu
+          </text>
+        </svg>
+      </section>
+
+      <section
+        class="slide slide--beta-content"
+        id="beta-slide-7"
+        aria-label="B&#234;ta 7/8 : D&#233;crire. Tester. Ajuster."
+      >
+        <svg
+          preserveAspectRatio="xMidYMid meet"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 1920 1080"
+          role="img"
+          aria-labelledby="beta-slide-7-title-7"
+        >
+          <title id="beta-slide-7-title-7">Décrire. Tester. Ajuster.</title>
+          <rect width="1920" height="1080" fill="#080A0D" />
+          <text
+            x="109.44"
+            y="95.28"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="24"
+            font-weight="700"
+            fill="#00BFE8"
+            text-anchor="start"
+            data-box="109.44,69.12,576,36"
+          >
+            LA BÊTA · 07
+          </text>
+          <text
+            x="1805.76"
+            y="94.60000000000001"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="22"
+            font-weight="400"
+            fill="#A4ABB4"
+            text-anchor="end"
+            data-box="1224,69.12,581.76,36"
+          >
+            DE L’IDÉE AU PREMIER OUTIL
+          </text>
+          <text
+            x="109.44"
+            y="1025.9"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="23"
+            font-weight="700"
+            fill="#F6F6F3"
+            text-anchor="start"
+            data-box="109.44,1002.24,24.48,31.68"
+          >
+            S
+          </text>
+          <path
+            d="M 152.64000000000001 1005.84 L 164.16 1027.44 L 141.12 1027.44 Z"
+            fill="none"
+            stroke="#00BFE8"
+            stroke-width="3.4"
+          />
+          <text
+            x="169.92"
+            y="1025.56"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="22"
+            font-weight="700"
+            fill="#F6F6F3"
+            text-anchor="start"
+            data-box="169.92,1002.24,144,31.68"
+          >
+            N D B O X
+          </text>
+          <text
+            x="1807.1999999999998"
+            y="1025.56"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="22"
+            font-weight="400"
+            fill="#A4ABB4"
+            text-anchor="end"
+            data-box="1670.3999999999999,1002.24,136.79999999999998,31.68"
+          >
+            07 / 08
+          </text>
+          <text
+            x="109.44"
+            y="401.28"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="96"
+            font-weight="700"
+            fill="#F6F6F3"
+            text-anchor="start"
+            data-box="109.44,303.84,849.6,129.6"
+          >
+            Décrire.
+          </text>
+          <text
+            x="109.44"
+            y="532.32"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="96"
+            font-weight="700"
+            fill="#F6F6F3"
+            text-anchor="start"
+            data-box="109.44,434.88,849.6,129.6"
+          >
+            Tester. Ajuster.
+          </text>
+          <text
+            x="959.04"
+            y="336.8"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="44"
+            font-weight="700"
+            fill="#00BFE8"
+            text-anchor="start"
+            data-box="959.04,283.68,89.28,76.32000000000001"
+          >
+            01
+          </text>
+          <text
+            x="1075.68"
+            y="338.16"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="48"
+            font-weight="700"
+            fill="#F6F6F3"
+            text-anchor="start"
+            data-box="1075.68,283.68,721.4399999999999,76.32000000000001"
+          >
+            Collez dans Codex
+          </text>
+          <line
+            x1="959.04"
+            y1="413.28000000000003"
+            x2="1775.52"
+            y2="413.28000000000003"
+            stroke="#2A3038"
+            stroke-width="2"
+          />
+          <text
+            x="959.04"
+            y="519.6800000000001"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="44"
+            font-weight="700"
+            fill="#00BFE8"
+            text-anchor="start"
+            data-box="959.04,466.56000000000006,89.28,76.32000000000001"
+          >
+            02
+          </text>
+          <text
+            x="1075.68"
+            y="521.0400000000001"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="48"
+            font-weight="700"
+            fill="#F6F6F3"
+            text-anchor="start"
+            data-box="1075.68,466.56000000000006,721.4399999999999,76.32000000000001"
+          >
+            Testez sur de faux clients
+          </text>
+          <line
+            x1="959.04"
+            y1="596.1600000000001"
+            x2="1775.52"
+            y2="596.1600000000001"
+            stroke="#2A3038"
+            stroke-width="2"
+          />
+          <text
+            x="959.04"
+            y="702.56"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="44"
+            font-weight="700"
+            fill="#00BFE8"
+            text-anchor="start"
+            data-box="959.04,649.4399999999999,89.28,76.32000000000001"
+          >
+            03
+          </text>
+          <text
+            x="1075.68"
+            y="703.92"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="48"
+            font-weight="700"
+            fill="#F6F6F3"
+            text-anchor="start"
+            data-box="1075.68,649.4399999999999,721.4399999999999,76.32000000000001"
+          >
+            Changez une chose à la fois
+          </text>
+          <text
+            x="960.48"
+            y="912.24"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="36"
+            font-weight="400"
+            fill="#A4ABB4"
+            text-anchor="start"
+            data-box="960.48,872.64,813.6,54.72"
+          >
+            GitHub garde les versions du code.
+          </text>
+        </svg>
+      </section>
+
+      <section
+        class="slide slide--beta-content"
+        id="beta-slide-8"
+        aria-label="B&#234;ta 8/8 : Vous commenceriez par quoi ?"
+      >
+        <svg
+          preserveAspectRatio="xMidYMid meet"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 1920 1080"
+          role="img"
+          aria-labelledby="beta-slide-8-title-8"
+        >
+          <title id="beta-slide-8-title-8">Vous commenceriez par quoi ?</title>
+          <rect width="1920" height="1080" fill="#080A0D" />
+          <text
+            x="109.44"
+            y="95.28"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="24"
+            font-weight="700"
+            fill="#00BFE8"
+            text-anchor="start"
+            data-box="109.44,69.12,576,36"
+          >
+            LA BÊTA · 08
+          </text>
+          <text
+            x="1805.76"
+            y="94.60000000000001"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="22"
+            font-weight="400"
+            fill="#A4ABB4"
+            text-anchor="end"
+            data-box="1224,69.12,581.76,36"
+          >
+            À VOUS DE JOUER
+          </text>
+          <text
+            x="109.44"
+            y="1025.9"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="23"
+            font-weight="700"
+            fill="#F6F6F3"
+            text-anchor="start"
+            data-box="109.44,1002.24,24.48,31.68"
+          >
+            S
+          </text>
+          <path
+            d="M 152.64000000000001 1005.84 L 164.16 1027.44 L 141.12 1027.44 Z"
+            fill="none"
+            stroke="#00BFE8"
+            stroke-width="3.4"
+          />
+          <text
+            x="169.92"
+            y="1025.56"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="22"
+            font-weight="700"
+            fill="#F6F6F3"
+            text-anchor="start"
+            data-box="169.92,1002.24,144,31.68"
+          >
+            N D B O X
+          </text>
+          <text
+            x="1807.1999999999998"
+            y="1025.56"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="22"
+            font-weight="400"
+            fill="#A4ABB4"
+            text-anchor="end"
+            data-box="1670.3999999999999,1002.24,136.79999999999998,31.68"
+          >
+            08 / 08
+          </text>
+          <text
+            x="109.44"
+            y="428.03999999999996"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="126"
+            font-weight="700"
+            fill="#F6F6F3"
+            text-anchor="start"
+            data-box="109.44,309.59999999999997,1707.84,151.20000000000002"
+          >
+            Vous commenceriez
+          </text>
+          <text
+            x="109.44"
+            y="582.12"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="126"
+            font-weight="700"
+            fill="#00BFE8"
+            text-anchor="start"
+            data-box="109.44,463.68,1707.84,151.20000000000002"
+          >
+            par quoi ?
+          </text>
+          <text
+            x="119.52"
+            y="753.56"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="50"
+            font-weight="400"
+            fill="#A4ABB4"
+            text-anchor="start"
+            data-box="119.52,698.4,1663.2,76.32000000000001"
+          >
+            Un seul besoin pour démarrer.
+          </text>
+          <line
+            x1="119.52"
+            y1="861.1200000000001"
+            x2="1797.1200000000001"
+            y2="861.1200000000001"
+            stroke="#2A3038"
+            stroke-width="2"
+          />
+          <text
+            x="119.52"
+            y="933.16"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="34"
+            font-weight="400"
+            fill="#A4ABB4"
+            text-anchor="start"
+            data-box="119.52,892.8000000000001,1684.8,57.6"
+          >
+            Données protégées · SMS consentis · Sauvegardes testées
+          </text>
+        </svg>
+      </section>
     </main>
+
+    <div
+      class="beta-demo-modal"
+      id="beta-demo-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="beta-demo-title"
+      hidden
+    >
+      <div class="beta-demo-dialog">
+        <div class="beta-demo-bar">
+          <h2 id="beta-demo-title">SANDBOX / SIMULATION LOCALE / AUCUN SMS RÉEL</h2>
+          <button id="beta-demo-close" class="beta-demo-close" type="button">
+            Retour aux slides <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <iframe
+          id="beta-demo-frame"
+          class="beta-demo-frame"
+          title="Démo fictive du Comptoir d’Anna"
+          data-src="./assets/beta-demo.html"
+          sandbox="allow-scripts"
+          referrerpolicy="no-referrer"
+          loading="lazy"
+        ></iframe>
+      </div>
+    </div>
 
     <nav class="chrome" aria-label="Commandes de présentation">
       <div class="chrome-controls">
         <button type="button" data-action="previous" aria-label="Diapositive précédente">←</button
         ><button type="button" data-action="next" aria-label="Diapositive suivante">→</button>
       </div>
-      <span class="counter" aria-live="polite">01 / 15</span>
+      <span class="counter" aria-live="polite">01 / 23</span>
       <div class="progress-track" aria-hidden="true"><div class="progress-value"></div></div>
       <button type="button" data-action="fullscreen" aria-label="Passer en plein écran">⛶</button>
       <span class="meta">← → · F</span>
@@ -2136,7 +3999,26 @@
         const slides = Array.from(document.querySelectorAll('.slide'));
         const counter = document.querySelector('.counter');
         const progress = document.querySelector('.progress-value');
+        const betaDemoModal = document.querySelector('#beta-demo-modal');
+        const betaDemoFrame = document.querySelector('#beta-demo-frame');
+        const betaDemoClose = document.querySelector('#beta-demo-close');
         let current = 0;
+        let betaDemoTrigger = null;
+
+        const openBetaDemo = (trigger = document.activeElement) => {
+          betaDemoTrigger = trigger;
+          betaDemoModal.hidden = false;
+          if (betaDemoFrame.dataset.loaded !== 'true') {
+            betaDemoFrame.src = betaDemoFrame.dataset.src;
+            betaDemoFrame.dataset.loaded = 'true';
+          }
+          betaDemoClose.focus();
+        };
+
+        const closeBetaDemo = () => {
+          betaDemoModal.hidden = true;
+          betaDemoTrigger?.focus();
+        };
 
         const show = (index, updateHash = true) => {
           current = Math.max(0, Math.min(index, slides.length - 1));
@@ -2161,11 +4043,42 @@
         document
           .querySelector('[data-action="next"]')
           .addEventListener('click', () => show(current + 1));
+        document.addEventListener('click', (event) => {
+          if (!(event.target instanceof Element)) return;
+          const trigger = event.target.closest('[data-action="demo"]');
+          if (!trigger) return;
+          event.preventDefault();
+          openBetaDemo(trigger);
+        });
+        document.addEventListener('keydown', (event) => {
+          if (event.key === 'Escape' && !betaDemoModal.hidden) {
+            event.preventDefault();
+            event.stopPropagation();
+            closeBetaDemo();
+            return;
+          }
+          if (event.key !== 'Enter' && event.key !== ' ') return;
+          if (!(event.target instanceof Element)) return;
+          const trigger = event.target.closest('[data-action="demo"]');
+          if (!trigger) return;
+          event.preventDefault();
+          event.stopPropagation();
+          openBetaDemo(trigger);
+        });
+        betaDemoClose.addEventListener('click', closeBetaDemo);
+        betaDemoModal.addEventListener('click', (event) => {
+          if (event.target === betaDemoModal) closeBetaDemo();
+        });
         document.querySelector('[data-action="fullscreen"]').addEventListener('click', async () => {
           if (!document.fullscreenElement) await document.documentElement.requestFullscreen?.();
           else await document.exitFullscreen?.();
         });
         window.addEventListener('keydown', (event) => {
+          if (
+            !betaDemoModal.hidden ||
+            (event.target instanceof Element && event.target.closest('[data-action="demo"]'))
+          )
+            return;
           if (['ArrowRight', 'PageDown', ' '].includes(event.key)) {
             event.preventDefault();
             show(current + 1);
@@ -2176,6 +4089,7 @@
           }
           if (event.key === 'Home') show(0);
           if (event.key === 'End') show(slides.length - 1);
+          if (event.key.toLowerCase() === 'd' && current >= 15) openBetaDemo();
           if (event.key.toLowerCase() === 'f')
             document.querySelector('[data-action="fullscreen"]').click();
         });
