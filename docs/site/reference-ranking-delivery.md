@@ -2,7 +2,9 @@
 
 Vérification locale du 13 octobre 2026, dans une branche isolée de `main`. Les modifications sans rapport du dossier principal sont préservées. Aucun compte, accès payant, migration Neon ou classement de production n'a été activé.
 
-La conception et l'audit sont dans [reference-ranking-design.md](reference-ranking-design.md). Le [prompt réutilisable](prompt-classements-reference.md) et [le guide de reprise](reference-ranking-operations.md) donnent au responsable les étapes de configuration. Le [README](../../README.md) décrit le fonctionnement global. Les décisions sont consignées dans ADR-0026 et ADR-0027 sur délégation PD-0003.
+La conception et l'audit sont dans [reference-ranking-design.md](reference-ranking-design.md). Le [prompt réutilisable](prompt-classements-reference.md) et [le guide de reprise](reference-ranking-operations.md) donnent au responsable les étapes de configuration. Le [README](../../README.md) décrit le fonctionnement global. Les décisions sont consignées dans ADR-0026, ADR-0027 et ADR-0028 sur délégation PD-0003.
+
+Mise à jour du 13 octobre 2026 : la publication deux fois par jour et la collecte horaire des poussées sont implémentées. La migration additive 0010 stocke les relevés par créneau ; `.github/workflows/charts-refresh.yml` appelle les routes Vercel aux heures documentées dans le guide. Il reste à appliquer les migrations, configurer les accès et secrets, activer les connecteurs retenus et surveiller les premières exécutions dans l'environnement prévu. L'issue de passation liste ces étapes.
 
 ## Critères vérifiés
 
@@ -31,6 +33,6 @@ Le checkout Windows a été normalisé en LF pour exécuter Prettier. Ces fins d
 
 ## Reprise et limites
 
-Les accès, droits de redistribution, migrations réelles, calibrations, quotas et cadences restent à configurer dans l'issue de passation. Les nouveaux profils restent expérimentaux, leur publication demande les versions exactes autorisées, et les deux nouveaux collecteurs sont désactivés. Le cron horaire est fourni en exemple, sans changer la configuration Vercel active.
+Les accès, droits de redistribution, migrations réelles, calibrations et quotas restent à configurer dans l'issue de passation. Les nouveaux profils restent expérimentaux, leur publication demande les versions exactes autorisées, et les deux nouveaux collecteurs restent désactivés jusqu'à leur activation. Le workflow GitHub Actions est livré ; ses variables, son secret et sa présence sur la branche par défaut restent à configurer.
 
 La couverture mondiale, la fiabilité empirique des coefficients et le délai d'avance sur Trending n'ont pas été mesurés. Le probe Trending valide le format observé aujourd'hui, sans garantir sa stabilité. Les connecteurs déjà disponibles sont réutilisés ; les sources complémentaires citées dans la conception attendent une validation de comparabilité et leurs adaptateurs. La migration 0009 est vérifiée sur PGlite, pas sur la base Neon de production. Les tests avec données réelles des autres fournisseurs et une revue externe de la méthode restent à faire.

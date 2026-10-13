@@ -20,7 +20,7 @@ export async function generateMetadata({
   const data = await sandboxChartsData(week);
   return pageMetadata({
     title: `Archives des classements · ${week} · SANDBOX CHARTS`,
-    description: `Les éditions publiées de la semaine ${week}, leurs positions et leurs mouvements.`,
+    description: `Les positions et les mouvements de l'édition ${week}.`,
     path: `/charts/history/${week}`,
     noindex: !hasIndexableChartArchive(data, week) || hasChartSelectionQuery(await searchParams),
   });

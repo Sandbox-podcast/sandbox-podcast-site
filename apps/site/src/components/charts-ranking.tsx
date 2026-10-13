@@ -151,7 +151,7 @@ export function ChartsPodium({ rows, period }: { rows: ChartsRow[]; period: Char
             {leader.take ? (
               <div className="sc-podium-take">
                 <span className="sc-label">
-                  <Text>{'L’AVIS DE SANDBOX'}</Text>
+                  <Text>{"L'AVIS DE SANDBOX"}</Text>
                 </span>
                 <p>
                   <Text>{leader.take.text}</Text>
@@ -211,7 +211,7 @@ export function ChartsRanking({
           <Text>{'Aucune entr\u00E9e pour cette s\u00E9lection.'}</Text>
         </h3>
         <p>
-          <Text>{'Essayez une autre cat\u00E9gorie ou une autre semaine.'}</Text>
+          <Text>{'Essayez une autre cat\u00E9gorie ou une autre édition.'}</Text>
         </p>
       </div>
     );
@@ -284,7 +284,7 @@ export function ChartsRanking({
                 <div className="sc-explanations">
                   <div>
                     <h4 className="sc-label">
-                      <Text>{'DE QUOI S’AGIT-IL ?'}</Text>
+                      <Text>{"DE QUOI S'AGIT-IL ?"}</Text>
                     </h4>
                     <p>
                       <Text>
@@ -352,7 +352,7 @@ export function ChartsRanking({
                     {row.insight?.whyMatters ? (
                       <div>
                         <h4 className="sc-label">
-                          <Text>{'POURQUOI C’EST IMPORTANT'}</Text>
+                          <Text>{"POURQUOI C'EST IMPORTANT"}</Text>
                         </h4>
                         <p>
                           <Text>{row.insight.whyMatters}</Text>
@@ -376,7 +376,7 @@ export function ChartsRanking({
                     {row.take ? (
                       <blockquote className="sc-take">
                         <span className="sc-label">
-                          <Text>{'L’AVIS DE SANDBOX'}</Text>
+                          <Text>{"L'AVIS DE SANDBOX"}</Text>
                         </span>
                         <p>
                           <Text>{row.take.text}</Text>
@@ -394,7 +394,7 @@ export function ChartsRanking({
                   </h4>
                   <MomentumSpark
                     values={row.momentum}
-                    label="Relevés hebdomadaires sur environ 30 jours"
+                    label="Relevés de classement des 30 derniers jours"
                   />
                   <div className="sc-rank-history">
                     <Text>
@@ -411,8 +411,8 @@ export function ChartsRanking({
                     </Text>
                   </div>
                   <p className="sc-label">
-                    <Text>{row.weeksInTop}</Text>
-                    <Text>{' semaines dans le Top 20 \u00B7 meilleur rang #'}</Text>
+                    <Text>{row.editionsInTop}</Text>
+                    <Text>{' éditions dans le Top 20 \u00B7 meilleur rang #'}</Text>
                     <Text>{row.peak ?? '-'}</Text>
                   </p>
                   <div className="sc-row-actions">

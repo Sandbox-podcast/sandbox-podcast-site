@@ -22,7 +22,7 @@ const tabs: { id: Tab; label: string }[] = [
   { id: 'dashboard', label: 'Collectes' },
   { id: 'repositories', label: 'Dépôts suivis' },
   { id: 'candidates', label: 'Candidats' },
-  { id: 'weekly', label: 'Édition de la semaine' },
+  { id: 'weekly', label: 'Édition du classement' },
   { id: 'settings', label: 'Méthode' },
 ];
 const resultSchema = z.object({
@@ -43,7 +43,7 @@ const statusLabels: Record<string, string> = {
   skipped: 'Déjà traité',
   dry_run: 'Simulation',
 };
-const metric = (value: number | null): string => (value === null ? '—' : formatCompact(value));
+const metric = (value: number | null): string => (value === null ? '-' : formatCompact(value));
 async function adminRequest(url: string, init?: RequestInit) {
   const response = await fetch(url, {
     ...init,
@@ -137,7 +137,8 @@ export function AdminChartsConsole({
           <span className="eyebrow">SANDBOX CHARTS · GitHub</span>
           <h2 id="admin-section-title">La fabrique des charts</h2>
           <p className="admin-copy">
-            Des relevés quotidiens, une édition figée chaque matin, votre lecture du jour.
+            Des relevés deux fois par jour, une édition par créneau quand les données sont
+            suffisantes.
           </p>
         </div>
         <a className="btn" href="/charts" target="_blank" rel="noreferrer">
@@ -165,7 +166,7 @@ export function AdminChartsConsole({
         </p>
       ) : null}
       {!data ? (
-        <p role="status">Chargement des collectes…</p>
+        <p role="status">Chargement des collectes...</p>
       ) : (
         <>
           {data.message ? (
@@ -179,7 +180,7 @@ export function AdminChartsConsole({
                 {[
                   ['Dépôts suivis', data.counts['tracked'] ?? 0],
                   ['Candidats', data.counts['candidate'] ?? 0],
-                  ['Relevés aujourd’hui', data.snapshotsToday],
+                  ["Relevés aujourd'hui", data.snapshotsToday],
                   ['Éditions disponibles', data.editions.length],
                 ].map(([label, value]) => (
                   <div key={label}>
@@ -260,7 +261,7 @@ export function AdminChartsConsole({
               <p className="admin-help">
                 La collecte ne recrée aucun relevé manquant. Une édition GitHub attend au moins{' '}
                 {data.config.minimumCandidates} projets éligibles et un relevé à J−7. Rising attend
-                aussi J−14. Skills/Models suivent leurs propres seuils de source et d’historique.
+                aussi J−14. Skills/Models suivent leurs propres seuils de source et d'historique.
               </p>
               <h3>Dernières collectes</h3>
               <div className="ac-table-scroll">
@@ -324,7 +325,7 @@ export function AdminChartsConsole({
                     onChange={(event) => {
                       setSearch(event.target.value);
                     }}
-                    placeholder="Nom, propriétaire ou dépôt…"
+                    placeholder="Nom, propriétaire ou dépôt..."
                   />
                 </label>
                 {tab === 'repositories' ? (
@@ -405,8 +406,8 @@ export function AdminChartsConsole({
                         </td>
                         <td>{metric(repo.stars)}</td>
                         <td>{metric(repo.stars7d)}</td>
-                        <td>{repo.growth === null ? '—' : `${repo.growth.toFixed(1)} %`}</td>
-                        <td>{repo.score?.toFixed(1) ?? '—'}</td>
+                        <td>{repo.growth === null ? '-' : `${repo.growth.toFixed(1)} %`}</td>
+                        <td>{repo.score?.toFixed(1) ?? '-'}</td>
                         <td>
                           <label>
                             <span className="sr-only">Statut de {repo.name}</span>
@@ -437,7 +438,7 @@ export function AdminChartsConsole({
                                 void execute({ action: 'repository', id: repo.id, status: null })
                               }
                             >
-                              Revenir à l’automatique
+                              Revenir à l'automatique
                             </button>
                           ) : null}
                         </td>
@@ -526,7 +527,7 @@ export function AdminChartsConsole({
                 <div className="ac-empty">
                   <h3>Aucune édition figée</h3>
                   <p>
-                    Collectez l’historique, puis utilisez « Figer un brouillon » dans l’onglet
+                    Collectez l'historique, puis utilisez "Figer un brouillon" dans l'onglet
                     Collectes.
                   </p>
                 </div>
@@ -574,7 +575,7 @@ function ChartsConfig({
       }}
     >
       <p className="admin-help">
-        Les changements s’appliquent aux éditions suivantes. Chaque édition conserve sa version, ses
+        Les changements s'appliquent aux éditions suivantes. Chaque édition conserve sa version, ses
         poids et ses composantes.
       </p>
       <div className="admin-form-grid">
@@ -593,7 +594,7 @@ function ChartsConfig({
         {(
           [
             { key: 'qualificationStars', label: 'Stars pour la qualification' },
-            { key: 'eligibilityStars', label: 'Stars pour l’éligibilité' },
+            { key: 'eligibilityStars', label: "Stars pour l'éligibilité" },
             { key: 'eligibilityVelocity', label: 'Ou stars gagnées en 7 jours' },
             { key: 'growthFloor', label: 'Plancher de croissance (stars)' },
             { key: 'maximumRisingStars', label: 'Maximum de stars pour Rising' },

@@ -30,7 +30,7 @@ Skills ne dispose pas encore d'une évaluation indépendante de réussite par t�
 | Absence de preuve commune et de sensibilité                         | Difficile de reproduire et d'évaluer la dépendance aux poids       | Preuve JSON, empreinte, rejeu CLI, couverture, contributions et scénarios                                           |
 | Dépôt public assimilable à open source                              | Des licences absentes ou restrictives pouvaient entrer             | Licence GitHub stockée dans `chart_entities`, liste conservatrice de licences admises, exclusion des inconnues      |
 | Rapprochement de modèles supprimant toute ponctuation               | Versions numériques ou paramètres pouvaient se confondre           | Signature de variante conservatrice ; les organisations inconnues et signatures divergentes ne fusionnent pas       |
-| Relevés GitHub seulement quotidiens                                 | Les poussées de quelques heures étaient visibles tard              | Observations horaires optionnelles, détecteur 1 h / 6 h / 24 h et signaux séparés de Rising                         |
+| Relevés officiels limités à un par jour                             | La mesure du rang réagissait plus lentement que les poussées       | Deux collectes et éditions par jour, plus un détecteur horaire 1 h / 6 h / 24 h séparé de Rising                    |
 
 ## Calcul reproductible
 

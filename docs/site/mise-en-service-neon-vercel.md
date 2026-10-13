@@ -1,8 +1,8 @@
-# Mise en service SANDBOX CHARTS sur Neon et Vercel
+# Mise en service SANDBOX CHARTS sur Neon, Vercel et GitHub Actions
 
 Cette fiche est à transmettre à Loïc Peaudecerf, au propriétaire du compte Neon et au responsable du projet Vercel. Elle décrit les actions nécessaires pour afficher les données réelles des classements sur la base existante du site. Elle ne contient aucun secret.
 
-Pour les traductions, appliquer aussi la migration additive **0006** et suivre [le workflow manuel depuis le harnais](prompt-traductions-harnais.md#mise-en-service-pour-le-propriétaire-neon). L’admin exporte les textes publiés et importe les lots traduits. Aucun moteur externe de traduction ni cron supplémentaire n’est nécessaire.
+Pour les traductions, appliquer aussi la migration additive **0006** et suivre [le workflow manuel depuis le harnais](prompt-traductions-harnais.md#mise-en-service-pour-le-propriétaire-neon). L'admin exporte les textes publiés et importe les lots traduits. Aucun moteur externe de traduction ni cron supplémentaire n'est nécessaire.
 
 ## Situation vérifiée
 
@@ -30,7 +30,7 @@ Ne pas coller les migrations SQL directement dans l'éditeur Neon. La commande c
 1. Vérifier et relire les changements dans le dépôt, puis les committer et les pousser dans la branche de travail convenue. Aucune modification ne peut apparaître dans le projet Vercel à partir du seul dossier local.
 2. Dans le projet Vercel confirmé par le responsable, vérifier le dépôt Git lié, la branche de production et la configuration du monorepo. La note antérieure indique que le Root Directory est `apps/site`. Garder le réglage existant s'il produit déjà le build Next.js attendu avec la lockfile pnpm de la racine. Vérifier que la version Node du projet est 24.x.
 3. Après avoir reçu l'URL Neon, vérifier la variable existante `DATABASE_URL` ou `POSTGRES_URL`. Ne pas remplacer une variable Neon déjà fonctionnelle sans vérifier la branche et la base cibles. L'application utilise `DATABASE_URL` en priorité. Ne jamais placer la valeur dans le code ni dans une variable `NEXT_PUBLIC_*`.
-4. Appliquer les migrations 0002 (collecte GitHub), 0003 (catalogue et textes localisés des classements), 0004 (pages, épisodes, thèmes et fiches localisés) et 0005 (identités de fournisseurs et relevés externes) avant le déploiement de production. Utiliser le commit relu et le rôle de migration autorisé. Si cette personne exécute la commande depuis une copie sécurisée du dépôt, stocker l'URL dans `apps/site/.env.local`, ignoré par Git, puis lancer depuis `apps/site` :
+4. Appliquer les migrations manquantes jusqu'à 0010 avec le commit relu et le rôle de migration autorisé. Elles couvrent notamment la collecte GitHub, les profils externes, les observations Trending et de poussée, puis les deux créneaux quotidiens. Utiliser le journal Drizzle pour ne pas rejouer les migrations déjà appliquées. Si cette personne exécute la commande depuis une copie sécurisée du dépôt, stocker l'URL dans `apps/site/.env.local`, ignoré par Git, puis lancer depuis `apps/site` :
 
    ```powershell
    node --env-file-if-exists=.env.local scripts/db-migrate.ts
@@ -38,7 +38,7 @@ Ne pas coller les migrations SQL directement dans l'éditeur Neon. La commande c
 
    La commande Node exige Node 24. Elle utilise `DATABASE_URL` ou `POSTGRES_URL` dans l'environnement de processus. Ne jamais committer `.env.local` ni en transmettre une copie.
 
-## Variables du projet Vercel
+## Variables Vercel et GitHub Actions
 
 Dans le projet vérifié, garder la connexion Neon existante si elle pointe vers la bonne base. Limiter les nouveaux secrets d'exécution à Production au départ. La note antérieure indique que Preview partageait aussi une base Neon : vérifier ce point avant tout test qui écrit. Utiliser une branche Neon séparée pour Preview ou garder Preview sans connexion aux données de production.
 
@@ -53,13 +53,15 @@ Selon la note de transfert du 7 octobre, les deux variables `DATABASE_URL` et `P
 | `HF_TOKEN`           | Jeton Hugging Face facultatif, lecture seule                             | Utile si le Hub applique une limite de débit aux lectures anonymes.                                      |
 | `OPENROUTER_API_KEY` | Clé OpenRouter pour Models v2                                            | Donne le second évaluateur Artificial Analysis. Sans clé, aucune nouvelle édition Models n'est publiée.  |
 
+Dans les variables et secrets du dépôt GitHub, configurer `SANDBOX_CHARTS_ORIGIN` avec l'origine HTTPS du site et `SANDBOX_CHARTS_CRON_SECRET` avec la même valeur que `CRON_SECRET`. Le workflow `.github/workflows/charts-refresh.yml` planifie Trending chaque jour à 01:17 UTC, les collectes et éditions à 03:17 et 15:17 UTC, et les poussées chaque heure à la minute 23. Il ne démarre qu'une fois présent sur la branche par défaut. Les crons ont été retirés de `apps/site/vercel.json`.
+
 Conserver `SITE_ADMIN_SECRET`, `SITE_ADMIN_USERS` et les autres variables du site déjà configurées. Ne pas remplacer la politique actuelle `SITE_DATA_MODE` pour activer les classements : les autres contenus du site ont leur propre état de validation. `CHARTS_NEWSLETTER_URL` est facultative et ne doit pointer que vers un formulaire HTTPS existant.
 
 ## Déploiement et collecte
 
 1. Déployer d'abord le commit relu en Preview. Vérifier que les pages s'affichent sans fixtures, que les éditions manquantes indiquent l'état d'attente et que les routes admin et cron refusent une requête anonyme.
-2. Après validation de Preview et application de 0002 à 0005, lancer le déploiement de la branche de production depuis le flux Vercel habituel. Vérifier que le plan autorise la durée de fonction `maxDuration: 300` définie pour les tâches de collecte.
-3. Contrôler les tâches déclarées dans `apps/site/vercel.json` : découverte GitHub tous les jours à 01:00 UTC, collecte quotidienne Skills/Models à 02:30 UTC et gel quotidien à 03:00 UTC. Vercel doit envoyer le secret Cron dans `Authorization: Bearer ...`. Le gel inclut GitHub, Skills et Models; une édition attend les seuils d'historique et de candidats documentés dans [le guide dédié](external-rankings.md).
+2. Après validation de Preview et application des migrations manquantes jusqu'à 0010, lancer le déploiement de la branche de production depuis le flux Vercel habituel. Vérifier que le plan autorise la durée de fonction `maxDuration: 300` définie pour les tâches de collecte.
+3. Vérifier la variable et le secret GitHub Actions, puis contrôler le workflow sur la branche par défaut. Celui-ci envoie `Authorization: Bearer ...` aux routes Vercel protégées par `CRON_SECRET`. Les deux éditions quotidiennes attendent les seuils d'historique et de candidats documentés dans [le guide dédié](external-rankings.md). GitHub Actions peut retarder ou omettre une exécution planifiée ; surveiller l'âge de la dernière édition et les journaux des jobs.
 4. Depuis une copie locale sécurisée du commit relu, avec Node 24, pnpm 12 et les secrets nécessaires dans `apps/site/.env.local`, afficher d'abord le résultat de la simulation sans écriture :
 
    ```powershell
@@ -72,17 +74,17 @@ Conserver `SITE_ADMIN_SECRET`, `SITE_ADMIN_USERS` et les autres variables du sit
    corepack pnpm --filter @podcast/site charts:seed
    ```
 
-5. Dans `/admin`, examiner les candidats et ne suivre que les dépôts retenus. Les mesures quotidiennes démarrent à partir de cette activation. Ne pas fabriquer les jours manquants ni simuler un historique.
+5. Dans `/admin`, examiner les candidats et ne suivre que les dépôts retenus. Les mesures deux fois par jour démarrent à partir de cette activation. Ne pas fabriquer les relevés manquants ni simuler un historique.
 6. Vérifier les collectes et leurs journaux dans l'admin. L'édition GitHub attend au moins sept jours de relevés et le seuil de projets éligibles configuré, vingt par défaut. Rising demande aussi quatorze jours d'historique et une accélération positive. Une page en attente jusque-là est attendue.
-7. Une fois les conditions remplies, vérifier une simulation hebdomadaire et les sources des mesures avant de valider la première édition. Les prochains gels hebdomadaires suivent ensuite le cron du lundi.
+7. Une fois les conditions remplies, vérifier une simulation d'édition et les sources des mesures avant de valider la première publication. Les prochaines tentatives de gel suivent les créneaux définis dans le workflow.
 
 ## Contrôles de fin
 
 - L'URL de la base correspond bien au projet Neon de production voulu.
-- Les migrations Drizzle 0000 à 0005 apparaissent une seule fois dans l'historique.
+- Les migrations Drizzle déjà requises jusqu'à 0010 apparaissent une seule fois dans l'historique.
 - Le tableau de bord `/admin` montre les rôles et états de collecte attendus.
 - `GET /api/charts/github/current` et `GET /api/charts/rising/current` retournent une attente sans lignes, puis les positions publiées après la première édition.
-- Une édition hebdomadaire inconnue et un projet inconnu retournent 404.
+- Une édition inconnue et un projet inconnu retournent 404.
 - Sans session, l'admin retourne 401. Sans secret valide, les routes cron retournent 401.
 - Aucune fixture du site local n'apparaît dans les pages de production.
 

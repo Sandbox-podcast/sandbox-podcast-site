@@ -5,7 +5,7 @@ import { previousWeek } from '../domain/weeks.ts';
 import type { Connector } from './connector.ts';
 
 /**
- * Mise à jour hebdomadaire d'un classement :
+ * Génération hebdomadaire historique des snapshots de démonstration conservés dans Git :
  *   1. récupérer les candidats (connecteur) ;
  *   2. recalculer scores et rangs (domaine) ;
  *   3. produire le snapshot, qui sera écrit tel quel dans `data/snapshots/` puis ne bougera plus.

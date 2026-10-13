@@ -125,6 +125,7 @@ beforeAll(async () => {
     '0005_external_chart_sources.sql',
     '0007_daily_chart_editions.sql',
     '0009_github_bursts.sql',
+    '0010_chart_refresh_slots.sql',
   ]) {
     for (const statement of readFileSync(`drizzle/${migration}`, 'utf8').split(
       '--> statement-breakpoint',
@@ -207,6 +208,36 @@ async function seedModels(includeUnpaired = false) {
 }
 
 describe('pipeline charts sur Postgres', () => {
+  it('fige deux éditions distinctes par jour et rend chaque créneau idempotent', async () => {
+    const projects = await seed();
+    const morning = await calculateGithubWeek({ date });
+    expect(morning.written).toBe(2);
+    const afternoon: DailyGithubSnapshot[] = projects.map((project, index) => ({
+      projectId: project.id,
+      date,
+      stars: 10_000 + index * 100,
+      forks: 100,
+      watchers: null,
+      openIssues: 10,
+      contributors: null,
+      commits: 5,
+      releases: null,
+      pushedAt: `${date}T00:00:00Z`,
+      collectedAt: `${date}T14:00:00Z`,
+    }));
+    expect(await saveDailyBatch(afternoon)).toBe(projects.length);
+    expect(await saveDailyBatch(afternoon)).toBe(0);
+    const second = await calculateGithubWeek({ date, slotId: `${date}T12:00Z` });
+    expect(second.referenceRanking.report.publishable).toBe(true);
+    expect(second.risingReferenceRanking.report.publishable).toBe(true);
+    expect(second.written).toBe(2);
+    expect(second.week).toBe(`${date}T12:00Z`);
+    expect((await calculateGithubWeek({ date, slotId: `${date}T12:00Z` })).written).toBe(0);
+    expect((await db.select().from(schema.weeklyChartEditions)).map((row) => row.week)).toEqual(
+      expect.arrayContaining([`${date}T00:00Z`, `${date}T12:00Z`]),
+    );
+  });
+
   it('la découverte continue ne bloque pas le Top pendant la constitution des premières baselines', async () => {
     await seed();
     await upsertDiscoveredRepositories([repo(999)]);
@@ -249,7 +280,7 @@ describe('pipeline charts sur Postgres', () => {
     expect((await freezeExternalCharts({ date })).snapshotsCreated).toBe(1);
     expect(await publicReferenceArtifact('models')).toBeNull();
     vi.stubEnv('CHARTS_REVIEWED_PROFILE_VERSIONS', 'models-reference-v3');
-    expect(await publishFrozenCharts(date)).toBe(1);
+    expect(await publishFrozenCharts(`${date}T00:00Z`)).toBe(1);
     const proof = verifyReferenceArtifact(await publicReferenceArtifact('models'));
     expect(proof.report.rows).toHaveLength(20);
     expect(proof.input.observations.every((row) => row.observedOn === date)).toBe(true);
@@ -267,9 +298,9 @@ describe('pipeline charts sur Postgres', () => {
     vi.stubEnv('CHARTS_REVIEWED_PROFILE_VERSIONS', '');
     expect((await calculateGithubWeek({ date })).written).toBe(2);
     expect(await publicChartEdition('github')).toBeNull();
-    await expect(publishFrozenCharts(date)).rejects.toThrow('Revue');
+    await expect(publishFrozenCharts(`${date}T00:00Z`)).rejects.toThrow('Revue');
     vi.stubEnv('CHARTS_REVIEWED_PROFILE_VERSIONS', 'github-reference-v3,rising-reference-v3');
-    expect(await publishFrozenCharts(date)).toBe(2);
+    expect(await publishFrozenCharts(`${date}T00:00Z`)).toBe(2);
   });
   it('un dépôt suivi sans relevé du jour peut bloquer le Top au lieu de disparaître', async () => {
     await seed();
@@ -417,7 +448,16 @@ describe('pipeline charts sur Postgres', () => {
 
     expect(await saveExternalBatch([entity], observations)).toBe(2);
     expect(await saveExternalBatch([entity], observations)).toBe(0);
-    expect(await db.select().from(schema.chartSourceSnapshots)).toHaveLength(2);
+    expect(
+      await saveExternalBatch(
+        [entity],
+        observations.map((observation) => ({
+          ...observation,
+          collectedAt: `${date}T14:30:00.000Z`,
+        })),
+      ),
+    ).toBe(2);
+    expect(await db.select().from(schema.chartSourceSnapshots)).toHaveLength(4);
     expect(await db.select().from(schema.chartEntitySources)).toHaveLength(2);
     await expect(
       pg.exec("UPDATE chart_source_snapshots SET metrics = '{}'::jsonb"),
@@ -483,10 +523,10 @@ describe('pipeline charts sur Postgres', () => {
     const fetcher = vi.fn<typeof fetch>().mockRejectedValue(new Error('Appel inattendu.'));
     const summary = await collectGithub(
       new GithubClient(),
-      new Date(`${date}T12:00:00Z`),
+      new Date(`${date}T02:30:00Z`),
       new ScorecardClient({ fetch: fetcher }),
     );
-    expect(summary.status).toBe('success');
+    expect(summary.status, JSON.stringify(summary)).toBe('success');
     expect(summary.snapshotsCreated).toBe(0);
     expect(fetcher).not.toHaveBeenCalled();
   });
@@ -599,8 +639,8 @@ describe('pipeline charts sur Postgres', () => {
     await calculateGithubWeek({ date, publish: false });
     expect(await publicChartEdition('github')).toBeNull();
     const original = (await db.select().from(schema.weeklyChartEditions))[0]?.payload;
-    expect(await publishFrozenCharts(date)).toBe(2);
-    expect(await publishFrozenCharts(date)).toBe(0);
+    expect(await publishFrozenCharts(`${date}T00:00Z`)).toBe(2);
+    expect(await publishFrozenCharts(`${date}T00:00Z`)).toBe(0);
     expect((await db.select().from(schema.weeklyChartEditions))[0]?.payload).toEqual(original);
   });
   it('sépare commentaires, publication et métriques, avec conflit d’édition détecté', async () => {
@@ -662,7 +702,7 @@ describe('pipeline charts sur Postgres', () => {
     );
     if (!entity) throw new Error('Entité fixture absente');
     const detail = await githubProjectDetail(entity.slug);
-    expect(detail?.weeksInTop20).toBe(0);
+    expect(detail?.editionsInTop20).toBe(0);
     expect(detail?.daily).toHaveLength(3);
   });
   it('un quota atteint préserve les relevés et laisse les dépôts à reprendre', async () => {

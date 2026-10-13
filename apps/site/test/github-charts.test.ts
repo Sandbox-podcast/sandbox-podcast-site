@@ -66,10 +66,19 @@ describe('moteur GitHub réel', () => {
       snapshot('2026-09-27', 2),
       snapshot('2026-10-07', 3),
     ];
-    expect(closestBaseline(history, '2026-10-05', 7, 1)?.date).toBe('2026-09-27');
+    expect(closestBaseline(history, snapshot('2026-10-05', 4), 7, 1)?.date).toBe('2026-09-27');
     const oldestSnapshot = history[0];
     if (!oldestSnapshot) throw new Error('Relevé de fixture absent');
-    expect(closestBaseline([oldestSnapshot], '2026-10-05', 7, 1)).toBeUndefined();
+    expect(closestBaseline([oldestSnapshot], snapshot('2026-10-05', 4), 7, 1)).toBeUndefined();
+  });
+  it('aligne la baseline J-7 sur le créneau de collecte, et non sur une autre édition du jour', () => {
+    const morning = { ...snapshot('2026-10-06', 2), collectedAt: '2026-10-06T03:17:00Z' };
+    const afternoon = { ...snapshot('2026-10-06', 3), collectedAt: '2026-10-06T15:17:00Z' };
+    const currentMorning = { ...snapshot('2026-10-13', 4), collectedAt: '2026-10-13T03:17:00Z' };
+    const currentAfternoon = { ...snapshot('2026-10-13', 5), collectedAt: '2026-10-13T15:17:00Z' };
+
+    expect(closestBaseline([morning, afternoon], currentMorning, 7, 1)).toBe(morning);
+    expect(closestBaseline([morning, afternoon], currentAfternoon, 7, 1)).toBe(afternoon);
   });
   it('attend pour un projet avec seulement trois jours de données', () => {
     const metrics = githubMetrics(

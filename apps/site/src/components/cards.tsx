@@ -163,7 +163,7 @@ export function EpisodeCard({ episode }: { episode: Episode }) {
           <Link
             href={href}
             className="episode-card-play"
-            aria-label={`Voir l’épisode ${String(episode.number)}`}
+            aria-label={`Voir l'épisode ${String(episode.number)}`}
           >
             <span aria-hidden="true">
               <Text>{'\u25B6'}</Text>
@@ -255,7 +255,7 @@ export function EntityCard({ entity }: { entity: Entity }) {
           </ul>
         ) : (
           <p className="label text-ink-3">
-            <Text>{'Hors Top 10 cette semaine'}</Text>
+            <Text>{'Hors Top 10 cette édition'}</Text>
           </p>
         )}
       </Text>

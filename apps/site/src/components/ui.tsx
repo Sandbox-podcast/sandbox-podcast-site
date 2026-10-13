@@ -75,7 +75,7 @@ export function MoveBadge({
 }: {
   kind: MovementKind | 'out';
   delta?: number;
-  /** Première semaine du classement : rien à comparer, on n'affiche pas de mouvement. */
+  /** Première édition du classement : rien à comparer, on n'affiche pas de mouvement. */
   baseline?: boolean;
 }) {
   if (baseline) {
@@ -83,13 +83,13 @@ export function MoveBadge({
       <LocalizedElement
         as="span"
         className="move move-stable"
-        title="Première semaine du classement"
+        title="Première édition du classement"
       >
         <span aria-hidden="true">
           <Text>{'\u2014'}</Text>
         </span>
         <span className="sr-only">
-          <Text>{'Premi\u00E8re semaine du classement'}</Text>
+          <Text>{'Premi\u00E8re édition du classement'}</Text>
         </span>
       </LocalizedElement>
     );

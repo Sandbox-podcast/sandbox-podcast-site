@@ -1,0 +1,78 @@
+name: SANDBOX CHARTS refresh
+
+on:
+  schedule:
+    - cron: '17 1 * * *'
+    - cron: '17 3,15 * * *'
+    - cron: '23 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  discovery:
+    if: github.event_name == 'schedule' && github.event.schedule == '17 1 * * *'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Collecter Trending et découvrir les candidats
+        env:
+          CHARTS_ORIGIN: ${{ vars.SANDBOX_CHARTS_ORIGIN }}
+          CRON_SECRET: ${{ secrets.SANDBOX_CHARTS_CRON_SECRET }}
+        run: |
+          set -euo pipefail
+          test -n "$CHARTS_ORIGIN"
+          test -n "$CRON_SECRET"
+          case "$CHARTS_ORIGIN" in https://*) ;; *) echo "SANDBOX_CHARTS_ORIGIN doit utiliser HTTPS." >&2; exit 1 ;; esac
+          CHARTS_ORIGIN="${CHARTS_ORIGIN%/}"
+          call_job() {
+            curl --silent --show-error --fail-with-body --retry 2 --retry-all-errors --max-time 360 \
+              --header "Authorization: Bearer $CRON_SECRET" \
+              "$CHARTS_ORIGIN/api/cron/$1"
+          }
+          call_job github-trending
+          call_job github-discovery
+
+  refresh:
+    if: (github.event_name == 'schedule' && github.event.schedule == '17 3,15 * * *') || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Collecter les sources puis publier les éditions disponibles
+        env:
+          CHARTS_ORIGIN: ${{ vars.SANDBOX_CHARTS_ORIGIN }}
+          CRON_SECRET: ${{ secrets.SANDBOX_CHARTS_CRON_SECRET }}
+        run: |
+          set -euo pipefail
+          test -n "$CHARTS_ORIGIN"
+          test -n "$CRON_SECRET"
+          case "$CHARTS_ORIGIN" in https://*) ;; *) echo "SANDBOX_CHARTS_ORIGIN doit utiliser HTTPS." >&2; exit 1 ;; esac
+          CHARTS_ORIGIN="${CHARTS_ORIGIN%/}"
+          call_job() {
+            curl --silent --show-error --fail-with-body --retry 2 --retry-all-errors --max-time 360 \
+              --header "Authorization: Bearer $CRON_SECRET" \
+              "$CHARTS_ORIGIN/api/cron/$1"
+          }
+          call_job github-daily
+          call_job external-daily
+          call_job github-weekly
+
+  bursts:
+    if: github.event_name == 'schedule' && github.event.schedule == '23 * * * *'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Mesurer les poussées horaires
+        env:
+          CHARTS_ORIGIN: ${{ vars.SANDBOX_CHARTS_ORIGIN }}
+          CRON_SECRET: ${{ secrets.SANDBOX_CHARTS_CRON_SECRET }}
+        run: |
+          set -euo pipefail
+          test -n "$CHARTS_ORIGIN"
+          test -n "$CRON_SECRET"
+          case "$CHARTS_ORIGIN" in https://*) ;; *) echo "SANDBOX_CHARTS_ORIGIN doit utiliser HTTPS." >&2; exit 1 ;; esac
+          CHARTS_ORIGIN="${CHARTS_ORIGIN%/}"
+          curl --silent --show-error --fail-with-body --retry 2 --retry-all-errors --max-time 360 \
+            --header "Authorization: Bearer $CRON_SECRET" \
+            "$CHARTS_ORIGIN/api/cron/github-bursts"

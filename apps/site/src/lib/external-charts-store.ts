@@ -1,5 +1,5 @@
 import { randomUUID } from 'node:crypto';
-import { and, eq, gte, inArray, isNotNull, lte, sql } from 'drizzle-orm';
+import { and, eq, gte, inArray, isNotNull, lte, or, sql } from 'drizzle-orm';
 import { getDb } from '../db/client.ts';
 import {
   chartEntities,
@@ -17,6 +17,7 @@ import {
 } from '../domain/external-charts.ts';
 import { dateDaysAgo } from '../domain/github-charts.ts';
 import { previousComparableEdition } from '../domain/weeks.ts';
+import { refreshSlotId } from '../domain/chart-refresh.ts';
 import { reviewedReferenceVersion, validateReferenceEdition } from './reference-publication.ts';
 
 export interface ExternalCandidate {
@@ -176,6 +177,7 @@ export async function saveExternalBatch(
         id: randomUUID(),
         entitySourceId: sourceId,
         observedOn: observation.observedOn,
+        refreshSlotId: refreshSlotId(observation.collectedAt),
         collectedAt: observation.collectedAt,
         payload: observation.metrics,
       };
@@ -194,6 +196,7 @@ export async function externalCandidates(
   type: 'skill' | 'model',
   date: string,
   historyDays = 16,
+  slotId = `${date}T12:00Z`,
 ): Promise<ExternalCandidate[]> {
   if (!Number.isSafeInteger(historyDays) || historyDays < 1 || historyDays > 366)
     throw new Error('Fenêtre d’historique externe invalide.');
@@ -217,9 +220,13 @@ export async function externalCandidates(
         inArray(chartEntitySources.entityId, entityIds),
         gte(chartSourceSnapshots.observedOn, dateDaysAgo(date, historyDays)),
         lte(chartSourceSnapshots.observedOn, date),
+        or(
+          lte(chartSourceSnapshots.refreshSlotId, slotId),
+          sql`${chartSourceSnapshots.refreshSlotId} LIKE 'legacy:%'`,
+        ),
       ),
     )
-    .orderBy(chartSourceSnapshots.observedOn);
+    .orderBy(chartSourceSnapshots.observedOn, chartSourceSnapshots.collectedAt);
 
   const sourcesByEntity = new Map<string, (typeof chartEntitySources.$inferSelect)[]>();
   for (const source of sources) {

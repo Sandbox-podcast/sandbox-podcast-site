@@ -113,7 +113,7 @@ describe('présentation des charts', () => {
       chartsRecords(data, 'github', '2026-W41').find(
         (record) => record.label === 'PLUS LONGUE SÉRIE À LA 1RE PLACE',
       )?.value,
-    ).toBe('1 sem.');
+    ).toBe('1 éd.');
   });
   it('retient la dernière édition du classement demandé', () => {
     const data = dataset();

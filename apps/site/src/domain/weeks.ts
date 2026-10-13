@@ -55,17 +55,18 @@ export function nextWeek(id: string): string {
   return addWeeks(id, 1);
 }
 
-const CALENDAR_EDITION = /^(\d{4})-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
+const CALENDAR_EDITION = /^(\d{4})-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])(T(00|12):00Z)?$/;
 
-/** Une édition quotidienne est identifiée par sa date UTC `AAAA-MM-JJ`. */
+/** Une édition datée porte une date seule ou un créneau UTC de douze heures. */
 export function isCalendarEdition(id: string): boolean {
   if (!CALENDAR_EDITION.test(id)) return false;
-  return new Date(`${id}T00:00:00Z`).toISOString().slice(0, 10) === id;
+  const date = id.slice(0, 10);
+  return new Date(`${date}T00:00:00Z`).toISOString().slice(0, 10) === date;
 }
 
-/** Début de l'édition : le jour pour `AAAA-MM-JJ`, le lundi pour une semaine ISO. */
+/** Début de l'édition : le jour ou le créneau UTC, le lundi pour une semaine ISO. */
 export function editionStart(id: string): Date {
-  if (isCalendarEdition(id)) return new Date(`${id}T00:00:00Z`);
+  if (isCalendarEdition(id)) return new Date(id.length > 10 ? id : `${id}T00:00:00Z`);
   return weekStart(id);
 }
 
@@ -108,9 +109,12 @@ export function weekRange(from: string, to: string): string[] {
   return out;
 }
 
-/** « S41 » pour une semaine ISO, « 11.10 » pour une édition datée. */
+/** « S41 » pour une semaine ISO, une date et son créneau pour une édition datée. */
 export function shortWeek(id: string): string {
-  if (isCalendarEdition(id)) return `${id.slice(8, 10)}.${id.slice(5, 7)}`;
+  if (isCalendarEdition(id)) {
+    const date = `${id.slice(8, 10)}.${id.slice(5, 7)}`;
+    return id.length > 10 ? `${date} ${id.slice(11, 13)}h` : date;
+  }
   return `S${String(parseWeek(id).week)}`;
 }
 
