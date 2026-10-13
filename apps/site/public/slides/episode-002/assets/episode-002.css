@@ -753,6 +753,10 @@
   font-size: clamp(2.4rem, 5.2vw, 5.8rem);
   line-height: 1;
 }
+.radar-brief .radar-news-head h2 {
+  max-width: 18ch;
+  font-size: clamp(2.2rem, 4.6vw, 5rem);
+}
 .radar-news-lead {
   max-width: 54rem;
   margin-top: 0.8rem;
@@ -834,6 +838,9 @@
   .radar-news-head h2 {
     font-size: clamp(2rem, 7vw, 3.25rem);
   }
+  .radar-brief .radar-news-head h2 {
+    font-size: clamp(2rem, 7vw, 3.25rem);
+  }
   .radar-news-lead {
     margin-top: 0.5rem;
     font-size: 0.85rem;
@@ -879,6 +886,9 @@
     font-size: 0.7rem;
   }
   .radar-muse-wonder .episode-footline > span:first-child {
+    font-size: 0.55rem;
+  }
+  .radar-brief .episode-footline > span:first-child {
     font-size: 0.55rem;
   }
 }

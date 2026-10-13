@@ -43,17 +43,17 @@ Voir aussi [DD-0007](../design-decisions/DD-0007-sous-domaine-des-presentations.
 
 L'aperçu reprend l'interface de l'épisode 001 et son fichier logo original. Les slides Bêta et Clash sont en HTML modifiable, sans logo recréé dans une image.
 
-| Slides  | Contenu                                                |
-| ------- | ------------------------------------------------------ |
-| 1       | LE RADAR, même visuel que l'épisode 001                |
-| 2       | Muse Wonder, actualité IA annoncée par Meta            |
-| 3       | LE BUILD, même visuel que la slide 9 de l'épisode 001  |
-| 4 à 8   | Les cinq slides Bêta demandées par Lou                 |
-| 9       | LE CLASH, même visuel que la slide 18 de l'épisode 001 |
-| 10 à 13 | Tickets du PO, legacy, code de l'IA et métier de dev   |
+| Slides  | Contenu                                                                              |
+| ------- | ------------------------------------------------------------------------------------ |
+| 1       | LE RADAR, même visuel que l'épisode 001                                              |
+| 2 à 7   | Muse Wonder, Gemini 4 Argon, réplication, actions de Claude, Maia 300 et lunettes IA |
+| 8       | LE BUILD, même visuel que la slide 9 de l'épisode 001                                |
+| 9 à 13  | Les cinq slides Bêta demandées par Lou                                               |
+| 14      | LE CLASH, même visuel que la slide 18 de l'épisode 001                               |
+| 15 à 18 | Tickets du PO, legacy, code de l'IA et métier de dev                                 |
 
-O affiche la vue d'ensemble des 13 slides. D ouvre la simulation locale, N affiche les notes sur l'écran courant et P ouvre les notes dans une fenêtre séparée. Les commandes visibles restent celles de l'épisode 001. Les ancres numériques `#1` et les anciennes ancres `#slide-1` fonctionnent.
+O affiche la vue d'ensemble des 18 slides. D ouvre la simulation locale, N affiche les notes sur l'écran courant et P ouvre les notes dans une fenêtre séparée. Les commandes visibles restent celles de l'épisode 001. Les ancres numériques `#1` et les anciennes ancres `#slide-1` fonctionnent.
 
-La Bêta suit le plan de Lou : sujet, usages et ROI, outils, méthode et exemples, questions en commentaire. Voir [l'analyse et les sources](episode-002-beta-artisans-commercants.md). La slide Muse Wonder renvoie à [l'annonce de Meta AI Research](https://research.meta.ai/blog/muse-wonder) et à [la fiche modèle de Meta](https://dev.meta.ai/models/muse-wonder).
+La Bêta suit le plan de Lou : sujet, usages et ROI, outils, méthode et exemples, questions en commentaire. Voir [l'analyse et les sources](episode-002-beta-artisans-commercants.md). Les cinq nouvelles actualités Radar sont sourcées dans les notes présentateur de chaque slide. Les chiffres et feuilles de route de Gemini et Maia sont attribués à leurs entreprises ; l'auto-réplication est présentée comme un risque étudié en laboratoire ; les comportements de Claude sont rapportés avec le contexte et les limites donnés par Anthropic ; la proposition norvégienne sur les lunettes n'est pas présentée comme une interdiction générale adoptée. Les slides Muse Wonder renvoient à [l'annonce de Meta AI Research](https://research.meta.ai/blog/muse-wonder) et à [la fiche modèle de Meta](https://dev.meta.ai/models/muse-wonder).
 
-Décision : [DD-0016](../design-decisions/DD-0016-slides-episode-002-identite-et-ordre.md). Le support reste en validation locale avant création de la PR.
+Décision : [DD-0016](../design-decisions/DD-0016-slides-episode-002-identite-et-ordre.md). Le support est servi en local ; la PR existante est mise à jour avec les retouches du deck.

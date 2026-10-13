@@ -65,7 +65,7 @@ describe('slide decks', () => {
     expect(html.includes('/_next/')).toBe(false);
   });
 
-  it('place Muse Wonder dans le Radar et conserve les cinq slides Bêta et les quatre questions du Clash', () => {
+  it('place les six actualités dans le Radar, puis conserve la Bêta et le Clash', () => {
     const html = readFileSync(
       join(slidesPublicRoot(process.cwd()), 'episode-002', 'index.html'),
       'utf8',
@@ -90,13 +90,13 @@ describe('slide decks', () => {
     };
 
     expect(deck.meta).toMatchObject({
-      main: 13,
+      main: 18,
       betaMain: 5,
       annexes: 0,
       title: "Comment utiliser l'IA quand on est un artisan ou un commerçant ?",
     });
     expect(deck.slides.map(({ n }) => n)).toEqual(
-      Array.from({ length: 13 }, (_, index) => index + 1),
+      Array.from({ length: 18 }, (_, index) => index + 1),
     );
     expect(deck.slides[0]).toMatchObject({
       n: 1,
@@ -112,42 +112,65 @@ describe('slide decks', () => {
     expect(deck.slides[1]?.note).toContain('12 octobre 2026');
     expect(html).toContain('href="https://research.meta.ai/blog/muse-wonder"');
     expect(html).toContain('href="https://dev.meta.ai/models/muse-wonder"');
-    expect(deck.slides[2]).toMatchObject({ layout: 'section-build', title: 'Le Build' });
-    expect(deck.slides[3]).toMatchObject({
+    expect(deck.slides.slice(2, 7).map(({ layout }) => layout)).toEqual([
+      'radar-gemini-argon',
+      'radar-self-replication',
+      'radar-claude-unintended-actions',
+      'radar-maia-300',
+      'radar-ai-glasses',
+    ]);
+    expect(deck.slides.slice(2, 7).map(({ sources }) => sources)).toEqual([
+      ['googleGeminiArgon'],
+      ['anthropicReplication'],
+      ['anthropicUnintendedActions'],
+      ['microsoftMaia'],
+      ['apAiGlasses'],
+    ]);
+    expect(deck.slides[2]?.note).toContain('pas une évaluation indépendante');
+    expect(deck.slides[3]?.note).toContain('ne montre pas un ver IA autonome');
+    expect(deck.slides[4]?.note).toContain('impact a été faible');
+    expect(deck.slides[5]?.title).toBe('Maia 300 : Microsoft veut moins dépendre de Nvidia');
+    expect(deck.slides[5]?.note).toContain(
+      'ne signifie pas que Microsoft cesse de travailler avec Nvidia',
+    );
+    expect(deck.slides[6]?.note).toContain('pas une interdiction générale adoptée');
+    expect(deck.slides.slice(2, 7).every(({ items }) => items.length === 3)).toBe(true);
+    expect(deck.slides[7]).toMatchObject({ layout: 'section-build', title: 'Le Build' });
+    expect(deck.slides[8]).toMatchObject({
       layout: 'beta-question',
       title: "Comment utiliser l'IA\nquand on est un artisan\nou un commerçant ?",
     });
-    expect(deck.slides.slice(3, 8).map(({ layout }) => layout)).toEqual([
+    expect(deck.slides.slice(8, 13).map(({ layout }) => layout)).toEqual([
       'beta-question',
       'beta-roi',
       'beta-tools',
       'beta-method',
       'beta-comments',
     ]);
-    expect(deck.slides[8]).toMatchObject({ layout: 'section-clash', title: 'Le Clash' });
-    expect(deck.slides.slice(9).map(({ layout }) => layout)).toEqual([
+    expect(deck.slides[13]).toMatchObject({ layout: 'section-clash', title: 'Le Clash' });
+    expect(deck.slides.slice(14).map(({ layout }) => layout)).toEqual([
       'clash-tickets',
       'clash-legacy',
       'clash-code-review',
       'clash-coding-skill',
     ]);
-    expect(deck.slides.slice(9).map(({ title }) => title)).toEqual([
+    expect(deck.slides.slice(14).map(({ title }) => title)).toEqual([
       'Est-ce que les développeurs ont encore besoin de lire les tickets ?',
       'À l’ère de l’IA, est-ce qu’il faut encore sauver le legacy ?',
       'Tu relis vraiment le code généré par l’IA ?',
       'Est-ce qu’on aura encore besoin de développeurs « qui savent coder » ?',
     ]);
-    expect(deck.slides.slice(9).every(({ title }) => title.endsWith('?'))).toBe(true);
-    expect(deck.slides.slice(9).every(({ items }) => items.length === 0)).toBe(true);
-    expect(deck.slides[4]?.items).toHaveLength(8);
+    expect(deck.slides.slice(14).every(({ title }) => title.endsWith('?'))).toBe(true);
+    expect(deck.slides.slice(14).every(({ items }) => items.length === 0)).toBe(true);
+    expect(deck.slides[9]?.items).toHaveLength(8);
     expect([...html.matchAll(/class="roi-sector"/g)]).toHaveLength(8);
-    expect(deck.slides[4]?.sources).toEqual(['franceUsages', 'dgeCommerce', 'cmaArtisans', 'cnil']);
-    expect(deck.slides[4]?.note).toContain('pas un classement de ROI mesuré');
-    expect(deck.slides[4]?.note).toContain('temps de relecture et de correction');
-    expect(deck.slides[5]?.items).toHaveLength(5);
-    expect(deck.slides[6]?.note).toContain('Mobbin');
-    expect(deck.slides[6]?.note).toContain('Landbook');
-    expect(deck.slides[6]?.note).toContain('vidéo');
+    expect(deck.slides[9]?.sources).toEqual(['franceUsages', 'dgeCommerce', 'cmaArtisans', 'cnil']);
+    expect(deck.slides[9]?.note).toContain('pas un classement de ROI mesuré');
+    expect(deck.slides[9]?.note).toContain('temps de relecture et de correction');
+    expect(deck.slides[10]?.items).toHaveLength(5);
+    expect(deck.slides[11]?.note).toContain('Mobbin');
+    expect(deck.slides[11]?.note).toContain('Landbook');
+    expect(deck.slides[11]?.note).toContain('vidéo');
     expect([...html.matchAll(/id="beta-slide-(\d+)"/g)].map((match) => Number(match[1]))).toEqual(
       Array.from({ length: 5 }, (_, index) => index + 1),
     );
@@ -165,13 +188,13 @@ describe('slide decks', () => {
       );
     const original = sections(reference);
     const updated = sections(html);
-    expect(updated).toHaveLength(13);
+    expect(updated).toHaveLength(18);
     expect(updated[0]).toBe(original[0]);
-    expect(updated[2]).toBe(original[8]);
-    expect(updated[8]).toBe(original[17]);
+    expect(updated[7]).toBe(original[8]);
+    expect(updated[13]).toBe(original[17]);
     expect(
       updated
-        .slice(9)
+        .slice(14)
         .every(
           (section) =>
             section.includes('clash-single-question') &&
