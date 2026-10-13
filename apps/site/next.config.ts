@@ -13,7 +13,7 @@ const contentSecurityPolicy = [
   "img-src 'self' data: https://i.ytimg.com",
   "font-src 'self' data:",
   "connect-src 'self' https://vitals.vercel-insights.com",
-  'frame-src https://www.youtube-nocookie.com',
+  "frame-src 'self' https://www.youtube-nocookie.com",
 ].join('; ');
 
 const config: NextConfig = {

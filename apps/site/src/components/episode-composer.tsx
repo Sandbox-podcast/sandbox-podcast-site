@@ -9,6 +9,7 @@ import { MENTION_KINDS } from '@/domain/kinds';
 import { parseYouTubeVideoId } from '@/domain/youtube';
 import { createEpisodeFromYouTube } from '@/domain/episode-import';
 import { formatDuration } from '@/domain/format';
+import { EpisodeDescription } from './episode-description';
 
 const youtubeMetadataSchema = z.object({
   videoId: z.string().regex(/^[A-Za-z0-9_-]{11}$/),
@@ -448,7 +449,7 @@ export function EpisodeComposer({
       {!episode ? (
         <div className="episode-composer-form">
           <label className="admin-field admin-span-2">
-            <span>2. Description et sources</span>
+            <span>Description · Markdown</span>
             <textarea
               rows={10}
               value={description}
@@ -465,6 +466,14 @@ export function EpisodeComposer({
               avant de publier ; les liens et les horodatages seront extraits automatiquement.
             </small>
           </label>
+          <div className="episode-markdown-preview admin-span-2">
+            <h3>Aperçu de la description</h3>
+            {description.trim() ? (
+              <EpisodeDescription markdown={description} />
+            ) : (
+              <p className="admin-help">L’aperçu apparaît dès que vous saisissez une description.</p>
+            )}
+          </div>
           {requiresHostSelection ? (
             <fieldset className="admin-field admin-span-2">
               <legend>Animateur de l’épisode</legend>
@@ -613,16 +622,29 @@ export function EpisodeComposer({
               />
             </label>
             <label className="admin-field admin-span-2">
-              <span>Description</span>
+              <span>Description · Markdown</span>
               <textarea
-                rows={4}
+                rows={8}
                 value={description}
                 onChange={(event) => {
                   setDescription(event.target.value);
                 }}
                 required
               />
+              <small>
+                Paragraphes, titres, listes, gras et liens https:// sont affichés sur la fiche.
+              </small>
             </label>
+            <div className="episode-markdown-preview admin-span-2">
+              <h3>Aperçu de la description</h3>
+              {description.trim() ? (
+                <EpisodeDescription markdown={description} />
+              ) : (
+                <p className="admin-help">
+                  L’aperçu apparaît dès que vous saisissez une description.
+                </p>
+              )}
+            </div>
             <label className="admin-field">
               <span>Date de publication</span>
               <input

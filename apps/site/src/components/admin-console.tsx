@@ -14,9 +14,10 @@ import { SourceEditor, TopicEditor } from './admin-simple-content';
 import { EpisodeComposer } from './episode-composer';
 import { SiteSettingsEditor } from './site-settings-editor';
 import { AdminTranslations } from './admin-translations';
+import { AdminSlides } from './admin-slides';
 
 type CollectionKey = 'episodes' | 'charts' | 'hosts' | 'topics' | 'sources';
-type SectionKey = CollectionKey | 'site';
+type SectionKey = CollectionKey | 'site' | 'slides';
 type HostSocialKey = keyof Host['socials'];
 const storageModeSchema = z.enum(['local', 'postgres', 'unavailable']);
 const adminStatusSchema = z.object({
@@ -553,6 +554,16 @@ export function AdminConsole() {
               {label} <span>{String(counts[key] ?? 0)}</span>
             </button>
           ))}
+          <button
+            className={`admin-tab is-primary${activeCollection === 'slides' ? ' is-active' : ''}`}
+            aria-pressed={activeCollection === 'slides'}
+            type="button"
+            onClick={() => {
+              setActiveCollection('slides');
+            }}
+          >
+            Slides
+          </button>
           <p className="admin-sidebar-label admin-sidebar-divider">Réglages</p>
           <button
             className={`admin-tab${activeCollection === 'site' ? ' is-active' : ''}`}
@@ -600,6 +611,8 @@ export function AdminConsole() {
                 }}
               />
             </>
+          ) : activeCollection === 'slides' ? (
+            <AdminSlides />
           ) : activeCollection === 'episodes' ? (
             <>
               <div className="admin-section-heading">

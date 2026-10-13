@@ -40,3 +40,5 @@ Le 2026-10-07, la propriétaire a demandé un document Markdown par classement d
 ## Portée et limites
 
 Les épisodes livrés dans le dépôt restent des données de démonstration et ne contiennent pas encore leurs propres identifiants YouTube. Les couvertures typographiques servent donc de repli. La récupération oEmbed nécessite l'accès réseau depuis le site déployé et une session backoffice valide. La récupération complète nécessite en plus `YOUTUBE_API_KEY`. L'API officielle fournit la description et la durée, mais aucun découpage en chapitres automatiques ; l'extraction se limite aux horodatages réellement présents dans la description de la vidéo.
+
+Mise à jour 2026-10-13 (décidée par l'agent sur délégation PD-0003) : la description d'épisode saisie ou importée dans l'admin conserve son Markdown source. Le formulaire montre un aperçu et la fiche publique rend le même contenu avec paragraphes, listes et liens. Le HTML éditorial n'est pas exécuté et les images distantes ne sont pas intégrées.

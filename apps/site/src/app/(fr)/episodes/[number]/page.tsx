@@ -2,6 +2,7 @@ import { Text, LocalizedElement } from '@/components/localization';
 import { LocalizedLink as Link } from '@/components/localization';
 import { notFound } from 'next/navigation';
 import { EpisodeCover } from '@/components/cards';
+import { EpisodeDescription } from '@/components/episode-description';
 import { episodeArtwork } from '@/domain/episode-artwork';
 import { CopyButton, YouTubeFacade } from '@/components/client';
 import { Breadcrumbs } from '@/components/ui';
@@ -186,9 +187,7 @@ export default async function EpisodePage({ params }: Props) {
             <h2 id="episode-about" className="label border-t-2 border-ink pt-2">
               <Text>{'\u00C0 propos de l\u2019\u00E9pisode'}</Text>
             </h2>
-            <p className="episode-description">
-              <Text>{episode.description}</Text>
-            </p>
+            <EpisodeDescription markdown={episode.description} />
             <Text>
               {episode.topics.length > 0 ? (
                 <p className="mt-4 flex flex-wrap gap-2">
