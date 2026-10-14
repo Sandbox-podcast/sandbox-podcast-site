@@ -11,8 +11,8 @@ Le dépôt sert le site média `apps/site`. La documentation du travail précéd
 Catalogue Nos projets : [guide et inventaire](site/nos-projets.md) et [DD-0019](design-decisions/DD-0019-catalogue-nos-projets.md).
 
 UI/UX du site : [rapport du 8 octobre 2026](site/ui-ux-2026-10-08.md) et [DD-0005](design-decisions/DD-0005-ux-globale-du-site.md).
-Fiche d'épisode sans description longue : [DD-0020](design-decisions/DD-0020-fiche-episode-sans-description-longue.md).
-Profils d'animateurs et page À propos : [DD-0015](design-decisions/DD-0015-animateurs-source-page-a-propos.md).
+Fiche d'épisode sans description longue : [DD-0022](design-decisions/DD-0022-fiche-episode-sans-description-longue.md).
+Profils d'animateurs et page À propos : [DD-0015](design-decisions/DD-0015-animateurs-source-page-a-propos.md), photos importées depuis l'admin : [DD-0021](design-decisions/DD-0021-photos-des-animateurs-depuis-l-admin.md).
 Présentations d'épisode en HTML sur `slides.sandboxpodcast.fr` : [guide des slides](site/slides.md) et [DD-0007](design-decisions/DD-0007-sous-domaine-des-presentations.md).
 Logo complet et navigation publique : [DD-0008](design-decisions/DD-0008-logo-et-navigation-publique.md).
 Miniatures haute définition des épisodes : [DD-0012](design-decisions/DD-0012-miniatures-episodes.md) et [guide éditorial](site/editorial-workflow.md).

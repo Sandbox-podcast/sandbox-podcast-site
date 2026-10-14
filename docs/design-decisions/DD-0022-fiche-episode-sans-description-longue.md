@@ -1,4 +1,4 @@
-# DD-0020 : Fiche d'épisode sans description longue
+# DD-0022 : Fiche d'épisode sans description longue
 
 - Date : 2026-10-13
 - Statut : implémentée localement
@@ -17,12 +17,14 @@ La page reste partagée entre les quatre langues. Les états sans vidéo, sans c
 ## Validation locale
 
 - Reprise des seuls changements de la fiche sur le `main` actuel, dans une branche isolée.
-- `pnpm check` : réussi, avec format, lint, types et 396 tests dans 66 fichiers. Les trois nouveaux tests couvrent le retrait du doublon, les ressources éditées et les états vides.
+- `pnpm check` : réussi après résolution des conflits le 2026-10-14, avec format, lint, types et 414 tests dans 69 fichiers. Les trois tests de la fiche couvrent le retrait du doublon, les ressources éditées et les états vides.
 - `pnpm build` : réussi.
 - Navigateur : contrôles à 1280, 390 et 320 px, sans débordement horizontal. Les deux colonnes commencent ensemble sur ordinateur et se suivent sur mobile. La page anglaise utilise les mêmes blocs. Les états sans vidéo, chapitre ou ressource sont vérifiés.
 - Les alertes de format observées dans la copie Windows venaient des fins de ligne CRLF. La copie de contrôle a été normalisée en LF avant les vérifications, sans changement des réglages Git ni ajout de fichiers étrangers à la PR.
 
 Le contrôle visuel a utilisé une copie temporaire dans `.local/episode-layout-preview`, sans écriture dans les publications éditoriales. Cette copie et son serveur sont retirés après vérification ; les captures sont conservées. La livraison passe par une PR à la demande de Lou. La fusion et la publication finale restent sous le contrôle du propriétaire.
+
+Le 2026-10-14, la branche de la PR 53 intègre `main`. Les trois conflits de documentation sont résolus en conservant le retrait des classements de l'accueil et l'import des photos d'animateurs. Cette décision devient DD-0022, car DD-0020 désigne déjà le consentement Analytics dans `main`. Ses liens sont mis à jour.
 
 ## Fichiers concernés
 

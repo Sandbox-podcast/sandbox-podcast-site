@@ -66,39 +66,6 @@
 .page:global(.sc-page) :global(.sc-chart-heading) p {
   font-size: 13px;
 }
-.options {
-  position: relative;
-  flex-shrink: 0;
-  font-size: 13px;
-  color: var(--ink-2);
-}
-.options > summary {
-  padding: 12px;
-  cursor: pointer;
-}
-.optionsMenu {
-  position: absolute;
-  right: 0;
-  top: 100%;
-  z-index: 10;
-  min-width: 220px;
-  padding: 6px;
-  background: var(--paper-3);
-  border: 1px solid var(--hair);
-  box-shadow: 0 12px 32px #0006;
-}
-.optionsMenu > * {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  min-height: 44px;
-  padding: 10px;
-  text-align: left;
-}
-.optionsMenu > *:hover {
-  background: var(--paper-2);
-  color: var(--ink);
-}
 .toolbar {
   display: flex;
   flex-wrap: wrap;
@@ -260,11 +227,6 @@
   margin: 0;
 }
 
-.page:global(.sc-studio) .toolbar,
-.page:global(.sc-studio) .columns,
-.page:global(.sc-studio) :global(.sc-chart-footer) {
-  display: none;
-}
 @media (max-width: 700px) {
   .page:global(.sc-page) {
     padding-top: 24px;

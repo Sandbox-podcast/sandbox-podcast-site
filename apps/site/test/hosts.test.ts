@@ -23,12 +23,13 @@ describe('fiches des animateurs', () => {
       .parse(hosts)
       .find((host) => host.slug === 'lou');
     expect(lou?.aka).toBe('loukan42');
-    expect(lou?.photo).toBe('/team/lou.jpg');
+    expect(lou?.photo).toBe('/team/lou.png');
   });
 
   it('n’accepte que des photos servies par le site', () => {
     const withPhoto = (photo: string) => hostSchema.safeParse({ ...hosts[0], photo }).success;
     expect(withPhoto('/team/lou.webp')).toBe(true);
+    expect(withPhoto(`/api/host-photos/${'a'.repeat(64)}.webp`)).toBe(true);
     expect(withPhoto('https://evil.example/lou.jpg')).toBe(false);
     expect(withPhoto('/team/../secret.jpg')).toBe(false);
   });

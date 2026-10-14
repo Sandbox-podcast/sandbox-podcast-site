@@ -250,6 +250,12 @@ describe('même site en français et en anglais', () => {
     expect(english).toContain('No episodes published yet.');
     expect(english).toContain('href="/en/episodes"');
     expect(english).not.toContain('Quatre classements');
+    for (const html of [french, english]) {
+      expect(html).not.toContain('ranking-shelf');
+      expect(html).not.toContain('ranking-mini-grid');
+      expect(html).not.toContain('href="/charts"');
+      expect(html).not.toContain('href="/en/charts"');
+    }
   });
   it('garde la bibliothèque podcast vide traduite sans fiche de démonstration', async () => {
     const page = await EpisodesPage({ searchParams: Promise.resolve({}) });

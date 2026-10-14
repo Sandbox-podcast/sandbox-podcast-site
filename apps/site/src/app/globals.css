@@ -2447,6 +2447,14 @@ fieldset.admin-field {
 .admin-thumbnail .admin-error {
   margin-top: 0.75rem;
 }
+/* Portrait d'animateur : aperçu carré, comme sur /about. */
+.admin-host-photo {
+  grid-template-columns: minmax(0, 1fr) minmax(8rem, 12rem);
+}
+.admin-host-photo .admin-thumbnail-preview,
+.admin-host-photo .admin-thumbnail-empty {
+  aspect-ratio: 1;
+}
 .episode-composer-form .admin-save-row {
   margin-top: 0.25rem;
 }

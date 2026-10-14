@@ -13,6 +13,8 @@ Chaque fiche d'épisode rassemble le lecteur, la description et les chapitres. U
 
 La page Classements devient l'espace de consultation des tops hebdomadaires : choix du classement, aperçu du podium, accès au top complet, à la méthodologie et à l'historique.
 
+Le 2026-10-14, Lou demande de retirer le bloc "Les classements" de l'accueil. Ce retrait s'applique aux quatre langues. Les classements restent accessibles depuis la navigation et leur rubrique dédiée.
+
 La recherche couvre les épisodes, leurs mentions et sources, les fiches de projets et modèles, les thèmes et les classements. Le backoffice se concentre sur la création et la publication d'épisodes. Depuis une URL YouTube, il importe le titre, la chaîne et la miniature via oEmbed ; les informations complètes utilisent YouTube Data API v3 et une clé serveur. Les chapitres sont extraits des horodatages de la description quand ils existent. Les ressources, sources et annexes se présentent dans une liste unique.
 
 ## Décision visuelle
@@ -41,4 +43,4 @@ Le 2026-10-07, la propriétaire a demandé un document Markdown par classement d
 
 Les épisodes livrés dans le dépôt restent des données de démonstration et ne contiennent pas encore leurs propres identifiants YouTube. Les couvertures typographiques servent donc de repli. La récupération oEmbed nécessite l'accès réseau depuis le site déployé et une session backoffice valide. La récupération complète nécessite en plus `YOUTUBE_API_KEY`. L'API officielle fournit la description et la durée, mais aucun découpage en chapitres automatiques ; l'extraction se limite aux horodatages réellement présents dans la description de la vidéo.
 
-Mise à jour 2026-10-13 (décidée par l'agent sur délégation PD-0003) : la description d'épisode saisie ou importée dans l'admin conserve son Markdown source. Le formulaire montre un aperçu avec paragraphes, listes et liens. Le HTML éditorial n'est pas exécuté et les images distantes ne sont pas intégrées. À la demande de Lou, [DD-0020](DD-0020-fiche-episode-sans-description-longue.md) retire ensuite la description longue de la fiche publique : le résumé court, les chapitres et les ressources y présentent déjà le contenu utile.
+Mise à jour 2026-10-13 (décidée par l'agent sur délégation PD-0003) : la description d'épisode saisie ou importée dans l'admin conserve son Markdown source. Le formulaire montre un aperçu avec paragraphes, listes et liens. Le HTML éditorial n'est pas exécuté et les images distantes ne sont pas intégrées. À la demande de Lou, [DD-0022](DD-0022-fiche-episode-sans-description-longue.md) retire ensuite la description longue de la fiche publique : le résumé court, les chapitres et les ressources y présentent déjà le contenu utile.

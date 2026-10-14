@@ -66,12 +66,15 @@ describe('classement compact', () => {
     expect(summaries(html)).toHaveLength(2);
     expect(html.match(/<h3>Projet a<\/h3>/g)).toHaveLength(1);
     expect(html).not.toContain('sc-podium');
+    expect(html).not.toContain('>Options<');
+    expect(html).not.toContain('Mode 16:9');
     expect(html).not.toContain('sc-market');
     expect(html).not.toContain('sc-records');
     expect(html).not.toContain('sc-newsletter');
     expect(html).toContain('Mesures, composants du score et sources');
-    expect(html).toContain('href="/charts/github/methodology"');
+    expect(html.match(/href="\/charts\/github\/methodology"/g)).toHaveLength(1);
     expect(html).toContain('href="/charts/history"');
+    expect(html).toContain('PARTAGER LE CLASSEMENT');
     expect(html).toContain('13 oct. 2026');
   });
 

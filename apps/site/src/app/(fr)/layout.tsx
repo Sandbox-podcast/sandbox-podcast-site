@@ -4,9 +4,9 @@ import '@fontsource-variable/newsreader/wght-italic.css';
 import '@fontsource-variable/jetbrains-mono/wght.css';
 import '../globals.css';
 import '../site-polish.css';
-import { Analytics } from '@vercel/analytics/next';
 import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
+import { AnalyticsConsent } from '@/components/analytics-consent';
 import { Footer, Masthead } from '@/components/shell';
 import { JsonLd } from '@/components/json-ld';
 import { isMock, siteConfig } from '@/config/site';
@@ -76,7 +76,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
             },
           ]}
         />
-        <Analytics />
+        <AnalyticsConsent language={siteConfig.language} />
       </body>
     </html>
   );

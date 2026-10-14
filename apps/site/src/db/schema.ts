@@ -66,6 +66,14 @@ export const episodeThumbnails = pgTable('episode_thumbnails', {
   createdAt: timestamp('created_at', { withTimezone: true, mode: 'string' }).notNull().defaultNow(),
 });
 
+/** Portraits carrés des animateurs, adressés par leur empreinte SHA-256. */
+export const hostPhotos = pgTable('host_photos', {
+  sha256: text('sha256').primaryKey(),
+  image: imageBytes('image').notNull(),
+  size: integer('size').notNull(),
+  createdAt: timestamp('created_at', { withTimezone: true, mode: 'string' }).notNull().defaultNow(),
+});
+
 /** Comptes du backoffice, migrés depuis SITE_ADMIN_USERS sans mot de passe en clair. */
 export const adminUsers = pgTable('admin_users', {
   id: text('id').primaryKey(),

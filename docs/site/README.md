@@ -18,7 +18,7 @@ La stratégie de découverte multilingue et le contrat de données pour les clas
 
 Le parcours média centré sur les podcasts, les ressources en barre latérale et la recherche sont définis par [DD-0003](../design-decisions/DD-0003-parcours-podcast-et-theme-rouge.md). [DD-0008](../design-decisions/DD-0008-logo-et-navigation-publique.md) fixe le logo complet, les sous-menus Podcasts et le retrait du choix de thème. Les articles historiques du dépôt ne sont plus publiés comme pages autonomes.
 
-La fiche d'épisode suit [DD-0020](../design-decisions/DD-0020-fiche-episode-sans-description-longue.md) : lecteur sur toute la largeur, puis chapitres et ressources côte à côte sur ordinateur. La description longue reste la source éditoriale dans l'admin ; seul le résumé court est affiché sur la fiche.
+La fiche d'épisode suit [DD-0022](../design-decisions/DD-0022-fiche-episode-sans-description-longue.md) : lecteur sur toute la largeur, puis chapitres et ressources côte à côte sur ordinateur. La description longue reste la source éditoriale dans l'admin ; seul le résumé court est affiché sur la fiche.
 
 La chaîne YouTube publique est [@SandboxFR](https://www.youtube.com/@SandboxFR). Son identité reprend le logo complet et le triangle du site ; voir [DD-0011](../design-decisions/DD-0011-identite-youtube-sandbox.md) et le [kit de chaîne](../../brand/youtube/README.md).
 
@@ -48,28 +48,28 @@ Un graphe de contenus relie les entités (projets et modèles), les classements 
 
 ## 2. Arborescence
 
-| Route                                                   | Page                                                                                               |
-| ------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
-| `/`                                                     | accueil streaming : épisode à la une, rangées d'épisodes par date et thème, aperçu des classements |
-| `/episodes`                                             | bibliothèque complète, rangées filtrées par thème                                                  |
-| `/search?q=...`                                         | recherche dans épisodes, ressources, sources, entités, thèmes et classements                       |
-| `/charts`                                               | accueil des classements : sélecteur, top 3 à la une, aperçu des tops et historique                 |
-| `/charts/[slug]`                                        | classement courant (rangs, mouvements, DATA, OUR TAKE, tri par critère, Hall of #1)                |
-| `/charts/[slug]/[édition]`                              | archive par édition ; le format ISO des anciens snapshots reste accepté                            |
-| `/charts/[slug]/methodology`                            | "Comment ce classement est calculé" : sources, critères, formule, limites                          |
-| `/charts/history`, `/charts/history/[édition]`          | sélecteur d'édition, tableau des #1, mouvements entre publications                                 |
-| `/moves/[classement]/[édition]/[entité]`                | carte de partage d'un mouvement (+ image OpenGraph), trois dernières éditions                      |
-| `/episodes/[numéro]`                                    | lecteur vidéo, résumé court, chapitres et colonne des mentions, sources et annexes                 |
-| `/stories/[slug]`                                       | ancienne route redirigée vers la bibliothèque d'épisodes                                           |
-| `/projects/[slug]`, `/models/[slug]`                    | fiche d'entité : rang actuel et précédent, pic, éditions au Top, courbes, avis, épisodes           |
-| `/topics`, `/topics/[slug]`                             | thèmes et sélections d'épisodes                                                                    |
-| `/about`                                                | profils et liens sociaux des animateurs publiés                                                    |
-| `/en`, `/en/charts`                                     | mêmes pages et assets que le français, textes anglais dans les dictionnaires locaux                |
-| `/es-es/...`, `/de-de/...`                              | pages publiques partagées, dictionnaire local espagnol ou allemand                                 |
-| `/charts/skills/[plateforme]`, `/charts/models/[tâche]` | pages d'intention SEO à données réelles, méthode, sources et texte localisé relu                   |
-| `/admin`                                                | édition des épisodes, ressources, classements et réglages du site ; brouillons et publication      |
-| `/feed.xml`, `/sitemap.xml`, `/robots.txt`              | RSS, sitemap des seules pages indexables, robots lisibles pour appliquer `noindex`                 |
-| `/rankings/...`                                         | redirections permanentes vers `/charts/...`                                                        |
+| Route                                                   | Page                                                                                          |
+| ------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| `/`                                                     | accueil streaming : épisode à la une, rangées d'épisodes par date et thème                    |
+| `/episodes`                                             | bibliothèque complète, rangées filtrées par thème                                             |
+| `/search?q=...`                                         | recherche dans épisodes, ressources, sources, entités, thèmes et classements                  |
+| `/charts`                                               | accueil des classements : sélecteur, top 3 à la une, aperçu des tops et historique            |
+| `/charts/[slug]`                                        | classement courant (rangs, mouvements, DATA, OUR TAKE, tri par critère, Hall of #1)           |
+| `/charts/[slug]/[édition]`                              | archive par édition ; le format ISO des anciens snapshots reste accepté                       |
+| `/charts/[slug]/methodology`                            | "Comment ce classement est calculé" : sources, critères, formule, limites                     |
+| `/charts/history`, `/charts/history/[édition]`          | sélecteur d'édition, tableau des #1, mouvements entre publications                            |
+| `/moves/[classement]/[édition]/[entité]`                | carte de partage d'un mouvement (+ image OpenGraph), trois dernières éditions                 |
+| `/episodes/[numéro]`                                    | lecteur vidéo, résumé court, chapitres et colonne des mentions, sources et annexes            |
+| `/stories/[slug]`                                       | ancienne route redirigée vers la bibliothèque d'épisodes                                      |
+| `/projects/[slug]`, `/models/[slug]`                    | fiche d'entité : rang actuel et précédent, pic, éditions au Top, courbes, avis, épisodes      |
+| `/topics`, `/topics/[slug]`                             | thèmes et sélections d'épisodes                                                               |
+| `/about`                                                | profils et liens sociaux des animateurs publiés                                               |
+| `/en`, `/en/charts`                                     | mêmes pages et assets que le français, textes anglais dans les dictionnaires locaux           |
+| `/es-es/...`, `/de-de/...`                              | pages publiques partagées, dictionnaire local espagnol ou allemand                            |
+| `/charts/skills/[plateforme]`, `/charts/models/[tâche]` | pages d'intention SEO à données réelles, méthode, sources et texte localisé relu              |
+| `/admin`                                                | édition des épisodes, ressources, classements et réglages du site ; brouillons et publication |
+| `/feed.xml`, `/sitemap.xml`, `/robots.txt`              | RSS, sitemap des seules pages indexables, robots lisibles pour appliquer `noindex`            |
+| `/rankings/...`                                         | redirections permanentes vers `/charts/...`                                                   |
 
 Code : `src/domain` (logique pure, sans I/O), `src/i18n` (cibles, routage et chaînes UI ; voir leur état de revue dans la feuille de route SEO), `src/pipeline` (connecteurs, collectes deux fois par jour et signal horaire), `src/lib` (lecture du contenu, validation, graphe, SEO, traductions, images OpenGraph), `src/components`, `src/app` (groupes de routes français et locales dynamiques), `content/` et `data/`, `scripts/` (CLI), `test/`.
 

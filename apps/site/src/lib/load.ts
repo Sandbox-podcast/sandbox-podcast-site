@@ -131,6 +131,14 @@ export function loadContent(root: string = process.env['SITE_ROOT'] ?? process.c
   return {
     ...base,
     ...(editorialOverride ?? {}),
+    hosts: (editorialOverride?.hosts ?? base.hosts).map((host) => {
+      const bundled = base.hosts.find((item) => item.slug === host.slug);
+      const photo =
+        host.slug === 'lou' && host.photo === '/team/lou.jpg'
+          ? (bundled?.photo ?? host.photo)
+          : (host.photo ?? bundled?.photo);
+      return { ...host, photo, aka: host.aka ?? bundled?.aka };
+    }),
     snapshots,
   };
 }
