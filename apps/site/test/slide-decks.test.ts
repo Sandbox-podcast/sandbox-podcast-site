@@ -65,7 +65,7 @@ describe('slide decks', () => {
     expect(html.includes('/_next/')).toBe(false);
   });
 
-  it('place les neuf actualités dans le Radar, puis conserve la Bêta et le Clash', () => {
+  it('place les dix actualités dans le Radar, puis conserve la Bêta et le Clash', () => {
     const html = readFileSync(
       join(slidesPublicRoot(process.cwd()), 'episode-002', 'index.html'),
       'utf8',
