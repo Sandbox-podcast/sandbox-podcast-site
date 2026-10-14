@@ -47,7 +47,7 @@ Depuis `/admin`, l'équipe peut importer une vidéo à partir de son URL YouTube
 
 ### Changer la photo d'un animateur
 
-Dans `/admin`, ouvrir "Animateurs", choisir le profil, puis "Choisir une photo" : JPEG, PNG ou WebP, au moins **400 × 400 px**, **8 Mo maximum**. Le serveur recadre l'image en carré au centre, la convertit en WebP de 800 px et retire ses métadonnées. L'aperçu montre le résultat. "Publier" la rend visible sur `/about`. En production, appliquer d'abord la migration additive `0011_host_photos.sql`. Voir [DD-0019](../design-decisions/DD-0019-photos-des-animateurs-depuis-l-admin.md).
+Dans `/admin`, ouvrir "Animateurs", choisir le profil, puis "Choisir une photo" : JPEG, PNG ou WebP, au moins **400 × 400 px**, **8 Mo maximum**. Le serveur recadre l'image en carré au centre, la convertit en WebP de 800 px et retire ses métadonnées. L'aperçu montre le résultat. "Publier" la rend visible sur `/about`. En production, appliquer d'abord la migration additive `0011_host_photos.sql`. Voir [DD-0021](../design-decisions/DD-0021-photos-des-animateurs-depuis-l-admin.md).
 
 Le champ "Description · Markdown" accepte les paragraphes, retours à la ligne, titres, listes, gras, italique, code et liens HTTPS. L'aperçu dans le formulaire utilise le même rendu que la fiche publique. La description source reste enregistrée telle quelle ; le HTML saisi est ignoré et les images distantes ne sont pas chargées. Les liens non HTTPS ou non internes restent du texte.
 

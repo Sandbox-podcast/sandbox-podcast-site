@@ -1,4 +1,4 @@
-# DD-0019 : photos des animateurs importées depuis l'admin
+# DD-0021 : photos des animateurs importées depuis l'admin
 
 - Date : 2026-10-14
 - Statut : décidée par l'agent sur délégation (PD-0003), à la demande de Nicolas
