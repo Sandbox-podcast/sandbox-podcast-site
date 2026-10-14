@@ -3,7 +3,7 @@
 import { Text, LocalizedElement, useLocalization } from '@/components/localization';
 import { LocalizedLink as Link } from '@/components/localization';
 import dynamic from 'next/dynamic';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { chartSelectionQuery, type ChartSelection } from '@/domain/chart-selection';
 import { formatCompact } from '@/domain/format';
 import {
@@ -24,7 +24,7 @@ import {
 import { compareWeeks, editionStart, isCalendarEdition } from '@/domain/weeks';
 import { intlLocale } from '@/i18n/translation';
 import { ChartsWatchlist } from './charts-features';
-import { ChartsPodium, ChartsRanking } from './charts-ranking';
+import { ChartsRanking } from './charts-ranking';
 import styles from './charts-compact.module.css';
 
 const ChartsShare = dynamic(() => import('./charts-share').then((module) => module.ChartsShare));
@@ -61,9 +61,7 @@ export function ChartsExperience({
   const [view, setView] = useState(
     initialSelection?.view ?? initialView ?? (initialId === 'models' ? 'quality' : 'momentum'),
   );
-  const [studio, setStudio] = useState(false);
   const [shareRow, setShareRow] = useState<ChartsRow | null>(null);
-  const options = useRef<HTMLDetailsElement>(null);
 
   useEffect(() => {
     const url = new URL(window.location.href);
@@ -138,7 +136,7 @@ export function ChartsExperience({
     : null;
 
   return (
-    <div className={`wrap sc-page ${styles['page']}${studio ? ' sc-studio' : ''}`}>
+    <div className={`wrap sc-page ${styles['page']}`}>
       <header className={styles['header']}>
         <h1>Sandbox Charts</h1>
         <p className={styles['update']}>
@@ -182,36 +180,6 @@ export function ChartsExperience({
               <Text>{meta.subtitle}</Text>
             </p>
           </div>
-          <details className={styles['options']} ref={options}>
-            <summary>
-              <Text>{'Options'}</Text>
-            </summary>
-            <div className={styles['optionsMenu']}>
-              <button
-                type="button"
-                disabled={!visible[0]}
-                onClick={() => {
-                  setShareRow(visible[0] ?? null);
-                  if (options.current) options.current.open = false;
-                }}
-              >
-                <Text>{'Partager'}</Text>
-              </button>
-              <button
-                type="button"
-                aria-pressed={studio}
-                onClick={() => {
-                  setStudio((current) => !current);
-                  if (options.current) options.current.open = false;
-                }}
-              >
-                <Text>{studio ? 'Quitter le mode 16:9' : 'Mode 16:9'}</Text>
-              </button>
-              <Link href={`/charts/${meta.slug}/methodology`}>
-                <Text>{'Méthodologie et sources'}</Text>
-              </Link>
-            </div>
-          </details>
         </div>
         <div className={styles['toolbar']}>
           <label className={styles['field']}>
@@ -345,7 +313,6 @@ export function ChartsExperience({
           </div>
         ) : rows.length ? (
           <>
-            {studio ? <ChartsPodium rows={visible} period={period} /> : null}
             <div className={styles['columns']} aria-hidden="true">
               <span>
                 <Text>{'Rang'}</Text>

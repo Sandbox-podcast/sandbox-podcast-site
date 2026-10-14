@@ -8,7 +8,7 @@ Le titre Sandbox Charts tient sur une ligne. Les onglets GitHub, Skills, Models 
 
 Chaque projet apparaît une fois. La ligne montre son rang, son mouvement, son identité, sa mesure principale et sa courbe si les relevés suffisent. Un score n'est plus affiché deux fois. Les descriptions, catégories, avis, mesures et sources restent dans les détails. Les unités et les mouvements restent annoncés aux lecteurs d'écran.
 
-Le podium est réservé au mode 16:9. Le partage et ce mode se trouvent dans Options. Les liens vers la méthode et les archives restent sous la liste. L'édition choisie, les filtres et la période restent partageables dans l'URL.
+Mise à jour du 14 octobre 2026, à la demande de Lou : le bloc Options et le mode 16:9 sont retirés. Le partage reste accessible dans les détails de chaque entrée. Les liens vers la méthode et les archives restent sous la liste. L'édition choisie, les filtres et la période restent partageables dans l'URL.
 
 Le sommaire, les blocs de mouvements, les signaux, la couverture mensuelle et les records disparaissent de cette page. La sélection éditoriale apparaît seulement si elle contient un projet existant. L'inscription par e-mail apparaît seulement si un service est configuré. Les données absentes et les erreurs gardent un état explicite. Les données de démonstration restent signalées dans l'aperçu local.
 
