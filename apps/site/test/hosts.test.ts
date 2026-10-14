@@ -29,6 +29,7 @@ describe('fiches des animateurs', () => {
   it('n’accepte que des photos servies par le site', () => {
     const withPhoto = (photo: string) => hostSchema.safeParse({ ...hosts[0], photo }).success;
     expect(withPhoto('/team/lou.webp')).toBe(true);
+    expect(withPhoto(`/api/host-photos/${'a'.repeat(64)}.webp`)).toBe(true);
     expect(withPhoto('https://evil.example/lou.jpg')).toBe(false);
     expect(withPhoto('/team/../secret.jpg')).toBe(false);
   });
