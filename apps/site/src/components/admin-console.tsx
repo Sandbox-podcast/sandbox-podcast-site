@@ -7,6 +7,7 @@ import { editableContentSchema, type EditableContent } from '@/domain/admin-cont
 import { applyChartMarkdown, serializeChartMarkdown } from '@/domain/chart-markdown';
 import { type Episode, type Host, type Source, type Topic } from '@/domain/schema';
 import { AdminChartEditor } from './admin-chart-editor';
+import { AdminHostPhoto } from './admin-host-photo';
 import { AdminChartsConsole } from './admin-charts-console';
 import { AdminPasswordForm } from './admin-password-form';
 import { AdminUsersPanel } from './admin-users-panel';
@@ -738,16 +739,14 @@ export function AdminConsole() {
                               }}
                             />
                           </label>
-                          <label className="admin-field">
-                            <span>Photo</span>
-                            <input
-                              placeholder="/team/prenom.jpg (fichier dans public/)"
-                              value={selectedHost.photo ?? ''}
-                              onChange={(event) => {
-                                updateHostProfile(selectedHost.slug, 'photo', event.target.value);
-                              }}
-                            />
-                          </label>
+                          <AdminHostPhoto
+                            name={selectedHost.name}
+                            photo={selectedHost.photo}
+                            disabled={pending || !status.user?.permissions.draft}
+                            onChange={(path) => {
+                              updateHostProfile(selectedHost.slug, 'photo', path ?? '');
+                            }}
+                          />
                         </>
                       )}
                       {!selectedHost.placeholder &&

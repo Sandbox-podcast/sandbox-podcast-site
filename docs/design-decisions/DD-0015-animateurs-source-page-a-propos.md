@@ -24,4 +24,4 @@ Les liens sociaux étaient saisis à deux endroits : dans les fiches Animateurs 
 
 ## Complément du 2026-10-13
 
-Les fiches Animateurs portent aussi deux champs facultatifs affichés sur `/about` : `aka` (pseudo sous le prénom, casse conservée) et `photo` (chemin d'un fichier servi depuis `public/`, par exemple `/team/nicolas.jpg` ; les URL externes sont refusées par le schéma). Une carte avec photo affiche un portrait carré bord à bord à la place du monogramme. L'admin saisit le chemin, mais ne téléverse pas le fichier : la photo s'ajoute par un commit.
+Les fiches Animateurs portent aussi deux champs facultatifs affichés sur `/about` : `aka` (pseudo sous le prénom, casse conservée) et `photo` (chemin d'un fichier servi depuis `public/`, par exemple `/team/nicolas.jpg` ; les URL externes sont refusées par le schéma). Une carte avec photo affiche un portrait carré bord à bord à la place du monogramme. L'admin saisit le chemin, mais ne téléverse pas le fichier : la photo s'ajoute par un commit. Remplacé le 2026-10-14 par l'import depuis l'admin ([DD-0019](DD-0019-photos-des-animateurs-depuis-l-admin.md)).
