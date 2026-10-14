@@ -1,5 +1,6 @@
 packages:
   - apps/*
+  - videos/sandbox-intro
 allowBuilds:
   esbuild: true
 overrides:

@@ -13,3 +13,5 @@ apps/site/data
 .agents/skills
 .agents/product-marketing.md
 .local/
+# Dépendances Python installées localement; les sources et tests de l'agent restent contrôlés.
+tools/youtube-growth/.venv/
