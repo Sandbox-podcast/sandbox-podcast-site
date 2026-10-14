@@ -58,7 +58,7 @@ for item in config['segments']:
     duck = np.maximum(duck,envelope(max(0,item['start']-.06),item['start']+len(samples)/RATE+.15,.08))
     clip = clips_dir/(item['id']+'.wav')
     subprocess.run(['ffmpeg','-v','error','-y','-f','f32le','-ar',str(RATE),'-ac','2','-i','pipe:0','-c:a','pcm_s24le',str(clip)],input=samples.astype(np.float32).tobytes(),check=True)
-    report.append({**item,'speed':speed,'renderedDuration':len(samples)/RATE,'file':str(clip.relative_to(ROOT))})
+    report.append({**item,'speed':speed,'renderedDuration':len(samples)/RATE,'file':clip.relative_to(ROOT).as_posix()})
 
 mix = bed*(1-.55*duck[:,None]) + dialogue
 peak = float(np.max(np.abs(mix)))

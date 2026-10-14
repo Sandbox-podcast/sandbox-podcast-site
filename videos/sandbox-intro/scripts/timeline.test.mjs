@@ -31,6 +31,9 @@ test('Les 23 répliques restent dans leur fenêtre sans chevauchement ni accél�
     assert.ok(line.renderedDuration <= line.end - line.start + 1 / edit.sampleRate);
     assert.ok(line.speed >= 1 && line.speed <= 1.3);
     assert.ok(edit.replaceWindows.some(([a, b]) => a <= line.start && b >= line.end));
+    assert.ok(line.file.startsWith('public/voices/aligned/'));
+    assert.equal(line.file.includes('\\'), false, 'Le rapport doit rester lisible sur Linux.');
+    assert.equal(path.posix.normalize(line.file), line.file);
     assert.ok(existsSync(root + '/' + line.file));
     if (index) assert.ok(report.segments[index - 1].end <= line.start);
   }
