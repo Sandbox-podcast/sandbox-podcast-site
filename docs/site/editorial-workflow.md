@@ -49,7 +49,7 @@ Depuis `/admin`, l'équipe peut importer une vidéo à partir de son URL YouTube
 
 Dans `/admin`, ouvrir "Animateurs", choisir le profil, puis "Choisir une photo" : JPEG, PNG ou WebP, au moins **400 × 400 px**, **8 Mo maximum**. Le serveur recadre l'image en carré au centre, la convertit en WebP de 800 px et retire ses métadonnées. L'aperçu montre le résultat. "Publier" la rend visible sur `/about`. En production, appliquer d'abord la migration additive `0011_host_photos.sql`. Voir [DD-0021](../design-decisions/DD-0021-photos-des-animateurs-depuis-l-admin.md).
 
-Le champ "Description · Markdown" accepte les paragraphes, retours à la ligne, titres, listes, gras, italique, code et liens HTTPS. L'aperçu dans le formulaire utilise le même rendu que la fiche publique. La description source reste enregistrée telle quelle ; le HTML saisi est ignoré et les images distantes ne sont pas chargées. Les liens non HTTPS ou non internes restent du texte.
+Le champ "Description · Markdown" accepte les paragraphes, retours à la ligne, titres, listes, gras, italique, code et liens HTTPS. L'aperçu dans le formulaire permet de vérifier la description source, conservée telle quelle. La fiche publique affiche le résumé court, les chapitres et les ressources selon [DD-0022](../design-decisions/DD-0022-fiche-episode-sans-description-longue.md). Le HTML saisi est ignoré et les images distantes ne sont pas chargées. Les liens non HTTPS ou non internes restent du texte.
 
 La section "Slides" de "/admin" affiche l'index statique des présentations dans un cadre isolé. On peut y ouvrir un deck, le parcourir au clavier, puis ouvrir l'index dans un grand onglet. Les supports HTML continuent d'être ajoutés au dépôt selon le guide des slides ; cette section sert à les consulter.
 
@@ -61,7 +61,7 @@ Le site cherche automatiquement la meilleure variante YouTube existante, y compr
 
 En production, appliquer la migration additive `0008_episode_thumbnails.sql` avant le premier envoi. Les images optimisées sont conservées dans Postgres ; en développement elles vont dans `.local/episode-thumbnails/`, ignoré par Git. Sauvegarder cette table avec le contenu éditorial. Le stockage est borné à 1,5 Mo par image optimisée et les fichiers précédents ne sont pas supprimés automatiquement. Voir [DD-0012](../design-decisions/DD-0012-miniatures-episodes.md).
 
-Le champ "Description · Markdown" accepte les paragraphes, retours à la ligne, titres, listes, gras, italique, code et liens HTTPS. L'aperçu dans le formulaire utilise le même rendu que la fiche publique. La description source reste enregistrée telle quelle ; le HTML saisi est ignoré et les images distantes ne sont pas chargées. Les liens non HTTPS ou non internes restent du texte.
+La description longue reste consultable dans l'admin avec son aperçu Markdown. Elle alimente les chapitres et les ressources, sans bloc "À propos de l'épisode" sur la fiche publique.
 
 La section "Slides" de `/admin` affiche l'index statique des présentations dans un cadre isolé. On peut y ouvrir un deck, le parcourir au clavier, puis ouvrir l'index dans un grand onglet. Les supports HTML continuent d'être ajoutés au dépôt selon le [guide des slides](slides.md) ; cette section sert à les consulter.
 

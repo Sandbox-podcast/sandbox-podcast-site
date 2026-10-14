@@ -2,7 +2,6 @@ import { Text, LocalizedElement } from '@/components/localization';
 import { LocalizedLink as Link } from '@/components/localization';
 import { notFound } from 'next/navigation';
 import { EpisodeCover } from '@/components/cards';
-import { EpisodeDescription } from '@/components/episode-description';
 import { episodeArtwork } from '@/domain/episode-artwork';
 import {
   episodeChapters,
@@ -96,6 +95,16 @@ export default async function EpisodePage({ params, searchParams }: Props) {
         <p className="episode-dek">
           <Text>{episode.dek}</Text>
         </p>
+        {episode.topics.length > 0 ? (
+          <p className="mt-4 flex flex-wrap gap-2">
+            {episode.topics.map((topic) => (
+              <Link key={topic} href={`/topics/${topic}`} className="chip">
+                <Text>{'#'}</Text>
+                <Text>{getTopic(topic).label}</Text>
+              </Link>
+            ))}
+          </p>
+        ) : null}
         <div className="mt-5 flex flex-wrap gap-2">
           <a
             className="btn btn-solid"
@@ -141,9 +150,6 @@ export default async function EpisodePage({ params, searchParams }: Props) {
         <a href="#episode-video">
           <Text>{'Vid\u00E9o'}</Text>
         </a>
-        <a href="#episode-about">
-          <Text>{'\u00C0 propos'}</Text>
-        </a>
         <a href="#chapters">
           <Text>{'Chapitres '}</Text>
           <span>
@@ -158,66 +164,46 @@ export default async function EpisodePage({ params, searchParams }: Props) {
         </a>
       </LocalizedElement>
 
+      <div className="episode-media">
+        <LocalizedElement
+          as="section"
+          id="episode-video"
+          aria-label="Lecteur vidéo"
+          className="episode-player"
+        >
+          <Text>
+            {youtubeId ? (
+              <YouTubeFacade
+                id={youtubeId}
+                title={episode.title}
+                {...(startAt !== undefined ? { startAt } : {})}
+                thumbnailUrl={episodeArtwork(episode)}
+              />
+            ) : (
+              <>
+                <EpisodeCover episode={episode} showTitle={false} />
+                <p className="player-unavailable">
+                  <Text>{"La vid\u00E9o de cet \u00E9pisode n'est pas encore disponible."}</Text>
+                </p>
+              </>
+            )}
+          </Text>
+        </LocalizedElement>
+        <Text>
+          {episode.platforms.audioUrl ? (
+            <audio className="w-full" controls preload="none" src={episode.platforms.audioUrl}>
+              <track kind="captions" />
+            </audio>
+          ) : null}
+        </Text>
+      </div>
+
       <div className="episode-layout">
         <div className="episode-main">
-          <LocalizedElement
-            as="section"
-            id="episode-video"
-            aria-label="Lecteur vidéo"
-            className="episode-player"
-          >
-            <Text>
-              {youtubeId ? (
-                <YouTubeFacade
-                  id={youtubeId}
-                  title={episode.title}
-                  {...(startAt !== undefined ? { startAt } : {})}
-                  thumbnailUrl={episodeArtwork(episode)}
-                />
-              ) : (
-                <>
-                  <EpisodeCover episode={episode} showTitle={false} />
-                  <p className="player-unavailable">
-                    <Text>{"La vid\u00E9o de cet \u00E9pisode n'est pas encore disponible."}</Text>
-                  </p>
-                </>
-              )}
-            </Text>
-          </LocalizedElement>
-          <Text>
-            {episode.platforms.audioUrl ? (
-              <audio className="w-full" controls preload="none" src={episode.platforms.audioUrl}>
-                <track kind="captions" />
-              </audio>
-            ) : null}
-          </Text>
-
-          <section aria-labelledby="episode-about">
-            <h2 id="episode-about" className="label border-t-2 border-ink pt-2">
-              <Text>{'\u00C0 propos de l\u2019\u00E9pisode'}</Text>
-            </h2>
-            <EpisodeDescription markdown={episode.description} />
-            <Text>
-              {episode.topics.length > 0 ? (
-                <p className="mt-4 flex flex-wrap gap-2">
-                  <Text>
-                    {episode.topics.map((topic) => (
-                      <Link key={topic} href={`/topics/${topic}`} className="chip">
-                        <Text>{'#'}</Text>
-                        <Text>{getTopic(topic).label}</Text>
-                      </Link>
-                    ))}
-                  </Text>
-                </p>
-              ) : null}
-            </Text>
-          </section>
-
-          <section aria-labelledby="chapters">
-            <h2 id="chapters" className="label mb-3 border-t-2 border-ink pt-2">
+          <section className="episode-chapters" aria-labelledby="chapters">
+            <h2 id="chapters" className="episode-details-heading">
               <Text>{'Chapitres '}</Text>
-              <span className="text-ink-3">
-                <Text>{'\u00B7 '}</Text>
+              <span className="episode-details-count">
                 <Text>{chapters.length}</Text>
               </span>
             </h2>
@@ -298,70 +284,57 @@ export default async function EpisodePage({ params, searchParams }: Props) {
         </div>
 
         <aside id="mentions" className="episode-resources" aria-labelledby="resources-title">
-          <h2 id="resources-title">
-            <Text>{'Sources & ressources'}</Text>
+          <h2 id="resources-title" className="episode-details-heading">
+            <Text>{'Sources & ressources'}</Text>{' '}
+            <span className="episode-details-count">
+              <Text>{resources.length}</Text>
+            </span>
           </h2>
-          <p className="resource-intro">
-            <Text>
-              {
-                'Liens cit\u00E9s \u00E0 l\u2019\u00E9cran ou consult\u00E9s pour pr\u00E9parer cet \u00E9pisode.'
-              }
-            </Text>
-          </p>
 
           <Text>
             {resources.length > 0 ? (
-              <section className="resource-group">
-                <h3>
-                  <Text>{'Tous les liens '}</Text>
-                  <span>
-                    <Text>{resources.length}</Text>
-                  </span>
-                </h3>
-                <ul className="resource-list">
-                  <Text>
-                    {resources.map((mention, index) => {
-                      const timestamp =
-                        mention.at === undefined ? undefined : episodeAt(mention.at);
-                      return (
-                        <li
-                          className="resource-item"
-                          id={`resource-${String(index)}`}
-                          key={`${mention.url ?? mention.label}-${String(index)}`}
-                        >
-                          <Text>
-                            {mention.url ? (
-                              <a href={mention.url} target="_blank" rel="noopener noreferrer">
-                                <Text>{mention.label}</Text>
-                              </a>
-                            ) : (
-                              <span>
-                                <Text>{mention.label}</Text>
-                              </span>
-                            )}
-                          </Text>
-                          <Text>
-                            {timestamp ? (
-                              <a className="resource-time" href={timestamp}>
-                                <Text>{'Voir \u00E0 '}</Text>
-                                <Text>{formatTimestamp(mention.at ?? 0)}</Text>
-                                <Text>{' \u2197'}</Text>
-                              </a>
-                            ) : null}
-                          </Text>
-                          <Text>
-                            {mention.note ? (
-                              <small>
-                                <Text>{mention.note}</Text>
-                              </small>
-                            ) : null}
-                          </Text>
-                        </li>
-                      );
-                    })}
-                  </Text>
-                </ul>
-              </section>
+              <ul className="resource-list">
+                <Text>
+                  {resources.map((mention, index) => {
+                    const timestamp = mention.at === undefined ? undefined : episodeAt(mention.at);
+                    return (
+                      <li
+                        className="resource-item"
+                        id={`resource-${String(index)}`}
+                        key={`${mention.url ?? mention.label}-${String(index)}`}
+                      >
+                        <Text>
+                          {mention.url ? (
+                            <a href={mention.url} target="_blank" rel="noopener noreferrer">
+                              <Text>{mention.label}</Text>
+                            </a>
+                          ) : (
+                            <span>
+                              <Text>{mention.label}</Text>
+                            </span>
+                          )}
+                        </Text>
+                        <Text>
+                          {timestamp ? (
+                            <a className="resource-time" href={timestamp}>
+                              <Text>{'Voir \u00E0 '}</Text>
+                              <Text>{formatTimestamp(mention.at ?? 0)}</Text>
+                              <Text>{' \u2197'}</Text>
+                            </a>
+                          ) : null}
+                        </Text>
+                        <Text>
+                          {mention.note ? (
+                            <small>
+                              <Text>{mention.note}</Text>
+                            </small>
+                          ) : null}
+                        </Text>
+                      </li>
+                    );
+                  })}
+                </Text>
+              </ul>
             ) : null}
           </Text>
           <Text>

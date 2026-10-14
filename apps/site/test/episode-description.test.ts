@@ -8,7 +8,7 @@ import { episodeSchema } from '../src/domain/schema';
 import { loadContent } from '../src/lib/load';
 
 describe('description Markdown d’un épisode', () => {
-  it('rend les paragraphes, listes, liens YouTube et styles dans la fiche', () => {
+  it("rend les paragraphes, listes, liens et styles dans l'aperçu éditorial", () => {
     const html = renderToStaticMarkup(
       createElement(EpisodeDescription, {
         markdown:
@@ -49,7 +49,7 @@ describe('description Markdown d’un épisode', () => {
     expect(html).toContain('<strong>Hello</strong> world.');
   });
 
-  it('propose le même rendu dans le formulaire d’édition', () => {
+  it("propose un aperçu Markdown dans le formulaire d'édition", () => {
     const content = loadContent();
     const episode = episodeSchema.parse({
       number: 999,
