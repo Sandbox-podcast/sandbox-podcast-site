@@ -40,7 +40,8 @@ describe('classements publics en français', () => {
     expect(html).toContain('Période');
     expect(html).toContain('Cette édition');
     expect(html).toContain('Catégorie');
-    expect(html).toContain('Partager');
+    expect(html).not.toContain('Options');
+    expect(html).not.toContain('Partager');
     expect(html).toContain('Aucune édition publiée pour ce classement.');
     expect(html).toContain('12 dépôts suivis');
     expect(html).toContain('Historique : ');
