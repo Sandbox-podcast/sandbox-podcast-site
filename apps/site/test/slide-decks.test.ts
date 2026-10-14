@@ -65,7 +65,7 @@ describe('slide decks', () => {
     expect(html.includes('/_next/')).toBe(false);
   });
 
-  it('place les six actualités dans le Radar, puis conserve la Bêta et le Clash', () => {
+  it('place les neuf actualités dans le Radar, puis conserve la Bêta et le Clash', () => {
     const html = readFileSync(
       join(slidesPublicRoot(process.cwd()), 'episode-002', 'index.html'),
       'utf8',
@@ -90,13 +90,13 @@ describe('slide decks', () => {
     };
 
     expect(deck.meta).toMatchObject({
-      main: 18,
+      main: 22,
       betaMain: 5,
       annexes: 0,
       title: "Comment utiliser l'IA quand on est un artisan ou un commerçant ?",
     });
     expect(deck.slides.map(({ n }) => n)).toEqual(
-      Array.from({ length: 18 }, (_, index) => index + 1),
+      Array.from({ length: 22 }, (_, index) => index + 1),
     );
     expect(deck.slides[0]).toMatchObject({
       n: 1,
@@ -134,43 +134,88 @@ describe('slide decks', () => {
       'ne signifie pas que Microsoft cesse de travailler avec Nvidia',
     );
     expect(deck.slides[6]?.note).toContain('pas une interdiction générale adoptée');
-    expect(deck.slides.slice(2, 7).every(({ items }) => items.length === 3)).toBe(true);
-    expect(deck.slides[7]).toMatchObject({ layout: 'section-build', title: 'Le Build' });
+    expect(deck.slides[7]).toMatchObject({
+      layout: 'radar-rea',
+      title: 'REA : l’IA peut-elle refaire ton logiciel ?',
+      sources: ['reaGithub', 'reaDxBall', 'reaArtCraft', 'reaArtCraftCleanRoom'],
+    });
+    expect(deck.slides[7]?.note).toContain('ne prétend pas récupérer le code source');
+    expect(deck.slides[7]?.note).toContain('Ne pas attribuer cette suite à REA');
     expect(deck.slides[8]).toMatchObject({
+      layout: 'radar-runway-claude',
+      title: 'Claude devient-il Spielberg ?',
+      sources: ['runwaySkills', 'runwayMcp', 'runwayElevenLabs', 'runwayApp'],
+    });
+    expect(deck.slides[8]?.note).toContain('ce connecteur est distinct du dépôt GitHub');
+    expect(deck.slides[9]).toMatchObject({
+      layout: 'radar-supermarket-cold-chain',
+      title: 'Des frigos de supermarché forcés à chauffer',
+      sources: ['supermarketCERTFR', 'supermarketLeMonde', 'supermarketAP'],
+    });
+    expect(deck.slides[9]?.note).toContain('Danfoss AK-SM et AK-SC');
+    expect(deck.slides[9]?.note).toContain('Le Monde rapporte');
+    expect(deck.slides[9]?.note).toContain('L’AP rapporte 80 magasins U');
+    expect(deck.slides[9]?.note).toContain('Metro a indiqué au Monde');
+    expect(deck.slides[9]?.note).toContain('pas une déclaration de perte totale du groupement');
+    expect(deck.slides[9]?.note).toContain('aucune revendication publique');
+    expect(deck.slides.slice(2, 10).every(({ items }) => items.length === 3)).toBe(true);
+    expect(deck.slides[10]).toMatchObject({
+      layout: 'radar-ai-persuasion',
+      title: 'Une IA peut-elle faire changer d’avis ?',
+      sources: [
+        'conspiracyScience',
+        'conspiracyScienceConcern',
+        'conspiracyScienceCorrection',
+        'redditCMVMods',
+        'redditCMVReporting',
+      ],
+    });
+    expect(deck.slides[10]?.note).toContain('2 190 personnes');
+    expect(deck.slides[10]?.note).toContain('baisse moyenne d’environ 20 %');
+    expect(deck.slides[10]?.note).toContain('expression de préoccupation');
+    expect(deck.slides[10]?.note).toContain('99e percentile');
+    expect(deck.slides[10]?.note).toContain('hypothèse de discussion');
+    expect(deck.slides[11]).toMatchObject({ layout: 'section-build', title: 'Le Build' });
+    expect(deck.slides[12]).toMatchObject({
       layout: 'beta-question',
       title: "Comment utiliser l'IA\nquand on est un artisan\nou un commerçant ?",
     });
-    expect(deck.slides.slice(8, 13).map(({ layout }) => layout)).toEqual([
+    expect(deck.slides.slice(12, 17).map(({ layout }) => layout)).toEqual([
       'beta-question',
       'beta-roi',
       'beta-tools',
       'beta-method',
       'beta-comments',
     ]);
-    expect(deck.slides[13]).toMatchObject({ layout: 'section-clash', title: 'Le Clash' });
-    expect(deck.slides.slice(14).map(({ layout }) => layout)).toEqual([
+    expect(deck.slides[17]).toMatchObject({ layout: 'section-clash', title: 'Le Clash' });
+    expect(deck.slides.slice(18).map(({ layout }) => layout)).toEqual([
       'clash-tickets',
       'clash-legacy',
       'clash-code-review',
       'clash-coding-skill',
     ]);
-    expect(deck.slides.slice(14).map(({ title }) => title)).toEqual([
+    expect(deck.slides.slice(18).map(({ title }) => title)).toEqual([
       'Est-ce que les développeurs ont encore besoin de lire les tickets ?',
       'À l’ère de l’IA, est-ce qu’il faut encore sauver le legacy ?',
       'Tu relis vraiment le code généré par l’IA ?',
       'Est-ce qu’on aura encore besoin de développeurs « qui savent coder » ?',
     ]);
-    expect(deck.slides.slice(14).every(({ title }) => title.endsWith('?'))).toBe(true);
-    expect(deck.slides.slice(14).every(({ items }) => items.length === 0)).toBe(true);
-    expect(deck.slides[9]?.items).toHaveLength(8);
+    expect(deck.slides.slice(18).every(({ title }) => title.endsWith('?'))).toBe(true);
+    expect(deck.slides.slice(18).every(({ items }) => items.length === 0)).toBe(true);
+    expect(deck.slides[13]?.items).toHaveLength(8);
     expect([...html.matchAll(/class="roi-sector"/g)]).toHaveLength(8);
-    expect(deck.slides[9]?.sources).toEqual(['franceUsages', 'dgeCommerce', 'cmaArtisans', 'cnil']);
-    expect(deck.slides[9]?.note).toContain('pas un classement de ROI mesuré');
-    expect(deck.slides[9]?.note).toContain('temps de relecture et de correction');
-    expect(deck.slides[10]?.items).toHaveLength(5);
-    expect(deck.slides[11]?.note).toContain('Mobbin');
-    expect(deck.slides[11]?.note).toContain('Landbook');
-    expect(deck.slides[11]?.note).toContain('vidéo');
+    expect(deck.slides[13]?.sources).toEqual([
+      'franceUsages',
+      'dgeCommerce',
+      'cmaArtisans',
+      'cnil',
+    ]);
+    expect(deck.slides[13]?.note).toContain('pas un classement de ROI mesuré');
+    expect(deck.slides[13]?.note).toContain('temps de relecture et de correction');
+    expect(deck.slides[14]?.items).toHaveLength(5);
+    expect(deck.slides[15]?.note).toContain('Mobbin');
+    expect(deck.slides[15]?.note).toContain('Landbook');
+    expect(deck.slides[15]?.note).toContain('vidéo');
     expect([...html.matchAll(/id="beta-slide-(\d+)"/g)].map((match) => Number(match[1]))).toEqual(
       Array.from({ length: 5 }, (_, index) => index + 1),
     );
@@ -188,13 +233,13 @@ describe('slide decks', () => {
       );
     const original = sections(reference);
     const updated = sections(html);
-    expect(updated).toHaveLength(18);
+    expect(updated).toHaveLength(22);
     expect(updated[0]).toBe(original[0]);
-    expect(updated[7]).toBe(original[8]);
-    expect(updated[13]).toBe(original[17]);
+    expect(updated[11]).toBe(original[8]);
+    expect(updated[17]).toBe(original[17]);
     expect(
       updated
-        .slice(14)
+        .slice(18)
         .every(
           (section) =>
             section.includes('clash-single-question') &&
