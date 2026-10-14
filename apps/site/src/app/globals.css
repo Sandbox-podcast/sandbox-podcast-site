@@ -1788,6 +1788,7 @@ html[data-scrolled='true'] .site-header {
   aspect-ratio: 1;
   margin: calc(-1 * var(--card-pad)) calc(-1 * var(--card-pad)) 1.5rem;
   overflow: hidden;
+  pointer-events: none;
 }
 .about-social-portrait::after {
   position: absolute;
@@ -1805,6 +1806,10 @@ html[data-scrolled='true'] .site-header {
   top: var(--card-pad);
   left: var(--card-pad);
   color: var(--ink);
+}
+.about-social-photo {
+  object-fit: cover;
+  object-position: 50% 30%;
 }
 .about-social-card-body {
   display: flex;

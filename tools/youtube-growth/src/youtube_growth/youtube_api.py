@@ -5,8 +5,10 @@ import os
 from pathlib import Path
 from typing import Any
 
+from .identity import verify_channel, verify_video
 
-def build_youtube_service(token_path: Path | None = None):
+
+def load_credentials(token_path: Path | None = None):
     raw = os.environ.get("YOUTUBE_OAUTH_TOKEN_JSON", "").strip()
     if not raw and token_path and token_path.is_file():
         raw = token_path.read_text(encoding="utf-8").strip()
@@ -15,7 +17,6 @@ def build_youtube_service(token_path: Path | None = None):
     try:
         from google.auth.transport.requests import Request
         from google.oauth2.credentials import Credentials
-        from googleapiclient.discovery import build
     except ImportError as error:
         raise RuntimeError("Installez tools/youtube-growth/requirements.txt avant l'exécution.") from error
 
@@ -28,15 +29,27 @@ def build_youtube_service(token_path: Path | None = None):
         raise ValueError("Le jeton OAuth fourni par l'environnement ou le fichier local est invalide.") from error
     if credentials.expired and credentials.refresh_token:
         credentials.refresh(Request())
+    return credentials
+
+
+def build_youtube_service(token_path: Path | None = None):
+    credentials = load_credentials(token_path)
+    if credentials is None:
+        return None
+    from googleapiclient.discovery import build
     return build("youtube", "v3", credentials=credentials, cache_discovery=False)
 
 
+def build_analytics_service(token_path: Path | None = None):
+    credentials = load_credentials(token_path)
+    if credentials is None:
+        return None
+    from googleapiclient.discovery import build
+    return build("youtubeAnalytics", "v2", credentials=credentials, cache_discovery=False)
+
+
 def channel_context(service) -> tuple[str, str]:
-    response = service.channels().list(part="id,contentDetails", mine=True, maxResults=1).execute()
-    items = response.get("items", [])
-    if not items:
-        raise RuntimeError("Le compte OAuth ne donne accès à aucune chaîne YouTube.")
-    channel = items[0]
+    channel = verify_channel(service)
     return channel["id"], channel["contentDetails"]["relatedPlaylists"]["uploads"]
 
 
@@ -88,6 +101,7 @@ def list_recent_comment_threads(service, channel_id: str, max_pages: int = 10) -
 
 
 def post_top_level_comment(service, channel_id: str, video_id: str, text: str) -> str:
+    verify_video(service, video_id, channel_id)
     response = service.commentThreads().insert(
         part="snippet",
         body={"snippet": {"channelId": channel_id, "videoId": video_id, "topLevelComment": {"snippet": {"textOriginal": text}}}},
@@ -96,6 +110,11 @@ def post_top_level_comment(service, channel_id: str, video_id: str, text: str) -
 
 
 def post_reply(service, parent_id: str, text: str) -> str:
+    channel = verify_channel(service)
+    parent = service.comments().list(part="snippet", id=parent_id).execute(num_retries=3)
+    items = parent.get("items", [])
+    if len(items) != 1 or items[0].get("snippet", {}).get("channelId") != channel["id"]:
+        raise RuntimeError("Le commentaire parent n'appartient pas à SANDBOX.")
     response = service.comments().insert(
         part="snippet",
         body={"snippet": {"parentId": parent_id, "textOriginal": text}},

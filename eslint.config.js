@@ -34,6 +34,35 @@ export default defineConfig(
     extends: [tseslint.configs.disableTypeChecked],
   },
   {
+    files: ['videos/jingle-runtime.js', 'videos/*-jingle/config.js'],
+    languageOptions: {
+      globals: {
+        window: 'readonly',
+        document: 'readonly',
+        URLSearchParams: 'readonly',
+        performance: 'readonly',
+        requestAnimationFrame: 'readonly',
+      },
+    },
+  },
+  {
+    files: ['videos/**/*.mjs'],
+    languageOptions: {
+      globals: {
+        process: 'readonly',
+        console: 'readonly',
+        Buffer: 'readonly',
+      },
+    },
+  },
+  {
+    files: ['videos/render-jingles.mjs', 'videos/sandbox-intro/scripts/playback-check.mjs'],
+    languageOptions: {
+      // Ces scripts Node exécutent aussi des fonctions dans Chromium avec page.evaluate.
+      globals: { window: 'readonly', document: 'readonly' },
+    },
+  },
+  {
     files: ['apps/site/**/*.{ts,tsx}'],
     rules: {
       // Les rangs et les métriques numériques sont des chaînes légitimes dans les vues et exports.
