@@ -28,4 +28,4 @@ Le support comporte 22 slides. Les anciennes annexes ne font plus partie du parc
 
 Les contenus Bêta et Clash sont en HTML pour conserver le vrai logo et permettre les retouches. La simulation s'ouvre dans un cadre `sandbox="allow-scripts allow-forms"` sans origine partagée. Les formulaires peuvent déclencher leurs traitements locaux ; la CSP interdit les connexions réseau et les soumissions externes avec `connect-src 'none'` et `form-action 'none'`. L'épisode 001 reste la référence intacte.
 
-La PR #49 reprend les retouches du deck et reste ouverte pour revue ; cette décision ne déclenche ni fusion ni déploiement.
+La PR #49, consacrée au deck initial, a été fusionnée. Les nouveaux sujets Radar sont proposés dans une PR de suivi ; cette décision ne déclenche ni fusion ni déploiement.
