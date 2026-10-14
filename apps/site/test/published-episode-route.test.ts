@@ -75,6 +75,9 @@ describe('épisodes publiés après le build', () => {
     try {
       const home = renderToStaticMarkup(await HomePage());
       expect(home).toContain('href="/episodes/1"');
+      expect(home).not.toContain('Les classements');
+      expect(home).not.toContain('ranking-shelf');
+      expect(home).not.toContain('ranking-mini-grid');
       const detail = renderToStaticMarkup(
         createElement('div', null, await EpisodePage({ params: Promise.resolve({ number: '1' }) })),
       );

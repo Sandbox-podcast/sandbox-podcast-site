@@ -13,6 +13,8 @@ Chaque fiche d'épisode rassemble le lecteur, la description et les chapitres. U
 
 La page Classements devient l'espace de consultation des tops hebdomadaires : choix du classement, aperçu du podium, accès au top complet, à la méthodologie et à l'historique.
 
+Le 2026-10-14, Lou demande de retirer le bloc "Les classements" de l'accueil. Ce retrait s'applique aux quatre langues. Les classements restent accessibles depuis la navigation et leur rubrique dédiée.
+
 La recherche couvre les épisodes, leurs mentions et sources, les fiches de projets et modèles, les thèmes et les classements. Le backoffice se concentre sur la création et la publication d'épisodes. Depuis une URL YouTube, il importe le titre, la chaîne et la miniature via oEmbed ; les informations complètes utilisent YouTube Data API v3 et une clé serveur. Les chapitres sont extraits des horodatages de la description quand ils existent. Les ressources, sources et annexes se présentent dans une liste unique.
 
 ## Décision visuelle
