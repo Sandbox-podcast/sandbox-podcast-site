@@ -3,7 +3,6 @@ import { LocalizedLink as Link } from '@/components/localization';
 import Image from 'next/image';
 import { EpisodeCard, EpisodeCover } from '@/components/cards';
 import { EpisodeRail } from '@/components/episode-rail';
-import { ChartsMini } from '@/components/charts-mini';
 import { sandboxChartsData } from '@/lib/sandbox-charts';
 import { JsonLd } from '@/components/json-ld';
 import { isMock, siteConfig } from '@/config/site';
@@ -11,7 +10,6 @@ import { episodeArtwork } from '@/domain/episode-artwork';
 import { indexableEpisode } from '@/domain/episode-seo';
 import { hasIndexableChartCollection } from '@/domain/chart-seo';
 import { formatDateShort, formatDuration } from '@/domain/format';
-import { editionMark } from '@/domain/weeks';
 import { allEpisodes, allTopics, getHost, getTopic } from '@/lib/repository';
 import { absoluteUrl, pageMetadata, siteShareImage } from '@/lib/seo';
 import { preparePublishedEditorialContent } from '@/lib/admin-persistence';
@@ -46,8 +44,6 @@ export default async function HomePage() {
         .slice(0, TOPIC_EPISODES_LIMIT),
     }))
     .filter(({ episodes: items }) => items.length > 1);
-  const charts = await sandboxChartsData();
-  const week = charts.week;
   return (
     <div className="wrap media-home">
       <Text>
@@ -204,39 +200,6 @@ export default async function HomePage() {
         ))}
       </Text>
 
-      <section className="ranking-shelf" aria-labelledby="ranking-shelf-title">
-        <div className="media-shelf-heading">
-          <div>
-            <p className="label text-ink-3">
-              <Text>{'Semaine '}</Text>
-              <Text>{editionMark(week)}</Text>
-            </p>
-            <h2 id="ranking-shelf-title" className="section-title">
-              <Text>{'Les classements'}</Text>
-            </h2>
-          </div>
-          <Link href="/charts" className="shelf-link">
-            <Text>{'Voir tous les tops '}</Text>
-            <span aria-hidden="true">
-              <Text>{'\u2192'}</Text>
-            </span>
-          </Link>
-        </div>
-        <Text>
-          {charts.mode === 'fixtures' ? (
-            <p className="label py-2 text-ink-2">
-              <Text>{'APER\u00C7U LOCAL \u00B7 FIXTURES DE D\u00C9VELOPPEMENT'}</Text>
-            </p>
-          ) : null}
-        </Text>
-        <div className="ranking-mini-grid">
-          <Text>
-            {(['github', 'skills', 'models', 'rising'] as const).map((id) => (
-              <ChartsMini key={id} data={charts} id={id} />
-            ))}
-          </Text>
-        </div>
-      </section>
       <JsonLd
         data={[
           {

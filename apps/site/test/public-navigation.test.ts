@@ -23,6 +23,7 @@ describe('navigation publique', () => {
     expect(html).toContain('href="/episodes"');
     expect(html).toContain('href="/topics"');
     expect(html).toContain('href="/charts"');
+    expect(html).toContain('href="/nos-projets"');
 
     const english = renderToStaticMarkup(
       createElement(LocalizationProvider, {
@@ -32,6 +33,7 @@ describe('navigation publique', () => {
       }),
     );
     expect(english).toContain('href="/en/episodes"');
+    expect(english).toContain('href="/en/nos-projets"');
     expect(english).toContain('All episodes');
     expect(english).toContain('Topics');
   });

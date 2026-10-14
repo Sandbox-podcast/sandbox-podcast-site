@@ -46,32 +46,35 @@ export default async function AboutPage() {
                     <Text>{'Sandbox / '}</Text>
                     <Text>{String(index + 1).padStart(2, '0')}</Text>
                   </span>
-                  {host.photo ? null : (
+                  {!host.photo && (
                     <span className="about-social-monogram" aria-hidden="true">
                       <Text>{host.name.slice(0, 1)}</Text>
                     </span>
                   )}
                 </div>
-                {host.photo ? (
-                  <div className="about-social-portrait">
+                {host.photo && (
+                  <div className="about-social-portrait" aria-hidden="true">
                     <Image
+                      className="about-social-photo"
                       src={host.photo}
-                      alt={`Portrait de ${host.name}`}
+                      alt=""
                       fill
+                      loading="eager"
+                      quality={90}
                       sizes="(max-width: 48rem) 88vw, 26rem"
                     />
                   </div>
-                ) : null}
+                )}
                 <div className="about-social-card-body">
                   <h2>
                     <Text>{host.name}</Text>
                   </h2>
-                  {host.aka ? (
+                  {host.aka && (
                     <p className="about-social-aka label">
                       <Text>{'Aka '}</Text>
                       <Text>{host.aka}</Text>
                     </p>
-                  ) : null}
+                  )}
                   <span className="about-social-card-rule" aria-hidden="true" />
                 </div>
                 <Text>

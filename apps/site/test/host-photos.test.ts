@@ -1,63 +1,141 @@
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { PGlite } from '@electric-sql/pglite';
-import { drizzle } from 'drizzle-orm/pglite';
-import { describe, expect, it } from 'vitest';
-import sharp from 'sharp';
-import { hostPhotos } from '../src/db/schema.ts';
-import { hostPhotoPath, prepareHostPhoto } from '../src/lib/host-photos.ts';
+import { createElement } from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
+import { afterEach, describe, expect, it, vi } from 'vitest';
+import AboutPage from '../src/app/(fr)/about/page';
+import { hostSchema } from '../src/domain/schema';
+import { loadContent, setEditorialOverride } from '../src/lib/load';
 
-function solid(width: number, height: number): Promise<Buffer> {
-  return sharp({ create: { width, height, channels: 3, background: '#02c9df' } })
-    .jpeg()
-    .toBuffer();
-}
+vi.mock('../src/lib/admin-persistence', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('../src/lib/admin-persistence')>();
+  return { ...actual, preparePublishedEditorialContent: vi.fn(async () => undefined) };
+});
 
-describe('import d’une photo d’animateur', () => {
-  it('recadre en carré WebP sans agrandir et donne un chemin stable', async () => {
-    const input = await solid(1200, 1600);
-    const result = await prepareHostPhoto(input);
-    const metadata = await sharp(result.image).metadata();
-    expect(metadata.format).toBe('webp');
-    expect([metadata.width, metadata.height]).toEqual([800, 800]);
-    expect(result.size).toBe(800);
-    expect(hostPhotoPath(result.sha256)).toMatch(/^\/api\/host-photos\/[a-f0-9]{64}\.webp$/);
-    expect((await prepareHostPhoto(input)).sha256).toBe(result.sha256);
+afterEach(() => {
+  setEditorialOverride(undefined);
+});
 
-    const medium = await prepareHostPhoto(await solid(500, 640));
-    expect(medium.size).toBe(500);
-  });
-
-  it('retire les métadonnées EXIF', async () => {
-    const input = await sharp(await solid(600, 600))
-      .withExif({ IFD0: { Copyright: 'secret' } })
-      .jpeg()
-      .toBuffer();
-    expect((await sharp(input).metadata()).exif).toBeDefined();
-    const result = await prepareHostPhoto(input);
-    expect((await sharp(result.image).metadata()).exif).toBeUndefined();
-  });
-
-  it('refuse une image trop petite et un faux fichier', async () => {
-    await expect(prepareHostPhoto(await solid(1200, 300))).rejects.toThrow(/400/);
-    await expect(prepareHostPhoto(Buffer.from('not an image'))).rejects.toThrow(/illisible/);
-    expect(() => hostPhotoPath('../etc')).toThrow();
-  });
-
-  it('enregistre le WebP dans la migration Postgres additive', async () => {
-    const database = new PGlite();
-    try {
-      await database.exec(
-        readFileSync(join(process.cwd(), 'drizzle/0011_host_photos.sql'), 'utf8'),
+describe('photos des animateurs', () => {
+  it.each(['lou', 'loic'])(
+    'associe %s à un portrait PNG présent dans les fichiers publics',
+    (slug) => {
+      const host = loadContent().hosts.find((item) => item.slug === slug);
+      expect(host?.photo).toBe(`/team/${slug}.png`);
+      const file = join(process.cwd(), 'public', host?.photo ?? '');
+      expect(existsSync(file)).toBe(true);
+      expect(readFileSync(file).subarray(0, 8)).toEqual(
+        Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]),
       );
-      const db = drizzle(database);
-      const photo = await prepareHostPhoto(await solid(640, 640));
-      await db.insert(hostPhotos).values(photo);
-      const rows = await db.select().from(hostPhotos);
-      expect(rows).toHaveLength(1);
-      expect(Buffer.from(rows[0]?.image ?? [])).toEqual(photo.image);
-    } finally {
-      await database.close();
+    },
+  );
+
+  it('restaure le portrait, le pseudo et les liens de Nicolas depuis la production', () => {
+    const nicolas = loadContent().hosts.find((host) => host.slug === 'nicolas');
+    expect(nicolas).toMatchObject({
+      aka: 'MarlburroW',
+      photo: '/team/nicolas.jpg',
+      socials: {
+        github: 'https://github.com/MarlBurroW',
+        linkedin: 'https://www.linkedin.com/in/nicolas-varrot-b6b05857/',
+        x: 'https://x.com/MarlburroW38',
+      },
+    });
+    expect(readFileSync(join(process.cwd(), 'public/team/nicolas.jpg')).subarray(0, 3)).toEqual(
+      Buffer.from([255, 216, 255]),
+    );
+    expect(loadContent().hosts.find((host) => host.slug === 'loic')?.socials.github).toBe(
+      'https://github.com/azerothl',
+    );
+  });
+
+  it('accepte les anciens profils sans photo et refuse les chemins externes ou traversants', () => {
+    const profile = {
+      slug: 'lea',
+      name: 'Léa',
+      handle: '@lea',
+      role: 'Animatrice',
+      bio: 'Présente le podcast.',
+    };
+    expect(hostSchema.parse(profile).photo).toBeUndefined();
+    expect(hostSchema.parse({ ...profile, aka: 'lea' }).aka).toBe('lea');
+    expect(hostSchema.parse({ ...profile, photo: '/team/lea.webp' }).photo).toBe('/team/lea.webp');
+    for (const photo of [
+      'https://example.org/lea.png',
+      '//example.org/lea.png',
+      '/team/../lea.png',
+      '/team/lea.svg',
+    ]) {
+      expect(hostSchema.safeParse({ ...profile, photo }).success).toBe(false);
     }
+  });
+
+  it('complète les anciens profils publiés avec la photo Git en conservant leurs autres champs', () => {
+    const content = loadContent();
+    const hosts = content.hosts.map((host) => {
+      const legacy = { ...host };
+      delete legacy.photo;
+      delete legacy.aka;
+      return host.slug === 'lou' ? { ...legacy, handle: '@lou-publie' } : legacy;
+    });
+    setEditorialOverride({ ...content, hosts });
+    expect(loadContent().hosts.find((host) => host.slug === 'lou')).toMatchObject({
+      handle: '@lou-publie',
+      photo: '/team/lou.png',
+      aka: 'loukan42',
+    });
+    expect(loadContent().hosts.find((host) => host.slug === 'loic')?.photo).toBe('/team/loic.png');
+    setEditorialOverride({
+      ...content,
+      hosts: hosts.map((host) =>
+        host.slug === 'lou' ? { ...host, photo: '/team/lou-autre.webp' } : host,
+      ),
+    });
+    expect(loadContent().hosts.find((host) => host.slug === 'lou')?.photo).toBe(
+      '/team/lou-autre.webp',
+    );
+  });
+
+  it('affiche les trois portraits, les pseudos et les liens publiés sur À propos', async () => {
+    const html = renderToStaticMarkup(createElement('div', null, await AboutPage()));
+    expect(html.match(/class="about-social-photo"/g)).toHaveLength(3);
+    expect(html.match(/class="about-social-portrait" aria-hidden="true"/g)).toHaveLength(3);
+    expect(html.match(/data-nimg="fill"/g)).toHaveLength(3);
+    expect(html).toContain(encodeURIComponent('/team/lou.png'));
+    expect(html).toContain(encodeURIComponent('/team/nicolas.jpg'));
+    expect(html).toContain(encodeURIComponent('/team/loic.png'));
+    expect(html).not.toContain('class="about-social-monogram"');
+    expect(html).toContain('MarlburroW');
+    expect(html.match(/class="about-social-aka label"/g)).toHaveLength(2);
+    expect(html).toContain('https://github.com/loukan42');
+    expect(html).toContain('https://github.com/MarlBurroW');
+    expect(html).toContain('https://github.com/azerothl');
+    expect(html).not.toContain('Équipe Sandbox');
+  });
+
+  it('remplace uniquement l’ancienne photo de Lou dans un profil déjà publié', () => {
+    const content = loadContent();
+    setEditorialOverride({
+      ...content,
+      hosts: content.hosts.map((host) =>
+        host.slug === 'lou' ? { ...host, photo: '/team/lou.jpg' } : host,
+      ),
+    });
+    expect(loadContent().hosts.find((host) => host.slug === 'lou')?.photo).toBe('/team/lou.png');
+  });
+
+  it('garde une initiale pour un nouveau profil sans photo', async () => {
+    const content = loadContent();
+    const host = hostSchema.parse({
+      slug: 'lea',
+      name: 'Léa',
+      handle: '@lea',
+      role: 'Animatrice',
+      bio: 'Présente le podcast.',
+    });
+    setEditorialOverride({ ...content, hosts: [...content.hosts, host] });
+    const html = renderToStaticMarkup(createElement('div', null, await AboutPage()));
+    expect(html.match(/class="about-social-monogram"/g)).toHaveLength(1);
+    expect(html.match(/class="about-social-photo"/g)).toHaveLength(3);
   });
 });

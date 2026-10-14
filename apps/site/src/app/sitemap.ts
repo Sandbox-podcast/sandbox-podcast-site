@@ -13,6 +13,8 @@ import { localeRouteSegment } from '@/i18n/locales';
 import { allEntities, allEpisodes, allTopics, entityPath } from '@/lib/repository';
 import { indexableEpisode } from '@/domain/episode-seo';
 import { uniqueSitemapEntries } from '@/domain/site-sitemap';
+import { personalProjects } from '@/lib/personal-projects';
+import { personalProjectPath } from '@/domain/personal-projects';
 
 export const dynamic = 'force-dynamic';
 
@@ -122,5 +124,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...topics.map((t) => entry(`/topics/${t.slug}`, undefined, 0.4)),
     ...(!isMock ? allEntities().map((e) => entry(entityPath(e), undefined, 0.6)) : []),
     entry('/about', undefined, 0.4),
+    entry('/nos-projets', undefined, 0.7),
+    ...personalProjects.map((project) =>
+      entry(personalProjectPath(project.slug), project.verifiedAt, 0.6),
+    ),
   ]);
 }

@@ -87,17 +87,19 @@ export function AdminHostPhoto({
             }}
           />
         </label>
-        {photo ? (
+        {photo?.startsWith('/api/host-photos/') ? (
           <button
             className="btn"
             type="button"
             disabled={disabled || uploading}
             onClick={() => {
               onChange(undefined);
-              setMessage('Photo retirée. Enregistrez pour revenir au monogramme.');
+              setMessage(
+                'Photo retirée. Enregistrez pour revenir à la photo d’origine du site, ou à l’initiale s’il n’y en a pas.',
+              );
             }}
           >
-            Retirer la photo
+            Retirer la photo importée
           </button>
         ) : null}
         {uploading ? <p role="status">Import de la photo en cours…</p> : null}
