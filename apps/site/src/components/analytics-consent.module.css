@@ -1,0 +1,95 @@
+.preferencesButton {
+  position: fixed;
+  z-index: 40;
+  inset-inline-start: 1rem;
+  inset-block-end: 1rem;
+  border: 1px solid var(--hair);
+  background: var(--paper-2);
+  color: var(--ink);
+  padding: 0.45rem 0.7rem;
+  font: inherit;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+.preferencesButton:hover {
+  border-color: var(--accent-ink);
+  color: var(--accent-ink);
+}
+
+.preferencesButton:focus-visible,
+.actionButton:focus-visible {
+  outline: 3px solid var(--accent-ink);
+  outline-offset: 3px;
+}
+
+.panel {
+  position: fixed;
+  z-index: 50;
+  inset-inline: 1rem;
+  inset-block-end: 1rem;
+  width: min(42rem, calc(100% - 2rem));
+  margin-inline: auto;
+  border: 1px solid var(--hair);
+  background: var(--paper-2);
+  color: var(--ink);
+  box-shadow: 0 0.5rem 2rem rgb(0 0 0 / 45%);
+  padding: 1rem;
+}
+
+.title {
+  margin: 0 0 0.4rem;
+  color: var(--accent-ink);
+  font-family: var(--font-display, inherit);
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.description {
+  margin: 0;
+  color: var(--ink-2);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 0.9rem;
+}
+
+.actionButton {
+  min-height: 2.5rem;
+  border: 1px solid var(--hair);
+  background: var(--paper);
+  color: var(--ink);
+  padding: 0.5rem 0.8rem;
+  font: inherit;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.actionButtonPrimary {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #041018;
+}
+
+.actionButton:hover {
+  border-color: var(--accent-ink);
+}
+
+@media (max-width: 30rem) {
+  .panel {
+    inset-inline: 0.75rem;
+    inset-block-end: 0.75rem;
+    width: calc(100% - 1.5rem);
+  }
+
+  .actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+}
