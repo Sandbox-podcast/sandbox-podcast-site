@@ -23,7 +23,7 @@ describe('fiches des animateurs', () => {
       .parse(hosts)
       .find((host) => host.slug === 'lou');
     expect(lou?.aka).toBe('loukan42');
-    expect(lou?.photo).toBe('/team/lou.jpg');
+    expect(lou?.photo).toBe('/team/lou.png');
   });
 
   it('n’accepte que des photos servies par le site', () => {
