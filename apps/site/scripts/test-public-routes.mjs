@@ -159,3 +159,5 @@ try {
 } finally {
   await fixture.close();
 }
+// Next dev conserve des observateurs de fichiers après close() sur Windows.
+process.exit(process.exitCode ?? 0);

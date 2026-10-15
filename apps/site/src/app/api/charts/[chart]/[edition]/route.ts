@@ -1,3 +1,4 @@
+import { decodeEditionRouteParam } from '@/domain/weeks';
 import { publicChartEdition, chartsApiResponse } from '@/lib/charts-public';
 import type { PublicChartId } from '@/lib/charts-public';
 import { editionIdSchema } from '@/domain/schema';
@@ -8,7 +9,8 @@ export async function GET(
   _request: Request,
   { params }: { params: Promise<{ chart: string; edition: string }> },
 ) {
-  const { chart, edition } = await params;
+  const { chart, edition: encodedEdition } = await params;
+  const edition = decodeEditionRouteParam(encodedEdition);
   if (
     !['github', 'rising', 'skills', 'models'].includes(chart) ||
     (edition !== 'current' && !editionIdSchema.safeParse(edition).success)

@@ -457,7 +457,7 @@ try {
       2,
     ),
   );
-  log('Badges E2E passed. Evidence: apps/site/.local/badges-e2e/');
+  log(`Badges E2E passed. Evidence: ${fileURLToPath(artifactDir)}`);
 } catch (error) {
   process.exitCode = 1;
   const failedPage = browser

@@ -79,6 +79,36 @@ function dataset(): ChartsData {
 afterEach(() => vi.clearAllMocks());
 
 describe('archive Skills publiée', () => {
+  it.each(['00', '12'])(
+    'ouvre les créneaux %sh dont le deux-points reste encodé par Next',
+    async (hour) => {
+      const data = dataset();
+      const edition = `2026-10-10T${hour}:00Z`;
+      data.weeks = [edition];
+      for (const series of data.series)
+        series.snapshots = series.snapshots
+          .slice(0, 1)
+          .map((snapshot) => ({ ...snapshot, week: edition }));
+      const encoded = edition.replace(':', '%3A');
+      const searchParams = Promise.resolve({});
+      const pages = [
+        await SkillsPage({ params: Promise.resolve({ platform: encoded }), searchParams }),
+        await ChartWeekPage({
+          params: Promise.resolve({ slug: 'github', week: encoded }),
+          searchParams,
+        }),
+        await HistoryWeekPage({ params: Promise.resolve({ week: encoded }), searchParams }),
+        await RisingWeekPage({ params: Promise.resolve({ week: encoded }), searchParams }),
+      ];
+      for (const page of pages)
+        expect(renderToStaticMarkup(page)).toContain('<h3>archive-skill</h3>');
+      expect(matchSharedPage(`/charts/skills/${encoded}`)).toEqual({
+        route: '/charts/:slug/:week',
+        params: { slug: 'skills', week: edition },
+      });
+      expect(sandboxChartsData).toHaveBeenCalledWith(edition);
+    },
+  );
   it('ouvre la date annoncée dans le sitemap et affiche ses positions, même après une nouvelle édition', async () => {
     dataset();
     expect(

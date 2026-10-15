@@ -9,7 +9,7 @@ import { fileURLToPath, URL } from 'node:url';
 import process from 'node:process';
 import { log } from 'node:console';
 import { PGlite } from '@electric-sql/pglite';
-import { neonConfig } from '@neondatabase/serverless';
+import { neonConfig, Pool } from '@neondatabase/serverless';
 import { WebSocketServer, default as WebSocket } from 'ws';
 import next from 'next';
 
@@ -101,6 +101,16 @@ export async function startBadgeFixture({ kind = 'e2e', port = 0 } = {}) {
       }
     });
   });
+  // Next charge son propre module client : suivre aussi ses pools pour les fermer
+  // avant le proxy, sans couper brutalement leurs connexions encore inactives.
+  const pools = new Set();
+  for (const PoolClass of new Set([Pool, require('@neondatabase/serverless').Pool])) {
+    const connect = PoolClass.prototype.connect;
+    PoolClass.prototype.connect = function (...args) {
+      pools.add(this);
+      return connect.apply(this, args);
+    };
+  }
   for (const config of [neonConfig, require('@neondatabase/serverless').neonConfig]) {
     config.webSocketConstructor = WebSocket;
     config.wsProxy = () => `127.0.0.1:${proxyPort}`;
@@ -174,11 +184,14 @@ export async function startBadgeFixture({ kind = 'e2e', port = 0 } = {}) {
   async function close() {
     if (closing) return;
     closing = true;
-    const { closeDb } = await import('../src/db/client.ts');
-    await closeDb();
-    await app.close();
+    ready = false;
     server.closeAllConnections();
     await new Promise((resolve) => server.close(resolve));
+    await app.close();
+    const { closeDb } = await import('../src/db/client.ts');
+    await closeDb();
+    await Promise.all([...pools].filter((pool) => !pool.ending).map((pool) => pool.end()));
+    await queue;
     for (const client of proxy.clients) client.terminate();
     await new Promise((resolve) => proxy.close(resolve));
     await pg.close();

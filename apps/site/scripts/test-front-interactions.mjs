@@ -8,6 +8,8 @@ import { log } from 'node:console';
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.SANDBOX_PLAYWRIGHT_PATH ?? 'playwright');
 const origin = process.env.SANDBOX_FRONT_ORIGIN ?? 'http://127.0.0.1:3317';
+if (!['127.0.0.1', 'localhost'].includes(new URL(origin).hostname))
+  throw new Error('Ces parcours sont réservés au serveur local.');
 const output = new URL('../.local/front-interactions/', import.meta.url);
 await mkdir(output, { recursive: true });
 const browser = await chromium.launch({ channel: 'msedge', headless: true });
