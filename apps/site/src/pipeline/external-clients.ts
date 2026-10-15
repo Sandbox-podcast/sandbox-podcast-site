@@ -196,7 +196,14 @@ const openRouterModelSchema = z.object({
   canonical_slug: z.string().optional(),
   name: z.string().min(1),
   description: z.string().nullable().optional(),
-  context_length: z.number().int().positive().nullable().optional(),
+  // Les modèles audio/vidéo peuvent annoncer 0 : ce n'est pas une fenêtre texte mesurée.
+  context_length: z
+    .number()
+    .int()
+    .nonnegative()
+    .transform((value) => (value === 0 ? null : value))
+    .nullable()
+    .optional(),
   pricing: z
     .object({ prompt: z.string().optional(), completion: z.string().optional() })
     .optional(),

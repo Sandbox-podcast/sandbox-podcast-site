@@ -3,6 +3,8 @@ import { revalidatePath } from 'next/cache';
 import { collectGithub, discoverGithub, freezeGithubWeek } from '@/pipeline/github-jobs';
 import { vercelOidcToken } from '@/pipeline/external-clients';
 import { collectExternalCharts, freezeExternalCharts } from '@/pipeline/external-jobs';
+import { collectModels, collectSkills } from '@/pipeline/external-jobs';
+import { chartsJobHttpStatus } from '@/domain/charts-job-status';
 import { collectGithubBursts, discoverGithubTrending } from '@/pipeline/github-bursts-jobs';
 
 export const runtime = 'nodejs';
@@ -28,6 +30,11 @@ export async function GET(request: Request, { params }: { params: Promise<{ job:
       'external-daily',
       'github-bursts',
       'github-trending',
+      'skills-daily',
+      'models-daily',
+      'github-freeze',
+      'skills-freeze',
+      'models-freeze',
     ].includes(job)
   )
     return Response.json({ error: 'Job inconnu.' }, { status: 404 });
@@ -37,6 +44,11 @@ export async function GET(request: Request, { params }: { params: Promise<{ job:
     else if (job === 'github-bursts') summary = await collectGithubBursts();
     else if (job === 'github-trending') summary = await discoverGithubTrending();
     else if (job === 'github-daily') summary = await collectGithub();
+    else if (job === 'skills-daily') summary = await collectSkills(vercelOidcToken(request));
+    else if (job === 'models-daily') summary = await collectModels();
+    else if (job === 'github-freeze') summary = await freezeGithubWeek();
+    else if (job === 'skills-freeze') summary = await freezeExternalCharts({ chart: 'skills' });
+    else if (job === 'models-freeze') summary = await freezeExternalCharts({ chart: 'models' });
     else if (job === 'external-daily')
       summary = await collectExternalCharts(vercelOidcToken(request));
     else {
@@ -60,10 +72,10 @@ export async function GET(request: Request, { params }: { params: Promise<{ job:
         details: [...github.details, ...external.details],
       };
     }
-    if (job === 'github-weekly' && summary.snapshotsCreated > 0)
-      revalidatePath('/charts', 'layout');
+    if ((job === 'github-weekly' || job.endsWith('-freeze')) && summary.snapshotsCreated > 0)
+      revalidatePath('/', 'layout');
     return Response.json(summary, {
-      status: summary.status === 'failed' ? 503 : 200,
+      status: chartsJobHttpStatus(summary.status),
       headers: { 'Cache-Control': 'no-store' },
     });
   } catch (error) {

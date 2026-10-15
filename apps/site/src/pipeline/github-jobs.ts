@@ -8,7 +8,7 @@ import {
 } from '../domain/github-charts.ts';
 import {
   beginChartsJob,
-  chartsJobDashboard,
+  hasCompletedChartsCollection,
   collectionBatch,
   finishChartsJob,
   freezeWeeklyCharts,
@@ -32,6 +32,7 @@ import { githubReferenceInput } from '../domain/reference-adapters.ts';
 import { createReferenceArtifact, type ReferenceArtifact } from '../lib/reference-artifact.ts';
 import { rankGithubProjects as githubBaseRanking } from '../domain/github-charts.ts';
 import { refreshSlotForDate, refreshSlotId, isRefreshSlotId } from '../domain/chart-refresh.ts';
+import { reviewedReferenceVersion } from '../lib/reference-publication.ts';
 
 export const DISCOVERY_TOPICS = [
   'artificial-intelligence',
@@ -140,17 +141,28 @@ export async function collectGithub(
     const collectedAt = now.toISOString();
     const config = await readChartsConfig();
     const deadline = Date.now() + 220000;
+    // Réserver du temps au second évaluateur, même avec une longue file de découverte.
+    const collectionDeadline = deadline - 40000;
+    let phase: 'tracked' | 'candidate' = 'tracked';
+    let candidateAttempts = 0;
     let afterId: string | undefined;
-    while (Date.now() < deadline) {
-      const pending = await collectionBatch(slotId, 100, afterId);
-      if (!pending.length) break;
+    while (Date.now() < collectionDeadline) {
+      if (phase === 'candidate' && candidateAttempts >= 100) break;
+      const pending = await collectionBatch(slotId, 100, afterId, phase);
+      if (!pending.length) {
+        if (phase === 'candidate') break;
+        phase = 'candidate';
+        afterId = undefined;
+        continue;
+      }
+      if (phase === 'candidate') candidateAttempts += pending.length;
       afterId = pending.at(-1)?.repo.id;
       const history = await recentDailySnapshots(
         pending.map((item) => item.repo.id),
         date,
       );
       for (let at = 0; at < pending.length; at += 20) {
-        if (Date.now() >= deadline) break;
+        if (Date.now() >= collectionDeadline) break;
         const chunk = pending.slice(at, at + 20);
         let fetched;
         try {
@@ -164,7 +176,7 @@ export async function collectGithub(
           summary.details.push(error instanceof Error ? error.message : 'Collecte indisponible.');
           if (error instanceof GithubRateLimitError) {
             summary.status = 'partial';
-            summary.remaining = (await collectionBatch(slotId, 10000)).length;
+            summary.remaining = (await collectionBatch(slotId, 10000, undefined, 'tracked')).length;
             return;
           }
           continue;
@@ -286,7 +298,7 @@ export async function collectGithub(
         );
       }
     }
-    summary.remaining = (await collectionBatch(slotId, 10000)).length;
+    summary.remaining = (await collectionBatch(slotId, 10000, undefined, 'tracked')).length;
     if (summary.remaining) {
       summary.status = 'partial';
       summary.details.push(
@@ -419,12 +431,7 @@ export async function freezeGithubWeek(
     const date = z.iso.date().parse(options.date ?? utcDate());
     const slotId =
       options.slotId ?? (options.date ? refreshSlotForDate(date) : refreshSlotId(new Date()));
-    const sync = (await chartsJobDashboard()).jobs.find((job) => job.kind === 'github_daily_sync');
-    if (
-      !sync?.finishedAt ||
-      refreshSlotId(sync.finishedAt) !== slotId ||
-      !['success', 'partial'].includes(sync.status)
-    ) {
+    if (!(await hasCompletedChartsCollection('github_daily_sync', slotId))) {
       summary.status = 'skipped';
       summary.details.push('La collecte du créneau doit se terminer avant de figer les éditions.');
       return;
@@ -435,13 +442,23 @@ export async function freezeGithubWeek(
     summary.snapshotsCreated = result.written;
     summary.status = result.insufficientHistory
       ? 'insufficient_history'
-      : result.risingUncertainCandidates
+      : (options.publish ?? true) && !reviewedReferenceVersion(result.scoringVersion)
         ? 'partial'
-        : 'success';
+        : result.risingUncertainCandidates
+          ? 'partial'
+          : 'success';
     summary.details.push(
       result.insufficientHistory
         ? `Historique ou corroboration insuffisants : ${result.eligible.toString()}/${(await readChartsConfig()).minimumCandidates.toString()} candidats éligibles, ${result.uncertainCandidates.toString()} dépôts peuvent modifier le Top 20. Aucun classement publié.`
         : `${result.week} figée, ${result.written.toString()} classement(s) créé(s). ${result.risingUncertainCandidates.toString()} candidats Rising restent non corroborés. Une relance conserve les éditions existantes.`,
     );
+    if (
+      !result.insufficientHistory &&
+      (options.publish ?? true) &&
+      !reviewedReferenceVersion(result.scoringVersion)
+    )
+      summary.details.push(
+        'Le profil attend sa revue : le classement reste en brouillon et ne constitue pas une publication.',
+      );
   });
 }

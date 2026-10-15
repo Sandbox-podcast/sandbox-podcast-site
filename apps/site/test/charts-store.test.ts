@@ -14,6 +14,8 @@ import { ContentConflictError } from '../src/lib/admin-content-conflict.ts';
 import { freezeExternalEdition, saveExternalBatch } from '../src/lib/external-charts-store.ts';
 import {
   beginChartsJob,
+  collectionBatch,
+  hasCompletedChartsCollection,
   finishChartsJob,
   publishFrozenCharts,
   saveDailyBatch,
@@ -393,6 +395,38 @@ describe('pipeline charts sur Postgres', () => {
     expect(await db.select().from(schema.weeklyChartEditions)).toHaveLength(0);
     await expect(pg.exec('DELETE FROM github_trending_observations')).rejects.toThrow();
   });
+  it('retrouve la collecte historique malgré une relance ratée et des jobs plus récents', async () => {
+    await db.insert(schema.chartsJobRuns).values([
+      {
+        id: 'past-success',
+        kind: 'models_daily_sync',
+        status: 'success',
+        startedAt: '2026-10-11T03:00:00Z',
+        finishedAt: '2026-10-11T03:01:00Z',
+      },
+      {
+        id: 'past-failure',
+        kind: 'models_daily_sync',
+        status: 'failed',
+        startedAt: '2026-10-11T04:00:00Z',
+        finishedAt: '2026-10-11T04:01:00Z',
+      },
+      {
+        id: 'later-success',
+        kind: 'models_daily_sync',
+        status: 'success',
+        startedAt: '2026-10-15T03:00:00Z',
+        finishedAt: '2026-10-15T03:01:00Z',
+      },
+    ]);
+    expect(await hasCompletedChartsCollection('models_daily_sync', '2026-10-11T00:00Z')).toBe(true);
+    expect(await hasCompletedChartsCollection('models_daily_sync', '2026-10-11T12:00Z')).toBe(
+      false,
+    );
+    expect(await hasCompletedChartsCollection('skills_daily_sync', '2026-10-11T00:00Z')).toBe(
+      false,
+    );
+  });
   it('refuse le premier classement sans J−7 et ne crée aucune métrique de remplacement', async () => {
     await seed(false);
     const result = await calculateGithubWeek({ date });
@@ -704,6 +738,29 @@ describe('pipeline charts sur Postgres', () => {
     const detail = await githubProjectDetail(entity.slug);
     expect(detail?.editionsInTop20).toBe(0);
     expect(detail?.daily).toHaveLength(3);
+  });
+  it('collecte les dépôts suivis avant une file de candidats plus grande que le lot', async () => {
+    vi.stubEnv('GITHUB_TOKEN', 'test-token');
+    const tracked = await seed(false, 2, false);
+    await upsertDiscoveredRepositories(Array.from({ length: 120 }, (_, i) => repo(100 + i)));
+    const slot = '2026-10-06T00:00Z';
+    const batch = await collectionBatch(slot, 100, undefined, 'tracked');
+    expect(batch.map((item) => item.repo.id).toSorted()).toEqual(
+      tracked.map((item) => item.id).toSorted(),
+    );
+    const client = new GithubClient({ token: 'test-token' });
+    const calls: string[][] = [];
+    vi.spyOn(client, 'batch').mockImplementation(async (names) => {
+      calls.push([...names]);
+      return names.map((fullName) => {
+        const index = Number(fullName.split('-').at(-1));
+        return { fullName, repository: repo(index), commits7d: 1, error: null };
+      });
+    });
+    const result = await collectGithub(client, new Date('2026-10-06T02:00:00Z'));
+    expect(calls[0]?.toSorted()).toEqual(tracked.map((item) => item.fullName).toSorted());
+    expect(calls.flat()).toHaveLength(102);
+    expect(result.remaining).toBe(0);
   });
   it('un quota atteint préserve les relevés et laisse les dépôts à reprendre', async () => {
     vi.stubEnv('GITHUB_TOKEN', 'test-token');

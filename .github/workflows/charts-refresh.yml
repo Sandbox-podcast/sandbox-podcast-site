@@ -10,6 +10,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: charts-${{ github.event.schedule || 'manual-refresh' }}
+  cancel-in-progress: false
+
 jobs:
   discovery:
     if: github.event_name == 'schedule' && github.event.schedule == '17 1 * * *'
@@ -18,12 +22,15 @@ jobs:
     steps:
       - name: Collecter Trending et découvrir les candidats
         env:
-          CHARTS_ORIGIN: ${{ vars.SANDBOX_CHARTS_ORIGIN }}
+          CHARTS_ORIGIN: ${{ vars.SANDBOX_CHARTS_ORIGIN || 'https://www.sandboxpodcast.fr' }}
           CRON_SECRET: ${{ secrets.SANDBOX_CHARTS_CRON_SECRET }}
         run: |
           set -euo pipefail
           test -n "$CHARTS_ORIGIN"
-          test -n "$CRON_SECRET"
+          if [ "${#CRON_SECRET}" -lt 16 ]; then
+            echo '::error::Configurer SANDBOX_CHARTS_CRON_SECRET avec le secret CRON_SECRET de Vercel.'
+            exit 1
+          fi
           case "$CHARTS_ORIGIN" in https://*) ;; *) echo "SANDBOX_CHARTS_ORIGIN doit utiliser HTTPS." >&2; exit 1 ;; esac
           CHARTS_ORIGIN="${CHARTS_ORIGIN%/}"
           call_job() {
@@ -37,35 +44,51 @@ jobs:
   refresh:
     if: (github.event_name == 'schedule' && github.event.schedule == '17 3,15 * * *') || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 30
     steps:
-      - name: Collecter les sources puis publier les éditions disponibles
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Collecter, reprendre les lots incomplets et vérifier les publications
         env:
-          CHARTS_ORIGIN: ${{ vars.SANDBOX_CHARTS_ORIGIN }}
+          CHARTS_ORIGIN: ${{ vars.SANDBOX_CHARTS_ORIGIN || 'https://www.sandboxpodcast.fr' }}
           CRON_SECRET: ${{ secrets.SANDBOX_CHARTS_CRON_SECRET }}
-        run: |
-          set -euo pipefail
-          test -n "$CHARTS_ORIGIN"
-          test -n "$CRON_SECRET"
-          case "$CHARTS_ORIGIN" in https://*) ;; *) echo "SANDBOX_CHARTS_ORIGIN doit utiliser HTTPS." >&2; exit 1 ;; esac
-          CHARTS_ORIGIN="${CHARTS_ORIGIN%/}"
-          call_job() {
-            curl --silent --show-error --fail-with-body --retry 2 --retry-all-errors --max-time 360 \
-              --header "Authorization: Bearer $CRON_SECRET" \
-              "$CHARTS_ORIGIN/api/cron/$1"
-          }
-          call_job github-daily
-          call_job external-daily
-          call_job github-weekly
+        run: node apps/site/scripts/charts-refresh.ts
+
+  freshness:
+    # Ce contrôle public reste possible même sans secret de collecte.
+    if: github.event_name == 'schedule' && github.event.schedule == '23 * * * *'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Contrôler les éditions servies aux lecteurs
+        env:
+          CHARTS_ORIGIN: ${{ vars.SANDBOX_CHARTS_ORIGIN || 'https://www.sandboxpodcast.fr' }}
+        run: node apps/site/scripts/charts-refresh.ts --check
 
   bursts:
-    if: github.event_name == 'schedule' && github.event.schedule == '23 * * * *'
+    if: github.event_name == 'schedule' && github.event.schedule == '23 * * * *' && vars.SANDBOX_CHARTS_BURSTS_ENABLED == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
       - name: Mesurer les poussées horaires
         env:
-          CHARTS_ORIGIN: ${{ vars.SANDBOX_CHARTS_ORIGIN }}
+          CHARTS_ORIGIN: ${{ vars.SANDBOX_CHARTS_ORIGIN || 'https://www.sandboxpodcast.fr' }}
           CRON_SECRET: ${{ secrets.SANDBOX_CHARTS_CRON_SECRET }}
         run: |
           set -euo pipefail

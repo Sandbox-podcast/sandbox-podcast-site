@@ -313,6 +313,7 @@ describe('clients de sources', () => {
               context_length: 8192,
               pricing: { prompt: '0', completion: '0' },
             },
+            { id: 'org/audio', name: 'Audio', context_length: 0 },
           ],
         });
       }
@@ -322,5 +323,8 @@ describe('clients de sources', () => {
     expect(sorts.toSorted()).toEqual(['throughput-high-to-low', 'top-weekly']);
     expect(result[0]?.topWeeklyRank).toBe(1);
     expect(result[0]?.throughputRank).toBe(1);
+    expect(result).toHaveLength(2);
+    expect(result[0]?.context_length).toBe(8192);
+    expect(result[1]?.context_length).toBeNull();
   });
 });

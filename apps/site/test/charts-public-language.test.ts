@@ -36,7 +36,7 @@ describe('classements publics en français', () => {
   it('affiche un état d’attente exact et les commandes en français', () => {
     const html = renderToStaticMarkup(createElement(ChartsExperience, { data: pending }));
     expect(html).toContain('Sandbox Charts');
-    expect(html).toContain('Actualisé toutes les 12 h');
+    expect(html).toContain('Deux mises à jour prévues par jour');
     expect(html).toContain('Période');
     expect(html).toContain('Cette édition');
     expect(html).toContain('Catégorie');
@@ -84,7 +84,7 @@ describe('classements publics en anglais', () => {
       }),
     );
     expect(html).toContain('Sandbox Charts');
-    expect(html).toContain('Updated every 12 hours');
+    expect(html).toContain('Two updates scheduled per day');
     expect(html).toContain('Period');
     expect(html).toContain('This edition');
     expect(html).toContain('Category');

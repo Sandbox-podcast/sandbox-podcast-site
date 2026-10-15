@@ -1,4 +1,12 @@
 {
+  "Deux mises à jour prévues par jour": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Mise à jour en retard. La dernière édition publiée reste consultable.": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
   "- Lien (": {
     "translation": "",
     "sources": ["src/domain/chart-markdown.ts"]
