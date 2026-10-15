@@ -49,5 +49,5 @@ for name in ['final', 'preview']:
     report['files'].append(entry)
     print(json.dumps(entry, ensure_ascii=False))
 
-report['limitations'] = ['Repères des paroles issus de Parakeet, résolution native 80 ms, sans validation phonétique manuelle.', 'pnpm check bloqué au formatage sur des fichiers préexistants.']
+report['limitations'] = ['Repères des paroles issus de Parakeet, résolution native 80 ms, sans validation phonétique manuelle.']
 (ROOT / 'analysis' / 'validation.json').write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding='utf-8')

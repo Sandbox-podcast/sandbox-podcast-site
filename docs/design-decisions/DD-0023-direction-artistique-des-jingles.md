@@ -1,4 +1,4 @@
-# DD-0021 — Direction artistique des jingles de séquence
+# DD-0023 — Direction artistique des jingles de séquence
 
 - Date : 2026-10-14
 - Statut : acceptée

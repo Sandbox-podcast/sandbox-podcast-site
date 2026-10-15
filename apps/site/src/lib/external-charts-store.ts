@@ -1,5 +1,5 @@
 import { randomUUID } from 'node:crypto';
-import { and, eq, gte, inArray, isNotNull, lte, sql } from 'drizzle-orm';
+import { and, eq, gte, inArray, isNotNull, lte, or, sql } from 'drizzle-orm';
 import { getDb } from '../db/client.ts';
 import {
   chartEntities,
@@ -17,6 +17,8 @@ import {
 } from '../domain/external-charts.ts';
 import { dateDaysAgo } from '../domain/github-charts.ts';
 import { previousComparableEdition } from '../domain/weeks.ts';
+import { refreshSlotId } from '../domain/chart-refresh.ts';
+import { reviewedReferenceVersion, validateReferenceEdition } from './reference-publication.ts';
 
 export interface ExternalCandidate {
   entity: typeof chartEntities.$inferSelect;
@@ -175,6 +177,7 @@ export async function saveExternalBatch(
         id: randomUUID(),
         entitySourceId: sourceId,
         observedOn: observation.observedOn,
+        refreshSlotId: refreshSlotId(observation.collectedAt),
         collectedAt: observation.collectedAt,
         payload: observation.metrics,
       };
@@ -193,6 +196,7 @@ export async function externalCandidates(
   type: 'skill' | 'model',
   date: string,
   historyDays = 16,
+  slotId = `${date}T12:00Z`,
 ): Promise<ExternalCandidate[]> {
   if (!Number.isSafeInteger(historyDays) || historyDays < 1 || historyDays > 366)
     throw new Error('Fenêtre d’historique externe invalide.');
@@ -216,9 +220,13 @@ export async function externalCandidates(
         inArray(chartEntitySources.entityId, entityIds),
         gte(chartSourceSnapshots.observedOn, dateDaysAgo(date, historyDays)),
         lte(chartSourceSnapshots.observedOn, date),
+        or(
+          lte(chartSourceSnapshots.refreshSlotId, slotId),
+          sql`${chartSourceSnapshots.refreshSlotId} LIKE 'legacy:%'`,
+        ),
       ),
     )
-    .orderBy(chartSourceSnapshots.observedOn);
+    .orderBy(chartSourceSnapshots.observedOn, chartSourceSnapshots.collectedAt);
 
   const sourcesByEntity = new Map<string, (typeof chartEntitySources.$inferSelect)[]>();
   for (const source of sources) {
@@ -234,9 +242,9 @@ export async function externalCandidates(
   }
   return entities.map((entity) => ({
     entity,
-    sources: (sourcesByEntity.get(entity.id) ?? []).flatMap((ref) => {
+    sources: (sourcesByEntity.get(entity.id) ?? []).map((ref) => {
       const items = snapshotsBySource.get(ref.id) ?? [];
-      return items.length ? [{ ref, snapshots: items }] : [];
+      return { ref, snapshots: items };
     }),
   }));
 }
@@ -273,6 +281,19 @@ export async function freezeExternalEdition(
     if (entry.rank !== index + 1) throw new Error('Le rang doit être contigu avant le gel.');
     return entry;
   });
+  const referenceRanking = scoringVersion.endsWith('-reference-v3')
+    ? validateReferenceEdition(
+        config,
+        chart,
+        date,
+        scoringVersion,
+        parsedEntries.map((entry) => ({
+          entity: entry.slug,
+          rank: entry.rank,
+          score: entry.score,
+        })),
+      )
+    : null;
   const db = getDb();
   let written = 0;
   await db.transaction(async (tx) => {
@@ -329,7 +350,10 @@ export async function freezeExternalEdition(
         scoringVersion,
         config,
         payload,
-        publishedAt: publish ? publishedAt : null,
+        publishedAt:
+          publish && (!referenceRanking || reviewedReferenceVersion(scoringVersion))
+            ? publishedAt
+            : null,
       })
       .onConflictDoNothing()
       .returning({ id: weeklyChartEditions.id });
@@ -360,6 +384,9 @@ export async function freezeExternalEdition(
             sources: entry.sources,
             sourceObservedAt: entry.sourceObservedAt,
             scoringVersion,
+            ...(referenceRanking
+              ? { reference: referenceRanking.report.rows.find((row) => row.entity === entry.slug) }
+              : {}),
           },
         };
       }),

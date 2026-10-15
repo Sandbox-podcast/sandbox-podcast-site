@@ -1,6 +1,6 @@
-# DD-0024 : Sandbox Time Machine et Sandbox Wrapped
+# DD-0026 : Sandbox Time Machine et Sandbox Wrapped
 
-Statut : remplacée par [DD-0025](DD-0025-time-machine-histoire-mondiale-ia.md) après la correction du périmètre par Lou. La Time Machine raconte désormais l'histoire mondiale de l'IA, indépendamment des classements Sandbox.
+Statut : remplacée par [DD-0027](DD-0027-time-machine-histoire-mondiale-ia.md) après la correction du périmètre par Lou. La Time Machine raconte désormais l'histoire mondiale de l'IA, indépendamment des classements Sandbox.
 
 Date : 2026-10-15. Décision : décidée par l'agent sur délégation (PD-0003), à la demande de Lou. Développement et vérification en localhost.
 

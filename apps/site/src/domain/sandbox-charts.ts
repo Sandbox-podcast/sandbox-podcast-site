@@ -14,7 +14,7 @@ export const CHART_PERIODS: { id: ChartPeriod; label: string; weeks: number | nu
 export const CHART_LABELS: Record<ChartId, { title: string; subtitle: string; slug: string }> = {
   github: {
     title: 'GITHUB TOP 20',
-    subtitle: 'Les projets IA qui progressent le plus vite sur GitHub.',
+    subtitle: 'Les projets open source qui progressent le plus vite sur GitHub.',
     slug: 'github',
   },
   skills: {
@@ -146,6 +146,7 @@ export interface ChartsCollectionProgress {
 export interface ChartsData {
   /** Éligibilité actuelle uniquement, même lorsqu'une archive ou une autre période est affichée. */
   badgeSlugs?: string[];
+  checkedAt?: string;
   mode: 'live' | 'fixtures' | 'pending' | 'unavailable';
   week: string;
   weeks: string[];
@@ -166,7 +167,7 @@ export interface ChartsRow {
   baseline: boolean;
   rankSeries: { week: string; rank: number | null }[];
   momentum: (number | null)[];
-  weeksInTop: number;
+  editionsInTop: number;
   peak: number | null;
   periodStars: number | null;
   insight: ChartEdition['insights'][number] | undefined;
@@ -328,7 +329,7 @@ export function chartRows(
         baseline: previous === undefined,
         rankSeries: stats.points.slice(-5).map((point) => ({ week: point.week, rank: point.rank })),
         momentum,
-        weeksInTop: stats.weeksInTop,
+        editionsInTop: stats.editionsInTop,
         peak: stats.peak,
         periodStars: entry.metrics['periodStars'] ?? entry.metrics['stars7d'] ?? null,
         insight: edition?.insights.find((item) => item.entity === entry.entity),
@@ -520,7 +521,7 @@ export function chartsRecords(
   const history = source.snapshots.filter((snapshot) => compareWeeks(snapshot.week, week) <= 0);
   const stats = data.entities
     .map((entity) => ({ entity, history: entityHistory(history, entity.slug, 20) }))
-    .filter((item) => item.history.weeksInTop > 0);
+    .filter((item) => item.history.editionsInTop > 0);
   const streaks = new Map<string, number>();
   let streak = 0;
   let previousLeader: string | undefined;
@@ -541,7 +542,7 @@ export function chartsRecords(
   const longest = stats.toSorted(
     (a, b) => (streaks.get(b.entity.slug) ?? 0) - (streaks.get(a.entity.slug) ?? 0),
   )[0];
-  const regular = stats.toSorted((a, b) => b.history.weeksInTop - a.history.weeksInTop)[0];
+  const regular = stats.toSorted((a, b) => b.history.editionsInTop - a.history.editionsInTop)[0];
   const jumper = stats.toSorted(
     (a, b) => (b.history.biggestClimb?.places ?? 0) - (a.history.biggestClimb?.places ?? 0),
   )[0];
@@ -550,21 +551,21 @@ export function chartsRecords(
     records.push({
       label: 'PLUS LONGUE SÉRIE À LA 1RE PLACE',
       entity: longest.entity,
-      value: `${streaks.get(longest.entity.slug)} sem.`,
+      value: `${streaks.get(longest.entity.slug)} éd.`,
       week,
     });
   if (jumper?.history.biggestClimb)
     records.push({
-      label: 'PLUS FORTE HAUSSE HEBDOMADAIRE',
+      label: 'PLUS FORTE HAUSSE ENTRE ÉDITIONS',
       entity: jumper.entity,
       value: `+${jumper.history.biggestClimb.places}`,
-      week: jumper.history.biggestClimb.week,
+      week: jumper.history.biggestClimb.edition,
     });
   if (regular)
     records.push({
-      label: 'PLUS DE SEMAINES DANS LE TOP 20',
+      label: 'PLUS D’ÉDITIONS DANS LE TOP 20',
       entity: regular.entity,
-      value: `${regular.history.weeksInTop} sem.`,
+      value: `${regular.history.editionsInTop} éd.`,
       week,
     });
   return records;

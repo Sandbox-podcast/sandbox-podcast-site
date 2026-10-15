@@ -1,4 +1,4 @@
-# DD-0025 : Time Machine, histoire mondiale de l'IA
+# DD-0027 : Time Machine, histoire mondiale de l'IA
 
 Date : 2026-10-15. Décision : décidée par l'agent sur délégation (PD-0003), après la correction explicite de Lou. Remplace DD-0024 pour le périmètre, les données et le Wrapped.
 

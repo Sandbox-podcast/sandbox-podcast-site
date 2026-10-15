@@ -61,6 +61,17 @@ function summaries(html: string): string[] {
 }
 
 describe('classement compact', () => {
+  it('signale une édition périmée sans présenter une collecte comme une publication', () => {
+    const data = dataset();
+    data.checkedAt = '2026-10-15T10:00:00Z';
+    const html = renderToStaticMarkup(createElement(ChartsExperience, { data }));
+    expect(html).toContain('Mise à jour en retard.');
+    expect(html).toContain('13 oct. 2026');
+    data.checkedAt = '2026-10-13T10:00:00Z';
+    expect(renderToStaticMarkup(createElement(ChartsExperience, { data }))).not.toContain(
+      'Mise à jour en retard.',
+    );
+  });
   it('affiche chaque projet une fois et conserve les détails et les sources', () => {
     const html = renderToStaticMarkup(createElement(ChartsExperience, { data: dataset() }));
     expect(summaries(html)).toHaveLength(2);
@@ -76,6 +87,20 @@ describe('classement compact', () => {
     expect(html).toContain('href="/charts/history"');
     expect(html).toContain('PARTAGER LE CLASSEMENT');
     expect(html).toContain('13 oct. 2026');
+  });
+
+  it('distingue les deux créneaux UTC du même jour dans les archives', () => {
+    const data = dataset();
+    const series = data.series[0];
+    const snapshot = series?.snapshots[0];
+    if (!series || !snapshot) throw new Error('Le jeu de test exige une édition.');
+    data.week = '2026-10-13T12:00Z';
+    data.weeks = ['2026-10-13T12:00Z', '2026-10-13T00:00Z'];
+    series.snapshots = data.weeks.map((week) => ({ ...snapshot, week }));
+    const html = renderToStaticMarkup(createElement(ChartsExperience, { data }));
+    expect(html).toContain('00:00 UTC');
+    expect(html).toContain('12:00 UTC');
+    expect(html).toContain('value="2026-10-13T12:00Z" selected=""');
   });
 
   it('ne répète pas le score dans la ligne et ne fabrique pas de courbe', () => {
@@ -158,9 +183,9 @@ describe('classement compact', () => {
   });
 
   it.each([
-    ['en', 'Updated daily', 'This edition', 'Category'],
-    ['es-ES', 'Actualización diaria', 'Esta edición', 'Categoría'],
-    ['de-DE', 'Täglich aktualisiert', 'Diese Ausgabe', 'Kategorie'],
+    ['en', 'Two updates scheduled per day', 'This edition', 'Category'],
+    ['es-ES', 'Dos actualizaciones previstas al día', 'Esta edición', 'Categoría'],
+    ['de-DE', 'Zwei Aktualisierungen pro Tag geplant', 'Diese Ausgabe', 'Kategorie'],
   ])('traduit les nouveaux contrôles en %s', async (locale, cadence, period, category) => {
     const html = renderToStaticMarkup(
       createElement(LocalizationProvider, {
@@ -172,7 +197,7 @@ describe('classement compact', () => {
     expect(html).toContain(cadence);
     expect(html).toContain(period);
     expect(html).toContain(category);
-    expect(html).not.toContain('Mise à jour quotidienne');
+    expect(html).not.toContain('Actualisé toutes les 12 h');
     expect(html).not.toContain('Cette édition');
   });
 });

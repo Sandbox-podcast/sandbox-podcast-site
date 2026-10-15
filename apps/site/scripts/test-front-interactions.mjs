@@ -7,7 +7,7 @@ import process from 'node:process';
 import { log } from 'node:console';
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.SANDBOX_PLAYWRIGHT_PATH ?? 'playwright');
-const origin = 'http://127.0.0.1:3317';
+const origin = process.env.SANDBOX_FRONT_ORIGIN ?? 'http://127.0.0.1:3317';
 const output = new URL('../.local/front-interactions/', import.meta.url);
 await mkdir(output, { recursive: true });
 const browser = await chromium.launch({ channel: 'msedge', headless: true });

@@ -68,15 +68,43 @@
     {
       "idx": 9,
       "version": "7",
-      "when": 1791936000000,
-      "tag": "0009_badges_awards",
+      "when": 1791842400000,
+      "tag": "0009_github_bursts",
       "breakpoints": true
     },
     {
       "idx": 10,
       "version": "7",
-      "when": 1792022400000,
-      "tag": "0010_extended_awards",
+      "when": 1791928800000,
+      "tag": "0010_chart_refresh_slots",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1792015200000,
+      "tag": "0011_host_photos",
+      "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1792101600000,
+      "tag": "0012_badges_awards",
+      "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "7",
+      "when": 1792101601000,
+      "tag": "0013_extended_awards",
+      "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "7",
+      "when": 1792101602000,
+      "tag": "0014_awards_refresh_slots",
       "breakpoints": true
     }
   ]

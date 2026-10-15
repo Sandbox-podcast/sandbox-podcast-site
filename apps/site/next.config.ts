@@ -24,7 +24,16 @@ const config: NextConfig = {
   serverExternalPackages: ['ws'],
   images: {
     qualities: [75, 90],
-    remotePatterns: [{ protocol: 'https', hostname: 'i.ytimg.com' }],
+    remotePatterns: [
+      { protocol: 'https', hostname: 'i.ytimg.com' },
+      {
+        protocol: 'https',
+        hostname: 'github.com',
+        port: '',
+        pathname: '/*.png',
+        search: '?size=80',
+      },
+    ],
   },
   // Les URL du prompt d'origine (/rankings/…) restent valides : la section s'appelle CHARTS (DD-0001).
   redirects() {

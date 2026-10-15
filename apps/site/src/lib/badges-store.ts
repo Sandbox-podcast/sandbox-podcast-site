@@ -23,7 +23,7 @@ import {
 import { isCalendarEdition } from '../domain/weeks.ts';
 
 /** Ordre identique à compareWeeks, sans charger toutes les archives et leurs payloads. */
-const editionDate = sql`CASE WHEN ${weeklyChartEditions.week} ~ '^[0-9]{4}-[0-9]{2}-[0-9]{2}$' THEN ${weeklyChartEditions.week}::date ELSE to_date(${weeklyChartEditions.week}, 'IYYY-"W"IW') END`;
+const editionDate = sql`CASE WHEN ${weeklyChartEditions.week} ~ '^[0-9]{4}-[0-9]{2}-[0-9]{2}(T(00|12):00Z)?$' THEN ${weeklyChartEditions.week}::timestamptz ELSE to_date(${weeklyChartEditions.week}, 'IYYY-"W"IW')::timestamptz END`;
 
 const evidenceJsonSchema = z.json();
 type EvidenceJson = z.infer<typeof evidenceJsonSchema>;
@@ -206,11 +206,13 @@ export async function assignClosedRisingStars(
       and(
         eq(weeklyChartEditions.chart, 'rising'),
         isNotNull(weeklyChartEditions.publishedAt),
-        targetWeek ? eq(weeklyChartEditions.week, awardSunday(targetWeek)) : undefined,
+        targetWeek
+          ? sql`left(${weeklyChartEditions.week}, 10) = ${awardSunday(targetWeek)}`
+          : undefined,
       ),
     )
-    .orderBy(desc(editionDate))
-    .limit(400);
+    .orderBy(desc(editionDate), desc(weeklyChartEditions.week))
+    .limit(1200);
   const result = {
     considered: 0,
     eligible: 0,
@@ -219,10 +221,13 @@ export async function assignClosedRisingStars(
     weeks: [] as string[],
     dryRun: options.dryRun === true,
   };
+  const seenDays = new Set<string>();
   for (const source of editions) {
-    if (!isCalendarEdition(source.week) || new Date(`${source.week}T12:00:00Z`).getUTCDay() !== 0)
-      continue;
-    const week = parisWeek(new Date(`${source.week}T12:00:00Z`));
+    const day = source.week.slice(0, 10);
+    if (seenDays.has(day)) continue;
+    seenDays.add(day);
+    if (!isCalendarEdition(source.week) || new Date(`${day}T12:00:00Z`).getUTCDay() !== 0) continue;
+    const week = parisWeek(new Date(`${day}T12:00:00Z`));
     if ((targetWeek && week !== targetWeek) || week >= parisWeek(now)) continue;
     result.considered++;
     const [existing] = await db

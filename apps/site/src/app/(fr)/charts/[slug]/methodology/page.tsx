@@ -10,6 +10,7 @@ import { lastUpdated } from '@/lib/graph';
 import { allCharts, findChart, getProfile, getSource, snapshotsOf } from '@/lib/repository';
 import { absoluteUrl, breadcrumbLd, pageMetadata } from '@/lib/seo';
 import { ChartsMethodology } from '@/components/charts-methodology';
+import { ReferenceMethodology } from '@/components/reference-methodology';
 export const dynamicParams = false;
 export function generateStaticParams() {
   return allCharts().map((c) => ({ slug: c.slug }));
@@ -24,7 +25,7 @@ export async function generateMetadata({ params }: Props) {
   if (slug === 'github')
     return pageMetadata({
       title: 'SANDBOX CHARTS · Méthode GitHub Top 20',
-      description: 'Sources, score, critères et limites du classement hebdomadaire GitHub.',
+      description: 'Sources, score, critères et limites des éditions du classement GitHub.',
       path: '/charts/github/methodology',
     });
   const chart = findChart(slug);
@@ -38,6 +39,8 @@ export async function generateMetadata({ params }: Props) {
 export default async function MethodologyPage({ params }: Props) {
   const { slug } = await params;
   if (slug === 'github') return <ChartsMethodology />;
+  if (slug === 'skills' || slug === 'ai-models')
+    return <ReferenceMethodology chart={slug === 'skills' ? 'skills' : 'models'} />;
   const chart = findChart(slug);
   if (!chart) notFound();
   const profile = getProfile(chart);
@@ -99,7 +102,7 @@ export default async function MethodologyPage({ params }: Props) {
       <div className="grid gap-x-12 gap-y-14 lg:grid-cols-[1fr_22rem]">
         <div className="grid gap-14">
           <section aria-labelledby="sources">
-            <SectionHead kicker="D’où viennent les chiffres" title="Sources" id="sources" />
+            <SectionHead kicker="D'où viennent les chiffres" title="Sources" id="sources" />
             <LocalizedElement
               as="div"
               className="scroll-x"
@@ -235,7 +238,7 @@ export default async function MethodologyPage({ params }: Props) {
           </section>
 
           <section aria-labelledby="limites">
-            <SectionHead kicker="Ce qu’on ne sait pas faire" title="Limites" id="limites" />
+            <SectionHead kicker="Ce qu'on ne sait pas faire" title="Limites" id="limites" />
             <ul className="m-0 grid list-none gap-3 p-0">
               <Text>
                 {m.limits.map((l) => (

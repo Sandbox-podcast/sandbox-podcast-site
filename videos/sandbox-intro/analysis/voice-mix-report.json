@@ -21,7 +21,7 @@
       "text": "En 2026, on a confié l'intelligence artificielle à trois mecs.",
       "speed": 1,
       "renderedDuration": 4.066895833333334,
-      "file": "public\\voices\\aligned\\intro.wav"
+      "file": "public/voices/aligned/intro.wav"
     },
     {
       "id": "intro-chute",
@@ -33,7 +33,7 @@
       "text": "Personne n'a pensé à les arrêter !",
       "speed": 1,
       "renderedDuration": 1.989,
-      "file": "public\\voices\\aligned\\intro-chute.wav"
+      "file": "public/voices/aligned/intro-chute.wav"
     },
     {
       "id": "lou-annonce",
@@ -45,7 +45,7 @@
       "text": "Lou ! Product Manager !",
       "speed": 1,
       "renderedDuration": 1.8790416666666667,
-      "file": "public\\voices\\aligned\\lou-annonce.wav"
+      "file": "public/voices/aligned/lou-annonce.wav"
     },
     {
       "id": "lou-description",
@@ -56,8 +56,8 @@
       "end": 14.88,
       "text": "Il écrit ses tickets avec l'IA !",
       "speed": 1.06,
-      "renderedDuration": 2.0,
-      "file": "public\\voices\\aligned\\lou-description.wav"
+      "renderedDuration": 2,
+      "file": "public/voices/aligned/lou-description.wav"
     },
     {
       "id": "lou-replique",
@@ -69,7 +69,7 @@
       "text": "J'en ai fait quarante ce matin !",
       "speed": 1.1818181818181828,
       "renderedDuration": 1.65,
-      "file": "public\\voices\\aligned\\lou-replique.wav"
+      "file": "public/voices/aligned/lou-replique.wav"
     },
     {
       "id": "loic-annonce",
@@ -81,7 +81,7 @@
       "text": "Loïc ! Développeur !",
       "speed": 1.025157232704402,
       "renderedDuration": 1.59,
-      "file": "public\\voices\\aligned\\loic-annonce.wav"
+      "file": "public/voices/aligned/loic-annonce.wav"
     },
     {
       "id": "loic-description",
@@ -93,7 +93,7 @@
       "text": "Il fait coder les tickets par son IA !",
       "speed": 1,
       "renderedDuration": 2.3465,
-      "file": "public\\voices\\aligned\\loic-description.wav"
+      "file": "public/voices/aligned/loic-description.wav"
     },
     {
       "id": "loic-replique",
@@ -105,7 +105,7 @@
       "text": "J'ai même pas lu le ticket !",
       "speed": 1.0877192982456136,
       "renderedDuration": 1.71,
-      "file": "public\\voices\\aligned\\loic-replique.wav"
+      "file": "public/voices/aligned/loic-replique.wav"
     },
     {
       "id": "nico-annonce",
@@ -117,7 +117,7 @@
       "text": "Nico ! Développeur !",
       "speed": 1,
       "renderedDuration": 1.6075625,
-      "file": "public\\voices\\aligned\\nico-annonce.wav"
+      "file": "public/voices/aligned/nico-annonce.wav"
     },
     {
       "id": "nico-description",
@@ -129,7 +129,7 @@
       "text": "Il balance tout en production !",
       "speed": 1,
       "renderedDuration": 1.8364791666666667,
-      "file": "public\\voices\\aligned\\nico-description.wav"
+      "file": "public/voices/aligned/nico-description.wav"
     },
     {
       "id": "nico-replique",
@@ -141,7 +141,7 @@
       "text": "Mais ça marchait en local !",
       "speed": 1,
       "renderedDuration": 1.794875,
-      "file": "public\\voices\\aligned\\nico-replique.wav"
+      "file": "public/voices/aligned/nico-replique.wav"
     },
     {
       "id": "radar-annonce",
@@ -153,7 +153,7 @@
       "text": "Le Radar !",
       "speed": 1.010526315789479,
       "renderedDuration": 0.95,
-      "file": "public\\voices\\aligned\\radar-annonce.wav"
+      "file": "public/voices/aligned/radar-annonce.wav"
     },
     {
       "id": "radar-description",
@@ -165,7 +165,7 @@
       "text": "Toute l'actualité de l'IA !",
       "speed": 1,
       "renderedDuration": 1.5864166666666666,
-      "file": "public\\voices\\aligned\\radar-description.wav"
+      "file": "public/voices/aligned/radar-description.wav"
     },
     {
       "id": "radar-chute",
@@ -177,7 +177,7 @@
       "text": "Déjà périmée demain !",
       "speed": 1.104477611940296,
       "renderedDuration": 1.34,
-      "file": "public\\voices\\aligned\\radar-chute.wav"
+      "file": "public/voices/aligned/radar-chute.wav"
     },
     {
       "id": "build-annonce",
@@ -189,7 +189,7 @@
       "text": "Le Build !",
       "speed": 1.2000000000000044,
       "renderedDuration": 0.65,
-      "file": "public\\voices\\aligned\\build-annonce.wav"
+      "file": "public/voices/aligned/build-annonce.wav"
     },
     {
       "id": "build-description",
@@ -201,7 +201,7 @@
       "text": "Encore un SaaS vibe codé !",
       "speed": 1,
       "renderedDuration": 1.86,
-      "file": "public\\voices\\aligned\\build-description.wav"
+      "file": "public/voices/aligned/build-description.wav"
     },
     {
       "id": "build-chute",
@@ -213,7 +213,7 @@
       "text": "Zéro utilisateur !",
       "speed": 1,
       "renderedDuration": 1.33,
-      "file": "public\\voices\\aligned\\build-chute.wav"
+      "file": "public/voices/aligned/build-chute.wav"
     },
     {
       "id": "clash-annonce",
@@ -225,7 +225,7 @@
       "text": "Le Clash !",
       "speed": 1.0104166666666683,
       "renderedDuration": 0.9557708333333333,
-      "file": "public\\voices\\aligned\\clash-annonce.wav"
+      "file": "public/voices/aligned/clash-annonce.wav"
     },
     {
       "id": "clash-egos",
@@ -237,7 +237,7 @@
       "text": "Trois égos !",
       "speed": 1,
       "renderedDuration": 0.9647708333333334,
-      "file": "public\\voices\\aligned\\clash-egos.wav"
+      "file": "public/voices/aligned/clash-egos.wav"
     },
     {
       "id": "clash-chute",
@@ -249,7 +249,7 @@
       "text": "Zéro remise en question !",
       "speed": 1.0201342281879227,
       "renderedDuration": 1.4896458333333333,
-      "file": "public\\voices\\aligned\\clash-chute.wav"
+      "file": "public/voices/aligned/clash-chute.wav"
     },
     {
       "id": "beta-annonce",
@@ -261,7 +261,7 @@
       "text": "La Bêta !",
       "speed": 1,
       "renderedDuration": 0.8900208333333334,
-      "file": "public\\voices\\aligned\\beta-annonce.wav"
+      "file": "public/voices/aligned/beta-annonce.wav"
     },
     {
       "id": "beta-description",
@@ -273,7 +273,7 @@
       "text": "Des expériences que personne n'a demandées !",
       "speed": 1,
       "renderedDuration": 2.3861666666666665,
-      "file": "public\\voices\\aligned\\beta-description.wav"
+      "file": "public/voices/aligned/beta-description.wav"
     },
     {
       "id": "finale",
@@ -287,7 +287,7 @@
       "generationText": "[deadpan] L'émission qui n'aurait jamais dû passer en prode.",
       "speed": 1,
       "renderedDuration": 2.9221458333333334,
-      "file": "public\\voices\\aligned\\finale.wav"
+      "file": "public/voices/aligned/finale.wav"
     }
   ]
 }

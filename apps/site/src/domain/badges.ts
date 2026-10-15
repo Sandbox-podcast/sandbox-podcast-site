@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { snapshotSchema, slugSchema } from './schema.ts';
-import { isoWeekOf, weekEnd, weekStart } from './weeks.ts';
+import { isCalendarEdition, isoWeekOf, weekEnd, weekStart } from './weeks.ts';
+import { validAwardReference } from './award-reference.ts';
 import { githubChartConfigSchema } from './github-charts.ts';
 
 export const BADGE_DEFINITIONS = {
@@ -116,20 +117,25 @@ export function risingStarWinner(
   const sunday = awardSunday(week);
   if (
     source.chart !== 'rising' ||
-    source.week !== sunday ||
+    !isCalendarEdition(source.week) ||
+    source.week.slice(0, 10) !== sunday ||
     !source.publishedAt ||
     Date.parse(source.publishedAt) > now.getTime() ||
-    Date.parse(source.frozenAt) > now.getTime() ||
-    source.scoringVersion !== 'rising-cross-source-v2'
+    Date.parse(source.frozenAt) > now.getTime()
   )
     return null;
   const snapshot = snapshotSchema.safeParse(source.payload);
   if (
     !snapshot.success ||
     snapshot.data.chart !== 'rising' ||
-    snapshot.data.week !== sunday ||
+    snapshot.data.week !== source.week ||
     snapshot.data.provenance !== 'auto' ||
     parisDate(new Date(snapshot.data.retrievedAt)) !== sunday
+  )
+    return null;
+  if (
+    source.scoringVersion !== 'rising-cross-source-v2' &&
+    !validAwardReference(source, snapshot.data.entries)
   )
     return null;
   if (

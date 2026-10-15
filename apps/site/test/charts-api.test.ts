@@ -9,9 +9,14 @@ const mocks = vi.hoisted(() => ({
   publish: vi.fn(),
   config: vi.fn(),
   job: vi.fn(),
+  skills: vi.fn(),
+  models: vi.fn(),
+  freezeExternal: vi.fn(),
   data: vi.fn(),
   revalidate: vi.fn(),
+  awards: vi.fn(),
 }));
+vi.mock('../src/pipeline/badges-jobs.ts', () => ({ runAllBadgeAwards: mocks.awards }));
 vi.mock('next/cache', () => ({ revalidatePath: mocks.revalidate }));
 vi.mock('../src/lib/admin-auth-db.ts', async () => {
   const { permissionsForRole } = await import('../src/domain/admin-users.ts');
@@ -33,6 +38,12 @@ vi.mock('../src/pipeline/github-jobs.ts', () => ({
   discoverGithub: mocks.job,
   freezeGithubWeek: mocks.job,
 }));
+vi.mock('../src/pipeline/external-jobs.ts', () => ({
+  collectSkills: mocks.skills,
+  collectModels: mocks.models,
+  collectExternalCharts: vi.fn(),
+  freezeExternalCharts: mocks.freezeExternal,
+}));
 import { GET, POST } from '../src/app/api/admin/charts/route.ts';
 import { GET as cron } from '../src/app/api/cron/[job]/route.ts';
 
@@ -50,6 +61,14 @@ beforeEach(() => {
   mocks.user = undefined;
   mocks.editorial.mockResolvedValue('etag-next');
   mocks.job.mockResolvedValue({ status: 'success' });
+  mocks.awards.mockResolvedValue({
+    processed: 0,
+    succeeded: 0,
+    failed: 0,
+    snapshotsCreated: 0,
+    status: 'insufficient_history',
+    details: [],
+  });
 });
 afterEach(() => {
   vi.clearAllMocks();
@@ -102,6 +121,86 @@ describe('permissions SANDBOX CHARTS côté serveur', () => {
   });
 });
 describe('cron authentifié', () => {
+  it.each(['skills-daily', 'models-daily', 'github-freeze', 'skills-freeze', 'models-freeze'])(
+    'protège le nouveau job %s sans authentification',
+    async (job) => {
+      vi.stubEnv('CRON_SECRET', 'a-test-secret-at-least-16-chars');
+      expect(
+        (
+          await cron(new Request(`http://localhost:3004/api/cron/${job}`), {
+            params: Promise.resolve({ job }),
+          })
+        ).status,
+      ).toBe(401);
+      expect(mocks.skills).not.toHaveBeenCalled();
+      expect(mocks.models).not.toHaveBeenCalled();
+      expect(mocks.freezeExternal).not.toHaveBeenCalled();
+    },
+  );
+  it('isole le gel Skills et invalide les pages publiques après publication', async () => {
+    vi.stubEnv('CRON_SECRET', 'a-test-secret-at-least-16-chars');
+    mocks.freezeExternal.mockResolvedValue({
+      status: 'success',
+      snapshotsCreated: 20,
+      processed: 20,
+      succeeded: 20,
+      failed: 0,
+      details: [],
+    });
+    const req = new Request('http://localhost:3004/api/cron/skills-freeze', {
+      headers: { Authorization: 'Bearer a-test-secret-at-least-16-chars' },
+    });
+    expect((await cron(req, { params: Promise.resolve({ job: 'skills-freeze' }) })).status).toBe(
+      200,
+    );
+    expect(mocks.freezeExternal).toHaveBeenCalledWith({ chart: 'skills' });
+    expect(mocks.awards).toHaveBeenCalledOnce();
+    expect(mocks.models).not.toHaveBeenCalled();
+    expect(mocks.revalidate).toHaveBeenCalledWith('/', 'layout');
+  });
+  it('signale un échec des Awards après le gel sans masquer la publication', async () => {
+    vi.stubEnv('CRON_SECRET', 'a-test-secret-at-least-16-chars');
+    mocks.freezeExternal.mockResolvedValue({
+      status: 'success',
+      snapshotsCreated: 1,
+      processed: 1,
+      succeeded: 1,
+      failed: 0,
+      details: [],
+    });
+    mocks.awards.mockResolvedValue({
+      status: 'failed',
+      snapshotsCreated: 0,
+      processed: 0,
+      succeeded: 0,
+      failed: 1,
+      details: ['Awards indisponibles'],
+    });
+    const response = await cron(
+      new Request('http://localhost:3004/api/cron/models-freeze', {
+        headers: { Authorization: 'Bearer a-test-secret-at-least-16-chars' },
+      }),
+      { params: Promise.resolve({ job: 'models-freeze' }) },
+    );
+    expect(response.status).toBe(503);
+    expect(await response.json()).toMatchObject({
+      status: 'partial',
+      failed: 1,
+      snapshotsCreated: 1,
+    });
+    expect(mocks.revalidate).toHaveBeenCalledWith('/', 'layout');
+  });
+  it('signale une collecte partielle au planificateur', async () => {
+    vi.stubEnv('CRON_SECRET', 'a-test-secret-at-least-16-chars');
+    mocks.models.mockResolvedValue({ status: 'partial', snapshotsCreated: 12 });
+    const req = new Request('http://localhost:3004/api/cron/models-daily', {
+      headers: { Authorization: 'Bearer a-test-secret-at-least-16-chars' },
+    });
+    expect((await cron(req, { params: Promise.resolve({ job: 'models-daily' }) })).status).toBe(
+      503,
+    );
+    expect(mocks.revalidate).not.toHaveBeenCalled();
+  });
   it('reste fermé sans secret ou avec un mauvais bearer', async () => {
     vi.stubEnv('CRON_SECRET', '');
     expect(

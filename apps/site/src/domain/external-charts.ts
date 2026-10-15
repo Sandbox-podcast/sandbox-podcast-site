@@ -46,6 +46,10 @@ export const externalObservationSchema = z.object({
 export type ExternalObservation = z.infer<typeof externalObservationSchema>;
 
 export interface SkillScoreInput {
+  referenceEvidence?: Record<
+    string,
+    { observedOn: string; evidenceUrl: string; sampleSize?: number }
+  >;
   entity: ExternalEntity;
   metrics: {
     installs: number;
@@ -59,6 +63,10 @@ export interface SkillScoreInput {
 }
 
 export interface ModelScoreInput {
+  referenceEvidence?: Record<
+    string,
+    { observedOn: string; evidenceUrl: string; sampleSize?: number }
+  >;
   entity: ExternalEntity;
   metrics: {
     arenaQuality: number | null;
@@ -418,6 +426,14 @@ export function scoreModels(
 export function normalizeModelAlias(value: string): string {
   const withoutNamespace = value.trim().split('/').at(-1) ?? value;
   return withoutNamespace.toLowerCase().replace(/[^a-z0-9]+/g, '');
+}
+
+/** Signature conservatrice : les versions, efforts de raisonnement et quantifications restent distincts. */
+export function modelVariantSignature(value: string): string {
+  return (value.trim().split('/').at(-1) ?? value)
+    .normalize('NFKC')
+    .toLowerCase()
+    .replace(/[\s_]+/g, '-');
 }
 
 export function slugifyExternalId(value: string): string {

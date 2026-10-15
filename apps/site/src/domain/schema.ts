@@ -14,12 +14,16 @@ export const slugSchema = z
   .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'slug en minuscules, chiffres et tirets');
 const ISO_WEEK = String.raw`\d{4}-W(0[1-9]|[1-4]\d|5[0-3])`;
 const CALENDAR_DAY = String.raw`\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])`;
+const CALENDAR_SLOT = String.raw`\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])T(00|12):00Z`;
 
 export const weekIdSchema = z.string().regex(new RegExp(`^${ISO_WEEK}$`), 'semaine ISO AAAA-Wnn');
-/** Identifiant d'édition : semaine ISO historique ou jour de publication. */
+/** Identifiant d'édition historique ou créneau de publication UTC. */
 export const editionIdSchema = z
   .string()
-  .regex(new RegExp(`^(${ISO_WEEK}|${CALENDAR_DAY})$`), 'édition AAAA-Wnn ou AAAA-MM-JJ');
+  .regex(
+    new RegExp(`^(${ISO_WEEK}|${CALENDAR_DAY}|${CALENDAR_SLOT})$`),
+    'édition AAAA-Wnn ou créneau UTC',
+  );
 export const dateTimeSchema = z.iso.datetime();
 export const httpsUrlSchema = z.url().refine((u) => u.startsWith('https://'), 'URL https requise');
 
@@ -40,10 +44,12 @@ export const hostSchema = z.object({
   handle: z.string().min(1),
   role: z.string().min(1),
   bio: z.string().min(1),
+  /** Pseudonyme affiché sous le prénom sur /about (« Aka »). */
   aka: z.string().trim().min(1).optional(),
+  /** Photo servie par le site : importée depuis l'admin (`/api/host-photos/<sha256>.webp`) ou versionnée dans `public/` (`/team/nicolas.jpg`). */
   photo: z
     .string()
-    .regex(/^\/team\/[a-z0-9-]+\.(?:png|jpg|jpeg|webp)$/)
+    .regex(/^\/[\w/-]+\.(?:jpe?g|png|webp)$/, 'chemin local attendu, ex. /team/nom.jpg')
     .optional(),
   socials: z
     .object({
@@ -313,7 +319,7 @@ export const chartSchema = z.object({
 export type ChartDef = z.infer<typeof chartSchema>;
 
 // ---------------------------------------------------------------------------------------------
-// Snapshots hebdomadaires (immuables, écrits par le pipeline)
+// Éditions immuables : semaines ISO historiques et créneaux UTC récents
 // ---------------------------------------------------------------------------------------------
 
 export const snapshotEntrySchema = z.object({

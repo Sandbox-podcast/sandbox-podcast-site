@@ -23,7 +23,7 @@ export async function startBadgeFixture({ kind = 'e2e', port = 0 } = {}) {
     throw new Error('Configuration locale invalide.');
   const site = fileURLToPath(new URL('..', import.meta.url));
   const require = createRequire(import.meta.url);
-  const artifactName = kind === 'public-routes' ? `${kind}-${process.pid}` : kind;
+  const artifactName = `${kind}-${process.pid}`;
   const artifactDir = new URL(`../.local/badges-${artifactName}/`, import.meta.url);
   await mkdir(artifactDir, { recursive: true });
   const pg = new PGlite();
@@ -37,8 +37,11 @@ export async function startBadgeFixture({ kind = 'e2e', port = 0 } = {}) {
     '0006_manual_content_translations',
     '0007_daily_chart_editions',
     '0008_episode_thumbnails',
-    '0009_badges_awards',
-    '0010_extended_awards',
+    '0010_chart_refresh_slots',
+    '0011_host_photos',
+    '0012_badges_awards',
+    '0013_extended_awards',
+    '0014_awards_refresh_slots',
   ]) {
     const sql = await readFile(new URL(`../drizzle/${migration}.sql`, import.meta.url), 'utf8');
     for (const statement of sql.split('--> statement-breakpoint'))
@@ -202,6 +205,7 @@ export async function startBadgeFixture({ kind = 'e2e', port = 0 } = {}) {
     ].sort();
     const fixtureName = (index) =>
       index === 19 ? `fixture-project-19-${'a'.repeat(60)}` : `fixture-project-${index}`;
+    process.env.CHARTS_REVIEWED_PROFILE_VERSIONS = 'github-reference-v3,rising-reference-v3';
     await upsertDiscoveredRepositories(
       Array.from({ length: 20 }, (_, index) => ({
         id: 900001 + index,
@@ -211,6 +215,7 @@ export async function startBadgeFixture({ kind = 'e2e', port = 0 } = {}) {
         description: 'FIXTURE E2E : données de test dans une base locale éphémère.',
         html_url: `https://github.com/sandbox-e2e/${fixtureName(index)}`,
         language: 'TypeScript',
+        license: { spdx_id: 'MIT' },
         created_at: '2026-01-01T00:00:00Z',
         updated_at: `${today}T00:00:00Z`,
         pushed_at: `${today}T00:00:00Z`,
@@ -225,7 +230,9 @@ export async function startBadgeFixture({ kind = 'e2e', port = 0 } = {}) {
       })),
     );
     const db = getDb();
-    await db.update(githubProjects).set({ status: 'tracked' });
+    await db
+      .update(githubProjects)
+      .set({ status: 'tracked', discoveredAt: '2026-01-01T00:00:00Z' });
     const repos = await db.select().from(githubProjects);
     await saveDailyBatch(
       repos.flatMap((repo, index) =>

@@ -25,11 +25,13 @@ function Kpi({
   label,
   value,
   sub,
+  subValues,
   accent = false,
 }: {
   label: string;
   value: string;
   sub?: string;
+  subValues?: Readonly<Record<string, string | number>>;
   accent?: boolean;
 }) {
   return (
@@ -46,7 +48,7 @@ function Kpi({
       <Text>
         {sub ? (
           <dd className="label m-0 mt-auto opacity-75">
-            <Text>{sub}</Text>
+            <Text values={subValues ?? {}}>{sub}</Text>
           </dd>
         ) : null}
       </Text>
@@ -56,7 +58,7 @@ function Kpi({
 function AppearanceBlock({ a }: { a: Appearance }) {
   const { chart, history, entry, profile } = a;
   const inTop = entry !== undefined && entry.rank <= chart.size;
-  const first = history.firstWeek;
+  const first = history.firstEdition;
   const movement = a.movement;
   const dims = profile.dimensions;
   return (
@@ -65,7 +67,7 @@ function AppearanceBlock({ a }: { a: Appearance }) {
         <div>
           <p className="label text-ink-2">
             <Text>{chart.code}</Text>
-            <Text>{' \u00B7 semaine '}</Text>
+            <Text>{' \u00B7 édition '}</Text>
             <Text>{editionMark(a.week)}</Text>
           </p>
           <h3 className="display text-4xl">
@@ -103,7 +105,7 @@ function AppearanceBlock({ a }: { a: Appearance }) {
                   <Text>
                     {a.bubblingRank
                       ? `Suivi, ${ordinal(a.bubblingRank)} du pool (bubbling under)`
-                      : 'Plus suivi cette semaine'}
+                      : 'Plus suivi cette édition'}
                   </Text>
                 </p>
               </div>
@@ -113,39 +115,44 @@ function AppearanceBlock({ a }: { a: Appearance }) {
         <dl className="m-0 grid grid-cols-2 gap-px border-2 border-ink bg-ink sm:grid-cols-4">
           <Kpi
             label="Current ranking"
-            value={history.currentRank ? `#${String(history.currentRank)}` : '—'}
+            value={history.currentRank ? `#${String(history.currentRank)}` : '-'}
             accent={history.currentRank === 1}
           />
           <Kpi
             label="Previous ranking"
-            value={history.previousRank ? `#${String(history.previousRank)}` : '—'}
+            value={history.previousRank ? `#${String(history.previousRank)}` : '-'}
             sub={a.history.points.at(-2) ? shortWeek(a.history.points.at(-2)?.week ?? '') : ''}
           />
           <Kpi
             label="Peak"
-            value={history.peak ? `#${String(history.peak)}` : '—'}
-            sub={history.peak ? `${String(history.weeksAtPeak)} sem. à ce rang` : ''}
+            value={history.peak ? `#${String(history.peak)}` : '-'}
+            sub={history.peak ? `${String(history.editionsAtPeak)} éditions à ce rang` : ''}
           />
           <Kpi
-            label="Weeks in Top 10"
-            value={String(history.weeksInTop)}
-            sub={`${String(history.currentStreak)} d’affilée`}
+            label="Editions in Top 10"
+            value={String(history.editionsInTop)}
+            sub={
+              history.currentStreak === 1
+                ? '1 édition consécutive'
+                : '{count} éditions consécutives'
+            }
+            subValues={{ count: history.currentStreak }}
           />
           <Kpi
             label="Première entrée"
-            value={first ? shortWeek(first) : '—'}
+            value={first ? shortWeek(first) : '-'}
             sub={first ? 'au Top' : ''}
           />
-          <Kpi label="Fois #1" value={String(history.weeksAtNumberOne)} sub="semaines en tête" />
+          <Kpi label="Fois #1" value={String(history.editionsAtNumberOne)} sub="éditions en tête" />
           <Kpi
             label="Plus forte hausse"
-            value={history.biggestClimb ? `+${String(history.biggestClimb.places)}` : '—'}
-            sub={history.biggestClimb ? shortWeek(history.biggestClimb.week) : ''}
+            value={history.biggestClimb ? `+${String(history.biggestClimb.places)}` : '-'}
+            sub={history.biggestClimb ? shortWeek(history.biggestClimb.edition) : ''}
           />
           <Kpi
             label="Plus forte chute"
-            value={history.biggestFall ? `−${String(history.biggestFall.places)}` : '—'}
-            sub={history.biggestFall ? shortWeek(history.biggestFall.week) : ''}
+            value={history.biggestFall ? `−${String(history.biggestFall.places)}` : '-'}
+            sub={history.biggestFall ? shortWeek(history.biggestFall.edition) : ''}
           />
         </dl>
       </div>
@@ -156,7 +163,7 @@ function AppearanceBlock({ a }: { a: Appearance }) {
             <span className="bg-ink px-1.5 py-0.5 text-paper">
               <Text>{'DATA'}</Text>
             </span>
-            <Text>{' Position semaine apr\u00E8s semaine'}</Text>
+            <Text>{" Position d'édition en édition"}</Text>
           </p>
           <RankHistory
             points={history.points.map((p) => ({ week: p.week, rank: p.rank }))}
@@ -238,7 +245,7 @@ function AppearanceBlock({ a }: { a: Appearance }) {
                         <td className="num">
                           <Text>
                             {entry.dimensions[d.id] === undefined
-                              ? '—'
+                              ? '-'
                               : formatNumber(entry.dimensions[d.id] ?? 0, 1)}
                           </Text>
                         </td>
@@ -272,7 +279,7 @@ function AppearanceBlock({ a }: { a: Appearance }) {
                           </td>
                           <td className="num">
                             <Text>
-                              {v === undefined ? '—' : formatByUnit(v, info.unit, info.decimals)}
+                              {v === undefined ? '-' : formatByUnit(v, info.unit, info.decimals)}
                             </Text>
                           </td>
                         </tr>
@@ -404,7 +411,7 @@ export function EntityScreen({ slug }: { slug: string }) {
         </Text>
 
         <section aria-labelledby="takes">
-          <SectionHead kicker="L’avis de l’équipe, signé" title="Notre avis" id="takes" />
+          <SectionHead kicker="L'avis de l'équipe, signé" title="Notre avis" id="takes" />
           <Text>
             {takes.length > 0 ? (
               <ul className="m-0 grid list-none gap-5 p-0 md:grid-cols-2">
@@ -423,7 +430,7 @@ export function EntityScreen({ slug }: { slug: string }) {
                               >
                                 <Text>{t.chart.title}</Text>
                               </Link>
-                              , semaine {editionMark(t.week)}
+                              , édition {editionMark(t.week)}
                             </>
                           ) : (
                             'Avis général'
@@ -529,7 +536,7 @@ export function EntityScreen({ slug }: { slug: string }) {
       <p className="label mt-14 border-t-2 border-ink pt-3 text-ink-3">
         <Text>{'Fiche mise \u00E0 jour avec le relev\u00E9 du'}</Text>
         <Text> </Text>
-        <Text>{appearances[0] ? formatDate(appearances[0].publishedAt) : '—'}</Text>
+        <Text>{appearances[0] ? formatDate(appearances[0].publishedAt) : '-'}</Text>
         <Text>
           {
             '. Les donn\u00E9es viennent des sources cit\u00E9es ; les avis sont ceux de l\u2019\u00E9quipe, jamais m\u00E9lang\u00E9s.'

@@ -1,4 +1,5 @@
 import { awardFixture } from '../scripts/fixtures/awards.ts';
+import { snapshotSchema } from '../src/domain/schema.ts';
 import { describe, expect, it } from 'vitest';
 import { awardSunday, parisWeek, badgeSvg } from '../src/domain/badges.ts';
 import {
@@ -42,6 +43,20 @@ describe('périodes et catalogue des sept Awards', () => {
   });
 });
 describe('attributions hebdomadaires sans nouveau score', () => {
+  it('sélectionne le dernier créneau publié du dimanche sans doubler les périodes', () => {
+    const morning = awardFixture('skills', '2026-10-11');
+    const afternoon = awardFixture('skills', '2026-10-11', ['b', 'a', 'c']);
+    morning.week = '2026-10-11T00:00Z';
+    afternoon.week = '2026-10-11T12:00Z';
+    morning.payload = { ...snapshotSchema.parse(morning.payload), week: morning.week };
+    afternoon.payload = { ...snapshotSchema.parse(afternoon.payload), week: afternoon.week };
+    const selected = selectAwardWinners('skill-week', '2026-W41', [morning, afternoon], now);
+    expect(selected.map((award) => award.nominee.entityId)).toEqual(['b']);
+    expect(candidateAwardPeriods('skill-week', [morning, afternoon], now)).toEqual(['2026-W41']);
+    expect(awardSourcePath({ chart: 'skills', sourceEdition: afternoon.week })).toBe(
+      '/charts/skills/2026-10-11T12%3A00Z',
+    );
+  });
   it('attribue le premier rang de chaque catégorie publiée', () => {
     const edition = awardFixture('github', '2026-10-11');
     const awards = selectAwardWinners('github-category', '2026-W41', [edition], now);

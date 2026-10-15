@@ -1,9 +1,12 @@
+import { runAllBadgeAwards } from '@/pipeline/badges-jobs';
 import { timingSafeEqual } from 'node:crypto';
 import { revalidatePath } from 'next/cache';
 import { collectGithub, discoverGithub, freezeGithubWeek } from '@/pipeline/github-jobs';
 import { vercelOidcToken } from '@/pipeline/external-clients';
 import { collectExternalCharts, freezeExternalCharts } from '@/pipeline/external-jobs';
-import { runAllBadgeAwards } from '@/pipeline/badges-jobs';
+import { collectModels, collectSkills } from '@/pipeline/external-jobs';
+import { chartsJobHttpStatus } from '@/domain/charts-job-status';
+import { collectGithubBursts, discoverGithubTrending } from '@/pipeline/github-bursts-jobs';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -20,45 +23,72 @@ export async function GET(request: Request, { params }: { params: Promise<{ job:
   )
     return Response.json({ error: 'Accès refusé.' }, { status: 401 });
   const { job } = await params;
-  if (!['github-discovery', 'github-daily', 'github-weekly', 'external-daily'].includes(job))
+  if (
+    ![
+      'github-discovery',
+      'github-daily',
+      'github-weekly',
+      'external-daily',
+      'github-bursts',
+      'github-trending',
+      'skills-daily',
+      'models-daily',
+      'github-freeze',
+      'skills-freeze',
+      'models-freeze',
+    ].includes(job)
+  )
     return Response.json({ error: 'Job inconnu.' }, { status: 404 });
   try {
     let summary;
     if (job === 'github-discovery') summary = await discoverGithub();
+    else if (job === 'github-bursts') summary = await collectGithubBursts();
+    else if (job === 'github-trending') summary = await discoverGithubTrending();
     else if (job === 'github-daily') summary = await collectGithub();
+    else if (job === 'skills-daily') summary = await collectSkills(vercelOidcToken(request));
+    else if (job === 'models-daily') summary = await collectModels();
+    else if (job === 'github-freeze') summary = await freezeGithubWeek();
+    else if (job === 'skills-freeze') summary = await freezeExternalCharts({ chart: 'skills' });
+    else if (job === 'models-freeze') summary = await freezeExternalCharts({ chart: 'models' });
     else if (job === 'external-daily')
       summary = await collectExternalCharts(vercelOidcToken(request));
     else {
       const [github, external] = await Promise.all([freezeGithubWeek(), freezeExternalCharts()]);
-      const awards = await runAllBadgeAwards();
       summary = {
         processed: github.processed + external.processed,
         succeeded: github.succeeded + external.succeeded,
-        failed: github.failed + external.failed + awards.failed,
-        snapshotsCreated:
-          github.snapshotsCreated + external.snapshotsCreated + awards.snapshotsCreated,
+        failed: github.failed + external.failed,
+        snapshotsCreated: github.snapshotsCreated + external.snapshotsCreated,
         status:
-          awards.status === 'failed'
-            ? 'partial'
-            : github.status === 'failed' && external.status === 'failed'
-              ? 'failed'
-              : github.status === 'success' &&
-                  external.status === 'success' &&
-                  awards.status !== 'failed'
-                ? 'success'
-                : github.status === 'insufficient_history' &&
-                    external.status === 'insufficient_history'
-                  ? 'insufficient_history'
-                  : github.status === 'skipped' && external.status === 'skipped'
-                    ? 'skipped'
-                    : 'partial',
-        details: [...github.details, ...external.details, ...awards.details],
+          github.status === 'failed' && external.status === 'failed'
+            ? 'failed'
+            : github.status === 'success' && external.status === 'success'
+              ? 'success'
+              : github.status === 'insufficient_history' &&
+                  external.status === 'insufficient_history'
+                ? 'insufficient_history'
+                : github.status === 'skipped' && external.status === 'skipped'
+                  ? 'skipped'
+                  : 'partial',
+        details: [...github.details, ...external.details],
       };
     }
-    if (job === 'github-weekly' && summary.snapshotsCreated > 0)
-      revalidatePath('/charts', 'layout');
+    if (job === 'github-weekly' || job.endsWith('-freeze')) {
+      const awards = await runAllBadgeAwards();
+      summary = {
+        ...summary,
+        processed: summary.processed + awards.processed,
+        succeeded: summary.succeeded + awards.succeeded,
+        failed: summary.failed + awards.failed,
+        snapshotsCreated: summary.snapshotsCreated + awards.snapshotsCreated,
+        status: awards.failed > 0 && summary.status !== 'failed' ? 'partial' : summary.status,
+        details: [...summary.details, ...awards.details],
+      };
+    }
+    if ((job === 'github-weekly' || job.endsWith('-freeze')) && summary.snapshotsCreated > 0)
+      revalidatePath('/', 'layout');
     return Response.json(summary, {
-      status: summary.status === 'failed' ? 503 : 200,
+      status: chartsJobHttpStatus(summary.status),
       headers: { 'Cache-Control': 'no-store' },
     });
   } catch (error) {

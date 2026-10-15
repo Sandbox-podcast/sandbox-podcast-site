@@ -1,6 +1,6 @@
 # Accueil et responsive : vérification locale du 15 octobre 2026
 
-Demande de Lou : placer les classements en premier sur l'accueil, corriger le mobile et vérifier les fronts dans un navigateur sur localhost. Time Machine reste à l'autre tâche, conformément à sa réponse explicite. Décision : [DD-0026](../design-decisions/DD-0026-accueil-classements-et-navigation-mobile.md).
+Demande de Lou : placer les classements en premier sur l'accueil, corriger le mobile et vérifier les fronts dans un navigateur sur localhost. Time Machine reste à l'autre tâche, conformément à sa réponse explicite. Décision : [DD-0028](../design-decisions/DD-0028-accueil-classements-et-navigation-mobile.md).
 
 ## Résultat
 

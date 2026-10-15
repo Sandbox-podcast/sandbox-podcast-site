@@ -10,7 +10,8 @@ import {
 import { chartCategorySchema, githubChartConfigSchema } from './github-charts.ts';
 import { externalSourceRefSchema } from './external-charts.ts';
 import { snapshotSchema, slugSchema } from './schema.ts';
-import { isoWeekOf, previousWeek, weekStart } from './weeks.ts';
+import { compareWeeks, isCalendarEdition, isoWeekOf, previousWeek, weekStart } from './weeks.ts';
+import { validAwardReference } from './award-reference.ts';
 
 export const awardTypeSchema = z.enum([
   'rising-star',
@@ -222,19 +223,20 @@ const modelConfigSchema = externalConfigSchema.extend({
 /** Valide la source et ses lignes sans recalculer aucun score. */
 export function validAwardEdition(edition: AwardEdition, now: Date): boolean {
   const payload = snapshotSchema.safeParse(edition.payload);
-  const day = edition.week;
+  const day = edition.week.slice(0, 10);
   if (
     !payload.success ||
     edition.excluded ||
-    !z.iso.date().safeParse(day).success ||
+    !isCalendarEdition(edition.week) ||
     new Date(`${day}T12:00:00Z`).getUTCDay() !== 0 ||
     !edition.publishedAt
   )
     return false;
   if (
-    edition.scoringVersion !== `${edition.chart}-cross-source-v2` ||
+    (edition.scoringVersion !== `${edition.chart}-cross-source-v2` &&
+      !validAwardReference(edition, payload.data.entries)) ||
     payload.data.chart !== edition.chart ||
-    payload.data.week !== day ||
+    payload.data.week !== edition.week ||
     payload.data.provenance !== 'auto'
   )
     return false;
@@ -297,7 +299,7 @@ export function validAwardEdition(edition: AwardEdition, now: Date): boolean {
         assessmentAge > 14
       )
         return false;
-    } else {
+    } else if (edition.scoringVersion === `${edition.chart}-cross-source-v2`) {
       const proof = externalProofSchema.safeParse(row.metadata);
       const config = (edition.chart === 'skills' ? skillConfigSchema : modelConfigSchema).safeParse(
         edition.config,
@@ -343,8 +345,11 @@ function completePeriod(
   if (parisDate(now) <= awardPeriodBounds(type, period).end) return null;
   const result: AwardEdition[] = [];
   for (const day of requiredAwardSundays(type, period)) {
-    const found = editions.filter((edition) => edition.chart === chart && edition.week === day);
-    if (found.length !== 1 || !found[0] || !validAwardEdition(found[0], now)) return null;
+    const found = editions
+      .filter((edition) => edition.chart === chart && edition.week.slice(0, 10) === day)
+      .toSorted((a, b) => compareWeeks(b.week, a.week));
+    if (!found[0] || found[1]?.week === found[0].week || !validAwardEdition(found[0], now))
+      return null;
     result.push(found[0]);
   }
   return result.length ? result : null;
@@ -470,10 +475,10 @@ export function candidateAwardPeriods(
     ...new Set(
       editions
         .filter(
-          (source) => z.iso.date().safeParse(source.week).success && source.week <= parisDate(now),
+          (source) => isCalendarEdition(source.week) && source.week.slice(0, 10) <= parisDate(now),
         )
         .flatMap((source) => {
-          const date = new Date(`${source.week}T12:00:00Z`);
+          const date = new Date(`${source.week.slice(0, 10)}T12:00:00Z`);
           const kind = AWARD_DEFINITIONS[type].periodKind;
           const period =
             kind === 'week'
@@ -523,7 +528,8 @@ export function awardEntityPath(award: { chart: AwardChart; slug: string }): str
   return `/charts/${award.chart === 'github' || award.chart === 'rising' ? 'project' : 'entity'}/${slugSchema.parse(award.slug)}`;
 }
 export function awardSourcePath(award: { chart: AwardChart; sourceEdition: string }): string {
-  return `/charts/${award.chart === 'models' ? 'ai-models' : award.chart}/${z.iso.date().parse(award.sourceEdition)}`;
+  if (!isCalendarEdition(award.sourceEdition)) throw new Error('Édition source invalide.');
+  return `/charts/${award.chart === 'models' ? 'ai-models' : award.chart}/${encodeURIComponent(award.sourceEdition)}`;
 }
 
 /** Un identifiant d'attribution stable, y compris pour les entités sans dépôt GitHub. */

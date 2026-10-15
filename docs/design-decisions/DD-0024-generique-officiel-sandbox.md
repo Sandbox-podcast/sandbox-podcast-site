@@ -1,4 +1,4 @@
-# DD-0022 - Générique officiel SANDBOX
+# DD-0024 - Générique officiel SANDBOX
 
 - Date : 2026-10-14.
 - Statut : réalisation locale demandée par Lou.
@@ -19,3 +19,5 @@ La timeline se fonde sur la transcription locale Parakeet TDT v3 et les accents 
 Le 14 octobre, Lou demande de refaire les voix avec ElevenLabs puis choisit trois voix distinctes du catalogue. Cette demande remplace la contrainte initiale de conserver le mix Suno intact. Distribution décidée par l'agent sur délégation (PD-0003) : Stephane pour Lou, Nova pour Loïc, Fabien pour Nico, Fred pour l'annonceur. Les paroles parlées sont régénérées, recoupées et calées sur 23 fenêtres. Demucs sépare localement l'instrumental ; les cris SANDBOX et les plages musicales conservent le mix Suno. Les sources et le master précédent sont préservés. Aucun abonnement ni achat supplémentaire n'est effectué.
 
 À la demande de Lou, les trois petits rectangles rouges qui recouvraient la ponctuation des annonces du Radar sont supprimés. Le master avec ces rectangles est conservé dans `videos/sandbox-intro/analysis/revisions/radar-red-markers/`.
+
+Le 14 octobre, Lou demande de versionner tous les changements locaux. Les sources, les médias et les exports rejoignent la livraison Git, avec leurs révisions conservées. Les types et les sept tests du générique sont intégrés au contrôle pnpm du dépôt. Les deux exports passent le contrôle de durée, de décodage complet et de concordance audio. Cette décision est renumérotée DD-0024 pour préserver les décisions déjà intégrées dans `main`.

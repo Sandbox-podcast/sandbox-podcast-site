@@ -1,4 +1,4 @@
-# DD-0026 : classements en tête de l'accueil et navigation mobile
+# DD-0028 : classements en tête de l'accueil et navigation mobile
 
 Date : 2026-10-15. Demande de Lou : corriger les problèmes mobiles et placer le classement en premier sur l'accueil.
 

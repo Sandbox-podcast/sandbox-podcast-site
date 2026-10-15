@@ -17,7 +17,7 @@ try {
   --week=AAAA-Wnn : compatibilité Rising Star historique
   --withdraw --id=UUID --reason="Motif public détaillé" --actor="Opérateur" : retirer une attribution
   --withdraw --week=AAAA-Wnn --reason="Motif public détaillé" --actor="Opérateur" : retirer
-Une base autorisée avec les migrations 0009 et 0010 est nécessaire. Le retrait ne prend pas --dry-run.`);
+Une base autorisée avec les migrations 0012 et 0013 est nécessaire. Le retrait ne prend pas --dry-run.`);
   } else if (!hasDatabaseConfiguration()) {
     throw new AwardCommandError('DATABASE_URL ou POSTGRES_URL requis. Aucune action exécutée.');
   } else if (command.mode === 'withdraw') {

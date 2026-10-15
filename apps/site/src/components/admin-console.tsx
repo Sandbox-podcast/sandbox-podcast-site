@@ -7,6 +7,7 @@ import { editableContentSchema, type EditableContent } from '@/domain/admin-cont
 import { applyChartMarkdown, serializeChartMarkdown } from '@/domain/chart-markdown';
 import { type Episode, type Host, type Source, type Topic } from '@/domain/schema';
 import { AdminChartEditor } from './admin-chart-editor';
+import { AdminHostPhoto } from './admin-host-photo';
 import { AdminChartsConsole } from './admin-charts-console';
 import { AdminPasswordForm } from './admin-password-form';
 import { AdminUsersPanel } from './admin-users-panel';
@@ -281,6 +282,22 @@ export function AdminConsole() {
             socials[platform] = url || undefined;
             return { ...host, socials };
           }),
+        },
+      };
+    });
+  }
+
+  function updateHostProfile(hostSlug: string, field: 'aka' | 'photo', value: string): void {
+    setRawError('');
+    setContentResponse((current) => {
+      if (!current) return current;
+      return {
+        ...current,
+        content: {
+          ...current.content,
+          hosts: current.content.hosts.map((host) =>
+            host.slug === hostSlug ? { ...host, [field]: value.trim() || undefined } : host,
+          ),
         },
       };
     });
@@ -710,6 +727,28 @@ export function AdminConsole() {
                             : 'Le nom et les liens de ce profil apparaissent sur la page À propos.'}
                         </p>
                       </div>
+                      {!selectedHost.placeholder && (
+                        <>
+                          <label className="admin-field">
+                            <span>Aka (pseudo)</span>
+                            <input
+                              placeholder="Facultatif"
+                              value={selectedHost.aka ?? ''}
+                              onChange={(event) => {
+                                updateHostProfile(selectedHost.slug, 'aka', event.target.value);
+                              }}
+                            />
+                          </label>
+                          <AdminHostPhoto
+                            name={selectedHost.name}
+                            photo={selectedHost.photo}
+                            disabled={pending || !status.user?.permissions.draft}
+                            onChange={(path) => {
+                              updateHostProfile(selectedHost.slug, 'photo', path ?? '');
+                            }}
+                          />
+                        </>
+                      )}
                       {!selectedHost.placeholder &&
                         hostSocialFields.map(({ key, label, placeholder }) => (
                           <label className="admin-field admin-span-2" key={key}>

@@ -43,8 +43,8 @@ export const githubProjectDetail = cache(async function githubProjectDetail(slug
   const current = daily.at(-1);
   const project = asProject(row.repo, row.entity);
   const metrics = current ? githubMetrics(project, current, daily, await readChartsConfig()) : null;
-  const at30 = current ? closestBaseline(daily, current.date, 30, 1) : undefined;
-  const at90 = current ? closestBaseline(daily, current.date, 90, 1) : undefined;
+  const at30 = current ? closestBaseline(daily, current, 30, 1) : undefined;
+  const at90 = current ? closestBaseline(daily, current, 90, 1) : undefined;
   const orderedWeekly = weekly.toSorted((left, right) =>
     compareWeeks(left.edition.week, right.edition.week),
   );
@@ -76,7 +76,7 @@ export const githubProjectDetail = cache(async function githubProjectDetail(slug
     previousRank:
       github.find((entry) => entry.edition.week === previousWeekId)?.ranking.rank ?? null,
     bestRank: github.length ? Math.min(...github.map((entry) => entry.ranking.rank)) : null,
-    weeksInTop20: github.length,
+    editionsInTop20: github.length,
     firstAppearance: github[0]?.edition.week ?? null,
     growth30d: current && at30 ? current.stars - at30.stars : null,
     growth90d: current && at90 ? current.stars - at90.stars : null,
@@ -164,7 +164,7 @@ export async function publicChartEdition(chart: PublicChartId, week?: string) {
     publishedAt: edition.publishedAt,
     frozenAt: edition.frozenAt,
     scoringVersion: edition.scoringVersion,
-    config: edition.config,
+    config: publicEditionConfig(edition.config),
     entries: edition.payload.entries.map((entry) => {
       const ranking = rankings.find((item) => item.rank === entry.rank);
       const metadata = z.record(z.string(), z.unknown()).parse(ranking?.metadata ?? {});
@@ -211,6 +211,42 @@ export async function publicChartEdition(chart: PublicChartId, week?: string) {
       };
     }),
   };
+}
+
+/** Le gros manifeste reste sur l'endpoint de téléchargement, hors de la réponse courante. */
+function publicEditionConfig(raw: unknown): Record<string, unknown> {
+  const config = z.record(z.string(), z.unknown()).parse(raw);
+  const proof = config['referenceRanking'];
+  if (!proof) return config;
+  const header = z
+    .object({
+      schemaVersion: z.literal(1),
+      sha256: z.string(),
+      input: z.object({ profile: z.unknown(), date: z.string() }),
+    })
+    .parse(proof);
+  return { ...config, referenceRanking: header };
+}
+
+export async function publicReferenceArtifact(
+  chart: PublicChartId,
+  week?: string,
+): Promise<unknown> {
+  if (!hasDatabaseConfiguration()) return null;
+  const editions = await getDb()
+    .select({ week: weeklyChartEditions.week, config: weeklyChartEditions.config })
+    .from(weeklyChartEditions)
+    .where(
+      and(
+        eq(weeklyChartEditions.chart, chart),
+        week ? eq(weeklyChartEditions.week, week) : undefined,
+        isNotNull(weeklyChartEditions.publishedAt),
+      ),
+    );
+  const edition = editions.toSorted((a, b) => compareWeeks(b.week, a.week))[0];
+  return edition
+    ? (z.record(z.string(), z.unknown()).parse(edition.config)['referenceRanking'] ?? null)
+    : null;
 }
 export type ChartsApiResult<T> =
   { ok: true; response: Response; data: T } | { ok: false; response: Response };

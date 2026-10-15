@@ -1,6 +1,8 @@
 # SANDBOX CHARTS : sources externes Skills et Models
 
-Statut au 2026-10-08 : les collecteurs, le stockage PostgreSQL, les gels hebdomadaires, les routes et la planification locale sont implémentés. Les données ne sont pas encore activées en production : la migration `0005_external_chart_sources` doit être appliquée par le responsable de la base et les accès aux sources doivent être configurés. Aucune clé ni migration Neon n'a été créée ou utilisée pendant le développement.
+Évolution v3 : [conception et audit](reference-ranking-design.md), [configuration](reference-ranking-operations.md) et [cadence](../adr/ADR-0028-cadence-des-classements.md). Les éditions live sont calculées jusqu'à deux fois par jour quand les mesures et contrôles sont suffisants. Les nouveaux gels pondèrent Skills.sh/GitHub à 70/30 et Artificial Analysis/Arena à 60/40, contrôlent les candidats incomplets et conservent une preuve rejouable. Ce guide conserve le contexte des versions précédentes et des premiers connecteurs.
+
+État de la première livraison au 2026-10-08 : les collecteurs, le stockage PostgreSQL, les routes et les gels avaient été implémentés. Depuis, les éditions sont passées à deux créneaux par jour, avec stockage des créneaux par la migration `0010_chart_refresh_slots` et planification dans GitHub Actions. La configuration des accès, l'application des migrations sur la base visée et la validation des conditions des sources restent à faire par le propriétaire.
 
 La décision de conception est consignée dans [ADR-0021](../adr/ADR-0021-classements-externes-skills-models.md). Le pipeline GitHub existant reste décrit dans le [guide SANDBOX CHARTS](sandbox-charts.md).
 
@@ -25,7 +27,7 @@ Les appels externes sont limités aux APIs et vues prévues, validés par Zod, r
 
 Skills.sh est relié à GitHub par l'identifiant de dépôt fourni par Skills.sh. Les modèles sont reliés seulement par nom normalisé identique et organisation canonique. Aucun rapprochement approximatif n'est utilisé : plusieurs résultats ambigus d'une même source sont laissés séparés.
 
-Les éditions publiées sont copiées dans `weekly_chart_editions` et `weekly_rankings`, avec rang, score, sous-scores, métriques utilisées, liens sources, identités figées et version de méthode. Une contrainte empêche de réécrire une édition. Les positions précédentes ne sont comparées qu'à l'édition publiée de la semaine précédente.
+Les éditions publiées sont copiées dans `weekly_chart_editions` et `weekly_rankings`, avec rang, score, sous-scores, métriques utilisées, liens sources, identités figées et version de méthode. Une contrainte empêche de réécrire une édition. Les mouvements comparent l'édition publiée précédente ; les archives ISO historiques restent accessibles.
 
 Les snapshots Git avec `provenance: mock` ne sont que des illustrations locales et peuvent contenir moins de vingt lignes. Ils ne sont pas servis en production; le collecteur ne publie une édition Skills ou Models qu'avec vingt candidats mesurables.
 
@@ -58,10 +60,7 @@ Les vues **Reasoning** et **Maths** restent absentes tant qu'un jeu externe et l
 
 ## Collecter, simuler, publier
 
-Les crons Vercel appellent les routes protégées par `CRON_SECRET` :
-
-- `external-daily` collecte les sources Skills et Models à 02:30 UTC ;
-- `github-weekly`, chaque jour à 03:00 UTC, tente le gel GitHub/Rising puis Skills/Models. Le gel de chaque classement vérifie que sa collecte du jour est terminée. L'identifiant d'une nouvelle édition est la date UTC.
+Le workflow [GitHub Actions `charts-refresh.yml`](../../.github/workflows/charts-refresh.yml) appelle les routes protégées par `CRON_SECRET`. Il collecte Trending chaque jour à 01:17 UTC, collecte les sources et tente de publier à 03:17 et 15:17 UTC, puis mesure les poussées à la minute 23 de chaque heure. La variable `SANDBOX_CHARTS_ORIGIN` et le secret `SANDBOX_CHARTS_CRON_SECRET` doivent être configurés dans GitHub Actions. Le guide d'exploitation décrit les retards possibles et les vérifications de reprise.
 
 Commandes locales, depuis la racine du dépôt :
 
@@ -71,9 +70,9 @@ corepack pnpm --filter @podcast/site charts:external-weekly -- --dry-run
 corepack pnpm --filter @podcast/site charts:external-weekly -- --draft
 ```
 
-`--dry-run` calcule sans ajouter de journal ni d'édition. Le premier rang Skills exige sept jours de relevés. La première édition Models attend également vingt modèles évaluables. Une relance n'écrase pas les relevés quotidiens ou éditions existants.
+`--dry-run` calcule sans ajouter de journal ni d'édition. Le premier rang Skills exige environ sept jours de relevés pour sa baseline. La première édition Models attend également vingt modèles évaluables. Une relance n'écrase pas les relevés du même créneau ou les éditions existantes.
 
-Après application contrôlée de la migration `0005`, les éditions publiées sont lisibles par `/api/charts/skills/current`, `/api/charts/models/current`, leurs routes d'archive et les pages `/charts/skills` et `/charts/ai-models`. Le site entier peut rester en mode démonstration pour son contenu média : les pages des classements affichent uniquement les éditions réelles de la base et aucun faux résultat ne les remplace.
+Après application contrôlée des migrations requises, dont `0005`, `0009` et `0010`, les éditions publiées sont lisibles par `/api/charts/skills/current`, `/api/charts/models/current`, leurs routes d'archive et les pages `/charts/skills` et `/charts/ai-models`. Le site entier peut rester en mode démonstration pour son contenu média : les pages des classements affichent uniquement les éditions réelles de la base et aucun faux résultat ne les remplace.
 
 ## À faire avant activation en production
 

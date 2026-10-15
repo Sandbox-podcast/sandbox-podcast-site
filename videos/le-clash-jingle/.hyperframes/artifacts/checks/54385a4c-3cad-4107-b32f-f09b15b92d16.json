@@ -24,17 +24,7 @@
     "infoCount": 0,
     "findings": [],
     "duration": 15,
-    "samples": [
-      0.833,
-      2.5,
-      4.167,
-      5.833,
-      7.5,
-      9.167,
-      10.833,
-      12.5,
-      14.167
-    ],
+    "samples": [0.833, 2.5, 4.167, 5.833, 7.5, 9.167, 10.833, 12.5, 14.167],
     "transitionSamples": [],
     "transitionSamplesDropped": 0,
     "tolerance": 2,
@@ -57,13 +47,7 @@
     "infoCount": 0,
     "findings": [],
     "enabled": true,
-    "samples": [
-      0.833,
-      4.167,
-      7.5,
-      10.833,
-      14.167
-    ],
+    "samples": [0.833, 4.167, 7.5, 10.833, 14.167],
     "checked": 12,
     "passed": 12
   },

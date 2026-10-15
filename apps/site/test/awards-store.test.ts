@@ -30,8 +30,9 @@ beforeAll(async () => {
     '0003_ranking_catalog_localization',
     '0005_external_chart_sources',
     '0007_daily_chart_editions',
-    '0009_badges_awards',
-    '0010_extended_awards',
+    '0012_badges_awards',
+    '0013_extended_awards',
+    '0014_awards_refresh_slots',
   ])
     for (const statement of readFileSync(`drizzle/${migration}.sql`, 'utf8').split(
       '--> statement-breakpoint',

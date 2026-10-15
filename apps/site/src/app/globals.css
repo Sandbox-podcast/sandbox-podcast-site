@@ -1781,6 +1781,7 @@ html[data-scrolled='true'] .site-header {
   font-size: 1.7rem;
   font-weight: 800;
 }
+/* Carte avec photo : portrait carré bord à bord, l'étiquette passe par-dessus. */
 .about-social-portrait {
   position: relative;
   order: -1;
@@ -1792,8 +1793,12 @@ html[data-scrolled='true'] .site-header {
 .about-social-portrait::after {
   position: absolute;
   inset: 0;
-  content: '';
   background: linear-gradient(to bottom, transparent 55%, var(--paper-2));
+  content: '';
+}
+.about-social-portrait img {
+  object-fit: cover;
+  object-position: 50% 30%;
 }
 .about-social-person:has(.about-social-portrait) .about-social-card-top {
   position: absolute;
@@ -1821,9 +1826,9 @@ html[data-scrolled='true'] .site-header {
   line-height: 1;
 }
 .about-social-aka {
+  text-transform: none;
   margin-top: 0.5rem;
   color: var(--ink-3);
-  text-transform: none;
 }
 .about-social-card-rule {
   display: block;
@@ -2446,6 +2451,14 @@ fieldset.admin-field {
 }
 .admin-thumbnail .admin-error {
   margin-top: 0.75rem;
+}
+/* Portrait d'animateur : aperçu carré, comme sur /about. */
+.admin-host-photo {
+  grid-template-columns: minmax(0, 1fr) minmax(8rem, 12rem);
+}
+.admin-host-photo .admin-thumbnail-preview,
+.admin-host-photo .admin-thumbnail-empty {
+  aspect-ratio: 1;
 }
 .episode-composer-form .admin-save-row {
   margin-top: 0.25rem;

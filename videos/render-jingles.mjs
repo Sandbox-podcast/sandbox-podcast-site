@@ -51,7 +51,7 @@ try {
     const outputDir = path.join(projectDir, 'renders');
     const proofDir = path.join(outputDir, 'proof');
     await mkdir(proofDir, { recursive: true });
-    const outputPath = path.join(outputDir, 'video.mp4');
+    const outputPath = path.join(outputDir, project.outputFile);
     const requiredAssets = [
       path.join(projectDir, 'assets', project.heroFile ?? 'hero.png'),
       path.join(projectDir, 'assets', 'sandbox-logov2.png'),

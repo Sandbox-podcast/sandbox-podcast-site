@@ -1,5 +1,5 @@
 import { randomUUID } from 'node:crypto';
-import { and, desc, eq, gte, inArray, isNotNull, isNull, lt, lte, ne, or, sql } from 'drizzle-orm';
+import { and, desc, eq, gte, inArray, isNotNull, isNull, lt, ne, or, sql } from 'drizzle-orm';
 import { z } from 'zod';
 import { getDb } from '../db/client.ts';
 import {
@@ -68,12 +68,12 @@ export async function loadAwardEditions(
         inArray(weeklyChartEditions.chart, [...charts]),
         isNotNull(weeklyChartEditions.publishedAt),
         gte(weeklyChartEditions.week, start),
-        lte(weeklyChartEditions.week, end),
-        sql`CASE WHEN ${weeklyChartEditions.week} ~ '^[0-9]{4}-[0-9]{2}-[0-9]{2}$' THEN extract(isodow FROM ${weeklyChartEditions.week}::date) = 7 ELSE false END`,
+        sql`left(${weeklyChartEditions.week}, 10) <= ${end}`,
+        sql`CASE WHEN ${weeklyChartEditions.week} ~ '^[0-9]{4}-[0-9]{2}-[0-9]{2}(T(00|12):00Z)?$' THEN extract(isodow FROM left(${weeklyChartEditions.week}, 10)::date) = 7 ELSE false END`,
       ),
     )
     .orderBy(desc(weeklyChartEditions.week))
-    .limit(240);
+    .limit(720);
   if (!editions.length) return [];
   const ids = editions.map((edition) => edition.id);
   const [positions, exclusions] = await Promise.all([

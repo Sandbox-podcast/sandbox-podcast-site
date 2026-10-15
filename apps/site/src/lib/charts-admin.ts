@@ -1,5 +1,6 @@
 import { getDb, hasDatabaseConfiguration } from '../db/client.ts';
 import { compareWeeks } from '../domain/weeks.ts';
+import { refreshSlotId } from '../domain/chart-refresh.ts';
 import { weeklyChartEditions } from '../db/schema.ts';
 import { chartsAdminResponseSchema, type ChartsAdminResponse } from '../domain/charts-admin.ts';
 import {
@@ -50,7 +51,7 @@ export async function chartsAdminData(
           rows.toSorted((left, right) => compareWeeks(right.week, left.week)).slice(0, 32),
         ),
     ]);
-    const candidates = await weeklyCandidates(utcDate(), config);
+    const candidates = await weeklyCandidates(utcDate(), refreshSlotId(new Date()), config);
     const scores = new Map(
       rankGithubProjects(candidates, { ...config, size: 20 }).map((entry) => [
         entry.project.id,

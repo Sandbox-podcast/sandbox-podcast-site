@@ -1,6 +1,6 @@
 # Nos projets
 
-Catalogue : `/nos-projets`. Fiches : `/nos-projets/[slug]`. Décision : [DD-0018](../design-decisions/DD-0018-catalogue-nos-projets.md).
+Catalogue : `/nos-projets`. Fiches : `/nos-projets/[slug]`. Décision : [DD-0019](../design-decisions/DD-0019-catalogue-nos-projets.md).
 
 Les 34 fiches proviennent des sites publics, des dépôts et des annonces des créateurs, vérifiés le 13 octobre 2026. Les descriptions sont reformulées en français. Les sources précises de chaque fiche et de chaque image sont conservées dans [le catalogue JSON](../../apps/site/content/personal-projects.json).
 

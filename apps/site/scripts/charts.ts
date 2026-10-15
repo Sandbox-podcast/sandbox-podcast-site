@@ -10,12 +10,16 @@ import {
   freezeGithubWeek,
 } from '../src/pipeline/github-jobs.ts';
 import { collectExternalCharts, freezeExternalCharts } from '../src/pipeline/external-jobs.ts';
+import { collectGithubBursts, discoverGithubTrending } from '../src/pipeline/github-bursts-jobs.ts';
 
 const args = process.argv.slice(2);
 const command = args[0];
 const dryRun = args.includes('--dry-run');
 try {
   if (command === 'discover') console.log(JSON.stringify(await discoverGithub(), null, 2));
+  else if (command === 'bursts') console.log(JSON.stringify(await collectGithubBursts(), null, 2));
+  else if (command === 'trending')
+    console.log(JSON.stringify(await discoverGithubTrending(), null, 2));
   else if (command === 'collect') console.log(JSON.stringify(await collectGithub(), null, 2));
   else if (command === 'weekly') {
     const date = args.find((arg) => arg.startsWith('--date='))?.slice(7);
@@ -24,7 +28,7 @@ try {
       JSON.stringify(
         dryRun
           ? await calculateGithubWeek({ date, dryRun: true })
-          : await freezeGithubWeek({ publish: !args.includes('--draft') }),
+          : await freezeGithubWeek({ date, publish: !args.includes('--draft') }),
         null,
         2,
       ),
@@ -63,7 +67,7 @@ try {
     console.log(JSON.stringify({ candidates: created, dryRun, metricsInserted: 0 }));
   } else
     throw new Error(
-      'Commande : discover, collect, weekly [--dry-run] [--draft], external-collect, external-weekly [--dry-run] [--date=AAAA-MM-JJ] [--draft], seed [--dry-run].',
+      'Commande : discover, collect, bursts, trending, weekly [--dry-run] [--draft], external-collect, external-weekly [--dry-run] [--date=AAAA-MM-JJ] [--draft], seed [--dry-run].',
     );
 } catch (error) {
   console.error(error instanceof Error ? error.message : 'Job indisponible.');

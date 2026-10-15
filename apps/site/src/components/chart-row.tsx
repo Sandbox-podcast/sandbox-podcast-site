@@ -55,7 +55,7 @@ function RowChips({
             <li key={id} className="chip">
               <Text>{dimLabel(profile, id)}</Text>{' '}
               <b className="tnum">
-                <Text>{v === undefined ? '—' : Math.round(v)}</Text>
+                <Text>{v === undefined ? '-' : Math.round(v)}</Text>
               </b>
             </li>
           );
@@ -123,7 +123,7 @@ function RowDetails({
                       )}
                     </Text>
                     <span className="text-right tnum">
-                      <Text>{v === undefined ? '—' : v.toFixed(0)}</Text>
+                      <Text>{v === undefined ? '-' : v.toFixed(0)}</Text>
                       <Text>
                         {v !== undefined && prev !== undefined && Math.round(v - prev) !== 0 ? (
                           <span className={v > prev ? 'text-up' : 'text-down'}>
@@ -159,7 +159,7 @@ function RowDetails({
                       </td>
                       <td className="num">
                         <Text>
-                          {v === undefined ? '—' : formatByUnit(v, info.unit, info.decimals)}
+                          {v === undefined ? '-' : formatByUnit(v, info.unit, info.decimals)}
                         </Text>
                       </td>
                       <td className="num text-ink-3">
@@ -259,9 +259,9 @@ export function ChartRow({ view, row }: { view: ChartView; row: RowModel }) {
           <RankSpark values={row.rankSeries} size={chart.size} />
         </div>
         <p className="label mt-1 text-ink-3">
-          <Text>{row.stats.weeksInTop}</Text>
-          <Text>{' sem. au Top \u00B7 pic n\u00B0'}</Text>
-          <Text>{row.stats.peak ?? '—'}</Text>
+          <Text>{row.stats.editionsInTop}</Text>
+          <Text>{' éditions dans le Top \u00B7 pic n\u00B0'}</Text>
+          <Text>{row.stats.peak ?? '-'}</Text>
         </p>
       </div>
       <div className="cr-extra relative z-10 grid gap-3">
@@ -328,7 +328,7 @@ export function ChartList({ view }: { view: ChartView }) {
     <LocalizedElement
       as="ol"
       className="m-0 list-none p-0"
-      aria-label={`${view.chart.title}, semaine ${shortWeek(view.week)}`}
+      aria-label={`${view.chart.title}, édition ${shortWeek(view.week)}`}
     >
       <Text>
         {view.rows.map((row) => (
@@ -338,7 +338,7 @@ export function ChartList({ view }: { view: ChartView }) {
     </LocalizedElement>
   );
 }
-/** « Bubbling under » : les candidats juste derrière le Top, comme dans les charts musicaux. */
+/** "Bubbling under" : les candidats juste derrière le Top, comme dans les charts musicaux. */
 export function BubblingList({ rows, size }: { rows: BubblingRow[]; size: number }) {
   if (rows.length === 0) return null;
   return (
@@ -390,7 +390,7 @@ export function OutList({ rows, size }: { rows: OutRow[]; size: number }) {
       <h3 className="label mb-3 border-t-2 border-ink pt-2">
         <Text>{'Out \u00B7 sortis du Top '}</Text>
         <Text>{size}</Text>
-        <Text>{' cette semaine'}</Text>
+        <Text>{' cette édition'}</Text>
       </h3>
       <ul className="grid gap-x-8 sm:grid-cols-2">
         <Text>

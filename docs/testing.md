@@ -1,5 +1,7 @@
 # Tests et Quality Gates
 
+Livraison du 13 octobre 2026, classements v3 et détection précoce : `corepack pnpm check` réussi, 345 tests dans 59 fichiers, build Next.js réussi. Les tests couvrent les budgets de sources, bornes des candidats incomplets, sensibilité, rejeu, gel Models et GitHub sur Postgres, migration 0009, poussées intrajournalières et Trending. Les contrôles API, navigateur, CLI et l'alerte de dépendance modérée préexistante sont détaillés dans [le rapport de livraison](site/reference-ranking-delivery.md). Les inventaires historiques ci-dessous décrivent les étapes précédentes.
+
 Référence : §32 à §35 du prompt maître de la plateforme vidéo (archivé : `old/PODCAST_PLATFORM_MASTER_PROMPT.md`).
 
 ## Commandes
@@ -59,3 +61,13 @@ Badges & Awards : les tests couvrent les bornes 1/100/101, la fraîcheur, les p�
 Les tests du pipeline GitHub couvrent les différences J−7, la tolérance de date, l’accélération J−14, les percentiles, les petits dénominateurs, les poids manquants et les exclusions. Les tests PGlite exécutent les migrations 0002 à 0004 et vérifient le gel, les relances, le dry run, le verrou des jobs, les erreurs partielles, les quotas, les commentaires séparés, les conflits ETag et les localisations publiées. Les tests i18n valident les quatre langues, leurs préfixes, le refus des autres locales et les états de relecture.
 
 Les tests d’API vérifient les permissions viewer/editor/admin, l’origine des mutations, le refus d’édition des compteurs et le secret du cron. Les tests de présentation couvrent les périodes, les rangs conservés sous filtre, les données absentes, le Markdown et l’échappement des cartes de partage. Les gates du dépôt restent `pnpm check` et le build.
+
+## Intégration des changements locaux du 14 octobre 2026
+
+`videos/sandbox-intro` rejoint l'espace de travail pnpm : ses types et ses sept tests sont exécutés avec ceux du site. Quatre tests supplémentaires vérifient les masters des jingles, leurs assets et les liens de lecture. ESLint contrôle leurs scripts avec les variables globales de leur environnement Node ou navigateur.
+
+Validation locale : `pnpm check` réussi, avec 414 tests du site, sept tests du générique et quatre tests des jingles. `pnpm build` réussit avec 213 pages statiques. Les 47 tests Python de `tools/youtube-growth` passent avec `python -m unittest discover -s tools/youtube-growth/tests -v`.
+
+Le contrôle HyperFrames du Clash ne signale aucune erreur de lint, runtime, disposition, mouvement ou contraste. FFmpeg décode les quatre masters des jingles et les deux exports du générique sans erreur. Le générique respecte 63,56 secondes et 3 178 images à 50 images/s ; l'audio des deux exports correspond au mix source.
+
+Gitleaks ne détecte aucun secret dans les fichiers de la livraison, avec parcours des ZIP jusqu'à deux niveaux. L'audit des dépendances passe au seuil `high` ; une vulnérabilité modérée reste signalée. Ces contrôles ne valident pas les traitements YouTube permanents : OAuth et le journal distant restent à configurer.

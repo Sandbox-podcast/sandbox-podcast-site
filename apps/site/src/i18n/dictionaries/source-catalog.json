@@ -61,10 +61,7 @@
   },
   "· semaine": {
     "translation": "",
-    "sources": [
-      "src/app/(fr)/charts/[slug]/methodology/page.tsx",
-      "src/components/entity-screen.tsx"
-    ]
+    "sources": ["src/app/(fr)/charts/[slug]/methodology/page.tsx"]
   },
   "» : un tri par critère, pas le classement officiel (": {
     "translation": "",
@@ -575,19 +572,11 @@
   },
   "anthropics/claude-code": {
     "translation": "",
-    "sources": [
-      "content/entities/projects.json",
-      "content/episodes/040.json",
-      "content/episodes/042.json"
-    ]
+    "sources": ["content/entities/projects.json"]
   },
   "anthropics/skills": {
     "translation": "",
-    "sources": [
-      "content/entities/projects.json",
-      "content/episodes/040.json",
-      "content/episodes/042.json"
-    ]
+    "sources": ["content/entities/projects.json"]
   },
   "APERÇU LOCAL · Ces archives utilisent les fixtures de développement.": {
     "translation": "",
@@ -819,7 +808,7 @@
   },
   "browser-use/browser-use": {
     "translation": "",
-    "sources": ["content/entities/projects.json", "content/episodes/042.json"]
+    "sources": ["content/entities/projects.json"]
   },
   "Bubbling under · juste derrière le Top": {
     "translation": "",
@@ -930,11 +919,7 @@
   },
   "CETTE SEMAINE": {
     "translation": "",
-    "sources": [
-      "src/components/charts-experience.tsx",
-      "src/components/charts-features.tsx",
-      "src/domain/sandbox-charts.ts"
-    ]
+    "sources": ["src/components/charts-features.tsx", "src/domain/sandbox-charts.ts"]
   },
   "Cette semaine ↗": {
     "translation": "",
@@ -1087,6 +1072,7 @@
       "src/components/charts-methodology.tsx",
       "src/components/entity-screen.tsx",
       "src/components/nav.tsx",
+      "src/components/reference-methodology.tsx",
       "src/components/shell.tsx"
     ]
   },
@@ -1536,7 +1522,8 @@
     "translation": "",
     "sources": [
       "src/app/(fr)/charts/history/page.tsx",
-      "src/app/(fr)/charts/project/[slug]/page.tsx"
+      "src/app/(fr)/charts/project/[slug]/page.tsx",
+      "src/components/chart-screen.tsx"
     ]
   },
   "Édition : chaque jour à 03:00 UTC.": {
@@ -1671,7 +1658,7 @@
   },
   "Epoch AI": {
     "translation": "",
-    "sources": ["content/episodes/041.json", "content/sources.json"]
+    "sources": ["content/sources.json"]
   },
   "Erreur 404": {
     "translation": "",
@@ -1827,7 +1814,7 @@
   },
   "Fil d'Ariane": {
     "translation": "",
-    "sources": ["src/components/ui.tsx"]
+    "sources": ["src/components/chart-screen.tsx", "src/components/ui.tsx"]
   },
   "Fil d’Ariane": {
     "translation": "",
@@ -1943,7 +1930,7 @@
   },
   "ggml-org/llama.cpp": {
     "translation": "",
-    "sources": ["content/entities/projects.json", "content/episodes/041.json"]
+    "sources": ["content/entities/projects.json"]
   },
   "GitHub GraphQL Repository ↗": {
     "translation": "",
@@ -1991,11 +1978,7 @@
   },
   "github/spec-kit": {
     "translation": "",
-    "sources": [
-      "content/entities/projects.json",
-      "content/episodes/040.json",
-      "content/episodes/042.json"
-    ]
+    "sources": ["content/entities/projects.json"]
   },
   "GLM-4.6": {
     "translation": "",
@@ -2020,7 +2003,7 @@
   },
   "google/adk-python": {
     "translation": "",
-    "sources": ["content/entities/projects.json", "content/episodes/042.json"]
+    "sources": ["content/entities/projects.json"]
   },
   "GPQA Diamond": {
     "translation": "",
@@ -2272,7 +2255,7 @@
   },
   "L’équipe": {
     "translation": "",
-    "sources": ["src/app/(fr)/about/page.tsx"]
+    "sources": ["src/domain/schema.ts"]
   },
   "L'équipe n'a pas encore ajouté sa sélection pour cette édition.": {
     "translation": "",
@@ -2833,7 +2816,7 @@
   },
   "mastra-ai/mastra": {
     "translation": "",
-    "sources": ["content/entities/projects.json", "content/episodes/042.json"]
+    "sources": ["content/entities/projects.json"]
   },
   "mastra.ai": {
     "translation": "",
@@ -2904,6 +2887,7 @@
     "sources": [
       "src/app/(fr)/charts/[slug]/methodology/page.tsx",
       "src/components/charts-methodology.tsx",
+      "src/components/reference-methodology.tsx",
       "src/domain/chart-markdown.ts"
     ]
   },
@@ -2945,7 +2929,7 @@
   },
   "microsoft/playwright-mcp": {
     "translation": "",
-    "sources": ["content/entities/projects.json", "content/episodes/040.json"]
+    "sources": ["content/entities/projects.json"]
   },
   "miniature YouTube non valide": {
     "translation": "",
@@ -2997,7 +2981,7 @@
   },
   "modelcontextprotocol/servers": {
     "translation": "",
-    "sources": ["content/entities/projects.json", "content/episodes/040.json"]
+    "sources": ["content/entities/projects.json"]
   },
   "MODÈLE": {
     "translation": "",
@@ -3298,11 +3282,7 @@
   },
   "obra/superpowers": {
     "translation": "",
-    "sources": [
-      "content/entities/projects.json",
-      "content/episodes/040.json",
-      "content/episodes/042.json"
-    ]
+    "sources": ["content/entities/projects.json"]
   },
   "Ollama": {
     "translation": "",
@@ -4238,7 +4218,7 @@
   },
   "Semaine": {
     "translation": "",
-    "sources": ["src/app/(fr)/page.tsx", "src/components/chart-screen.tsx"]
+    "sources": ["src/app/(fr)/page.tsx"]
   },
   "Semaine {number} : {highlights}": {
     "translation": "",
@@ -4521,7 +4501,7 @@
   },
   "SWE-bench Verified": {
     "translation": "",
-    "sources": ["content/episodes/042.json", "content/scoring/models.json"]
+    "sources": ["content/scoring/models.json"]
   },
   "Tâches d'agent dans un terminal.": {
     "translation": "",
@@ -4557,7 +4537,7 @@
   },
   "Terminal-Bench": {
     "translation": "",
-    "sources": ["content/episodes/041.json", "content/scoring/models.json", "content/sources.json"]
+    "sources": ["content/scoring/models.json", "content/sources.json"]
   },
   "The archives.": {
     "translation": "",
@@ -4853,7 +4833,7 @@
   },
   "upstash/context7": {
     "translation": "",
-    "sources": ["content/entities/projects.json", "content/episodes/040.json"]
+    "sources": ["content/entities/projects.json"]
   },
   "URL https requise": {
     "translation": "",
@@ -4945,11 +4925,7 @@
   },
   "vllm-project/vllm": {
     "translation": "",
-    "sources": [
-      "content/entities/projects.json",
-      "content/episodes/041.json",
-      "content/episodes/042.json"
-    ]
+    "sources": ["content/entities/projects.json"]
   },
   "Voice": {
     "translation": "",
@@ -6238,5 +6214,721 @@
       "src/app/(fr)/charts/awards/edition/[id]/page.tsx",
       "src/app/(fr)/charts/entity/[slug]/page.tsx"
     ]
+  },
+  "Deux mises à jour prévues par jour": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Mise à jour en retard. La dernière édition publiée reste consultable.": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  ", édition": {
+    "translation": "",
+    "sources": ["src/components/entity-screen.tsx"]
+  },
+  "· édition": {
+    "translation": "",
+    "sources": ["src/components/entity-screen.tsx"]
+  },
+  "· historique": {
+    "translation": "",
+    "sources": ["src/components/charts-mini.tsx"]
+  },
+  "(lecteur vidéo)": {
+    "translation": "",
+    "sources": ["src/app/(fr)/episodes/[number]/page.tsx"]
+  },
+  "{count} éditions à ce rang": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "{count} éditions consécutives": {
+    "translation": "",
+    "sources": ["src/components/entity-screen.tsx", "src/i18n/dictionaries/en.json"]
+  },
+  "#1 sur cette édition": {
+    "translation": "",
+    "sources": ["src/components/chart-screen.tsx"]
+  },
+  "↑ ou ↓ compare la position à l’édition précédente. NEW signifie que le projet n’y figurait pas, y compris en cas de retour. Une première édition n’a pas de comparaison. Les archives conservent la configuration, les composantes, les mesures brutes et la version du score.": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "1 édition consécutive": {
+    "translation": "",
+    "sources": ["src/components/entity-screen.tsx"]
+  },
+  "Accélération GitHub": {
+    "translation": "",
+    "sources": ["src/domain/reference-profiles.ts"]
+  },
+  "Accélération sur sept jours des jeunes projets suivis, avec contrôle des pratiques d'ingénierie.": {
+    "translation": "",
+    "sources": ["src/domain/reference-profiles.ts"]
+  },
+  "ACTUALISÉ TOUTES LES 12 H": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Adoption des skills sur sept jours, corroborée par la dynamique du dépôt GitHub qui les distribue.": {
+    "translation": "",
+    "sources": ["src/domain/reference-profiles.ts"]
+  },
+  "après le démarrage de la collecte": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Arena": {
+    "translation": "",
+    "sources": ["src/domain/reference-profiles.ts"]
+  },
+  "Artificial Analysis": {
+    "translation": "",
+    "sources": ["src/domain/reference-profiles.ts"]
+  },
+  "Aucun animateur n’est associé à votre compte.": {
+    "translation": "",
+    "sources": ["src/domain/episode-import.ts"]
+  },
+  "aucun pour le moment": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Aucune baisse de rang depuis l'édition précédente.": {
+    "translation": "",
+    "sources": ["src/components/charts-features.tsx"]
+  },
+  "Aucune hausse de rang depuis l'édition précédente.": {
+    "translation": "",
+    "sources": ["src/components/charts-features.tsx"]
+  },
+  "Aucune nouvelle entrée depuis l'édition précédente.": {
+    "translation": "",
+    "sources": ["src/components/charts-features.tsx"]
+  },
+  "Aucune poussée mesurée dans les dernières 24 heures. Deux relevés espacés d'au moins une fenêtre sont nécessaires.": {
+    "translation": "",
+    "sources": ["src/components/github-burst-panel.tsx"]
+  },
+  "Calculé depuis les positions de chaque édition du mois.": {
+    "translation": "",
+    "sources": ["src/components/charts-features.tsx"]
+  },
+  "Candidat dupliqué.": {
+    "translation": "",
+    "sources": ["src/domain/reference-ranking.ts"]
+  },
+  "candidats suivis dans cette édition. Les rangs au-delà du Top": {
+    "translation": "",
+    "sources": ["src/components/chart-screen.tsx"]
+  },
+  "Capacités générales des variantes de modèles exactement identifiées, selon préférences humaines et évaluations standardisées.": {
+    "translation": "",
+    "sources": ["src/domain/reference-profiles.ts"]
+  },
+  "Ce qu'on ne sait pas faire": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/[slug]/methodology/page.tsx"]
+  },
+  "Ce sous-score GitHub compte pour 75 %. Les 25 % restants viennent de neuf contrôles OpenSSF sélectionnés, avec au moins six résultats exploitables.": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "Ce sous-score GitHub compte pour 85 %. Les 15 % restants viennent de neuf contrôles OpenSSF sélectionnés, avec au moins six résultats exploitables.": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "cette édition": {
+    "translation": "",
+    "sources": ["src/components/chart-row.tsx"]
+  },
+  "CHAQUE ÉDITION LAISSE UNE TRACE": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Chaque édition v3 conserve le profil, les observations normalisées et leurs liens, les contributions, la couverture, les exclusions et une empreinte SHA-256. Les rangs de sensibilité viennent de variations de 20 % et du retrait de chaque source ou famille. Ils décrivent des scénarios, sans probabilité statistique.": {
+    "translation": "",
+    "sources": ["src/components/reference-methodology.tsx"]
+  },
+  "Chaque rang renvoie à ses mesures, ses sources et sa méthode.": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Choisir une édition de ce classement": {
+    "translation": "",
+    "sources": ["src/components/chart-week-select.tsx"]
+  },
+  "Classements GitHub de projets open source, skills et modèles IA. Popularité, progression, qualité et méthodes publiques.": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/page.tsx"]
+  },
+  "Clip": {
+    "translation": "",
+    "sources": ["src/domain/episode-presentation.ts"]
+  },
+  "Collez la description de l’épisode avec ses sources.": {
+    "translation": "",
+    "sources": ["src/domain/episode-import.ts"]
+  },
+  "Comment ce classement est calculé": {
+    "translation": "",
+    "sources": ["src/components/reference-methodology.tsx"]
+  },
+  "Comparaisons humaines avec contrôle du style et au moins 1000 votes. Le recrutement des votants et la sélection des variantes peuvent créer un biais.": {
+    "translation": "",
+    "sources": ["src/domain/reference-profiles.ts"]
+  },
+  "Compteurs contradictoires au même instant.": {
+    "translation": "",
+    "sources": ["src/domain/github-bursts.ts"]
+  },
+  "Créneau de collecte invalide.": {
+    "translation": "",
+    "sources": ["src/domain/chart-refresh.ts"]
+  },
+  "D'où viennent les chiffres": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/[slug]/methodology/page.tsx"]
+  },
+  "Dart": {
+    "translation": "",
+    "sources": ["src/domain/github-discovery.ts"]
+  },
+  "Date de collecte invalide.": {
+    "translation": "",
+    "sources": ["src/domain/chart-refresh.ts"]
+  },
+  "DE QUOI S'AGIT-IL ?": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx"]
+  },
+  "dépôts suivis": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx", "src/components/charts-mini.tsx"]
+  },
+  "Dernier rang dans les scénarios de pondération": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx"]
+  },
+  "Dernier relevé réussi :": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Désaccord entre les familles": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx"]
+  },
+  "DÉTECTION INTRAJOURNALIÈRE": {
+    "translation": "",
+    "sources": ["src/components/github-burst-panel.tsx"]
+  },
+  "Données absentes et couverture": {
+    "translation": "",
+    "sources": ["src/components/reference-methodology.tsx"]
+  },
+  "Durée YouTube indisponible.": {
+    "translation": "",
+    "sources": ["src/components/youtube-duration-probe.tsx"]
+  },
+  "Dynamique du dépôt": {
+    "translation": "",
+    "sources": ["src/domain/reference-profiles.ts"]
+  },
+  "Dynamique GitHub": {
+    "translation": "",
+    "sources": ["src/domain/reference-profiles.ts"]
+  },
+  "édition": {
+    "translation": "",
+    "sources": ["src/components/chart-screen.tsx"]
+  },
+  "ÉDITION": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "édition AAAA-Wnn ou créneau UTC": {
+    "translation": "",
+    "sources": ["src/domain/schema.ts"]
+  },
+  "ÉDITION ACTUELLE": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Edition history": {
+    "translation": "",
+    "sources": ["src/i18n/messages.ts"]
+  },
+  "éditions": {
+    "translation": "",
+    "sources": ["src/components/chart-screen.tsx"]
+  },
+  "Éditions classées et mesures GitHub observées pour {name}.": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "éditions dans le Top · pic n°": {
+    "translation": "",
+    "sources": ["src/components/chart-row.tsx"]
+  },
+  "éditions dans le Top 20 · meilleur rang #": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx"]
+  },
+  "éditions en tête": {
+    "translation": "",
+    "sources": ["src/components/entity-screen.tsx"]
+  },
+  "Editions in Top 10": {
+    "translation": "",
+    "sources": ["src/components/entity-screen.tsx"]
+  },
+  "EDITIONS IN TOP 20": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/project/[slug]/page.tsx"]
+  },
+  "En tête depuis {count} éditions": {
+    "translation": "",
+    "sources": ["src/components/chart-screen.tsx", "src/i18n/dictionaries/en.json"]
+  },
+  "Essayez une autre catégorie ou une autre édition.": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx"]
+  },
+  "Évaluations standardisées": {
+    "translation": "",
+    "sources": ["src/domain/reference-profiles.ts"]
+  },
+  "Évolution du nombre de contributeurs si les deux relevés existent. Cette collecte facultative n'est pas encore connectée.": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "Famille dupliquée.": {
+    "translation": "",
+    "sources": ["src/domain/reference-ranking.ts"]
+  },
+  "Famille sans source.": {
+    "translation": "",
+    "sources": ["src/domain/reference-ranking.ts"]
+  },
+  "Fenêtre dupliquée.": {
+    "translation": "",
+    "sources": ["src/domain/github-bursts.ts"]
+  },
+  "Format GitHub Trending inconnu ou liste vide.": {
+    "translation": "",
+    "sources": ["src/domain/github-discovery.ts"]
+  },
+  "GitHub burst panel unavailable:": {
+    "translation": "",
+    "sources": ["src/components/github-burst-panel.tsx"]
+  },
+  "Go": {
+    "translation": "",
+    "sources": ["src/domain/github-discovery.ts"]
+  },
+  "Historique :": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Historique des éditions": {
+    "translation": "",
+    "sources": ["src/i18n/messages.ts"]
+  },
+  "Hors Top 10 cette édition": {
+    "translation": "",
+    "sources": ["src/components/cards.tsx"]
+  },
+  "Installations de skills": {
+    "translation": "",
+    "sources": ["src/domain/reference-profiles.ts"]
+  },
+  "Installations mesurées par la télémétrie du CLI. Les installations ne prouvent ni exécution, ni réussite du skill.": {
+    "translation": "",
+    "sources": ["src/domain/reference-profiles.ts"]
+  },
+  "Java": {
+    "translation": "",
+    "sources": ["src/domain/github-discovery.ts"]
+  },
+  "Jeu de mesures compté plusieurs fois.": {
+    "translation": "",
+    "sources": ["src/domain/reference-ranking.ts"]
+  },
+  "jours": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx", "src/components/charts-mini.tsx"]
+  },
+  "Julia": {
+    "translation": "",
+    "sources": ["src/domain/github-discovery.ts"]
+  },
+  "Kotlin": {
+    "translation": "",
+    "sources": ["src/domain/github-discovery.ts"]
+  },
+  "L'activité et la croissance mesurent l'attention des développeurs. Les stars restent manipulables et ne mesurent pas une qualité universelle.": {
+    "translation": "",
+    "sources": ["src/domain/reference-profiles.ts"]
+  },
+  "L'avis de l'équipe, signé": {
+    "translation": "",
+    "sources": ["src/components/entity-screen.tsx"]
+  },
+  "L'AVIS DE SANDBOX": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx"]
+  },
+  "La collecte horaire attend sa mise en service.": {
+    "translation": "",
+    "sources": ["src/components/github-burst-panel.tsx"]
+  },
+  "La collecte n'est pas encore activée sur cet environnement. Les rangs apparaîtront après la première édition publiée.": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "La configuration publiée est momentanément indisponible. Réessayez après le rétablissement des données.": {
+    "translation": "",
+    "sources": ["src/components/reference-methodology.tsx"]
+  },
+  "La date et la durée doivent venir de YouTube. Configurez YOUTUBE_API_KEY sur le serveur.": {
+    "translation": "",
+    "sources": ["src/domain/episode-import.ts"]
+  },
+  "La découverte couvre plusieurs domaines et langues, avec des partitions de recherche. Le classement exige une licence open source reconnue par notre liste publiée. GitHub Trending sert uniquement à découvrir des candidats. Les poussées intrajournalières sont des signaux distincts, fondés sur nos propres relevés.": {
+    "translation": "",
+    "sources": ["src/components/reference-methodology.tsx"]
+  },
+  "La preuve sera accessible après publication de la première édition v3.": {
+    "translation": "",
+    "sources": ["src/components/reference-methodology.tsx"]
+  },
+  "La vidéo doit durer au moins une minute.": {
+    "translation": "",
+    "sources": ["src/domain/episode-import.ts"]
+  },
+  "Le classement apparaîtra après la collecte des relevés et la publication d'une édition. Chaque position reposera sur des mesures enregistrées.": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Le classement croise aussi un rapport OpenSSF Scorecard daté de quatorze jours au plus. Un dépôt sans ce second avis peut bloquer le gel s'il pourrait entrer dans le Top 20. Ce rapport décrit des pratiques détectables, sans garantir la sécurité du code.": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "LE CLASSEMENT SANDBOX": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Le lecteur YouTube est incomplet.": {
+    "translation": "",
+    "sources": ["src/components/youtube-duration-probe.tsx"]
+  },
+  "Le lecteur YouTube ne peut pas être chargé.": {
+    "translation": "",
+    "sources": ["src/components/youtube-duration-probe.tsx"]
+  },
+  "Le lecteur YouTube ne répond pas.": {
+    "translation": "",
+    "sources": ["src/components/youtube-duration-probe.tsx"]
+  },
+  "Le pool surveillé est limité par les quotas. Un pic ne prouve ni la qualité du code ni l'absence de manipulation. Une avance sur Trending doit se mesurer à partir de ses présences observées.": {
+    "translation": "",
+    "sources": ["src/components/github-burst-panel.tsx"]
+  },
+  "Le score est la moyenne pondérée des familles, moins 20 % de leur déviation absolue pondérée. Un même jeu de mesures republié par un autre site ne reçoit pas une seconde voix.": {
+    "translation": "",
+    "sources": ["src/components/reference-methodology.tsx"]
+  },
+  "Lecteur YouTube de vérification de la durée": {
+    "translation": "",
+    "sources": ["src/components/youtube-duration-probe.tsx"]
+  },
+  "Lecture de la durée depuis le lecteur YouTube…": {
+    "translation": "",
+    "sources": ["src/components/youtube-duration-probe.tsx"]
+  },
+  "Les avis de l'équipe restent séparés des scores. Une correction de méthode reçoit une nouvelle version ; les éditions publiées restent immuables.": {
+    "translation": "",
+    "sources": ["src/components/reference-methodology.tsx"]
+  },
+  "Les budgets sont fixes pour tous les candidats. Dans chaque famille, la puissance relative d'une source combine sa pertinence, sa rigueur, sa reproductibilité et sa résistance à la manipulation. Ce sont des choix éditoriaux à calibrer sur des éditions réelles.": {
+    "translation": "",
+    "sources": ["src/components/reference-methodology.tsx"]
+  },
+  "LES CLASSEMENTS TECH & IA": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Les nouveaux candidats GitHub et Skills constituent d'abord leurs baselines sur sept jours, Rising sur deux périodes. Avant l'admission officielle, les poussées intrajournalières peuvent déjà les signaler. Une baseline encore absente après cette attente peut bloquer le classement.": {
+    "translation": "",
+    "sources": ["src/components/reference-methodology.tsx"]
+  },
+  "Les poids des familles": {
+    "translation": "",
+    "sources": ["src/components/reference-methodology.tsx"]
+  },
+  "Les poids des familles doivent totaliser 1.": {
+    "translation": "",
+    "sources": ["src/domain/reference-ranking.ts"]
+  },
+  "Les progressions les plus nettes depuis l'édition précédente.": {
+    "translation": "",
+    "sources": ["src/components/charts-features.tsx"]
+  },
+  "Les projets open source dont l'accélération mesurée mérite votre attention.": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/rising/page.tsx"]
+  },
+  "Les projets open source qui progressent le plus vite sur GitHub.": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
+  },
+  "Les projets qui reculent depuis l'édition précédente.": {
+    "translation": "",
+    "sources": ["src/components/charts-features.tsx"]
+  },
+  "Les projets surveillés qui gagnent rapidement des étoiles, triés par gain horaire observé. Ce signal alimente le suivi des candidats ; le classement Rising conserve ses critères et son historique.": {
+    "translation": "",
+    "sources": ["src/components/github-burst-panel.tsx"]
+  },
+  "Les relevés récents sont momentanément indisponibles.": {
+    "translation": "",
+    "sources": ["src/components/github-burst-panel.tsx"]
+  },
+  "Les sources classantes": {
+    "translation": "",
+    "sources": ["src/components/reference-methodology.tsx"]
+  },
+  "Les vues mensuelles et sur trois mois mesurent la présence aux meilleures places : moyenne de 100 / rang sur les éditions disponibles, avec zéro point les éditions hors classement. Elles ne moyennent pas des scores normalisés de groupes différents. Une édition datée appartient à son mois. Une semaine ISO appartient au mois de son lundi.": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "Lou, Nicolas et Loïc. Les liens de l’équipe Sandbox, réunis ici.": {
+    "translation": "",
+    "sources": ["src/domain/schema.ts"]
+  },
+  "Lua": {
+    "translation": "",
+    "sources": ["src/domain/github-discovery.ts"]
+  },
+  "Meilleur rang dans les scénarios de pondération": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx"]
+  },
+  "Mesure non finie.": {
+    "translation": "",
+    "sources": ["src/domain/reference-ranking.ts"]
+  },
+  "Mesurer les projets IA qui gagnent le plus de terrain sur GitHub en sept jours.": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "Méthode du classement": {
+    "translation": "",
+    "sources": ["src/components/reference-methodology.tsx"]
+  },
+  "Minimum supérieur à la taille du classement.": {
+    "translation": "",
+    "sources": ["src/domain/reference-ranking.ts"]
+  },
+  "Mouvements depuis l'édition précédente": {
+    "translation": "",
+    "sources": ["src/components/charts-features.tsx"]
+  },
+  "Neuf contrôles de pratiques, dont six renseignés au minimum. Ce signal ne constitue pas un audit de sécurité du code.": {
+    "translation": "",
+    "sources": ["src/domain/reference-profiles.ts"]
+  },
+  "NOUVELLES ENTRÉES": {
+    "translation": "",
+    "sources": ["src/components/charts-features.tsx"]
+  },
+  "Observation inconnue ou dupliquée.": {
+    "translation": "",
+    "sources": ["src/domain/reference-ranking.ts"]
+  },
+  "Observation requise absente.": {
+    "translation": "",
+    "sources": ["src/domain/reference-ranking.ts"]
+  },
+  "OpenSSF Scorecard": {
+    "translation": "",
+    "sources": ["src/domain/reference-profiles.ts"]
+  },
+  "Page Trending trop volumineuse.": {
+    "translation": "",
+    "sources": ["src/domain/github-discovery.ts"]
+  },
+  "PLUS D’ÉDITIONS DANS LE TOP 20": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
+  },
+  "PLUS FORTE HAUSSE ENTRE ÉDITIONS": {
+    "translation": "",
+    "sources": ["src/domain/sandbox-charts.ts"]
+  },
+  "Plus suivi cette édition": {
+    "translation": "",
+    "sources": ["src/components/entity-screen.tsx"]
+  },
+  "Position d'édition en édition": {
+    "translation": "",
+    "sources": ["src/components/entity-screen.tsx"]
+  },
+  "POURQUOI C'EST IMPORTANT": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx"]
+  },
+  "Poussées d'étoiles": {
+    "translation": "",
+    "sources": ["src/components/github-burst-panel.tsx"]
+  },
+  "Pratiques d'ingénierie": {
+    "translation": "",
+    "sources": ["src/domain/reference-profiles.ts"]
+  },
+  "Préférences humaines": {
+    "translation": "",
+    "sources": ["src/domain/reference-profiles.ts"]
+  },
+  "Première édition du classement": {
+    "translation": "",
+    "sources": ["src/components/chart-screen.tsx", "src/components/ui.tsx"]
+  },
+  "Première édition possible :": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Profil v3 expérimental en préparation. Les éditions antérieures conservent leur méthode.": {
+    "translation": "",
+    "sources": ["src/components/reference-methodology.tsx"]
+  },
+  "Progression sur sept jours des dépôts open source suivis, corroborée par leurs pratiques d'ingénierie.": {
+    "translation": "",
+    "sources": ["src/domain/reference-profiles.ts"]
+  },
+  "Projets open source, skills et modèles IA à suivre chaque semaine.": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/page.tsx"]
+  },
+  "Projets open source, skills et modèles IA, classés et analysés deux fois par jour.": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Python": {
+    "translation": "",
+    "sources": ["src/domain/github-discovery.ts"]
+  },
+  "Rang sur {count} éditions : {ranks}": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "Reference methodology unavailable:": {
+    "translation": "",
+    "sources": ["src/components/reference-methodology.tsx"]
+  },
+  "Relevés de classement des 30 derniers jours": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx"]
+  },
+  "Relevés du jour :": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Repérer les projets dont la vitesse augmente avant qu'ils deviennent massifs.": {
+    "translation": "",
+    "sources": ["src/components/charts-methodology.tsx"]
+  },
+  "Résumé de l'édition": {
+    "translation": "",
+    "sources": ["src/components/chart-screen.tsx"]
+  },
+  "Ruby": {
+    "translation": "",
+    "sources": ["src/domain/github-discovery.ts"]
+  },
+  "Rust": {
+    "translation": "",
+    "sources": ["src/domain/github-discovery.ts"]
+  },
+  "SANDBOX CHARTS | Classements open source, skills et IA": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/page.tsx"]
+  },
+  "Seuil exceptionnel inférieur au gain minimal.": {
+    "translation": "",
+    "sources": ["src/domain/github-bursts.ts"]
+  },
+  "Shell": {
+    "translation": "",
+    "sources": ["src/domain/github-discovery.ts"]
+  },
+  "Source dupliquée.": {
+    "translation": "",
+    "sources": ["src/domain/reference-ranking.ts"]
+  },
+  "Source inconnue.": {
+    "translation": "",
+    "sources": ["src/domain/reference-ranking.ts"]
+  },
+  "Source sans famille connue.": {
+    "translation": "",
+    "sources": ["src/domain/reference-ranking.ts"]
+  },
+  "Sources, score, critères et limites des éditions du classement GitHub.": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/[slug]/methodology/page.tsx"]
+  },
+  "Stars gagnées et récence du dépôt. Plusieurs skills peuvent partager ce signal, qui ne décrit pas leur qualité individuelle.": {
+    "translation": "",
+    "sources": ["src/domain/reference-profiles.ts"]
+  },
+  "Suite structurée de tâches, majoritairement textuelles et anglophones. La version du benchmark et la configuration du modèle doivent être contrôlées.": {
+    "translation": "",
+    "sources": ["src/domain/reference-profiles.ts"]
+  },
+  "SUIVRE L'ATTENTION": {
+    "translation": "",
+    "sources": ["src/components/charts-features.tsx"]
+  },
+  "Swift": {
+    "translation": "",
+    "sources": ["src/domain/github-discovery.ts"]
+  },
+  "Télécharger la preuve JSON de cette édition": {
+    "translation": "",
+    "sources": ["src/components/reference-methodology.tsx"]
+  },
+  "Une source absente, trop ancienne ou insuffisamment renseignée ne vaut pas zéro. Toutes les sources du profil sont requises pour attribuer un rang. Les percentiles sont calculés dans le pool observé de chaque source avant de croiser les candidats. Les candidats incomplets conservent une borne haute : si elle peut atteindre le Top, le gel attend.": {
+    "translation": "",
+    "sources": ["src/components/reference-methodology.tsx"]
+  },
+  "Unlicense": {
+    "translation": "",
+    "sources": ["src/domain/reference-adapters.ts"]
+  },
+  "UTC": {
+    "translation": "",
+    "sources": ["src/components/chart-screen.tsx"]
+  },
+  "Vérifier et reproduire": {
+    "translation": "",
+    "sources": ["src/components/reference-methodology.tsx"]
+  },
+  "Voir une édition": {
+    "translation": "",
+    "sources": ["src/components/chart-week-select.tsx"]
+  },
+  "YouTube n’a pas fourni la date ou la durée de cette vidéo.": {
+    "translation": "",
+    "sources": ["src/domain/episode-import.ts"]
+  },
+  "Zlib": {
+    "translation": "",
+    "sources": ["src/domain/reference-adapters.ts"]
+  },
+  "Actualisé toutes les 12 h": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
   }
 }

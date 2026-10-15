@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { PGlite } from '@electric-sql/pglite';
 import { drizzle } from 'drizzle-orm/pglite';
+import { eq } from 'drizzle-orm';
 import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import * as schema from '../src/db/schema.ts';
 import {
@@ -13,6 +14,8 @@ import { ContentConflictError } from '../src/lib/admin-content-conflict.ts';
 import { freezeExternalEdition, saveExternalBatch } from '../src/lib/external-charts-store.ts';
 import {
   beginChartsJob,
+  collectionBatch,
+  hasCompletedChartsCollection,
   finishChartsJob,
   publishFrozenCharts,
   saveDailyBatch,
@@ -22,11 +25,20 @@ import {
   writeChartsConfig,
 } from '../src/lib/charts-store.ts';
 import { readAdminChartEdition, writeChartsEditorial } from '../src/lib/charts-editorial.ts';
-import { publicChartEdition, githubProjectDetail } from '../src/lib/charts-public.ts';
+import {
+  publicChartEdition,
+  publicReferenceArtifact,
+  githubProjectDetail,
+} from '../src/lib/charts-public.ts';
 import { sandboxChartsData } from '../src/lib/sandbox-charts.ts';
 import { calculateGithubWeek, collectGithub } from '../src/pipeline/github-jobs.ts';
 import { GithubClient, GithubRateLimitError } from '../src/pipeline/github-client.ts';
 import { ScorecardClient } from '../src/pipeline/scorecard-client.ts';
+import { collectGithubBursts, discoverGithubTrending } from '../src/pipeline/github-bursts-jobs.ts';
+import { saveBurstBatch, publicGithubBursts } from '../src/lib/github-bursts-store.ts';
+import { verifyReferenceArtifact } from '../src/lib/reference-artifact.ts';
+import { externalEntitySchema, externalObservationSchema } from '../src/domain/external-charts.ts';
+import { freezeExternalCharts } from '../src/pipeline/external-jobs.ts';
 
 const pg = new PGlite();
 const db = drizzle(pg, { schema });
@@ -58,6 +70,7 @@ function repo(index: number) {
     description: 'Fixture de test',
     html_url: `https://github.com/sandbox-fixture/project-${index}`,
     language: 'TypeScript',
+    license: { spdx_id: 'MIT' },
     created_at: '2026-07-01T00:00:00Z',
     updated_at: `${date}T00:00:00Z`,
     pushed_at: `${date}T00:00:00Z`,
@@ -70,8 +83,11 @@ function repo(index: number) {
   });
 }
 async function seed(history = true, count = 20, withScorecard = true) {
+  vi.stubEnv('CHARTS_REVIEWED_PROFILE_VERSIONS', 'github-reference-v3,rising-reference-v3');
   await upsertDiscoveredRepositories(Array.from({ length: count }, (_, index) => repo(index)));
-  await db.update(schema.githubProjects).set({ status: 'tracked' });
+  await db
+    .update(schema.githubProjects)
+    .set({ status: 'tracked', discoveredAt: '2026-09-01T00:00:00.000Z' });
   const projects = (await db.select().from(schema.githubProjects)).toSorted(
     (a, b) => a.githubId - b.githubId,
   );
@@ -110,6 +126,8 @@ beforeAll(async () => {
     '0004_site_content_localizations.sql',
     '0005_external_chart_sources.sql',
     '0007_daily_chart_editions.sql',
+    '0009_github_bursts.sql',
+    '0010_chart_refresh_slots.sql',
   ]) {
     for (const statement of readFileSync(`drizzle/${migration}`, 'utf8').split(
       '--> statement-breakpoint',
@@ -121,14 +139,294 @@ afterEach(async () => {
   vi.restoreAllMocks();
   vi.unstubAllEnvs();
   await pg.exec(
-    'TRUNCATE charts_editorial, weekly_rankings, weekly_chart_editions, github_daily_snapshots, github_projects, chart_entities, charts_job_runs, charts_configuration CASCADE',
+    'TRUNCATE github_trending_observations, charts_editorial, weekly_rankings, weekly_chart_editions, github_daily_snapshots, github_projects, chart_entities, charts_job_runs, charts_configuration CASCADE',
   );
 });
 afterAll(async () => {
   await pg.close();
 });
 
+async function seedModels(includeUnpaired = false) {
+  const entities = Array.from({ length: includeUnpaired ? 21 : 20 }, (_, index) =>
+    externalEntitySchema.parse({
+      slug: `fixture-model-${index}`,
+      type: 'model',
+      name: `Model ${index}`,
+      organization: 'fixture',
+      description: null,
+      category: 'Models',
+      license: null,
+      openWeights: null,
+      sourceUrl: 'https://example.com/model',
+      websiteUrl: null,
+      sources: [
+        {
+          provider: 'arena',
+          externalId: `model-${index}`,
+          url: 'https://example.com/arena',
+          label: 'Arena',
+        },
+        ...(index < 20
+          ? [
+              {
+                provider: 'artificial-analysis',
+                externalId: `model-${index}`,
+                url: 'https://example.com/analysis',
+                label: 'Artificial Analysis',
+              },
+            ]
+          : []),
+      ],
+    }),
+  );
+  await saveExternalBatch(
+    entities,
+    entities.flatMap((entity, index) =>
+      entity.sources.map((source) =>
+        externalObservationSchema.parse({
+          entitySlug: entity.slug,
+          source,
+          observedOn: date,
+          collectedAt: `${date}T02:30:00.000Z`,
+          metrics:
+            source.provider === 'arena'
+              ? {
+                  text_style_control: 1000 + index,
+                  text_style_controlVotes: 2000,
+                  text_style_controlPublishedAt: date,
+                }
+              : { intelligenceIndex: index + 10, benchmarkAsOf: `${date}T00:00:00.000Z` },
+        }),
+      ),
+    ),
+  );
+  await db.insert(schema.chartsJobRuns).values({
+    id: 'fixture-model-sync',
+    kind: 'models_daily_sync',
+    status: 'success',
+    startedAt: `${date}T02:00:00.000Z`,
+    finishedAt: `${date}T02:30:00.000Z`,
+  });
+}
+
 describe('pipeline charts sur Postgres', () => {
+  it('fige deux éditions distinctes par jour et rend chaque créneau idempotent', async () => {
+    const projects = await seed();
+    const morning = await calculateGithubWeek({ date });
+    expect(morning.written).toBe(2);
+    const afternoon: DailyGithubSnapshot[] = projects.map((project, index) => ({
+      projectId: project.id,
+      date,
+      stars: 10_000 + index * 100,
+      forks: 100,
+      watchers: null,
+      openIssues: 10,
+      contributors: null,
+      commits: 5,
+      releases: null,
+      pushedAt: `${date}T00:00:00Z`,
+      collectedAt: `${date}T14:00:00Z`,
+    }));
+    expect(await saveDailyBatch(afternoon)).toBe(projects.length);
+    expect(await saveDailyBatch(afternoon)).toBe(0);
+    const second = await calculateGithubWeek({ date, slotId: `${date}T12:00Z` });
+    expect(second.referenceRanking.report.publishable).toBe(true);
+    expect(second.risingReferenceRanking.report.publishable).toBe(true);
+    expect(second.written).toBe(2);
+    expect(second.week).toBe(`${date}T12:00Z`);
+    expect((await calculateGithubWeek({ date, slotId: `${date}T12:00Z` })).written).toBe(0);
+    expect((await db.select().from(schema.weeklyChartEditions)).map((row) => row.week)).toEqual(
+      expect.arrayContaining([`${date}T00:00Z`, `${date}T12:00Z`]),
+    );
+  });
+
+  it('la découverte continue ne bloque pas le Top pendant la constitution des premières baselines', async () => {
+    await seed();
+    await upsertDiscoveredRepositories([repo(999)]);
+    const project = (await db.select().from(schema.githubProjects)).find((row) =>
+      row.fullName.endsWith('project-999'),
+    );
+    if (!project) throw new Error('Projet de test manquant.');
+    await db
+      .update(schema.githubProjects)
+      .set({ status: 'tracked', discoveredAt: `${date}T00:00:00.000Z` })
+      .where(eq(schema.githubProjects.id, project.id));
+    await saveDailyBatch([
+      {
+        projectId: project.id,
+        date,
+        stars: 3000,
+        forks: 100,
+        watchers: null,
+        openIssues: 0,
+        contributors: null,
+        commits: null,
+        releases: null,
+        pushedAt: `${date}T00:00:00.000Z`,
+        collectedAt: `${date}T02:00:00.000Z`,
+      },
+    ]);
+    expect((await calculateGithubWeek({ date, dryRun: true })).insufficientHistory).toBe(false);
+    await db
+      .update(schema.githubProjects)
+      .set({ discoveredAt: '2026-09-01T00:00:00.000Z' })
+      .where(eq(schema.githubProjects.id, project.id));
+    expect((await calculateGithubWeek({ date, dryRun: true })).insufficientHistory).toBe(true);
+  });
+  it('fige un classement Models v3 avec les vraies dates de benchmark, puis expose sa preuve après revue', async () => {
+    vi.stubEnv('CHARTS_REVIEWED_PROFILE_VERSIONS', '');
+    await seedModels();
+    const simulation = await freezeExternalCharts({ date, dryRun: true });
+    expect(simulation.status).toBe('success');
+    expect(await db.select().from(schema.weeklyChartEditions)).toHaveLength(0);
+    expect((await freezeExternalCharts({ date })).snapshotsCreated).toBe(1);
+    expect(await publicReferenceArtifact('models')).toBeNull();
+    vi.stubEnv('CHARTS_REVIEWED_PROFILE_VERSIONS', 'models-reference-v3');
+    expect(await publishFrozenCharts(`${date}T00:00Z`)).toBe(1);
+    const proof = verifyReferenceArtifact(await publicReferenceArtifact('models'));
+    expect(proof.report.rows).toHaveLength(20);
+    expect(proof.input.observations.every((row) => row.observedOn === date)).toBe(true);
+    expect(proof.report.rows[0]?.contributions.map((row) => row.weight)).toEqual([0.6, 0.4]);
+  });
+  it('refuse un gel Models si un candidat à une seule évaluation peut changer le Top', async () => {
+    await seedModels(true);
+    const result = await freezeExternalCharts({ date });
+    expect(result.status).toBe('insufficient_history');
+    expect(result.snapshotsCreated).toBe(0);
+    expect(await db.select().from(schema.weeklyChartEditions)).toHaveLength(0);
+  });
+  it('conserve les éditions v3 en brouillon sans revue et refuse leur publication manuelle', async () => {
+    await seed();
+    vi.stubEnv('CHARTS_REVIEWED_PROFILE_VERSIONS', '');
+    expect((await calculateGithubWeek({ date })).written).toBe(2);
+    expect(await publicChartEdition('github')).toBeNull();
+    await expect(publishFrozenCharts(`${date}T00:00Z`)).rejects.toThrow('Revue');
+    vi.stubEnv('CHARTS_REVIEWED_PROFILE_VERSIONS', 'github-reference-v3,rising-reference-v3');
+    expect(await publishFrozenCharts(`${date}T00:00Z`)).toBe(2);
+  });
+  it('un dépôt suivi sans relevé du jour peut bloquer le Top au lieu de disparaître', async () => {
+    await seed();
+    await upsertDiscoveredRepositories([repo(999)]);
+    await db
+      .update(schema.githubProjects)
+      .set({ status: 'tracked', discoveredAt: '2026-09-01T00:00:00.000Z' });
+    const result = await calculateGithubWeek({ date, dryRun: true });
+    expect(
+      result.referenceRanking.report.excluded.some(
+        (row) => row.entity.includes('999') && row.canEnterTop,
+      ),
+    ).toBe(true);
+    expect(result.insufficientHistory).toBe(true);
+  });
+  it('distingue dépôt public et dépôt open source en conservant la licence source', async () => {
+    await seed();
+    await upsertDiscoveredRepositories([{ ...repo(999), license: null }]);
+    await db.update(schema.githubProjects).set({ status: 'tracked' });
+    const result = await calculateGithubWeek({ date, dryRun: true });
+    expect(result.insufficientHistory).toBe(false);
+    expect(result.referenceRanking.input.candidates.some((slug) => slug.includes('999'))).toBe(
+      false,
+    );
+    expect(result.entries.every((row) => row.project.license === 'MIT')).toBe(true);
+  });
+  it('les collectes intrajournalières sont bornées, idempotentes et alimentent de vrais signaux', async () => {
+    await seed(true, 3);
+    vi.stubEnv('CHARTS_BURST_COLLECTION_ENABLED', 'true');
+    vi.stubEnv('GITHUB_TOKEN', 'fixture-token');
+    let extra = 0;
+    const client = new GithubClient();
+    vi.spyOn(client, 'batch').mockImplementation(async (names) =>
+      names.map((fullName) => {
+        const index = Number(fullName.split('-').at(-1));
+        return {
+          fullName,
+          repository: { ...repo(index), stargazers_count: 2000 + index + extra },
+          commits7d: null,
+          error: null,
+        };
+      }),
+    );
+    const first = new Date('2026-10-05T11:15:00.000Z');
+    expect((await collectGithubBursts(client, first)).snapshotsCreated).toBe(3);
+    expect(await db.select().from(schema.githubBurstEvents)).toHaveLength(0);
+    extra = 200;
+    const second = new Date('2026-10-05T12:15:00.000Z');
+    expect((await collectGithubBursts(client, second)).snapshotsCreated).toBe(3);
+    expect((await collectGithubBursts(client, second)).snapshotsCreated).toBe(0);
+    expect(await db.select().from(schema.githubStarObservations)).toHaveLength(6);
+    expect(await db.select().from(schema.githubBurstEvents)).toHaveLength(3);
+    expect((await publicGithubBursts(second)).entries).toHaveLength(3);
+    await writeChartsConfig({
+      ...DEFAULT_GITHUB_CHART_CONFIG,
+      blacklist: ['SANDBOX-FIXTURE/PROJECT-0'],
+    });
+    expect((await publicGithubBursts(second)).entries).toHaveLength(2);
+    await expect(pg.exec('UPDATE github_star_observations SET stars = 0')).rejects.toThrow();
+    await expect(pg.exec('DELETE FROM github_burst_events')).rejects.toThrow();
+    const event = (await db.select().from(schema.githubBurstEvents))[0];
+    if (!event) throw new Error('Signal de test manquant.');
+    await expect(saveBurstBatch([], [event.evidence])).rejects.toThrow('Signal');
+  });
+  it('Trending et les poussées restent sans effet tant que les accès ne sont pas activés', async () => {
+    vi.stubEnv('CHARTS_BURST_COLLECTION_ENABLED', 'false');
+    vi.stubEnv('GITHUB_TRENDING_DISCOVERY_ENABLED', 'false');
+    expect((await collectGithubBursts()).status).toBe('skipped');
+    const fetcher = vi.fn<typeof fetch>();
+    expect((await discoverGithubTrending(new GithubClient(), fetcher)).status).toBe('skipped');
+    expect(fetcher).not.toHaveBeenCalled();
+  });
+  it('collecte Trending comme découverte datée, sans lui attribuer de rang officiel', async () => {
+    vi.stubEnv('GITHUB_TRENDING_DISCOVERY_ENABLED', 'true');
+    const client = new GithubClient();
+    vi.spyOn(client, 'batch').mockResolvedValue([
+      { fullName: 'sandbox-fixture/project-0', repository: repo(0), commits7d: null, error: null },
+    ]);
+    const html =
+      '<article class="Box-row"><h2><a href="/sandbox-fixture/project-0">Fixture</a></h2></article>';
+    const fetcher = vi
+      .fn<typeof fetch>()
+      .mockImplementation(() =>
+        Promise.resolve(new Response(html, { headers: { 'Content-Type': 'text/html' } })),
+      );
+    const now = new Date(`${date}T01:00:00.000Z`);
+    expect((await discoverGithubTrending(client, fetcher, now)).snapshotsCreated).toBe(1);
+    expect((await discoverGithubTrending(client, fetcher, now)).snapshotsCreated).toBe(0);
+    expect(await db.select().from(schema.githubTrendingObservations)).toHaveLength(1);
+    expect(await db.select().from(schema.weeklyChartEditions)).toHaveLength(0);
+    await expect(pg.exec('DELETE FROM github_trending_observations')).rejects.toThrow();
+  });
+  it('retrouve la collecte historique malgré une relance ratée et des jobs plus récents', async () => {
+    await db.insert(schema.chartsJobRuns).values([
+      {
+        id: 'past-success',
+        kind: 'models_daily_sync',
+        status: 'success',
+        startedAt: '2026-10-11T03:00:00Z',
+        finishedAt: '2026-10-11T03:01:00Z',
+      },
+      {
+        id: 'past-failure',
+        kind: 'models_daily_sync',
+        status: 'failed',
+        startedAt: '2026-10-11T04:00:00Z',
+        finishedAt: '2026-10-11T04:01:00Z',
+      },
+      {
+        id: 'later-success',
+        kind: 'models_daily_sync',
+        status: 'success',
+        startedAt: '2026-10-15T03:00:00Z',
+        finishedAt: '2026-10-15T03:01:00Z',
+      },
+    ]);
+    expect(await hasCompletedChartsCollection('models_daily_sync', '2026-10-11T00:00Z')).toBe(true);
+    expect(await hasCompletedChartsCollection('models_daily_sync', '2026-10-11T12:00Z')).toBe(
+      false,
+    );
+    expect(await hasCompletedChartsCollection('skills_daily_sync', '2026-10-11T00:00Z')).toBe(
+      false,
+    );
+  });
   it('refuse le premier classement sans J−7 et ne crée aucune métrique de remplacement', async () => {
     await seed(false);
     const result = await calculateGithubWeek({ date });
@@ -184,7 +482,16 @@ describe('pipeline charts sur Postgres', () => {
 
     expect(await saveExternalBatch([entity], observations)).toBe(2);
     expect(await saveExternalBatch([entity], observations)).toBe(0);
-    expect(await db.select().from(schema.chartSourceSnapshots)).toHaveLength(2);
+    expect(
+      await saveExternalBatch(
+        [entity],
+        observations.map((observation) => ({
+          ...observation,
+          collectedAt: `${date}T14:30:00.000Z`,
+        })),
+      ),
+    ).toBe(2);
+    expect(await db.select().from(schema.chartSourceSnapshots)).toHaveLength(4);
     expect(await db.select().from(schema.chartEntitySources)).toHaveLength(2);
     await expect(
       pg.exec("UPDATE chart_source_snapshots SET metrics = '{}'::jsonb"),
@@ -250,10 +557,10 @@ describe('pipeline charts sur Postgres', () => {
     const fetcher = vi.fn<typeof fetch>().mockRejectedValue(new Error('Appel inattendu.'));
     const summary = await collectGithub(
       new GithubClient(),
-      new Date(`${date}T12:00:00Z`),
+      new Date(`${date}T02:30:00Z`),
       new ScorecardClient({ fetch: fetcher }),
     );
-    expect(summary.status).toBe('success');
+    expect(summary.status, JSON.stringify(summary)).toBe('success');
     expect(summary.snapshotsCreated).toBe(0);
     expect(fetcher).not.toHaveBeenCalled();
   });
@@ -325,7 +632,11 @@ describe('pipeline charts sur Postgres', () => {
     expect(await db.select().from(schema.weeklyRankings)).toHaveLength(40);
     const api = await publicChartEdition('github');
     expect(api?.entries[0]?.status).toBe('new');
-    expect(api?.scoringVersion).toBe('github-cross-source-v2');
+    expect(api?.scoringVersion).toBe('github-reference-v3');
+    expect(
+      verifyReferenceArtifact(await publicReferenceArtifact('github')).report.publishable,
+    ).toBe(true);
+    expect(JSON.stringify(api?.config)).not.toContain('observations');
     expect(api?.entries[0]?.provenance['coverage']).toBeCloseTo(0.9);
     const sourceScores = api?.entries[0]?.provenance['sourceScores'] as
       Record<string, unknown> | undefined;
@@ -362,8 +673,8 @@ describe('pipeline charts sur Postgres', () => {
     await calculateGithubWeek({ date, publish: false });
     expect(await publicChartEdition('github')).toBeNull();
     const original = (await db.select().from(schema.weeklyChartEditions))[0]?.payload;
-    expect(await publishFrozenCharts(date)).toBe(2);
-    expect(await publishFrozenCharts(date)).toBe(0);
+    expect(await publishFrozenCharts(`${date}T00:00Z`)).toBe(2);
+    expect(await publishFrozenCharts(`${date}T00:00Z`)).toBe(0);
     expect((await db.select().from(schema.weeklyChartEditions))[0]?.payload).toEqual(original);
   });
   it('sépare commentaires, publication et métriques, avec conflit d’édition détecté', async () => {
@@ -425,8 +736,31 @@ describe('pipeline charts sur Postgres', () => {
     );
     if (!entity) throw new Error('Entité fixture absente');
     const detail = await githubProjectDetail(entity.slug);
-    expect(detail?.weeksInTop20).toBe(0);
+    expect(detail?.editionsInTop20).toBe(0);
     expect(detail?.daily).toHaveLength(3);
+  });
+  it('collecte les dépôts suivis avant une file de candidats plus grande que le lot', async () => {
+    vi.stubEnv('GITHUB_TOKEN', 'test-token');
+    const tracked = await seed(false, 2, false);
+    await upsertDiscoveredRepositories(Array.from({ length: 120 }, (_, i) => repo(100 + i)));
+    const slot = '2026-10-06T00:00Z';
+    const batch = await collectionBatch(slot, 100, undefined, 'tracked');
+    expect(batch.map((item) => item.repo.id).toSorted()).toEqual(
+      tracked.map((item) => item.id).toSorted(),
+    );
+    const client = new GithubClient({ token: 'test-token' });
+    const calls: string[][] = [];
+    vi.spyOn(client, 'batch').mockImplementation(async (names) => {
+      calls.push([...names]);
+      return names.map((fullName) => {
+        const index = Number(fullName.split('-').at(-1));
+        return { fullName, repository: repo(index), commits7d: 1, error: null };
+      });
+    });
+    const result = await collectGithub(client, new Date('2026-10-06T02:00:00Z'));
+    expect(calls[0]?.toSorted()).toEqual(tracked.map((item) => item.fullName).toSorted());
+    expect(calls.flat()).toHaveLength(102);
+    expect(result.remaining).toBe(0);
   });
   it('un quota atteint préserve les relevés et laisse les dépôts à reprendre', async () => {
     vi.stubEnv('GITHUB_TOKEN', 'test-token');

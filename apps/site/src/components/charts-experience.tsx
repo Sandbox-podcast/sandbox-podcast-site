@@ -104,6 +104,12 @@ export function ChartsExperience({
     (episode) => episode.chart === series?.slug && episode.week === week,
   );
   const isUnavailable = data.mode === 'unavailable';
+  const latestPublished = series?.snapshots.toSorted((a, b) => compareWeeks(b.week, a.week))[0];
+  const publicationLate =
+    data.mode === 'live' && latestPublished && data.checkedAt
+      ? Date.parse(data.checkedAt) - editionStart(latestPublished.week).getTime() >
+        18 * 60 * 60 * 1000
+      : false;
 
   function chooseChart(next: ChartId): void {
     const nextSeries = data.series.find((item) => item.id === next);
@@ -144,9 +150,14 @@ export function ChartsExperience({
       <header className={styles['header']}>
         <h1>Sandbox Charts</h1>
         <p className={styles['update']}>
-          <Text>{'Mise à jour quotidienne'}</Text>
+          <Text>{'Deux mises à jour prévues par jour'}</Text>
         </p>
       </header>
+      {publicationLate ? (
+        <p className={styles['preview']} role="status">
+          <Text>{'Mise à jour en retard. La dernière édition publiée reste consultable.'}</Text>
+        </p>
+      ) : null}
       {data.mode === 'fixtures' ? (
         <p className={styles['preview']} role="note">
           <Text>{'Aperçu local. Données de démonstration.'}</Text>
@@ -270,7 +281,10 @@ export function ChartsExperience({
                           month: 'short',
                           year: 'numeric',
                           timeZone: 'UTC',
-                        }).format(editionStart(item))
+                          ...(item.length > 10
+                            ? { hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }
+                            : {}),
+                        }).format(editionStart(item)) + (item.length > 10 ? ' UTC' : '')
                       : `${t('Semaine')} ${item.slice(-2)} / ${item.slice(0, 4)}`}
                   </option>
                 ))}

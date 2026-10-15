@@ -2,6 +2,7 @@ import { Text, LocalizedElement, useLocalization } from '@/components/localizati
 import { LocalizedLink as Link } from '@/components/localization';
 import { formatCompact, formatNumber } from '@/domain/format';
 import { shortWeek } from '@/domain/weeks';
+import { ChartLogo } from './chart-logo';
 import { interpolateText } from '@/i18n/translation';
 import {
   chartFilterLabel,
@@ -12,6 +13,11 @@ import {
 } from '@/domain/sandbox-charts';
 const signedCompact = (value: number): string => `${value > 0 ? '+' : ''}${formatCompact(value)}`;
 const signedGrowth = (value: number): string => `${value > 0 ? '+' : ''}${formatNumber(value, 1)}%`;
+const referenceMetricLabels: Record<string, string> = {
+  sourceDisagreement: 'Désaccord entre les familles',
+  sensitivityBestRank: 'Meilleur rang dans les scénarios de pondération',
+  sensitivityWorstRank: 'Dernier rang dans les scénarios de pondération',
+};
 export function ChartMovement({ row }: { row: ChartsRow }) {
   const { movement, baseline } = row;
   const visual = baseline
@@ -155,7 +161,7 @@ export function ChartsPodium({ rows, period }: { rows: ChartsRow[]; period: Char
             {leader.take ? (
               <div className="sc-podium-take">
                 <span className="sc-label">
-                  <Text>{'L’AVIS DE SANDBOX'}</Text>
+                  <Text>{"L'AVIS DE SANDBOX"}</Text>
                 </span>
                 <p>
                   <Text>{leader.take.text}</Text>
@@ -217,7 +223,7 @@ export function ChartsRanking({
           <Text>{'Aucune entr\u00E9e pour cette s\u00E9lection.'}</Text>
         </h3>
         <p>
-          <Text>{'Essayez une autre cat\u00E9gorie ou une autre semaine.'}</Text>
+          <Text>{'Essayez une autre cat\u00E9gorie ou une autre édition.'}</Text>
         </p>
       </div>
     );
@@ -233,12 +239,17 @@ export function ChartsRanking({
                 </span>
                 <ChartMovement row={row} />
                 <div className="sc-row-identity">
-                  <h3>
-                    <Text>{row.entity.name}</Text>
-                  </h3>
-                  <p>
-                    <Text>{row.entity.github?.repo ?? row.entity.org ?? row.entity.category}</Text>
-                  </p>
+                  <ChartLogo entity={row.entity} />
+                  <div>
+                    <h3>
+                      <Text>{row.entity.name}</Text>
+                    </h3>
+                    <p>
+                      <Text>
+                        {row.entity.github?.repo ?? row.entity.org ?? row.entity.category}
+                      </Text>
+                    </p>
+                  </div>
                 </div>
                 <MomentumValue row={row} period={period} compact />
                 <div className="sc-row-spark">
@@ -333,7 +344,7 @@ export function ChartsRanking({
                     {row.insight?.whyMatters ? (
                       <div>
                         <h4 className="sc-label">
-                          <Text>{'POURQUOI C’EST IMPORTANT'}</Text>
+                          <Text>{"POURQUOI C'EST IMPORTANT"}</Text>
                         </h4>
                         <p>
                           <Text>{row.insight.whyMatters}</Text>
@@ -357,7 +368,7 @@ export function ChartsRanking({
                     {row.take ? (
                       <blockquote className="sc-take">
                         <span className="sc-label">
-                          <Text>{'L’AVIS DE SANDBOX'}</Text>
+                          <Text>{"L'AVIS DE SANDBOX"}</Text>
                         </span>
                         <p>
                           <Text>{row.take.text}</Text>
@@ -375,7 +386,7 @@ export function ChartsRanking({
                   </h4>
                   <MomentumSpark
                     values={row.momentum}
-                    label="Relevés hebdomadaires sur environ 30 jours"
+                    label="Relevés de classement des 30 derniers jours"
                   />
                   <div className="sc-rank-history">
                     <Text>
@@ -392,8 +403,8 @@ export function ChartsRanking({
                     </Text>
                   </div>
                   <p className="sc-label">
-                    <Text>{row.weeksInTop}</Text>
-                    <Text>{' semaines dans le Top 20 \u00B7 meilleur rang #'}</Text>
+                    <Text>{row.editionsInTop}</Text>
+                    <Text>{' éditions dans le Top 20 \u00B7 meilleur rang #'}</Text>
                     <Text>{row.peak ?? '-'}</Text>
                   </p>
                   <div className="sc-row-actions">
@@ -419,6 +430,11 @@ export function ChartsRanking({
                   <summary>
                     <Text>{'Mesures, composants du score et sources'}</Text>
                   </summary>
+                  {row.metrics['sensitivityBestRank'] !== undefined ? (
+                    <p>
+                      <Text>{`Selon les scénarios de pondération, ce projet se situe entre les rangs ${row.metrics['sensitivityBestRank']} et ${row.metrics['sensitivityWorstRank']}. Ces bornes ne sont pas un intervalle de confiance.`}</Text>
+                    </p>
+                  ) : null}
                   <dl>
                     <Text>
                       {Object.entries(row.metrics).map(([key, value]) => {
@@ -426,7 +442,7 @@ export function ChartsRanking({
                         return (
                           <div key={key}>
                             <dt>
-                              <Text>{metric?.label ?? key}</Text>
+                              <Text>{referenceMetricLabels[key] ?? metric?.label ?? key}</Text>
                             </dt>
                             <dd>
                               <Text>{formatNumber(value, Number.isInteger(value) ? 0 : 1)}</Text>

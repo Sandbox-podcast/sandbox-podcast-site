@@ -1,6 +1,6 @@
 # Sandbox Badges & Awards
 
-Implémentation dans `apps/site`. Décision et audit : [ADR-0027](../adr/ADR-0027-badges-et-awards-sandbox.md).
+Implémentation dans `apps/site`. Décision et audit : [ADR-0031](../adr/ADR-0031-badges-et-awards-sandbox.md).
 
 ## Parcours public
 
@@ -88,7 +88,7 @@ Les caches GitHub et autres proxys peuvent dépasser le TTL demandé par Sandbox
 
 ## Exploitation
 
-Réutiliser `DATABASE_URL` ou `POSTGRES_URL`, `SITE_URL`, `CRON_SECRET` et les accès du pipeline existant. Aucun secret nouveau. Appliquer `0009_badges_awards`, puis `0010_extended_awards`, après les migrations déjà prévues, sur l'environnement autorisé, avec sauvegarde et procédure habituelle. Cette tâche n'applique aucune migration distante.
+Réutiliser `DATABASE_URL` ou `POSTGRES_URL`, `SITE_URL`, `CRON_SECRET` et les accès du pipeline existant. Aucun secret nouveau. Appliquer `0012_badges_awards`, puis `0013_extended_awards`, après les migrations déjà prévues, sur l'environnement autorisé, avec sauvegarde et procédure habituelle. Cette tâche n'applique aucune migration distante.
 
 Le cron existant `/api/cron/github-weekly` tourne chaque jour à 03:00 UTC. Après les gels, il lance `badge_awards` pour les sept Awards. La base impose l'unicité du type, de la période et de la catégorie, même en concurrence. Le bail de job existant évite les exécutions ordinaires en double. Rising conserve sa reprise historique sur les 400 dernières éditions. Les extensions examinent 54 semaines et au plus 240 éditions du dimanche ; une période explicite charge son historique complet, avec le dimanche précédent pour Biggest Mover.
 
@@ -188,8 +188,14 @@ Lors de cet audit, le connecteur Vercel au projet `sandboxpodcastpro-5518/sandbo
 Procédure sur l'environnement autorisé, après vérification de Lou et confirmation des accès :
 
 1. Confirmer le projet Vercel, le dépôt lié, la branche livrée, le Root Directory `apps/site` et la branche Neon cible. Vérifier que Preview ne peut pas écrire dans la base de production.
-2. Comparer le schéma et le journal Drizzle de la base aux migrations locales. Créer un point de restauration Neon. Appliquer les migrations manquantes par le script existant, sans réexécuter manuellement une migration déjà enregistrée : depuis `apps/site`, `node --env-file-if-exists=.env.local scripts/db-migrate.ts`. La migration 0009 ajoute les Awards et leurs retraits ; 0010 ajoute les six extensions, sans réécrire les preuves historiques.
+2. Comparer le schéma et le journal Drizzle de la base aux migrations locales. Créer un point de restauration Neon. Appliquer les migrations manquantes par le script existant, sans réexécuter manuellement une migration déjà enregistrée : depuis `apps/site`, `node --env-file-if-exists=.env.local scripts/db-migrate.ts`. La migration 0012 ajoute les Awards et leurs retraits ; 0013 ajoute les six extensions, sans réécrire les preuves historiques.
 3. Lancer `badges:awards -- --dry-run` avec la connexion autorisée. Un résultat sans lauréat lorsque les données sont insuffisantes est attendu ; ne pas créer d'historique artificiel.
 4. Livrer le code relu par le flux Git/Vercel habituel. Confirmer `SITE_URL`, la connexion Neon et le cron quotidien existant. Vérifier les collectes et les gels officiels si le classement reste ancien.
 5. Sur le déploiement, vérifier `/charts/awards`, une fiche réelle et son SVG, puis le Markdown dans un README GitHub. Contrôler le rang exact seulement après une nouvelle édition valide. Une URL d'Award non attribué doit répondre 404, et une semaine malformée 400.
 6. Après la première clôture éligible, vérifier la preuve et l'historique public. Relancer le job pour confirmer l'absence de doublon. La relecture native espagnole et allemande reste à effectuer selon la politique de traduction du site.
+
+## Livraison groupée du 15 octobre 2026
+
+La demande de Lou autorise la PR unique et sa fusion. Les migrations des badges sont renumérotées `0012` et `0013`, suivies de `0014_awards_refresh_slots`. Elles doivent être appliquées dans cet ordre après les migrations déjà publiées, via le journal Drizzle et la procédure de restauration de l'environnement cible.
+
+L'intégration accepte les profils v3 avec preuve rejouée et les éditions de douze heures. Le dernier créneau publié du dimanche sert de référence aux prix hebdomadaires, mensuels et annuels. La reprise des Awards suit chaque gel du planificateur actuel.

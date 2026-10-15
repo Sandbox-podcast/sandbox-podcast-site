@@ -1,6 +1,8 @@
 packages:
   - apps/*
+  - videos/sandbox-intro
 allowBuilds:
   esbuild: true
 overrides:
   vite: 8.3.2
+  '@esbuild-kit/core-utils>esbuild': 0.25.12

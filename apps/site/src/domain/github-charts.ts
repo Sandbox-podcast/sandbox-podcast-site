@@ -92,6 +92,7 @@ export const githubRepositorySchema = z.object({
   subscribers_count: z.number().int().nonnegative().nullable().optional(),
   open_issues_count: z.number().int().nonnegative(),
   topics: z.array(z.string()).default([]),
+  license: z.object({ spdx_id: z.string() }).nullable().optional(),
 });
 export type GithubRepository = z.infer<typeof githubRepositorySchema>;
 export interface DailyGithubSnapshot {
@@ -108,6 +109,8 @@ export interface DailyGithubSnapshot {
   collectedAt: string;
 }
 export interface GithubChartProject {
+  license?: string | null;
+  discoveredAt?: string;
   id: string;
   entityId: string;
   slug: string;
@@ -147,24 +150,24 @@ export function dateDaysAgo(date: string, days: number): string {
   return utcDate(new Date(Date.parse(`${date}T00:00:00Z`) - days * DAY));
 }
 
-/** Ne regarde jamais le futur ; J-7 reste dans une tolérance bornée et antérieure à la collecte. */
+/** Compare les horodatages réels, sans regarder le futur ; la tolérance reste bornée à J-7. */
 export function closestBaseline(
   snapshots: readonly DailyGithubSnapshot[],
-  date: string,
+  reference: DailyGithubSnapshot,
   days: number,
   tolerance: number,
 ): DailyGithubSnapshot | undefined {
-  const target = Date.parse(`${dateDaysAgo(date, days)}T00:00:00Z`);
+  const referenceTime = Date.parse(reference.collectedAt);
+  const target = referenceTime - days * DAY;
   return snapshots
     .filter(
       (item) =>
-        item.date < date &&
-        Math.abs(Date.parse(`${item.date}T00:00:00Z`) - target) <= tolerance * DAY,
+        Date.parse(item.collectedAt) < referenceTime &&
+        Math.abs(Date.parse(item.collectedAt) - target) <= tolerance * DAY,
     )
     .toSorted(
       (a, b) =>
-        Math.abs(Date.parse(`${a.date}T00:00:00Z`) - target) -
-          Math.abs(Date.parse(`${b.date}T00:00:00Z`) - target) || a.date.localeCompare(b.date),
+        Math.abs(Date.parse(a.collectedAt) - target) - Math.abs(Date.parse(b.collectedAt) - target),
     )[0];
 }
 export function githubMetrics(
@@ -173,14 +176,18 @@ export function githubMetrics(
   history: readonly DailyGithubSnapshot[],
   config: GithubChartConfig,
 ): GithubComputedMetrics {
-  const prior = closestBaseline(history, current.date, 7, config.toleranceDays);
-  const earlier = prior ? closestBaseline(history, prior.date, 7, config.toleranceDays) : undefined;
-  const interval = prior ? (Date.parse(current.date) - Date.parse(prior.date)) / DAY : null;
+  const prior = closestBaseline(history, current, 7, config.toleranceDays);
+  const earlier = prior ? closestBaseline(history, prior, 7, config.toleranceDays) : undefined;
+  const interval = prior
+    ? (Date.parse(current.collectedAt) - Date.parse(prior.collectedAt)) / DAY
+    : null;
   const stars7d = prior ? current.stars - prior.stars : null;
   // La vitesse pour l'accélération est ramenée à 7 jours si le relevé manque à J-7.
   const velocity = stars7d !== null && interval ? (stars7d * 7) / interval : null;
   const previousInterval =
-    prior && earlier ? (Date.parse(prior.date) - Date.parse(earlier.date)) / DAY : null;
+    prior && earlier
+      ? (Date.parse(prior.collectedAt) - Date.parse(earlier.collectedAt)) / DAY
+      : null;
   const previousVelocity =
     prior && earlier && previousInterval
       ? ((prior.stars - earlier.stars) * 7) / previousInterval

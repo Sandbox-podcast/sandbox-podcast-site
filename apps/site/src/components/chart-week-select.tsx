@@ -15,12 +15,12 @@ export function ChartWeekSelect({ slug, selectedWeek, weeks }: Props) {
   return (
     <label className="label flex items-center gap-2">
       <span>
-        <Text>{'Voir la semaine'}</Text>
+        <Text>{'Voir une édition'}</Text>
       </span>
       <LocalizedElement
         as="select"
         className="btn max-w-40 bg-paper text-ink"
-        aria-label="Choisir une semaine de ce classement"
+        aria-label="Choisir une édition de ce classement"
         value={selectedWeek}
         onChange={(event) => {
           const week = event.target.value;

@@ -1,6 +1,6 @@
 # Sandbox Time Machine
 
-Route locale : [Time Machine](http://127.0.0.1:3000/time-machine). Décision : [DD-0025](../design-decisions/DD-0025-time-machine-histoire-mondiale-ia.md).
+Route locale : [Time Machine](http://127.0.0.1:3000/time-machine). Décision : [DD-0027](../design-decisions/DD-0027-time-machine-histoire-mondiale-ia.md).
 
 ## Lancement
 

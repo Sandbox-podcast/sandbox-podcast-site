@@ -49,7 +49,7 @@ Le conteneur source annonce 63,56 s. Le décodage Opus inclut environ 13,5 ms de
 
 Les tests vérifient la continuité des neuf scènes, les repères des annonces, la durée exacte en images et l'identité SHA-256 de l'audio et du logo copiés. Le rapport final est enregistré dans `analysis/validation.json` après vérification des MP4. Les captures de contrôle sont dans `analysis/proof/`.
 
-Le contrôle global `pnpm check` du dépôt a été lancé. Il s'arrête au formatage sur de nombreux fichiers du site et des jingles déjà présents. Les nouveaux fichiers de ce projet font l'objet d'un contrôle de formatage séparé. Aucun gate n'a été désactivé.
+Le projet est inclus dans l'espace de travail pnpm. Le contrôle global `pnpm check` du 14 octobre 2026 réussit : formatage, lint, types, 414 tests du site, sept tests du générique et quatre tests des assets de jingles. Le build du site réussit avec 213 pages statiques. Les exports final et aperçu passent le décodage complet et le contrôle de concordance audio.
 
 Les liens du site et de la référence YouTube n'étaient pas accessibles depuis l'outil web pendant cette réalisation. La direction s'appuie sur le brief fourni, la charte locale et les décisions SANDBOX, sans prétendre avoir visionné cette référence.
 

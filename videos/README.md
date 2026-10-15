@@ -4,12 +4,12 @@ Quatre films courts identifient les séquences éditoriales du podcast : Le rada
 
 ## Masters
 
-| Séquence | Vidéo                               |
-| -------- | ----------------------------------- |
-| Le radar | `le-radar-jingle/renders/video.mp4` |
-| Le build | `le-build-jingle/renders/video.mp4` |
-| Le clash | `le-clash-jingle/renders/video.mp4` |
-| La bêta  | `la-beta-jingle/renders/video.mp4`  |
+| Séquence | Vidéo                                  |
+| -------- | -------------------------------------- |
+| Le radar | `le-radar-jingle/renders/le radar.mp4` |
+| Le build | `le-build-jingle/renders/le build.mp4` |
+| Le clash | `le-clash-jingle/renders/le clash.mp4` |
+| La bêta  | `la-beta-jingle/renders/beta.mp4`      |
 
 La page locale [preview.html](preview.html) permet de lire les quatre masters dans le navigateur.
 

@@ -1,4 +1,4 @@
-# ADR-0026 - Growth Agent et extraits depuis YouTube
+# ADR-0029 - Growth Agent et extraits depuis YouTube
 
 - Date : 2026-10-14
 - Statut : implémentation locale; connexion API et activation permanente en attente

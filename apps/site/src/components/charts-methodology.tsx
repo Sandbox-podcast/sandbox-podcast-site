@@ -5,6 +5,7 @@ import { DEFAULT_GITHUB_CHART_CONFIG, githubChartConfigSchema } from '@/domain/g
 import { hasDatabaseConfiguration } from '@/db/client';
 import { publicChartEdition } from '@/lib/charts-public';
 import { readChartsConfig } from '@/lib/charts-store';
+import { ReferenceMethodology } from './reference-methodology';
 const descriptions: Record<
   string,
   {
@@ -25,7 +26,7 @@ const descriptions: Record<
   contributorActivity: {
     label: 'Contributeurs',
     detail:
-      'Évolution du nombre de contributeurs si les deux relevés existent. Cette collecte facultative n’est pas encore connectée.',
+      "Évolution du nombre de contributeurs si les deux relevés existent. Cette collecte facultative n'est pas encore connectée.",
   },
   repositoryActivity: {
     label: 'Activité du dépôt',
@@ -45,6 +46,8 @@ export async function ChartsMethodology({ rising = false }: { rising?: boolean }
   if (hasDatabaseConfiguration()) {
     try {
       const edition = await publicChartEdition(rising ? 'rising' : 'github');
+      if (edition?.scoringVersion.endsWith('-reference-v3'))
+        return <ReferenceMethodology chart={rising ? 'rising' : 'github'} />;
       config = edition ? githubChartConfigSchema.parse(edition.config) : await readChartsConfig();
       publishedWeek = edition?.weekId ?? null;
       scoringVersion = edition?.scoringVersion ?? scoringVersion;
@@ -55,6 +58,7 @@ export async function ChartsMethodology({ rising = false }: { rising?: boolean }
       );
     }
   }
+  if (!publishedWeek) return <ReferenceMethodology chart={rising ? 'rising' : 'github'} />;
   const title = rising ? 'RISING 20' : 'GITHUB TOP 20';
   const weights = rising ? config.rising : config.momentum;
   return (
@@ -80,8 +84,8 @@ export async function ChartsMethodology({ rising = false }: { rising?: boolean }
         <p>
           <Text>
             {rising
-              ? 'Repérer les projets dont la vitesse augmente avant qu’ils deviennent massifs.'
-              : 'Mesurer les projets IA qui gagnent le plus de terrain sur GitHub cette semaine.'}
+              ? "Repérer les projets dont la vitesse augmente avant qu'ils deviennent massifs."
+              : 'Mesurer les projets IA qui gagnent le plus de terrain sur GitHub en sept jours.'}
           </Text>
         </p>
         <span className="sc-label">
@@ -90,7 +94,7 @@ export async function ChartsMethodology({ rising = false }: { rising?: boolean }
           <Text> </Text>
           <Text>
             {publishedWeek
-              ? `configuration de l’édition ${publishedWeek}`
+              ? `configuration de l'édition ${publishedWeek}`
               : 'configuration initiale, avant la première édition'}
           </Text>
         </span>
@@ -250,14 +254,14 @@ export async function ChartsMethodology({ rising = false }: { rising?: boolean }
             <p>
               <Text>
                 {
-                  '\u2191 ou \u2193 compare la position \u00E0 l\u2019\u00E9dition de la semaine pr\u00E9c\u00E9dente. NEW signifie que le projet n\u2019y figurait pas, y compris en cas de retour. Une premi\u00E8re \u00E9dition n\u2019a pas de comparaison. Les archives conservent la configuration, les composantes, les mesures brutes et la version du score.'
+                  '\u2191 ou \u2193 compare la position \u00E0 l\u2019\u00E9dition pr\u00E9c\u00E9dente. NEW signifie que le projet n\u2019y figurait pas, y compris en cas de retour. Une premi\u00E8re \u00E9dition n\u2019a pas de comparaison. Les archives conservent la configuration, les composantes, les mesures brutes et la version du score.'
                 }
               </Text>
             </p>
             <p>
               <Text>
                 {
-                  'Les vues mensuelles et sur trois mois mesurent la pr\u00E9sence aux meilleures places : moyenne de 100 / rang sur les semaines disponibles, avec z\u00E9ro point les semaines hors classement. Elles ne moyennent pas des scores normalis\u00E9s de groupes diff\u00E9rents. Une édition datée appartient à son mois. Une semaine ISO appartient au mois de son lundi.'
+                  'Les vues mensuelles et sur trois mois mesurent la pr\u00E9sence aux meilleures places : moyenne de 100 / rang sur les éditions disponibles, avec z\u00E9ro point les éditions hors classement. Elles ne moyennent pas des scores normalis\u00E9s de groupes diff\u00E9rents. Une édition datée appartient à son mois. Une semaine ISO appartient au mois de son lundi.'
                 }
               </Text>
             </p>

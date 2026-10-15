@@ -1,4 +1,4 @@
-# DD-0019 : Fiche d'épisode sans description longue
+# DD-0022 : Fiche d'épisode sans description longue
 
 - Date : 2026-10-13
 - Statut : implémentée localement
@@ -16,14 +16,15 @@ La page reste partagée entre les quatre langues. Les états sans vidéo, sans c
 
 ## Validation locale
 
-- `pnpm test` : 59 fichiers, 328 tests réussis, dont trois nouveaux tests de la fiche. Le premier passage a dépassé le délai d'un test existant de miniatures ; les relances ont réussi sans modifier ce test.
-- `pnpm lint --ignore-pattern '.local/**'` : réussi. Seule la copie de contrôle locale est exclue de l'analyse.
-- `pnpm typecheck` et `pnpm build` : réussis, avec 213 pages statiques générées au build.
-- Prettier : les dix fichiers de cette modification sont conformes.
-- `pnpm check` : arrêté au format sur 112 fichiers hors de cette modification. Aucun contrôle n'est désactivé et ces fichiers ne sont pas reformatés dans cette tâche.
+- Reprise des seuls changements de la fiche sur le `main` actuel, dans une branche isolée.
+- `pnpm check` : réussi après résolution des conflits le 2026-10-14, avec format, lint, types et 414 tests dans 69 fichiers. Les trois tests de la fiche couvrent le retrait du doublon, les ressources éditées et les états vides.
+- `pnpm build` : réussi.
 - Navigateur : contrôles à 1280, 390 et 320 px, sans débordement horizontal. Les deux colonnes commencent ensemble sur ordinateur et se suivent sur mobile. La page anglaise utilise les mêmes blocs. Les états sans vidéo, chapitre ou ressource sont vérifiés.
+- Les alertes de format observées dans la copie Windows venaient des fins de ligne CRLF. La copie de contrôle a été normalisée en LF avant les vérifications, sans changement des réglages Git ni ajout de fichiers étrangers à la PR.
 
-Le contrôle visuel a utilisé une copie temporaire dans `.local/episode-layout-preview`, sans écriture dans les publications éditoriales. Cette copie et son serveur sont retirés après vérification ; les captures sont conservées. Aucun commit, push ou déploiement n'est effectué. La mise en ligne reste à faire par le propriétaire.
+Le contrôle visuel a utilisé une copie temporaire dans `.local/episode-layout-preview`, sans écriture dans les publications éditoriales. Cette copie et son serveur sont retirés après vérification ; les captures sont conservées. La livraison passe par une PR à la demande de Lou. La fusion et la publication finale restent sous le contrôle du propriétaire.
+
+Le 2026-10-14, la branche de la PR 53 intègre `main`. Les trois conflits de documentation sont résolus en conservant le retrait des classements de l'accueil et l'import des photos d'animateurs. Cette décision devient DD-0022, car DD-0020 désigne déjà le consentement Analytics dans `main`. Ses liens sont mis à jour.
 
 ## Fichiers concernés
 

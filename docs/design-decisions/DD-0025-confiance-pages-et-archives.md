@@ -1,4 +1,4 @@
-# DD-0023 - Confiance dans les pages historiques et les archives
+# DD-0025 - Confiance dans les pages historiques et les archives
 
 - Date : 2026-10-14
 - Statut : acceptée pour l'implémentation locale

@@ -1,7 +1,7 @@
 import { Text, LocalizedElement } from '@/components/localization';
 import { LocalizedLink as Link } from '@/components/localization';
 import { JsonLd } from '@/components/json-ld';
-import { formatDate, formatDayMonth, formatNumber, pluralize } from '@/domain/format';
+import { formatDate, formatDayMonth, formatNumber } from '@/domain/format';
 import type { Reign } from '@/domain/history';
 import { editionEnd, editionMark, editionStart, shortWeek } from '@/domain/weeks';
 import { absoluteUrl, breadcrumbLd } from '@/lib/seo';
@@ -30,12 +30,12 @@ function Summary({ view }: { view: ChartView }) {
   return (
     <LocalizedElement
       as="section"
-      aria-label="Résumé de la semaine"
+      aria-label="Résumé de l'édition"
       className="mt-8 grid grid-cols-2 gap-px border-2 border-ink bg-ink lg:grid-cols-4"
     >
       <div className={`${cell} !bg-hl text-on-hl`}>
         <p className="label">
-          <Text>{'#1 cette semaine'}</Text>
+          <Text>{'#1 sur cette édition'}</Text>
         </p>
         <p className="font-display text-2xl font-extrabold leading-none">
           <Link href={entityPath(first.entity)} className="hover:underline">
@@ -44,13 +44,17 @@ function Summary({ view }: { view: ChartView }) {
         </p>
         <p className="label mt-auto">
           <Text>
-            {lead?.entity === first.entity.slug
-              ? lead.weeks > 1
-                ? `${String(lead.weeks)}ᵉ semaine en tête`
-                : view.baseline
-                  ? 'Première semaine du classement'
-                  : 'Prend la tête'
-              : ''}
+            {lead?.entity === first.entity.slug ? (
+              lead.editions > 1 ? (
+                <Text values={{ count: lead.editions }}>{'En tête depuis {count} éditions'}</Text>
+              ) : view.baseline ? (
+                'Première édition du classement'
+              ) : (
+                'Prend la tête'
+              )
+            ) : (
+              ''
+            )}
           </Text>
         </p>
       </div>
@@ -107,7 +111,7 @@ function Summary({ view }: { view: ChartView }) {
         <p className="font-display text-xl font-extrabold leading-tight">
           <Text>
             {view.baseline
-              ? '—'
+              ? '-'
               : `${String(newcomers.length)} in · ${String(view.out.length)} out`}
           </Text>
         </p>
@@ -124,12 +128,12 @@ function Summary({ view }: { view: ChartView }) {
     </LocalizedElement>
   );
 }
-/** « Hall of #1 » : qui a tenu la première place, et combien de temps. */
+/** "Hall of #1" : qui a tenu la première place, et combien de temps. */
 export function ReignStrip({ reigns, chartSlug }: { reigns: Reign[]; chartSlug: string }) {
   if (reigns.length === 0) return null;
-  const total = reigns.reduce((n, r) => n + r.weeks, 0);
+  const total = reigns.reduce((n, r) => n + r.editions, 0);
   const totals = new Map<string, number>();
-  for (const r of reigns) totals.set(r.entity, (totals.get(r.entity) ?? 0) + r.weeks);
+  for (const r of reigns) totals.set(r.entity, (totals.get(r.entity) ?? 0) + r.editions);
   const ranking = [...totals.entries()].sort((a, b) => b[1] - a[1]).slice(0, 4);
   return (
     <LocalizedElement as="section" className="mt-14" aria-label="Hall of #1">
@@ -144,7 +148,7 @@ export function ReignStrip({ reigns, chartSlug }: { reigns: Reign[]; chartSlug: 
               return (
                 <li
                   key={`${r.entity}${r.from}`}
-                  style={{ flexGrow: r.weeks, flexBasis: 0 }}
+                  style={{ flexGrow: r.editions, flexBasis: 0 }}
                   className="min-w-0 bg-paper p-2"
                 >
                   <div
@@ -160,10 +164,10 @@ export function ReignStrip({ reigns, chartSlug }: { reigns: Reign[]; chartSlug: 
                   <p className="label truncate text-ink-3">
                     <Text>{i === reigns.length - 1 ? 'en cours · ' : ''}</Text>
                     <Text>{shortWeek(r.from)}</Text>
-                    <Text>{r.from !== r.to ? `–${shortWeek(r.to)}` : ''}</Text>
+                    <Text>{r.from !== r.to ? `-${shortWeek(r.to)}` : ''}</Text>
                     <Text>{' \u00B7 '}</Text>
-                    <Text>{String(r.weeks)}</Text>
-                    <Text>{' sem.'}</Text>
+                    <Text>{String(r.editions)}</Text>
+                    <Text>{r.editions === 1 ? ' édition' : ' éditions'}</Text>
                   </p>
                 </li>
               );
@@ -173,7 +177,7 @@ export function ReignStrip({ reigns, chartSlug }: { reigns: Reign[]; chartSlug: 
       </div>
       <p className="label mt-3 flex flex-wrap gap-x-5 gap-y-1 text-ink-2">
         <Text>
-          {ranking.map(([slug, weeks]) => (
+          {ranking.map(([slug, editions]) => (
             <span key={slug}>
               <Link
                 href={entityPath(getEntity(slug))}
@@ -183,7 +187,8 @@ export function ReignStrip({ reigns, chartSlug }: { reigns: Reign[]; chartSlug: 
               </Link>
               <Text> </Text>
               <Text>{': '}</Text>
-              <Text>{pluralize(weeks, 'semaine', 'semaines')}</Text>
+              <Text>{String(editions)}</Text>
+              <Text>{editions === 1 ? ' édition' : ' éditions'}</Text>
               <Text>{' / '}</Text>
               <Text>{String(total)}</Text>
             </span>
@@ -228,7 +233,7 @@ export function ChartScreen({ slug, week }: { slug: string; week?: string }) {
   const own = view.isLatest ? `/charts/${chart.slug}` : `/charts/${chart.slug}/${view.week}`;
   return (
     <div className="wrap pt-6 pb-4">
-      <LocalizedElement as="nav" aria-label="Fil d’Ariane" className="label mb-5 text-ink-2">
+      <LocalizedElement as="nav" aria-label="Fil d'Ariane" className="label mb-5 text-ink-2">
         <Link href="/charts" className="underline decoration-2 underline-offset-4">
           <Text>{'Charts'}</Text>
         </Link>
@@ -245,13 +250,19 @@ export function ChartScreen({ slug, week }: { slug: string; week?: string }) {
               <Text>{chart.code}</Text>
             </span>
             <span>
-              <Text>{'Semaine '}</Text>
+              <Text>{'Édition '}</Text>
               <Text>{editionMark(view.week)}</Text>
-              <Text>{' \u00B7 '}</Text>
-              <Text>{formatDayMonth(editionStart(view.week))}</Text>
-              <Text>{' \u2013'}</Text>
-              <Text> </Text>
-              <Text>{formatDayMonth(editionEnd(view.week))}</Text>
+              {view.week.length > 10 ? (
+                <Text>{' UTC'}</Text>
+              ) : (
+                <>
+                  <Text>{' \u00B7 '}</Text>
+                  <Text>{formatDayMonth(editionStart(view.week))}</Text>
+                  <Text>{' \u2013'}</Text>
+                  <Text> </Text>
+                  <Text>{formatDayMonth(editionEnd(view.week))}</Text>
+                </>
+              )}
             </span>
             <Text>
               {view.isLatest ? null : (
@@ -292,7 +303,7 @@ export function ChartScreen({ slug, week }: { slug: string; week?: string }) {
       <LocalizedElement
         as="section"
         className="mt-12"
-        aria-label={`${chart.title}, semaine ${shortWeek(view.week)}`}
+        aria-label={`${chart.title}, édition ${shortWeek(view.week)}`}
       >
         <Text>
           {chart.views.length > 1 ? (
@@ -332,7 +343,7 @@ export function ChartScreen({ slug, week }: { slug: string; week?: string }) {
       <section className="mt-16 border-t-4 border-ink pt-3">
         <p className="label text-ink-2">
           <Text>{formatNumber(view.snapshot.entries.length)}</Text>
-          <Text>{' candidats suivis cette semaine. Les rangs au-del\u00E0 du Top '}</Text>
+          <Text>{' candidats suivis dans cette édition. Les rangs au-del\u00E0 du Top '}</Text>
           <Text>{chart.size}</Text>
           <Text>
             {' sont affich\u00E9s pour le contexte (\u00AB bubbling under \u00BB). Relev\u00E9 du'}
@@ -356,7 +367,7 @@ export function ChartScreen({ slug, week }: { slug: string; week?: string }) {
           {
             '@context': 'https://schema.org',
             '@type': 'ItemList',
-            name: `${chart.title} : semaine ${editionMark(view.week)}`,
+            name: `${chart.title} : édition ${editionMark(view.week)}`,
             description: chart.description,
             itemListOrder: 'https://schema.org/ItemListOrderAscending',
             numberOfItems: listing.length,

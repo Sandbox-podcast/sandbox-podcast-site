@@ -8,7 +8,10 @@ import { startBadgeFixture } from './badges-fixture-server.mjs';
 process.env.SANDBOX_FRONT_PREVIEW = '1';
 process.chdir(fileURLToPath(new URL('../', import.meta.url)));
 process.env.SITE_ADMIN_SECRET = 'fronts-local-test-secret-not-a-production-credential';
-const fixture = await startBadgeFixture({ kind: 'fronts', port: 3317 });
+const fixture = await startBadgeFixture({
+  kind: 'fronts',
+  port: Number(process.env.SANDBOX_FRONT_PORT ?? 3317),
+});
 try {
   const { loadContent } = await import('../src/lib/load.ts');
   const { editableContentSchema } = await import('../src/domain/admin-content.ts');

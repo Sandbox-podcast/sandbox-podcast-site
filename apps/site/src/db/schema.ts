@@ -22,6 +22,7 @@ import type {
 } from '../domain/ranking-catalog.ts';
 import type { SiteContentLocalization } from '../domain/site-localization.ts';
 import type { ChartEdition, Snapshot } from '../domain/schema.ts';
+import type { GithubBurst } from '../domain/github-bursts.ts';
 
 /** Couche éditoriale : brouillon admin ou version servie au site. */
 export type EditorialLayer = 'draft' | 'published';
@@ -62,6 +63,14 @@ export const episodeThumbnails = pgTable('episode_thumbnails', {
   image: imageBytes('image').notNull(),
   width: integer('width').notNull(),
   height: integer('height').notNull(),
+  createdAt: timestamp('created_at', { withTimezone: true, mode: 'string' }).notNull().defaultNow(),
+});
+
+/** Portraits carrés des animateurs, adressés par leur empreinte SHA-256. */
+export const hostPhotos = pgTable('host_photos', {
+  sha256: text('sha256').primaryKey(),
+  image: imageBytes('image').notNull(),
+  size: integer('size').notNull(),
   createdAt: timestamp('created_at', { withTimezone: true, mode: 'string' }).notNull().defaultNow(),
 });
 
@@ -128,11 +137,12 @@ export const chartSourceSnapshots = pgTable(
       .notNull()
       .references(() => chartEntitySources.id),
     observedOn: date('observed_on', { mode: 'string' }).notNull(),
+    refreshSlotId: text('refresh_slot_id').notNull(),
     collectedAt: timestamp('collected_at', { withTimezone: true, mode: 'string' }).notNull(),
     payload: jsonb('metrics').notNull().$type<Record<string, unknown>>(),
   },
   (table) => [
-    uniqueIndex('chart_source_snapshot_day_idx').on(table.entitySourceId, table.observedOn),
+    uniqueIndex('chart_source_snapshot_slot_idx').on(table.entitySourceId, table.refreshSlotId),
     index('chart_source_snapshot_observed_idx').on(table.observedOn),
   ],
 );
@@ -185,6 +195,7 @@ export const githubDailySnapshots = pgTable(
       .notNull()
       .references(() => githubProjects.id),
     date: date('snapshot_date', { mode: 'string' }).notNull(),
+    refreshSlotId: text('refresh_slot_id').notNull(),
     stars: integer('stars').notNull(),
     forks: integer('forks').notNull(),
     watchers: integer('watchers'),
@@ -197,10 +208,54 @@ export const githubDailySnapshots = pgTable(
     source: text('source').notNull().default('github'),
   },
   (table) => [
-    uniqueIndex('github_daily_project_date_idx').on(table.projectId, table.date),
+    uniqueIndex('github_daily_project_slot_idx').on(table.projectId, table.refreshSlotId),
     index('github_daily_date_idx').on(table.date),
   ],
 );
+export const githubStarObservations = pgTable(
+  'github_star_observations',
+  {
+    id: text('id').primaryKey(),
+    projectId: text('github_project_id')
+      .notNull()
+      .references(() => githubProjects.id),
+    observedAt: timestamp('observed_at', { withTimezone: true, mode: 'string' }).notNull(),
+    stars: integer('stars').notNull(),
+  },
+  (table) => [
+    uniqueIndex('github_star_observations_project_time_idx').on(table.projectId, table.observedAt),
+    index('github_star_observations_time_idx').on(table.observedAt),
+  ],
+);
+
+export const githubBurstEvents = pgTable(
+  'github_burst_events',
+  {
+    id: text('id').primaryKey(),
+    projectId: text('github_project_id')
+      .notNull()
+      .references(() => githubProjects.id),
+    observedAt: timestamp('observed_at', { withTimezone: true, mode: 'string' }).notNull(),
+    windowHours: integer('window_hours').notNull(),
+    evidence: jsonb('evidence').notNull().$type<GithubBurst>(),
+  },
+  (table) => [
+    uniqueIndex('github_burst_events_project_window_time_idx').on(
+      table.projectId,
+      table.windowHours,
+      table.observedAt,
+    ),
+    index('github_burst_events_time_idx').on(table.observedAt),
+  ],
+);
+
+export const githubTrendingObservations = pgTable('github_trending_observations', {
+  id: text('id').primaryKey(),
+  observedAt: timestamp('observed_at', { withTimezone: true, mode: 'string' }).notNull().unique(),
+  repositories: jsonb('repositories').notNull().$type<string[]>(),
+  sha256: text('sha256').notNull(),
+});
+
 export const weeklyChartEditions = pgTable(
   'weekly_chart_editions',
   {

@@ -2,13 +2,13 @@
 
 Le pipeline GitHub de SANDBOX CHARTS utilise Postgres pour les relevés et éditions publiés. Les pipelines Skills et Models sont maintenant implémentés avec des observations externes conservées en base. Le périmètre, les sources, les scores et les besoins d'activation sont décrits dans [le guide des classements externes](external-rankings.md), avec la décision correspondante dans [ADR-0021](../adr/ADR-0021-classements-externes-skills-models.md). Les collecteurs ne remplacent pas les fixtures des autres sections du site.
 
-Statut au 2026-10-08 : les collecteurs, scripts, migrations additives, crons, éditions immuables et lectures live des charts sont écrits. Les relevés ne sont pas encore activés en production. Il reste à confirmer les conditions d'utilisation, configurer les accès et OIDC, appliquer la migration `0005` sur la base visée, puis attendre les périodes d'historique requises. Aucun secret ni migration de production n'a été utilisé dans l'implémentation locale.
+État au 2026-10-08 : les collecteurs, scripts, migrations additives, crons, éditions immuables et lectures live des charts étaient écrits. Depuis, le fonctionnement live passe à deux collectes et éditions quotidiennes, avec un signal de poussée horaire. Voir [ADR-0028](../adr/ADR-0028-cadence-des-classements.md) et [le guide d'exploitation](reference-ranking-operations.md). L'application des migrations et l'activation des accès sur la base visée restent à la charge du propriétaire.
 
 ## Principes
 
 1. **Jamais de valeur inventée.** Un connecteur qui n'obtient pas une métrique la laisse absente. Le scoring ignore les composants absents (la dimension est absente si tous manquent) et le pipeline refuse de publier un classement qui n'a pas assez de candidats.
 2. **Provenance explicite dans les données.** Chaque snapshot porte `provenance` : `auto` (connecteur), `mock` (démonstration), ou `editorial` (saisie). Les marqueurs de démonstration ont été retirés de la vue publique à la demande du propriétaire ; tant que `SITE_DATA_MODE=mock`, toutes les pages restent en `noindex` et le sitemap est vide. La provenance demeure vérifiable dans les fichiers et le backoffice.
-3. **Un snapshot publié ne se modifie pas.** On corrige par une note éditoriale ou en publiant la semaine suivante.
+3. **Un snapshot publié ne se modifie pas.** On corrige par une note éditoriale ou une édition suivante.
 4. **Données et avis séparés** : les connecteurs n'écrivent jamais dans `content/`, l'équipe n'écrit jamais dans `data/`.
 5. **Sources respectées.** Avant de brancher une source, on lit ses conditions d'utilisation (quotas, attribution, réutilisation, interdiction éventuelle de l'extraction automatique). En cas de doute, on ne branche pas et on cite la source avec un lien.
 

@@ -1,16 +1,14 @@
 import { z } from 'zod';
 import {
   dateDaysAgo,
-  corroborateGithubRanking,
   qualifiesRepository,
   rankGithubProjects,
-  uncertainGithubCandidates,
   utcDate,
   type DailyGithubSnapshot,
 } from '../domain/github-charts.ts';
 import {
   beginChartsJob,
-  chartsJobDashboard,
+  hasCompletedChartsCollection,
   collectionBatch,
   finishChartsJob,
   freezeWeeklyCharts,
@@ -25,9 +23,16 @@ import {
   setRepositoryError,
   upsertDiscoveredRepositories,
   weeklyCandidates,
+  unobservedGithubCandidates,
 } from '../lib/charts-store.ts';
 import { GithubClient, GithubRateLimitError } from './github-client.ts';
 import { ScorecardClient } from './scorecard-client.ts';
+import { githubDiscoveryPlan } from '../domain/github-discovery.ts';
+import { githubReferenceInput } from '../domain/reference-adapters.ts';
+import { createReferenceArtifact, type ReferenceArtifact } from '../lib/reference-artifact.ts';
+import { rankGithubProjects as githubBaseRanking } from '../domain/github-charts.ts';
+import { refreshSlotForDate, refreshSlotId, isRefreshSlotId } from '../domain/chart-refresh.ts';
+import { reviewedReferenceVersion } from '../lib/reference-publication.ts';
 
 export const DISCOVERY_TOPICS = [
   'artificial-intelligence',
@@ -91,7 +96,7 @@ async function runLogged(
 export async function discoverGithub(client = new GithubClient()): Promise<ChartsJobSummary> {
   return runLogged('github_discovery', async (summary) => {
     const deadline = Date.now() + 220000;
-    for (const topic of DISCOVERY_TOPICS) {
+    for (const query of githubDiscoveryPlan(utcDate())) {
       if (Date.now() > deadline) {
         summary.status = 'partial';
         summary.details.push(
@@ -101,15 +106,19 @@ export async function discoverGithub(client = new GithubClient()): Promise<Chart
       }
       for (let page = 1; page <= 2; page++) {
         try {
-          const result = await client.search(topic, page);
+          const result = await client.searchQuery(query, page);
           summary.processed += result.repositories.length;
           await upsertDiscoveredRepositories(result.repositories);
           summary.succeeded += result.repositories.length;
+          if (result.incomplete || (page === 2 && result.next)) {
+            summary.status = 'partial';
+            summary.details.push(`Partition non exhaustive : ${query}`);
+          }
           if (!result.next) break;
         } catch (error) {
           summary.failed++;
           summary.details.push(
-            `${topic} : ${error instanceof Error ? error.message : 'recherche indisponible'}`,
+            `${query} : ${error instanceof Error ? error.message : 'recherche indisponible'}`,
           );
           if (error instanceof GithubRateLimitError) {
             summary.status = 'partial';
@@ -128,19 +137,32 @@ export async function collectGithub(
 ): Promise<ChartsJobSummary> {
   return runLogged('github_daily_sync', async (summary) => {
     const date = utcDate(now);
+    const slotId = refreshSlotId(now);
+    const collectedAt = now.toISOString();
     const config = await readChartsConfig();
     const deadline = Date.now() + 220000;
+    // Réserver du temps au second évaluateur, même avec une longue file de découverte.
+    const collectionDeadline = deadline - 40000;
+    let phase: 'tracked' | 'candidate' = 'tracked';
+    let candidateAttempts = 0;
     let afterId: string | undefined;
-    while (Date.now() < deadline) {
-      const pending = await collectionBatch(date, 100, afterId);
-      if (!pending.length) break;
+    while (Date.now() < collectionDeadline) {
+      if (phase === 'candidate' && candidateAttempts >= 100) break;
+      const pending = await collectionBatch(slotId, 100, afterId, phase);
+      if (!pending.length) {
+        if (phase === 'candidate') break;
+        phase = 'candidate';
+        afterId = undefined;
+        continue;
+      }
+      if (phase === 'candidate') candidateAttempts += pending.length;
       afterId = pending.at(-1)?.repo.id;
       const history = await recentDailySnapshots(
         pending.map((item) => item.repo.id),
         date,
       );
       for (let at = 0; at < pending.length; at += 20) {
-        if (Date.now() >= deadline) break;
+        if (Date.now() >= collectionDeadline) break;
         const chunk = pending.slice(at, at + 20);
         let fetched;
         try {
@@ -154,7 +176,7 @@ export async function collectGithub(
           summary.details.push(error instanceof Error ? error.message : 'Collecte indisponible.');
           if (error instanceof GithubRateLimitError) {
             summary.status = 'partial';
-            summary.remaining = (await collectionBatch(date, 10000)).length;
+            summary.remaining = (await collectionBatch(slotId, 10000, undefined, 'tracked')).length;
             return;
           }
           continue;
@@ -198,7 +220,7 @@ export async function collectGithub(
             commits: result.commits7d,
             releases: null,
             pushedAt: repo.pushed_at,
-            collectedAt: new Date().toISOString(),
+            collectedAt,
           });
           updated.push(repo);
           if (qualifiesRepository(repo, config, now)) qualified.push(item.repo.id);
@@ -208,13 +230,13 @@ export async function collectGithub(
         summary.snapshotsCreated += await saveDailyBatch(daily);
         await markSynced(
           daily.map((snapshot) => snapshot.projectId),
-          new Date().toISOString(),
+          collectedAt,
         );
         await promoteCandidates(qualified);
       }
     }
     if (Date.now() < deadline) {
-      const candidates = await weeklyCandidates(date, config);
+      const candidates = await weeklyCandidates(date, slotId, config);
       if (candidates.length >= config.minimumCandidates) {
         const leading = [
           ...new Map(
@@ -276,7 +298,7 @@ export async function collectGithub(
         );
       }
     }
-    summary.remaining = (await collectionBatch(date, 10000)).length;
+    summary.remaining = (await collectionBatch(slotId, 10000, undefined, 'tracked')).length;
     if (summary.remaining) {
       summary.status = 'partial';
       summary.details.push(
@@ -289,6 +311,7 @@ export async function collectGithub(
 export async function calculateGithubWeek(
   options: {
     date?: string | undefined;
+    slotId?: string | undefined;
     dryRun?: boolean | undefined;
     publish?: boolean | undefined;
   } = {},
@@ -296,31 +319,63 @@ export async function calculateGithubWeek(
   requireChartsDatabase();
   const date = z.iso.date().parse(options.date ?? utcDate());
   if (date > utcDate()) throw new Error('Une semaine future ne peut pas être calculée.');
-  const week = date;
+  const slotId =
+    options.slotId ?? (options.date ? refreshSlotForDate(date) : refreshSlotId(new Date()));
+  if (!isRefreshSlotId(slotId) || slotId.slice(0, 10) !== date)
+    throw new Error('Le créneau doit appartenir à la date calculée.');
+  const week = slotId;
   const config = await readChartsConfig();
-  const candidates = await weeklyCandidates(date, config);
+  const candidates = await weeklyCandidates(date, slotId, config);
   const scorecards = await scorecardsForProjects(
     candidates.map(({ project }) => project),
     date,
   );
-  const entries = corroborateGithubRanking(candidates, config, scorecards, date);
-  const rising = corroborateGithubRanking(candidates, config, scorecards, date, true);
-  const uncertainCandidates = uncertainGithubCandidates(
-    candidates,
-    entries,
-    config,
-    scorecards,
-    date,
+  const [unobserved, risingUnobserved] = await Promise.all([
+    unobservedGithubCandidates(date, config),
+    unobservedGithubCandidates(date, config, 14),
+  ]);
+  const referenceRanking = createReferenceArtifact(
+    githubReferenceInput(candidates, config, scorecards, date, false, unobserved),
   );
-  const risingUncertainCandidates = uncertainGithubCandidates(
-    candidates,
-    rising,
-    config,
-    scorecards,
-    date,
-    true,
+  const risingReferenceRanking = createReferenceArtifact(
+    githubReferenceInput(candidates, config, scorecards, date, true, risingUnobserved),
   );
-  const insufficientHistory = entries.length < config.minimumCandidates || uncertainCandidates > 0;
+  const present = (proof: ReferenceArtifact, isRising: boolean) => {
+    const allowed = new Set(proof.input.candidates);
+    const base = new Map(
+      githubBaseRanking(
+        candidates.filter(({ project }) => allowed.has(project.slug)),
+        config,
+        isRising,
+        Math.max(1, candidates.length),
+      ).map((row) => [row.project.slug, row]),
+    );
+    return proof.report.rows.map((row) => {
+      const item = base.get(row.entity);
+      if (!item) throw new Error('Projet classé sans données GitHub.');
+      const scorecard = scorecards.get(item.project.entityId);
+      return {
+        ...item,
+        rank: row.rank,
+        score: row.score,
+        sourceScores: { github: item.score, 'openssf-scorecard': (scorecard?.score ?? 0) * 10 },
+        sourceWeights: {
+          github: proof.input.profile.families[0]?.weight ?? 0,
+          'openssf-scorecard': proof.input.profile.families[1]?.weight ?? 0,
+        },
+        ...(scorecard ? { scorecard } : {}),
+      };
+    });
+  };
+  const entries = present(referenceRanking, false);
+  const rising = present(risingReferenceRanking, true);
+  const uncertainCandidates = referenceRanking.report.excluded.filter(
+    (item) => item.canEnterTop,
+  ).length;
+  const risingUncertainCandidates = risingReferenceRanking.report.excluded.filter(
+    (item) => item.canEnterTop,
+  ).length;
+  const insufficientHistory = !referenceRanking.report.publishable;
   const result = {
     week,
     date,
@@ -329,7 +384,9 @@ export async function calculateGithubWeek(
     uncertainCandidates,
     risingUncertainCandidates,
     trackedWithSnapshot: candidates.length,
-    scoringVersion: 'github-cross-source-v2',
+    scoringVersion: referenceRanking.input.profile.version,
+    referenceRanking,
+    risingReferenceRanking,
     entries,
     rising,
     written: 0,
@@ -341,15 +398,24 @@ export async function calculateGithubWeek(
     date,
     config,
     [
-      { chart: 'github', entries },
-      { chart: 'rising', entries: risingUncertainCandidates ? [] : rising },
+      { chart: 'github', entries, referenceRanking },
+      {
+        chart: 'rising',
+        entries: risingReferenceRanking.report.publishable ? rising : [],
+        referenceRanking: risingReferenceRanking,
+      },
     ],
     options.publish ?? true,
   );
   return result;
 }
 export async function freezeGithubWeek(
-  options: { dryRun?: boolean | undefined; publish?: boolean | undefined } = {},
+  options: {
+    date?: string | undefined;
+    slotId?: string | undefined;
+    dryRun?: boolean | undefined;
+    publish?: boolean | undefined;
+  } = {},
 ): Promise<ChartsJobSummary> {
   if (options.dryRun) {
     const result = await calculateGithubWeek(options);
@@ -362,29 +428,37 @@ export async function freezeGithubWeek(
     };
   }
   return runLogged('weekly_ranking', async (summary) => {
-    const sync = (await chartsJobDashboard()).jobs.find((job) => job.kind === 'github_daily_sync');
-    if (
-      !sync?.finishedAt ||
-      utcDate(new Date(sync.finishedAt)) !== utcDate() ||
-      !['success', 'partial'].includes(sync.status)
-    ) {
+    const date = z.iso.date().parse(options.date ?? utcDate());
+    const slotId =
+      options.slotId ?? (options.date ? refreshSlotForDate(date) : refreshSlotId(new Date()));
+    if (!(await hasCompletedChartsCollection('github_daily_sync', slotId))) {
       summary.status = 'skipped';
-      summary.details.push('La collecte du jour doit se terminer avant de figer la semaine.');
+      summary.details.push('La collecte du créneau doit se terminer avant de figer les éditions.');
       return;
     }
-    const result = await calculateGithubWeek(options);
+    const result = await calculateGithubWeek({ ...options, date, slotId });
     summary.processed = result.trackedWithSnapshot;
     summary.succeeded = result.eligible;
     summary.snapshotsCreated = result.written;
     summary.status = result.insufficientHistory
       ? 'insufficient_history'
-      : result.risingUncertainCandidates
+      : (options.publish ?? true) && !reviewedReferenceVersion(result.scoringVersion)
         ? 'partial'
-        : 'success';
+        : result.risingUncertainCandidates
+          ? 'partial'
+          : 'success';
     summary.details.push(
       result.insufficientHistory
         ? `Historique ou corroboration insuffisants : ${result.eligible.toString()}/${(await readChartsConfig()).minimumCandidates.toString()} candidats éligibles, ${result.uncertainCandidates.toString()} dépôts peuvent modifier le Top 20. Aucun classement publié.`
         : `${result.week} figée, ${result.written.toString()} classement(s) créé(s). ${result.risingUncertainCandidates.toString()} candidats Rising restent non corroborés. Une relance conserve les éditions existantes.`,
     );
+    if (
+      !result.insufficientHistory &&
+      (options.publish ?? true) &&
+      !reviewedReferenceVersion(result.scoringVersion)
+    )
+      summary.details.push(
+        'Le profil attend sa revue : le classement reste en brouillon et ne constitue pas une publication.',
+      );
   });
 }

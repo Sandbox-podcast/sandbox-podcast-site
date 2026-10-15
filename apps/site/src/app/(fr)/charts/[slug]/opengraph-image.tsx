@@ -1,7 +1,7 @@
 import { OG_SIZE, OG_TYPE, sandboxChartCard } from '@/lib/og';
 import { sandboxChartsData } from '@/lib/sandbox-charts';
 
-export const alt = 'Classement hebdomadaire';
+export const alt = 'Édition SANDBOX CHARTS';
 export const size = OG_SIZE;
 export const contentType = OG_TYPE;
 

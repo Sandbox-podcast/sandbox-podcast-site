@@ -77,6 +77,7 @@ export const sandboxChartsData = cache(async function sandboxChartsData(
     editions: series.flatMap((item) => item.editions),
   });
   const data: ChartsData = {
+    checkedAt: new Date().toISOString(),
     mode: fixtures ? 'fixtures' : 'pending',
     week,
     weeks: fixtures ? publishedWeeks() : [],

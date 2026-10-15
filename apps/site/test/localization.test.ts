@@ -285,7 +285,7 @@ describe('même site en français et en anglais', () => {
     expect(html).not.toContain('Old demo page de');
     expect(html).not.toContain('[object Object]');
     for (const french of [
-      'sem. à ce rang',
+      'éditions à ce rang',
       'd’affilée',
       'Place inchangée ;',
       'À propos de sa place',

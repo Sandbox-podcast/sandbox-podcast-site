@@ -16,16 +16,16 @@ export interface EntityHistory {
   previousRank: number | null;
   /** Meilleure place atteinte dans le Top (null si jamais entré). */
   peak: number | null;
-  weeksAtPeak: number;
-  weeksInTop: number;
+  editionsAtPeak: number;
+  editionsInTop: number;
   /** Semaines consécutives dans le Top, en comptant jusqu'au dernier snapshot. */
   currentStreak: number;
   longestStreak: number;
-  firstWeek: string | null;
-  weeksAtNumberOne: number;
-  /** Plus forte progression d'une semaine à l'autre, en places. */
-  biggestClimb: { places: number; week: string } | null;
-  biggestFall: { places: number; week: string } | null;
+  firstEdition: string | null;
+  editionsAtNumberOne: number;
+  /** Plus forte progression entre deux éditions, en places. */
+  biggestClimb: { places: number; edition: string } | null;
+  biggestFall: { places: number; edition: string } | null;
 }
 
 /** Historique d'une entité dans un classement, à partir de la suite complète des snapshots. */
@@ -65,8 +65,8 @@ export function entityHistory(
     const b = points[i];
     if (!a || !b || !a.inTop || !b.inTop || a.rank === null || b.rank === null) continue;
     const delta = a.rank - b.rank;
-    if (delta > 0 && (!climb || delta > climb.places)) climb = { places: delta, week: b.week };
-    if (delta < 0 && (!fall || -delta > fall.places)) fall = { places: -delta, week: b.week };
+    if (delta > 0 && (!climb || delta > climb.places)) climb = { places: delta, edition: b.week };
+    if (delta < 0 && (!fall || -delta > fall.places)) fall = { places: -delta, edition: b.week };
   }
 
   const last = points[points.length - 1];
@@ -76,12 +76,12 @@ export function entityHistory(
     currentRank: last?.rank ?? null,
     previousRank: before?.rank ?? null,
     peak,
-    weeksAtPeak: peak === null ? 0 : topRanks.filter((r) => r === peak).length,
-    weeksInTop: topRanks.length,
+    editionsAtPeak: peak === null ? 0 : topRanks.filter((r) => r === peak).length,
+    editionsInTop: topRanks.length,
     currentStreak,
     longestStreak,
-    firstWeek: points.find((p) => p.inTop)?.week ?? null,
-    weeksAtNumberOne: topRanks.filter((r) => r === 1).length,
+    firstEdition: points.find((p) => p.inTop)?.week ?? null,
+    editionsAtNumberOne: topRanks.filter((r) => r === 1).length,
     biggestClimb: climb,
     biggestFall: fall,
   };
@@ -91,10 +91,10 @@ export interface Reign {
   entity: string;
   from: string;
   to: string;
-  weeks: number;
+  editions: number;
 }
 
-/** Séries de semaines consécutives à la première place : le « Hall of #1 ». */
+/** Séries d'éditions consécutives à la première place : le « Hall of #1 ». */
 export function reigns(history: readonly Snapshot[]): Reign[] {
   const out: Reign[] = [];
   for (const snap of history) {
@@ -103,9 +103,9 @@ export function reigns(history: readonly Snapshot[]): Reign[] {
     const last = out[out.length - 1];
     if (last?.entity === top.entity) {
       last.to = snap.week;
-      last.weeks += 1;
+      last.editions += 1;
     } else {
-      out.push({ entity: top.entity, from: snap.week, to: snap.week, weeks: 1 });
+      out.push({ entity: top.entity, from: snap.week, to: snap.week, editions: 1 });
     }
   }
   return out;

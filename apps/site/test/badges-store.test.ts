@@ -27,6 +27,7 @@ import { GET as awardImageRoute } from '../src/app/api/awards/[week]/image/route
 import { generateMetadata as awardMetadata } from '../src/app/(fr)/charts/awards/[week]/page.tsx';
 import { generateMetadata as localizedMetadata } from '../src/app/[locale]/[[...path]]/page.tsx';
 import { absoluteUrl } from '../src/lib/seo.ts';
+import { validAwardReference } from '../src/domain/award-reference.ts';
 
 const pg = new PGlite();
 const db = drizzle(pg, { schema });
@@ -42,6 +43,7 @@ const repo = (index: number, fullName = `sandbox-test/project-${index}`) =>
     description: 'Fixture réservée aux tests',
     html_url: `https://github.com/${fullName}`,
     language: 'TypeScript',
+    license: { spdx_id: 'MIT' },
     created_at: '2026-07-01T00:00:00Z',
     updated_at: `${sunday}T00:00:00Z`,
     pushed_at: `${sunday}T00:00:00Z`,
@@ -53,8 +55,11 @@ const repo = (index: number, fullName = `sandbox-test/project-${index}`) =>
     open_issues_count: 10,
   });
 async function seed(publish = true) {
+  vi.stubEnv('CHARTS_REVIEWED_PROFILE_VERSIONS', 'github-reference-v3,rising-reference-v3');
   await upsertDiscoveredRepositories(Array.from({ length: 20 }, (_, index) => repo(index)));
-  await db.update(schema.githubProjects).set({ status: 'tracked' });
+  await db
+    .update(schema.githubProjects)
+    .set({ status: 'tracked', discoveredAt: '2026-09-01T00:00:00Z' });
   const projects = await db
     .select()
     .from(schema.githubProjects)
@@ -107,8 +112,10 @@ beforeAll(async () => {
     '0003_ranking_catalog_localization',
     '0005_external_chart_sources',
     '0007_daily_chart_editions',
-    '0009_badges_awards',
-    '0010_extended_awards',
+    '0010_chart_refresh_slots',
+    '0012_badges_awards',
+    '0013_extended_awards',
+    '0014_awards_refresh_slots',
   ])
     for (const statement of readFileSync(`drizzle/${migration}.sql`, 'utf8').split(
       '--> statement-breakpoint',
@@ -120,6 +127,7 @@ beforeAll(async () => {
 }, 30000);
 afterEach(async () => {
   vi.useRealTimers();
+  vi.unstubAllEnvs();
   vi.restoreAllMocks();
   await pg.exec(
     'TRUNCATE badge_award_withdrawals, badge_awards, weekly_rankings, weekly_chart_editions, github_daily_snapshots, github_projects, chart_entities, charts_job_runs CASCADE',
@@ -130,6 +138,45 @@ afterAll(async () => {
 });
 
 describe('badges intégrés au pipeline et à Postgres', () => {
+  it('rejoue la preuve v3 et refuse un score ou une version falsifiés', async () => {
+    await seed();
+    const [edition] = await db.select().from(schema.weeklyChartEditions);
+    if (!edition) throw new Error('Édition absente');
+    expect(validAwardReference(edition, edition.payload.entries)).toBe(true);
+    expect(
+      validAwardReference({ ...edition, scoringVersion: 'unknown' }, edition.payload.entries),
+    ).toBe(false);
+    expect(validAwardReference({ ...edition, config: {} }, edition.payload.entries)).toBe(false);
+    expect(
+      validAwardReference(
+        edition,
+        edition.payload.entries.map((entry, index) =>
+          index === 0 ? { ...entry, score: entry.score + 1 } : entry,
+        ),
+      ),
+    ).toBe(false);
+  });
+  it('retient le dernier créneau du dimanche et conserve ensuite son attribution', async () => {
+    await seed();
+    vi.useFakeTimers({ toFake: ['Date'] });
+    vi.setSystemTime(new Date(`${sunday}T15:00:00Z`));
+    const observations = await db.select().from(schema.githubDailySnapshots);
+    await saveDailyBatch(
+      observations.map((row) => ({
+        ...row,
+        refreshSlotId: `${row.date}T12:00Z`,
+        collectedAt: `${row.date}T14:00:00Z`,
+      })),
+    );
+    expect(
+      (await calculateGithubWeek({ date: sunday, slotId: `${sunday}T12:00Z`, publish: true }))
+        .written,
+    ).toBe(2);
+    vi.useRealTimers();
+    expect((await assignClosedRisingStars({ now: closed, week: '2026-W41' })).created).toBe(1);
+    expect((await readBadgeAwardEdition('2026-W41'))?.sourceEdition).toBe(`${sunday}T12:00Z`);
+    expect((await assignClosedRisingStars({ now: closed, week: '2026-W41' })).created).toBe(0);
+  });
   it('lit les vrais résultats du moteur, puis reste stable après renommage et transfert', async () => {
     const [project] = await seed();
     if (!project) throw new Error('Fixture absente');

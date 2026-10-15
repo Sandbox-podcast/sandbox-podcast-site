@@ -36,7 +36,7 @@ describe('classements publics en français', () => {
   it('affiche un état d’attente exact et les commandes en français', () => {
     const html = renderToStaticMarkup(createElement(ChartsExperience, { data: pending }));
     expect(html).toContain('Sandbox Charts');
-    expect(html).toContain('Mise à jour quotidienne');
+    expect(html).toContain('Deux mises à jour prévues par jour');
     expect(html).toContain('Période');
     expect(html).toContain('Cette édition');
     expect(html).toContain('Catégorie');
@@ -66,7 +66,7 @@ describe('classements publics en français', () => {
       '3 MOIS',
       'DEPUIS LE DÉBUT',
     ]);
-    expect(CHART_LABELS.github.subtitle).toContain('Les projets IA');
+    expect(CHART_LABELS.github.subtitle).toContain('Les projets open source');
     expect(chartFilterLabel('All')).toBe('Toutes');
     expect(chartFilterLabel('Coding')).toBe('Code');
     expect(chartFilterLabel('MCP')).toBe('MCP');
@@ -84,12 +84,12 @@ describe('classements publics en anglais', () => {
       }),
     );
     expect(html).toContain('Sandbox Charts');
-    expect(html).toContain('Updated daily');
+    expect(html).toContain('Two updates scheduled per day');
     expect(html).toContain('Period');
     expect(html).toContain('This edition');
     expect(html).toContain('Category');
     expect(html).toContain('No edition has been published for this ranking.');
-    expect(html).not.toContain('LES CLASSEMENTS IA');
+    expect(html).not.toContain('LES CLASSEMENTS TECH');
     expect(html).not.toContain('Aucune édition publiée pour ce classement.');
   });
 

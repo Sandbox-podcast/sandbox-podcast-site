@@ -1,4 +1,4 @@
-# ADR-0027 : badges publics et récompenses Sandbox
+# ADR-0031 : badges publics et récompenses Sandbox
 
 Date : 2026-10-14. Statut : implémenté localement. Décision : décidée par l'agent sur délégation (PD-0003), selon la mission Badges & Awards de Lou.
 
@@ -27,7 +27,7 @@ Les réponses portent un ETag et acceptent HEAD et les requêtes conditionnelles
 
 ## Livraison
 
-La migration additive `0009_badges_awards` est requise pour les Awards. Elle ne modifie ni les scores ni les migrations appliquées. Les détails d'exploitation et de vérification figurent dans [le guide](../site/badges-awards.md). Aucune migration distante, attribution réelle, publication, dépense, création de compte, commit ou push n'est effectuée pendant cette implémentation.
+La migration additive `0012_badges_awards` est requise pour les Awards. Elle ne modifie ni les scores ni les migrations appliquées. Les détails d'exploitation et de vérification figurent dans [le guide](../site/badges-awards.md). Aucune migration distante, attribution réelle, publication, dépense, création de compte, commit ou push n'est effectuée pendant cette implémentation.
 
 La finalisation du 14 octobre lève les blocages locaux de formatage et de lint. Les commandes d'exploitation refusent les options ambiguës avant toute lecture ou écriture de base. Les semaines malformées sont rejetées avant le contrôle du calendrier ISO. Le déploiement reste bloqué par l'accès Vercel refusé et l'absence de connexion Neon. Le classement public GitHub est ancien et Rising attend ses données ; aucun résultat réel n'est inventé pour contourner cette attente.
 
@@ -48,8 +48,14 @@ Décision : décidée par l'agent sur délégation (PD-0003). Les nouvelles règ
 
 Pour les prix mensuels et annuels, l'historique doit être complet. Une égalité se départage au rang du dernier dimanche, puis à l'identifiant stable. Un candidat absent du dernier dimanche passe après les candidats présents ; sa dernière apparition fournit son rang source conservé. Une source impliquée dans un retrait est exclue des nouvelles attributions. Les anciennes attributions conservent leur preuve et ne sont pas recalculées.
 
-La migration additive `0010_extended_awards` ne modifie pas `0009`. Elle conserve la colonne et l'unicité historiques Rising, ajoute les périodes mensuelles et annuelles et l'unicité `(award_type, period, scope)`. Les identifiants GitHub restent obligatoires pour GitHub et Rising, et facultatifs pour Skills et Models. Les nouveaux SVG et cartes de partage sont adressés par l'UUID de l'attribution. Les anciennes URL Rising continuent de fonctionner.
+La migration additive `0013_extended_awards` ne modifie pas `0012`. Elle conserve la colonne et l'unicité historiques Rising, ajoute les périodes mensuelles et annuelles et l'unicité `(award_type, period, scope)`. Les identifiants GitHub restent obligatoires pour GitHub et Rising, et facultatifs pour Skills et Models. Les nouveaux SVG et cartes de partage sont adressés par l'UUID de l'attribution. Les anciennes URL Rising continuent de fonctionner.
 
 Le cron existant lance `badge_awards` après les gels. La reprise automatique lit au plus 54 semaines ; une reprise plus ancienne utilise une période explicite. Les fiches `/charts/entity/:slug` donnent aux Skills et modèles publiés leur propre générateur. L'historique commun propose des filtres et une pagination par curseur. Aucun nouveau service, compte, secret ou cron n'est créé.
 
 La démonstration locale utilise une base PGlite éphémère sur loopback et des entités marquées `FIXTURE`. Ses exemples mensuels et annuels viennent de sources simulées réservées aux tests. Le code de production n'accepte aucun paramètre pour activer ces fixtures. La livraison et les migrations distantes attendent la vérification de Lou.
+
+## Intégration du lot complet, 15 octobre 2026
+
+Lou autorise une PR unique et sa fusion. Les migrations locales des badges deviennent `0012_badges_awards` et `0013_extended_awards` pour conserver les numéros déjà publiés. La migration additive `0014_awards_refresh_slots` adapte les contrôles SQL aux éditions de douze heures et aux profils de référence v3. Les attributions et preuves existantes restent immuables.
+
+Décidée par l'agent sur délégation (PD-0003) : chaque prix retient le dernier créneau publié du dimanche. Un créneau invalide ne fait pas revenir silencieusement à un créneau plus ancien. Les preuves v3 sont rejouées avant attribution ; les sources v2 restent acceptées selon leurs règles historiques. Les gels GitHub, Skills et Models relancent le job commun des Awards ; une panne reste visible dans le statut HTTP du cron.
