@@ -87,7 +87,15 @@ export function MomentumSpark({
     </LocalizedElement>
   );
 }
-export function MomentumValue({ row, period }: { row: ChartsRow; period: ChartPeriod }) {
+export function MomentumValue({
+  row,
+  period,
+  compact = false,
+}: {
+  row: ChartsRow;
+  period: ChartPeriod;
+  compact?: boolean;
+}) {
   return (
     <div className="sc-momentum">
       <strong>
@@ -95,7 +103,8 @@ export function MomentumValue({ row, period }: { row: ChartsRow; period: ChartPe
           {row.periodStars !== null ? signedCompact(row.periodStars) : formatNumber(row.score, 1)}
         </Text>
       </strong>
-      <span>
+      {compact && row.periodStars === null ? <small>/100</small> : null}
+      <span className={compact ? 'sr-only' : undefined}>
         <Text>
           {row.periodStars !== null
             ? 'ÉTOILES'
@@ -189,11 +198,13 @@ export function ChartsRanking({
   series,
   period,
   onShare,
+  badgeSlugs = [],
 }: {
   rows: ChartsRow[];
   series: ChartsSeries | undefined;
   period: ChartPeriod;
   onShare: (row: ChartsRow) => void;
+  badgeSlugs?: string[];
 }) {
   const { t } = useLocalization();
   if (!rows.length)
@@ -228,48 +239,16 @@ export function ChartsRanking({
                   <p>
                     <Text>{row.entity.github?.repo ?? row.entity.org ?? row.entity.category}</Text>
                   </p>
-                  <div className="sc-row-meta">
-                    <span>
-                      <Text namespace="category">{chartFilterLabel(row.entity.category)}</Text>
-                    </span>
-                    <Text>
-                      {series?.id === 'skills' ? (
-                        <span className="sc-label">
-                          <Text>{chartStatusLabel(row.status)}</Text>
-                        </span>
-                      ) : null}
-                    </Text>
-                  </div>
                 </div>
-                <MomentumValue row={row} period={period} />
-                <div className="sc-row-growth">
-                  <Text>
-                    {row.metrics['growth'] !== undefined ? (
-                      <strong>
-                        <Text>{signedGrowth(row.metrics['growth'])}</Text>
-                      </strong>
-                    ) : (
-                      <strong>
-                        <Text>
-                          {row.entity.kind === 'model' && row.metrics['tps'] !== undefined
-                            ? `${formatNumber(row.metrics['tps'])} tok/s`
-                            : `${formatNumber(row.score, 1)}/100`}
-                        </Text>
-                      </strong>
-                    )}
-                  </Text>
-                  <span className="sc-label">
-                    <Text>
-                      {row.metrics['growth'] !== undefined
-                        ? 'CROISSANCE'
-                        : row.entity.kind === 'model'
-                          ? 'VITESSE'
-                          : 'SCORE'}
-                    </Text>
-                  </span>
-                </div>
+                <MomentumValue row={row} period={period} compact />
                 <div className="sc-row-spark">
-                  <MomentumSpark values={row.momentum} />
+                  {row.momentum.filter((value) => value !== null).length >= 2 ? (
+                    <MomentumSpark values={row.momentum} />
+                  ) : (
+                    <LocalizedElement as="span" aria-label="Historique insuffisant">
+                      -
+                    </LocalizedElement>
+                  )}
                 </div>
                 <span className="sc-row-open" aria-hidden="true">
                   <Text>{'+'}</Text>
@@ -279,8 +258,18 @@ export function ChartsRanking({
                 <div className="sc-explanations">
                   <div>
                     <h4 className="sc-label">
-                      <Text>{'DE QUOI S’AGIT-IL ?'}</Text>
+                      <Text>{'Présentation'}</Text>
                     </h4>
+                    {row.entity.category !== 'Other' ? (
+                      <p className="sc-label">
+                        <Text namespace="category">{chartFilterLabel(row.entity.category)}</Text>
+                      </p>
+                    ) : null}
+                    {series?.id === 'skills' ? (
+                      <p className="sc-label">
+                        <Text>{chartStatusLabel(row.status)}</Text>
+                      </p>
+                    ) : null}
                     <p>
                       <Text>
                         {[row.insight?.whatItIs, row.entity.description, row.entity.tagline].find(
@@ -291,10 +280,7 @@ export function ChartsRanking({
                   </div>
                   <div className="sc-data-explanation">
                     <h4 className="sc-label">
-                      <Text>{'POURQUOI ÇA MONTE '}</Text>
-                      <span>
-                        <Text>{'DONNÉES'}</Text>
-                      </span>
+                      <Text>{'Données'}</Text>
                     </h4>
                     <p>
                       {row.periodStars !== null
@@ -411,6 +397,11 @@ export function ChartsRanking({
                     <Text>{row.peak ?? '-'}</Text>
                   </p>
                   <div className="sc-row-actions">
+                    {badgeSlugs.includes(row.entity.slug) ? (
+                      <Link href={`${row.entity.href}#badges`}>
+                        <Text>{'Obtenir mon badge'}</Text>
+                      </Link>
+                    ) : null}
                     <Link href={row.entity.href}>
                       <Text>{'Ouvrir la fiche \u2197'}</Text>
                     </Link>

@@ -1,0 +1,161 @@
+import assert from 'node:assert/strict';
+import { once } from 'node:events';
+import { mkdir, writeFile } from 'node:fs/promises';
+import { URL } from 'node:url';
+import { log } from 'node:console';
+import process from 'node:process';
+import { startBadgeFixture } from './badges-fixture-server.mjs';
+import { auditSitemap } from '../src/lib/sitemap-audit.ts';
+import { externalEntitySchema } from '../src/domain/external-charts.ts';
+const { fetch } = globalThis;
+
+const fixture = await startBadgeFixture({ kind: 'public-routes' });
+log(`PUBLIC_ROUTES_PREVIEW_ORIGIN=${fixture.origin}`);
+try {
+  const { freezeExternalEdition, saveExternalBatch } =
+    await import('../src/lib/external-charts-store.ts');
+  for (const chart of ['skills', 'models']) {
+    const entities = Array.from({ length: 20 }, (_, index) => {
+      const slug = `fixture-${chart}-${index}`;
+      const source = {
+        provider: chart === 'skills' ? 'skills-sh' : 'huggingface',
+        externalId: slug,
+        url: `https://example.com/${slug}`,
+        label: 'FIXTURE locale',
+      };
+      return externalEntitySchema.parse({
+        slug,
+        type: chart === 'skills' ? 'skill' : 'model',
+        name: `FIXTURE ${chart} ${index}`,
+        organization: 'sandbox-test',
+        description: 'Données de test locales, sans mesure réelle.',
+        category: 'Coding',
+        license: null,
+        openWeights: null,
+        sourceUrl: source.url,
+        websiteUrl: null,
+        sources: [source],
+      });
+    });
+    await saveExternalBatch(
+      entities,
+      entities.map((entity) => ({
+        entitySlug: entity.slug,
+        source: entity.sources[0],
+        observedOn: '2026-10-10',
+        collectedAt: '2026-10-10T02:00:00Z',
+        metrics: { installs: 1000, stars: 500 },
+      })),
+    );
+    for (const week of ['2026-W41', '2026-10-10', '2026-10-14']) {
+      const entries = entities.map((entity, index) => ({
+        slug: entity.slug,
+        identity: {
+          name: entity.name,
+          organization: entity.organization,
+          sourceUrl: entity.sourceUrl,
+          license: null,
+          openWeights: null,
+        },
+        rank: index + 1,
+        score: week === '2026-10-14' ? 90 - index : 70 - index,
+        dimensions: { momentum: 70 - index },
+        metrics: { installs: 1000, stars: 500 },
+        sourceObservedAt: ['2026-10-10T02:00:00Z'],
+        sources: entity.sources,
+      }));
+      assert.equal(
+        await freezeExternalEdition(
+          chart,
+          week,
+          '2026-10-10',
+          'fixture-routing-test',
+          {},
+          entries,
+          true,
+        ),
+        1,
+      );
+    }
+  }
+  const report = await auditSitemap(fixture.origin);
+  await writeFile(
+    new URL('sitemap.json', fixture.artifactDir),
+    `${JSON.stringify(report, null, 2)}\n`,
+  );
+  assert.ok(report.pages.some((page) => page.url.endsWith('/charts/skills/2026-10-10')));
+  assert.equal(report.failed, 0, JSON.stringify(report.pages.filter((page) => page.issues.length)));
+  const reportDir = new URL('../trust-routes/', fixture.artifactDir);
+  await mkdir(reportDir, { recursive: true });
+  await writeFile(
+    new URL('sitemap-local-after.json', reportDir),
+    `${JSON.stringify(report, null, 2)}\n`,
+  );
+  log(`Sitemap local : ${report.passed}/${report.total} URL valides.`);
+
+  const checks = [];
+  const shareImages = new Map();
+  const { moveTriples } = await import('../src/lib/move-params.ts');
+  const { allEntities } = await import('../src/lib/repository.ts');
+  const model = allEntities().find((entity) => entity.kind === 'model');
+  const move = moveTriples()[0];
+  assert.ok(model && move);
+  const legacyPaths = [
+    '/projects/claude-code',
+    `/models/${model.slug}`,
+    `/moves/${move.chart}/${move.week}/${move.entity}`,
+  ];
+  for (const prefix of ['', '/en', '/es-es', '/de-de']) {
+    for (const path of legacyPaths) {
+      const response = await fetch(fixture.origin + prefix + path);
+      assert.equal(response.status, 200);
+      const html = (await response.text()).replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, '');
+      assert.match(html, /name="robots" content="noindex/);
+      assert.match(html, /simul|demo|Demo/);
+      assert.doesNotMatch(
+        html,
+        /class="move-preview|Current ranking|itemtype="https:\/\/schema.org\/Product/,
+      );
+      if (!prefix) {
+        const imageUrl = html.match(/<meta property="og:image" content="([^"]+)"/)?.[1];
+        assert.ok(imageUrl, `Image de partage annoncée : ${path}`);
+        shareImages.set(path, imageUrl.replaceAll('&amp;', '&'));
+      }
+      checks.push(prefix + path);
+    }
+    const archive = await fetch(`${fixture.origin}${prefix}/charts/skills/2026-10-10`);
+    assert.equal(archive.status, 200);
+    assert.match(await archive.text(), /FIXTURE skills 0/);
+    checks.push(`${prefix}/charts/skills/2026-10-10`);
+  }
+  for (const [path, imageUrl] of shareImages) {
+    const image = await fetch(imageUrl);
+    assert.equal(image.status, 200);
+    assert.match(image.headers.get('content-type'), /image\/png/);
+    assert.ok((await image.arrayBuffer()).byteLength > 1000);
+    checks.push(`${path}/opengraph-image`);
+  }
+  const absent = await fetch(`${fixture.origin}/charts/skills/2026-10-09`);
+  assert.equal(absent.status, 404);
+  checks.push('archive absente : 404');
+  await writeFile(
+    new URL('routes.json', fixture.artifactDir),
+    JSON.stringify({ status: 'passed', database: 'ephemeral-pglite', checks }, null, 2),
+  );
+  log(`Parcours HTTP : ${checks.length} contrôles réussis.`);
+  await writeFile(
+    new URL('routes-local-after.json', reportDir),
+    JSON.stringify({ status: 'passed', database: 'ephemeral-pglite', checks }, null, 2),
+  );
+  if (process.argv.includes('--serve')) {
+    log('PREVIEW_READY. Envoyer une ligne pour fermer la base éphémère.');
+    process.stdin.resume();
+    await once(process.stdin, 'data');
+    process.stdin.pause();
+  }
+} catch (error) {
+  log('Contrôle des parcours échoué :', error instanceof Error ? error.message : error);
+  process.exitCode = 1;
+} finally {
+  await fixture.close();
+}

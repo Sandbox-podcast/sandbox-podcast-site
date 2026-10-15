@@ -1,0 +1,291 @@
+.section {
+  margin-block: 3rem;
+  scroll-margin-top: 7rem;
+}
+.heading,
+.badgeHeading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.heading {
+  margin-bottom: 1.25rem;
+}
+.heading h2 {
+  margin-block: 0.3rem;
+}
+.heading a,
+.badgeCard > a {
+  color: var(--hl);
+  text-underline-offset: 0.25rem;
+}
+.badgeCard {
+  border: 1px solid var(--hair);
+  background: var(--paper-2);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-block: 1rem;
+  min-width: 0;
+  scroll-margin-top: 7rem;
+}
+.badgeCard[data-award='true'] {
+  border-top: 2px solid var(--hl);
+}
+.badgeHeading h3 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+.kind,
+.note,
+.date {
+  color: var(--ink-2);
+  font-size: 0.82rem;
+}
+.kind {
+  font-family: var(--font-mono);
+}
+.badgeCard p {
+  margin-block: 0.8rem;
+}
+.generator {
+  margin-top: 1.25rem;
+  border-top: 1px solid var(--hair);
+}
+.generator summary {
+  cursor: pointer;
+  padding: 1rem 0;
+  display: flex;
+  justify-content: space-between;
+  color: var(--ink);
+  font-weight: 600;
+  list-style: none;
+}
+.generator summary::-webkit-details-marker {
+  display: none;
+}
+.generator[open] summary span {
+  transform: rotate(45deg);
+}
+.generatorBody {
+  padding-bottom: 0.25rem;
+}
+.previewControls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.6rem;
+  font-size: 0.8rem;
+  color: var(--ink-2);
+}
+.previewControls button,
+.formatControls button {
+  cursor: pointer;
+  border: 1px solid var(--hair);
+  padding: 0.55rem 0.85rem;
+  background: var(--paper);
+  color: var(--ink-2);
+  min-height: 40px;
+  font: inherit;
+}
+.previewControls button[aria-pressed='true'],
+.formatControls button[aria-pressed='true'] {
+  color: var(--ink);
+  border-color: var(--hl);
+  box-shadow: inset 0 -2px var(--hl);
+}
+.preview {
+  background: #05090d;
+  border: 1px solid #294457;
+  border-radius: 8px;
+  min-height: 130px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem 0.8rem;
+}
+.preview[data-theme='light'] {
+  background: #f4f7fa;
+}
+.preview img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+.formatControls {
+  display: flex;
+  flex-wrap: wrap;
+  margin-block: 1.1rem 0.7rem;
+  font-size: 0.85rem;
+}
+.codeLabel {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--ink-2);
+}
+.codeLabel textarea {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  resize: vertical;
+  margin-block: 0.5rem 1rem;
+  padding: 0.9rem;
+  border: 1px solid var(--hair);
+  border-radius: 6px;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+.copyStatus {
+  min-height: 1.5rem;
+  color: var(--hl);
+  font-size: 0.82rem;
+}
+.sharePanel {
+  margin-top: 1.4rem;
+  border-top: 1px solid var(--hair);
+}
+.shareImage {
+  display: block;
+  width: min(100%, 600px);
+  height: auto;
+  margin-block: 1rem;
+  border: 1px solid var(--hair);
+  border-radius: 8px;
+}
+.awardTitle {
+  overflow-wrap: anywhere;
+}
+.awardBadge {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin-block: 1.2rem;
+}
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  margin-block: 1.5rem;
+}
+.criterion {
+  margin-block: 1.75rem;
+}
+.evidenceHash {
+  overflow-wrap: anywhere;
+}
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: end;
+  margin-block: 1.25rem;
+}
+.filters label {
+  display: grid;
+  gap: 0.5rem;
+  max-width: 100%;
+  color: var(--ink-2);
+}
+.filters select {
+  border: 1px solid var(--hair);
+  background: var(--paper);
+  color: var(--ink);
+  padding: 0.65rem;
+  font: inherit;
+  min-height: 44px;
+  max-width: 100%;
+}
+.generator :focus-visible,
+.heading a:focus-visible,
+.badgeCard a:focus-visible {
+  outline: 2px solid var(--hl);
+  outline-offset: 4px;
+}
+.awardsPage {
+  padding-block: 2.5rem 4rem;
+}
+.awardsPage > header {
+  max-width: 760px;
+  margin-bottom: 2rem;
+}
+.awardsPage h1 {
+  font-size: clamp(2.2rem, 5vw, 4rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+.awardsPage h2 {
+  font-size: 1.4rem;
+  margin-bottom: 0.8rem;
+}
+.awardsPage section {
+  margin-block: 2.5rem;
+}
+.awardsPage p,
+.awardsPage li {
+  color: var(--ink-2);
+  line-height: 1.75;
+}
+.awardsPage a {
+  color: var(--hl);
+}
+.awardsPage :global(.btn-solid) {
+  color: var(--on-hl);
+}
+.method {
+  max-width: 850px;
+}
+.method ol {
+  padding-left: 1.4rem;
+  list-style: decimal;
+}
+.method li {
+  margin-block: 0.65rem;
+}
+.winners {
+  list-style: none;
+  padding: 0;
+}
+.winners img {
+  max-width: 100%;
+  height: auto;
+  margin-block: 0.8rem;
+}
+.winners h3 {
+  font-size: 1.3rem;
+  overflow-wrap: anywhere;
+}
+.winners small {
+  display: block;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 600px) {
+  .badgeCard {
+    padding: 1rem;
+  }
+  .preview {
+    padding: 1.5rem 0.5rem;
+    min-height: 110px;
+  }
+  .heading {
+    align-items: flex-start;
+  }
+  .actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+  .awardsPage {
+    padding-top: 1.5rem;
+  }
+}

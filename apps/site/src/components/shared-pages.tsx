@@ -6,13 +6,17 @@ import * as Episode from '@/app/(fr)/episodes/[number]/page';
 import * as Topics from '@/app/(fr)/topics/page';
 import * as Topic from '@/app/(fr)/topics/[slug]/page';
 import * as About from '@/app/(fr)/about/page';
-import * as Search from '@/app/(fr)/search/page';
+import * as Search from '@/components/search-screen';
 import * as Latest from '@/app/(fr)/latest/page';
 import * as Story from '@/app/(fr)/stories/[slug]/page';
 import * as Project from '@/app/(fr)/projects/[slug]/page';
 import * as Model from '@/app/(fr)/models/[slug]/page';
-import * as Move from '@/app/(fr)/moves/[chart]/[week]/[entity]/page';
+import * as Move from '@/components/move-screen';
 import * as Charts from '@/app/(fr)/charts/page';
+import * as Awards from '@/app/(fr)/charts/awards/page';
+import * as AwardEdition from '@/app/(fr)/charts/awards/[week]/page';
+import * as AssignedAward from '@/app/(fr)/charts/awards/edition/[id]/page';
+import * as ChartEntity from '@/app/(fr)/charts/entity/[slug]/page';
 import * as Chart from '@/app/(fr)/charts/[slug]/page';
 import * as ChartWeek from '@/app/(fr)/charts/[slug]/[week]/page';
 import * as ChartMethod from '@/app/(fr)/charts/[slug]/methodology/page';
@@ -24,6 +28,8 @@ import * as ModelTask from '@/app/(fr)/charts/models/[task]/page';
 import * as Rising from '@/app/(fr)/charts/rising/page';
 import * as RisingWeek from '@/app/(fr)/charts/rising/[week]/page';
 import * as RisingMethod from '@/app/(fr)/charts/rising/methodology/page';
+import * as PersonalProjects from '@/app/(fr)/nos-projets/page';
+import * as PersonalProject from '@/app/(fr)/nos-projets/[slug]/page';
 import type { SharedPageRoute } from '@/i18n/page-routes';
 import type { TranslationDictionary } from '@/i18n/translation';
 
@@ -47,7 +53,10 @@ interface SharedPage {
 }
 
 export const sharedPages: Record<SharedPageRoute, SharedPage> = {
-  '/': { render: () => <Home.default />, metadata: () => Home.generateMetadata() },
+  '/': {
+    render: (o) => <Home.default searchParams={o.searchParams} />,
+    metadata: (o) => Home.generateMetadata({ searchParams: o.searchParams }),
+  },
   '/episodes': {
     render: (o) => <Episodes.default searchParams={o.searchParams} />,
     metadata: (o) => Episodes.generateMetadata({ searchParams: o.searchParams }),
@@ -63,14 +72,22 @@ export const sharedPages: Record<SharedPageRoute, SharedPage> = {
     metadata: (o) => Topic.generateMetadata({ params: slugParams(o) }),
   },
   '/about': { render: () => <About.default />, metadata: () => About.metadata },
+  '/nos-projets': {
+    render: () => <PersonalProjects.default />,
+    metadata: () => PersonalProjects.metadata,
+  },
+  '/nos-projets/:slug': {
+    render: (o) => <PersonalProject.default params={slugParams(o)} />,
+    metadata: (o) => PersonalProject.generateMetadata({ params: slugParams(o) }),
+  },
   '/search': {
     render: (o) => <Search.default searchParams={o.searchParams} dictionary={o.dictionary} />,
     metadata: () => Search.metadata,
   },
-  '/latest': { render: () => <Latest.default />, metadata: () => Episodes.generateMetadata() },
+  '/latest': { render: () => <Latest.default />, metadata: () => Episodes.generateMetadata({}) },
   '/stories/:slug': {
     render: () => <Story.default />,
-    metadata: () => Episodes.generateMetadata(),
+    metadata: () => Episodes.generateMetadata({}),
   },
   '/projects/:slug': {
     render: (o) => <Project.default params={slugParams(o)} />,
@@ -109,6 +126,23 @@ export const sharedPages: Record<SharedPageRoute, SharedPage> = {
     render: () => <History.default />,
     metadata: () => History.generateMetadata(),
   },
+  '/charts/awards': {
+    render: (o) => <Awards.default searchParams={o.searchParams} />,
+    metadata: () => Awards.metadata,
+  },
+  '/charts/awards/:week': {
+    render: (o) => <AwardEdition.default params={weekParams(o)} />,
+    metadata: (o) => AwardEdition.generateMetadata({ params: weekParams(o) }),
+  },
+  '/charts/awards/edition/:id': {
+    render: (o) => <AssignedAward.default params={Promise.resolve({ id: value(o, 'id') })} />,
+    metadata: (o) =>
+      AssignedAward.generateMetadata({ params: Promise.resolve({ id: value(o, 'id') }) }),
+  },
+  '/charts/entity/:slug': {
+    render: (o) => <ChartEntity.default params={slugParams(o)} />,
+    metadata: (o) => ChartEntity.generateMetadata({ params: slugParams(o) }),
+  },
   '/charts/history/:week': {
     render: (o) => <HistoryWeek.default params={weekParams(o)} searchParams={o.searchParams} />,
     metadata: (o) =>
@@ -120,11 +154,15 @@ export const sharedPages: Record<SharedPageRoute, SharedPage> = {
   },
   '/charts/skills/:platform': {
     render: (o) => (
-      <SkillPlatform.default params={Promise.resolve({ platform: value(o, 'platform') })} />
+      <SkillPlatform.default
+        params={Promise.resolve({ platform: value(o, 'platform') })}
+        searchParams={o.searchParams}
+      />
     ),
     metadata: (o) =>
       SkillPlatform.generateMetadata({
         params: Promise.resolve({ platform: value(o, 'platform') }),
+        searchParams: o.searchParams,
       }),
   },
   '/charts/models/:task': {

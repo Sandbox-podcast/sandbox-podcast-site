@@ -13,8 +13,10 @@ from typing import Any
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
-from .shorts_core import daily_publish_times, format_publish_time, make_srt, next_publish_time, parse_publish_time, validate_clip_candidates
+from .shorts_core import format_publish_time, make_srt, next_publish_time, parse_publish_time, validate_clip_candidates
+from .editorial import weekly_slots as daily_publish_times
 from .thumbnails import safe_slug
+from .storage import exclusive_run, save_json
 
 
 CHUNK_SECONDS = 600
@@ -223,10 +225,19 @@ def _select_clips(segments: list[dict[str, Any]], count: int, api_key: str) -> l
 
 
 def _save_manifest(path: Path, manifest: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    temporary = path.with_suffix(".tmp")
-    temporary.write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
-    temporary.replace(path)
+    save_json(path, manifest)
+
+
+def _review_hash(manifest: dict, directory: Path) -> str:
+    from .storage import digest
+    clips = []
+    for clip in manifest["clips"]:
+        path = (directory / clip["file"]).resolve()
+        if not path.is_relative_to(directory.resolve()) or not path.is_file() or path.stat().st_size == 0:
+            raise RuntimeError("Tous les rendus doivent exister dans le dossier du lot avant --approve.")
+        clips.append({key: clip[key] for key in ("start", "end", "title", "file")})
+        clips[-1]["sha256"] = _sha256(path)
+    return digest({"source_sha256": manifest["source_sha256"], "source_video_id": manifest.get("source_video_id"), "segments": manifest["segments"], "clips": clips})
 
 
 def _load_or_create_manifest(
@@ -301,11 +312,13 @@ def _subtitle_filter_path(path: Path) -> str:
 
 def _render_clip(source: Path, work_dir: Path, clip: dict[str, Any], segments: list[dict[str, Any]], ffmpeg: str) -> Path:
     output = work_dir / clip["file"]
+    srt_path = work_dir / clip["srt"]
+    if output.resolve().parent != work_dir.resolve() or srt_path.resolve().parent != work_dir.resolve() or output.resolve() == source.resolve():
+        raise ValueError("Le rendu et les sous-titres doivent rester dans le dossier du lot sans remplacer la source.")
     if output.exists() and output.stat().st_size > 0:
         return output
     start = float(clip["start"])
     end = float(clip["end"])
-    srt_path = work_dir / clip["srt"]
     srt_path.write_text(make_srt(segments, start, end), encoding="utf-8-sig")
     subtitles = _subtitle_filter_path(srt_path)
     video_filter = (
@@ -362,6 +375,8 @@ def _youtube_title(quote: str) -> str:
 
 
 def _upload_clip(service: Any, clip_path: Path, clip: dict[str, Any], source_title: str, source_video_id: str) -> str:
+    from .identity import verify_video
+    verify_video(service, source_video_id)
     try:
         from googleapiclient.http import MediaFileUpload
         from googleapiclient.errors import HttpError
@@ -446,15 +461,18 @@ def _render_and_report(source: Path, work_dir: Path, manifest: dict[str, Any], f
         clip["file"] = output.name
         print(f"  {index}. {clip['title']} — {clip['duration']:.1f} s — {output} — publication prévue {format_publish_time(preview_time)}")
     if publish:
+        if manifest.get("reviewed_source_sha256") != manifest.get("source_sha256") or manifest.get("reviewed_clips") != _review_hash(manifest, work_dir):
+            raise RuntimeError("Le lot doit être relu puis approuvé avec --approve avant publication. Toute modification du lot annule cette validation.")
         if not manifest.get("source_video_id"):
             raise ValueError("Le téléversement exige --source-video-id pour relier chaque Short à l'épisode complet.")
-        from .youtube_api import build_youtube_service, videos_by_id
+        from .youtube_api import build_youtube_service
+        from .identity import verify_video
 
         token_path = Path(os.environ.get("YOUTUBE_LOCAL_TOKEN_PATH", ".youtube-token.json"))
         service = build_youtube_service(token_path=token_path)
         if service is None:
             raise RuntimeError(f"Jeton OAuth absent. Autorisez d'abord la chaîne et placez le fichier ici : {token_path}")
-        source_video = videos_by_id(service, [manifest["source_video_id"]]).get(manifest["source_video_id"])
+        source_video = verify_video(service, manifest["source_video_id"])
         if not source_video:
             raise RuntimeError("L'API YouTube ne retourne pas les métadonnées de l'épisode source pour ce compte.")
         if _ensure_publish_dates(clips, first_publish_at):
@@ -462,6 +480,8 @@ def _render_and_report(source: Path, work_dir: Path, manifest: dict[str, Any], f
         source_snippet = source_video.get("snippet", {})
         source_title = str(source_snippet.get("title", manifest["source_name"]))
         for clip in clips:
+            if clip.get("upload_status") == "started" and not clip.get("youtube_video_id"):
+                raise RuntimeError("Upload interrompu avec résultat incertain. Vérifiez Studio et renseignez l'identifiant dans le manifeste avant de reprendre.")
             if clip.get("youtube_video_id"):
                 print(f"  Déjà programmé : https://www.youtube.com/watch?v={clip['youtube_video_id']} à {format_publish_time(clip['publish_at'])}")
                 continue
@@ -470,8 +490,11 @@ def _render_and_report(source: Path, work_dir: Path, manifest: dict[str, Any], f
             if publish_at <= datetime.now(timezone.utc) + timedelta(minutes=30):
                 raise RuntimeError("Une date du manifeste est trop proche ou passée; le Short n'a pas été téléversé.")
             clip_path = work_dir / clip["file"]
+            clip["upload_status"] = "started"
+            _save_manifest(work_dir / "manifest.json", manifest)
             video_id = _upload_clip(service, clip_path, clip, source_title, manifest["source_video_id"])
             clip["youtube_video_id"] = video_id
+            clip["upload_status"] = "scheduled"
             _save_manifest(work_dir / "manifest.json", manifest)
             print(f"  Programmé : https://www.youtube.com/watch?v={video_id} à {format_publish_time(clip['publish_at'])}")
     else:
@@ -481,32 +504,30 @@ def _render_and_report(source: Path, work_dir: Path, manifest: dict[str, Any], f
     return 0
 
 
-def run(source_arg: str, count: int, language: str, source_video_id: str | None, publish: bool, output_root: Path, first_publish_at_arg: str | None) -> int:
+def run(source_arg: str, count: int, language: str, source_video_id: str | None, publish: bool, output_root: Path, first_publish_at_arg: str | None, approve: bool = False) -> int:
     source = Path(source_arg).expanduser().resolve()
     if count < 1 or count > 14:
         raise ValueError("--count doit être compris entre 1 et 14 pour conserver un rythme éditorial raisonnable.")
     if publish and not source_video_id:
         raise ValueError("Ajoutez --source-video-id avec l'identifiant de l'épisode complet pour téléverser.")
     first_publish_at = parse_publish_time(first_publish_at_arg) if first_publish_at_arg else None
-    if not os.environ.get("OPENAI_API_KEY", "").strip():
-        raise RuntimeError("Définissez OPENAI_API_KEY pour transcrire et sélectionner les passages.")
     ffmpeg, ffprobe = _require_media_tools()
     source_info = _source_info(source, ffprobe)
     source_hash = _sha256(source)
     work_dir = output_root.expanduser().resolve() / f"{safe_slug(source.stem)}-{source_hash[:10]}"
     work_dir.mkdir(parents=True, exist_ok=True)
-    manifest = _load_or_create_manifest(
-        source,
-        source_hash,
-        source_info,
-        source_video_id,
-        work_dir,
-        ffmpeg,
-        os.environ["OPENAI_API_KEY"].strip(),
-        count,
-        language,
-    )
-    return _render_and_report(source, work_dir, manifest, ffmpeg, publish, first_publish_at)
+    api_key = os.environ.get("OPENAI_API_KEY", "").strip()
+    if not api_key and not (work_dir / "manifest.json").is_file():
+        raise RuntimeError("Définissez OPENAI_API_KEY pour transcrire un nouveau master. Un lot déjà sélectionné n'en a pas besoin.")
+    with exclusive_run(work_dir):
+        manifest = _load_or_create_manifest(source, source_hash, source_info, source_video_id, work_dir, ffmpeg, api_key, count, language)
+        if approve:
+            if publish:
+                raise ValueError("Utilisez --approve après relecture, puis --publish dans une commande distincte.")
+            manifest["reviewed_source_sha256"] = source_hash
+            manifest["reviewed_clips"] = _review_hash(manifest, work_dir)
+            _save_manifest(work_dir / "manifest.json", manifest)
+        return _render_and_report(source, work_dir, manifest, ffmpeg, publish, first_publish_at)
 
 
 def main() -> None:
@@ -517,10 +538,11 @@ def main() -> None:
     parser.add_argument("--language", default="fr", help="Langue parlée pour la transcription (défaut : fr)")
     parser.add_argument("--first-publish-at", help="Date ISO 8601 avec fuseau; les Shorts suivants seront espacés d'un jour")
     parser.add_argument("--publish", action="store_true", help="Téléverse et programme les clips en privé via l'API YouTube")
+    parser.add_argument("--approve", action="store_true", help="Confirme la relecture des rendus de ce lot avant une commande --publish distincte")
     parser.add_argument("--output-root", type=Path, default=Path(".local/shorts"), help="Dossier local de sortie ignoré par Git")
     args = parser.parse_args()
     try:
-        status = run(args.source, args.count, args.language, args.source_video_id, args.publish, args.output_root, args.first_publish_at)
+        status = run(args.source, args.count, args.language, args.source_video_id, args.publish, args.output_root, args.first_publish_at, args.approve)
     except (FileNotFoundError, ValueError, RuntimeError) as error:
         print(f"Erreur : {error}", file=sys.stderr)
         raise SystemExit(2) from error

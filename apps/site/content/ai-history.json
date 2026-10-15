@@ -1,0 +1,1889 @@
+{
+  "reviewedAt": "2026-10-15",
+  "fromYear": 1996,
+  "toYear": 2026,
+  "events": [
+    {
+      "id": "deep-blue-first-game",
+      "date": "1996-02",
+      "dateKind": "event",
+      "title": "Deep Blue gagne une partie contre Kasparov",
+      "shortTitle": "Une première victoire",
+      "organization": "IBM",
+      "category": "milestone",
+      "summary": "Deep Blue remporte une première partie contre le champion du monde, qui gagne ensuite le match.",
+      "context": "Kasparov remporte le match de six parties, 4 à 2.",
+      "landmark": false,
+      "tags": ["Échecs", "Calcul", "Compétition"],
+      "sources": [
+        {
+          "label": "Histoire de Deep Blue, IBM",
+          "url": "https://www.ibm.com/history/deep-blue"
+        }
+      ]
+    },
+    {
+      "id": "deep-blue-match",
+      "date": "1997-05",
+      "dateKind": "event",
+      "title": "Deep Blue remporte le match contre Kasparov",
+      "shortTitle": "Deep Blue bat Kasparov",
+      "organization": "IBM",
+      "category": "milestone",
+      "summary": "Le calculateur d'IBM bat Garry Kasparov sur un match de six parties aux conditions de tournoi.",
+      "context": "Deep Blue gagne 3,5 à 2,5 à New York. Il combine recherche de positions, calcul et connaissances échiquéennes.",
+      "landmark": true,
+      "tags": ["Échecs", "Calcul", "Compétition"],
+      "sources": [
+        {
+          "label": "Histoire de Deep Blue, IBM",
+          "url": "https://www.ibm.com/history/deep-blue"
+        }
+      ]
+    },
+    {
+      "id": "lstm",
+      "date": "1997-11-15",
+      "dateKind": "publication",
+      "title": "LSTM donne de la mémoire aux réseaux",
+      "shortTitle": "Les réseaux LSTM",
+      "organization": "TU Munich / IDSIA",
+      "category": "research",
+      "summary": "Hochreiter et Schmidhuber proposent une architecture récurrente capable d'apprendre des dépendances temporelles longues.",
+      "context": "Les portes apprises des LSTM contrôlent la mémoire et limitent la disparition du gradient.",
+      "landmark": true,
+      "tags": ["Réseaux neuronaux", "Mémoire", "Séquences"],
+      "sources": [
+        {
+          "label": "Article original, Neural Computation",
+          "url": "https://doi.org/10.1162/neco.1997.9.8.1735"
+        }
+      ]
+    },
+    {
+      "id": "lenet-5",
+      "date": "1998-11-30",
+      "dateKind": "publication",
+      "title": "LeNet-5 lit les chiffres manuscrits",
+      "shortTitle": "LeNet-5 reconnaît les chiffres",
+      "organization": "AT&T Labs Research",
+      "category": "research",
+      "summary": "LeCun et ses coauteurs décrivent des réseaux convolutifs appliqués à la reconnaissance de documents et de chèques.",
+      "context": "LeNet-5 exploite la structure des images avec des couches de convolution.",
+      "landmark": false,
+      "tags": ["Vision", "Réseaux convolutifs", "Reconnaissance"],
+      "sources": [
+        {
+          "label": "Article original, Proceedings of the IEEE",
+          "url": "https://ieeexplore.ieee.org/document/726791"
+        }
+      ]
+    },
+    {
+      "id": "darpa-grand-challenge-2005",
+      "date": "2005-10-08",
+      "dateKind": "event",
+      "title": "Stanley remporte le DARPA Grand Challenge",
+      "shortTitle": "Stanley termine la course",
+      "organization": "Stanford Racing Team / DARPA",
+      "category": "milestone",
+      "summary": "Le véhicule autonome de Stanford termine en tête une course de 132 miles dans le désert, sans conducteur.",
+      "context": "Cinq équipes terminent, contre aucune en 2004. La course préparée ne vaut pas une autorisation de circulation.",
+      "landmark": true,
+      "tags": ["Robotique", "Conduite autonome", "Compétition"],
+      "sources": [
+        {
+          "label": "Chronologie officielle du Grand Challenge, DARPA",
+          "url": "https://www.darpa.mil/about/innovation-timeline/grand-challenge"
+        }
+      ]
+    },
+    {
+      "id": "deep-belief-nets",
+      "date": "2006-07-01",
+      "dateKind": "publication",
+      "title": "Une méthode pour entraîner des réseaux profonds",
+      "shortTitle": "Les réseaux de croyance profonds",
+      "organization": "Université de Toronto / NUS",
+      "category": "research",
+      "summary": "Hinton, Osindero et Teh présentent un apprentissage couche par couche pour les réseaux de croyance profonds.",
+      "context": "L'algorithme initialise les couches successivement avant un ajustement global.",
+      "landmark": false,
+      "tags": ["Apprentissage profond", "Préentraînement", "Réseaux neuronaux"],
+      "sources": [
+        {
+          "label": "Article original, Neural Computation",
+          "url": "https://direct.mit.edu/neco/article/18/7/1527/7065/A-Fast-Learning-Algorithm-for-Deep-Belief-Nets"
+        }
+      ]
+    },
+    {
+      "id": "cuda-1",
+      "date": "2007-06-26",
+      "dateKind": "release",
+      "title": "CUDA 1.0 ouvre le calcul sur GPU",
+      "shortTitle": "CUDA 1.0",
+      "organization": "NVIDIA",
+      "category": "product",
+      "summary": "NVIDIA rend disponibles le Toolkit et le SDK CUDA 1.0 pour programmer ses GPU au-delà du rendu graphique.",
+      "context": "CUDA fournit le calcul parallèle sur GPU qui servira à l'apprentissage profond. Ce jalon concerne la version 1.0.",
+      "landmark": false,
+      "tags": ["Infrastructure", "GPU", "Calcul parallèle"],
+      "sources": [
+        {
+          "label": "Annonce de CUDA 1.0, NVIDIA",
+          "url": "https://forums.developer.nvidia.com/t/cuda-1-0-released/982"
+        }
+      ]
+    },
+    {
+      "id": "imagenet",
+      "date": "2009",
+      "dateKind": "publication",
+      "title": "ImageNet rassemble 3,2 millions d'images annotées",
+      "shortTitle": "ImageNet",
+      "organization": "Université de Princeton",
+      "category": "research",
+      "summary": "ImageNet présente une base d'images annotées et organisées selon une hiérarchie destinée à la recherche en vision.",
+      "context": "La base initiale comprend 5 247 catégories, avec des annotations humaines.",
+      "landmark": true,
+      "tags": ["Vision", "Données", "Annotation"],
+      "sources": [
+        {
+          "label": "Article original, CVPR 2009",
+          "url": "https://www.image-net.org/static_files/papers/imagenet_cvpr09.pdf"
+        }
+      ]
+    },
+    {
+      "id": "watson-jeopardy",
+      "date": "2011-02-16",
+      "dateKind": "event",
+      "title": "Watson gagne Jeopardy!",
+      "shortTitle": "Watson gagne Jeopardy!",
+      "organization": "IBM",
+      "category": "milestone",
+      "summary": "Watson bat Ken Jennings et Brad Rutter dans un concours télévisé fondé sur des questions en langage naturel.",
+      "context": "Watson analyse les indices, recherche des réponses et estime leur confiance. La date est celle de la finale télévisée.",
+      "landmark": false,
+      "tags": ["Langage", "Questions-réponses", "Compétition"],
+      "sources": [
+        {
+          "label": "Communiqué officiel de Jeopardy!",
+          "url": "https://www.paramountpressexpress.com/cbs-media-ventures/shows/jeopardy/releases/?view=27594-watson-wins-jeopardy-the-ibm-challenge"
+        }
+      ]
+    },
+    {
+      "id": "siri-iphone",
+      "date": "2011-10-04",
+      "dateKind": "announcement",
+      "title": "Siri arrive dans l'iPhone",
+      "shortTitle": "Siri dans l'iPhone",
+      "organization": "Apple",
+      "category": "product",
+      "summary": "Apple annonce l'intégration de Siri à l'iPhone 4S pour effectuer des actions et répondre à des demandes vocales.",
+      "context": "Siri, déjà disponible comme application, arrive en bêta sur l'iPhone 4S, commercialisé le 14 octobre.",
+      "landmark": false,
+      "tags": ["Assistant vocal", "Grand public", "Mobile"],
+      "sources": [
+        {
+          "label": "Annonce de l'iPhone 4S, Apple",
+          "url": "https://www.apple.com/newsroom/2011/10/04Apple-Launches-iPhone-4S-iOS-5-iCloud/"
+        }
+      ]
+    },
+    {
+      "id": "alexnet",
+      "date": "2012",
+      "dateKind": "publication",
+      "title": "AlexNet classe les images avec un réseau entraîné sur GPU",
+      "shortTitle": "AlexNet",
+      "organization": "Université de Toronto",
+      "category": "research",
+      "summary": "AlexNet montre les performances d'un grand réseau convolutif entraîné sur GPU pour classifier les images d'ImageNet.",
+      "context": "Krizhevsky, Sutskever et Hinton combinent réseau profond, calcul sur GPU et régularisation.",
+      "landmark": true,
+      "tags": ["Vision", "GPU", "Apprentissage profond"],
+      "sources": [
+        {
+          "label": "Article original, NIPS 2012",
+          "url": "https://papers.nips.cc/paper_files/paper/2012/hash/c399862d3b9d6b76c8436e924a68c45b-Abstract.html"
+        }
+      ]
+    },
+    {
+      "id": "word2vec",
+      "date": "2013-01-16",
+      "dateKind": "publication",
+      "title": "word2vec représente les mots par des vecteurs",
+      "shortTitle": "Les vecteurs de word2vec",
+      "organization": "Google",
+      "category": "research",
+      "summary": "Mikolov et ses coauteurs proposent des architectures efficaces pour apprendre des relations entre mots dans de grands corpus.",
+      "context": "Les vecteurs rapprochent les mots selon leurs usages. L'article évalue les relations syntaxiques et sémantiques.",
+      "landmark": false,
+      "tags": ["Langage", "Représentations vectorielles", "Préentraînement"],
+      "sources": [
+        {
+          "label": "Article original sur word2vec",
+          "url": "https://arxiv.org/abs/1301.3781"
+        }
+      ]
+    },
+    {
+      "id": "vae",
+      "date": "2013-12-20",
+      "dateKind": "publication",
+      "title": "Kingma et Welling présentent les autoencodeurs variationnels",
+      "shortTitle": "Les modèles VAE",
+      "organization": "Université d'Amsterdam",
+      "category": "research",
+      "summary": "Kingma et Welling décrivent une méthode d'apprentissage de modèles génératifs à variables latentes, à l'origine des VAE.",
+      "context": "Les VAE apprennent une représentation latente des données et optimisent le modèle par gradient.",
+      "landmark": false,
+      "tags": ["Génération", "Espace latent", "Apprentissage profond"],
+      "sources": [
+        {
+          "label": "Auto-Encoding Variational Bayes",
+          "url": "https://arxiv.org/abs/1312.6114"
+        }
+      ]
+    },
+    {
+      "id": "deepface",
+      "date": "2014-06",
+      "dateKind": "publication",
+      "title": "DeepFace vérifie l'identité dans des images de visages",
+      "shortTitle": "DeepFace et les visages",
+      "organization": "Facebook AI Research / Université de Tel Aviv",
+      "category": "research",
+      "summary": "DeepFace associe alignement 3D et réseau profond pour déterminer si deux photographies montrent la même personne.",
+      "context": "L'article rapporte 97,35 % de précision sur LFW, dans les conditions de ce test.",
+      "landmark": false,
+      "tags": ["Vision", "Visages", "Reconnaissance"],
+      "sources": [
+        {
+          "label": "Article original et métadonnées CVPR 2014",
+          "url": "https://www.cv-foundation.org/openaccess/content_cvpr_2014/html/Taigman_DeepFace_Closing_the_2014_CVPR_paper.html"
+        },
+        {
+          "label": "Texte intégral de l'article DeepFace",
+          "url": "https://www.cv-foundation.org/openaccess/content_cvpr_2014/papers/Taigman_DeepFace_Closing_the_2014_CVPR_paper.pdf"
+        }
+      ]
+    },
+    {
+      "id": "gan",
+      "date": "2014-06-10",
+      "dateKind": "publication",
+      "title": "Les GAN opposent générateur et discriminateur",
+      "shortTitle": "L'apparition des GAN",
+      "organization": "Université de Montréal",
+      "category": "research",
+      "summary": "Deux réseaux apprennent en compétition : l'un produit des exemples et l'autre tente de reconnaître les exemples synthétiques.",
+      "context": "Goodfellow et ses coauteurs présentent cet apprentissage génératif dans un article arXiv.",
+      "landmark": false,
+      "tags": ["Génération", "Images", "Réseaux neuronaux"],
+      "sources": [
+        {
+          "label": "Generative Adversarial Networks",
+          "url": "https://arxiv.org/abs/1406.2661"
+        }
+      ]
+    },
+    {
+      "id": "sequence-to-sequence",
+      "date": "2014-09-10",
+      "dateKind": "publication",
+      "title": "Des réseaux traduisent une séquence en une autre",
+      "shortTitle": "L'apprentissage seq2seq",
+      "organization": "Google",
+      "category": "research",
+      "summary": "Sutskever, Vinyals et Le présentent un système de réseaux LSTM qui encode une phrase puis produit sa traduction.",
+      "context": "Le modèle est évalué sur la traduction de l'anglais vers le français.",
+      "landmark": false,
+      "tags": ["Langage", "Traduction", "Séquences"],
+      "sources": [
+        {
+          "label": "Sequence to Sequence Learning with Neural Networks",
+          "url": "https://arxiv.org/abs/1409.3215"
+        }
+      ]
+    },
+    {
+      "id": "dqn-atari",
+      "date": "2015-02-25",
+      "dateKind": "publication",
+      "title": "DQN apprend à jouer à Atari",
+      "shortTitle": "DQN joue à Atari",
+      "organization": "Google DeepMind",
+      "category": "research",
+      "summary": "Un agent combine réseau profond et apprentissage par renforcement pour jouer à 49 jeux à partir des pixels et du score.",
+      "context": "Les jeux partagent l'architecture et les hyperparamètres. Les résultats sont comparés à ceux d'un testeur humain professionnel.",
+      "landmark": false,
+      "tags": ["Apprentissage par renforcement", "Jeux vidéo", "Agents"],
+      "sources": [
+        {
+          "label": "Publication originale, Nature",
+          "url": "https://www.nature.com/articles/nature14236"
+        }
+      ]
+    },
+    {
+      "id": "tensorflow",
+      "date": "2015-11-09",
+      "dateKind": "release",
+      "title": "TensorFlow devient public",
+      "shortTitle": "TensorFlow en open source",
+      "organization": "Google",
+      "category": "product",
+      "summary": "Google publie TensorFlow sous licence Apache 2.0 pour entraîner et exécuter des modèles d'apprentissage automatique.",
+      "context": "TensorFlow prend en charge différents matériels et les déploiements distribués.",
+      "landmark": false,
+      "tags": ["Infrastructure", "Open source", "Entraînement"],
+      "sources": [
+        {
+          "label": "Livre blanc initial de TensorFlow",
+          "url": "https://research.google.com/pubs/archive/45166.pdf"
+        },
+        {
+          "label": "Rappel officiel de la date de lancement",
+          "url": "https://blog.tensorflow.org/2022/10/building-the-future-of-tensorflow.html"
+        }
+      ]
+    },
+    {
+      "id": "resnet",
+      "date": "2015-12-10",
+      "dateKind": "publication",
+      "title": "ResNet facilite les réseaux très profonds",
+      "shortTitle": "Les connexions de ResNet",
+      "organization": "Microsoft Research",
+      "category": "research",
+      "summary": "Les connexions résiduelles permettent d'entraîner des réseaux beaucoup plus profonds pour la reconnaissance d'images.",
+      "context": "He et ses coauteurs évaluent notamment un réseau de 152 couches sur ImageNet.",
+      "landmark": false,
+      "tags": ["Vision", "Réseaux neuronaux", "Apprentissage profond"],
+      "sources": [
+        {
+          "label": "Deep Residual Learning for Image Recognition",
+          "url": "https://arxiv.org/abs/1512.03385"
+        }
+      ]
+    },
+    {
+      "id": "openai-announcement",
+      "date": "2015-12-11",
+      "dateKind": "announcement",
+      "title": "OpenAI annonce son laboratoire de recherche",
+      "shortTitle": "La présentation d'OpenAI",
+      "organization": "OpenAI",
+      "category": "milestone",
+      "summary": "OpenAI se présente publiquement comme une organisation de recherche en IA à but non lucratif.",
+      "context": "L'équipe fondatrice annonce vouloir partager travaux et code, et collaborer avec d'autres institutions.",
+      "landmark": false,
+      "tags": ["Laboratoire", "Recherche", "Organisation"],
+      "sources": [
+        {
+          "label": "Introducing OpenAI, annonce originale",
+          "url": "https://openai.com/index/introducing-openai/"
+        }
+      ]
+    },
+    {
+      "id": "alphago-lee-sedol",
+      "date": "2016-03-15",
+      "dateKind": "event",
+      "title": "AlphaGo conclut sa victoire face à Lee Sedol",
+      "shortTitle": "AlphaGo face à Lee Sedol",
+      "organization": "Google DeepMind",
+      "category": "milestone",
+      "summary": "AlphaGo termine la rencontre de Séoul avec quatre victoires contre une face au grand maître de go.",
+      "context": "La date clôt la rencontre, après une première victoire le 9 mars. AlphaGo combine réseaux neuronaux, renforcement et recherche de coups.",
+      "landmark": false,
+      "tags": ["Go", "Apprentissage par renforcement", "Compétition"],
+      "sources": [
+        {
+          "label": "Calendrier officiel des cinq matchs",
+          "url": "https://blog.google/innovation-and-ai/products/alphagos-ultimate-challenge/"
+        },
+        {
+          "label": "Bilan de la rencontre, Google DeepMind",
+          "url": "https://deepmind.google/research/highlighted-research/alphago/the-challenge-match"
+        }
+      ]
+    },
+    {
+      "id": "wavenet",
+      "date": "2016-09-08",
+      "dateKind": "announcement",
+      "title": "WaveNet génère directement le signal audio",
+      "shortTitle": "WaveNet synthétise la voix",
+      "organization": "DeepMind",
+      "category": "model",
+      "summary": "WaveNet produit la parole en modélisant les échantillons du signal sonore, plutôt qu'en assemblant des fragments enregistrés.",
+      "context": "Les exemples incluent l'anglais, le mandarin et la musique. Le modèle de recherche n'est pas proposé en API.",
+      "landmark": false,
+      "tags": ["Audio", "Synthèse vocale", "Génération"],
+      "sources": [
+        {
+          "label": "Annonce originale de WaveNet, DeepMind",
+          "url": "https://deepmind.google/blog/wavenet-a-generative-model-for-raw-audio/"
+        }
+      ]
+    },
+    {
+      "id": "pytorch-first-release",
+      "date": "2017-01",
+      "dateKind": "release",
+      "title": "PyTorch devient accessible aux chercheurs",
+      "shortTitle": "La première sortie de PyTorch",
+      "organization": "Équipe PyTorch / Facebook AI Research",
+      "category": "product",
+      "summary": "PyTorch ouvre un environnement Python de calcul sur tenseurs et d'entraînement de réseaux avec des graphes dynamiques.",
+      "context": "La source publiée en janvier 2018 confirme un an de disponibilité. Cette sortie précède PyTorch 1.0.",
+      "landmark": true,
+      "tags": ["Infrastructure", "Open source", "Entraînement"],
+      "sources": [
+        {
+          "label": "Bilan officiel de la première année de PyTorch",
+          "url": "https://pytorch.org/blog/a-year-in/"
+        }
+      ]
+    },
+    {
+      "id": "transformer",
+      "date": "2017-06-12",
+      "dateKind": "publication",
+      "title": "Le Transformer traite les séquences par attention",
+      "shortTitle": "L'architecture Transformer",
+      "organization": "Google",
+      "category": "research",
+      "summary": "Attention Is All You Need présente une architecture de traitement des séquences fondée sur des mécanismes d'attention.",
+      "context": "L'attention relie les éléments d'une séquence et facilite le calcul parallèle, sans récurrence ni convolution.",
+      "landmark": true,
+      "tags": ["Transformer", "Attention", "Langage"],
+      "sources": [
+        {
+          "label": "Attention Is All You Need",
+          "url": "https://arxiv.org/abs/1706.03762"
+        }
+      ]
+    },
+    {
+      "id": "alphazero",
+      "date": "2017-12-05",
+      "dateKind": "publication",
+      "title": "AlphaZero apprend les échecs, le shogi et le go",
+      "shortTitle": "AlphaZero apprend trois jeux",
+      "organization": "DeepMind",
+      "category": "research",
+      "summary": "Un même algorithme apprend séparément trois jeux par autojeu et bat des programmes de référence dans les évaluations publiées.",
+      "context": "AlphaZero apprend par autojeu à partir des règles, sans parties humaines. Ce préprint précède l'article de 2018.",
+      "landmark": false,
+      "tags": ["Apprentissage par renforcement", "Autojeu", "Échecs"],
+      "sources": [
+        {
+          "label": "Préprint original sur AlphaZero",
+          "url": "https://arxiv.org/abs/1712.01815"
+        }
+      ]
+    },
+    {
+      "id": "gpt-1",
+      "date": "2018-06-11",
+      "dateKind": "announcement",
+      "title": "Le premier GPT est présenté",
+      "shortTitle": "Le premier GPT",
+      "organization": "OpenAI",
+      "category": "model",
+      "summary": "OpenAI associe préentraînement génératif et ajustement supervisé pour améliorer plusieurs tâches de compréhension du langage.",
+      "context": "OpenAI publie le modèle et le code. Le nom GPT-1 distingue ici cette version des suivantes.",
+      "landmark": false,
+      "tags": ["Langage", "GPT", "Préentraînement"],
+      "sources": [
+        {
+          "label": "Annonce du premier GPT, OpenAI",
+          "url": "https://openai.com/index/language-unsupervised/"
+        }
+      ]
+    },
+    {
+      "id": "bert",
+      "date": "2018-10-11",
+      "dateKind": "publication",
+      "title": "BERT apprend le contexte dans les deux sens",
+      "shortTitle": "BERT comprend le contexte",
+      "organization": "Google",
+      "category": "model",
+      "summary": "BERT préentraîne un Transformer bidirectionnel, puis l'adapte à différentes tâches de compréhension du langage.",
+      "context": "BERT apprend notamment à prédire les mots masqués avec leur contexte à gauche et à droite.",
+      "landmark": false,
+      "tags": ["Langage", "Transformer", "Préentraînement"],
+      "sources": [
+        {
+          "label": "Article original sur BERT",
+          "url": "https://arxiv.org/abs/1810.04805"
+        }
+      ]
+    },
+    {
+      "id": "gpt-2",
+      "date": "2019-02-14",
+      "dateKind": "announcement",
+      "title": "GPT-2 est annoncé avec une diffusion progressive",
+      "shortTitle": "GPT-2, diffusion progressive",
+      "organization": "OpenAI",
+      "category": "model",
+      "summary": "OpenAI présente GPT-2 et publie d'abord une version plus petite, avant de diffuser les versions suivantes.",
+      "context": "Les poids du modèle complet, de 1,5 milliard de paramètres, sortent le 5 novembre 2019.",
+      "landmark": false,
+      "tags": ["Langage", "GPT", "Diffusion des modèles"],
+      "sources": [
+        {
+          "label": "Annonce initiale de GPT-2",
+          "url": "https://openai.com/index/better-language-models/"
+        },
+        {
+          "label": "Publication finale des poids de GPT-2",
+          "url": "https://openai.com/index/gpt-2-1-5b-release/"
+        }
+      ]
+    },
+    {
+      "id": "t5",
+      "date": "2019-10-23",
+      "dateKind": "publication",
+      "title": "T5 transforme les tâches de langage en texte vers texte",
+      "shortTitle": "Le format texte vers texte de T5",
+      "organization": "Google",
+      "category": "model",
+      "summary": "T5 traite traduction, résumé et questions-réponses dans un même format où l'entrée et la sortie sont du texte.",
+      "context": "L'étude présente aussi le corpus C4 et publie modèles et code.",
+      "landmark": false,
+      "tags": ["Langage", "Transformer", "Préentraînement"],
+      "sources": [
+        {
+          "label": "Article original sur T5",
+          "url": "https://arxiv.org/abs/1910.10683"
+        }
+      ]
+    },
+    {
+      "id": "gpt-3-paper",
+      "date": "2020-05-28",
+      "dateKind": "publication",
+      "title": "GPT-3 apprend à partir de quelques exemples",
+      "shortTitle": "GPT-3 et les exemples du prompt",
+      "organization": "OpenAI",
+      "category": "model",
+      "summary": "L'article sur GPT-3 étudie un modèle de 175 milliards de paramètres capable d'effectuer des tâches à partir d'exemples dans le prompt.",
+      "context": "Les exemples du prompt ne modifient pas les poids. La publication précède l'API privée.",
+      "landmark": true,
+      "tags": ["Langage", "GPT", "Apprentissage en contexte"],
+      "sources": [
+        {
+          "label": "Language Models are Few-Shot Learners",
+          "url": "https://arxiv.org/abs/2005.14165"
+        }
+      ]
+    },
+    {
+      "id": "gpt-3-api",
+      "date": "2020-06-11",
+      "dateKind": "release",
+      "title": "GPT-3 devient accessible par une API privée",
+      "shortTitle": "Une API pour GPT-3",
+      "organization": "OpenAI",
+      "category": "product",
+      "summary": "OpenAI lance une bêta privée de son API permettant d'intégrer des modèles de la famille GPT-3 dans des applications.",
+      "context": "L'accès nécessite l'acceptation d'une demande. Les poids restent privés.",
+      "landmark": false,
+      "tags": ["API", "GPT", "Développement"],
+      "sources": [
+        {
+          "label": "Annonce de l'API, OpenAI",
+          "url": "https://openai.com/index/openai-api/"
+        }
+      ]
+    },
+    {
+      "id": "ddpm",
+      "date": "2020-06-19",
+      "dateKind": "publication",
+      "title": "La diffusion génère des images par débruitage",
+      "shortTitle": "Les modèles de diffusion DDPM",
+      "organization": "UC Berkeley",
+      "category": "research",
+      "summary": "Les DDPM apprennent à reconstruire progressivement des images à partir de bruit.",
+      "context": "Ho, Jain et Abbeel relient diffusion et estimation du score dans cet article.",
+      "landmark": false,
+      "tags": ["Diffusion", "Génération", "Images"],
+      "sources": [
+        {
+          "label": "Denoising Diffusion Probabilistic Models",
+          "url": "https://arxiv.org/abs/2006.11239"
+        }
+      ]
+    },
+    {
+      "id": "alphafold-2",
+      "date": "2020-11-30",
+      "dateKind": "announcement",
+      "title": "AlphaFold 2 prédit la structure des protéines à CASP14",
+      "shortTitle": "AlphaFold 2 et les protéines",
+      "organization": "DeepMind",
+      "category": "milestone",
+      "summary": "DeepMind annonce les résultats d'AlphaFold à CASP14 pour prédire la structure tridimensionnelle des protéines.",
+      "context": "Le test utilise des structures expérimentales encore non publiques. Le code et les bases de structures sortent en 2021.",
+      "landmark": true,
+      "tags": ["Science", "Biologie", "Protéines"],
+      "sources": [
+        {
+          "label": "Annonce des résultats CASP14, DeepMind",
+          "url": "https://deepmind.google/blog/alphafold-a-solution-to-a-50-year-old-grand-challenge-in-biology/"
+        }
+      ]
+    },
+    {
+      "id": "clip",
+      "date": "2021-01-05",
+      "dateKind": "announcement",
+      "title": "CLIP relie les images et les mots",
+      "shortTitle": "CLIP relie texte et image",
+      "organization": "OpenAI",
+      "category": "model",
+      "summary": "CLIP apprend conjointement à partir d'images et de descriptions pour reconnaître des concepts visuels sans réentraînement pour chaque catégorie.",
+      "context": "Les catégories à reconnaître se décrivent en langage naturel. Le code est accessible.",
+      "landmark": false,
+      "tags": ["Multimodal", "Vision", "Représentations vectorielles"],
+      "sources": [
+        {
+          "label": "Annonce de CLIP, OpenAI",
+          "url": "https://openai.com/index/clip/"
+        }
+      ]
+    },
+    {
+      "id": "dall-e",
+      "date": "2021-01-05",
+      "dateKind": "announcement",
+      "title": "DALL-E génère des images à partir de texte",
+      "shortTitle": "DALL-E, du texte à l'image",
+      "organization": "OpenAI",
+      "category": "model",
+      "summary": "DALL-E traduit des descriptions en images et combine des concepts visuels dans une même génération.",
+      "context": "Le modèle de 12 milliards de paramètres apprend sur des paires texte-image. Aucun accès général n'est ouvert.",
+      "landmark": true,
+      "tags": ["Images", "Multimodal", "Génération"],
+      "sources": [
+        {
+          "label": "Annonce de DALL-E, OpenAI",
+          "url": "https://openai.com/index/dall-e/"
+        }
+      ]
+    },
+    {
+      "id": "lamda",
+      "date": "2021-05-18",
+      "dateKind": "announcement",
+      "title": "Google présente LaMDA pour la conversation",
+      "shortTitle": "LaMDA et la conversation",
+      "organization": "Google",
+      "category": "model",
+      "summary": "LaMDA est présenté comme un modèle entraîné sur le dialogue pour suivre des conversations ouvertes sur des sujets variés.",
+      "context": "Ce Transformer est entraîné sur des conversations. L'annonce de recherche n'ouvre pas d'assistant au public.",
+      "landmark": false,
+      "tags": ["Langage", "Conversation", "Transformer"],
+      "sources": [
+        {
+          "label": "Annonce de LaMDA, Google",
+          "url": "https://blog.google/innovation-and-ai/products/lamda/"
+        }
+      ]
+    },
+    {
+      "id": "github-copilot",
+      "date": "2021-06-29",
+      "dateKind": "release",
+      "title": "GitHub Copilot entre dans l'éditeur de code",
+      "shortTitle": "GitHub Copilot",
+      "organization": "GitHub / OpenAI",
+      "category": "product",
+      "summary": "La préversion technique de Copilot propose des lignes et des fonctions à partir du code environnant grâce à OpenAI Codex.",
+      "context": "La préversion compte un nombre limité de places. Copilot utilise le contexte du fichier pour suggérer du code.",
+      "landmark": false,
+      "tags": ["Code", "Assistant", "Développement"],
+      "sources": [
+        {
+          "label": "Annonce de la préversion, GitHub",
+          "url": "https://github.blog/news-insights/product-news/introducing-github-copilot-ai-pair-programmer/"
+        }
+      ]
+    },
+    {
+      "id": "latent-diffusion",
+      "date": "2021-12-20",
+      "dateKind": "publication",
+      "title": "La diffusion passe dans un espace latent",
+      "shortTitle": "La diffusion latente",
+      "organization": "CompVis",
+      "category": "research",
+      "summary": "Les modèles de diffusion latente réduisent les coûts de génération en travaillant sur une représentation compressée des images.",
+      "context": "Rombach et ses coauteurs combinent autoencodeurs et diffusion, avec un guidage possible par texte. Cet article précède Stable Diffusion.",
+      "landmark": false,
+      "tags": ["Diffusion", "Espace latent", "Images"],
+      "sources": [
+        {
+          "label": "High-Resolution Image Synthesis with Latent Diffusion Models",
+          "url": "https://arxiv.org/abs/2112.10752"
+        }
+      ]
+    },
+    {
+      "id": "instructgpt",
+      "date": "2022-01-27",
+      "dateKind": "announcement",
+      "title": "InstructGPT suit les consignes humaines",
+      "shortTitle": "InstructGPT suit les consignes",
+      "organization": "OpenAI",
+      "category": "model",
+      "summary": "OpenAI présente des modèles ajustés avec des démonstrations et des préférences humaines, devenus les modèles par défaut de son API.",
+      "context": "L'entraînement combine démonstrations, préférences humaines et renforcement. Des versions antérieures étaient déjà en bêta.",
+      "landmark": false,
+      "tags": ["Alignement", "RLHF", "Instructions"],
+      "sources": [
+        {
+          "label": "Annonce d'InstructGPT, OpenAI",
+          "url": "https://openai.com/index/instruction-following/"
+        }
+      ]
+    },
+    {
+      "id": "chinchilla",
+      "date": "2022-03-29",
+      "dateKind": "publication",
+      "title": "Chinchilla rééquilibre paramètres et données",
+      "shortTitle": "Les lois de Chinchilla",
+      "organization": "DeepMind",
+      "category": "research",
+      "summary": "L'étude montre comment répartir le budget de calcul entre taille du modèle et quantité de données d'entraînement.",
+      "context": "L'étude porte sur plus de 400 modèles, dont Chinchilla à 70 milliards de paramètres. Les poids ne sont pas publiés.",
+      "landmark": false,
+      "tags": ["Entraînement", "Données", "Lois d'échelle"],
+      "sources": [
+        {
+          "label": "Training Compute-Optimal Large Language Models",
+          "url": "https://arxiv.org/abs/2203.15556"
+        }
+      ]
+    },
+    {
+      "id": "palm",
+      "date": "2022-04-04",
+      "dateKind": "announcement",
+      "title": "PaLM pousse l'échelle à 540 milliards de paramètres",
+      "shortTitle": "PaLM, 540 milliards",
+      "organization": "Google Research",
+      "category": "model",
+      "summary": "Google présente PaLM, entraîné avec Pathways, et évalue ses capacités sur des tâches de langage, de raisonnement et de code.",
+      "context": "PaLM est entraîné sur 6 144 TPU v4. Aucune API publique n'est ouverte à cette date.",
+      "landmark": false,
+      "tags": ["Langage", "Infrastructure", "Lois d'échelle"],
+      "sources": [
+        {
+          "label": "Annonce de PaLM, Google Research",
+          "url": "https://research.google/blog/pathways-language-model-palm-scaling-to-540-billion-parameters-for-breakthrough-performance/"
+        }
+      ]
+    },
+    {
+      "id": "dall-e-2-preview",
+      "date": "2022-04-06",
+      "dateKind": "release",
+      "title": "DALL-E 2 entre en préversion limitée",
+      "shortTitle": "La préversion de DALL-E 2",
+      "organization": "OpenAI",
+      "category": "model",
+      "summary": "DALL-E 2 améliore la fidélité des images et introduit des fonctions de variation et de modification, avec un accès initial restreint.",
+      "context": "L'accès initial est restreint. La liste d'attente disparaît en septembre 2022.",
+      "landmark": false,
+      "tags": ["Images", "Génération", "Multimodal"],
+      "sources": [
+        {
+          "label": "Fiche système officielle du 6 avril 2022",
+          "url": "https://github.com/openai/dalle-2-preview/blob/main/system-card_04062022.md"
+        }
+      ]
+    },
+    {
+      "id": "imagen",
+      "date": "2022-05-23",
+      "dateKind": "publication",
+      "title": "Imagen associe langage et diffusion",
+      "shortTitle": "Imagen",
+      "organization": "Google Research",
+      "category": "model",
+      "summary": "Imagen combine un grand encodeur de langage avec des modèles de diffusion pour générer des images à partir de descriptions.",
+      "context": "L'article introduit DrawBench pour comparer les modèles. Imagen n'est pas ouvert au public.",
+      "landmark": false,
+      "tags": ["Images", "Diffusion", "Langage"],
+      "sources": [
+        {
+          "label": "Article original sur Imagen",
+          "url": "https://arxiv.org/abs/2205.11487"
+        }
+      ]
+    },
+    {
+      "id": "bloom",
+      "date": "2022-07-12",
+      "dateKind": "release",
+      "title": "BLOOM ouvre un grand modèle multilingue à la recherche",
+      "shortTitle": "Le modèle multilingue BLOOM",
+      "organization": "BigScience / Hugging Face",
+      "category": "model",
+      "summary": "Une collaboration internationale publie BLOOM, un modèle de 176 milliards de paramètres couvrant 46 langues naturelles et 13 langages de programmation.",
+      "context": "Plus de 1 000 chercheurs de plus de 70 pays participent, avec le supercalculateur Jean Zay. La licence des poids comporte des restrictions d'usage.",
+      "landmark": false,
+      "tags": ["Multilingue", "Poids ouverts", "Collaboration internationale"],
+      "sources": [
+        {
+          "label": "Annonce de BLOOM par BigScience",
+          "url": "https://huggingface.co/blog/bloom"
+        }
+      ]
+    },
+    {
+      "id": "stable-diffusion",
+      "date": "2022-08-22",
+      "dateKind": "release",
+      "title": "Stable Diffusion devient téléchargeable",
+      "shortTitle": "Stable Diffusion devient public",
+      "organization": "CompVis / Stability AI / LAION",
+      "category": "model",
+      "summary": "Stable Diffusion est diffusé publiquement avec ses poids et son code, permettant la génération d'images sur du matériel local compatible.",
+      "context": "La licence CreativeML Open RAIL-M impose des restrictions d'usage. Cette sortie suit un accès réservé aux chercheurs.",
+      "landmark": true,
+      "tags": ["Images", "Diffusion", "Poids ouverts"],
+      "sources": [
+        {
+          "label": "Annonce de la sortie publique, Stability AI",
+          "url": "https://stability.ai/news-updates/stable-diffusion-public-release"
+        },
+        {
+          "label": "Publication datée du partenaire Hugging Face",
+          "url": "https://huggingface.co/blog/stable_diffusion"
+        }
+      ]
+    },
+    {
+      "id": "whisper",
+      "date": "2022-09-21",
+      "dateKind": "release",
+      "title": "Whisper ouvre la transcription multilingue",
+      "shortTitle": "Whisper transcrit la parole",
+      "organization": "OpenAI",
+      "category": "model",
+      "summary": "OpenAI publie les modèles et le code de Whisper pour la reconnaissance vocale et la traduction de la parole vers l'anglais.",
+      "context": "Whisper est entraîné sur 680 000 heures de données multilingues collectées sur le Web.",
+      "landmark": false,
+      "tags": ["Audio", "Transcription", "Multilingue"],
+      "sources": [
+        {
+          "label": "Annonce de Whisper, OpenAI",
+          "url": "https://openai.com/index/whisper/"
+        }
+      ]
+    },
+    {
+      "id": "chatgpt",
+      "date": "2022-11-30",
+      "dateKind": "release",
+      "title": "ChatGPT ouvre l'IA conversationnelle au public",
+      "shortTitle": "L'ouverture de ChatGPT",
+      "organization": "OpenAI",
+      "category": "product",
+      "summary": "ChatGPT est lancé en préversion de recherche gratuite avec une interface de dialogue permettant les questions successives.",
+      "context": "ChatGPT est ajusté à partir de GPT-3.5 avec des démonstrations et des préférences humaines. Il peut produire des erreurs factuelles.",
+      "landmark": true,
+      "tags": ["Conversation", "Grand public", "GPT"],
+      "sources": [
+        {
+          "label": "Annonce initiale de ChatGPT, OpenAI",
+          "url": "https://openai.com/index/chatgpt/"
+        }
+      ]
+    },
+    {
+      "id": "llama-1",
+      "date": "2023-02-24",
+      "dateKind": "release",
+      "title": "LLaMA ouvre une nouvelle famille de modèles",
+      "shortTitle": "LLaMA",
+      "organization": "Meta",
+      "category": "model",
+      "summary": "Meta publie LLaMA, une famille de modèles de langage de 7 à 65 milliards de paramètres.",
+      "context": "L'accès initial aux poids est réservé aux chercheurs autorisés, sous licence non commerciale.",
+      "landmark": false,
+      "tags": ["langage", "poids accessibles", "recherche"],
+      "sources": [
+        {
+          "label": "Annonce de LLaMA",
+          "url": "https://ai.meta.com/blog/large-language-model-Llama-meta-ai/"
+        }
+      ]
+    },
+    {
+      "id": "claude-1",
+      "date": "2023-03-14",
+      "dateKind": "announcement",
+      "title": "Anthropic présente Claude",
+      "shortTitle": "Claude",
+      "organization": "Anthropic",
+      "category": "model",
+      "summary": "Anthropic annonce Claude, son assistant conversationnel issu de recherches sur l'alignement.",
+      "context": "L'annonce s'appuie sur un accès anticipé auprès de partenaires ; les entreprises peuvent demander un accès.",
+      "landmark": false,
+      "tags": ["langage", "assistant", "alignement"],
+      "sources": [
+        {
+          "label": "Présentation de Claude",
+          "url": "https://www.anthropic.com/news/introducing-claude"
+        }
+      ]
+    },
+    {
+      "id": "gpt-4",
+      "date": "2023-03-14",
+      "dateKind": "release",
+      "title": "GPT-4 arrive dans ChatGPT et en API",
+      "shortTitle": "GPT-4",
+      "organization": "OpenAI",
+      "category": "model",
+      "summary": "OpenAI présente GPT-4 et ouvre son accès dans ChatGPT Plus ainsi qu'en API sur liste d'attente.",
+      "context": "Le modèle accepte aussi des images, dont l'accès reste alors limité.",
+      "landmark": true,
+      "tags": ["langage", "multimodal", "raisonnement"],
+      "sources": [
+        {
+          "label": "Annonce de GPT-4",
+          "url": "https://openai.com/index/gpt-4-research/"
+        }
+      ]
+    },
+    {
+      "id": "llama-2",
+      "date": "2023-07-18",
+      "dateKind": "release",
+      "title": "Llama 2 ouvre l'usage commercial",
+      "shortTitle": "Llama 2",
+      "organization": "Meta",
+      "category": "model",
+      "summary": "Meta rend disponibles les modèles Llama 2 et Llama 2-Chat, pour la recherche et des usages commerciaux.",
+      "context": "Les poids sont accessibles sous une licence communautaire assortie de conditions.",
+      "landmark": true,
+      "tags": ["langage", "poids accessibles", "usage commercial"],
+      "sources": [
+        {
+          "label": "Annonce et accès à Llama 2",
+          "url": "https://ai.meta.com/blog/llama-2/"
+        }
+      ]
+    },
+    {
+      "id": "sdxl-1",
+      "date": "2023-07-26",
+      "dateKind": "release",
+      "title": "SDXL 1.0 est publié",
+      "shortTitle": "SDXL 1.0",
+      "organization": "Stability AI",
+      "category": "model",
+      "summary": "Stability AI publie les poids et le code de SDXL 1.0, son modèle de génération d'images.",
+      "context": "Une base et un raffineur permettent de produire des images à partir de descriptions textuelles.",
+      "landmark": false,
+      "tags": ["image", "diffusion", "poids accessibles"],
+      "sources": [
+        {
+          "label": "Journal officiel de publication SDXL",
+          "url": "https://github.com/Stability-AI/generative-models"
+        }
+      ]
+    },
+    {
+      "id": "rt-2",
+      "date": "2023-07-28",
+      "dateKind": "publication",
+      "title": "RT-2 relie langage, vision et action robotique",
+      "shortTitle": "RT-2",
+      "organization": "Google DeepMind",
+      "category": "research",
+      "summary": "RT-2 transpose des connaissances apprises sur le Web en commandes de contrôle robotique.",
+      "context": "Ce modèle vision-langage-action combine données visuelles, linguistiques et démonstrations de robots.",
+      "landmark": false,
+      "tags": ["robotique", "multimodal", "recherche"],
+      "sources": [
+        {
+          "label": "Présentation de RT-2",
+          "url": "https://deepmind.google/blog/rt-2-new-model-translates-vision-and-language-into-action/"
+        }
+      ]
+    },
+    {
+      "id": "mistral-7b",
+      "date": "2023-09-27",
+      "dateKind": "release",
+      "title": "Mistral 7B, un modèle européen à poids ouverts",
+      "shortTitle": "Mistral 7B",
+      "organization": "Mistral AI",
+      "category": "model",
+      "summary": "Mistral AI publie Mistral 7B, un modèle de langage de 7,3 milliards de paramètres sous licence Apache 2.0.",
+      "context": "Les poids peuvent être téléchargés et exécutés localement.",
+      "landmark": false,
+      "tags": ["langage", "poids ouverts", "Europe"],
+      "sources": [
+        {
+          "label": "Publication de Mistral 7B",
+          "url": "https://mistral.ai/news/announcing-mistral-7b/"
+        }
+      ]
+    },
+    {
+      "id": "dall-e-3",
+      "date": "2023-10-19",
+      "dateKind": "release",
+      "title": "DALL·E 3 devient accessible dans ChatGPT",
+      "shortTitle": "DALL·E 3",
+      "organization": "OpenAI",
+      "category": "model",
+      "summary": "OpenAI ouvre DALL·E 3 aux abonnés ChatGPT Plus et Enterprise pour générer des images par conversation.",
+      "context": "Cette date correspond à l'accès dans ChatGPT ; l'annonce initiale est antérieure.",
+      "landmark": false,
+      "tags": ["image", "création", "assistant"],
+      "sources": [
+        {
+          "label": "Ouverture de DALL·E 3 dans ChatGPT",
+          "url": "https://openai.com/index/dall-e-3-is-now-available-in-chatgpt-plus-and-enterprise/"
+        }
+      ]
+    },
+    {
+      "id": "gemini-1",
+      "date": "2023-12-06",
+      "dateKind": "announcement",
+      "title": "Google présente la famille Gemini",
+      "shortTitle": "Gemini 1.0",
+      "organization": "Google DeepMind",
+      "category": "model",
+      "summary": "Google dévoile Gemini 1.0 en trois tailles : Ultra, Pro et Nano.",
+      "context": "Gemini Pro arrive dans Bard en anglais ce jour-là ; l'accès développeur et Ultra suivent séparément.",
+      "landmark": true,
+      "tags": ["langage", "multimodal", "assistant"],
+      "sources": [
+        {
+          "label": "Présentation de Gemini",
+          "url": "https://blog.google/innovation-and-ai/technology/ai/google-gemini-ai/"
+        }
+      ]
+    },
+    {
+      "id": "mixtral-8x7b",
+      "date": "2023-12-11",
+      "dateKind": "release",
+      "title": "Mixtral diffuse l'architecture à experts",
+      "shortTitle": "Mixtral 8×7B",
+      "organization": "Mistral AI",
+      "category": "model",
+      "summary": "Mistral publie Mixtral 8×7B, un modèle à mélange d'experts dont les poids sont disponibles sous Apache 2.0.",
+      "context": "Seuls certains experts sont activés pour chaque token.",
+      "landmark": false,
+      "tags": ["langage", "mélange d'experts", "Europe"],
+      "sources": [
+        {
+          "label": "Publication de Mixtral",
+          "url": "https://mistral.ai/news/mixtral-of-experts/"
+        }
+      ]
+    },
+    {
+      "id": "alphageometry",
+      "date": "2024-01-17",
+      "dateKind": "publication",
+      "title": "AlphaGeometry associe réseaux neuronaux et déduction",
+      "shortTitle": "AlphaGeometry",
+      "organization": "Google DeepMind",
+      "category": "research",
+      "summary": "DeepMind publie AlphaGeometry, qui associe modèle neuronal et moteur de déduction pour résoudre des problèmes de géométrie.",
+      "context": "Le code et le modèle sont ouverts avec l'article scientifique.",
+      "landmark": false,
+      "tags": ["mathématiques", "raisonnement", "recherche"],
+      "sources": [
+        {
+          "label": "Présentation et publication d'AlphaGeometry",
+          "url": "https://deepmind.google/blog/alphageometry-an-olympiad-level-ai-system-for-geometry/"
+        }
+      ]
+    },
+    {
+      "id": "gemini-1-5",
+      "date": "2024-02-15",
+      "dateKind": "announcement",
+      "title": "Gemini 1.5 explore le million de tokens",
+      "shortTitle": "Gemini 1.5",
+      "organization": "Google DeepMind",
+      "category": "model",
+      "summary": "Google annonce Gemini 1.5 Pro, avec une fenêtre expérimentale pouvant atteindre un million de tokens.",
+      "context": "Cette capacité est d'abord proposée en préversion privée à certains développeurs et clients.",
+      "landmark": false,
+      "tags": ["multimodal", "contexte long", "langage"],
+      "sources": [
+        {
+          "label": "Annonce de Gemini 1.5",
+          "url": "https://blog.google/innovation-and-ai/products/google-gemini-next-generation-model-february-2024/"
+        }
+      ]
+    },
+    {
+      "id": "sora-preview",
+      "date": "2024-02-15",
+      "dateKind": "publication",
+      "title": "Sora montre la vidéo générée par IA",
+      "shortTitle": "Sora, premières images",
+      "organization": "OpenAI",
+      "category": "research",
+      "summary": "OpenAI présente les recherches derrière Sora, capable de générer des vidéos à partir de texte.",
+      "context": "Il s'agit d'une présentation de recherche, sans ouverture générale du produit à cette date.",
+      "landmark": false,
+      "tags": ["vidéo", "diffusion", "recherche"],
+      "sources": [
+        {
+          "label": "Rapport initial de Sora",
+          "url": "https://openai.com/index/video-generation-models-as-world-simulators/"
+        }
+      ]
+    },
+    {
+      "id": "claude-3",
+      "date": "2024-03-04",
+      "dateKind": "release",
+      "title": "Claude 3 introduit Haiku, Sonnet et Opus",
+      "shortTitle": "Claude 3",
+      "organization": "Anthropic",
+      "category": "model",
+      "summary": "Anthropic annonce la famille Claude 3 et rend Opus et Sonnet accessibles dans Claude et via son API.",
+      "context": "Haiku est annoncé mais son ouverture intervient ensuite.",
+      "landmark": false,
+      "tags": ["langage", "multimodal", "assistant"],
+      "sources": [
+        {
+          "label": "Annonce de Claude 3",
+          "url": "https://www.anthropic.com/news/claude-3-family"
+        }
+      ]
+    },
+    {
+      "id": "devin",
+      "date": "2024-03-12",
+      "dateKind": "announcement",
+      "title": "Cognition présente l'agent de développement Devin",
+      "shortTitle": "Devin",
+      "organization": "Cognition",
+      "category": "product",
+      "summary": "Cognition présente Devin, un agent de développement doté d'un terminal, d'un éditeur et d'un navigateur.",
+      "context": "L'accès initial se fait sur invitation et liste d'attente.",
+      "landmark": false,
+      "tags": ["code", "agents", "ordinateur"],
+      "sources": [
+        {
+          "label": "Présentation initiale de Devin",
+          "url": "https://cognition.com/blog/introducing-devin"
+        }
+      ]
+    },
+    {
+      "id": "llama-3",
+      "date": "2024-04-18",
+      "dateKind": "release",
+      "title": "Llama 3 renouvelle les modèles accessibles",
+      "shortTitle": "Llama 3",
+      "organization": "Meta",
+      "category": "model",
+      "summary": "Meta publie Llama 3 en versions de 8 et 70 milliards de paramètres.",
+      "context": "Ces premières versions sont textuelles ; les capacités multimodales font encore partie des développements annoncés.",
+      "landmark": false,
+      "tags": ["langage", "poids accessibles", "assistant"],
+      "sources": [
+        {
+          "label": "Publication de Llama 3",
+          "url": "https://ai.meta.com/blog/meta-llama-3/"
+        }
+      ]
+    },
+    {
+      "id": "alphafold-3",
+      "date": "2024-05-08",
+      "dateKind": "publication",
+      "title": "AlphaFold 3 prédit les interactions moléculaires",
+      "shortTitle": "AlphaFold 3",
+      "organization": "Google DeepMind / Isomorphic Labs",
+      "category": "research",
+      "summary": "AlphaFold 3 étend la prédiction de structure aux interactions entre protéines, ADN, ARN et petites molécules.",
+      "context": "Un serveur de recherche ouvre l'accès ; le code et les poids seront publiés séparément.",
+      "landmark": true,
+      "tags": ["science", "biologie", "recherche"],
+      "sources": [
+        {
+          "label": "Annonce d'AlphaFold 3",
+          "url": "https://blog.google/innovation-and-ai/products/google-deepmind-isomorphic-alphafold-3-ai-model/"
+        }
+      ]
+    },
+    {
+      "id": "gpt-4o",
+      "date": "2024-05-13",
+      "dateKind": "announcement",
+      "title": "GPT-4o rapproche texte, vision et voix",
+      "shortTitle": "GPT-4o",
+      "organization": "OpenAI",
+      "category": "model",
+      "summary": "OpenAI annonce GPT-4o, un modèle réunissant traitement du texte, de l'image et de l'audio.",
+      "context": "Le lancement distingue les capacités disponibles immédiatement de la nouvelle voix, déployée progressivement.",
+      "landmark": true,
+      "tags": ["multimodal", "audio", "assistant"],
+      "sources": [
+        {
+          "label": "Annonce de GPT-4o",
+          "url": "https://openai.com/index/hello-gpt-4o/"
+        }
+      ]
+    },
+    {
+      "id": "claude-3-5-sonnet",
+      "date": "2024-06-20",
+      "dateKind": "release",
+      "title": "Anthropic lance Claude 3.5 Sonnet",
+      "shortTitle": "Claude 3.5 Sonnet",
+      "organization": "Anthropic",
+      "category": "model",
+      "summary": "Claude 3.5 Sonnet devient disponible, avec des améliorations en code, compréhension et vision.",
+      "context": "La date de disponibilité est confirmée par l'annonce officielle d'Amazon Bedrock, partenaire de distribution.",
+      "landmark": false,
+      "tags": ["langage", "code", "vision"],
+      "sources": [
+        {
+          "label": "Disponibilité officielle dans Amazon Bedrock",
+          "url": "https://aws.amazon.com/about-aws/whats-new/2024/06/anthropic-claude-3-5-sonnet-model-bedrock/"
+        }
+      ]
+    },
+    {
+      "id": "llama-3-1",
+      "date": "2024-07-23",
+      "dateKind": "release",
+      "title": "Llama 3.1 publie un modèle de 405 milliards de paramètres",
+      "shortTitle": "Llama 3.1 405B",
+      "organization": "Meta",
+      "category": "model",
+      "summary": "Meta publie Llama 3.1, dont une version à 405 milliards de paramètres et des modèles 8B et 70B actualisés.",
+      "context": "La famille étend le contexte à 128 000 tokens et prend en charge huit langues.",
+      "landmark": false,
+      "tags": ["langage", "poids accessibles", "contexte long"],
+      "sources": [
+        {
+          "label": "Publication de Llama 3.1",
+          "url": "https://ai.meta.com/blog/meta-llama-3-1/"
+        }
+      ]
+    },
+    {
+      "id": "ai-act-effective",
+      "date": "2024-08-01",
+      "dateKind": "effective",
+      "title": "L'AI Act entre en vigueur en Europe",
+      "shortTitle": "AI Act",
+      "organization": "Union européenne",
+      "category": "governance",
+      "summary": "Le règlement européen sur l'intelligence artificielle entre en vigueur.",
+      "context": "Ses obligations s'appliquent ensuite selon un calendrier progressif, en fonction des systèmes et des usages.",
+      "landmark": true,
+      "tags": ["gouvernance", "Europe", "réglementation"],
+      "sources": [
+        {
+          "label": "Commission européenne : entrée en vigueur",
+          "url": "https://commission.europa.eu/news-and-media/news/ai-act-enters-force-2024-08-01_en"
+        }
+      ]
+    },
+    {
+      "id": "flux-1",
+      "date": "2024-08-01",
+      "dateKind": "release",
+      "title": "Black Forest Labs publie FLUX.1",
+      "shortTitle": "FLUX.1",
+      "organization": "Black Forest Labs",
+      "category": "model",
+      "summary": "Black Forest Labs publie FLUX.1, une famille de modèles texte-vers-image en trois variantes.",
+      "context": "Les poids de schnell sont sous Apache 2.0 ; ceux de dev ont une licence non commerciale.",
+      "landmark": false,
+      "tags": ["image", "poids accessibles", "Europe"],
+      "sources": [
+        {
+          "label": "Publication de FLUX.1",
+          "url": "https://bfl.ai/blog/24-08-01-bfl"
+        }
+      ]
+    },
+    {
+      "id": "openai-o1-preview",
+      "date": "2024-09-12",
+      "dateKind": "release",
+      "title": "o1 introduit une série dédiée au raisonnement",
+      "shortTitle": "OpenAI o1-preview",
+      "organization": "OpenAI",
+      "category": "model",
+      "summary": "OpenAI ouvre o1-preview et o1-mini, conçus pour consacrer davantage de calcul au raisonnement avant de répondre.",
+      "context": "L'accès initial concerne certains abonnements ChatGPT et développeurs API.",
+      "landmark": true,
+      "tags": ["raisonnement", "mathématiques", "code"],
+      "sources": [
+        {
+          "label": "Publication d'o1-preview",
+          "url": "https://openai.com/index/introducing-openai-o1-preview/"
+        }
+      ]
+    },
+    {
+      "id": "nobel-physics-ai",
+      "date": "2024-10-08",
+      "dateKind": "event",
+      "title": "Le Nobel de physique récompense Hopfield et Hinton",
+      "shortTitle": "Nobel de physique",
+      "organization": "Académie royale des sciences de Suède",
+      "category": "milestone",
+      "summary": "John Hopfield et Geoffrey Hinton reçoivent le Nobel de physique pour leurs travaux fondateurs sur les réseaux de neurones.",
+      "context": "Le prix reconnaît des découvertes ayant permis l'apprentissage automatique.",
+      "landmark": false,
+      "tags": ["science", "réseaux de neurones", "Nobel"],
+      "sources": [
+        {
+          "label": "Communiqué de l'Académie royale des sciences",
+          "url": "https://www.kva.se/en/news/the-nobel-prize-in-physics-2024/"
+        }
+      ]
+    },
+    {
+      "id": "nobel-chemistry-alphafold",
+      "date": "2024-10-09",
+      "dateKind": "event",
+      "title": "Le Nobel de chimie distingue la prédiction des protéines",
+      "shortTitle": "Nobel de chimie",
+      "organization": "Académie royale des sciences de Suède",
+      "category": "milestone",
+      "summary": "Le Nobel de chimie récompense David Baker, Demis Hassabis et John Jumper.",
+      "context": "Une moitié distingue la conception de protéines ; l'autre, les travaux de prédiction de structure associés à AlphaFold.",
+      "landmark": true,
+      "tags": ["science", "biologie", "Nobel"],
+      "sources": [
+        {
+          "label": "Communiqué de l'Académie royale des sciences",
+          "url": "https://www.kva.se/en/news/the-nobel-prize-in-chemistry-2024/"
+        }
+      ]
+    },
+    {
+      "id": "model-context-protocol",
+      "date": "2024-11-25",
+      "dateKind": "release",
+      "title": "MCP ouvre un protocole de connexion pour les assistants",
+      "shortTitle": "Model Context Protocol",
+      "organization": "Anthropic",
+      "category": "product",
+      "summary": "Anthropic publie le Model Context Protocol pour relier les assistants IA aux outils et aux sources de données.",
+      "context": "La spécification, les SDK et des serveurs de référence sont rendus accessibles.",
+      "landmark": false,
+      "tags": ["agents", "outils", "protocole"],
+      "sources": [
+        {
+          "label": "Publication du Model Context Protocol",
+          "url": "https://www.anthropic.com/news/model-context-protocol"
+        }
+      ]
+    },
+    {
+      "id": "sora-public",
+      "date": "2024-12-09",
+      "dateKind": "release",
+      "title": "Sora sort de la préversion de recherche",
+      "shortTitle": "Sora accessible",
+      "organization": "OpenAI",
+      "category": "product",
+      "summary": "OpenAI ouvre Sora Turbo comme produit de génération vidéo aux abonnés ChatGPT Plus et Pro dans les zones prises en charge.",
+      "context": "Cette ouverture suit la présentation de recherche de février.",
+      "landmark": false,
+      "tags": ["vidéo", "création", "produit"],
+      "sources": [
+        {
+          "label": "Lancement public de Sora",
+          "url": "https://openai.com/index/sora-is-here/"
+        }
+      ]
+    },
+    {
+      "id": "gemini-2",
+      "date": "2024-12-11",
+      "dateKind": "release",
+      "title": "Google lance Gemini 2.0 Flash Experimental",
+      "shortTitle": "Gemini 2.0",
+      "organization": "Google DeepMind",
+      "category": "model",
+      "summary": "Google lance Gemini 2.0 Flash Experimental et présente de nouvelles capacités multimodales et d'utilisation d'outils.",
+      "context": "Des prototypes comme Mariner illustrent les recherches sur les agents.",
+      "landmark": false,
+      "tags": ["multimodal", "agents", "outils"],
+      "sources": [
+        {
+          "label": "Présentation de Gemini 2.0",
+          "url": "https://blog.google/innovation-and-ai/models-and-research/google-deepmind/google-gemini-ai-update-december-2024/"
+        }
+      ]
+    },
+    {
+      "id": "deepseek-v3",
+      "date": "2024-12-26",
+      "dateKind": "release",
+      "title": "DeepSeek-V3 publie ses poids",
+      "shortTitle": "DeepSeek-V3",
+      "organization": "DeepSeek",
+      "category": "model",
+      "summary": "DeepSeek publie V3, un modèle à mélange d'experts de 671 milliards de paramètres totaux, dont 37 milliards activés.",
+      "context": "Le modèle devient accessible sur le Web et en API.",
+      "landmark": false,
+      "tags": ["langage", "poids ouverts", "Chine"],
+      "sources": [
+        {
+          "label": "Publication de DeepSeek-V3",
+          "url": "https://deepseek.com/en/news/deepseek-v3/"
+        }
+      ]
+    },
+    {
+      "id": "deepseek-r1",
+      "date": "2025-01-20",
+      "dateKind": "release",
+      "title": "DeepSeek-R1 ouvre un modèle de raisonnement",
+      "shortTitle": "DeepSeek-R1",
+      "organization": "DeepSeek",
+      "category": "model",
+      "summary": "DeepSeek publie R1 et ses poids sous licence MIT, avec un accès sur le Web et en API.",
+      "context": "La sortie comprend six modèles distillés plus petits.",
+      "landmark": true,
+      "tags": ["raisonnement", "poids ouverts", "Chine"],
+      "sources": [
+        {
+          "label": "Publication de DeepSeek-R1",
+          "url": "https://deepseek.com/en/news/deepseek-r1/"
+        }
+      ]
+    },
+    {
+      "id": "claude-3-7-code",
+      "date": "2025-02-24",
+      "dateKind": "release",
+      "title": "Claude 3.7 Sonnet et Claude Code arrivent ensemble",
+      "shortTitle": "Claude 3.7 et Claude Code",
+      "organization": "Anthropic",
+      "category": "model",
+      "summary": "Anthropic publie Claude 3.7 Sonnet, qui associe réponses rapides et raisonnement prolongé.",
+      "context": "Claude Code apparaît simultanément en préversion de recherche pour travailler depuis le terminal.",
+      "landmark": true,
+      "tags": ["raisonnement", "code", "agents"],
+      "sources": [
+        {
+          "label": "Publication de Claude 3.7 et Claude Code",
+          "url": "https://www.anthropic.com/news/claude-3-7-sonnet"
+        }
+      ]
+    },
+    {
+      "id": "wan-2-1",
+      "date": "2025-02-25",
+      "dateKind": "release",
+      "title": "Wan2.1 publie code et poids pour la vidéo",
+      "shortTitle": "Wan2.1",
+      "organization": "Alibaba / Wan",
+      "category": "model",
+      "summary": "L'équipe Wan publie le code d'inférence et les poids de Wan2.1.",
+      "context": "Cette famille de modèles vidéo comprend notamment des variantes texte-vers-vidéo et image-vers-vidéo.",
+      "landmark": false,
+      "tags": ["vidéo", "poids ouverts", "Chine"],
+      "sources": [
+        {
+          "label": "Journal de publication officiel de Wan2.1",
+          "url": "https://github.com/Wan-Video/Wan2.1"
+        }
+      ]
+    },
+    {
+      "id": "gemini-2-5",
+      "date": "2025-03-25",
+      "dateKind": "release",
+      "title": "Gemini 2.5 intègre le raisonnement",
+      "shortTitle": "Gemini 2.5",
+      "organization": "Google DeepMind",
+      "category": "model",
+      "summary": "Google ouvre Gemini 2.5 Pro Experimental, premier modèle de sa nouvelle génération avec raisonnement intégré.",
+      "context": "Il est disponible dans AI Studio et pour les utilisateurs Gemini Advanced.",
+      "landmark": false,
+      "tags": ["raisonnement", "multimodal", "code"],
+      "sources": [
+        {
+          "label": "Publication de Gemini 2.5",
+          "url": "https://blog.google/innovation-and-ai/models-and-research/google-deepmind/gemini-model-thinking-updates-march-2025/"
+        }
+      ]
+    },
+    {
+      "id": "llama-4",
+      "date": "2025-04-05",
+      "dateKind": "release",
+      "title": "Llama 4 introduit Scout et Maverick",
+      "shortTitle": "Llama 4",
+      "organization": "Meta",
+      "category": "model",
+      "summary": "Meta publie Llama 4 Scout et Maverick, deux modèles nativement multimodaux à mélange d'experts.",
+      "context": "Behemoth est présenté comme modèle enseignant encore en entraînement, sans sortie publique simultanée.",
+      "landmark": false,
+      "tags": ["multimodal", "mélange d'experts", "poids accessibles"],
+      "sources": [
+        {
+          "label": "Publication de Llama 4",
+          "url": "https://ai.meta.com/blog/llama-4-multimodal-intelligence/"
+        }
+      ]
+    },
+    {
+      "id": "qwen-3",
+      "date": "2025-04-29",
+      "dateKind": "release",
+      "title": "Qwen3 publie une famille multilingue à raisonnement hybride",
+      "shortTitle": "Qwen3",
+      "organization": "Alibaba / Qwen",
+      "category": "model",
+      "summary": "Qwen publie huit modèles aux poids ouverts sous Apache 2.0, avec des modes de réponse rapide et de raisonnement.",
+      "context": "La famille prend en charge 119 langues et dialectes.",
+      "landmark": false,
+      "tags": ["raisonnement", "poids ouverts", "Chine"],
+      "sources": [
+        {
+          "label": "Publication de Qwen3",
+          "url": "https://qwenlm.github.io/blog/qwen3/"
+        }
+      ]
+    },
+    {
+      "id": "alphaevolve",
+      "date": "2025-05-14",
+      "dateKind": "announcement",
+      "title": "AlphaEvolve explore la découverte d'algorithmes",
+      "shortTitle": "AlphaEvolve",
+      "organization": "Google DeepMind",
+      "category": "research",
+      "summary": "DeepMind présente AlphaEvolve, un agent qui propose et améliore des algorithmes à l'aide de Gemini et d'évaluateurs automatiques.",
+      "context": "Les applications décrites concernent les mathématiques et l'optimisation informatique.",
+      "landmark": false,
+      "tags": ["science", "agents", "algorithmes"],
+      "sources": [
+        {
+          "label": "Présentation d'AlphaEvolve",
+          "url": "https://deepmind.google/blog/alphaevolve-a-gemini-powered-coding-agent-for-designing-advanced-algorithms/"
+        }
+      ]
+    },
+    {
+      "id": "codex-cloud-agent",
+      "date": "2025-05-16",
+      "dateKind": "release",
+      "title": "Codex ouvre un agent de développement dans le cloud",
+      "shortTitle": "Codex, agent cloud",
+      "organization": "OpenAI",
+      "category": "product",
+      "summary": "OpenAI ouvre une préversion de Codex, agent cloud capable de modifier du code et d'exécuter des tests.",
+      "context": "Les tâches s'exécutent dans des environnements isolés ; l'accès initial concerne certains abonnés payants.",
+      "landmark": true,
+      "tags": ["code", "agents", "outils"],
+      "sources": [
+        {
+          "label": "Ouverture de la préversion de Codex",
+          "url": "https://openai.com/index/introducing-codex/"
+        }
+      ]
+    },
+    {
+      "id": "veo-3",
+      "date": "2025-05-20",
+      "dateKind": "release",
+      "title": "Veo 3 génère la vidéo avec son",
+      "shortTitle": "Veo 3",
+      "organization": "Google DeepMind",
+      "category": "model",
+      "summary": "Google présente Veo 3, capable de générer des vidéos avec dialogues, ambiances et effets sonores.",
+      "context": "L'accès initial passe notamment par Gemini et Flow pour les abonnés Ultra aux États-Unis.",
+      "landmark": false,
+      "tags": ["vidéo", "audio", "création"],
+      "sources": [
+        {
+          "label": "Annonce de Veo 3 et Imagen 4",
+          "url": "https://blog.google/innovation-and-ai/products/generative-media-models-io-2025/"
+        }
+      ]
+    },
+    {
+      "id": "claude-4",
+      "date": "2025-05-22",
+      "dateKind": "release",
+      "title": "Claude 4 introduit Opus 4 et Sonnet 4",
+      "shortTitle": "Claude 4",
+      "organization": "Anthropic",
+      "category": "model",
+      "summary": "Anthropic lance Claude Opus 4 et Sonnet 4, orientés vers le code, le raisonnement et les tâches longues.",
+      "context": "Les deux modèles peuvent combiner réflexion prolongée et utilisation d'outils.",
+      "landmark": false,
+      "tags": ["raisonnement", "code", "agents"],
+      "sources": [
+        {
+          "label": "Publication de Claude 4",
+          "url": "https://www.anthropic.com/news/claude-4"
+        }
+      ]
+    },
+    {
+      "id": "gpt-oss",
+      "date": "2025-08-05",
+      "dateKind": "release",
+      "title": "OpenAI publie les poids de gpt-oss",
+      "shortTitle": "gpt-oss",
+      "organization": "OpenAI",
+      "category": "model",
+      "summary": "OpenAI publie gpt-oss-120b et gpt-oss-20b, deux modèles de raisonnement à poids ouverts sous Apache 2.0.",
+      "context": "Ils peuvent être téléchargés, personnalisés et exécutés sur une infrastructure choisie.",
+      "landmark": true,
+      "tags": ["raisonnement", "poids ouverts", "langage"],
+      "sources": [
+        {
+          "label": "Publication des modèles gpt-oss",
+          "url": "https://openai.com/index/introducing-gpt-oss/"
+        }
+      ]
+    },
+    {
+      "id": "gpt-5",
+      "date": "2025-08-07",
+      "dateKind": "release",
+      "title": "GPT-5 réunit réponse rapide et raisonnement",
+      "shortTitle": "GPT-5",
+      "organization": "OpenAI",
+      "category": "model",
+      "summary": "OpenAI lance GPT-5 comme système unifié capable de choisir entre réponse rapide et raisonnement approfondi.",
+      "context": "Le déploiement commence dans ChatGPT et l'API le même jour.",
+      "landmark": true,
+      "tags": ["raisonnement", "langage", "agents"],
+      "sources": [
+        {
+          "label": "Publication de GPT-5",
+          "url": "https://openai.com/index/introducing-gpt-5/"
+        }
+      ]
+    },
+    {
+      "id": "sora-2",
+      "date": "2025-09-30",
+      "dateKind": "release",
+      "title": "Sora 2 associe génération vidéo et audio",
+      "shortTitle": "Sora 2",
+      "organization": "OpenAI",
+      "category": "model",
+      "summary": "OpenAI lance Sora 2, avec génération audio synchronisée et une nouvelle application.",
+      "context": "Le déploiement initial est progressif et limité à certaines zones ; il ne constitue pas une ouverture mondiale immédiate.",
+      "landmark": false,
+      "tags": ["vidéo", "audio", "création"],
+      "sources": [
+        {
+          "label": "Publication de Sora 2",
+          "url": "https://openai.com/index/sora-2/"
+        }
+      ]
+    },
+    {
+      "id": "gemini-3",
+      "date": "2025-11-18",
+      "dateKind": "release",
+      "title": "Gemini 3 arrive dans l'application et la recherche",
+      "shortTitle": "Gemini 3",
+      "organization": "Google DeepMind",
+      "category": "model",
+      "summary": "Google ouvre Gemini 3 avec de nouvelles capacités de raisonnement et des réponses sous forme d'interfaces générées.",
+      "context": "Des fonctions d'agent sont annoncées avec un déploiement progressif.",
+      "landmark": true,
+      "tags": ["raisonnement", "multimodal", "interfaces"],
+      "sources": [
+        {
+          "label": "Lancement de Gemini 3 dans l'application",
+          "url": "https://blog.google/products-and-platforms/products/gemini/gemini-3-gemini-app/"
+        }
+      ]
+    },
+    {
+      "id": "mistral-3",
+      "date": "2025-12-02",
+      "dateKind": "release",
+      "title": "Mistral 3 publie une nouvelle génération ouverte",
+      "shortTitle": "Mistral 3",
+      "organization": "Mistral AI",
+      "category": "model",
+      "summary": "Mistral publie Large 3 et trois petits modèles Ministral sous licence Apache 2.0.",
+      "context": "Large 3 utilise un mélange d'experts et prend en charge la compréhension d'images.",
+      "landmark": false,
+      "tags": ["poids ouverts", "multimodal", "Europe"],
+      "sources": [
+        {
+          "label": "Publication de Mistral 3",
+          "url": "https://mistral.ai/news/mistral-3/"
+        }
+      ]
+    },
+    {
+      "id": "gemini-3-1-pro",
+      "date": "2026-02-19",
+      "dateKind": "release",
+      "title": "Gemini 3.1 Pro ouvre sa préversion",
+      "shortTitle": "Gemini 3.1 Pro",
+      "organization": "Google DeepMind",
+      "category": "model",
+      "summary": "Google déploie Gemini 3.1 Pro pour les tâches complexes de raisonnement.",
+      "context": "L'accès développeur est une préversion ; le modèle arrive aussi dans Gemini et NotebookLM selon les offres.",
+      "landmark": false,
+      "tags": ["raisonnement", "multimodal", "agents"],
+      "sources": [
+        {
+          "label": "Publication de Gemini 3.1 Pro",
+          "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-1-pro/"
+        }
+      ]
+    },
+    {
+      "id": "gpt-5-4",
+      "date": "2026-03-05",
+      "dateKind": "release",
+      "title": "GPT-5.4 intègre l'utilisation native de l'ordinateur",
+      "shortTitle": "GPT-5.4",
+      "organization": "OpenAI",
+      "category": "model",
+      "summary": "OpenAI publie GPT-5.4 dans ChatGPT, Codex et l'API, avec des capacités natives d'utilisation de l'ordinateur.",
+      "context": "Le modèle réunit code, raisonnement et travail à travers plusieurs outils.",
+      "landmark": false,
+      "tags": ["agents", "ordinateur", "raisonnement"],
+      "sources": [
+        {
+          "label": "Publication de GPT-5.4",
+          "url": "https://openai.com/index/introducing-gpt-5-4/"
+        }
+      ]
+    },
+    {
+      "id": "gpt-5-5",
+      "date": "2026-04-23",
+      "dateKind": "release",
+      "title": "GPT-5.5 arrive dans ChatGPT et Codex",
+      "shortTitle": "GPT-5.5",
+      "organization": "OpenAI",
+      "category": "model",
+      "summary": "OpenAI lance GPT-5.5 pour les tâches de code, de recherche et de travail sur ordinateur.",
+      "context": "L'accès API est ouvert le lendemain, le 24 avril, selon la mise à jour de l'annonce.",
+      "landmark": false,
+      "tags": ["agents", "ordinateur", "code"],
+      "sources": [
+        {
+          "label": "Publication de GPT-5.5",
+          "url": "https://openai.com/index/introducing-gpt-5-5/"
+        }
+      ]
+    },
+    {
+      "id": "deepseek-v4-preview",
+      "date": "2026-04-24",
+      "dateKind": "release",
+      "title": "DeepSeek-V4 Preview ouvre un contexte d'un million de tokens",
+      "shortTitle": "DeepSeek-V4 Preview",
+      "organization": "DeepSeek",
+      "category": "model",
+      "summary": "DeepSeek ouvre V4-Pro et V4-Flash en préversion, sur le Web et en API, avec publication des poids.",
+      "context": "La famille propose un contexte standard d'un million de tokens.",
+      "landmark": false,
+      "tags": ["raisonnement", "poids ouverts", "Chine"],
+      "sources": [
+        {
+          "label": "Publication de DeepSeek-V4 Preview",
+          "url": "https://www.deepseek.com/en/news/v4-preview/"
+        }
+      ]
+    },
+    {
+      "id": "claude-fable-mythos-5",
+      "date": "2026-06-09",
+      "dateKind": "release",
+      "title": "Anthropic lance Claude Fable 5 et Mythos 5",
+      "shortTitle": "Claude Fable 5",
+      "organization": "Anthropic",
+      "category": "model",
+      "summary": "Anthropic lance Fable 5 et Mythos 5, deux déclinaisons d'un même modèle avec des protections différentes.",
+      "context": "Fable vise l'usage général ; Mythos est réservé à des partenaires autorisés.",
+      "landmark": true,
+      "tags": ["agents", "raisonnement", "code"],
+      "sources": [
+        {
+          "label": "Annonce de Claude Fable 5 et Mythos 5",
+          "url": "https://www.anthropic.com/news/claude-fable-5-mythos-5"
+        }
+      ]
+    },
+    {
+      "id": "gpt-6-astra",
+      "date": "2026-09-03",
+      "dateKind": "release",
+      "title": "OpenAI publie GPT-6 Astra",
+      "shortTitle": "GPT-6 Astra",
+      "organization": "OpenAI",
+      "category": "model",
+      "summary": "OpenAI publie GPT-6 Astra, avec des capacités renforcées de travail professionnel et d'utilisation de l'ordinateur.",
+      "context": "Le document de sécurité daté confirme le lancement et décrit les protections du déploiement.",
+      "landmark": true,
+      "tags": ["agents", "ordinateur", "raisonnement"],
+      "sources": [
+        {
+          "label": "Document de lancement et de sécurité GPT-6 Astra",
+          "url": "https://openai.com/index/safety-overview-gpt-6-astra/"
+        }
+      ]
+    },
+    {
+      "id": "gpt-6-intelligent-ui",
+      "date": "2026-10-07",
+      "dateKind": "release",
+      "title": "GPT-6 déploie les interfaces interactives dans ChatGPT",
+      "shortTitle": "GPT-6 et Intelligent UI",
+      "organization": "OpenAI",
+      "category": "product",
+      "summary": "OpenAI déploie GPT-6 avec Intelligent UI, pour composer des réponses associant texte, éléments visuels et interactions.",
+      "context": "Le déploiement débute sur les offres payantes et s'étend ensuite aux offres gratuites.",
+      "landmark": false,
+      "tags": ["interfaces", "assistant", "multimodal"],
+      "sources": [
+        {
+          "label": "Lancement de GPT-6 avec Intelligent UI",
+          "url": "https://openai.com/index/gpt-6-for-everyone/"
+        }
+      ]
+    }
+  ]
+}

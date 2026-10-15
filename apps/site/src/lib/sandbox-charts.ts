@@ -7,6 +7,8 @@ import {
   type ChartsSeries,
 } from '../domain/sandbox-charts.ts';
 import { compareWeeks, isoWeekOf } from '../domain/weeks.ts';
+import { rankingEligibility } from '../domain/badges.ts';
+import { readAwardBadgeSlugs } from './awards-store.ts';
 import { hasDatabaseConfiguration } from '../db/client.ts';
 import {
   liveChartEntities,
@@ -176,6 +178,36 @@ export const sandboxChartsData = cache(async function sandboxChartsData(
       week;
     data.week = week;
     data.mode = snapshots.length ? 'live' : 'pending';
+    const latestGithub = snapshots.filter((snapshot) => snapshot.chart === 'github').at(-1);
+    const availableBadgeSlugs = new Set(
+      entities
+        .filter(
+          ({ repo, entity }) =>
+            repo &&
+            entity.active &&
+            !repo.archived &&
+            !repo.disabled &&
+            !repo.lastError &&
+            (repo.manualStatus ?? repo.status) === 'tracked',
+        )
+        .map(({ entity }) => entity.slug),
+    );
+    data.badgeSlugs =
+      latestGithub?.entries
+        .filter(
+          (entry) =>
+            availableBadgeSlugs.has(entry.entity) &&
+            rankingEligibility(latestGithub, entry.entity, new Date()).status === 'ranked',
+        )
+        .map((entry) => entry.entity) ?? [];
+    try {
+      data.badgeSlugs = [...new Set([...data.badgeSlugs, ...(await readAwardBadgeSlugs(slugs))])];
+    } catch (error) {
+      console.error(
+        'Sandbox award eligibility unavailable:',
+        error instanceof Error ? error.name : 'unknown',
+      );
+    }
     data.weeks = [...new Set(snapshots.map((snapshot) => snapshot.week))].toSorted((left, right) =>
       compareWeeks(right, left),
     );
@@ -420,7 +452,7 @@ export const sandboxChartsData = cache(async function sandboxChartsData(
           : repo
             ? [{ kind: 'github' as const, label: repo.fullName, url: entity.sourceUrl }]
             : [{ kind: 'other' as const, label: entity.name, url: entity.sourceUrl }],
-        href: repo ? `/charts/project/${entity.slug}` : entity.sourceUrl,
+        href: repo ? `/charts/project/${entity.slug}` : `/charts/entity/${entity.slug}`,
         ...(entity.openWeights !== null ? { openWeights: entity.openWeights } : {}),
         ...(repo ? { github: { repo: repo.fullName } } : {}),
       };

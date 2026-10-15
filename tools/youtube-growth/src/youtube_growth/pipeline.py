@@ -43,6 +43,10 @@ def run_poll() -> int:
     service = build_youtube_service()
     entries: list[str] = []
     execute_actions = _enabled("YOUTUBE_EXECUTE_ACTIONS")
+    if execute_actions and not _enabled("YOUTUBE_INITIAL_REVIEW_CONFIRMED"):
+        raise RuntimeError("Validez le premier pipeline avant d'activer YOUTUBE_INITIAL_REVIEW_CONFIRMED.")
+    if execute_actions and _enabled("GITHUB_ACTIONS"):
+        raise RuntimeError("Le cache GitHub ne garantit pas la reprise des écritures. Gardez le polling en lecture seule jusqu'à disposer d'un journal durable hébergé.")
     if service is None:
         entries.append("OAuth YouTube absent : passage sans effet. Configurez le secret `YOUTUBE_OAUTH_TOKEN_JSON` après le déploiement.")
         _write_summary(summary_path, entries)
@@ -101,10 +105,10 @@ def run_poll() -> int:
         else:
             entries.append(f"`{video_id}` : aucune miniature source retournée par l'API.")
 
-        if video_id not in state.posted_episode_comments and _enabled("YOUTUBE_POST_EPISODE_COMMENT", default=True):
+        if video_id not in state.posted_episode_comments and _enabled("YOUTUBE_POST_EPISODE_COMMENT"):
             comment_template = os.environ.get(
                 "YOUTUBE_EPISODE_COMMENT_TEMPLATE",
-                "Merci d'avoir écouté cet épisode de SANDBOX ! Qu'en retenez-vous ? {url}",
+                "",
             )
             comment = _template(comment_template, video, video_id)
             if execute_actions and comment and not top_level_comment_exists(service, video_id, channel_id, comment):
@@ -137,7 +141,7 @@ def _process_new_comments(service, channel_id: str, videos: dict, state: State, 
         state.comments_baselined = True
         entries.append("Curseur des commentaires initialisé; les commentaires déjà présents sont ignorés.")
         return
-    if not _enabled("YOUTUBE_AUTO_REPLY", default=True):
+    if not _enabled("YOUTUBE_AUTO_REPLY"):
         entries.append("Réponses automatiques désactivées par configuration.")
         return
     if not execute_actions:

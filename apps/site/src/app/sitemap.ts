@@ -13,6 +13,13 @@ import { localeRouteSegment } from '@/i18n/locales';
 import { allEntities, allEpisodes, allTopics, entityPath } from '@/lib/repository';
 import { indexableEpisode } from '@/domain/episode-seo';
 import { uniqueSitemapEntries } from '@/domain/site-sitemap';
+import { personalProjects } from '@/lib/personal-projects';
+import { personalProjectPath } from '@/domain/personal-projects';
+import { readBadgeAwardSitemapEntries } from '@/lib/badges-store';
+import { awardPath } from '@/domain/badges';
+import { readAwardSitemapEntries } from '@/lib/awards-store';
+import { isDemoEntity } from '@/lib/demo-content';
+import { timeMachineData } from '@/lib/time-machine';
 
 export const dynamic = 'force-dynamic';
 
@@ -36,6 +43,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     publicGithubRankedProjectSlugs(),
     publicRankingCollectionPages(),
     publicLocalizedSitePages(),
+    readBadgeAwardSitemapEntries(),
+    readAwardSitemapEntries(),
   ]);
   for (const result of chartReads) {
     if (result.status === 'rejected') {
@@ -53,6 +62,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     projectResult,
     localizedRankingResult,
     localizedSiteResult,
+    awardResult,
+    extendedAwardResult,
   ] = chartReads;
   const github = githubResult.status === 'fulfilled' ? githubResult.value : [];
   const rising = risingResult.status === 'fulfilled' ? risingResult.value : [];
@@ -111,16 +122,36 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const topics = allTopics().filter((topic) =>
     episodes.some((episode) => episode.topics.includes(topic.slug)),
   );
+  const history = timeMachineData();
   return uniqueSitemapEntries([
     ...(episodes.length || chartEntries.length ? [entry('/', undefined, 1)] : []),
     ...chartEntries,
+    entry('/charts/awards', undefined, 0.5),
+    ...(awardResult.status === 'fulfilled'
+      ? awardResult.value.map((award) => entry(awardPath(award.week), award.assignedAt, 0.5))
+      : []),
+    ...(extendedAwardResult.status === 'fulfilled'
+      ? extendedAwardResult.value.flatMap((award) => [
+          entry(award.path, award.assignedAt, 0.5),
+          entry(award.entityPath, undefined, 0.5),
+        ])
+      : []),
     ...localizedEntries,
     ...localizedRankingHubs,
     ...(episodes.length ? [entry('/episodes', undefined, 0.8)] : []),
     ...episodes.map((e) => entry(`/episodes/${String(e.number)}`, e.publishedAt, 0.8)),
     ...(topics.length ? [entry('/topics', undefined, 0.5)] : []),
     ...topics.map((t) => entry(`/topics/${t.slug}`, undefined, 0.4)),
-    ...(!isMock ? allEntities().map((e) => entry(entityPath(e), undefined, 0.6)) : []),
+    ...(!isMock
+      ? allEntities()
+          .filter((e) => !isDemoEntity(e.slug))
+          .map((e) => entry(entityPath(e), undefined, 0.6))
+      : []),
     entry('/about', undefined, 0.4),
+    ...(history.events.length ? [entry('/time-machine', history.reviewedAt, 0.7)] : []),
+    entry('/nos-projets', undefined, 0.7),
+    ...personalProjects.map((project) =>
+      entry(personalProjectPath(project.slug), project.verifiedAt, 0.6),
+    ),
   ]);
 }

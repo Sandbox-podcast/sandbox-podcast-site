@@ -5,11 +5,11 @@ import '@fontsource-variable/jetbrains-mono/wght.css';
 import '../globals.css';
 import '../site-polish.css';
 import '../(fr)/charts/charts.css';
-import { Analytics } from '@vercel/analytics/next';
 import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
 import { notFound } from 'next/navigation';
 import { Footer, Masthead } from '@/components/shell';
+import { AnalyticsConsent } from '@/components/analytics-consent';
 import { LocalizationProvider, Text } from '@/components/localization';
 import { siteDictionary } from '@/i18n/dictionaries';
 import { translateText } from '@/i18n/translation';
@@ -102,7 +102,7 @@ export default async function LocalizedRootLayout({
             },
           ]}
         />
-        <Analytics />
+        <AnalyticsConsent language={locale} />
       </body>
     </html>
   );

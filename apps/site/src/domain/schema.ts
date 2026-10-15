@@ -40,6 +40,11 @@ export const hostSchema = z.object({
   handle: z.string().min(1),
   role: z.string().min(1),
   bio: z.string().min(1),
+  aka: z.string().trim().min(1).optional(),
+  photo: z
+    .string()
+    .regex(/^\/team\/[a-z0-9-]+\.(?:png|jpg|jpeg|webp)$/)
+    .optional(),
   socials: z
     .object({
       linkedin: httpsUrlSchema.optional(),

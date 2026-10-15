@@ -3,7 +3,7 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it } from 'vitest';
 import { LocalizationProvider } from '../src/components/localization';
 import HomePage from '../src/app/(fr)/page';
-import SearchPage from '../src/app/(fr)/search/page';
+import SearchPage from '../src/components/search-screen';
 import EpisodesPage from '../src/app/(fr)/episodes/page';
 import { EntityScreen } from '../src/components/entity-screen';
 import { SITE_LOCALES } from '../src/i18n/locales';
@@ -235,7 +235,7 @@ describe('filtres de classement et langue', () => {
 
 describe('même site en français et en anglais', () => {
   it('garde toutes les illustrations et sections de l’accueil', async () => {
-    const page = await HomePage();
+    const page = await HomePage({});
     const dictionary = await siteDictionary('en');
     const french = renderToStaticMarkup(page);
     const english = renderToStaticMarkup(
@@ -250,6 +250,11 @@ describe('même site en français et en anglais', () => {
     expect(english).toContain('No episodes published yet.');
     expect(english).toContain('href="/en/episodes"');
     expect(english).not.toContain('Quatre classements');
+    for (const html of [french, english]) {
+      expect(html).toContain('<h1>Sandbox Charts</h1>');
+      expect(html.indexOf('Sandbox Charts')).toBeLessThan(html.indexOf('id="empty-library-title"'));
+      expect([...html.matchAll(/<h1\b/g)]).toHaveLength(1);
+    }
   });
   it('garde la bibliothèque podcast vide traduite sans fiche de démonstration', async () => {
     const page = await EpisodesPage({ searchParams: Promise.resolve({}) });
@@ -263,7 +268,7 @@ describe('même site en français et en anglais', () => {
     expect(html).not.toContain('href="/en/episodes/41"');
     expect(html).not.toContain('href="/en/episodes/42"');
   });
-  it('traduit aussi les légendes et les textes conditionnels des fiches', async () => {
+  it('traduit la neutralisation des anciennes fiches et les liens de récupération', async () => {
     const dictionary = await siteDictionary('en');
     const html = renderToStaticMarkup(
       createElement(LocalizationProvider, {
@@ -272,13 +277,12 @@ describe('même site en français et en anglais', () => {
         children: createElement(EntityScreen, { slug: 'anthropic-skills' }),
       }),
     );
-    expect(html).toContain('weeks at this rank');
-    expect(html).toContain('in a row');
-    expect(html).toContain('History of Skills Top 20. W26: no.7');
-    expect(html).toContain('Position unchanged; Install growth');
-    expect(html).toContain('About its position in');
-    expect(html).toContain('Oct 6, 2026');
-    expect(html).toContain('<title>W26: no.7</title>');
+    expect(html).toContain('Old demo page');
+    expect(html).toContain('simulated figures');
+    expect(html).toContain('href="/en/charts"');
+    expect(html).toContain('href="/en/episodes"');
+    expect(html).not.toContain('<svg');
+    expect(html).not.toContain('Old demo page de');
     expect(html).not.toContain('[object Object]');
     for (const french of [
       'sem. à ce rang',

@@ -44,6 +44,7 @@ export default async function RisingWeekPage({
   return (
     <ChartsExperience
       data={data}
+      initialWeek={week}
       initialChart="rising"
       initialPeriod={selection.period}
       initialSelection={selection}

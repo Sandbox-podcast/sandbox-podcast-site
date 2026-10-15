@@ -1740,9 +1740,10 @@ html[data-scrolled='true'] .site-header {
 .about-social-person {
   position: relative;
   display: flex;
+  --card-pad: clamp(1.25rem, 2.3vw, 2rem);
   min-height: 22rem;
   flex-direction: column;
-  padding: clamp(1.25rem, 2.3vw, 2rem);
+  padding: var(--card-pad);
   overflow: hidden;
   border: 1px solid var(--hair);
   border-radius: 1rem;
@@ -1780,6 +1781,31 @@ html[data-scrolled='true'] .site-header {
   font-size: 1.7rem;
   font-weight: 800;
 }
+.about-social-portrait {
+  position: relative;
+  order: -1;
+  aspect-ratio: 1;
+  margin: calc(-1 * var(--card-pad)) calc(-1 * var(--card-pad)) 1.5rem;
+  overflow: hidden;
+  pointer-events: none;
+}
+.about-social-portrait::after {
+  position: absolute;
+  inset: 0;
+  content: '';
+  background: linear-gradient(to bottom, transparent 55%, var(--paper-2));
+}
+.about-social-person:has(.about-social-portrait) .about-social-card-top {
+  position: absolute;
+  z-index: 1;
+  top: var(--card-pad);
+  left: var(--card-pad);
+  color: var(--ink);
+}
+.about-social-photo {
+  object-fit: cover;
+  object-position: 50% 30%;
+}
 .about-social-card-body {
   display: flex;
   flex: 1;
@@ -1793,6 +1819,11 @@ html[data-scrolled='true'] .site-header {
   font-weight: 900;
   letter-spacing: -0.055em;
   line-height: 1;
+}
+.about-social-aka {
+  margin-top: 0.5rem;
+  color: var(--ink-3);
+  text-transform: none;
 }
 .about-social-card-rule {
   display: block;
@@ -2015,12 +2046,17 @@ html[data-scrolled='true'] .site-header {
   flex: 0 0 auto;
   text-align: right;
 }
+.episode-media {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
 .episode-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(17rem, 23rem);
+  grid-template-columns: minmax(0, 1.4fr) minmax(18rem, 1fr);
   align-items: start;
-  gap: clamp(1.5rem, 4vw, 3rem);
-  margin-top: 2rem;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
 }
 .episode-main {
   display: grid;
@@ -2106,6 +2142,14 @@ html[data-scrolled='true'] .site-header {
   padding: 0.3rem 0.6rem;
   border: 1px solid var(--hair);
 }
+.episode-chapters,
+.episode-resources {
+  min-width: 0;
+  padding: clamp(1rem, 2vw, 1.5rem);
+  border: 1px solid var(--hair);
+  border-radius: 0.85rem;
+  background: var(--paper-2);
+}
 .episode-resources {
   position: sticky;
   top: 6rem;
@@ -2113,10 +2157,6 @@ html[data-scrolled='true'] .site-header {
   max-height: calc(100vh - 7.5rem);
   align-content: start;
   overflow: auto;
-  padding: 1rem;
-  border: 1px solid var(--hair);
-  border-radius: 0.85rem;
-  background: var(--paper-2);
   scrollbar-width: thin;
 }
 .episode-resources h2 {

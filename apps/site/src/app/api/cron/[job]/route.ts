@@ -3,6 +3,7 @@ import { revalidatePath } from 'next/cache';
 import { collectGithub, discoverGithub, freezeGithubWeek } from '@/pipeline/github-jobs';
 import { vercelOidcToken } from '@/pipeline/external-clients';
 import { collectExternalCharts, freezeExternalCharts } from '@/pipeline/external-jobs';
+import { runAllBadgeAwards } from '@/pipeline/badges-jobs';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -29,23 +30,29 @@ export async function GET(request: Request, { params }: { params: Promise<{ job:
       summary = await collectExternalCharts(vercelOidcToken(request));
     else {
       const [github, external] = await Promise.all([freezeGithubWeek(), freezeExternalCharts()]);
+      const awards = await runAllBadgeAwards();
       summary = {
         processed: github.processed + external.processed,
         succeeded: github.succeeded + external.succeeded,
-        failed: github.failed + external.failed,
-        snapshotsCreated: github.snapshotsCreated + external.snapshotsCreated,
+        failed: github.failed + external.failed + awards.failed,
+        snapshotsCreated:
+          github.snapshotsCreated + external.snapshotsCreated + awards.snapshotsCreated,
         status:
-          github.status === 'failed' && external.status === 'failed'
-            ? 'failed'
-            : github.status === 'success' && external.status === 'success'
-              ? 'success'
-              : github.status === 'insufficient_history' &&
-                  external.status === 'insufficient_history'
-                ? 'insufficient_history'
-                : github.status === 'skipped' && external.status === 'skipped'
-                  ? 'skipped'
-                  : 'partial',
-        details: [...github.details, ...external.details],
+          awards.status === 'failed'
+            ? 'partial'
+            : github.status === 'failed' && external.status === 'failed'
+              ? 'failed'
+              : github.status === 'success' &&
+                  external.status === 'success' &&
+                  awards.status !== 'failed'
+                ? 'success'
+                : github.status === 'insufficient_history' &&
+                    external.status === 'insufficient_history'
+                  ? 'insufficient_history'
+                  : github.status === 'skipped' && external.status === 'skipped'
+                    ? 'skipped'
+                    : 'partial',
+        details: [...github.details, ...external.details, ...awards.details],
       };
     }
     if (job === 'github-weekly' && summary.snapshotsCreated > 0)

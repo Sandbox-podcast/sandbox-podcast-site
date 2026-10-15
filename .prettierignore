@@ -13,3 +13,11 @@ apps/site/data
 .agents/skills
 .agents/product-marketing.md
 .local/
+# Dépendances Python installées localement; les sources et tests de l'agent restent contrôlés.
+tools/youtube-growth/.venv/
+# Journaux, aperçus et historique générés par HyperFrames.
+**/.hyperframes/
+# Licences de polices et consignes fournies par les dépendances : conserver leur texte original.
+videos/**/assets/*OFL.md
+videos/le-clash-jingle/AGENTS.md
+videos/le-clash-jingle/CLAUDE.md

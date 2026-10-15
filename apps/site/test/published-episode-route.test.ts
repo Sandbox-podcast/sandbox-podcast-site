@@ -73,8 +73,12 @@ describe('épisodes publiés après le build', () => {
     expect(dynamicParams).toBe(true);
     setEditorialOverride(published);
     try {
-      const home = renderToStaticMarkup(await HomePage());
+      const home = renderToStaticMarkup(await HomePage({}));
       expect(home).toContain('href="/episodes/1"');
+      expect(home).toContain('<h1>Sandbox Charts</h1>');
+      expect(home.indexOf('Sandbox Charts')).toBeLessThan(home.indexOf('id="featured-title"'));
+      expect(home).toContain('<h2 id="featured-title"');
+      expect([...home.matchAll(/<h1\b/g)]).toHaveLength(1);
       const detail = renderToStaticMarkup(
         createElement('div', null, await EpisodePage({ params: Promise.resolve({ number: '1' }) })),
       );
@@ -101,6 +105,9 @@ describe('épisodes publiés après le build', () => {
       expect(await rss.text()).toContain('Épisode publié après le build');
       const sitemapEntries = await sitemap();
       expect(sitemapEntries.some((entry) => entry.url.endsWith('/episodes/1'))).toBe(true);
+      expect(sitemapEntries.find((entry) => entry.url.endsWith('/time-machine'))).toMatchObject({
+        lastModified: '2026-10-15',
+      });
     } finally {
       setEditorialOverride(undefined);
     }

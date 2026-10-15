@@ -13,6 +13,8 @@ import { TimeAgo } from './client';
 import { EpisodeCard } from './cards';
 import { MoveBadge, SectionHead } from './ui';
 import { ChartWeekSelect } from './chart-week-select';
+import { DemoContentPage } from './demo-content-page';
+import { hasDemoSnapshots } from '@/domain/demo-content';
 function Summary({ view }: { view: ChartView }) {
   const first = view.rows[0];
   const lead = view.reigns.at(-1);
@@ -213,6 +215,7 @@ function lensEntries(view: ChartView): LensEntry[] {
 }
 export function ChartScreen({ slug, week }: { slug: string; week?: string }) {
   const view = chartView(slug, week);
+  if (hasDemoSnapshots([view.snapshot])) return <DemoContentPage title={view.chart.title} />;
   const { chart, profile } = view;
   const episodes = episodesForChart(chart.slug, view.week).slice(0, 3);
   const dimLabels = Object.fromEntries(profile.dimensions.map((d) => [d.id, d.label]));

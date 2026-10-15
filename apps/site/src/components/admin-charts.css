@@ -267,6 +267,15 @@
   }
 }
 @media (max-width: 650px) {
+  .ac-tabs {
+    flex-wrap: wrap;
+  }
+  .ac-tabs button {
+    min-height: 44px;
+    padding: 0.65rem 0.75rem;
+    white-space: normal;
+    text-align: left;
+  }
   .ac-stats {
     grid-template-columns: 1fr 1fr;
   }

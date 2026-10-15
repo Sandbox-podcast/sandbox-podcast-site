@@ -144,6 +144,8 @@ export interface ChartsCollectionProgress {
 }
 
 export interface ChartsData {
+  /** Éligibilité actuelle uniquement, même lorsqu'une archive ou une autre période est affichée. */
+  badgeSlugs?: string[];
   mode: 'live' | 'fixtures' | 'pending' | 'unavailable';
   week: string;
   weeks: string[];

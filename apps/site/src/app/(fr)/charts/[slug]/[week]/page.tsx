@@ -50,6 +50,7 @@ export default async function ChartWeekPage({ params, searchParams }: Props) {
     return (
       <ChartsExperience
         data={data}
+        initialWeek={week}
         initialChart={chartId}
         initialView={
           slug === 'open-source-ai' ? 'open' : slug === 'ai-models' ? selection.view : undefined

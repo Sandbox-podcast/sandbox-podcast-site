@@ -3,6 +3,7 @@ import { EntityScreen } from '@/components/entity-screen';
 import { entityDescription } from '@/lib/entity-meta';
 import { allEntities, findEntity } from '@/lib/repository';
 import { pageMetadata } from '@/lib/seo';
+import { demoPageMetadata, isDemoEntity } from '@/lib/demo-content';
 export const dynamicParams = false;
 export function generateStaticParams() {
   return allEntities()
@@ -18,6 +19,7 @@ export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
   const entity = findEntity(slug);
   if (entity?.kind !== 'model') return {};
+  if (isDemoEntity(slug)) return demoPageMetadata(`/models/${slug}`, entity.name);
   return pageMetadata({
     title: `${entity.name} : benchmarks, classement et avis`,
     description: entityDescription(entity),

@@ -1,0 +1,634 @@
+{
+  "version": 1,
+  "historyId": "2adfaab6-5643-44aa-ac87-e0f263637286",
+  "currentRevision": "24b44782-f805-4dbf-a236-bc5b1353e8b3",
+  "pendingChanges": false,
+  "files": {
+    "AGENTS.md": {
+      "hash": "1d4f0c8ca2507b94fd7c9df709fff01416adbd51a0f922b9d6ed2f40129147d5",
+      "content": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\1d\\1d4f0c8ca2507b94fd7c9df709fff01416adbd51a0f922b9d6ed2f40129147d5"
+    },
+    "BRIEF.md": {
+      "hash": "85ee9bfc334aba6ea3b51243359802858c3c24e37440ad620d2a2b91d8f9ea64",
+      "content": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\85\\85ee9bfc334aba6ea3b51243359802858c3c24e37440ad620d2a2b91d8f9ea64"
+    },
+    "CLAUDE.md": {
+      "hash": "1d4f0c8ca2507b94fd7c9df709fff01416adbd51a0f922b9d6ed2f40129147d5",
+      "content": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\1d\\1d4f0c8ca2507b94fd7c9df709fff01416adbd51a0f922b9d6ed2f40129147d5"
+    },
+    "assets/LeagueGothic-Condensed.woff2": {
+      "hash": "657a3a6adfe0b8699451677897ab4562660186004b19fda72beccbc0f1d8655b",
+      "content": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\65\\657a3a6adfe0b8699451677897ab4562660186004b19fda72beccbc0f1d8655b"
+    },
+    "assets/LeagueGothic-OFL.md": {
+      "hash": "6fa7527b6f9894e0dd8d5ae0050b51d37de15bcf7e6269d8dd690eb9df59aa40",
+      "content": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\6f\\6fa7527b6f9894e0dd8d5ae0050b51d37de15bcf7e6269d8dd690eb9df59aa40"
+    },
+    "assets/index.md": {
+      "hash": "952fdd2426642eba0105d8b0f2e2cc0df993a2e045ccbf543470b60fe5f8cc7f",
+      "content": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\95\\952fdd2426642eba0105d8b0f2e2cc0df993a2e045ccbf543470b60fe5f8cc7f"
+    },
+    "assets/sandbox-logov2.png": {
+      "hash": "14ac78552a5acf432dbc35fdca0fa2f3896d1531d1e6f61f5778616b691a4068",
+      "content": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\14\\14ac78552a5acf432dbc35fdca0fa2f3896d1531d1e6f61f5778616b691a4068"
+    },
+    "compositions/components/caption-kinetic-slam.html": {
+      "hash": "3188d0088bc23c402485fd7a0278e690a494829a8cca0a06b67eedb91dea3a3b",
+      "content": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\31\\3188d0088bc23c402485fd7a0278e690a494829a8cca0a06b67eedb91dea3a3b"
+    },
+    "compositions/components/directional-wipe.html": {
+      "hash": "887fad60a7394c72105470007d603f5da9f1b5a16ca1949f4ebb35b8731b4044",
+      "content": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\88\\887fad60a7394c72105470007d603f5da9f1b5a16ca1949f4ebb35b8731b4044"
+    },
+    "hyperframes.json": {
+      "hash": "2199b3bf8fbd75c252de76c9d442e851f0dbcf6818864ff27820a74a72f80e94",
+      "content": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\21\\2199b3bf8fbd75c252de76c9d442e851f0dbcf6818864ff27820a74a72f80e94"
+    },
+    "hyperframes.lock.json": {
+      "hash": "d39afdd67ca70e6cc64f73eb05018ee1578b632c69e7a813d59cbfc925f4ed8b",
+      "content": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\d3\\d39afdd67ca70e6cc64f73eb05018ee1578b632c69e7a813d59cbfc925f4ed8b"
+    },
+    "index.html": {
+      "hash": "9f5b9c6ca19b07398d8fc978c0fbc77f500100fe153199ec351ed6ad8e986111",
+      "content": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\9f\\9f5b9c6ca19b07398d8fc978c0fbc77f500100fe153199ec351ed6ad8e986111"
+    },
+    "meta.json": {
+      "hash": "208c9181c2b17b8361531b300f09c697735e8f530609e48e09d6f5f2f70c6277",
+      "content": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\20\\208c9181c2b17b8361531b300f09c697735e8f530609e48e09d6f5f2f70c6277"
+    },
+    "package.json": {
+      "hash": "316d00e689ab1802c42e53ecbbcc3697ccc58a77b0d30a173d255a736a663026",
+      "content": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\31\\316d00e689ab1802c42e53ecbbcc3697ccc58a77b0d30a173d255a736a663026"
+    },
+    "assets/clash-hero.png": {
+      "hash": "494c2c86122a15710e7f6a3ca75ef3b2f676dfd7d0c5bf4e15337817c8e71b98",
+      "content": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\49\\494c2c86122a15710e7f6a3ca75ef3b2f676dfd7d0c5bf4e15337817c8e71b98"
+    },
+    "compositions/hero-visual.html": {
+      "hash": "de6f9171f7d72d1f646269b9c0a1b9ec4bd1b1e3703a0a5ca80c430761806f39",
+      "content": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\de\\de6f9171f7d72d1f646269b9c0a1b9ec4bd1b1e3703a0a5ca80c430761806f39"
+    },
+    "compositions/sandbox-lockup.html": {
+      "hash": "bc9607a54e88aa9f9993ac2d1301b442210b14f83722d63647b89ab94a324070",
+      "content": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\bc\\bc9607a54e88aa9f9993ac2d1301b442210b14f83722d63647b89ab94a324070"
+    },
+    "assets/music.mp3": {
+      "hash": "e2aabb6fd8ddf56e8490195286c8420a4688f35d51385c30486819366e37752e",
+      "content": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\e2\\e2aabb6fd8ddf56e8490195286c8420a4688f35d51385c30486819366e37752e"
+    },
+    "shot-plan.json": {
+      "hash": "c6ed9b0b000b5bd41d72349a81ccac2ac5063160414f67c3698e78bd1df0027b",
+      "content": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\c6\\c6ed9b0b000b5bd41d72349a81ccac2ac5063160414f67c3698e78bd1df0027b"
+    },
+    "config.js": {
+      "hash": "f8d4be37a7a37da949febacb858027461507ce15014145c1abb3755c26c16ab2",
+      "content": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\f8\\f8d4be37a7a37da949febacb858027461507ce15014145c1abb3755c26c16ab2"
+    },
+    "production.html": {
+      "hash": "eb2d7c4def5c399cbf9b9cff82b8f4326b2e300f115fb51ab7ecd45ccf95ba31",
+      "content": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\eb\\eb2d7c4def5c399cbf9b9cff82b8f4326b2e300f115fb51ab7ecd45ccf95ba31"
+    }
+  },
+  "revisions": {
+    "8f531b51-d059-4236-9c73-5f54d0b8361e": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1791969631030,
+      "endedAt": 1791969631043,
+      "files": {
+        "compositions/components/caption-kinetic-slam.html": {
+          "before": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\86\\86b7a54e045f626d1375636a2f1cde19c2f3cbdad1df1d7d0204fe6b4452044a",
+          "after": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\9c\\9c539a749562a6d20a73e4be7f197a1566ab35375cd97257b2b35720c23f5cf1"
+        },
+        "compositions/hero-visual.html": {
+          "before": null,
+          "after": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\95\\95147de5efaca5b2ad1f444d9f82a03bdf5c6ecd52092b37a146f850a2e1367b"
+        },
+        "compositions/sandbox-lockup.html": {
+          "before": null,
+          "after": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\80\\8085101ce8888e6e6e5196c7b7a12633a2cf53aeb0f665fd7adcc110fb64af26"
+        },
+        "index.html": {
+          "before": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\df\\dfb2247e4af2d7edf0d2b500dfcf259627284560313afe051ef0747b382dbeac",
+          "after": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\9a\\9a471ff6625959d42554803a77674156ae81bb4461ee37e37803f2c386be1487"
+        }
+      }
+    },
+    "0731522a-db97-4656-a739-6d2e5b3985f1": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1791969780115,
+      "endedAt": 1791969780129,
+      "files": {
+        "compositions/components/caption-kinetic-slam.html": {
+          "before": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\9c\\9c539a749562a6d20a73e4be7f197a1566ab35375cd97257b2b35720c23f5cf1",
+          "after": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\f6\\f6b16681351bd15d022ba50f57a1bed4cca398e101f700e1aed787a4f0a2d581"
+        },
+        "compositions/hero-visual.html": {
+          "before": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\95\\95147de5efaca5b2ad1f444d9f82a03bdf5c6ecd52092b37a146f850a2e1367b",
+          "after": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\9a\\9aad5b1fa7e5ff3e56b61704828db211db0ec97d6771788de29766458f6db984"
+        },
+        "compositions/sandbox-lockup.html": {
+          "before": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\80\\8085101ce8888e6e6e5196c7b7a12633a2cf53aeb0f665fd7adcc110fb64af26",
+          "after": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\3f\\3f8dd03fb3c9dbc126cccdd03f1b9a7b52f1d6e588671b85af8c805c43ddb3e0"
+        },
+        "index.html": {
+          "before": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\9a\\9a471ff6625959d42554803a77674156ae81bb4461ee37e37803f2c386be1487",
+          "after": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\9b\\9b425f788f3287ecc85a18bced2cb21637c3c022ec996a59b0a42661e4f5d3bf"
+        }
+      }
+    },
+    "4af4095d-ab93-48eb-8d3f-db07eddb9c5b": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1791970656926,
+      "endedAt": 1791970658941,
+      "files": {
+        "assets/music.mp3": {
+          "before": null,
+          "after": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\e2\\e2aabb6fd8ddf56e8490195286c8420a4688f35d51385c30486819366e37752e"
+        }
+      }
+    },
+    "1e368581-5cbb-4fe8-bb51-77ea277a844f": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1791970940759,
+      "endedAt": 1791970942768,
+      "files": {
+        "shot-plan.json": {
+          "before": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\d0\\d0df8b44ddf77252ed30d569e0d3a8bac82599ec9e009746da0a7d42bf5b1012",
+          "after": null
+        }
+      }
+    },
+    "c39388eb-4f60-46b8-bc08-2215eb724cb4": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1791971003201,
+      "endedAt": 1791971005211,
+      "files": {
+        "shot-plan.json": {
+          "before": null,
+          "after": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\e0\\e010e270ac8969ec6da52b55cb7d87bef1c2ee005461f7e32b20d6ad425c6c65"
+        }
+      }
+    },
+    "aa26d7ca-299b-4e36-88ae-008d6947f8e7": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1791971008102,
+      "endedAt": 1791971010115,
+      "files": {
+        "config.js": {
+          "before": null,
+          "after": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\fc\\fccb0038b95c9efd75ade1cf089b7ee4325cb82d2dc1fea968f51b2f8b76089c"
+        }
+      }
+    },
+    "05a5b896-2185-4a1a-a0c8-f292f591c54e": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1791971020214,
+      "endedAt": 1791971022228,
+      "files": {
+        "shot-plan.json": {
+          "before": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\e0\\e010e270ac8969ec6da52b55cb7d87bef1c2ee005461f7e32b20d6ad425c6c65",
+          "after": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\96\\96ea390e2b8a1ddff5fb2c1ffb3a0ae1e3ca305099135f5b4de23dc722182fa2"
+        }
+      }
+    },
+    "8f477b48-8afd-4b05-8fa6-4a774a393325": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1791971068928,
+      "endedAt": 1791971070931,
+      "files": {
+        "config.js": {
+          "before": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\fc\\fccb0038b95c9efd75ade1cf089b7ee4325cb82d2dc1fea968f51b2f8b76089c",
+          "after": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\96\\96dee18f0e811c64567e3506f23d5db344b28d7b5114ed7ced0abcc0d8c2af07"
+        }
+      }
+    },
+    "360dd239-37c1-4c17-a690-787510461c1f": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1791971072638,
+      "endedAt": 1791971074638,
+      "files": {
+        "production.html": {
+          "before": null,
+          "after": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\74\\7448840aeb51fe05af171016790f88d15f2fe9466e9aea02ac1e7e70b12327c7"
+        }
+      }
+    },
+    "7dc39ddd-3d82-4528-8d2c-8cc97943033d": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1791971518154,
+      "endedAt": 1791971520165,
+      "files": {
+        "config.js": {
+          "before": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\96\\96dee18f0e811c64567e3506f23d5db344b28d7b5114ed7ced0abcc0d8c2af07",
+          "after": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\7e\\7e9022471caff7a0a8bb7cd0c29eff0cbf2e04dce57a7542cb464f097454c744"
+        }
+      }
+    },
+    "e329475f-577e-4e5d-93ca-7dab8437f381": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1791971583565,
+      "endedAt": 1791971585573,
+      "files": {
+        "shot-plan.json": {
+          "before": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\96\\96ea390e2b8a1ddff5fb2c1ffb3a0ae1e3ca305099135f5b4de23dc722182fa2",
+          "after": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\b5\\b5ce06bf99b6706fad047e88e66a5d4b575e3a2ac1c51f7aacc32ff467f1300c"
+        }
+      }
+    },
+    "4aa7c8ea-df97-4653-91a8-8233e219765d": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1791971598570,
+      "endedAt": 1791971600582,
+      "files": {
+        "BRIEF.md": {
+          "before": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\c1\\c155ffca81ad409d6fbf11634473a2139de741e579535a5bd8dd78450d45db85",
+          "after": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\85\\85ee9bfc334aba6ea3b51243359802858c3c24e37440ad620d2a2b91d8f9ea64"
+        }
+      }
+    },
+    "f4e55580-bc8b-4a3a-b661-d4319d052df1": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1791971937478,
+      "endedAt": 1791971939483,
+      "files": {
+        "config.js": {
+          "before": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\7e\\7e9022471caff7a0a8bb7cd0c29eff0cbf2e04dce57a7542cb464f097454c744",
+          "after": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\14\\145c29bcc7b28a6dd823d3892ab0b3609488c10cf5e41874ab5b22f12c752e15"
+        }
+      }
+    },
+    "fa1b28b3-7c76-4b6e-9d8b-9c4cae4085ee": {
+      "actor": {
+        "kind": "agent",
+        "name": "codex"
+      },
+      "label": "Finalisation des controles de formatage",
+      "startedAt": 1792001207122,
+      "endedAt": 1792001314769.593,
+      "files": {
+        "assets/index.md": {
+          "before": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\76\\763f2bbb2f1bf05cd9e9c26f439e276d040c90046eb82c4d9ef407d4f2dcfa04",
+          "after": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\95\\952fdd2426642eba0105d8b0f2e2cc0df993a2e045ccbf543470b60fe5f8cc7f"
+        },
+        "compositions/components/caption-kinetic-slam.html": {
+          "before": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\f6\\f6b16681351bd15d022ba50f57a1bed4cca398e101f700e1aed787a4f0a2d581",
+          "after": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\31\\3188d0088bc23c402485fd7a0278e690a494829a8cca0a06b67eedb91dea3a3b"
+        },
+        "compositions/components/directional-wipe.html": {
+          "before": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\16\\1630a4c974ba6d9ea9a23fdb84627ee464c1447cd7b6b963defe4c5bf9867a48",
+          "after": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\88\\887fad60a7394c72105470007d603f5da9f1b5a16ca1949f4ebb35b8731b4044"
+        },
+        "compositions/hero-visual.html": {
+          "before": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\9a\\9aad5b1fa7e5ff3e56b61704828db211db0ec97d6771788de29766458f6db984",
+          "after": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\de\\de6f9171f7d72d1f646269b9c0a1b9ec4bd1b1e3703a0a5ca80c430761806f39"
+        },
+        "compositions/sandbox-lockup.html": {
+          "before": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\3f\\3f8dd03fb3c9dbc126cccdd03f1b9a7b52f1d6e588671b85af8c805c43ddb3e0",
+          "after": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\bc\\bc9607a54e88aa9f9993ac2d1301b442210b14f83722d63647b89ab94a324070"
+        },
+        "config.js": {
+          "before": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\14\\145c29bcc7b28a6dd823d3892ab0b3609488c10cf5e41874ab5b22f12c752e15",
+          "after": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\f8\\f8d4be37a7a37da949febacb858027461507ce15014145c1abb3755c26c16ab2"
+        },
+        "index.html": {
+          "before": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\9b\\9b425f788f3287ecc85a18bced2cb21637c3c022ec996a59b0a42661e4f5d3bf",
+          "after": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\9f\\9f5b9c6ca19b07398d8fc978c0fbc77f500100fe153199ec351ed6ad8e986111"
+        },
+        "meta.json": {
+          "before": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\12\\12c0e93e9d0acbdc730d0a31daebbdc74c8187bc5bb8541b71ac3da1c5cf8bf4",
+          "after": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\20\\208c9181c2b17b8361531b300f09c697735e8f530609e48e09d6f5f2f70c6277"
+        },
+        "production.html": {
+          "before": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\74\\7448840aeb51fe05af171016790f88d15f2fe9466e9aea02ac1e7e70b12327c7",
+          "after": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\eb\\eb2d7c4def5c399cbf9b9cff82b8f4326b2e300f115fb51ab7ecd45ccf95ba31"
+        },
+        "shot-plan.json": {
+          "before": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\b5\\b5ce06bf99b6706fad047e88e66a5d4b575e3a2ac1c51f7aacc32ff467f1300c",
+          "after": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\c6\\c6ed9b0b000b5bd41d72349a81ccac2ac5063160414f67c3698e78bd1df0027b"
+        }
+      }
+    },
+    "24b44782-f805-4dbf-a236-bc5b1353e8b3": {
+      "actor": {
+        "kind": "agent",
+        "name": "codex"
+      },
+      "label": "Finalisation des controles de formatage",
+      "startedAt": 1792001207122,
+      "endedAt": 1792001760713.4746,
+      "files": {
+        "package.json": {
+          "before": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\9d\\9d235eb174f6bf7eebeffb0c41ba71f77b199d72d29d5aab39c62ebc298c1186",
+          "after": "C:\\Users\\Lou\\.cache\\hyperframes\\history\\2adfaab6-5643-44aa-ac87-e0f263637286\\blobs\\31\\316d00e689ab1802c42e53ecbbcc3697ccc58a77b0d30a173d255a736a663026"
+        }
+      }
+    }
+  },
+  "checks": {
+    "latest": {
+      "revision": "24b44782-f805-4dbf-a236-bc5b1353e8b3",
+      "id": "92a79519-c563-4505-9b56-ffecc518e6bb"
+    },
+    "revisions": {
+      "8f531b51-d059-4236-9c73-5f54d0b8361e": [
+        {
+          "id": "54385a4c-3cad-4107-b32f-f09b15b92d16",
+          "scope": "project",
+          "report": "C:\\github\\sandbox-podcast\\videos\\le-clash-jingle\\.hyperframes\\artifacts\\checks\\54385a4c-3cad-4107-b32f-f09b15b92d16.json",
+          "metadata": {
+            "ok": true,
+            "browserSkipped": false,
+            "options": {
+              "samples": 9,
+              "atTransitions": false,
+              "maxIssues": 80,
+              "collapseStatic": true,
+              "tolerance": 2,
+              "timeout": 3000,
+              "contrast": true,
+              "strict": false,
+              "snapshots": false,
+              "browserGpuMode": "auto"
+            }
+          },
+          "createdAt": 1791969642855,
+          "contentHash": "9f09f2e48c442ff6d5e57ddb5e5c3cc0a0d57b0b3b04a1ae76a8a8f4a3dd5665",
+          "revision": "8f531b51-d059-4236-9c73-5f54d0b8361e",
+          "inputFingerprint": "33e1e046de8ccedcfcae0cb24dfdff91bcfc1aea28c1ecaec076ddfe15850eec",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        }
+      ],
+      "fa1b28b3-7c76-4b6e-9d8b-9c4cae4085ee": [
+        {
+          "id": "ab59e34a-5df6-4f61-8f22-c79c321c4b13",
+          "scope": "project",
+          "report": "C:\\github\\sandbox-podcast\\videos\\le-clash-jingle\\.hyperframes\\artifacts\\checks\\ab59e34a-5df6-4f61-8f22-c79c321c4b13.json",
+          "metadata": {
+            "ok": true,
+            "browserSkipped": false,
+            "options": {
+              "samples": 9,
+              "atTransitions": false,
+              "maxIssues": 80,
+              "collapseStatic": true,
+              "tolerance": 2,
+              "timeout": 3000,
+              "contrast": true,
+              "strict": false,
+              "snapshots": false,
+              "browserGpuMode": "auto"
+            }
+          },
+          "createdAt": 1792001458456,
+          "contentHash": "9f09f2e48c442ff6d5e57ddb5e5c3cc0a0d57b0b3b04a1ae76a8a8f4a3dd5665",
+          "revision": "fa1b28b3-7c76-4b6e-9d8b-9c4cae4085ee",
+          "inputFingerprint": "0bdc1b854b0134af3cd72f3c1cdb9d5873655d5dd37167a0188ddde746bac580",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        }
+      ],
+      "24b44782-f805-4dbf-a236-bc5b1353e8b3": [
+        {
+          "id": "92a79519-c563-4505-9b56-ffecc518e6bb",
+          "scope": "project",
+          "report": "C:\\github\\sandbox-podcast\\videos\\le-clash-jingle\\.hyperframes\\artifacts\\checks\\92a79519-c563-4505-9b56-ffecc518e6bb.json",
+          "metadata": {
+            "ok": true,
+            "browserSkipped": false,
+            "options": {
+              "samples": 9,
+              "atTransitions": false,
+              "maxIssues": 80,
+              "collapseStatic": true,
+              "tolerance": 2,
+              "timeout": 3000,
+              "contrast": true,
+              "strict": false,
+              "snapshots": false,
+              "browserGpuMode": "auto"
+            }
+          },
+          "createdAt": 1792001782595,
+          "contentHash": "9f09f2e48c442ff6d5e57ddb5e5c3cc0a0d57b0b3b04a1ae76a8a8f4a3dd5665",
+          "revision": "24b44782-f805-4dbf-a236-bc5b1353e8b3",
+          "inputFingerprint": "c9f9f27637d2450ed52ba5d71a1e5a7161188fac093d241398d22df3adeda8ad",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        }
+      ]
+    },
+    "unversioned": [
+      {
+        "id": "baeda08b-64d5-48ab-8eb0-08d49ad9f0f5",
+        "scope": "project",
+        "report": "C:\\github\\sandbox-podcast\\videos\\le-clash-jingle\\.hyperframes\\artifacts\\checks\\baeda08b-64d5-48ab-8eb0-08d49ad9f0f5.json",
+        "metadata": {
+          "ok": false,
+          "browserSkipped": false,
+          "options": {
+            "samples": 9,
+            "atTransitions": false,
+            "maxIssues": 80,
+            "collapseStatic": true,
+            "tolerance": 2,
+            "timeout": 3000,
+            "contrast": true,
+            "strict": false,
+            "snapshots": false,
+            "browserGpuMode": "auto"
+          }
+        },
+        "createdAt": 1791969408781,
+        "contentHash": "bceaa522945e993cbdffa6a3eeb9c3e298b6c28b398adcfb756d5d780cd226ed",
+        "revision": null,
+        "inputFingerprint": "0bf96f334a5ecebc1db40222ee0ccfbe9d83736c533149c7faa3333f3f38f440",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      }
+    ]
+  },
+  "snapshots": {
+    "latest": {
+      "revision": "8f531b51-d059-4236-9c73-5f54d0b8361e",
+      "id": "c47268d1-3923-446e-aaf4-5aac37d67b3a-5"
+    },
+    "revisions": {
+      "8f531b51-d059-4236-9c73-5f54d0b8361e": [
+        {
+          "scope": "full",
+          "id": "c47268d1-3923-446e-aaf4-5aac37d67b3a-0",
+          "image": "C:\\github\\sandbox-podcast\\videos\\le-clash-jingle\\.hyperframes\\artifacts\\snapshots\\ce7c362c-1290-4d94-83a7-7ec491dff669\\frame-00-at-0.8s.png",
+          "time": 0.8,
+          "metadata": {
+            "width": 1920,
+            "height": 1080,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1791969715537,
+          "contentHash": "4bef1321f234a496d72b5b4d3b4081566f4165971898171639c3b0e4399bca97",
+          "revision": "8f531b51-d059-4236-9c73-5f54d0b8361e",
+          "inputFingerprint": "33e1e046de8ccedcfcae0cb24dfdff91bcfc1aea28c1ecaec076ddfe15850eec",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        },
+        {
+          "scope": "full",
+          "id": "c47268d1-3923-446e-aaf4-5aac37d67b3a-1",
+          "image": "C:\\github\\sandbox-podcast\\videos\\le-clash-jingle\\.hyperframes\\artifacts\\snapshots\\ce7c362c-1290-4d94-83a7-7ec491dff669\\frame-01-at-3.5s.png",
+          "time": 3.5,
+          "metadata": {
+            "width": 1920,
+            "height": 1080,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1791969715537,
+          "contentHash": "26e9d7a99cad012033b7fc5beaf97ec04406686c495c3bc54d5f322afeef9d81",
+          "revision": "8f531b51-d059-4236-9c73-5f54d0b8361e",
+          "inputFingerprint": "33e1e046de8ccedcfcae0cb24dfdff91bcfc1aea28c1ecaec076ddfe15850eec",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        },
+        {
+          "scope": "full",
+          "id": "c47268d1-3923-446e-aaf4-5aac37d67b3a-2",
+          "image": "C:\\github\\sandbox-podcast\\videos\\le-clash-jingle\\.hyperframes\\artifacts\\snapshots\\ce7c362c-1290-4d94-83a7-7ec491dff669\\frame-02-at-5.7s.png",
+          "time": 5.7,
+          "metadata": {
+            "width": 1920,
+            "height": 1080,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1791969715538,
+          "contentHash": "cb6f161bc22ca87e21397577d8204780afec3b3dbbda2a862eabda23dbc8be99",
+          "revision": "8f531b51-d059-4236-9c73-5f54d0b8361e",
+          "inputFingerprint": "33e1e046de8ccedcfcae0cb24dfdff91bcfc1aea28c1ecaec076ddfe15850eec",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        },
+        {
+          "scope": "full",
+          "id": "c47268d1-3923-446e-aaf4-5aac37d67b3a-3",
+          "image": "C:\\github\\sandbox-podcast\\videos\\le-clash-jingle\\.hyperframes\\artifacts\\snapshots\\ce7c362c-1290-4d94-83a7-7ec491dff669\\frame-03-at-9.6s.png",
+          "time": 9.6,
+          "metadata": {
+            "width": 1920,
+            "height": 1080,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1791969715538,
+          "contentHash": "20dc6b9e14bfc610999d8b48aba444ed4b395a3c1699bf66d365e22195cde729",
+          "revision": "8f531b51-d059-4236-9c73-5f54d0b8361e",
+          "inputFingerprint": "33e1e046de8ccedcfcae0cb24dfdff91bcfc1aea28c1ecaec076ddfe15850eec",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        },
+        {
+          "scope": "full",
+          "id": "c47268d1-3923-446e-aaf4-5aac37d67b3a-4",
+          "image": "C:\\github\\sandbox-podcast\\videos\\le-clash-jingle\\.hyperframes\\artifacts\\snapshots\\ce7c362c-1290-4d94-83a7-7ec491dff669\\frame-04-at-11.4s.png",
+          "time": 11.4,
+          "metadata": {
+            "width": 1920,
+            "height": 1080,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1791969715538,
+          "contentHash": "4125483fc03a49cc2865a17a2baf00f11d0db1d0bb6209ce7a7ef890e0c354f5",
+          "revision": "8f531b51-d059-4236-9c73-5f54d0b8361e",
+          "inputFingerprint": "33e1e046de8ccedcfcae0cb24dfdff91bcfc1aea28c1ecaec076ddfe15850eec",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        },
+        {
+          "scope": "full",
+          "id": "c47268d1-3923-446e-aaf4-5aac37d67b3a-5",
+          "image": "C:\\github\\sandbox-podcast\\videos\\le-clash-jingle\\.hyperframes\\artifacts\\snapshots\\ce7c362c-1290-4d94-83a7-7ec491dff669\\frame-05-at-14.5s.png",
+          "time": 14.5,
+          "metadata": {
+            "width": 1920,
+            "height": 1080,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1791969715539,
+          "contentHash": "4125483fc03a49cc2865a17a2baf00f11d0db1d0bb6209ce7a7ef890e0c354f5",
+          "revision": "8f531b51-d059-4236-9c73-5f54d0b8361e",
+          "inputFingerprint": "33e1e046de8ccedcfcae0cb24dfdff91bcfc1aea28c1ecaec076ddfe15850eec",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        }
+      ]
+    },
+    "unversioned": []
+  }
+}

@@ -2,6 +2,15 @@ import js from '@eslint/js';
 import { defineConfig } from 'eslint/config';
 import tseslint from 'typescript-eslint';
 
+const browserGlobals = {
+  window: 'readonly',
+  document: 'readonly',
+  requestAnimationFrame: 'readonly',
+  performance: 'readonly',
+  URLSearchParams: 'readonly',
+};
+const scriptGlobals = { process: 'readonly', console: 'readonly', Buffer: 'readonly' };
+
 export default defineConfig(
   {
     ignores: [
@@ -9,6 +18,10 @@ export default defineConfig(
       '**/dist/**',
       '**/coverage/**',
       '**/.next/**',
+      // Captures et compilations Next générées par les tests navigateur locaux.
+      '**/.local/**',
+      // Dépendances Python locales ; les sources de l'agent restent contrôlées.
+      'tools/youtube-growth/.venv/**',
       '**/next-env.d.ts',
       '.site-publish/**',
       // Archive du travail sur la plateforme vidéo : plus dans l'espace de travail pnpm, hors des contrôles.
@@ -30,8 +43,30 @@ export default defineConfig(
     },
   },
   {
-    files: ['**/*.js', '**/*.mjs'],
+    files: ['**/*.js', '**/*.mjs', '**/*.cjs'],
     extends: [tseslint.configs.disableTypeChecked],
+  },
+  {
+    files: ['videos/**/*.js'],
+    languageOptions: { globals: browserGlobals },
+  },
+  {
+    // Les scripts Node sérialisent aussi des callbacks exécutés par Playwright.
+    files: ['videos/**/*.mjs'],
+    languageOptions: { globals: { ...scriptGlobals, ...browserGlobals } },
+  },
+  {
+    files: ['**/*.cjs'],
+    languageOptions: {
+      sourceType: 'commonjs',
+      globals: {
+        ...scriptGlobals,
+        require: 'readonly',
+        module: 'readonly',
+        __dirname: 'readonly',
+        __filename: 'readonly',
+      },
+    },
   },
   {
     files: ['apps/site/**/*.{ts,tsx}'],

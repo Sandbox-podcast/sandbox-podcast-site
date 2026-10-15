@@ -35,22 +35,25 @@ const pending: ChartsData = {
 describe('classements publics en français', () => {
   it('affiche un état d’attente exact et les commandes en français', () => {
     const html = renderToStaticMarkup(createElement(ChartsExperience, { data: pending }));
-    expect(html).toContain('LES CLASSEMENTS IA');
-    expect(html).toContain('MISE À JOUR CHAQUE JOUR');
-    expect(html).toContain('SEMAINE');
-    expect(html).toContain('octobre 2026');
-    expect(html).toContain('LE CLASSEMENT HEBDOMADAIRE');
-    expect(html).toContain('PARTAGER LE CLASSEMENT');
+    expect(html).toContain('Sandbox Charts');
+    expect(html).toContain('Mise à jour quotidienne');
+    expect(html).toContain('Période');
+    expect(html).toContain('Cette édition');
+    expect(html).toContain('Catégorie');
+    expect(html).not.toContain('Options');
+    expect(html).not.toContain('Partager');
     expect(html).toContain('Aucune édition publiée pour ce classement.');
-    expect(html).toContain('après la collecte des relevés et la publication d’une édition');
     expect(html).toContain('12 dépôts suivis');
     expect(html).toContain('Historique : ');
     expect(html).toContain('3');
     expect(html).toContain(' / ');
     expect(html).toContain('7');
-    expect(html).toContain('Première édition possible : ');
-    expect(html).toContain('2026-W42');
-    expect(html).toContain('LES ARCHIVES');
+    expect(html).toContain('Archives');
+    expect(html).not.toContain('>Édition</span>');
+    expect(html).not.toContain('sc-newsletter');
+    expect(html).not.toContain('sc-podium');
+    expect(html).not.toContain('sc-watchlist');
+    expect(html).not.toContain('sc-market');
     expect(html).not.toContain('THE WEEKLY RANKING');
     expect(html).not.toContain('BUILDING THE HISTORY');
     expect(html).not.toContain('Get SANDBOX CHARTS');
@@ -80,8 +83,11 @@ describe('classements publics en anglais', () => {
         children: createElement(ChartsExperience, { data: pending }),
       }),
     );
-    expect(html).toContain('THE AI CHARTS');
-    expect(html).toContain('UPDATED EVERY DAY');
+    expect(html).toContain('Sandbox Charts');
+    expect(html).toContain('Updated daily');
+    expect(html).toContain('Period');
+    expect(html).toContain('This edition');
+    expect(html).toContain('Category');
     expect(html).toContain('No edition has been published for this ranking.');
     expect(html).not.toContain('LES CLASSEMENTS IA');
     expect(html).not.toContain('Aucune édition publiée pour ce classement.');

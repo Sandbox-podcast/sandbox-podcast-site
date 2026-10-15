@@ -10,6 +10,8 @@ import { slugSchema } from '@/domain/schema';
 import { githubProjectDetail } from '@/lib/charts-public';
 import { readChartsEditorial } from '@/lib/charts-editorial';
 import { absoluteUrl, pageMetadata } from '@/lib/seo';
+import { Suspense } from 'react';
+import { ProjectBadges } from '@/components/project-badges';
 export const dynamic = 'force-dynamic';
 export async function generateMetadata({
   params,
@@ -167,6 +169,17 @@ export default async function Page({
             <Text>{'Voir le d\u00E9p\u00F4t GitHub \u2197'}</Text>
           </a>
         </header>
+        <Suspense
+          fallback={
+            <section id="badges" role="status">
+              <Text>{'Chargement des distinctions.'}</Text>
+            </section>
+          }
+        >
+          <ProjectBadges
+            project={{ githubId: result.githubId, name: project.name, slug: project.slug }}
+          />
+        </Suspense>
         <div className="sc-project-ranks">
           <Text>
             {[

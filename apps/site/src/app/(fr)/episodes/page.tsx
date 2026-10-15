@@ -14,7 +14,7 @@ interface Props {
   searchParams?: Promise<Record<string, string | string[] | undefined>>;
 }
 
-export async function generateMetadata({ searchParams = Promise.resolve({}) }: Props = {}) {
+export async function generateMetadata({ searchParams = Promise.resolve({}) }: Props) {
   await preparePublishedEditorialContent();
   const query = await searchParams;
   return pageMetadata({
@@ -28,7 +28,7 @@ export async function generateMetadata({ searchParams = Promise.resolve({}) }: P
   });
 }
 
-export default async function EpisodesPage({ searchParams = Promise.resolve({}) }: Props = {}) {
+export default async function EpisodesPage({ searchParams = Promise.resolve({}) }: Props) {
   await preparePublishedEditorialContent();
   const selection = episodeSelectionSchema.parse(await searchParams);
   const episodes = allEpisodes().toSorted((a, b) => b.publishedAt.localeCompare(a.publishedAt));

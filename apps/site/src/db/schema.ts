@@ -243,6 +243,62 @@ export const weeklyRankings = pgTable(
     index('weekly_rank_entity_history_idx').on(table.entityId),
   ],
 );
+/** Attributions historiques, immuables. Un retrait ajoute une trace séparée. */
+export const badgeAwards = pgTable(
+  'badge_awards',
+  {
+    id: text('id').primaryKey(),
+    awardType: text('award_type').notNull(),
+    week: text('week'),
+    extendedPeriod: text('extended_period'),
+    period: text('period')
+      .notNull()
+      .generatedAlwaysAs(sql`COALESCE(week, extended_period)`),
+    periodKind: text('period_kind').notNull().default('week'),
+    scope: text('scope').notNull().default(''),
+    chart: text('chart_type')
+      .notNull()
+      .default('rising')
+      .references(() => rankingCollections.key),
+    entityId: text('entity_id')
+      .notNull()
+      .references(() => chartEntities.id),
+    githubId: doublePrecision('github_id'),
+    projectName: text('project_name').notNull(),
+    editionId: text('edition_id')
+      .notNull()
+      .references(() => weeklyChartEditions.id),
+    rank: integer('rank').notNull(),
+    score: doublePrecision('score').notNull(),
+    ruleVersion: text('rule_version').notNull(),
+    evidence: jsonb('evidence').notNull().$type<Record<string, unknown>>(),
+    evidenceHash: text('evidence_hash').notNull(),
+    assignedAt: timestamp('assigned_at', { withTimezone: true, mode: 'string' })
+      .notNull()
+      .defaultNow(),
+  },
+  (table) => [
+    uniqueIndex('badge_awards_type_week_idx').on(table.awardType, table.week),
+    uniqueIndex('badge_awards_type_period_scope_idx').on(
+      table.awardType,
+      table.period,
+      table.scope,
+    ),
+    index('badge_awards_project_idx').on(table.githubId),
+    index('badge_awards_entity_idx').on(table.entityId),
+    index('badge_awards_history_idx').on(table.assignedAt, table.id),
+  ],
+);
+export const badgeAwardWithdrawals = pgTable('badge_award_withdrawals', {
+  awardId: text('award_id')
+    .primaryKey()
+    .references(() => badgeAwards.id),
+  reason: text('reason').notNull(),
+  actor: text('actor').notNull(),
+  withdrawnAt: timestamp('withdrawn_at', { withTimezone: true, mode: 'string' })
+    .notNull()
+    .defaultNow(),
+});
 export const chartsJobRuns = pgTable(
   'charts_job_runs',
   {

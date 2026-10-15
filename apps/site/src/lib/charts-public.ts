@@ -68,6 +68,7 @@ export const githubProjectDetail = cache(async function githubProjectDetail(slug
     : undefined;
   return {
     project,
+    githubId: row.repo.githubId,
     githubUrl: row.entity.sourceUrl,
     metrics,
     currentWeek,

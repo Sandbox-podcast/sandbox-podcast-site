@@ -5058,5 +5058,1185 @@
   "τ-bench": {
     "translation": "",
     "sources": ["content/scoring/models.json", "content/sources.json"]
+  },
+  "Mise à jour quotidienne": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Aperçu local. Données de démonstration.": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Choisir un classement": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Cette édition": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Ce mois": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "3 mois": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Tout l'historique": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Période": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Capacité": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Options": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Partager": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Mode 16:9": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Méthodologie et sources": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Évolution": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Projet": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Modèle": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Skill": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Étoiles": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Tendance": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Indice de présence aux meilleures places. Les métriques proviennent des derniers relevés disponibles.": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Positions recalculées selon la capacité choisie.": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Recevoir les classements par e-mail": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Historique insuffisant": {
+    "translation": "",
+    "sources": ["src/components/charts-ranking.tsx"]
+  },
+  "Obtenir mon badge": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Badges & Awards": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Critères et installation": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Les distinctions du projet": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Classement dynamique": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Récompense historique": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Ce projet figure dans le Top 100 GitHub AI de Sandbox.": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Le dernier classement est trop ancien pour afficher un badge actif.": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Aucune édition GitHub n'est encore publiée.": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Les données de classement sont temporairement indisponibles.": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Ce projet ne fait pas actuellement partie du Top 100.": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Dernière édition :": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Mesures :": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Le rang suit les éditions publiées. Le badge devient neutre si le projet sort du Top 100 ou si les données ont plus de 48 heures.": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Attribution retirée.": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Premier du classement Rising à la clôture de cette semaine.": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Consulter l'édition source": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "L'historique des Awards est temporairement indisponible.": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Ce projet n'a pas encore reçu de Rising Star.": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Aperçu": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Fond de l'aperçu": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Sombre": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Clair": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Chargement de l'aperçu.": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "L'aperçu est indisponible. Réessayez dans quelques instants.": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Format d'intégration": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "URL SVG": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Code pour le README GitHub": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Code pour votre site": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Adresse du badge SVG": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Copier le Markdown": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Copier le HTML": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Copier l'URL": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Copier un texte de partage": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Texte de partage copié.": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Code Markdown copié.": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Code HTML copié.": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "URL du badge copiée.": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Copie indisponible. Sélectionnez le code pour le copier.": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Chargement des distinctions.": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Votre place dans les classements, prête à afficher dans votre README.": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Trouver mon projet": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Deux distinctions, deux usages": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Le badge GitHub AI affiche le rang officiel du projet dans la dernière édition publiée. Il est disponible pour les rangs 1 à 100. Le classement publie actuellement 20 positions : seuls ces projets peuvent donc le récupérer.": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Son URL reste la même. Il devient neutre si le projet quitte le Top 100, si son dépôt est indisponible ou si les mesures ont plus de 48 heures. Il se réactive automatiquement lorsque les conditions sont à nouveau réunies.": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Méthode GitHub et sources": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Un prix hebdomadaire pour le premier projet GitHub du classement Rising du dimanche. L'année et la semaine ISO restent inscrites sur le badge.": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "La semaine va du lundi au dimanche, dans le fuseau Europe/Paris. L'attribution attend la clôture de la semaine et la publication de l'édition du dimanche.": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Rising retient les projets suivis, actifs, non archivés et non exclus, avec une accélération positive et au plus 25 000 stars par défaut. Les seuils exacts sont ceux de la configuration conservée dans l'édition source.": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Le rang réutilise le score Rising publié : évolution GitHub à J-7 et J-14, puis contrôle OpenSSF. Les égalités sont départagées par les stars gagnées, puis par le slug du projet.": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Une édition absente, incomplète ou sans preuve suffisante ne donne aucun lauréat. Une seule attribution est enregistrée par semaine. Sa source et sa règle sont conservées.": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Ces distinctions mesurent une position et une dynamique parmi les projets suivis. Elles ne constituent ni un audit de code, ni une certification de sécurité, ni une récompense officielle de GitHub.": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Méthode Rising et sources": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Les Rising Stars": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Rang source :": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Score :": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Règle d'attribution :": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Attribué le :": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Aucun Rising Star n'a encore été attribué. Le premier lauréat apparaîtra après une clôture de semaine disposant des données nécessaires.": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Installer votre badge": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Ouvrez la fiche de votre projet depuis le classement GitHub.": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Dans les distinctions, ouvrez \"Obtenir mon badge\" et copiez le Markdown.": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Collez ce code dans votre README.md, puis enregistrez la modification sur GitHub. Le badge renvoie vers la fiche Sandbox. Le format HTML et l'URL SVG sont aussi disponibles.": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Aucun compte Sandbox ni accès GitHub n'est demandé. Chaque visiteur peut copier un badge public. Seules les personnes autorisées sur le dépôt peuvent modifier son README.": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "GitHub et les autres plateformes peuvent garder une copie de l'image en cache. Une mise à jour peut donc apparaître avec un délai. La fiche Sandbox reste la référence pour le rang et la date des mesures.": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Sandbox Badges & Awards": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Affichez votre rang GitHub AI avec un badge dynamique. Découvrez les Rising Stars et les critères de leurs récompenses hebdomadaires.": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx"
+    ]
+  },
+  "Cette récompense est temporairement indisponible.": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx",
+      "src/app/(fr)/charts/awards/[week]/page.tsx"
+    ]
+  },
+  "Toutes les récompenses": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx",
+      "src/app/(fr)/charts/awards/[week]/page.tsx"
+    ]
+  },
+  "Consulter la fiche du projet": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx",
+      "src/app/(fr)/charts/awards/[week]/page.tsx"
+    ]
+  },
+  "Source et attribution": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx",
+      "src/app/(fr)/charts/awards/[week]/page.tsx"
+    ]
+  },
+  "Télécharger le SVG": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx",
+      "src/app/(fr)/charts/awards/[week]/page.tsx"
+    ]
+  },
+  "Guide d'installation": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx",
+      "src/app/(fr)/charts/awards/[week]/page.tsx"
+    ]
+  },
+  "Partager la récompense": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx",
+      "src/app/(fr)/charts/awards/[week]/page.tsx"
+    ]
+  },
+  "Texte de partage": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx",
+      "src/app/(fr)/charts/awards/[week]/page.tsx"
+    ]
+  },
+  "Lien de la récompense": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx",
+      "src/app/(fr)/charts/awards/[week]/page.tsx"
+    ]
+  },
+  "Lien de la récompense copié.": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx",
+      "src/app/(fr)/charts/awards/[week]/page.tsx"
+    ]
+  },
+  "Copier le lien de la récompense": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx",
+      "src/app/(fr)/charts/awards/[week]/page.tsx"
+    ]
+  },
+  "Voir la récompense": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx",
+      "src/app/(fr)/charts/awards/[week]/page.tsx"
+    ]
+  },
+  "Télécharger l'image de partage": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx",
+      "src/app/(fr)/charts/awards/[week]/page.tsx"
+    ]
+  },
+  "Réessayer l'aperçu": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx",
+      "src/app/(fr)/charts/awards/[week]/page.tsx"
+    ]
+  },
+  "Aucune récompense pour cette période.": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx",
+      "src/app/(fr)/charts/awards/[week]/page.tsx"
+    ]
+  },
+  "Pagination des récompenses": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx",
+      "src/app/(fr)/charts/awards/[week]/page.tsx"
+    ]
+  },
+  "Éditions récentes": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx",
+      "src/app/(fr)/charts/awards/[week]/page.tsx"
+    ]
+  },
+  "Éditions précédentes": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx",
+      "src/app/(fr)/charts/awards/[week]/page.tsx"
+    ]
+  },
+  "La récompense hebdomadaire, son classement source et son badge GitHub AI.": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx",
+      "src/app/(fr)/charts/awards/[week]/page.tsx"
+    ]
+  },
+  "Consultez le retrait de cette attribution et sa source historique.": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx",
+      "src/app/(fr)/charts/awards/[week]/page.tsx"
+    ]
+  },
+  "Récompenses hebdomadaires Sandbox.": {
+    "translation": "",
+    "sources": [
+      "src/components/badge-generator.tsx",
+      "src/components/project-badges.tsx",
+      "src/app/(fr)/charts/awards/page.tsx",
+      "src/app/(fr)/charts/awards/[week]/page.tsx"
+    ]
+  },
+  "Un rang actuel, des récompenses datées": {
+    "translation": "",
+    "sources": [
+      "src/domain/awards.ts",
+      "src/components/award-card.tsx",
+      "src/components/entity-awards.tsx",
+      "src/app/(fr)/charts/awards/page.tsx",
+      "src/app/(fr)/charts/awards/edition/[id]/page.tsx",
+      "src/app/(fr)/charts/entity/[slug]/page.tsx"
+    ]
+  },
+  "Les lauréats": {
+    "translation": "",
+    "sources": [
+      "src/domain/awards.ts",
+      "src/components/award-card.tsx",
+      "src/components/entity-awards.tsx",
+      "src/app/(fr)/charts/awards/page.tsx",
+      "src/app/(fr)/charts/awards/edition/[id]/page.tsx",
+      "src/app/(fr)/charts/entity/[slug]/page.tsx"
+    ]
+  },
+  "Récompense": {
+    "translation": "",
+    "sources": [
+      "src/domain/awards.ts",
+      "src/components/award-card.tsx",
+      "src/components/entity-awards.tsx",
+      "src/app/(fr)/charts/awards/page.tsx",
+      "src/app/(fr)/charts/awards/edition/[id]/page.tsx",
+      "src/app/(fr)/charts/entity/[slug]/page.tsx"
+    ]
+  },
+  "Tous les classements": {
+    "translation": "",
+    "sources": [
+      "src/domain/awards.ts",
+      "src/components/award-card.tsx",
+      "src/components/entity-awards.tsx",
+      "src/app/(fr)/charts/awards/page.tsx",
+      "src/app/(fr)/charts/awards/edition/[id]/page.tsx",
+      "src/app/(fr)/charts/entity/[slug]/page.tsx"
+    ]
+  },
+  "Filtrer": {
+    "translation": "",
+    "sources": [
+      "src/domain/awards.ts",
+      "src/components/award-card.tsx",
+      "src/components/entity-awards.tsx",
+      "src/app/(fr)/charts/awards/page.tsx",
+      "src/app/(fr)/charts/awards/edition/[id]/page.tsx",
+      "src/app/(fr)/charts/entity/[slug]/page.tsx"
+    ]
+  },
+  "Réinitialiser les filtres": {
+    "translation": "",
+    "sources": [
+      "src/domain/awards.ts",
+      "src/components/award-card.tsx",
+      "src/components/entity-awards.tsx",
+      "src/app/(fr)/charts/awards/page.tsx",
+      "src/app/(fr)/charts/awards/edition/[id]/page.tsx",
+      "src/app/(fr)/charts/entity/[slug]/page.tsx"
+    ]
+  },
+  "Période :": {
+    "translation": "",
+    "sources": [
+      "src/domain/awards.ts",
+      "src/components/award-card.tsx",
+      "src/components/entity-awards.tsx",
+      "src/app/(fr)/charts/awards/page.tsx",
+      "src/app/(fr)/charts/awards/edition/[id]/page.tsx",
+      "src/app/(fr)/charts/entity/[slug]/page.tsx"
+    ]
+  },
+  "Voir les lauréats": {
+    "translation": "",
+    "sources": [
+      "src/domain/awards.ts",
+      "src/components/award-card.tsx",
+      "src/components/entity-awards.tsx",
+      "src/app/(fr)/charts/awards/page.tsx",
+      "src/app/(fr)/charts/awards/edition/[id]/page.tsx",
+      "src/app/(fr)/charts/entity/[slug]/page.tsx"
+    ]
+  },
+  "Les semaines suivent le calendrier ISO en Europe/Paris. Les récompenses attendent la clôture de leur période. Les sources, rangs, scores et règles sont conservés ; un retrait reste visible et ne donne pas lieu à une nouvelle attribution.": {
+    "translation": "",
+    "sources": [
+      "src/domain/awards.ts",
+      "src/components/award-card.tsx",
+      "src/components/entity-awards.tsx",
+      "src/app/(fr)/charts/awards/page.tsx",
+      "src/app/(fr)/charts/awards/edition/[id]/page.tsx",
+      "src/app/(fr)/charts/entity/[slug]/page.tsx"
+    ]
+  },
+  "Une édition absente, incomplète, retirée ou sans preuve suffisante ne donne aucun lauréat. Les prix réutilisent les classements publiés sans recalculer leurs scores. Rising exige les mesures GitHub à J-7 et J-14 et le contrôle OpenSSF.": {
+    "translation": "",
+    "sources": [
+      "src/domain/awards.ts",
+      "src/components/award-card.tsx",
+      "src/components/entity-awards.tsx",
+      "src/app/(fr)/charts/awards/page.tsx",
+      "src/app/(fr)/charts/awards/edition/[id]/page.tsx",
+      "src/app/(fr)/charts/entity/[slug]/page.tsx"
+    ]
+  },
+  "Aucune récompense n'a encore été attribuée. Les lauréats apparaîtront après une clôture disposant des données nécessaires.": {
+    "translation": "",
+    "sources": [
+      "src/domain/awards.ts",
+      "src/components/award-card.tsx",
+      "src/components/entity-awards.tsx",
+      "src/app/(fr)/charts/awards/page.tsx",
+      "src/app/(fr)/charts/awards/edition/[id]/page.tsx",
+      "src/app/(fr)/charts/entity/[slug]/page.tsx"
+    ]
+  },
+  "Ouvrez la fiche du projet, de la skill ou du modèle depuis son classement ou sa récompense.": {
+    "translation": "",
+    "sources": [
+      "src/domain/awards.ts",
+      "src/components/award-card.tsx",
+      "src/components/entity-awards.tsx",
+      "src/app/(fr)/charts/awards/page.tsx",
+      "src/app/(fr)/charts/awards/edition/[id]/page.tsx",
+      "src/app/(fr)/charts/entity/[slug]/page.tsx"
+    ]
+  },
+  "Ce projet n'a pas encore reçu de récompense.": {
+    "translation": "",
+    "sources": [
+      "src/domain/awards.ts",
+      "src/components/award-card.tsx",
+      "src/components/entity-awards.tsx",
+      "src/app/(fr)/charts/awards/page.tsx",
+      "src/app/(fr)/charts/awards/edition/[id]/page.tsx",
+      "src/app/(fr)/charts/entity/[slug]/page.tsx"
+    ]
+  },
+  "Consulter la fiche du lauréat": {
+    "translation": "",
+    "sources": [
+      "src/domain/awards.ts",
+      "src/components/award-card.tsx",
+      "src/components/entity-awards.tsx",
+      "src/app/(fr)/charts/awards/page.tsx",
+      "src/app/(fr)/charts/awards/edition/[id]/page.tsx",
+      "src/app/(fr)/charts/entity/[slug]/page.tsx"
+    ]
+  },
+  "Les distinctions du lauréat": {
+    "translation": "",
+    "sources": [
+      "src/domain/awards.ts",
+      "src/components/award-card.tsx",
+      "src/components/entity-awards.tsx",
+      "src/app/(fr)/charts/awards/page.tsx",
+      "src/app/(fr)/charts/awards/edition/[id]/page.tsx",
+      "src/app/(fr)/charts/entity/[slug]/page.tsx"
+    ]
+  },
+  "Aucune récompense n'a encore été attribuée à cette entité.": {
+    "translation": "",
+    "sources": [
+      "src/domain/awards.ts",
+      "src/components/award-card.tsx",
+      "src/components/entity-awards.tsx",
+      "src/app/(fr)/charts/awards/page.tsx",
+      "src/app/(fr)/charts/awards/edition/[id]/page.tsx",
+      "src/app/(fr)/charts/entity/[slug]/page.tsx"
+    ]
+  },
+  "Cette fiche est temporairement indisponible.": {
+    "translation": "",
+    "sources": [
+      "src/domain/awards.ts",
+      "src/components/award-card.tsx",
+      "src/components/entity-awards.tsx",
+      "src/app/(fr)/charts/awards/page.tsx",
+      "src/app/(fr)/charts/awards/edition/[id]/page.tsx",
+      "src/app/(fr)/charts/entity/[slug]/page.tsx"
+    ]
+  },
+  "Dernières apparitions": {
+    "translation": "",
+    "sources": [
+      "src/domain/awards.ts",
+      "src/components/award-card.tsx",
+      "src/components/entity-awards.tsx",
+      "src/app/(fr)/charts/awards/page.tsx",
+      "src/app/(fr)/charts/awards/edition/[id]/page.tsx",
+      "src/app/(fr)/charts/entity/[slug]/page.tsx"
+    ]
+  },
+  "Source officielle": {
+    "translation": "",
+    "sources": [
+      "src/domain/awards.ts",
+      "src/components/award-card.tsx",
+      "src/components/entity-awards.tsx",
+      "src/app/(fr)/charts/awards/page.tsx",
+      "src/app/(fr)/charts/awards/edition/[id]/page.tsx",
+      "src/app/(fr)/charts/entity/[slug]/page.tsx"
+    ]
+  },
+  "Empreinte des preuves :": {
+    "translation": "",
+    "sources": [
+      "src/domain/awards.ts",
+      "src/components/award-card.tsx",
+      "src/components/entity-awards.tsx",
+      "src/app/(fr)/charts/awards/page.tsx",
+      "src/app/(fr)/charts/awards/edition/[id]/page.tsx",
+      "src/app/(fr)/charts/entity/[slug]/page.tsx"
+    ]
+  },
+  "Places gagnées :": {
+    "translation": "",
+    "sources": [
+      "src/domain/awards.ts",
+      "src/components/award-card.tsx",
+      "src/components/entity-awards.tsx",
+      "src/app/(fr)/charts/awards/page.tsx",
+      "src/app/(fr)/charts/awards/edition/[id]/page.tsx",
+      "src/app/(fr)/charts/entity/[slug]/page.tsx"
+    ]
+  },
+  "Rang précédent :": {
+    "translation": "",
+    "sources": [
+      "src/domain/awards.ts",
+      "src/components/award-card.tsx",
+      "src/components/entity-awards.tsx",
+      "src/app/(fr)/charts/awards/page.tsx",
+      "src/app/(fr)/charts/awards/edition/[id]/page.tsx",
+      "src/app/(fr)/charts/entity/[slug]/page.tsx"
+    ]
+  },
+  "Premières places sur la période :": {
+    "translation": "",
+    "sources": [
+      "src/domain/awards.ts",
+      "src/components/award-card.tsx",
+      "src/components/entity-awards.tsx",
+      "src/app/(fr)/charts/awards/page.tsx",
+      "src/app/(fr)/charts/awards/edition/[id]/page.tsx",
+      "src/app/(fr)/charts/entity/[slug]/page.tsx"
+    ]
+  },
+  "Les distinctions Sandbox.": {
+    "translation": "",
+    "sources": [
+      "src/domain/awards.ts",
+      "src/components/award-card.tsx",
+      "src/components/entity-awards.tsx",
+      "src/app/(fr)/charts/awards/page.tsx",
+      "src/app/(fr)/charts/awards/edition/[id]/page.tsx",
+      "src/app/(fr)/charts/entity/[slug]/page.tsx"
+    ]
+  },
+  "Classements officiels et distinctions Sandbox.": {
+    "translation": "",
+    "sources": [
+      "src/domain/awards.ts",
+      "src/components/award-card.tsx",
+      "src/components/entity-awards.tsx",
+      "src/app/(fr)/charts/awards/page.tsx",
+      "src/app/(fr)/charts/awards/edition/[id]/page.tsx",
+      "src/app/(fr)/charts/entity/[slug]/page.tsx"
+    ]
+  },
+  "Votre rang GitHub AI et les récompenses Sandbox : catégories, progression, Rising, Skills, modèles et palmarès annuels.": {
+    "translation": "",
+    "sources": [
+      "src/domain/awards.ts",
+      "src/components/award-card.tsx",
+      "src/components/entity-awards.tsx",
+      "src/app/(fr)/charts/awards/page.tsx",
+      "src/app/(fr)/charts/awards/edition/[id]/page.tsx",
+      "src/app/(fr)/charts/entity/[slug]/page.tsx"
+    ]
+  },
+  "Premier du classement Rising du dimanche, après clôture de la semaine dans le fuseau Europe/Paris.": {
+    "translation": "",
+    "sources": [
+      "src/domain/awards.ts",
+      "src/components/award-card.tsx",
+      "src/components/entity-awards.tsx",
+      "src/app/(fr)/charts/awards/page.tsx",
+      "src/app/(fr)/charts/awards/edition/[id]/page.tsx",
+      "src/app/(fr)/charts/entity/[slug]/page.tsx"
+    ]
+  },
+  "Projet le mieux classé de sa catégorie dans l'édition GitHub du dimanche. Une distinction par catégorie présente dans cette édition.": {
+    "translation": "",
+    "sources": [
+      "src/domain/awards.ts",
+      "src/components/award-card.tsx",
+      "src/components/entity-awards.tsx",
+      "src/app/(fr)/charts/awards/page.tsx",
+      "src/app/(fr)/charts/awards/edition/[id]/page.tsx",
+      "src/app/(fr)/charts/entity/[slug]/page.tsx"
+    ]
+  },
+  "Plus forte progression positive de rang entre deux éditions GitHub du dimanche consécutives. Les nouveaux entrants sont exclus ; une égalité est départagée par le rang final, puis l'identifiant stable.": {
+    "translation": "",
+    "sources": [
+      "src/domain/awards.ts",
+      "src/components/award-card.tsx",
+      "src/components/entity-awards.tsx",
+      "src/app/(fr)/charts/awards/page.tsx",
+      "src/app/(fr)/charts/awards/edition/[id]/page.tsx",
+      "src/app/(fr)/charts/entity/[slug]/page.tsx"
+    ]
+  },
+  "Projet avec le plus de premières places Rising parmi tous les dimanches du mois civil. Une égalité est départagée par le rang du dernier dimanche, puis l'identifiant stable. Un mois incomplet ne donne aucun lauréat.": {
+    "translation": "",
+    "sources": [
+      "src/domain/awards.ts",
+      "src/components/award-card.tsx",
+      "src/components/entity-awards.tsx",
+      "src/app/(fr)/charts/awards/page.tsx",
+      "src/app/(fr)/charts/awards/edition/[id]/page.tsx",
+      "src/app/(fr)/charts/entity/[slug]/page.tsx"
+    ]
+  },
+  "Première skill de l'édition officielle du dimanche, corroborée par skills.sh et GitHub, après clôture de la semaine.": {
+    "translation": "",
+    "sources": [
+      "src/domain/awards.ts",
+      "src/components/award-card.tsx",
+      "src/components/entity-awards.tsx",
+      "src/app/(fr)/charts/awards/page.tsx",
+      "src/app/(fr)/charts/awards/edition/[id]/page.tsx",
+      "src/app/(fr)/charts/entity/[slug]/page.tsx"
+    ]
+  },
+  "Premier modèle de l'édition officielle du dimanche, corroborée par Arena et Artificial Analysis, après clôture de la semaine.": {
+    "translation": "",
+    "sources": [
+      "src/domain/awards.ts",
+      "src/components/award-card.tsx",
+      "src/components/entity-awards.tsx",
+      "src/app/(fr)/charts/awards/page.tsx",
+      "src/app/(fr)/charts/awards/edition/[id]/page.tsx",
+      "src/app/(fr)/charts/entity/[slug]/page.tsx"
+    ]
+  },
+  "Un lauréat par classement : GitHub, Rising, Skills et Models. Le plus de premières places sur tous les dimanches de l'année ISO ; égalité départagée par le dernier rang, puis l'identifiant stable. Aucun prix sans historique complet.": {
+    "translation": "",
+    "sources": [
+      "src/domain/awards.ts",
+      "src/components/award-card.tsx",
+      "src/components/entity-awards.tsx",
+      "src/app/(fr)/charts/awards/page.tsx",
+      "src/app/(fr)/charts/awards/edition/[id]/page.tsx",
+      "src/app/(fr)/charts/entity/[slug]/page.tsx"
+    ]
   }
 }

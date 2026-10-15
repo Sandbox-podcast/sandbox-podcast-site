@@ -12,6 +12,7 @@ const contentSecurityPolicy = [
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: https://i.ytimg.com",
   "font-src 'self' data:",
+  "media-src 'self' https://marlburrow.github.io https://raw.githubusercontent.com",
   "connect-src 'self' https://vitals.vercel-insights.com",
   "frame-src 'self' https://www.youtube-nocookie.com https://www.youtube.com",
 ].join('; ');
@@ -22,6 +23,7 @@ const config: NextConfig = {
   poweredByHeader: false,
   serverExternalPackages: ['ws'],
   images: {
+    qualities: [75, 90],
     remotePatterns: [{ protocol: 'https', hostname: 'i.ytimg.com' }],
   },
   // Les URL du prompt d'origine (/rankings/…) restent valides : la section s'appelle CHARTS (DD-0001).
@@ -60,6 +62,17 @@ const config: NextConfig = {
           ...(process.env.NODE_ENV === 'production'
             ? [{ key: 'Content-Security-Policy', value: contentSecurityPolicy }]
             : []),
+        ],
+      },
+      {
+        // Next applique les en-têtes de configuration après ceux du Route Handler.
+        // Garder cette règle après la politique générale du site.
+        source: '/badges/:path*',
+        headers: [
+          {
+            key: 'Content-Security-Policy',
+            value: "default-src 'none'; style-src 'none'; sandbox",
+          },
         ],
       },
     ]);

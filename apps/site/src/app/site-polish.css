@@ -40,6 +40,7 @@ a.chip {
 }
 .masthead-row {
   display: flex;
+  flex-wrap: wrap;
   min-height: 4.5rem;
   align-items: center;
   justify-content: space-between;
@@ -64,6 +65,10 @@ a.chip {
   justify-content: space-between;
   gap: clamp(1rem, 2vw, 2rem);
   list-style: none;
+}
+
+.mobile-navigation {
+  display: none;
 }
 .nav-link {
   display: flex;
@@ -471,6 +476,38 @@ a.chip {
   letter-spacing: -0.025em;
   text-transform: none;
 }
+.episode-page .episode-details-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.65rem;
+  padding: 0 0 1rem;
+  border-top: 0;
+  border-bottom: 1px solid var(--hair);
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 2vw, 1.3rem);
+  font-weight: 750;
+  letter-spacing: -0.025em;
+}
+.episode-details-count {
+  display: inline-grid;
+  min-width: 2rem;
+  height: 2rem;
+  flex-shrink: 0;
+  place-items: center;
+  padding-inline: 0.4rem;
+  border: 1px solid var(--hair);
+  border-radius: 0.45rem;
+  color: var(--ink-3);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+.episode-chapters .empty-note {
+  padding-block: 0.8rem;
+}
 .chapter-list {
   margin: 0;
   padding: 0;
@@ -489,7 +526,7 @@ a.chip {
   border-radius: 0.4rem;
 }
 a.chapter-row:hover {
-  background: var(--paper-2);
+  background: var(--paper-3);
 }
 .chapter-time {
   color: var(--hl);
@@ -510,6 +547,9 @@ a.chapter-row:hover {
 .resource-item small {
   font-size: 0.8rem;
   line-height: 1.55;
+}
+.episode-resources .resource-item {
+  font-size: 0.875rem;
 }
 .resource-item a:first-child {
   display: inline-block;
@@ -1106,4 +1146,107 @@ body:has(.admin-shell) .site-footer {
 }
 .admin-translations-actions .admin-field input {
   max-width: 100%;
+}
+
+/* Navigation tactile : les liens gardent une taille lisible sur petits écrans. */
+@media (max-width: 64rem) {
+  :root {
+    --header-offset: 5rem;
+  }
+  .desktop-navigation {
+    display: none;
+  }
+  .masthead-row {
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    gap: 0.75rem;
+    min-height: 4rem;
+  }
+  .masthead-tools {
+    margin-left: auto;
+  }
+  .masthead-tools .header-search {
+    display: none;
+  }
+  .mobile-navigation {
+    display: block;
+  }
+  .mobile-menu-trigger {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-height: 44px;
+    padding: 0.5rem;
+    cursor: pointer;
+    list-style: none;
+    font-size: 14px;
+  }
+  .mobile-menu-trigger::-webkit-details-marker {
+    display: none;
+  }
+  .mobile-menu-panel {
+    position: absolute;
+    inset: 100% 0 auto;
+    max-height: calc(100dvh - 4rem);
+    overflow-y: auto;
+    padding: 0.75rem 1rem 1rem;
+    border-bottom: 1px solid var(--hair);
+    background: var(--paper-2);
+    box-shadow: 0 16px 24px rgb(0 0 0 / 0.25);
+  }
+  .mobile-menu-panel .main-nav-list {
+    display: grid;
+    gap: 0;
+  }
+  .mobile-menu-panel .nav-link {
+    width: 100%;
+    justify-content: space-between;
+    font-size: 14px;
+    min-height: 48px;
+    border-bottom: 1px solid var(--hair);
+  }
+  .mobile-menu-panel .nav-submenu-panel {
+    position: static;
+    min-width: 0;
+    margin-block: 0.5rem;
+    box-shadow: none;
+  }
+  .mobile-search-link {
+    display: flex;
+    align-items: center;
+    min-height: 48px;
+    font-size: 14px;
+  }
+}
+@media (max-width: 40rem) {
+  .featured-episode {
+    min-height: 0;
+  }
+  .featured-episode-copy {
+    padding: 1.25rem;
+  }
+  .featured-title {
+    font-size: clamp(1.65rem, 6.5vw, 2.5rem);
+    line-height: 1.12;
+  }
+  .featured-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+  .featured-meta {
+    flex-wrap: wrap;
+  }
+  .episode-heading h1 {
+    font-size: clamp(1.75rem, 7.5vw, 2.5rem);
+    line-height: 1.12;
+  }
+  .episode-heading .episode-dek {
+    font-size: 1.1rem;
+    line-height: 1.5;
+  }
+  main input:not([type='checkbox']):not([type='radio']),
+  main select,
+  main textarea {
+    font-size: 16px;
+  }
 }

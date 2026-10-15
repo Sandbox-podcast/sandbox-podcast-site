@@ -16,7 +16,12 @@ import { isNextProductionBuild } from './next-build.ts';
 
 export { ContentConflictError };
 
-const LOCAL_STORE_PATH = join(process.cwd(), '.site-content.local.json');
+const LOCAL_STORE_PATH = join(
+  process.cwd(),
+  process.env.NODE_ENV === 'development' && process.env['SANDBOX_FRONT_PREVIEW'] === '1'
+    ? '.local/front-content.json'
+    : '.site-content.local.json',
+);
 const CACHE_TTL_MS = 5_000;
 
 interface LocalStore {

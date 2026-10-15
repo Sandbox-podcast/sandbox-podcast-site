@@ -2,16 +2,35 @@ import { createHash } from 'node:crypto';
 import { readFile } from 'node:fs/promises';
 import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { describe, expect, it, vi } from 'vitest';
-import { MainNav, LocaleSwitcher } from '../src/components/nav.tsx';
+import { afterEach, describe, expect, it, vi } from 'vitest';
+import { MainNav, LocaleSwitcher, MobileNav } from '../src/components/nav.tsx';
 import { Footer, Masthead } from '../src/components/shell.tsx';
 import { LocalizationProvider } from '../src/components/localization.tsx';
 import { siteDictionary } from '../src/i18n/dictionaries.ts';
 import { localizedHref } from '../src/i18n/routing.ts';
 
-vi.mock('next/navigation', () => ({ usePathname: () => '/topics' }));
+const navigation = vi.hoisted(() => ({ pathname: '/topics' }));
+vi.mock('next/navigation', () => ({ usePathname: () => navigation.pathname }));
+afterEach(() => {
+  navigation.pathname = '/topics';
+});
 
 describe('navigation publique', () => {
+  it('donne la priorité aux classements et garde tous les accès dans le menu mobile', () => {
+    const html = renderToStaticMarkup(createElement(MobileNav));
+    expect(html).toContain('<summary class="mobile-menu-trigger">Menu');
+    expect(html.indexOf('href="/charts"')).toBeLessThan(html.indexOf('href="/episodes"'));
+    for (const path of [
+      '/charts',
+      '/episodes',
+      '/topics',
+      '/time-machine',
+      '/nos-projets',
+      '/about',
+      '/search',
+    ])
+      expect(html).toContain(`href="${path}"`);
+  });
   it('garde la ressource courante lorsque la langue change', () => {
     expect(localizedHref('/topics/ai?q=agent#top', 'en')).toBe('/en/topics/ai?q=agent#top');
     expect(localizedHref('/en/charts/github', 'fr-FR')).toBe('/charts/github');
@@ -23,6 +42,8 @@ describe('navigation publique', () => {
     expect(html).toContain('href="/episodes"');
     expect(html).toContain('href="/topics"');
     expect(html).toContain('href="/charts"');
+    expect(html).toContain('href="/time-machine"');
+    expect(html).toContain('href="/nos-projets"');
 
     const english = renderToStaticMarkup(
       createElement(LocalizationProvider, {
@@ -32,6 +53,8 @@ describe('navigation publique', () => {
       }),
     );
     expect(english).toContain('href="/en/episodes"');
+    expect(english).toContain('href="/en/nos-projets"');
+    expect(english).not.toContain('href="/en/time-machine"');
     expect(english).toContain('All episodes');
     expect(english).toContain('Topics');
   });
@@ -40,6 +63,14 @@ describe('navigation publique', () => {
     const html = renderToStaticMarkup(createElement(LocaleSwitcher));
     expect(html).toContain('aria-label="Changer de langue');
     expect(html).toContain('aria-haspopup="dialog"');
+  });
+
+  it('ne propose pas de variantes inexistantes de Time Machine', () => {
+    navigation.pathname = '/time-machine';
+    expect(renderToStaticMarkup(createElement(LocaleSwitcher))).toBe('');
+    const html = renderToStaticMarkup(createElement(MainNav));
+    const link = /<a\b[^>]*href="\/time-machine"[^>]*>/.exec(html)?.[0];
+    expect(link).toContain('aria-current="page"');
   });
 });
 

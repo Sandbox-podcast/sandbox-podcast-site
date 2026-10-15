@@ -5,7 +5,9 @@ import { hasIndexableChartContent } from '@/domain/chart-seo';
 import { chartSelectionSchema, hasChartSelectionQuery } from '@/domain/chart-selection';
 export async function generateMetadata({
   searchParams = Promise.resolve({}),
-}: { searchParams?: Promise<Record<string, string | string[] | undefined>> } = {}) {
+}: {
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
+}) {
   const data = await sandboxChartsData();
   return pageMetadata({
     title: 'SANDBOX CHARTS | Rising 20',
@@ -18,7 +20,9 @@ export async function generateMetadata({
 }
 export default async function RisingPage({
   searchParams = Promise.resolve({}),
-}: { searchParams?: Promise<Record<string, string | string[] | undefined>> } = {}) {
+}: {
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
+}) {
   const selection = chartSelectionSchema.parse(await searchParams);
   return (
     <ChartsExperience
