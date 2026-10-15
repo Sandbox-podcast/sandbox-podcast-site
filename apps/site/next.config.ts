@@ -73,6 +73,17 @@ const config: NextConfig = {
             : []),
         ],
       },
+      {
+        // Next applique les en-têtes de configuration après ceux du Route Handler.
+        // Garder cette règle après la politique générale du site.
+        source: '/badges/:path*',
+        headers: [
+          {
+            key: 'Content-Security-Policy',
+            value: "default-src 'none'; style-src 'none'; sandbox",
+          },
+        ],
+      },
     ]);
   },
 };

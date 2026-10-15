@@ -7,6 +7,8 @@ import { editionEnd, editionMark, editionStart } from '@/domain/weeks';
 import { highlightHeadline } from './moves';
 import type { ChartView, Highlight } from './repository';
 import type { Entity, Episode, Story } from '@/domain/schema';
+import { hasDemoSnapshots } from '@/domain/demo-content';
+import { historyCurve, type TimeMachineData } from '@/domain/time-machine';
 import {
   chartRows,
   CHART_LABELS,
@@ -21,6 +23,105 @@ import {
  */
 export const OG_SIZE = { width: 1200, height: 630 } as const;
 export const OG_TYPE = 'image/png';
+
+export function timeMachineCard(data: TimeMachineData) {
+  const points = historyCurve(data.events, data.fromYear, data.toYear);
+  const path = points.reduce((line, point, index) => {
+    const x = 26 + point.x * 400;
+    const previousY = 280 - (points[index - 1]?.y ?? 0) * 234;
+    const y = 280 - point.y * 234;
+    return `${line} L${x.toFixed(1)},${previousY.toFixed(1)} L${x.toFixed(1)},${y.toFixed(1)}`;
+  }, 'M26,280');
+  return render(
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        width: 1200,
+        height: 630,
+        background: '#07121c',
+        color: '#f4f7fa',
+        padding: '48px 60px',
+        fontFamily: 'Archivo',
+        borderTop: '6px solid #50d9ee',
+      }}
+    >
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          fontFamily: 'Mono',
+          fontSize: 20,
+          color: '#8eb3c7',
+        }}
+      >
+        <span style={{ color: '#50d9ee' }}>SANDBOX / TIME MACHINE</span>
+        <span>
+          {data.fromYear} - {data.toYear}
+        </span>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 45 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', width: 610 }}>
+          <div
+            style={{
+              display: 'flex',
+              fontSize: 80,
+              lineHeight: 1.02,
+              fontWeight: 900,
+              letterSpacing: -3,
+            }}
+          >
+            L'histoire de l'IA.
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              marginTop: 23,
+              fontSize: 28,
+              lineHeight: 1.4,
+              color: '#a9c1d0',
+            }}
+          >
+            Les grandes dates de l'intelligence artificielle.
+          </div>
+        </div>
+        <svg width="430" height="315" viewBox="0 0 460 315">
+          {[46, 124, 202, 280].map((y) => (
+            <line key={y} x1="26" x2="426" y1={y} y2={y} stroke="#294457" strokeDasharray="3 8" />
+          ))}
+          <path d={path} fill="none" stroke="#50d9ee" strokeWidth="3" strokeLinejoin="round" />
+          {points
+            .filter((point) => point.event.landmark)
+            .map((point) => (
+              <circle
+                key={point.event.id}
+                cx={26 + point.x * 400}
+                cy={280 - point.y * 234}
+                r="4"
+                fill="#ade9f9"
+              />
+            ))}
+        </svg>
+      </div>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          borderTop: '1px solid #294457',
+          paddingTop: 22,
+          fontFamily: 'Mono',
+          fontSize: 20,
+          color: '#a3bdcd',
+        }}
+      >
+        <span>{data.events.length} événements sourcés</span>
+        <span>Chronologie interactive</span>
+      </div>
+    </div>,
+  );
+}
 
 const PAPER = '#f3f0e8';
 const INK = '#15140f';
@@ -73,6 +174,87 @@ function fonts(): Promise<FontSpec[]> {
 
 async function render(node: React.ReactElement): Promise<ImageResponse> {
   return new ImageResponse(node, { ...OG_SIZE, fonts: await fonts() });
+}
+
+/** Même moteur et mêmes polices que les aperçus de liens existants. */
+export function awardCard(award: {
+  name: string;
+  week?: string;
+  period?: string;
+  label?: string;
+  scope?: string;
+  chart?: string;
+  withdrawnAt: string | null;
+}) {
+  const accent = award.withdrawnAt ? '#9baebb' : '#3cd6fc';
+  return render(
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        width: 1200,
+        height: 630,
+        background: '#05090d',
+        color: '#f4f7fa',
+        padding: 60,
+        fontFamily: 'Archivo',
+        borderTop: `8px solid ${accent}`,
+      }}
+    >
+      <div
+        style={{ display: 'flex', alignItems: 'center', gap: 18, fontSize: 28, fontWeight: 900 }}
+      >
+        <svg width="48" height="48" viewBox="0 0 64 64">
+          <path
+            d="M32 10 55 52H9L32 10Zm0 14L21.8 43h20.4L32 24Z"
+            fill="#1cb5ed"
+            fillRule="evenodd"
+          />
+        </svg>
+        <span>SANDBOX AWARDS</span>
+        <span style={{ marginLeft: 'auto', color: accent, fontFamily: 'Mono' }}>
+          {award.period ?? award.week}
+        </span>
+      </div>
+      <div
+        style={{ display: 'flex', fontSize: 26, color: accent, fontFamily: 'Mono', marginTop: 52 }}
+      >
+        {award.withdrawnAt ? 'ATTRIBUTION RETIRÉE' : (award.label ?? 'RISING STAR OF THE WEEK')}
+      </div>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          flex: 1,
+          fontSize: award.name.length > 50 ? 44 : 68,
+          fontWeight: 900,
+          lineHeight: 1.15,
+          overflow: 'hidden',
+          wordBreak: 'break-word',
+        }}
+      >
+        {award.name}
+      </div>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          fontSize: 23,
+          color: '#ade9f9',
+          fontFamily: 'Mono',
+          borderTop: '1px solid #294457',
+          paddingTop: 25,
+        }}
+      >
+        <span>
+          {award.withdrawnAt
+            ? 'HISTORIQUE CONSERVÉ'
+            : `${(award.chart ?? 'GITHUB AI').toUpperCase()} / ${award.scope ? award.scope.toUpperCase() : 'RÉCOMPENSE SANDBOX'}`}
+        </span>
+        <span>{new URL(siteConfig.url).host}</span>
+      </div>
+    </div>,
+  );
 }
 
 /** Les cartes publiques utilisent le même jeu de données que SANDBOX CHARTS. */
@@ -313,6 +495,7 @@ export async function siteCard(): Promise<ImageResponse> {
 }
 
 export async function chartCard(view: ChartView): Promise<ImageResponse> {
+  if (hasDemoSnapshots([view.snapshot])) return demoCard(view.chart.title);
   const rows = view.rows.slice(0, 5);
   return render(
     <div style={frame(PAPER, INK)}>
@@ -610,6 +793,20 @@ export async function entityCard(
             </div>
           ))}
         </div>
+      </div>
+      <Footer />
+    </div>,
+  );
+}
+
+/** Aucun rang ni avis simulé dans les aperçus des anciennes démonstrations. */
+export async function demoCard(title: string): Promise<ImageResponse> {
+  return render(
+    <div style={frame(PAPER, INK)}>
+      <div style={{ display: 'flex', ...mono, fontSize: 30 }}>DÉMONSTRATION</div>
+      <div style={{ display: 'flex', fontSize: 72, fontWeight: 900 }}>{title}</div>
+      <div style={{ display: 'flex', fontSize: 32 }}>
+        Données simulées retirées de l'affichage public.
       </div>
       <Footer />
     </div>,

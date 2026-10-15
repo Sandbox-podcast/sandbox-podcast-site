@@ -117,7 +117,10 @@ export async function generateMetadata({
         ...metadata.openGraph,
         ...(typeof title === 'string' ? { title } : {}),
         ...(description ? { description } : {}),
-        images: [image],
+        images:
+          shared.route === '/charts/awards/:week' || shared.route === '/charts/awards/edition/:id'
+            ? (metadata.openGraph?.images ?? [image])
+            : [image],
         url: absoluteUrl(pathName),
         locale: openGraphLocaleForTag(locale),
       },
@@ -125,7 +128,10 @@ export async function generateMetadata({
         ...metadata.twitter,
         ...(typeof title === 'string' ? { title } : {}),
         ...(description ? { description } : {}),
-        images: [{ url: image.url, alt: image.alt }],
+        images:
+          shared.route === '/charts/awards/:week' || shared.route === '/charts/awards/edition/:id'
+            ? (metadata.twitter?.images ?? [{ url: image.url, alt: image.alt }])
+            : [{ url: image.url, alt: image.alt }],
       },
     };
   }

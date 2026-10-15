@@ -1,3 +1,4 @@
+import { decodeEditionRouteParam } from '@/domain/weeks';
 import { notFound } from 'next/navigation';
 import { ChartsExperience } from '@/components/charts-experience';
 import { editionIdSchema } from '@/domain/schema';
@@ -15,7 +16,8 @@ export async function generateMetadata({
   }>;
   searchParams?: Promise<Record<string, string | string[] | undefined>>;
 }) {
-  const { week } = await params;
+  const { week: encodedEdition } = await params;
+  const week = decodeEditionRouteParam(encodedEdition);
   if (!editionIdSchema.safeParse(week).success) return {};
   const data = await sandboxChartsData(week);
   return pageMetadata({
@@ -34,10 +36,11 @@ export default async function Page({
   }>;
   searchParams?: Promise<Record<string, string | string[] | undefined>>;
 }) {
-  const { week } = await params;
+  const { week: encodedEdition } = await params;
+  const week = decodeEditionRouteParam(encodedEdition);
   if (!editionIdSchema.safeParse(week).success) notFound();
   const data = await sandboxChartsData(week);
   if (data.mode !== 'unavailable' && !data.weeks.includes(week)) notFound();
   const selection = chartSelectionSchema.parse(await searchParams);
-  return <ChartsExperience data={data} initialSelection={selection} />;
+  return <ChartsExperience data={data} initialWeek={week} initialSelection={selection} />;
 }

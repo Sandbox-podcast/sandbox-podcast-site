@@ -204,11 +204,13 @@ export function ChartsRanking({
   series,
   period,
   onShare,
+  badgeSlugs = [],
 }: {
   rows: ChartsRow[];
   series: ChartsSeries | undefined;
   period: ChartPeriod;
   onShare: (row: ChartsRow) => void;
+  badgeSlugs?: string[];
 }) {
   const { t } = useLocalization();
   if (!rows.length)
@@ -406,6 +408,11 @@ export function ChartsRanking({
                     <Text>{row.peak ?? '-'}</Text>
                   </p>
                   <div className="sc-row-actions">
+                    {badgeSlugs.includes(row.entity.slug) ? (
+                      <Link href={`${row.entity.href}#badges`}>
+                        <Text>{'Obtenir mon badge'}</Text>
+                      </Link>
+                    ) : null}
                     <Link href={row.entity.href}>
                       <Text>{'Ouvrir la fiche \u2197'}</Text>
                     </Link>

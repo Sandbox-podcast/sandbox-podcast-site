@@ -85,6 +85,27 @@
       "when": 1792015200000,
       "tag": "0011_host_photos",
       "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1792101600000,
+      "tag": "0012_badges_awards",
+      "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "7",
+      "when": 1792101601000,
+      "tag": "0013_extended_awards",
+      "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "7",
+      "when": 1792101602000,
+      "tag": "0014_awards_refresh_slots",
+      "breakpoints": true
     }
   ]
 }

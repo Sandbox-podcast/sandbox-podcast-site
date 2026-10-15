@@ -14,7 +14,9 @@ const mocks = vi.hoisted(() => ({
   freezeExternal: vi.fn(),
   data: vi.fn(),
   revalidate: vi.fn(),
+  awards: vi.fn(),
 }));
+vi.mock('../src/pipeline/badges-jobs.ts', () => ({ runAllBadgeAwards: mocks.awards }));
 vi.mock('next/cache', () => ({ revalidatePath: mocks.revalidate }));
 vi.mock('../src/lib/admin-auth-db.ts', async () => {
   const { permissionsForRole } = await import('../src/domain/admin-users.ts');
@@ -59,6 +61,14 @@ beforeEach(() => {
   mocks.user = undefined;
   mocks.editorial.mockResolvedValue('etag-next');
   mocks.job.mockResolvedValue({ status: 'success' });
+  mocks.awards.mockResolvedValue({
+    processed: 0,
+    succeeded: 0,
+    failed: 0,
+    snapshotsCreated: 0,
+    status: 'insufficient_history',
+    details: [],
+  });
 });
 afterEach(() => {
   vi.clearAllMocks();
@@ -129,7 +139,14 @@ describe('cron authentifié', () => {
   );
   it('isole le gel Skills et invalide les pages publiques après publication', async () => {
     vi.stubEnv('CRON_SECRET', 'a-test-secret-at-least-16-chars');
-    mocks.freezeExternal.mockResolvedValue({ status: 'success', snapshotsCreated: 20 });
+    mocks.freezeExternal.mockResolvedValue({
+      status: 'success',
+      snapshotsCreated: 20,
+      processed: 20,
+      succeeded: 20,
+      failed: 0,
+      details: [],
+    });
     const req = new Request('http://localhost:3004/api/cron/skills-freeze', {
       headers: { Authorization: 'Bearer a-test-secret-at-least-16-chars' },
     });
@@ -137,7 +154,40 @@ describe('cron authentifié', () => {
       200,
     );
     expect(mocks.freezeExternal).toHaveBeenCalledWith({ chart: 'skills' });
+    expect(mocks.awards).toHaveBeenCalledOnce();
     expect(mocks.models).not.toHaveBeenCalled();
+    expect(mocks.revalidate).toHaveBeenCalledWith('/', 'layout');
+  });
+  it('signale un échec des Awards après le gel sans masquer la publication', async () => {
+    vi.stubEnv('CRON_SECRET', 'a-test-secret-at-least-16-chars');
+    mocks.freezeExternal.mockResolvedValue({
+      status: 'success',
+      snapshotsCreated: 1,
+      processed: 1,
+      succeeded: 1,
+      failed: 0,
+      details: [],
+    });
+    mocks.awards.mockResolvedValue({
+      status: 'failed',
+      snapshotsCreated: 0,
+      processed: 0,
+      succeeded: 0,
+      failed: 1,
+      details: ['Awards indisponibles'],
+    });
+    const response = await cron(
+      new Request('http://localhost:3004/api/cron/models-freeze', {
+        headers: { Authorization: 'Bearer a-test-secret-at-least-16-chars' },
+      }),
+      { params: Promise.resolve({ job: 'models-freeze' }) },
+    );
+    expect(response.status).toBe(503);
+    expect(await response.json()).toMatchObject({
+      status: 'partial',
+      failed: 1,
+      snapshotsCreated: 1,
+    });
     expect(mocks.revalidate).toHaveBeenCalledWith('/', 'layout');
   });
   it('signale une collecte partielle au planificateur', async () => {

@@ -49,8 +49,4 @@ Les tests du catalogue couvrent les attributions, les doublons, les URL HTTPS, l
 
 Vérifications navigateur effectuées : ouverture d'une fiche depuis le catalogue, recherche vide et remise à zéro, filtre Éducation avec créateur Lou, agrandissement et navigation entre captures, fermeture avec Échap et lecture du film Sillage. Le catalogue et la fiche ont été examinés à 390 pixels de large, sans débordement horizontal ni image manquante.
 
-Validation sur la branche isolée : `pnpm check` complet réussi, avec 392 tests dans 65 fichiers. `pnpm build` réussi, avec 213 pages générées. Les 41 routes HTTP contrôlées répondent 200 ; une fiche inconnue répond 404. Le sitemap contient les 34 fiches. Les deux vidéos locales répondent 206 aux requêtes de lecture partielle.
-
-Le premier contrôle du checkout principal rencontrait des fins de ligne Windows CRLF et plus de 5 000 fichiers de copies temporaires sous `.local`. Les vérifications finales ont été faites dans un worktree propre, avec des fins de ligne LF, sans désactiver de règle ni inclure ces copies dans la PR.
-
-Captures du build de production : [catalogue](nos-projets/catalogue-desktop.jpg) et [fiche Sillage](nos-projets/fiche-desktop.jpg).
+Les commandes et résultats de la livraison sont consignés dans la PR. Le premier contrôle global local rencontre des écarts de format sur 110 fichiers hors de cette tâche. Le lint global parcourt aussi plus de 5 000 fichiers de copies temporaires sous `.local` et dépasse la mémoire de Node ; le lint du code actif, en excluant ces copies, passe. Aucune règle du dépôt n'est désactivée et aucun fichier de ces copies n'est ajouté à la PR.

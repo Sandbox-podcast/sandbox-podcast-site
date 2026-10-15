@@ -11,7 +11,7 @@ import {
 import { editionMark, shortWeek } from '@/domain/weeks';
 import { competitorsOf, episodesForEntity } from '@/lib/graph';
 import { absoluteUrl, breadcrumbLd } from '@/lib/seo';
-import { entityPath, entityView, getTopic, type Appearance } from '@/lib/repository';
+import { entityPath, entityView, getEntity, getTopic, type Appearance } from '@/lib/repository';
 import { EntityCard } from './cards';
 import { RankHistory, SeriesChart } from './charts-svg';
 import { JsonLd } from './json-ld';
@@ -19,6 +19,8 @@ import { TakeCard } from './take-card';
 import { ExtLink, Mark, MoveBadge, RankNum, SectionHead } from './ui';
 import { Breadcrumbs } from './ui';
 import { episodeResourcePath } from '@/domain/discovery';
+import { isDemoEntity } from '@/lib/demo-content';
+import { DemoContentPage } from './demo-content-page';
 function Kpi({
   label,
   value,
@@ -294,6 +296,7 @@ function AppearanceBlock({ a }: { a: Appearance }) {
   );
 }
 export function EntityScreen({ slug }: { slug: string }) {
+  if (isDemoEntity(slug)) return <DemoContentPage title={getEntity(slug).name} />;
   const view = entityView(slug);
   const { entity, appearances, takes } = view;
   const episodes = episodesForEntity(slug);

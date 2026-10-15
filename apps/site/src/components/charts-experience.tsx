@@ -41,12 +41,14 @@ export function ChartsExperience({
   initialView,
   initialPeriod = 'week',
   initialSelection,
+  initialWeek,
 }: {
   data: ChartsData;
   initialChart?: ChartId;
   initialView?: string | undefined;
   initialPeriod?: ChartPeriod;
   initialSelection?: ChartSelection;
+  initialWeek?: string;
 }) {
   const { locale, t } = useLocalization();
   const initialId = initialSelection?.chart ?? initialChart;
@@ -54,7 +56,9 @@ export function ChartsExperience({
   const [week, setWeek] = useState(
     initialSelection?.week && data.weeks.includes(initialSelection.week)
       ? initialSelection.week
-      : latestEditionWeek(data, initialId),
+      : initialWeek && data.weeks.includes(initialWeek)
+        ? initialWeek
+        : latestEditionWeek(data, initialId),
   );
   const [period, setPeriod] = useState<ChartPeriod>(initialSelection?.period ?? initialPeriod);
   const [filter, setFilter] = useState(initialSelection?.filter ?? 'All');
@@ -67,7 +71,7 @@ export function ChartsExperience({
     const url = new URL(window.location.href);
     const search = chartSelectionQuery(url.search, {
       chart: id === initialChart ? undefined : id,
-      week: week === latestEditionWeek(data, id) ? undefined : week,
+      week: week === (initialWeek ?? latestEditionWeek(data, id)) ? undefined : week,
       filter,
       period,
       view: id === 'models' ? view : undefined,
@@ -75,7 +79,7 @@ export function ChartsExperience({
     if (url.search.slice(1) === search) return;
     url.search = search;
     window.history.replaceState(window.history.state, '', url.pathname + url.search + url.hash);
-  }, [id, week, filter, period, view, initialChart, data]);
+  }, [id, week, filter, period, view, initialChart, initialWeek, data]);
 
   const series = data.series.find((item) => item.id === id);
   const chartWeeks = useMemo(
@@ -341,7 +345,13 @@ export function ChartsExperience({
                 <Text>{'Tendance'}</Text>
               </span>
             </div>
-            <ChartsRanking rows={visible} series={series} period={period} onShare={setShareRow} />
+            <ChartsRanking
+              rows={visible}
+              series={series}
+              period={period}
+              onShare={setShareRow}
+              badgeSlugs={data.mode === 'live' ? (data.badgeSlugs ?? []) : []}
+            />
           </>
         ) : (
           <div className={styles['empty']} role="status">
@@ -383,6 +393,9 @@ export function ChartsExperience({
             </Link>
             <Link href="/charts/history">
               <Text>{'Archives'}</Text>
+            </Link>
+            <Link href="/charts/awards">
+              <Text>{'Badges & Awards'}</Text>
             </Link>
           </nav>
         </div>

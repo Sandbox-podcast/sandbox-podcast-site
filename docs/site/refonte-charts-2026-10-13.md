@@ -10,7 +10,7 @@ Les blocs de mouvements, les signaux, la couverture mensuelle et les records son
 
 Décision : [DD-0017](../design-decisions/DD-0017-interface-compacte-des-classements.md), décidée par l'agent sur délégation (PD-0003).
 
-## Validation de l'aperçu initial
+## Validation
 
 - `pnpm test` : 57 fichiers et 316 tests réussis, dont 10 nouveaux cas pour la présentation compacte. Les tests vérifient les rangs conservés, les mesures sans doublon, les données manquantes, les erreurs, la sélection éditoriale, les fixtures et les nouveaux libellés traduits.
 - `pnpm typecheck` : réussi.
@@ -44,16 +44,4 @@ La liste et un détail ouvert ont été vérifiés à 390 px. La liste a aussi �
 
 Cette validation porte sur le front local et les fixtures, pas sur une nouvelle collecte en production. Les nouveaux textes espagnols et allemands restent soumis à la relecture native prévue pour le site. Les permissions, les calculs et le stockage ne sont pas modifiés.
 
-Les changements des slides déjà présents dans l'espace de travail ont été conservés. Lou a validé la direction visuelle et demandé une PR le 13 octobre 2026. Aucun déploiement en production n'est demandé.
-
-## Préparation de la PR
-
-La refonte est reportée sur le commit efbcdb8 de main dans un checkout séparé. Les nouveautés des classements de référence sont conservées : métriques de sensibilité, compteurs d'éditions et cadence de douze heures. Le sélecteur distingue les créneaux 00:00 et 12:00 UTC du même jour. Un onzième cas de test couvre cette distinction.
-
-- Tests : 63 fichiers et 361 tests réussis.
-- TypeScript, lint global et build : réussis. Le build génère 178 pages statiques.
-- Format : 408 fichiers vérifiés en mémoire avec des fins de ligne LF, aucun problème. Le contrôle natif Windows signale les fins de ligne CRLF du checkout. Aucun fichier n'a été réécrit pour cette vérification.
-- Audit des dépendances : aucune vulnérabilité haute ou critique, une vulnérabilité modérée signalée.
-- Diff de PR : treize fichiers, sans les modifications des slides. Aucun gate de CI n'est modifié.
-
-La réécriture globale des fins de ligne a été refusée par le contrôle automatique d'autorisation en raison du risque d'écraser des modifications non indexées. La vérification du format a donc été réalisée en lecture seule.
+Les changements des slides déjà présents dans l'espace de travail ont été conservés. Aucun commit, push ou déploiement n'a été effectué. Aucune décision de conception ne reste ouverte ; le retour de Lou sur l'aperçu et la publication restent à faire.

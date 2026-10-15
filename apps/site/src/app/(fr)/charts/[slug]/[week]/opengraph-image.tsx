@@ -1,3 +1,4 @@
+import { decodeEditionRouteParam } from '@/domain/weeks';
 import { OG_SIZE, OG_TYPE, sandboxChartCard } from '@/lib/og';
 import { sandboxChartsData } from '@/lib/sandbox-charts';
 
@@ -12,7 +13,8 @@ export default async function Image({
 }: {
   params: Promise<{ slug: string; week: string }>;
 }) {
-  const { slug, week } = await params;
+  const { slug, week: encodedEdition } = await params;
+  const week = decodeEditionRouteParam(encodedEdition);
   return sandboxChartCard(
     await sandboxChartsData(week),
     slug === 'skills'

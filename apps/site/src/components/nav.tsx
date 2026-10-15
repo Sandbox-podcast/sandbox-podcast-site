@@ -9,11 +9,47 @@ import { LocalizedLink, useLocalization } from './localization';
 import { LocaleFlag } from './locale-flag';
 
 const ITEMS = [
-  { href: '/episodes', label: 'Podcasts' },
   { href: '/charts', label: 'Classements' },
+  { href: '/episodes', label: 'Podcasts' },
+  { href: '/time-machine', label: 'Time Machine' },
   { href: '/nos-projets', label: 'Nos projets' },
   { href: '/about', label: 'À propos' },
 ];
+
+export function MobileNav({ locale = DEFAULT_SITE_LOCALE }: { locale?: string }) {
+  const pathname = usePathname();
+  const menu = useRef<HTMLDetailsElement>(null);
+  const { t } = useLocalization();
+  useEffect(() => {
+    if (menu.current) menu.current.open = false;
+  }, [pathname]);
+  return (
+    <details
+      className="mobile-navigation"
+      ref={menu}
+      onClick={(event) => {
+        if (event.target instanceof Element && event.target.closest('a') && menu.current)
+          menu.current.open = false;
+      }}
+      onKeyDown={(event) => {
+        if (event.key === 'Escape' && menu.current?.open) {
+          menu.current.open = false;
+          menu.current.querySelector('summary')?.focus();
+        }
+      }}
+    >
+      <summary className="mobile-menu-trigger">
+        Menu <span aria-hidden="true">☰</span>
+      </summary>
+      <div className="mobile-menu-panel">
+        <MainNav locale={locale} />
+        <LocalizedLink href="/search" className="mobile-search-link">
+          {t('Rechercher')}
+        </LocalizedLink>
+      </div>
+    </details>
+  );
+}
 
 export function MainNav({ locale = DEFAULT_SITE_LOCALE }: { locale?: string }) {
   const pathname = usePathname();
@@ -36,7 +72,9 @@ export function MainNav({ locale = DEFAULT_SITE_LOCALE }: { locale?: string }) {
   return (
     <nav aria-label={t('Navigation principale')} lang={locale}>
       <ul className="main-nav-list">
-        {ITEMS.map((item) => {
+        {ITEMS.filter(
+          (item) => locale === DEFAULT_SITE_LOCALE || item.href !== '/time-machine',
+        ).map((item) => {
           const active = isNavigationActive(sourcePath(pathname), item.href);
           return (
             <li key={item.href} className={item.href === '/episodes' ? 'nav-submenu' : undefined}>
@@ -113,7 +151,8 @@ export function LocaleSwitcher({ locale = DEFAULT_SITE_LOCALE }: { locale?: stri
     };
   }, [open]);
 
-  if (sourcePath(pathname).startsWith('/admin')) return null;
+  if (sourcePath(pathname).startsWith('/admin') || sourcePath(pathname) === '/time-machine')
+    return null;
 
   return (
     <div

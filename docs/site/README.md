@@ -4,9 +4,13 @@ L'évolution v3 des classements et la détection des poussées d'étoiles sont d
 
 Application : [`apps/site`](../../apps/site). Décision de fond : [ADR-0015](../adr/ADR-0015-site-media-et-classements.md). Direction artistique et nommage : [DD-0001](../design-decisions/DD-0001-direction-artistique-du-site.md).
 
-La rubrique `/nos-projets` présente les applications personnelles de l'équipe avec leurs fiches, captures et vidéos. Voir [le guide et l'inventaire](nos-projets.md) et [DD-0019](../design-decisions/DD-0019-catalogue-nos-projets.md).
+La [Time Machine](time-machine.md) retrace l'histoire mondiale de l'IA depuis 1996, avec une chronologie sourcée et un récapitulatif annuel. Elle suit [DD-0027](../design-decisions/DD-0027-time-machine-histoire-mondiale-ia.md) et fonctionne indépendamment des classements.
 
-Les avatars des projets et les logos des éditeurs suivent [DD-0018](../design-decisions/DD-0018-logos-des-classements.md).
+Confiance et parcours : [corrections A01/A02 après l'audit du 14 octobre](confiance-parcours-2026-10-14.md) et [DD-0025](../design-decisions/DD-0025-confiance-pages-et-archives.md). Les anciennes pages de démonstration sont neutralisées selon leur provenance ; les archives conservent la date demandée et leur sitemap dispose d'un contrôle HTTP.
+
+Les badges publics et les sept Awards sont décrits dans [le guide](badges-awards.md) et [ADR-0031](../adr/ADR-0031-badges-et-awards-sandbox.md). Ils lisent les éditions officielles ; les migrations 0009 et 0010 conservent les attributions et leurs retraits. Lou demande une vérification locale avant livraison.
+
+La rubrique `/nos-projets` présente les applications personnelles de l'équipe avec leurs fiches, captures et vidéos. Voir [le guide et l'inventaire](nos-projets.md) et [DD-0019](../design-decisions/DD-0019-catalogue-nos-projets.md).
 
 La présentation compacte des classements suit [DD-0017](../design-decisions/DD-0017-interface-compacte-des-classements.md) : liste unique, filtres regroupés et détails à la demande. Voir [le rapport de validation](refonte-charts-2026-10-13.md).
 
@@ -52,24 +56,24 @@ Un graphe de contenus relie les entités (projets et modèles), les classements 
 | ------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
 | `/`                                                     | accueil streaming : épisode à la une, rangées d'épisodes par date et thème                    |
 | `/episodes`                                             | bibliothèque complète, rangées filtrées par thème                                             |
-| `/search?q=...`                                         | recherche dans épisodes, ressources, sources, entités, thèmes et classements                  |
+| `/search?q=…`                                           | recherche dans épisodes, ressources, sources, entités, thèmes et classements                  |
 | `/charts`                                               | accueil des classements : sélecteur, top 3 à la une, aperçu des tops et historique            |
 | `/charts/[slug]`                                        | classement courant (rangs, mouvements, DATA, OUR TAKE, tri par critère, Hall of #1)           |
-| `/charts/[slug]/[édition]`                              | archive par édition ; le format ISO des anciens snapshots reste accepté                       |
-| `/charts/[slug]/methodology`                            | "Comment ce classement est calculé" : sources, critères, formule, limites                     |
-| `/charts/history`, `/charts/history/[édition]`          | sélecteur d'édition, tableau des #1, mouvements entre publications                            |
-| `/moves/[classement]/[édition]/[entité]`                | carte de partage d'un mouvement (+ image OpenGraph), trois dernières éditions                 |
+| `/charts/[slug]/[semaine]`                              | archive d'une semaine (`2026-W40`)                                                            |
+| `/charts/[slug]/methodology`                            | « Comment ce classement est calculé » : sources, critères, formule, limites                   |
+| `/charts/history`, `/charts/history/[semaine]`          | sélecteur de semaine, tableau des #1, mouvements par semaine                                  |
+| `/moves/[classement]/[semaine]/[entité]`                | carte de partage d'un mouvement (+ image OpenGraph), 3 dernières semaines                     |
 | `/episodes/[numéro]`                                    | lecteur vidéo, résumé court, chapitres et colonne des mentions, sources et annexes            |
 | `/stories/[slug]`                                       | ancienne route redirigée vers la bibliothèque d'épisodes                                      |
-| `/projects/[slug]`, `/models/[slug]`                    | fiche d'entité : rang actuel et précédent, pic, éditions au Top, courbes, avis, épisodes      |
+| `/projects/[slug]`, `/models/[slug]`                    | fiche d'entité : rang actuel et précédent, pic, semaines au Top, courbes, avis, épisodes      |
 | `/topics`, `/topics/[slug]`                             | thèmes et sélections d'épisodes                                                               |
 | `/about`                                                | profils et liens sociaux des animateurs publiés                                               |
 | `/en`, `/en/charts`                                     | mêmes pages et assets que le français, textes anglais dans les dictionnaires locaux           |
-| `/es-es/...`, `/de-de/...`                              | pages publiques partagées, dictionnaire local espagnol ou allemand                            |
+| `/es-es/…`, `/de-de/…`                                  | pages publiques partagées, dictionnaire local espagnol ou allemand                            |
 | `/charts/skills/[plateforme]`, `/charts/models/[tâche]` | pages d'intention SEO à données réelles, méthode, sources et texte localisé relu              |
 | `/admin`                                                | édition des épisodes, ressources, classements et réglages du site ; brouillons et publication |
 | `/feed.xml`, `/sitemap.xml`, `/robots.txt`              | RSS, sitemap des seules pages indexables, robots lisibles pour appliquer `noindex`            |
-| `/rankings/...`                                         | redirections permanentes vers `/charts/...`                                                   |
+| `/rankings/…`                                           | redirections permanentes vers `/charts/…`                                                     |
 
 Code : `src/domain` (logique pure, sans I/O), `src/i18n` (cibles, routage et chaînes UI ; voir leur état de revue dans la feuille de route SEO), `src/pipeline` (connecteurs, collectes deux fois par jour et signal horaire), `src/lib` (lecture du contenu, validation, graphe, SEO, traductions, images OpenGraph), `src/components`, `src/app` (groupes de routes français et locales dynamiques), `content/` et `data/`, `scripts/` (CLI), `test/`.
 

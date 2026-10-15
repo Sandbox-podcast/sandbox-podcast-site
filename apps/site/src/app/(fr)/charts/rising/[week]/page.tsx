@@ -1,3 +1,4 @@
+import { decodeEditionRouteParam } from '@/domain/weeks';
 import { notFound } from 'next/navigation';
 import { ChartsExperience } from '@/components/charts-experience';
 import { sandboxChartsData } from '@/lib/sandbox-charts';
@@ -15,7 +16,8 @@ export async function generateMetadata({
   }>;
   searchParams?: Promise<Record<string, string | string[] | undefined>>;
 }) {
-  const { week } = await params;
+  const { week: encodedEdition } = await params;
+  const week = decodeEditionRouteParam(encodedEdition);
   if (!editionIdSchema.safeParse(week).success) return {};
   const data = await sandboxChartsData(week);
   return pageMetadata({
@@ -36,7 +38,8 @@ export default async function RisingWeekPage({
   }>;
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
-  const { week } = await params;
+  const { week: encodedEdition } = await params;
+  const week = decodeEditionRouteParam(encodedEdition);
   const selection = chartSelectionSchema.parse(await searchParams);
   if (!editionIdSchema.safeParse(week).success) notFound();
   const data = await sandboxChartsData(week);
@@ -44,6 +47,7 @@ export default async function RisingWeekPage({
   return (
     <ChartsExperience
       data={data}
+      initialWeek={week}
       initialChart="rising"
       initialPeriod={selection.period}
       initialSelection={selection}

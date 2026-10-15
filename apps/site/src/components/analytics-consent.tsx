@@ -15,6 +15,7 @@ import {
   type AnalyticsConsent,
 } from '@/lib/google-analytics';
 import styles from './analytics-consent.module.css';
+import { badgeAttribution, recordBadgeEvent } from '@/lib/badge-analytics';
 
 interface ConsentState {
   ad_personalization: 'denied' | 'granted';
@@ -197,6 +198,8 @@ function recordPageView(measurementId: string, pageLocation: string, referrer: s
     ...(referrer ? { page_referrer: referrer } : {}),
     page_title: document.title,
   });
+  const badgeType = badgeAttribution(window.location.href);
+  if (badgeType) recordBadgeEvent('badge_visit', badgeType);
   setGoogleAnalyticsDisabled(measurementId, false);
 }
 

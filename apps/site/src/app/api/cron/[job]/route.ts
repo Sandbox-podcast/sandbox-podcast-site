@@ -1,3 +1,4 @@
+import { runAllBadgeAwards } from '@/pipeline/badges-jobs';
 import { timingSafeEqual } from 'node:crypto';
 import { revalidatePath } from 'next/cache';
 import { collectGithub, discoverGithub, freezeGithubWeek } from '@/pipeline/github-jobs';
@@ -70,6 +71,18 @@ export async function GET(request: Request, { params }: { params: Promise<{ job:
                   ? 'skipped'
                   : 'partial',
         details: [...github.details, ...external.details],
+      };
+    }
+    if (job === 'github-weekly' || job.endsWith('-freeze')) {
+      const awards = await runAllBadgeAwards();
+      summary = {
+        ...summary,
+        processed: summary.processed + awards.processed,
+        succeeded: summary.succeeded + awards.succeeded,
+        failed: summary.failed + awards.failed,
+        snapshotsCreated: summary.snapshotsCreated + awards.snapshotsCreated,
+        status: awards.failed > 0 && summary.status !== 'failed' ? 'partial' : summary.status,
+        details: [...summary.details, ...awards.details],
       };
     }
     if ((job === 'github-weekly' || job.endsWith('-freeze')) && summary.snapshotsCreated > 0)

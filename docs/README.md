@@ -8,17 +8,24 @@ Le dépôt sert le site média `apps/site`. La documentation du travail précéd
 
 ## Site média
 
+Accueil centré sur les classements et navigation mobile : [DD-0028](design-decisions/DD-0028-accueil-classements-et-navigation-mobile.md).
+
+Sandbox Time Machine, histoire mondiale de l'IA et Wrapped annuel (localhost) : [guide](site/time-machine.md) et [DD-0027](design-decisions/DD-0027-time-machine-histoire-mondiale-ia.md).
+
+Confiance et parcours après l'audit #62 : [corrections A01/A02 et contrôles](site/confiance-parcours-2026-10-14.md), [DD-0025](design-decisions/DD-0025-confiance-pages-et-archives.md).
+
+Badges et Awards (huit familles, développement local) : [guide](site/badges-awards.md) et [ADR-0031](adr/ADR-0031-badges-et-awards-sandbox.md).
+
 Catalogue Nos projets : [guide et inventaire](site/nos-projets.md) et [DD-0019](design-decisions/DD-0019-catalogue-nos-projets.md).
 
 UI/UX du site : [rapport du 8 octobre 2026](site/ui-ux-2026-10-08.md) et [DD-0005](design-decisions/DD-0005-ux-globale-du-site.md).
 Fiche d'épisode sans description longue : [DD-0022](design-decisions/DD-0022-fiche-episode-sans-description-longue.md).
-Profils d'animateurs et page À propos : [DD-0015](design-decisions/DD-0015-animateurs-source-page-a-propos.md), photos importées depuis l'admin : [DD-0021](design-decisions/DD-0021-photos-des-animateurs-depuis-l-admin.md).
-Présentations d'épisode en HTML sur `slides.sandboxpodcast.fr` : [guide des slides](site/slides.md) et [DD-0007](design-decisions/DD-0007-sous-domaine-des-presentations.md).
+Profils d'animateurs et page À propos : [DD-0015](design-decisions/DD-0015-animateurs-source-page-a-propos.md).
+Présentations d’épisode en HTML sur `slides.sandboxpodcast.fr` : [guide des slides](site/slides.md) et [DD-0007](design-decisions/DD-0007-sous-domaine-des-presentations.md).
 Logo complet et navigation publique : [DD-0008](design-decisions/DD-0008-logo-et-navigation-publique.md).
 Miniatures haute définition des épisodes : [DD-0012](design-decisions/DD-0012-miniatures-episodes.md) et [guide éditorial](site/editorial-workflow.md).
 Chaîne YouTube et kit graphique : [DD-0011](design-decisions/DD-0011-identite-youtube-sandbox.md) et [brand/youtube](../brand/youtube/README.md).
 Direction artistique des jingles de séquence : [DD-0023](design-decisions/DD-0023-direction-artistique-des-jingles.md) et [masters vidéo](../videos/README.md).
-Générique officiel SANDBOX : [DD-0024](design-decisions/DD-0024-generique-officiel-sandbox.md), [sources Remotion](../videos/sandbox-intro/README.md) et [exports](../output/preview.html).
 Automatisation YouTube : [guide d'exploitation](../tools/youtube-growth/README.md) et [ADR-0025](adr/ADR-0025-automatisation-chaine-youtube.md).
 Première livraison du Growth Agent : [audit et extraits du 14 octobre](site/youtube-growth-2026-10-14.md) et [ADR-0029](adr/ADR-0029-growth-agent-et-extraits-youtube.md).
 Langue des classements publics : [DD-0009](design-decisions/DD-0009-langue-des-classements.md).
@@ -51,7 +58,7 @@ Passation pour finaliser la livraison, les données réelles et le SEO : [liste 
 | [design-decisions/DD-0008](design-decisions/DD-0008-logo-et-navigation-publique.md)      | Logo complet et navigation publique          |
 | [design-decisions/DD-0009](design-decisions/DD-0009-langue-des-classements.md)           | Langue des classements publics               |
 | [design-decisions/DD-0010](design-decisions/DD-0010-quatre-langues-du-site.md)           | Quatre langues du site                       |
-| [design-decisions/DD-0023](design-decisions/DD-0023-direction-artistique-des-jingles.md) | Direction artistique des jingles de séquence |
+| [design-decisions/DD-0021](design-decisions/DD-0023-direction-artistique-des-jingles.md) | Direction artistique des jingles de séquence |
 | [testing.md](testing.md)                                                                 | Tests et Quality Gates                       |
 | [open-questions.md](open-questions.md)                                                   | Questions ouvertes                           |
 

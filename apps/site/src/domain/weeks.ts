@@ -7,6 +7,11 @@ export interface IsoWeek {
 
 const DAY_MS = 86_400_000;
 
+/** Next peut conserver le deux-points encodé dans les paramètres des créneaux UTC. */
+export function decodeEditionRouteParam(value: string): string {
+  return value.replace(/%3a/gi, ':');
+}
+
 export function parseWeek(id: string): IsoWeek {
   const match = /^(\d{4})-W(\d{2})$/.exec(id);
   if (!match) throw new Error(`Semaine invalide : ${id}`);

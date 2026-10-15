@@ -25,6 +25,14 @@ Délégation active (PD-0003, 2026-10-05, texte dans `old/docs/product-decisions
 
 Autonomie complète pour les décisions locales, réversibles et sans impact produit.
 
+## Pull requests
+
+Règle demandée par Lou le 2026-10-15 :
+
+- Continuer le travail en local et attendre une demande explicite de Lou avant de créer une PR, y compris une PR en brouillon.
+- Regrouper le lot complet de travail dans une seule PR au moment demandé, sans créer une PR à chaque demande ou correction.
+- Une autorisation de créer une PR vaut pour le lot concerné, pas pour les demandes suivantes. Les commits et pushes restent soumis à l'autorisation du propriétaire.
+
 ## Structure du dépôt
 
 ```

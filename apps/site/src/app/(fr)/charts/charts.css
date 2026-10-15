@@ -1754,6 +1754,11 @@
 .sc-project {
   padding-top: 28px;
   padding-bottom: 80px;
+  overflow-wrap: anywhere;
+}
+.sc-project .breadcrumbs li {
+  min-width: 0;
+  white-space: normal;
 }
 .sc-methodology header,
 .sc-project header {
@@ -1762,6 +1767,7 @@
 }
 .sc-methodology h1,
 .sc-project h1 {
+  overflow-wrap: anywhere;
   font-family: var(--font-display);
   font-size: clamp(2.5rem, 6vw, 5rem);
   font-weight: 900;

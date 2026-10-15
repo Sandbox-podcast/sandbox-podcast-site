@@ -1,3 +1,4 @@
+import { decodeEditionRouteParam } from '@/domain/weeks';
 import { notFound } from 'next/navigation';
 import { ChartScreen } from '@/components/chart-screen';
 import { ChartsExperience } from '@/components/charts-experience';
@@ -18,7 +19,8 @@ interface Props {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }
 export async function generateMetadata({ params, searchParams }: Props) {
-  const { slug, week } = await params;
+  const { slug, week: encodedEdition } = await params;
+  const week = decodeEditionRouteParam(encodedEdition);
   const chart = findChart(slug);
   if (!chart || !editionIdSchema.safeParse(week).success) return {};
   const title =
@@ -40,7 +42,8 @@ export async function generateMetadata({ params, searchParams }: Props) {
   });
 }
 export default async function ChartWeekPage({ params, searchParams }: Props) {
-  const { slug, week } = await params;
+  const { slug, week: encodedEdition } = await params;
+  const week = decodeEditionRouteParam(encodedEdition);
   const selection = chartSelectionSchema.parse(await searchParams);
   if (!findChart(slug) || !editionIdSchema.safeParse(week).success) notFound();
   if (slug === 'github' || slug === 'skills' || slug === 'ai-models' || slug === 'open-source-ai') {
@@ -50,6 +53,7 @@ export default async function ChartWeekPage({ params, searchParams }: Props) {
     return (
       <ChartsExperience
         data={data}
+        initialWeek={week}
         initialChart={chartId}
         initialView={
           slug === 'open-source-ai' ? 'open' : slug === 'ai-models' ? selection.view : undefined

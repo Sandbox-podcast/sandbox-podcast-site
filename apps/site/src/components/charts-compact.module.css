@@ -137,8 +137,7 @@
   font-weight: 600;
   letter-spacing: -0.015em;
 }
-.page:global(.sc-page) :global(.sc-row-identity) p {
-  color: var(--ink-3);
+.page:global(.sc-page) :global(.sc-row-identity) > p {
   margin-top: 3px;
   font: 11px/1.4 var(--font-sans);
 }
@@ -268,13 +267,18 @@
   .field {
     min-width: 0;
   }
+  .page .field select {
+    width: 100%;
+    min-width: 0;
+    font-size: 16px;
+  }
   .edition {
     grid-column: 1 / -1;
     margin-left: 0;
   }
   .columns,
   .page:global(.sc-page) :global(.sc-row) > summary {
-    grid-template-columns: 26px 40px minmax(0, 1fr) 68px 12px;
+    grid-template-columns: 28px minmax(0, 1fr) 66px 16px;
     gap: 8px;
     padding: 14px 4px;
   }
@@ -283,33 +287,43 @@
     font-size: 10px;
   }
   .columns > :nth-child(2) {
-    visibility: hidden;
+    display: none;
   }
   .trendLabel,
   .page:global(.sc-page) :global(.sc-row-spark) {
     display: none;
   }
   .page:global(.sc-page) :global(.sc-row-identity) {
-    grid-column: auto;
-    grid-row: auto;
+    grid-column: 2;
+    grid-row: 1 / 3;
   }
   .page:global(.sc-page) :global(.sc-row-identity) h3 {
-    font-size: 13px;
+    font-size: 14px;
     overflow-wrap: anywhere;
   }
-  .page:global(.sc-page) :global(.sc-row-identity) p {
-    font-size: 10px;
+  .page:global(.sc-page) :global(.sc-row-identity) > p {
+    font-size: 12px;
   }
   .page:global(.sc-page) :global(.sc-row-rank) {
-    font-size: 13px;
+    font-size: 14px;
+    grid-column: 1;
+    grid-row: 1 / 3;
+  }
+
+  .page:global(.sc-page) :global(.sc-row) > summary > :global(.sc-movement) {
+    grid-column: 3;
+    grid-row: 2;
+    justify-self: end;
   }
 
   .page:global(.sc-page) :global(.sc-row-open) {
     display: block;
+    grid-column: 4;
+    grid-row: 1 / 3;
   }
   .page:global(.sc-page) :global(.sc-momentum) {
-    grid-column: auto;
-    grid-row: auto;
+    grid-column: 3;
+    grid-row: 1;
     text-align: right;
   }
   .page:global(.sc-page) :global(.sc-ranking) :global(.sc-momentum) strong {
@@ -319,6 +333,12 @@
     grid-template-columns: minmax(0, 1fr);
     gap: 16px;
     padding: 0 12px 20px;
+  }
+}
+
+@media (max-width: 400px) {
+  .toolbar {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 

@@ -6,7 +6,7 @@ import { allEpisodes } from '@/lib/repository';
 import { CHART_LABELS } from '@/domain/sandbox-charts';
 import { latestSitePublication } from '@/domain/site-freshness';
 import { lastUpdated } from '@/lib/graph';
-import { LocaleSwitcher, MainNav } from './nav';
+import { LocaleSwitcher, MainNav, MobileNav } from './nav';
 import { ScrollState, TimeAgo } from './client';
 import { siteMessages } from '@/i18n/messages';
 export function Wordmark({ className }: { className?: string }) {
@@ -38,7 +38,7 @@ export function Masthead({ locale = 'fr-FR' }: { locale?: string }) {
           >
             <Wordmark />
           </Link>
-          <div className="hidden md:block">
+          <div className="desktop-navigation">
             <MainNav locale={locale} />
           </div>
           <div className="masthead-tools">
@@ -68,9 +68,7 @@ export function Masthead({ locale = 'fr-FR' }: { locale?: string }) {
             </Text>
             <LocaleSwitcher locale={locale} />
           </div>
-        </div>
-        <div className="wrap md:hidden">
-          <MainNav locale={locale} />
+          <MobileNav locale={locale} />
         </div>
       </header>
     </>
