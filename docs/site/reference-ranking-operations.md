@@ -1,5 +1,7 @@
 # Mise en service et reprise des classements v3
 
+**Incident du 15 octobre :** lire le [constat et la procédure de reprise](incident-classements-2026-10-15.md) et l'[ADR-0030](../adr/ADR-0030-reprise-et-controle-des-classements.md). Le nouveau pilote sépare les trois collecteurs, reprend les lots incomplets et contrôle les éditions publiques. L'origine de production a une valeur par défaut ; le secret reste obligatoire. Le contrôle horaire de fraîcheur est actif indépendamment des poussées, qui demandent `SANDBOX_CHARTS_BURSTS_ENABLED=true` dans GitHub Actions.
+
 Lire [le README](../../README.md), [la conception](reference-ranking-design.md) et [le prompt de reprise](prompt-classements-reference.md). Les développements sont livrés pour revue. Aucun accès réel, migration de production ou profil public n'est activé par ce travail.
 
 ## Paramètres à fournir

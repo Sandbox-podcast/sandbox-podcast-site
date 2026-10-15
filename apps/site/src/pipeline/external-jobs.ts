@@ -1,8 +1,5 @@
 import { createHash } from 'node:crypto';
-import { desc, inArray } from 'drizzle-orm';
 import { z } from 'zod';
-import { getDb } from '../db/client.ts';
-import { chartsJobRuns } from '../db/schema.ts';
 import {
   externalEntitySchema,
   externalObservationSchema,
@@ -23,7 +20,12 @@ import {
   utcDate,
   type DailyGithubSnapshot,
 } from '../domain/github-charts.ts';
-import { beginChartsJob, finishChartsJob, requireChartsDatabase } from '../lib/charts-store.ts';
+import {
+  beginChartsJob,
+  finishChartsJob,
+  hasCompletedChartsCollection,
+  requireChartsDatabase,
+} from '../lib/charts-store.ts';
 import {
   externalCandidates,
   freezeExternalEdition,
@@ -899,32 +901,19 @@ function editionEntries(
 }
 
 async function readyDailySources(
-  today: string,
+  _today: string,
   slotId: string,
 ): Promise<{ skills: boolean; models: boolean }> {
-  const jobs = await getDb()
-    .select()
-    .from(chartsJobRuns)
-    .where(inArray(chartsJobRuns.kind, ['skills_daily_sync', 'models_daily_sync']))
-    .orderBy(desc(chartsJobRuns.startedAt));
-  const latestByKind = new Map<string, (typeof jobs)[number]>();
-  for (const job of jobs) {
-    if (!latestByKind.has(job.kind)) latestByKind.set(job.kind, job);
-  }
-  const ready = (kind: 'skills_daily_sync' | 'models_daily_sync') => {
-    const current = latestByKind.get(kind);
-    return Boolean(
-      current?.finishedAt &&
-      utcDate(new Date(current.finishedAt)) === today &&
-      refreshSlotId(current.finishedAt) === slotId &&
-      ['success', 'partial'].includes(current.status),
-    );
-  };
-  return { skills: ready('skills_daily_sync'), models: ready('models_daily_sync') };
+  const [skills, models] = await Promise.all([
+    hasCompletedChartsCollection('skills_daily_sync', slotId),
+    hasCompletedChartsCollection('models_daily_sync', slotId),
+  ]);
+  return { skills, models };
 }
 
 export async function freezeExternalCharts(
   options: {
+    chart?: 'skills' | 'models' | undefined;
     date?: string | undefined;
     slotId?: string | undefined;
     dryRun?: boolean | undefined;
@@ -939,21 +928,28 @@ export async function freezeExternalCharts(
     await calculateExternalWeek(date, slotId, options, summary);
     return summary;
   }
-  return runLogged('external_weekly_ranking', (summary) =>
-    calculateExternalWeek(date, slotId, options, summary),
+  return runLogged(
+    options.chart ? `${options.chart}_ranking` : 'external_weekly_ranking',
+    (summary) => calculateExternalWeek(date, slotId, options, summary),
   );
 }
 
 async function calculateExternalWeek(
   date: string,
   slotId: string,
-  options: { dryRun?: boolean | undefined; publish?: boolean | undefined },
+  options: {
+    chart?: 'skills' | 'models' | undefined;
+    dryRun?: boolean | undefined;
+    publish?: boolean | undefined;
+  },
   summary: ExternalJobSummary,
 ): Promise<void> {
   if (date > utcDate()) throw new Error('Une édition future ne peut pas être calculée.');
   if (!isRefreshSlotId(slotId) || slotId.slice(0, 10) !== date)
     throw new Error('Le créneau doit appartenir à la date calculée.');
   const ready = await readyDailySources(date, slotId);
+  if (options.chart === 'skills') ready.models = false;
+  if (options.chart === 'models') ready.skills = false;
   if (!ready.skills && !ready.models) {
     summary.status = 'skipped';
     summary.details.push(
@@ -1030,9 +1026,9 @@ async function calculateExternalWeek(
     return;
   }
   let written = 0;
-  if (!ready.skills)
+  if (!ready.skills && options.chart !== 'models')
     summary.details.push('Collecte Skills absente ou en échec : aucune édition Skills.');
-  else if (skillsProof.report.publishable)
+  else if (ready.skills && skillsProof.report.publishable)
     written += await freezeExternalEdition(
       'skills',
       week,
@@ -1050,10 +1046,10 @@ async function calculateExternalWeek(
       editionEntries(skills),
       options.publish ?? true,
     );
-  else summary.failed++;
-  if (!ready.models)
+  else if (ready.skills) summary.failed++;
+  if (!ready.models && options.chart !== 'skills')
     summary.details.push('Collecte Models absente ou en échec : aucune édition Models.');
-  else if (modelsProof.report.publishable)
+  else if (ready.models && modelsProof.report.publishable)
     written += await freezeExternalEdition(
       'models',
       week,
@@ -1072,7 +1068,7 @@ async function calculateExternalWeek(
       editionEntries(models),
       options.publish ?? true,
     );
-  else summary.failed++;
+  else if (ready.models) summary.failed++;
   summary.snapshotsCreated = written;
   for (const proof of [skillsProof, modelsProof])
     summary.details.push(
@@ -1080,13 +1076,15 @@ async function calculateExternalWeek(
     );
   if (
     written &&
-    [skillsProof, modelsProof].some(
-      (proof) => !reviewedReferenceVersion(proof.input.profile.version),
-    )
-  )
+    [skillsProof, modelsProof]
+      .filter((proof) => !options.chart || proof.input.profile.chart === options.chart)
+      .some((proof) => !reviewedReferenceVersion(proof.input.profile.version))
+  ) {
+    summary.status = 'partial';
     summary.details.push(
       'Profils v3 en attente de revue : les éditions correspondantes sont conservées en brouillon. Configurer CHARTS_REVIEWED_PROFILE_VERSIONS après validation.',
     );
+  }
   if (summary.failed) summary.status = written ? 'partial' : 'insufficient_history';
 }
 

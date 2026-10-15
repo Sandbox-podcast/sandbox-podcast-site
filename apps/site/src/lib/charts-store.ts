@@ -214,7 +214,12 @@ export function asProject(
     disabled: repo.disabled,
   };
 }
-export async function collectionBatch(slotId: string, limit = 100, afterId?: string) {
+export async function collectionBatch(
+  slotId: string,
+  limit = 100,
+  afterId?: string,
+  status?: 'tracked' | 'candidate',
+) {
   return getDb()
     .select({ repo: githubProjects, entity: chartEntities })
     .from(githubProjects)
@@ -223,6 +228,9 @@ export async function collectionBatch(slotId: string, limit = 100, afterId?: str
       and(
         eq(chartEntities.active, true),
         afterId ? gt(githubProjects.id, afterId) : undefined,
+        status
+          ? sql`coalesce(${githubProjects.manualStatus}, ${githubProjects.status}) = ${status}`
+          : undefined,
         or(
           and(
             isNull(githubProjects.manualStatus),
@@ -383,6 +391,27 @@ export async function finishChartsJob(
       finishedAt: new Date().toISOString(),
     })
     .where(eq(chartsJobRuns.id, id));
+}
+
+/** Une relance en échec ou un job plus récent ne masque pas la collecte du créneau demandé. */
+export async function hasCompletedChartsCollection(kind: string, slotId: string): Promise<boolean> {
+  const start = new Date(slotId).toISOString();
+  const end = new Date(Date.parse(start) + 12 * 60 * 60 * 1000).toISOString();
+  const rows = await getDb()
+    .select({ id: chartsJobRuns.id })
+    .from(chartsJobRuns)
+    .where(
+      and(
+        eq(chartsJobRuns.kind, kind),
+        inArray(chartsJobRuns.status, ['success', 'partial']),
+        gte(chartsJobRuns.startedAt, start),
+        lt(chartsJobRuns.startedAt, end),
+        isNotNull(chartsJobRuns.finishedAt),
+        lt(chartsJobRuns.finishedAt, end),
+      ),
+    )
+    .limit(1);
+  return rows.length > 0;
 }
 export async function weeklyCandidates(date: string, slotId: string, config: GithubChartConfig) {
   const projects = await getDb()

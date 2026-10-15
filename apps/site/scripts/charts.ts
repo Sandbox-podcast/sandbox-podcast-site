@@ -28,7 +28,7 @@ try {
       JSON.stringify(
         dryRun
           ? await calculateGithubWeek({ date, dryRun: true })
-          : await freezeGithubWeek({ publish: !args.includes('--draft') }),
+          : await freezeGithubWeek({ date, publish: !args.includes('--draft') }),
         null,
         2,
       ),

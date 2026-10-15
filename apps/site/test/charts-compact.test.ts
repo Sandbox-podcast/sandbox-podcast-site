@@ -61,6 +61,17 @@ function summaries(html: string): string[] {
 }
 
 describe('classement compact', () => {
+  it('signale une édition périmée sans présenter une collecte comme une publication', () => {
+    const data = dataset();
+    data.checkedAt = '2026-10-15T10:00:00Z';
+    const html = renderToStaticMarkup(createElement(ChartsExperience, { data }));
+    expect(html).toContain('Mise à jour en retard.');
+    expect(html).toContain('13 oct. 2026');
+    data.checkedAt = '2026-10-13T10:00:00Z';
+    expect(renderToStaticMarkup(createElement(ChartsExperience, { data }))).not.toContain(
+      'Mise à jour en retard.',
+    );
+  });
   it('affiche chaque projet une fois et conserve les détails et les sources', () => {
     const html = renderToStaticMarkup(createElement(ChartsExperience, { data: dataset() }));
     expect(summaries(html)).toHaveLength(2);
@@ -172,9 +183,9 @@ describe('classement compact', () => {
   });
 
   it.each([
-    ['en', 'Updated every 12 hours', 'This edition', 'Category'],
-    ['es-ES', 'Actualización cada 12 h', 'Esta edición', 'Categoría'],
-    ['de-DE', 'Alle 12 Stunden aktualisiert', 'Diese Ausgabe', 'Kategorie'],
+    ['en', 'Two updates scheduled per day', 'This edition', 'Category'],
+    ['es-ES', 'Dos actualizaciones previstas al día', 'Esta edición', 'Categoría'],
+    ['de-DE', 'Zwei Aktualisierungen pro Tag geplant', 'Diese Ausgabe', 'Kategorie'],
   ])('traduit les nouveaux contrôles en %s', async (locale, cadence, period, category) => {
     const html = renderToStaticMarkup(
       createElement(LocalizationProvider, {

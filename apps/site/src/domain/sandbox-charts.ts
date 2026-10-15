@@ -144,6 +144,7 @@ export interface ChartsCollectionProgress {
 }
 
 export interface ChartsData {
+  checkedAt?: string;
   mode: 'live' | 'fixtures' | 'pending' | 'unavailable';
   week: string;
   weeks: string[];
