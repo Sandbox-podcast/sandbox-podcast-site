@@ -17,7 +17,7 @@ L'archive `old/`, les migrations SQL historiques, les secrets, les données édi
 
 | Contrôle                                  | Résultat                                                                           |
 | ----------------------------------------- | ---------------------------------------------------------------------------------- |
-| `pnpm check`                              | Formatage, lint et types réussis ; 640 tests du site et 11 tests média réussis     |
+| `pnpm check`                              | Formatage, lint et types réussis ; 641 tests du site et 11 tests média réussis     |
 | Build Next avec Webpack                   | Réussi, 203 pages générées                                                         |
 | HTTP admin de production                  | Réussi, contrôles sans accès à une base distante                                   |
 | Routes publiques                          | 84 URL du sitemap et 29 parcours HTTP réussis                                      |
