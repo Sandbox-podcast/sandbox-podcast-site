@@ -1,0 +1,65 @@
+.signal {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  overflow: clip;
+}
+
+.segment {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  overflow: visible;
+  --signal-progress: 0;
+  --signal-head: 0;
+}
+
+.segment path {
+  fill: none;
+  vector-effect: non-scaling-stroke;
+  stroke-linecap: round;
+}
+
+.cable {
+  stroke: #75e6f42b;
+  stroke-width: 1;
+}
+
+.halo,
+.current {
+  stroke-dasharray: 1;
+  stroke-dashoffset: calc(1 - var(--signal-progress));
+}
+
+.halo {
+  stroke: #75e6f413;
+  stroke-width: 8;
+}
+
+.current {
+  stroke: #75e6f4aa;
+  stroke-width: 1.5;
+}
+
+.head {
+  stroke: #d9fbff;
+  stroke-width: 2;
+  stroke-dasharray: 0.025 1;
+  stroke-dashoffset: calc(-1 * var(--signal-progress) + 0.025);
+  opacity: var(--signal-head);
+}
+
+:global([data-home-motion='static']) .halo,
+:global([data-home-motion='static']) .current,
+:global([data-home-motion='static']) .head {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .halo,
+  .current,
+  .head {
+    display: none;
+  }
+}

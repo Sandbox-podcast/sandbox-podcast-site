@@ -1,5 +1,7 @@
 # Documentation
 
+Accueil cinématique, chapitres visuels et mouvements : [DD-0049](design-decisions/dd-0049-accueil-cinematique-et-mouvements.md), [recette locale](site/landing-cinematique-2026-10-16.md) et [vérification avant PR](site/verification-landing-pr-2026-10-16.md).
+
 Parité de l'accueil et ouverture du vidéoclub en mode production : [DD-0047](design-decisions/dd-0047-parite-accueil-production.md) et [diagnostic et contrôles](site/ecarts-production-2026-10-16.md).
 
 PR globale du 16 octobre : [périmètre complet, validations et captures](site/livraison-globale-pr69-2026-10-16.md), avec les retouches de l'accueil, la Time Machine illustrée et Épisode 002 BIS.

@@ -1,16 +1,10 @@
-/** Une courte avancée de caméra, déterministe dans les deux sens du défilement. */
-export function stageMotion(top: number, travel: number) {
-  const progress =
-    Number.isFinite(top) && Number.isFinite(travel) && travel > 0
-      ? Math.min(1, Math.max(0, -top / travel))
-      : 0;
-  const smooth = progress * progress * (3 - 2 * progress);
+/** Une profondeur légère, bornée à 6 px horizontalement et 4 px verticalement. */
+export function stagePointerMotion(x: number, y: number, width: number, height: number) {
+  if (![x, y, width, height].every(Number.isFinite) || width <= 0 || height <= 0) {
+    return { x: 0, y: 0 };
+  }
   return {
-    progress,
-    scale: 1 + smooth * 0.12,
-    shift: -smooth * 28,
-    titleShift: -smooth * 46,
-    titleOpacity: 1 - smooth * 0.65,
-    inset: smooth * 2.4,
+    x: Math.max(-1, Math.min(1, (x / width - 0.5) * 2)) * 6,
+    y: Math.max(-1, Math.min(1, (y / height - 0.5) * 2)) * 4,
   };
 }

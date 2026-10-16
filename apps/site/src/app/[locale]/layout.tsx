@@ -68,7 +68,7 @@ export default async function LocalizedRootLayout({
   const dictionary = await siteDictionary(locale);
   const messages = siteMessages('fr-FR');
   return (
-    <html lang={locale} className={siteFonts}>
+    <html lang={locale} className={siteFonts} data-scroll-behavior="smooth">
       <body>
         <LocalizationProvider locale={locale} dictionary={dictionary}>
           <a className="skip" href="#main">

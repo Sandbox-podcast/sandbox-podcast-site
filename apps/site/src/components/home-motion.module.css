@@ -1,0 +1,242 @@
+.root {
+  --reveal-distance: 22px;
+  --reveal-title-distance: 34px;
+  --reveal-collection-distance: 52px;
+  --reveal-project-distance: 48px;
+  --reveal-portal-distance: 34px;
+  --reveal-side-distance: 24px;
+  --reveal-collection-angle: 4deg;
+  --reveal-portal-angle: 1.4deg;
+  --reveal-overshoot: -5px;
+}
+
+/* Les propriétés individuelles laissent intact le transform des cartes au survol. */
+.root :global([data-reveal-armed='true']) {
+  --reveal-x: 0px;
+  --reveal-y: var(--reveal-distance);
+  --reveal-angle: 0deg;
+  --reveal-scale: 1;
+}
+
+.root :global([data-reveal='scale'][data-reveal-armed='true']) {
+  --reveal-scale: 0.985;
+}
+
+.root :global([data-reveal='title'][data-reveal-armed='true']) {
+  --reveal-y: var(--reveal-title-distance);
+}
+
+.root :global([data-reveal='collection'][data-reveal-armed='true']) {
+  --reveal-y: var(--reveal-collection-distance);
+  --reveal-scale: 0.95;
+  transform-origin: 50% 80%;
+}
+
+.root :global([data-reveal='project'][data-reveal-armed='true']) {
+  --reveal-y: var(--reveal-project-distance);
+  --reveal-scale: 0.95;
+  transform-origin: 50% 70%;
+}
+
+.root :global([data-reveal='portal'][data-reveal-armed='true']) {
+  --reveal-y: var(--reveal-portal-distance);
+  --reveal-scale: 0.96;
+  transform-origin: 50% 80%;
+}
+
+.root :global([data-reveal-armed='true'][data-reveal-side='left']) {
+  --reveal-x: calc(-1 * var(--reveal-side-distance));
+}
+
+.root :global([data-reveal-armed='true'][data-reveal-side='right']) {
+  --reveal-x: var(--reveal-side-distance);
+}
+
+.root :global([data-reveal='collection'][data-reveal-side='left']) {
+  --reveal-angle: calc(-1 * var(--reveal-collection-angle));
+}
+
+.root :global([data-reveal='collection'][data-reveal-side='right']) {
+  --reveal-angle: var(--reveal-collection-angle);
+}
+
+.root :global([data-reveal='portal'][data-reveal-side='left']) {
+  --reveal-angle: calc(-1 * var(--reveal-portal-angle));
+}
+
+.root :global([data-reveal='portal'][data-reveal-side='right']) {
+  --reveal-angle: var(--reveal-portal-angle);
+}
+
+.root[data-home-motion='active'] :global([data-reveal-state='pending']) {
+  opacity: 0;
+  translate: var(--reveal-x) var(--reveal-y);
+  rotate: var(--reveal-angle);
+  scale: var(--reveal-scale);
+}
+
+/* backwards garde la pose pendant le décalage, puis libère les propriétés à la fin. */
+.root[data-home-motion='active'] :global([data-reveal-armed='true'][data-reveal-state='visible']) {
+  animation: revealRise 660ms cubic-bezier(0.2, 0.7, 0.2, 1) var(--reveal-delay, 0ms) backwards;
+}
+
+.root[data-home-motion='active']
+  :global([data-reveal='title'][data-reveal-armed='true'][data-reveal-state='visible']) {
+  animation-name: revealTitle;
+  animation-duration: 760ms;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.root[data-home-motion='active']
+  :global([data-reveal='collection'][data-reveal-armed='true'][data-reveal-state='visible']) {
+  animation-name: revealCollection;
+  animation-duration: 860ms;
+  animation-timing-function: cubic-bezier(0.22, 0.8, 0.2, 1);
+}
+
+.root[data-home-motion='active']
+  :global([data-reveal='project'][data-reveal-armed='true'][data-reveal-state='visible']) {
+  animation-name: revealProject;
+  animation-duration: 880ms;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.root[data-home-motion='active']
+  :global([data-reveal='portal'][data-reveal-armed='true'][data-reveal-state='visible']) {
+  animation-name: revealPortal;
+  animation-duration: 760ms;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes revealRise {
+  from {
+    opacity: 0;
+    translate: var(--reveal-x) var(--reveal-y);
+    scale: var(--reveal-scale);
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+    scale: 1;
+  }
+}
+
+@keyframes revealTitle {
+  from {
+    opacity: 0;
+    translate: 0 var(--reveal-y);
+    clip-path: inset(0 0 100% 0);
+  }
+  35% {
+    opacity: 1;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes revealCollection {
+  from {
+    opacity: 0;
+    translate: var(--reveal-x) var(--reveal-y);
+    rotate: var(--reveal-angle);
+    scale: var(--reveal-scale);
+  }
+  65% {
+    opacity: 1;
+    translate: 0 var(--reveal-overshoot);
+    rotate: 0deg;
+    scale: 1.012;
+  }
+  83% {
+    translate: 0 2px;
+    scale: 0.998;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+    rotate: 0deg;
+    scale: 1;
+  }
+}
+
+@keyframes revealProject {
+  from {
+    opacity: 0;
+    translate: 0 var(--reveal-y);
+    scale: var(--reveal-scale);
+  }
+  45% {
+    opacity: 1;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+    scale: 1;
+  }
+}
+
+@keyframes revealPortal {
+  from {
+    opacity: 0;
+    translate: var(--reveal-x) var(--reveal-y);
+    rotate: var(--reveal-angle);
+    scale: var(--reveal-scale);
+  }
+  70% {
+    opacity: 1;
+    translate: 0 -3px;
+    rotate: 0deg;
+    scale: 1.005;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+    rotate: 0deg;
+    scale: 1;
+  }
+}
+
+.root[data-home-motion] :global([data-reveal][data-reveal-armed][data-reveal-instant='true']),
+.root[data-home-motion] :global([data-reveal][data-reveal-armed]:focus-within),
+.root[data-home-motion='static'] :global([data-reveal]) {
+  opacity: 1;
+  translate: none;
+  rotate: none;
+  scale: none;
+  clip-path: none;
+  animation: none;
+  transition: none;
+}
+
+/* Sur téléphone, l'éventail et les entrées latérales deviennent une arrivée verticale. */
+@media (max-width: 700px), (hover: none), (pointer: coarse) {
+  .root {
+    --reveal-distance: 16px;
+    --reveal-title-distance: 24px;
+    --reveal-collection-distance: 28px;
+    --reveal-project-distance: 28px;
+    --reveal-portal-distance: 24px;
+    --reveal-side-distance: 0px;
+    --reveal-collection-angle: 0deg;
+    --reveal-portal-angle: 0deg;
+    --reveal-overshoot: -2px;
+  }
+  .root :global([data-reveal='collection'][data-reveal-armed='true']) {
+    --reveal-scale: 0.985;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .root[data-home-motion] :global([data-reveal][data-reveal-armed][data-reveal-state]) {
+    opacity: 1;
+    translate: none;
+    rotate: none;
+    scale: none;
+    clip-path: none;
+    animation: none;
+    transition: none;
+  }
+}

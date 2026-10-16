@@ -2,6 +2,8 @@ import Image from 'next/image';
 import { Text, LocalizedLink as Link, LocalizedDate } from './localization';
 import { DiscoveryStory } from './discovery-story';
 import { CinematicStage } from './cinematic-stage';
+import { HomeMotion } from './home-motion';
+import { HomeSignal } from './home-signal';
 import { StudioDoor } from './studio-door';
 import { StudioEasterEggs } from './studio-easter-eggs';
 import { homeProfiles } from '@/domain/home-story';
@@ -35,205 +37,238 @@ export function DiscoveryHome({
   const spotify = siteConfig.platforms.spotify;
   const spotifyAvailable = new URL(spotify).pathname !== '/';
   return (
-    <div className={styles['page']} data-home="editorial">
-      <CinematicStage>
-        <figure className={styles['stage']} aria-label="Plateau de Sandbox">
-          <div className={styles['stageArtwork']}>
-            <Image
-              src={videoClubEnabled ? HOME_STUDIO_DOOR_IMAGE : HOME_STUDIO_IMAGE}
-              alt=""
-              fill
-              loading="eager"
-              sizes="(max-width: 900px) 1px, max(100vw, 178vh)"
-              quality={90}
-            />
-            <div className={styles['studioPeople']}>
-              {team.map((host) => {
-                const person = Object.entries(HOME_STUDIO_PEOPLE).find(
-                  ([slug]) => slug === host.slug,
-                )?.[1];
-                return host.photo && person ? (
-                  <div key={host.slug} className={styles['studioPerson']} data-person={host.slug}>
-                    <div
-                      className={styles['studioPersonArtwork']}
-                      style={{
-                        aspectRatio: `${person.width} / ${person.height}`,
-                        translate: `0 ${(-person.headTop / person.height) * 100}%`,
-                      }}
-                    >
-                      <Image
-                        src={person.photo}
-                        alt={host.name}
-                        fill
-                        quality={90}
-                        sizes="(max-width: 900px) 1px, 540px"
-                      />
+    <HomeMotion className={styles['page']}>
+      <div data-home="editorial">
+        <CinematicStage>
+          <figure className={styles['stage']} aria-label="Plateau de Sandbox">
+            <div className={styles['stageArtwork']} data-depth-stage>
+              <Image
+                src={videoClubEnabled ? HOME_STUDIO_DOOR_IMAGE : HOME_STUDIO_IMAGE}
+                alt=""
+                fill
+                loading="eager"
+                sizes="(max-width: 900px) 1px, max(100vw, 178vh)"
+                quality={90}
+              />
+              <div className={styles['studioPeople']}>
+                {team.map((host) => {
+                  const person = Object.entries(HOME_STUDIO_PEOPLE).find(
+                    ([slug]) => slug === host.slug,
+                  )?.[1];
+                  return host.photo && person ? (
+                    <div key={host.slug} className={styles['studioPerson']} data-person={host.slug}>
+                      <div
+                        className={styles['studioPersonArtwork']}
+                        style={{
+                          aspectRatio: `${person.width} / ${person.height}`,
+                          translate: `0 ${(-person.headTop / person.height) * 100}%`,
+                        }}
+                      >
+                        <Image
+                          src={person.photo}
+                          alt={host.name}
+                          fill
+                          loading="eager"
+                          quality={90}
+                          sizes="(max-width: 900px) 1px, 540px"
+                        />
+                      </div>
                     </div>
-                  </div>
-                ) : null;
-              })}
+                  ) : null;
+                })}
+              </div>
+              <StudioEasterEggs />
+              {videoClubEnabled ? <StudioDoor /> : null}
             </div>
-            <StudioEasterEggs />
-            {videoClubEnabled ? <StudioDoor /> : null}
+          </figure>
+          <div className={styles['stageShade']} aria-hidden="true" />
+          <p className={styles['showLabel']}>
+            <span aria-hidden="true" />
+            <Text>Le Talk Show IA & tech</Text>
+          </p>
+          <div className={styles['heroCopy']}>
+            <p className={styles['hosts']}>
+              <span>Lou</span>
+              <span>Loïc</span>
+              <span>Nico</span>
+            </p>
+            <h1 id="discovery-title">
+              <Text>Gardez une longueur</Text>{' '}
+              <em>
+                <Text>d'avance sur la tech.</Text>
+              </em>
+            </h1>
           </div>
-        </figure>
-        <div className={styles['heroCopy']}>
-          <p className={styles['hosts']}>
-            <span>Lou</span>
-            <span>Loïc</span>
-            <span>Nico</span>
-          </p>
-          <h1 id="discovery-title">
-            <Text>Gardez une longueur d'avance sur la tech.</Text>
-          </h1>
-        </div>
-        <div className={styles['heroBottom']}>
-          <p className={styles['description']}>
-            <Text>
-              Chaque semaine, retrouvez Lou, Loïc et Nico pour décrypter l'actualité de l'IA et de
-              la tech, découvrir les outils qui valent le détour et confronter nos expériences.
-            </Text>
-          </p>
-          <div className={styles['heroActions']}>
-            <Link
-              href={latest ? `/episodes/${latest.number}` : '/podcast'}
-              className={styles['primaryAction']}
-              data-analytics-event="discovery_open"
-              data-analytics-destination="podcast"
-              data-analytics-placement="home"
-            >
-              <svg
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                aria-hidden="true"
-              >
-                <path d="M8 5v14l11-7z" />
-              </svg>
-              <Text>{latest ? 'Regarder le dernier épisode' : "Découvrir l'émission"}</Text>
-            </Link>
-            <div className={styles['platforms']}>
-              <a
-                href={siteConfig.platforms.youtube}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles['platformLink']}
-                data-analytics-event="youtube_open"
+          <div className={styles['heroBottom']}>
+            <p className={styles['description']}>
+              <Text>
+                Chaque semaine, retrouvez Lou, Loïc et Nico pour décrypter l'actualité de l'IA et de
+                la tech, découvrir les outils qui valent le détour et confronter nos expériences.
+              </Text>
+            </p>
+            <div className={styles['heroActions']}>
+              <Link
+                href={latest ? `/episodes/${latest.number}` : '/podcast'}
+                className={styles['primaryAction']}
+                data-analytics-event="discovery_open"
+                data-analytics-destination="podcast"
                 data-analytics-placement="home"
               >
                 <svg
-                  width="18"
-                  height="18"
+                  width="14"
+                  height="14"
                   viewBox="0 0 24 24"
                   fill="currentColor"
                   aria-hidden="true"
                 >
-                  <path d="M21.6 7.2a3 3 0 0 0-2.1-2.1C17.6 4.6 12 4.6 12 4.6s-5.6 0-7.5.5a3 3 0 0 0-2.1 2.1A31 31 0 0 0 2 12a31 31 0 0 0 .4 4.8 3 3 0 0 0 2.1 2.1c1.9.5 7.5.5 7.5.5s5.6 0 7.5-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 22 12a31 31 0 0 0-.4-4.8ZM10 15.2V8.8l5.6 3.2-5.6 3.2Z" />
+                  <path d="M8 5v14l11-7z" />
                 </svg>
-                YouTube
-                <span className="sr-only">
-                  {' '}
-                  <Text>(nouvel onglet)</Text>
-                </span>
-              </a>
-              {spotifyAvailable ? (
+                <Text>{latest ? 'Regarder le dernier épisode' : "Découvrir l'émission"}</Text>
+              </Link>
+              <div className={styles['platforms']}>
                 <a
-                  href={spotify}
+                  href={siteConfig.platforms.youtube}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={styles['platformLink']}
+                  data-analytics-event="youtube_open"
+                  data-analytics-placement="home"
                 >
-                  <SpotifyIcon />
-                  Spotify
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path d="M21.6 7.2a3 3 0 0 0-2.1-2.1C17.6 4.6 12 4.6 12 4.6s-5.6 0-7.5.5a3 3 0 0 0-2.1 2.1A31 31 0 0 0 2 12a31 31 0 0 0 .4 4.8 3 3 0 0 0 2.1 2.1c1.9.5 7.5.5 7.5.5s5.6 0 7.5-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 22 12a31 31 0 0 0-.4-4.8ZM10 15.2V8.8l5.6 3.2-5.6 3.2Z" />
+                  </svg>
+                  YouTube
                   <span className="sr-only">
                     {' '}
                     <Text>(nouvel onglet)</Text>
                   </span>
                 </a>
-              ) : (
-                <button className={styles['platformLink']} disabled title="Lien Spotify à venir">
-                  <SpotifyIcon />
-                  Spotify
-                </button>
-              )}
+                {spotifyAvailable ? (
+                  <a
+                    href={spotify}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles['platformLink']}
+                  >
+                    <SpotifyIcon />
+                    Spotify
+                    <span className="sr-only">
+                      {' '}
+                      <Text>(nouvel onglet)</Text>
+                    </span>
+                  </a>
+                ) : (
+                  <button className={styles['platformLink']} disabled title="Lien Spotify à venir">
+                    <SpotifyIcon />
+                    Spotify
+                  </button>
+                )}
+              </div>
+              {videoClubEnabled ? (
+                <Link
+                  href={STUDIO_VIDEO_CLUB_HREF}
+                  className={styles['mobileVideoClub']}
+                  aria-label="Découvrir le vidéoclub des projets"
+                >
+                  <Image
+                    src="/video-club/entrance-cinematic-v2.webp"
+                    alt=""
+                    width={1672}
+                    height={941}
+                    sizes="(max-width: 600px) 92vw, 560px"
+                    quality={90}
+                  />
+                  <span className={styles['mobileVideoClubLabel']}>
+                    <Text>Le vidéoclub</Text>
+                    <span aria-hidden="true">↗</span>
+                  </span>
+                </Link>
+              ) : null}
             </div>
-            {videoClubEnabled ? (
-              <Link
-                href={STUDIO_VIDEO_CLUB_HREF}
-                className={styles['mobileVideoClub']}
-                aria-label="Découvrir le vidéoclub des projets"
-              >
-                <Image
-                  src="/video-club/entrance-cinematic-v2.webp"
-                  alt=""
-                  width={1672}
-                  height={941}
-                  sizes="(max-width: 600px) 92vw, 560px"
-                  quality={90}
-                />
-                <span className={styles['mobileVideoClubLabel']}>
-                  <Text>Le vidéoclub</Text>
-                  <span aria-hidden="true">↗</span>
-                </span>
-              </Link>
-            ) : null}
           </div>
           <a className={styles['scrollCue']} href="#home-story">
+            <span className={styles['scrollLine']} aria-hidden="true" />
             <Text>La suite</Text>
-            <span aria-hidden="true">↓</span>
-          </a>
-        </div>
-      </CinematicStage>
-      <DiscoveryStory hosts={hosts} projects={projects} />
-      {latest ? (
-        <article className={`wrap ${styles['episode']}`} aria-labelledby="home-episode-title">
-          <div className={styles['episodeCopy']}>
-            <p className={styles['episodeMeta']}>
-              <Text>Dernier épisode</Text>
-              <span aria-hidden="true">/</span>
-              <LocalizedDate iso={latest.publishedAt} format="short" />
-            </p>
-            <h2 id="home-episode-title">
-              <Link href={`/episodes/${latest.number}`}>
-                <Text>{latest.title}</Text>
-              </Link>
-            </h2>
-            <a
-              href={episodeYoutubeUrl(latest)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles['youtubeLink']}
-              data-analytics-event="youtube_open"
-              data-analytics-placement="home"
-              data-analytics-episode={latest.number}
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              aria-hidden="true"
             >
-              <Text>Voir sur YouTube</Text>
-              <span aria-hidden="true">↗</span>
-              <span className="sr-only">
-                <Text>(nouvel onglet)</Text>
-              </span>
-            </a>
-          </div>
-          <Link
-            href={`/episodes/${latest.number}`}
-            className={styles['artwork']}
-            aria-label={latest.title}
+              <path d="M12 3v18m-6-6 6 6 6-6" />
+            </svg>
+          </a>
+        </CinematicStage>
+        <DiscoveryStory hosts={hosts} projects={projects} />
+        {latest ? (
+          <article
+            className={`wrap ${styles['episode']}`}
+            aria-labelledby="home-episode-title"
+            data-home-section="episode"
           >
-            {artwork ? (
-              <Image src={artwork} alt="" fill sizes="(max-width: 1000px) 92vw, 55vw" />
-            ) : (
-              <span>SANDBOX / {latest.number}</span>
-            )}
-            <span className={styles['posterPlay']} aria-hidden="true">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M8 5v14l11-7z" />
-              </svg>
-            </span>
-          </Link>
-        </article>
-      ) : null}
-    </div>
+            <div className={styles['episodeCopy']} data-reveal="title">
+              <p className={styles['episodeMeta']} data-signal-contact>
+                <span className={styles['chapterNumber']} aria-hidden="true">
+                  04
+                </span>
+                <Text>Dernier épisode</Text>
+                <span aria-hidden="true">/</span>
+                <LocalizedDate iso={latest.publishedAt} format="short" />
+              </p>
+              <h2 id="home-episode-title">
+                <Link href={`/episodes/${latest.number}`}>
+                  <Text>{latest.title}</Text>
+                </Link>
+              </h2>
+              <a
+                href={episodeYoutubeUrl(latest)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles['youtubeLink']}
+                data-analytics-event="youtube_open"
+                data-analytics-placement="home"
+                data-analytics-episode={latest.number}
+              >
+                <Text>Voir sur YouTube</Text>
+                <span aria-hidden="true">↗</span>
+                <span className="sr-only">
+                  <Text>(nouvel onglet)</Text>
+                </span>
+              </a>
+            </div>
+            <Link
+              href={`/episodes/${latest.number}`}
+              className={styles['artwork']}
+              aria-label={latest.title}
+              data-reveal="portal"
+              data-reveal-side="right"
+              data-reveal-delay="80"
+            >
+              {artwork ? (
+                <Image src={artwork} alt="" fill sizes="(max-width: 1000px) 92vw, 55vw" />
+              ) : (
+                <span>SANDBOX / {latest.number}</span>
+              )}
+              <span className={styles['posterPlay']} aria-hidden="true">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              </span>
+            </Link>
+          </article>
+        ) : null}
+      </div>
+      <HomeSignal />
+    </HomeMotion>
   );
 }
 
