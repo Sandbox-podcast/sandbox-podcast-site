@@ -6,6 +6,8 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import VideoClubPage, { metadata } from '../src/app/(fr)/nos-projets/video-club/page';
 import { VideoClubDossier } from '../src/components/video-club-dossier';
+import { VideoClub } from '../src/components/video-club';
+import { LocalizationProvider } from '../src/components/localization';
 import {
   VIDEO_CLUB_ROOM_IMAGE,
   VIDEO_CLUB_VHS_CLOSED_IMAGE,
@@ -15,10 +17,38 @@ import {
   videoClubShelves,
 } from '../src/domain/video-club';
 import { personalProjects } from '../src/lib/personal-projects';
+import { matchSharedPage } from '../src/i18n/page-routes';
+import { localizedHref, sourcePath } from '../src/i18n/routing';
 
 afterEach(() => vi.unstubAllEnvs());
 
-describe('vidéoclub local', () => {
+describe('vidéoclub public', () => {
+  it('conserve la langue dans le retour au plateau, le catalogue et la fiche complète', () => {
+    for (const locale of ['fr-FR', 'en', 'es-ES', 'de-DE']) {
+      for (const startInside of [true, false]) {
+        const html = renderToStaticMarkup(
+          createElement(LocalizationProvider, {
+            locale,
+            dictionary: {},
+            children: createElement(VideoClub, { projects: personalProjects, startInside }),
+          }),
+        );
+        expect(html).toContain(
+          `href="${localizedHref(startInside ? '/' : '/nos-projets', locale)}"`,
+        );
+      }
+      const project = personalProjects[0];
+      if (!project) throw new Error('Le catalogue de projets doit contenir une fiche.');
+      const html = renderToStaticMarkup(
+        createElement(LocalizationProvider, {
+          locale,
+          dictionary: {},
+          children: createElement(VideoClubDossier, { project }),
+        }),
+      );
+      expect(html).toContain(`href="${localizedHref('/nos-projets/' + project.slug, locale)}"`);
+    }
+  });
   it('garde le décor derrière tout le cadre, y compris sur les rayons latéraux', () => {
     for (const [width, height] of [
       [366, 630],
@@ -137,16 +167,24 @@ describe('vidéoclub local', () => {
     }
   });
 
-  it('reste non indexable et répond 404 hors du serveur de développement', async () => {
+  it('reste non indexable et ouvre les rayons en production', async () => {
     expect(metadata.robots).toEqual({ index: false, follow: false });
     vi.stubEnv('NODE_ENV', 'production');
-    await expect(VideoClubPage({ searchParams: Promise.resolve({}) })).rejects.toThrow(
-      'NEXT_HTTP_ERROR_FALLBACK;404',
+    const html = renderToStaticMarkup(
+      await VideoClubPage({ searchParams: Promise.resolve({ from: 'studio' }) }),
     );
-    vi.stubEnv('NODE_ENV', 'test');
-    await expect(VideoClubPage({ searchParams: Promise.resolve({}) })).rejects.toThrow(
-      'NEXT_HTTP_ERROR_FALLBACK;404',
-    );
+    expect(html).toContain('data-entered="true"');
+    expect(html).toContain('Retour au plateau');
+    expect(metadata.title).not.toContain('essai local');
+  });
+  it('reconnaît le vidéoclub avant les fiches projet dans toutes les langues', () => {
+    for (const locale of ['fr-FR', 'en', 'es-ES', 'de-DE']) {
+      const href = localizedHref('/nos-projets/video-club?from=studio', locale);
+      expect(matchSharedPage(sourcePath(href))).toEqual({
+        route: '/nos-projets/video-club',
+        params: {},
+      });
+    }
   });
 
   it('reprend les informations et sources du catalogue avec les vidéos chargées au clic', () => {

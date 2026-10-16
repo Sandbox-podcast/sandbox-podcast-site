@@ -10,6 +10,7 @@ Node 24 et pnpm 12.9.1, selon `package.json`.
 pnpm check
 pnpm test:bis
 pnpm build
+pnpm --filter @podcast/site test:og:tracing
 pnpm --filter @podcast/site test:public-routes
 pnpm --filter @podcast/site test:analytics:e2e
 pnpm --filter @podcast/site test:admin:http
@@ -27,6 +28,7 @@ pnpm audit --audit-level=high
 - Domaine : schémas, scores, mouvements, éditions, sources, périodes, preuves, rejouabilité, contenu et traductions.
 - Persistance : PGlite exécute les migrations versionnées et vérifie permissions, conflits, unicité, retraits et preuves immuables. Aucun test ne migre Neon.
 - Routes publiques : une base éphémère sert les classements, archives, méthodes et démonstrations. Toutes les URL de son sitemap doivent répondre 200, rester indexables et annoncer le bon canonical ; les routes absentes restent en 404.
+- Partage : les images annoncées par les cinq pages principales de classements sont chargées et contrôlées. Après le build, `test:og:tracing` vérifie que chaque route OpenGraph inclut ses cinq fichiers de police dans la trace de déploiement. Ce contrôle est aussi exécuté en CI.
 - Consentement : Playwright teste GA4 bloqué par défaut et activé dans un processus de test, refus, retrait dans un autre onglet, expiration, événements filtrés et exclusion de l'administration. Les services Google/Vercel sont simulés localement ; ces parcours ne prouvent pas la réception distante.
 - Sécurité : compteur Postgres concurrent et expiration, refus des connexions si le compteur est indisponible, nonces CSP distincts dans le HTML du build de production, permissions et origine des mutations, secrets cron, tailles des corps JSON bornées pendant leur lecture, paramètres invalides et états d'erreur sans fuite de secret.
 - Badges : huit familles, périodes complètes, dernier créneau du dimanche, concurrence, absence de doublon, retrait, SVG/PNG, copies, liens, filtres, pagination et accessibilité des générateurs.

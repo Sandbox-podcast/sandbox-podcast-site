@@ -2,10 +2,21 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import siteSettings from '../content/site.json';
-import { canonicalSiteUrl, youtubeChannelUrl } from '../src/config/site.ts';
+import { canonicalSiteUrl, youtubeChannelUrl, spotifyChannelUrl } from '../src/config/site.ts';
 import { siteSettingsSchema } from '../src/domain/schema.ts';
 
 describe('réglages publics du site', () => {
+  it('corrige le lien Spotify générique sans remplacer une destination éditoriale précise', () => {
+    for (const generic of ['https://open.spotify.com', 'https://open.spotify.com/?si=old'])
+      expect(spotifyChannelUrl(generic)).toBe(siteSettings.platforms.spotify);
+    for (const configured of [
+      siteSettings.platforms.spotify,
+      'https://open.spotify.com/show/another-show',
+      'https://open.spotify.com/episode/specific-episode',
+      'https://example.com/',
+    ])
+      expect(spotifyChannelUrl(configured)).toBe(configured);
+  });
   it('ignore les anciennes cartes de l’équipe dans les réglages', () => {
     const settings = siteSettingsSchema.parse({
       ...siteSettings,

@@ -8,6 +8,7 @@ export const SHARED_PAGE_ROUTES = [
   '/about',
   '/confidentialite',
   '/nos-projets',
+  '/nos-projets/video-club',
   '/nos-projets/:slug',
   '/search',
   '/latest',

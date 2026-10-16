@@ -13,6 +13,7 @@ import {
   HOME_STUDIO_IMAGE,
   HOME_STUDIO_DOOR_IMAGE,
   HOME_STUDIO_CLEAN_WALL,
+  HOME_STUDIO_PEOPLE,
 } from '../src/domain/home-studio';
 import { StudioDoor } from '../src/components/studio-door';
 import { StudioEasterEggs } from '../src/components/studio-easter-eggs';
@@ -29,6 +30,8 @@ import { personalProjects } from '../src/lib/personal-projects';
 import { HomeProjectSpotlight } from '../src/components/home-project-spotlight';
 import { HOME_PROJECT_ARTWORK } from '../src/domain/home-project-artwork';
 import { HOME_HOST_ARTWORK } from '../src/domain/home-host-artwork';
+import { Footer } from '../src/components/shell';
+import { LocalizationProvider } from '../src/components/localization';
 
 const pilot = episodeSchema.parse({
   number: 1,
@@ -48,6 +51,18 @@ afterEach(() => {
 });
 
 describe('accueil du Talk Show', () => {
+  it('conserve les détourages du plateau quand les photos des profils viennent de l’administration', () => {
+    const hosts = publicHosts().map((host) => ({
+      ...host,
+      photo: `/api/host-photos/${host.slug}-published.webp`,
+    }));
+    const html = renderToStaticMarkup(createElement(DiscoveryHome, { episodes: [], hosts }));
+    const stage = html.slice(html.indexOf('<figure'), html.indexOf('</figure>'));
+    for (const person of Object.values(HOME_STUDIO_PEOPLE)) {
+      expect(stage).toContain(encodeURIComponent(person.photo));
+    }
+    expect(stage).not.toContain(encodeURIComponent('/api/host-photos/'));
+  });
   it('utilise les couvertures éditoriales à l’accueil et conserve les captures dans le catalogue', async () => {
     const html = renderToStaticMarkup(
       createElement(HomeProjectSpotlight, { projects: homeProjects(personalProjects) }),
@@ -115,7 +130,7 @@ describe('accueil du Talk Show', () => {
     expect(html).not.toContain('utm_source');
     expect(html).not.toContain('disabled');
   });
-  it('prépare Spotify sans rediriger vers son accueil quand la chaîne manque', () => {
+  it('restaure la chaîne Spotify sur l’accueil et le pied de page avec les anciens réglages publiés', () => {
     setSiteSettingsOverride(
       siteSettingsSchema.parse({
         ...siteSettings,
@@ -123,9 +138,12 @@ describe('accueil du Talk Show', () => {
       }),
     );
     const html = renderToStaticMarkup(createElement(DiscoveryHome, { episodes: [] }));
-    expect(html).toContain('title="Lien Spotify à venir"');
-    expect(html).toContain('disabled');
-    expect(html).not.toContain('href="https://open.spotify.com"');
+    const footer = renderToStaticMarkup(createElement(Footer));
+    for (const rendered of [html, footer]) {
+      expect(rendered).toContain(`href="${siteSettings.platforms.spotify}"`);
+      expect(rendered).not.toContain('href="https://open.spotify.com"');
+    }
+    expect(html).not.toContain('title="Lien Spotify à venir"');
   });
   it('présente les animateurs puis leurs projets avant les rubriques et le replay', () => {
     const html = renderToStaticMarkup(
@@ -207,6 +225,16 @@ describe('accueil du Talk Show', () => {
     expect(html).not.toContain('room-photoreal-v1.webp');
     expect(html).not.toContain('<video');
     expect(html).not.toContain('<iframe');
+  });
+  it('garde la langue choisie dans la destination de la porte', () => {
+    const html = renderToStaticMarkup(
+      createElement(LocalizationProvider, {
+        locale: 'en',
+        dictionary: {},
+        children: createElement(StudioDoor),
+      }),
+    );
+    expect(html).toContain('href="/en/nos-projets/video-club?from=studio"');
   });
   it('place la vignette mobile du vidéoclub après les plateformes uniquement lorsque le club est activé', () => {
     const enabled = renderToStaticMarkup(

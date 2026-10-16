@@ -39,3 +39,11 @@ Les tests ciblés des cartes et de l'accueil passent : 28 tests dans deux fichie
 Les trois illustrations ont été inspectées et décodées. Le contrôle navigateur et les vérifications globales sont intégrés au compte rendu du lot de l'accueil. Aucun commit, push ou publication n'est inclus dans cette retouche.
 
 La revue navigateur finale confirme le rendu à 320, 390, 768 et 1440 pixels : trois cartes, illustrations dédiées en qualité 90, titres positifs, biographies complètes, liens natifs et ouverture au clavier. L'inclinaison reste bornée à sept degrés, se réinitialise à la sortie et s'arrête avec la réduction du mouvement ou un pointeur tactile. Aucun débordement horizontal ni erreur JavaScript n'est relevé. Les photos de l'équipe sont identiques à celles du commit de départ, empreintes Git comparées. Captures locales : apps/site/.local/home-host-cards/team-1440.png et team-390.png.
+
+## Retouche du cartouche après revue de Lou
+
+Lou trouve le panneau de texte trop gros. Le cartouche argenté opaque est remplacé par une légende sombre fondue dans le bas de l'illustration, sans bordure autour du texte. Les prénoms passent à 30-32 pixels et les symboles à 24 pixels. Le titre reste complet, avec un contraste clair sur le fond sombre. Les biographies, les visages, les illustrations et les effets holographiques restent conservés.
+
+Le contrôle navigateur vérifie que la zone d'identité occupe au plus 22 % de la carte et que le prénom reste lisible sans dominer le portrait. Les quatre tailles 320, 390, 768 et 1440 pixels passent, avec les contrôles existants de liens, biographies, mouvement réduit et absence de débordement. Cette retouche reste locale et n'est pas ajoutée automatiquement à la PR du lot précédent.
+
+Le contrôle global de cette retouche réussit : formatage, lint, types, 660 tests du site, 11 tests médias et 21 tests BIS. Les modifications concurrentes des autres conversations restent séparées de cette retouche.

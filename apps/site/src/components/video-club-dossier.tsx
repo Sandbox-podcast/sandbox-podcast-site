@@ -9,6 +9,7 @@ import {
   type PersonalProject,
 } from '@/domain/personal-projects';
 import { ProjectGallery } from './project-gallery';
+import { LocalizedElement } from './localization';
 import styles from './video-club.module.css';
 
 export function VideoClubDossier({ project }: { project: PersonalProject }) {
@@ -39,7 +40,9 @@ export function VideoClubDossier({ project }: { project: PersonalProject }) {
         >
           {project.access === 'source' ? 'Voir le code' : 'Découvrir le projet'}
         </a>
-        <a href={personalProjectPath(project.slug)}>Ouvrir la fiche complète</a>
+        <LocalizedElement as="a" href={personalProjectPath(project.slug)}>
+          Ouvrir la fiche complète
+        </LocalizedElement>
       </div>
       <ProjectGallery name={project.name} images={project.images} videos={project.videos} />
       <div className={styles['dossierColumns']}>

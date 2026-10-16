@@ -18,6 +18,7 @@ import {
   videoClubShelves,
 } from '@/domain/video-club';
 import { VideoClubDossier } from './video-club-dossier';
+import { LocalizedElement, Text } from './localization';
 import styles from './video-club.module.css';
 
 function TapeArtwork({ project, number }: { project: PersonalProject; number: number }) {
@@ -162,10 +163,14 @@ export function VideoClub({
       data-list={list}
     >
       <header className={styles['toolbar']}>
-        <a href={startInside ? '/' : '/nos-projets'} className={styles['exit']}>
+        <LocalizedElement
+          as="a"
+          href={startInside ? '/' : '/nos-projets'}
+          className={styles['exit']}
+        >
           <span aria-hidden="true">‹</span>{' '}
-          {startInside ? 'Retour au plateau' : 'Catalogue classique'}
-        </a>
+          <Text>{startInside ? 'Retour au plateau' : 'Catalogue classique'}</Text>
+        </LocalizedElement>
         <span className={styles['toolbarBrand']}>
           <span>Sandbox</span> Le vidéoclub
         </span>

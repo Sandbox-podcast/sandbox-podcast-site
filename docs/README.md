@@ -1,5 +1,7 @@
 # Documentation
 
+Parité de l'accueil et ouverture du vidéoclub en mode production : [DD-0047](design-decisions/dd-0047-parite-accueil-production.md) et [diagnostic et contrôles](site/ecarts-production-2026-10-16.md).
+
 PR globale du 16 octobre : [périmètre complet, validations et captures](site/livraison-globale-pr69-2026-10-16.md), avec les retouches de l'accueil, la Time Machine illustrée et Épisode 002 BIS.
 
 Livraison groupée du 16 octobre : [périmètre, contrôles et captures](site/livraison-groupee-2026-10-16.md). Les objets du plateau ouvrent les classements et la Time Machine selon [DD-0041](design-decisions/dd-0041-objets-du-plateau-vers-classements-et-time-machine.md).
