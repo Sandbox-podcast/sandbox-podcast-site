@@ -4,8 +4,14 @@ import { describe, expect, it } from 'vitest';
 import PrivacyPage, { metadata } from '../src/app/(fr)/confidentialite/page.tsx';
 import { LocalizationProvider } from '../src/components/localization.tsx';
 import { siteDictionary } from '../src/i18n/dictionaries.ts';
+import { Footer } from '../src/components/shell.tsx';
 
 describe('information sur les données personnelles', () => {
+  it('rend le contact email directement accessible dans le footer', () => {
+    expect(renderToStaticMarkup(createElement(Footer))).toContain(
+      'mailto:sandbox.podcast.pro@gmail.com',
+    );
+  });
   it("publie le responsable, le contact, les durées confirmées et l'accès au retrait", () => {
     const html = renderToStaticMarkup(createElement(PrivacyPage));
     expect(html).toContain('L&#x27;équipe du Talk Show Sandbox');

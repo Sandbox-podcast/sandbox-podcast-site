@@ -48,11 +48,12 @@ describe('routage des quatre langues du site', () => {
     expect(localizedPathMatchesLocale('/charts/skills/claude-code', 'fr-FR')).toBe(true);
   });
 
-  it('n’autorise l’indexation qu’aux langues dont l’interface est actuellement relue', () => {
+  it('autorise les quatre interfaces traduites et refuse les locales absentes du site', () => {
     expect(isLocaleUiReviewed('fr-FR')).toBe(true);
     expect(isLocaleUiReviewed('en')).toBe(true);
-    expect(isLocaleUiReviewed('de-DE')).toBe(false);
-    expect(isLocaleUiReviewed('es-ES')).toBe(false);
+    expect(isLocaleUiReviewed('de-DE')).toBe(true);
+    expect(isLocaleUiReviewed('es-ES')).toBe(true);
+    expect(isLocaleUiReviewed('it-IT')).toBe(false);
   });
 
   it('valide le contenu traduit et le statut de relecture', () => {

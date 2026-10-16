@@ -45,6 +45,17 @@ const vercelStub = `(() => {
   };
   pending.forEach((args) => window.va(...args));
 })();`;
+const speedStub = `(() => {
+  let beforeSend = () => null;
+  const pending = window.siq || [];
+  window.si = (command, data) => { if (command === 'beforeSend') beforeSend = data; };
+  pending.forEach((args) => window.si(...args));
+  window.__qaEmitVital = () => {
+    const event = beforeSend({type:'vital',url:window.location.href});
+    if (event) fetch('/_vercel/speed-insights/vitals',{method:'POST',body:JSON.stringify(event)});
+  };
+  window.__qaEmitVital();
+})();`;
 
 process.env.NEXT_PUBLIC_GA4_READY = String(mode === '--ready');
 process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID = 'G-45XWR4KJ1M';
@@ -87,6 +98,17 @@ try {
       return route.fulfill({ contentType: 'text/javascript', body: googleStub });
     }
     if (
+      url.pathname.endsWith('/speed-insights/script.debug.js') ||
+      url.pathname === '/_vercel/speed-insights/script.js'
+    ) {
+      requests.push({ type: 'speed-tag' });
+      return route.fulfill({ contentType: 'text/javascript', body: speedStub });
+    }
+    if (url.pathname === '/_vercel/speed-insights/vitals') {
+      requests.push({ type: 'speed-event', body: request.postData() });
+      return route.fulfill({ status: 204 });
+    }
+    if (
       url.hostname === 'va.vercel-scripts.com' ||
       url.pathname === '/_vercel/insights/script.js'
     ) {
@@ -117,6 +139,17 @@ try {
   await page.getByRole('button', { name: 'Préférences de mesure', exact: true }).click();
   await page.getByRole('button', { name: 'Accepter', exact: true }).click();
   await page.waitForFunction(() => typeof window.va === 'function');
+  await page.waitForFunction(() => typeof window.__qaEmitVital === 'function');
+  await page.waitForLoadState('networkidle');
+  assert.equal(
+    requests.some((request) => request.type === 'speed-event'),
+    true,
+  );
+  assert.equal(
+    requests.some((request) => /qa-sensitive|qa-fragment/.test(request.body ?? '')),
+    false,
+  );
+  checks.push('Speed Insights après accord, URL sans recherche ni fragment');
   if (mode === '--blocked') {
     await page.goto(`${fixture.origin}/about`, { waitUntil: 'networkidle' });
     assert.equal(
@@ -128,13 +161,18 @@ try {
     await page.waitForFunction(() =>
       window.__qaGoogleEvents?.some((event) => event.name === 'page_view'),
     );
-    for (const [path, name] of [
-      ['/', 'discovery_open'],
-      ['/', 'youtube_open'],
-      ['/charts', 'experience_interaction'],
+    for (const [path, name, width] of [
+      ['/', 'discovery_open', 1280],
+      ['/', 'discovery_open', 320],
+      ['/', 'youtube_open', 320],
+      ['/charts', 'experience_interaction', 320],
     ]) {
+      await page.setViewportSize({ width, height: 900 });
       await page.goto(`${fixture.origin}${path}`, { waitUntil: 'networkidle' });
-      const action = page.locator(`[data-analytics-event="${name}"]`).first();
+      const action = page
+        .locator(`[data-analytics-event="${name}"]`)
+        .filter({ visible: true })
+        .first();
       await action.waitFor();
       await action.evaluate((element) => {
         document.addEventListener('click', (event) => event.preventDefault(), {
@@ -147,7 +185,7 @@ try {
         (eventName) => window.__qaGoogleEvents?.some((event) => event.name === eventName),
         name,
       );
-      checks.push(name);
+      checks.push(`${name} ${width}px`);
     }
     await page.goto(`${fixture.origin}/episodes/1`, { waitUntil: 'networkidle' });
     for (const name of ['episode_play_requested', 'episode_source_open', 'episode_project_open']) {
@@ -194,6 +232,7 @@ try {
   const beforeWithdrawalCheck = requests.filter((request) => request.type.endsWith('event')).length;
   await page.evaluate(() => {
     window.va?.('pageview', {});
+    window.__qaEmitVital?.();
     window.gtag?.('event', 'page_view', { page_location: window.location.href });
   });
   await page.goto(`${fixture.origin}/about`, { waitUntil: 'networkidle' });

@@ -1,6 +1,6 @@
 # Mesure d'audience et consentement
 
-Le site utilise Vercel Web Analytics après accord. Le tag GA4 via `gtag.js` est prêt mais bloqué par défaut tant que la configuration de son flux n'est pas validée. L'identifiant fourni par Lou est `G-45XWR4KJ1M` ; `NEXT_PUBLIC_GA_MEASUREMENT_ID` peut le remplacer. La page `/confidentialite` et le pied de page donnent accès aux préférences.
+Le site utilise Vercel Web Analytics après accord. Le tag GA4 via `gtag.js` est activé en production depuis le 16 octobre 2026 après validation du flux et du consentement. Le code conserve un blocage par défaut en l'absence de `NEXT_PUBLIC_GA4_READY=true`. L'identifiant fourni par Lou est `G-45XWR4KJ1M` ; `NEXT_PUBLIC_GA_MEASUREMENT_ID` peut le remplacer. La page `/confidentialite` et le pied de page donnent accès aux préférences.
 
 Le responsable confirmé est " L'équipe du podcast Sandbox ", joignable à `sandbox.podcast.pro@gmail.com`. La propriétaire indique une conservation GA4 des événements de 14 mois. Le choix d'accepter ou de refuser est daté et vaut 180 jours. Les anciennes valeurs sans date sont redemandées. Le retrait bloque les nouveaux envois et efface les cookies GA4 accessibles au site ; il ne supprime pas les données déjà reçues. Les cookies GA4 expirent après 180 jours sans prolongation automatique.
 
@@ -28,13 +28,19 @@ Le 14 octobre, l'essai de recherche `qa-sensitive` sur le build de production a 
 
 Ces événements passent par le même accord, le même contrôle d'expiration et le même verrou GA4. Les paramètres `placement`, `destination` et `action` sont limités à des listes fermées. Ils ne contiennent pas le texte de recherche. Les pages vues permettent d'étudier les entrées et le parcours de la découverte à l'épisode, puis à YouTube ; les clics vers YouTube doivent être rapprochés des données de Studio, sans les assimiler à des abonnements. Aucune cible chiffrée n'est fixée avant une première période d'observation.
 
-La réception et l'attribution dans les comptes distants restent à vérifier lors de l'activation. Référence technique : [événements GA4](https://developers.google.com/analytics/devguides/collection/ga4/events).
+Le 16 octobre vers 15 h 33 UTC, la recette sur le domaine public a confirmé `youtube_open` dans Temps réel, avec `placement=home`, puis `experience_interaction` après ouverture des explications du classement. Le choix de mesure du navigateur a ensuite été remis au refus. Les liens des objets du plateau vers Charts, Time Machine et le vidéoclub ne portaient pas l'événement de découverte ; le correctif local les couvre, ainsi que l'entrée mobile du vidéoclub. Leur réception après déploiement reste à vérifier.
+
+Le tableau Vercel Speed Insights ne contenait aucune mesure lors du contrôle. Le paquet est ajouté localement derrière le consentement et le filtre d'URL existants. La recette vérifie son absence avant accord et son arrêt après retrait. Il reste à déployer puis observer des visites mobiles réelles ; les résultats locaux ne sont pas une mesure de performance du public.
+
+Le 16 octobre, les cinq événements du plan initial et `discovery_open` ont été reçus dans Temps réel. Les vues effectivement obtenues sur YouTube restent à rapprocher des clics mesurés sur le site. Voir le [compte rendu de mise en service](issue-68-mise-en-service-2026-10-16.md). Référence technique : [événements GA4](https://developers.google.com/analytics/devguides/collection/ga4/events).
 
 ### Contrôles de configuration
 
 Les tests du 14 octobre sur le build local de production observent le chargement du tag et une transmission `page_view` seulement après acceptation. Le refus ne charge pas le tag ; après retrait, les navigations observées n'ajoutent pas d'envoi. Le collecteur Google répond de manière opaque au navigateur : un statut JavaScript 0 ne signifie ni HTTP 0 ni validation dans une propriété.
 
-La session GA4 accessible affiche le compte " bress " sans propriété Sandbox. Le connecteur Vercel refuse l'accès au projet de production attendu, `sandboxpodcastpro-5518/sandbox-podcast`. Ces accès restent nécessaires pour confirmer l'association du flux, la désactivation de la mesure améliorée et la réception dans les rapports. Aucune propriété ni préférence de compte n'a été créée ou modifiée.
+Le compte Google Sandbox a été sélectionné le 16 octobre dans la session existante. La propriété `558931246` et le flux `16126152490` correspondent au domaine public et à l'identifiant de mesure attendu. Avec l'accord de Lou, la mesure améliorée a été désactivée et la conservation des événements portée à 14 mois. Ces réglages ont été relus après enregistrement. Le déploiement Vercel et les contrôles ont été réalisés par la console du projet `sandboxpodcastpro-5518/sandbox-podcast`, accessible dans le navigateur.
+
+Procédure à conserver pour les futures activations :
 
 1. Ouvrir la propriété existante du podcast et vérifier son identifiant de mesure et son domaine.
 2. Vérifier la conservation déclarée de 14 mois et la désactivation de la mesure améliorée.

@@ -273,6 +273,57 @@ describe('pipeline charts sur Postgres', () => {
     ).toBe(false);
   });
 
+  it('isole un modèle homonyme sans déplacer les sources ni les mesures historiques', async () => {
+    await seedModels();
+    const old = (await db.select().from(schema.chartEntities))[0];
+    if (!old) throw new Error('Modèle de test absent.');
+    const oldSources = await db
+      .select()
+      .from(schema.chartEntitySources)
+      .where(eq(schema.chartEntitySources.entityId, old.id));
+    const source = {
+      provider: 'huggingface' as const,
+      externalId: 'another-publisher/same-model-name',
+      url: 'https://huggingface.co/another-publisher/same-model-name',
+      label: 'Hugging Face',
+    };
+    const entity = externalEntitySchema.parse({ ...old, sources: [source] });
+    const observation = externalObservationSchema.parse({
+      entitySlug: entity.slug,
+      source,
+      observedOn: date,
+      collectedAt: `${date}T15:00:00.000Z`,
+      metrics: { downloads: 42 },
+    });
+    expect(await saveExternalBatch([entity], [observation])).toBe(1);
+    expect(await saveExternalBatch([entity], [observation])).toBe(0);
+    const all = await db.select().from(schema.chartEntities);
+    expect(all).toHaveLength(21);
+    const added = all.find((item) => item.slug.startsWith(`${old.slug}-`));
+    if (!added) throw new Error('La variante doit rester distincte.');
+    expect(added.id).not.toBe(old.id);
+    expect(
+      await db
+        .select()
+        .from(schema.chartEntitySources)
+        .where(eq(schema.chartEntitySources.entityId, old.id)),
+    ).toEqual(oldSources);
+    const newSource = (
+      await db
+        .select()
+        .from(schema.chartEntitySources)
+        .where(eq(schema.chartEntitySources.entityId, added.id))
+    )[0];
+    if (!newSource) throw new Error('La nouvelle référence doit être enregistrée.');
+    expect(newSource.externalId).toBe(source.externalId);
+    expect(
+      await db
+        .select()
+        .from(schema.chartSourceSnapshots)
+        .where(eq(schema.chartSourceSnapshots.entitySourceId, newSource.id)),
+    ).toHaveLength(1);
+  });
+
   it('fige deux éditions distinctes par jour et rend chaque créneau idempotent', async () => {
     const projects = await seed();
     const morning = await calculateGithubWeek({ date });

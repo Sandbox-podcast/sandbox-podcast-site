@@ -35,11 +35,11 @@ describe('libellés localisés des classements', () => {
     }
   });
 
-  it('garde allemand et espagnol hors indexation avant relecture', () => {
+  it('autorise les interfaces espagnole et allemande complétées', () => {
     expect(isLocaleUiReviewed('fr-FR')).toBe(true);
     expect(isLocaleUiReviewed('en')).toBe(true);
-    expect(isLocaleUiReviewed('es-ES')).toBe(false);
-    expect(isLocaleUiReviewed('de-DE')).toBe(false);
+    expect(isLocaleUiReviewed('es-ES')).toBe(true);
+    expect(isLocaleUiReviewed('de-DE')).toBe(true);
   });
 
   it('formate les nombres avec les conventions de la langue de la page', () => {

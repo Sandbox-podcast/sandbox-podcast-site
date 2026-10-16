@@ -112,6 +112,11 @@ for (const file of [
       const parent = node.parent;
       const ignored =
         ts.isImportDeclaration(parent) ||
+        (ts.isCallExpression(parent) &&
+          ts.isPropertyAccessExpression(parent.expression) &&
+          ['closest', 'matches', 'matchMedia', 'querySelector', 'querySelectorAll'].includes(
+            parent.expression.name.text,
+          )) ||
         (ts.isJsxAttribute(parent) &&
           [
             'className',

@@ -163,6 +163,9 @@ export function DiscoveryHome({
                 href={STUDIO_VIDEO_CLUB_HREF}
                 className={styles['mobileVideoClub']}
                 aria-label="Découvrir le vidéoclub des projets"
+                data-analytics-event="discovery_open"
+                data-analytics-destination="projects"
+                data-analytics-placement="home"
               >
                 <Image
                   src="/video-club/entrance-cinematic-v2.webp"

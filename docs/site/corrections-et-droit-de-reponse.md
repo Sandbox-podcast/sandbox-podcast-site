@@ -1,6 +1,6 @@
 # Corrections et demandes de réponse
 
-Procédure interne proposée le 16 octobre 2026 dans le cadre de l'issue 68. Elle organise le traitement éditorial ; elle ne fixe ni délai légal ni engagement public. Lou valide les réponses externes et les publications, conformément à AGENTS.md.
+Proposition non retenue par Lou le 16 octobre 2026. Les signalements passent par l'email déjà présent dans le footer : `sandbox.podcast.pro@gmail.com`. Aucune publication de cette procédure ni validation supplémentaire n'est attendue. Le brouillon ci-dessous reste une référence interne, sans engagement public.
 
 ## Réception et instruction
 
@@ -24,4 +24,4 @@ Préparer une réponse attribuée à son auteur, portant sur les faits contesté
 
 Avant de clore la demande, vérifier le rendu publié, les liens, les traductions concernées et les caches. La date visible doit correspondre à une modification réelle. Enregistrer la décision, l'accord de publication et le lien vers la correction ou la réponse. Une demande refusée garde son motif dans le suivi privé.
 
-La publication de cette politique sur le site et les engagements qui l'accompagneraient restent à approuver par Lou.
+Ce brouillon n'est pas destiné à être publié sur le site.

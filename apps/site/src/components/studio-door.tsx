@@ -57,6 +57,9 @@ export function StudioDoor() {
         href={href}
         className={styles['stageDoor']}
         aria-label={t('Entrer dans le vidéoclub')}
+        data-analytics-event="discovery_open"
+        data-analytics-destination="projects"
+        data-analytics-placement="home"
         aria-busy={opening || undefined}
         onClick={(event) => {
           if (
