@@ -237,7 +237,7 @@ describe('même site en français et en anglais', () => {
     const html = renderToStaticMarkup(
       createElement(LocalizationProvider, { locale: 'en', dictionary, children: page }),
     );
-    expect(html).toContain('The podcast');
+    expect(html).toContain('The Talk Show');
     expect(html).toContain('No replays yet.');
     expect(html).not.toContain('href="/en/episodes/40"');
     expect(html).not.toContain('href="/en/episodes/41"');

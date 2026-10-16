@@ -680,10 +680,10 @@ a.chapter-row:hover {
   font-size: 1.1rem;
 }
 .about-social-page {
-  padding-block: clamp(2rem, 5vw, 4rem);
+  padding-block: clamp(1.5rem, 3vw, 2.5rem) 3rem;
 }
 .about-social-grid {
-  margin-top: 2.5rem;
+  margin-top: 2rem;
 }
 .topic-catalog-link {
   min-height: 10rem;
@@ -1108,8 +1108,8 @@ body:has(.admin-shell) .site-footer {
 .localized-content {
   display: grid;
   max-width: 76rem;
-  gap: 2.5rem;
-  padding-block: clamp(3rem, 8vw, 7rem);
+  gap: 2rem;
+  padding-block: clamp(2rem, 4vw, 4rem);
 }
 
 .localized-content-heading {
@@ -1124,7 +1124,7 @@ body:has(.admin-shell) .site-footer {
   line-height: 0.98;
 }
 
-.localized-content-heading > p:not(.sc-label) {
+.localized-content-heading > p:not(.sc-label):not(.label) {
   max-width: 55rem;
   font-size: clamp(1.1rem, 2vw, 1.5rem);
   line-height: 1.5;
@@ -1414,6 +1414,23 @@ body:has([data-home='editorial']) .masthead-row {
 .discovery-footer-grid a:hover {
   color: var(--hl);
 }
+.footer-platforms {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+.discovery-footer-grid .footer-platforms a {
+  min-height: 44px;
+  gap: 8px;
+  padding: 9px 16px;
+  border: 1px solid var(--hair);
+  border-radius: 999px;
+  background: var(--paper-2);
+}
+.discovery-footer-grid .footer-platforms a:hover {
+  border-color: var(--hl);
+}
 .discovery-footer-bottom {
   border-top: 1px solid var(--hair);
   display: flex;
@@ -1446,28 +1463,28 @@ body:has([data-home='editorial']) .masthead-row {
 
 html:has([data-home='editorial']),
 body:has([data-home='editorial']) {
-  --paper: #f1f0e9;
-  --paper-2: #e4e5de;
-  --paper-3: #dbe4dc;
-  --ink: #142426;
-  --ink-2: #586360;
-  --ink-3: #64736c;
-  --hair: #c7cec6;
-  --accent-ink: #00738d;
-  color-scheme: light;
+  --paper: #080c12;
+  --paper-2: #10161f;
+  --paper-3: #151d28;
+  --ink: #f4f7fa;
+  --ink-2: #a1aab6;
+  --ink-3: #a1aab6;
+  --hair: #29313e;
+  --accent-ink: #74def4;
+  color-scheme: dark;
   background: var(--paper);
 }
 body:has([data-home='editorial']) .wordmark-image {
-  filter: brightness(0);
+  filter: none;
 }
 body:has([data-home='editorial']) .site-header {
-  color: #142426;
+  color: #f4f7fa;
 }
 body:has([data-home='editorial']) .locale-switcher {
-  border-color: #bac6bd;
+  border-color: #29313e;
 }
 body:has([data-home='editorial']) .discovery-footer {
-  border-top: 1px solid #c7cec6;
+  border-top: 1px solid #29313e;
 }
 
 @media (min-width: 901px) and (min-height: 541px), (min-width: 1101px) {

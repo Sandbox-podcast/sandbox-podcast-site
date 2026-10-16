@@ -15,7 +15,7 @@ export function episodeEditorialPresentation(episode: Episode): Episode {
         ? 'Codex, Claude Code, OpenCode : le modèle ne suffit pas'
         : episode.title,
     dek:
-      episode.dek === pilotDek
+      episode.dek === pilotDek || episode.dek === pilotDek.replace('le podcast', 'le Talk Show')
         ? 'Que change le harnais autour du modèle ? Lou, Nicolas et Loïc présentent Sillage à 25:50, puis confrontent les approches de Codex, Claude Code et OpenCode à 37:17, avec leurs essais et leurs limites.'
         : episode.dek,
   };

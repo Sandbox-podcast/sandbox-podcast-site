@@ -1,12 +1,10 @@
-import Image from 'next/image';
 import { Text, LocalizedLink as Link } from './localization';
 import type { Host } from '@/domain/schema';
-import { PROJECT_CREATORS, type PersonalProject } from '@/domain/personal-projects';
+import { type PersonalProject } from '@/domain/personal-projects';
 import { homeProfiles, homeProjects } from '@/domain/home-story';
 import styles from './discovery-home.module.css';
-
-const networks = ['github', 'linkedin', 'x'] as const;
-const networkNames = { github: 'GitHub', linkedin: 'LinkedIn', x: 'X' };
+import { HomeProjectSpotlight } from './home-project-spotlight';
+import { HomeHostCard } from './home-host-card';
 
 export function DiscoveryStory({
   hosts,
@@ -34,49 +32,8 @@ export function DiscoveryStory({
             </h2>
           </header>
           <div className={styles['teamGrid']}>
-            {team.map((host) => (
-              <article key={host.slug} className={styles['person']}>
-                <div className={styles['portrait']}>
-                  {host.photo ? (
-                    <Image
-                      src={host.photo}
-                      alt=""
-                      fill
-                      quality={90}
-                      sizes="(max-width: 900px) 45vw, (max-width: 1280px) 30vw, 360px"
-                    />
-                  ) : (
-                    <span aria-hidden="true">{host.name[0]}</span>
-                  )}
-                </div>
-                <h3>{host.name}</h3>
-                <p className={styles['focus']}>
-                  <Text>{host.focus}</Text>
-                </p>
-                {host.bio.split(/\n\s*\n/).map((paragraph) => (
-                  <p key={paragraph} className={styles['bio']}>
-                    <Text>{paragraph}</Text>
-                  </p>
-                ))}
-                <div className={styles['socials']}>
-                  {networks.map((network) =>
-                    host.socials[network] ? (
-                      <a
-                        key={network}
-                        href={host.socials[network]}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {networkNames[network]}
-                        <span className="sr-only">
-                          {' '}
-                          - {host.name} <Text>(nouvel onglet)</Text>
-                        </span>
-                      </a>
-                    ) : null,
-                  )}
-                </div>
-              </article>
+            {team.map((host, index) => (
+              <HomeHostCard key={host.slug} host={host} index={index} />
             ))}
           </div>
         </section>
@@ -90,7 +47,7 @@ export function DiscoveryStory({
           <div className={`wrap ${styles['chapter']}`}>
             <header className={styles['chapterHeading']}>
               <p className={styles['eyebrow']}>
-                <Text>Du podcast au concret</Text>
+                <Text>Du Talk Show au concret</Text>
               </p>
               <h2 id="home-projects-title">
                 <Text>Ce qu'on construit.</Text>
@@ -99,38 +56,7 @@ export function DiscoveryStory({
                 <Text>Des jeux, de la musique, des outils. Voici quelques-uns de nos projets.</Text>
               </p>
             </header>
-            <div className={styles['projectGrid']}>
-              {selection.map((project) => (
-                <Link
-                  key={project.slug}
-                  href={`/nos-projets/${project.slug}`}
-                  className={styles['projectLink']}
-                >
-                  <div className={styles['projectCover']}>
-                    {project.cover ? (
-                      <Image
-                        src={project.cover.src}
-                        alt=""
-                        fill
-                        sizes="(max-width: 700px) 90vw, 30vw"
-                      />
-                    ) : (
-                      <span>{project.name}</span>
-                    )}
-                  </div>
-                  <p className={styles['projectCreator']}>
-                    {PROJECT_CREATORS[project.creator].name}
-                  </p>
-                  <h3>
-                    {project.name}
-                    <span aria-hidden="true">↗</span>
-                  </h3>
-                  <p className={styles['projectTagline']}>
-                    <Text>{project.tagline}</Text>
-                  </p>
-                </Link>
-              ))}
-            </div>
+            <HomeProjectSpotlight projects={selection} />
             <Link
               href="/nos-projets"
               className={styles['chapterAction']}

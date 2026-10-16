@@ -16,7 +16,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     metadataBase: new URL(siteConfig.url),
     title: {
-      default: `${siteConfig.name} — Podcasts vidéo et classements tech`,
+      default: `${siteConfig.name} — Talk Show et classements tech`,
       template: `%s · ${siteConfig.name}`,
     },
     description: siteConfig.description,

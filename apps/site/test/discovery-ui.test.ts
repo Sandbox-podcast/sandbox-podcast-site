@@ -44,7 +44,7 @@ describe('parcours de la bibliothèque podcast', () => {
   it('rend la bibliothèque vide sans lecteur vidéo de démo', async () => {
     const page = await PodcastPage();
     const html = renderToStaticMarkup(createElement('div', null, page));
-    expect(html).toContain('Le podcast');
+    expect(html).toContain('Le Talk Show');
     expect(html).not.toContain('EP. 40');
     expect(html).not.toContain('EP. 41');
     expect(html).not.toContain('EP. 42');

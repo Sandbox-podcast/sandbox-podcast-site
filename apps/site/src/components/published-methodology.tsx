@@ -85,7 +85,7 @@ export async function PublishedMethodology({
         <p>
           <Text>
             {
-              "Les avis de l'équipe sont signés et séparés du calcul. Une recommandation dans le podcast ne modifie pas un rang."
+              "Les avis de l'équipe sont signés et séparés du calcul. Une recommandation dans le Talk Show ne modifie pas un rang."
             }
           </Text>
         </p>

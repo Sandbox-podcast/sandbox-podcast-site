@@ -32,6 +32,12 @@ describe('promesse éditoriale et parcours Sillage', () => {
     expect(presentation.title).toBe('Codex, Claude Code, OpenCode : le modèle ne suffit pas');
     expect(presentation.dek).toContain('25:50');
     expect(presentation.dek).toContain('37:17');
+    expect(
+      episodeEditorialPresentation({
+        ...episode,
+        dek: episode.dek.replace('le podcast', 'le Talk Show'),
+      }).dek,
+    ).toBe(presentation.dek);
     expect(episode.title).toBe(fixture.episode.title);
     const edited = {
       ...episode,

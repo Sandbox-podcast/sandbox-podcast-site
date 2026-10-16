@@ -22,6 +22,10 @@ const implementationStrings = new Set([
   'sc-studio',
   'tag tag-hl',
   'tag tag-line',
+  '(hover: hover) and (pointer: fine)',
+  '[data-active="true"] button',
+  'le podcast',
+  'le Talk Show',
 ]);
 const add = (text, file) => {
   const key = normalize(text);
@@ -29,7 +33,7 @@ const add = (text, file) => {
     !key ||
     implementationStrings.has(key) ||
     !/\p{L}/u.test(key) ||
-    /^https?:|^\/|^@|^--|^var\(|^rgb\(|^clamp\(|^cubic-bezier\(|^\(max-width|^\(prefers-reduced|^\d+px/.test(
+    /^https?:|^\/|^@|^--|^var\(|^rgb\(|^clamp\(|^rotate\(|^cubic-bezier\(|^\(max-width|^\(prefers-reduced|^\d+px/.test(
       key,
     ) ||
     /(?:^|\s)(?:bg-|text-|font-|border-|items-|leading-|md:|xl:|gap-|max-|min-|py-|p-)/.test(key)

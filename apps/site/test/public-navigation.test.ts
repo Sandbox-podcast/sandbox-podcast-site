@@ -51,7 +51,7 @@ describe('navigation publique', () => {
     expect(english).toContain('href="/en/podcast"');
     expect(english).toContain('href="/en/nos-projets"');
     expect(english).not.toContain('href="/en/time-machine"');
-    expect(english).toContain('The podcast');
+    expect(english).toContain('The Talk Show');
     expect(english).not.toContain('Topics');
   });
 
@@ -83,6 +83,9 @@ describe('identité et contrôles communs', () => {
     const footer = renderToStaticMarkup(createElement(Footer));
     expect(header).toContain('sandbox-logo.png');
     expect(footer).toContain('sandbox-logo.png');
+    expect(footer).toContain('https://www.youtube.com/@SandboxFR');
+    expect(footer).toContain('https://open.spotify.com/');
+    expect(footer).toContain('data-analytics-platform="spotify"');
     expect(header).not.toContain('Podcasts &amp; classements IA');
     expect(footer).not.toContain('Podcasts &amp; classements IA');
     expect(header).not.toContain('theme-picker');

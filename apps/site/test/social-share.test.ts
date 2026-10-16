@@ -63,7 +63,7 @@ describe('aperçus des liens partagés', () => {
     });
 
     expect(metadata.openGraph).toMatchObject({
-      title: 'The Sandbox podcast: replays and archive',
+      title: 'The Sandbox Talk Show: replays and archive',
       locale: 'en',
       images: [
         {

@@ -1,5 +1,7 @@
 # Documentation
 
+PR globale du 16 octobre : [périmètre complet, validations et captures](site/livraison-globale-pr69-2026-10-16.md), avec les retouches de l'accueil, la Time Machine illustrée et Épisode 002 BIS.
+
 Livraison groupée du 16 octobre : [périmètre, contrôles et captures](site/livraison-groupee-2026-10-16.md). Les objets du plateau ouvrent les classements et la Time Machine selon [DD-0041](design-decisions/dd-0041-objets-du-plateau-vers-classements-et-time-machine.md).
 
 Corrections de l'issue 68 au 16 octobre : [rapport et actions restantes](site/issue-68-2026-10-16.md), [sécurité et persistance](adr/ADR-0032-protections-et-persistance-issue-68.md) et [procédure de correction éditoriale](site/corrections-et-droit-de-reponse.md).

@@ -27,7 +27,7 @@ export async function generateMetadata({
   return pageMetadata({
     title: `${siteConfig.name} : comprendre l'IA en la pratiquant`,
     description:
-      "Le podcast IA et tech de Lou, Loïc et Nico. Chaque semaine, leurs essais d'outils IA et les projets qu'ils construisent avec.",
+      "Le Talk Show IA et tech de Lou, Loïc et Nico. Chaque semaine, leurs essais d'outils IA et les projets qu'ils construisent avec.",
     path: '/',
     noindex:
       (!hasPublishedEpisode &&

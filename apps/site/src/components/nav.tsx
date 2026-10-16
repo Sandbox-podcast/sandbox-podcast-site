@@ -9,7 +9,7 @@ import { LocalizedLink, useLocalization } from './localization';
 import { LocaleFlag } from './locale-flag';
 
 const ITEMS = [
-  { href: '/podcast', label: 'Le podcast' },
+  { href: '/podcast', label: 'Le Talk Show' },
   { href: '/charts', label: 'Classements' },
   { href: '/time-machine', label: 'Time Machine' },
   { href: '/nos-projets', label: 'Nos projets' },

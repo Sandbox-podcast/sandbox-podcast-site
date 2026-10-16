@@ -12,7 +12,7 @@ export const dynamic = 'force-dynamic';
 export async function generateMetadata() {
   await preparePublishedEditorialContent();
   return pageMetadata({
-    title: 'Le podcast Sandbox : replays et historique',
+    title: 'Le Talk Show Sandbox : replays et historique',
     description:
       "Un épisode par semaine sur la tech et l'IA. Retrouvez le dernier replay Sandbox et les épisodes précédents.",
     path: '/podcast',
@@ -27,7 +27,7 @@ export default async function PodcastPage() {
       <header className="podcast-heading">
         <div>
           <h1 className="display">
-            <Text>Le podcast</Text>
+            <Text>Le Talk Show</Text>
           </h1>
           <p>
             <Text>Lou, Loïc et Nico. Un rendez-vous hebdomadaire pour parler d'IA et de tech.</Text>

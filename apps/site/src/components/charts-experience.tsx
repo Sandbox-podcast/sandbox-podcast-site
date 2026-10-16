@@ -458,7 +458,7 @@ export function ChartsExperience({
         {episodes.length ? (
           <section className="sc-podcast">
             <span className="sc-label">
-              <Text>{'DANS LE PODCAST'}</Text>
+              <Text>{'DANS LE TALK SHOW'}</Text>
             </span>
             {episodes.map((episode) => (
               <Link key={episode.number} href={episode.href}>

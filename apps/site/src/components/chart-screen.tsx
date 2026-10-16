@@ -328,7 +328,7 @@ export function ChartScreen({ slug, week }: { slug: string; week?: string }) {
       <Text>
         {episodes.length > 0 ? (
           <section className="mt-16">
-            <SectionHead kicker="Épisodes liés" title="Dans les podcasts" />
+            <SectionHead kicker="Épisodes liés" title="Dans le Talk Show" />
             <div className="grid gap-x-8 gap-y-10 md:grid-cols-3">
               <Text>
                 {episodes.map((e) => (

@@ -28,6 +28,9 @@ import { timeMachineWrappedSvg } from '@/domain/time-machine-export';
 import { TimeMachineChart } from './time-machine-chart';
 import { CopyButton } from './client';
 import { historySelectionFromHash } from '@/domain/history-sharing';
+import { HistoryArtwork } from './history-artwork';
+import { TemporalStarfield } from './temporal-starfield';
+import { historyCardWindow } from '@/domain/time-machine-cards';
 import styles from './time-machine.module.css';
 
 type IconName =
@@ -92,68 +95,147 @@ function eventStyle(event: HistoryEvent): CSSProperties {
 
 function EventInspector({
   event,
+  events,
   index,
   total,
   onSelect,
 }: {
   event: HistoryEvent;
+  events: HistoryEvent[];
   index: number;
   total: number;
   onSelect: (index: number) => void;
 }) {
+  const pointer = useRef<{ x: number; y: number } | null>(null);
+  const [windowCenter, setWindowCenter] = useState(index);
+  const currentWindow = historyCardWindow(events.length, windowCenter);
+  const visible = currentWindow.includes(index)
+    ? currentWindow
+    : historyCardWindow(events.length, index);
+  if (!currentWindow.includes(index)) setWindowCenter(index);
+  const mobileVisible = historyCardWindow(visible.length, visible.indexOf(index), 3)
+    .map((localIndex) => visible[localIndex])
+    .filter((value): value is number => value !== undefined);
   return (
     <aside
       className={styles['inspector']}
       style={eventStyle(event)}
       aria-label="Fiche de l'événement sélectionné"
     >
-      <div className={styles['inspectorTop']}>
-        <span>
-          <i />
-          {HISTORY_CATEGORIES[event.category].singular}
-        </span>
-        <span>
-          {String(index + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
-        </span>
-      </div>
-      <div key={event.id} className={styles['eventReveal']}>
-        <div className={styles['eventYear']} aria-hidden="true">
-          {event.date.slice(0, 4)}
-        </div>
-        <div className={styles['eventDate']}>
-          <time dateTime={event.date}>{historyDate(event.date)}</time>
-          <span>{HISTORY_DATE_KINDS[event.dateKind]}</span>
-        </div>
-        <div className={styles['organization']}>{event.organization}</div>
-        <h3>{event.title}</h3>
-        <p className={styles['eventSummary']}>{event.summary}</p>
-        <p className={styles['eventContext']}>{event.context}</p>
-        {event.date.length < 10 ? (
-          <p className={styles['precision']}>
-            Date documentée {event.date.length === 4 ? "à l'année" : 'au mois'}.
-          </p>
-        ) : null}
-        <div className={styles['sources']}>
-          {event.sources.map((source) => (
-            <a href={source.url} key={source.url} target="_blank" rel="noopener noreferrer">
-              {source.label}
-              <Icon name="source" />
-            </a>
-          ))}
-        </div>
-      </div>
-      <div className={styles['inspectorBottom']}>
-        <span
-          data-analytics-event="experience_interaction"
-          data-analytics-placement="time-machine"
-          data-analytics-action="share"
+      <div className={styles['expandedStage']} data-history-carousel>
+        <div
+          className={styles['expandedRail']}
+          style={
+            {
+              '--desktop-folded-count': visible.length - 1,
+              '--mobile-folded-count': mobileVisible.length - 1,
+            } as CSSProperties
+          }
+          aria-label="Inventions voisines dans la chronologie"
+          data-mobile-count={mobileVisible.length}
+          onPointerMove={(pointerEvent) => {
+            if (
+              pointerEvent.pointerType !== 'mouse' ||
+              !window.matchMedia('(hover: hover) and (pointer: fine)').matches
+            )
+              return;
+            const previous = pointer.current;
+            pointer.current = { x: pointerEvent.clientX, y: pointerEvent.clientY };
+            if (
+              previous &&
+              Math.hypot(pointerEvent.clientX - previous.x, pointerEvent.clientY - previous.y) < 3
+            )
+              return;
+            const target = pointerEvent.target;
+            if (!(target instanceof Element)) return;
+            const card = target.closest<HTMLElement>('[data-expanded-index]');
+            if (!card) return;
+            const next = Number(card.dataset['expandedIndex']);
+            if (Number.isInteger(next) && next !== index) onSelect(next);
+          }}
+          onPointerLeave={() => {
+            pointer.current = null;
+          }}
         >
-          <CopyButton
-            text={'/time-machine#' + historyEventAnchor(event.id)}
-            label="Partager cette date"
-          />
-        </span>
-        <div>
+          {visible.map((cardIndex) => {
+            const item = events[cardIndex];
+            if (!item) return null;
+            const active = cardIndex === index;
+            return (
+              <div
+                className={styles['expandedCard']}
+                key={item.id}
+                style={eventStyle(item)}
+                data-expanded-index={cardIndex}
+                data-expanded-event={item.id}
+                data-active={active}
+                data-mobile-visible={mobileVisible.includes(cardIndex)}
+              >
+                <HistoryArtwork
+                  event={item}
+                  featured={active}
+                  sizes="(max-width: 700px) 75vw, 70vw"
+                />
+                <button
+                  type="button"
+                  className={styles['expandedSelect']}
+                  aria-label={'Explorer : ' + item.title}
+                  aria-pressed={active}
+                  onClick={() => {
+                    onSelect(cardIndex);
+                  }}
+                  onKeyDown={(keyEvent) => {
+                    const next =
+                      keyEvent.key === 'ArrowRight'
+                        ? Math.min(total - 1, cardIndex + 1)
+                        : keyEvent.key === 'ArrowLeft'
+                          ? Math.max(0, cardIndex - 1)
+                          : undefined;
+                    if (next === undefined) return;
+                    keyEvent.preventDefault();
+                    onSelect(next);
+                    const rail = keyEvent.currentTarget.parentElement?.parentElement;
+                    requestAnimationFrame(() => {
+                      rail
+                        ?.querySelector<HTMLButtonElement>('[data-active="true"] button')
+                        ?.focus();
+                    });
+                  }}
+                />
+                <span className={styles['expandedNumber']} aria-hidden="true">
+                  {String(cardIndex + 1).padStart(2, '0')}
+                </span>
+                <span className={styles['slatYear']} aria-hidden="true">
+                  {item.date.slice(0, 4)}
+                </span>
+                <time
+                  className={styles['expandedDate']}
+                  dateTime={item.date}
+                  aria-label={historyDate(item.date)}
+                  aria-hidden={!active}
+                  data-history-date="prominent"
+                >
+                  <strong>{item.date.slice(0, 4)}</strong>
+                  {item.date.length > 4 ? (
+                    <span>{historyDate(item.date).replace(/\s\d{4}$/, '')}</span>
+                  ) : null}
+                </time>
+                <div className={styles['expandedCaption']} aria-hidden={!active}>
+                  <div className={styles['expandedMeta']}>
+                    <span>{item.organization}</span>
+                  </div>
+                  <h3>{item.shortTitle}</h3>
+                  <p className={styles['eventSummary']}>{item.summary}</p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        <div
+          className={styles['expandedNavigation']}
+          role="group"
+          aria-label="Parcourir la chronologie"
+        >
           <button
             type="button"
             onClick={() => {
@@ -174,6 +256,50 @@ function EventInspector({
           >
             <Icon name="next" />
           </button>
+        </div>
+      </div>
+      <div className={styles['expandedFooter']}>
+        <div className={styles['inspectorTop']}>
+          <span>
+            <i />
+            {HISTORY_CATEGORIES[event.category].singular} / {HISTORY_DATE_KINDS[event.dateKind]}
+          </span>
+          <span>
+            {String(index + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
+          </span>
+        </div>
+        <details key={event.id} className={styles['eventDetails']}>
+          <summary>
+            Détails et sources <span>{event.sources.length}</span>
+          </summary>
+          <h4>{event.title}</h4>
+          <p className={styles['eventSummary']}>{event.summary}</p>
+          <p className={styles['eventContext']}>{event.context}</p>
+          {event.date.length < 10 ? (
+            <p className={styles['precision']}>
+              Date documentée {event.date.length === 4 ? "à l'année" : 'au mois'}.
+            </p>
+          ) : null}
+          <div className={styles['sources']}>
+            {event.sources.map((source) => (
+              <a href={source.url} key={source.url} target="_blank" rel="noopener noreferrer">
+                {source.label}
+                <Icon name="source" />
+              </a>
+            ))}
+          </div>
+        </details>
+        <div className={styles['inspectorBottom']}>
+          <span
+            data-analytics-event="experience_interaction"
+            data-analytics-placement="time-machine"
+            data-analytics-action="share"
+          >
+            <CopyButton
+              text={'/time-machine#' + historyEventAnchor(event.id)}
+              label="Partager cette date"
+            />
+          </span>
         </div>
       </div>
     </aside>
@@ -226,9 +352,6 @@ export function TimeMachine({ data }: { data: TimeMachineData }) {
   const selected = events[selectedIndex];
   const isPlaying = playing && motionEnabled && events.length > 1 && view === 'explore';
   const wrapped = useMemo(() => buildHistoryWrapped(data, year), [data, year]);
-  const sourceCount = new Set(
-    data.events.flatMap((event) => event.sources.map((source) => source.url)),
-  ).size;
   const latestEvent = data.events.at(-1);
   const orderedList = newestFirst ? [...events].reverse() : events;
   const groups = new Map<string, HistoryEvent[]>();
@@ -274,6 +397,47 @@ export function TimeMachine({ data }: { data: TimeMachineData }) {
       window.clearTimeout(timer);
     };
   }, [isPlaying, events, selectedIndex, speed]);
+
+  useEffect(() => {
+    if (view !== 'explore' || events.length === 0) return;
+    function navigateWithArrows(event: KeyboardEvent) {
+      if (
+        event.defaultPrevented ||
+        event.isComposing ||
+        event.altKey ||
+        event.ctrlKey ||
+        event.metaKey ||
+        event.shiftKey ||
+        (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight')
+      )
+        return;
+      const target = event.target;
+      if (
+        target instanceof Element &&
+        target.closest(
+          'input, textarea, select, [contenteditable]:not([contenteditable="false"]), [role="textbox"], [role="slider"], [role="tab"], [role="dialog"], dialog',
+        )
+      )
+        return;
+      event.preventDefault();
+      setPlaying(false);
+      setSelectedId((currentId) => {
+        const currentIndex = Math.max(
+          0,
+          events.findIndex((item) => item.id === currentId),
+        );
+        const nextIndex = Math.max(
+          0,
+          Math.min(events.length - 1, currentIndex + (event.key === 'ArrowRight' ? 1 : -1)),
+        );
+        return events[nextIndex]?.id ?? currentId;
+      });
+    }
+    window.addEventListener('keydown', navigateWithArrows);
+    return () => {
+      window.removeEventListener('keydown', navigateWithArrows);
+    };
+  }, [events, view]);
 
   function selectEvent(index: number) {
     const next = events[index];
@@ -346,6 +510,20 @@ export function TimeMachine({ data }: { data: TimeMachineData }) {
 
   return (
     <div className={styles['page']} data-motion={motionEnabled ? 'on' : 'off'}>
+      <TemporalStarfield
+        position={
+          selected
+            ? Date.parse(
+                selected.date.length === 4
+                  ? selected.date + '-01-01'
+                  : selected.date.length === 7
+                    ? selected.date + '-01'
+                    : selected.date,
+              )
+            : 0
+        }
+        paused={!motionEnabled || view !== 'explore'}
+      />
       <div className={styles['breadcrumb']}>
         <Link href="/">Sandbox</Link>
         <span>/</span>
@@ -358,21 +536,6 @@ export function TimeMachine({ data }: { data: TimeMachineData }) {
             Time Machine<span>.</span>
             <span className={styles['heroSubtitle']}>Histoire de l'intelligence artificielle</span>
           </h1>
-          <p className={styles['heroDescription']}>Modèles, recherche et annonces mondiales.</p>
-          <div className={styles['heroMeta']}>
-            <span>
-              <strong>{data.events.length}</strong> événements
-            </span>
-            <span>
-              <strong>{sourceCount}</strong> sources primaires
-            </span>
-            <span>
-              {data.fromYear} - {data.toYear}
-            </span>
-            <span>
-              Revue au <time dateTime={data.reviewedAt}>{historyDate(data.reviewedAt)}</time>
-            </span>
-          </div>
         </div>
       </header>
       <div className={styles['tabsBar']}>
@@ -588,9 +751,6 @@ export function TimeMachine({ data }: { data: TimeMachineData }) {
               </h2>
             </div>
             <div>
-              <span>
-                {fromYear} - {toYear}
-              </span>
               {!allYears || category !== 'all' || query || landmarksOnly ? (
                 <button type="button" onClick={resetFilters}>
                   Tout l'historique
@@ -600,15 +760,14 @@ export function TimeMachine({ data }: { data: TimeMachineData }) {
           </div>
           {selected ? (
             <div className={styles['explorerGrid']}>
+              <EventInspector
+                event={selected}
+                events={events}
+                index={selectedIndex}
+                total={events.length}
+                onSelect={selectEvent}
+              />
               <div className={styles['curvePanel']}>
-                <TimeMachineChart
-                  key={`${fromYear}-${toYear}`}
-                  events={events}
-                  fromYear={fromYear}
-                  toYear={toYear}
-                  selectedIndex={selectedIndex}
-                  onSelect={selectEvent}
-                />
                 <div className={styles['transport']}>
                   <button
                     type="button"
@@ -665,13 +824,20 @@ export function TimeMachine({ data }: { data: TimeMachineData }) {
                     {speed.toLocaleString('fr-FR')}x
                   </button>
                 </div>
+                <details className={styles['curveDisclosure']}>
+                  <summary>
+                    Voir la courbe chronologique <Icon name="next" />
+                  </summary>
+                  <TimeMachineChart
+                    key={`${fromYear}-${toYear}`}
+                    events={events}
+                    fromYear={fromYear}
+                    toYear={toYear}
+                    selectedIndex={selectedIndex}
+                    onSelect={selectEvent}
+                  />
+                </details>
               </div>
-              <EventInspector
-                event={selected}
-                index={selectedIndex}
-                total={events.length}
-                onSelect={selectEvent}
-              />
             </div>
           ) : (
             <div className={styles['empty']}>
@@ -751,32 +917,47 @@ export function TimeMachine({ data }: { data: TimeMachineData }) {
                         }}
                         aria-label={'Explorer : ' + event.title}
                       >
-                        <time dateTime={event.date}>
-                          {historyDate(event.date).replace(' ' + groupYear, '')}
-                        </time>
-                        <div>
-                          <span className={styles['rowCategory']}>
-                            <i />
-                            {HISTORY_CATEGORIES[event.category].singular}
-                            <small>{HISTORY_DATE_KINDS[event.dateKind]}</small>
-                          </span>
-                          <h4>{event.title}</h4>
-                          <p>{event.summary}</p>
-                        </div>
-                        <span className={styles['rowOrganization']}>
-                          {event.organization}
-                          <Icon name="next" />
+                        <span className={styles['rowArtwork']}>
+                          <HistoryArtwork event={event} />
                         </span>
+                        <div className={styles['rowCopy']}>
+                          <time dateTime={event.date}>
+                            {historyDate(event.date).replace(' ' + groupYear, '')}
+                          </time>
+                          <div>
+                            <span className={styles['rowCategory']}>
+                              <i />
+                              {HISTORY_CATEGORIES[event.category].singular}
+                              <small>{HISTORY_DATE_KINDS[event.dateKind]}</small>
+                            </span>
+                            <h4>{event.shortTitle}</h4>
+                          </div>
+                          <span className={styles['rowOrganization']}>
+                            {event.organization}
+                            <Icon name="next" />
+                          </span>
+                        </div>
                       </button>
-                      <a
-                        className={styles['rowSource']}
-                        href={event.sources[0]?.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label={'Source primaire : ' + event.title}
-                      >
-                        <Icon name="source" />
-                      </a>
+                      <details className={styles['archiveDetails']}>
+                        <summary>Détails et sources</summary>
+                        <h5>{event.title}</h5>
+                        <p>{event.summary}</p>
+                        <p>{event.context}</p>
+                        <div className={styles['sources']}>
+                          {event.sources.map((source) => (
+                            <a
+                              key={source.url}
+                              href={source.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              aria-label={'Source primaire : ' + event.title + ', ' + source.label}
+                            >
+                              {source.label}
+                              <Icon name="source" />
+                            </a>
+                          ))}
+                        </div>
+                      </details>
                     </article>
                   ))}
                 </div>
@@ -859,6 +1040,9 @@ export function TimeMachine({ data }: { data: TimeMachineData }) {
                   }}
                   style={eventStyle(event)}
                 >
+                  <span className={styles['wrappedArtwork']}>
+                    <HistoryArtwork event={event} />
+                  </span>
                   <time dateTime={event.date}>{historyDate(event.date)}</time>
                   <h3>{event.shortTitle}</h3>
                   <span>
@@ -925,7 +1109,10 @@ export function TimeMachine({ data }: { data: TimeMachineData }) {
           ))}
         </div>
       </section>
-      <section className={styles['methodology']} aria-label="Sources et méthode">
+      <details className={styles['methodology']}>
+        <summary>Sources et méthode</summary>
+        <p>Les références renvoient aux sources primaires.</p>
+        <p>Illustrations de concept, sans valeur de document d'archive.</p>
         <div>
           <h2>Sources et méthode</h2>
         </div>
@@ -948,11 +1135,11 @@ export function TimeMachine({ data }: { data: TimeMachineData }) {
           </p>
           <p>
             Par <Link href="/about">l'équipe Sandbox</Link>.{' '}
-            <Link href="/podcast">Podcasts IA</Link> et{' '}
+            <Link href="/podcast">Talk Show IA</Link> et{' '}
             <Link href="/charts">classements d'outils IA</Link>.
           </p>
         </div>
-      </section>
+      </details>
       <div className={styles['pageFootnote']}>
         <a
           href="#tm-archive-title"

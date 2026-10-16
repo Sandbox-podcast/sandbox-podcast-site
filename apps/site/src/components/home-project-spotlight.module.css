@@ -1,0 +1,184 @@
+.spotlight {
+  margin-top: 20px;
+}
+.rail {
+  position: relative;
+  height: 506px;
+  overflow: clip;
+  touch-action: pan-y;
+  isolation: isolate;
+}
+.card {
+  position: absolute;
+  left: 50%;
+  top: 42px;
+  width: 34%;
+  height: 420px;
+  transform: translateX(-50%) scale(0.93);
+  border: 1px solid #ffffff26;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #111720;
+  transition:
+    left 650ms cubic-bezier(0.22, 1, 0.36, 1),
+    width 650ms cubic-bezier(0.22, 1, 0.36, 1),
+    height 650ms cubic-bezier(0.22, 1, 0.36, 1),
+    top 650ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 650ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 650ms;
+}
+.card img {
+  object-fit: cover;
+  object-position: center;
+}
+.card[data-position='previous'] {
+  left: 18%;
+  transform: translateX(-50%) rotate(-4deg) scale(0.93);
+  filter: brightness(0.48) saturate(0.6);
+}
+.card[data-position='next'] {
+  left: 82%;
+  transform: translateX(-50%) rotate(4deg) scale(0.93);
+  filter: brightness(0.48) saturate(0.6);
+}
+.card[data-position='active'] {
+  width: 62%;
+  height: 480px;
+  top: 10px;
+  transform: translateX(-50%);
+  z-index: 2;
+  box-shadow: 0 24px 70px #0008;
+}
+.caption {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  padding: 38px;
+  background: linear-gradient(180deg, transparent 15%, #070b11a8 48%, #070b11f5 100%);
+  transition: opacity 250ms;
+}
+.card:not([data-position='active']) .caption {
+  opacity: 0;
+}
+.creator {
+  color: #7de2f5;
+  text-transform: uppercase;
+  font: 500 11px/1.4 var(--font-sans);
+  letter-spacing: 0.15em;
+}
+.caption h3 {
+  font: 400 clamp(44px, 5vw, 72px)/1.05 var(--font-newsreader);
+  letter-spacing: -0.04em;
+  margin-top: 10px;
+  color: #f4f7fa;
+}
+.tagline {
+  color: #c4ccd5;
+  font-size: 14px;
+  line-height: 1.6;
+  max-width: 34ch;
+  margin-top: 12px;
+}
+.open {
+  display: inline-flex;
+  align-items: center;
+  gap: 24px;
+  align-self: start;
+  border-bottom: 1px solid #ffffff6b;
+  color: #fff;
+  font-size: 12px;
+  padding-block: 12px;
+  margin-top: 12px;
+}
+.open > span {
+  color: #7de2f5;
+  font-size: 20px;
+}
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  margin-top: 0;
+}
+.controls button {
+  display: grid;
+  place-items: center;
+  min-width: 44px;
+  min-height: 44px;
+  border: 1px solid #ffffff26;
+  border-radius: 50%;
+  background: transparent;
+  color: #f4f7fa;
+  cursor: pointer;
+}
+.controls button:hover {
+  border-color: #7de2f5;
+}
+.pagination {
+  display: flex;
+}
+.pagination button {
+  border: 0;
+}
+.pagination span {
+  width: 5px;
+  height: 5px;
+  border-radius: 10px;
+  background: #657181;
+  transition:
+    width 250ms,
+    background 250ms;
+}
+.pagination [aria-pressed='true'] span {
+  width: 24px;
+  background: #7de2f5;
+}
+.spotlight :focus-visible {
+  outline: 2px solid #7de2f5;
+  outline-offset: 4px;
+}
+@media (max-width: 700px) {
+  .spotlight {
+    margin-inline: -24px;
+  }
+  .rail {
+    height: 450px;
+  }
+  .card {
+    width: 66%;
+    height: 350px;
+  }
+  .card[data-position='active'] {
+    width: 82%;
+    height: 420px;
+  }
+  .card[data-position='previous'] {
+    left: -15%;
+  }
+  .card[data-position='next'] {
+    left: 115%;
+  }
+  .caption {
+    padding: 26px 22px;
+  }
+  .caption h3 {
+    font-size: clamp(40px, 11vw, 60px);
+  }
+  .tagline {
+    font-size: 13px;
+  }
+  .controls {
+    margin-top: 0;
+    gap: 22px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .caption,
+  .pagination span {
+    transition: none;
+  }
+}

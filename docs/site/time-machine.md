@@ -74,3 +74,9 @@ Le corpus passe à 151 événements, 56 jalons majeurs et 156 URL de sources pri
 Le script `apps/site/scripts/test-time-machine-update.mjs` vérifie dans Edge les 151 articles, la revue au 15 octobre, les 41 événements de 2026 et six recherches (Grok Bots, Dots, 6.1 Sol, millénaire, CRISPR, HiRO), à 320, 390 et 1440 pixels. Aucun débordement ni erreur JavaScript sur le parcours final. Les captures et le rapport sont dans `apps/site/.local/time-machine-update/`, hors Git. Pour le lancer, renseigner `SANDBOX_PLAYWRIGHT_PATH` si Playwright est fourni par le runtime Codex, puis exécuter `node apps/site/scripts/test-time-machine-update.mjs` avec le serveur local sur le port 3000.
 
 Le contrôle complet `pnpm check` a été lancé mais reste bloqué par le formatage de fichiers extérieurs à ce lot, dont des fins de ligne CRLF du checkout Windows. La compilation Webpack réussit sa phase de compilation puis échoue au typage de `searchParams` dans les pages `charts/rising/methodology` et `charts/skills/methodology`. Ces limites empêchent de déclarer le build global validé.
+
+### Interface illustrée du 16 octobre 2026
+
+La fiche illustrée passe avant la courbe. Le titre court, la date et le résumé restent visibles ; le contexte et les sources se déplient. La courbe cumulative reste accessible au clavier dans un volet secondaire. Les archives annuelles et les jalons du récapitulatif utilisent les mêmes illustrations de concept.
+
+Les 151 événements conservent leur texte complet et toutes leurs sources dans le HTML initial. Un fond étoilé accompagne les changements de date et s'arrête lorsque les animations sont réduites. Voir [DD-0043](../design-decisions/dd-0043-time-machine-inventions-illustrees.md) et [le rapport d'interface](refonte-2026-10-15/time-machine-illustree-v13.md).

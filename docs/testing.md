@@ -8,6 +8,7 @@ Node 24 et pnpm 12.9.1, selon `package.json`.
 
 ```powershell
 pnpm check
+pnpm test:bis
 pnpm build
 pnpm --filter @podcast/site test:public-routes
 pnpm --filter @podcast/site test:analytics:e2e
@@ -20,6 +21,8 @@ pnpm audit --audit-level=high
 `pnpm check` enchaîne formatage, lint, TypeScript et tests. Un échec arrête la chaîne ; il ne vaut pas exécution des étapes suivantes. Les contrôles navigateur nécessitent Playwright. Chromium est préparé en CI ; `SANDBOX_BROWSER_CHANNEL=msedge` ou `chrome` utilise un navigateur installé en local.
 
 ## Périmètre
+
+- Épisode 002 BIS : conservation des contenus et sources, navigation dans les deux sens, isolation des sessions, synchronisation du serveur local, commandes malformées et origines externes. Ces tests sont inclus dans pnpm test et donc dans pnpm check et la CI.
 
 - Domaine : schémas, scores, mouvements, éditions, sources, périodes, preuves, rejouabilité, contenu et traductions.
 - Persistance : PGlite exécute les migrations versionnées et vérifie permissions, conflits, unicité, retraits et preuves immuables. Aucun test ne migre Neon.

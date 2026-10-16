@@ -12,7 +12,8 @@
     "format:check": "prettier --check .",
     "lint": "eslint .",
     "typecheck": "pnpm -r --if-present typecheck",
-    "test": "pnpm -r --if-present test && node --test videos/jingle-assets.test.mjs",
+    "test": "pnpm -r --if-present test && node --test videos/jingle-assets.test.mjs && pnpm test:bis",
+    "test:bis": "node --test experiments/episode-002-bis/test/server.test.mjs experiments/episode-002-bis/test/show.test.mjs",
     "check": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test"
   },
   "devDependencies": {

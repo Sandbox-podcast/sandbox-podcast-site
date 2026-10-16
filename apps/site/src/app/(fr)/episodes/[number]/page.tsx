@@ -71,7 +71,7 @@ export default async function EpisodePage({ params, searchParams }: Props) {
     <article className="wrap episode-page pt-6">
       <Breadcrumbs
         items={[
-          { label: 'Le podcast', href: '/podcast' },
+          { label: 'Le Talk Show', href: '/podcast' },
           { label: `Épisode ${String(episode.number)}` },
         ]}
       />
@@ -458,7 +458,7 @@ export default async function EpisodePage({ params, searchParams }: Props) {
             : []),
           breadcrumbLd([
             { name: 'Accueil', path: '/' },
-            { name: 'Le podcast', path: '/podcast' },
+            { name: 'Le Talk Show', path: '/podcast' },
             { name: `Épisode ${String(episode.number)}`, path },
           ]),
         ]}

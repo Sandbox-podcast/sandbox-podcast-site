@@ -25,7 +25,7 @@ export default function NotFound() {
       </p>
       <div className="page-actions">
         <Link href="/podcast" className="btn btn-solid">
-          <Text>{'Les podcasts'}</Text>
+          <Text>{'Les épisodes'}</Text>
         </Link>
         <Link href="/charts" className="btn">
           <Text>{'Les classements'}</Text>

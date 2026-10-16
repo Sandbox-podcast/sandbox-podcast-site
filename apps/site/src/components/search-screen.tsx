@@ -14,7 +14,7 @@ import { timeMachineData } from '@/lib/time-machine';
 import { historyEventAnchor } from '@/domain/time-machine';
 export const dynamic = 'force-dynamic';
 export const metadata = pageMetadata({
-  title: 'Rechercher dans les podcasts et classements',
+  title: 'Rechercher dans le Talk Show et les classements',
   description: 'Recherchez un épisode, une ressource, un sujet ou un classement Sandbox.',
   path: '/search',
   noindex: true,
@@ -94,7 +94,7 @@ export default async function SearchPage({ searchParams, dictionary = {} }: Prop
     history.length;
   const facets = [
     { id: 'all', label: 'Tout', count },
-    { id: 'episodes', label: 'Podcasts', count: episodes.length },
+    { id: 'episodes', label: 'Épisodes', count: episodes.length },
     { id: 'resources', label: 'Ressources', count: resources.length },
     { id: 'personal-projects', label: 'Nos projets', count: teamProjects.length },
     { id: 'charts', label: 'Classements', count: charts.length },
@@ -108,7 +108,7 @@ export default async function SearchPage({ searchParams, dictionary = {} }: Prop
       <header className="library-heading">
         <div>
           <p className="label text-ink-3">
-            <Text>{'Podcasts \u00B7 ressources \u00B7 classements'}</Text>
+            <Text>{'Talk Show \u00B7 ressources \u00B7 classements'}</Text>
           </p>
           <h1 className="display">
             <Text>{'Recherche'}</Text>
@@ -187,7 +187,7 @@ export default async function SearchPage({ searchParams, dictionary = {} }: Prop
             </p>
             <div className="page-actions">
               <Link href="/podcast" className="btn">
-                <Text>{'Tous les podcasts'}</Text>
+                <Text>{'Tous les épisodes'}</Text>
               </Link>
               <Text>
                 {type !== 'all' ? (
@@ -246,7 +246,7 @@ export default async function SearchPage({ searchParams, dictionary = {} }: Prop
         {episodes.length > 0 && (type === 'all' || type === 'episodes') ? (
           <section className="search-results" aria-labelledby="search-episodes">
             <h2 id="search-episodes" className="section-title">
-              <Text>{'Podcasts '}</Text>
+              <Text>{'Épisodes '}</Text>
               <span>
                 <Text>{episodes.length}</Text>
               </span>

@@ -1,5 +1,5 @@
 .podcast-page {
-  padding-block: clamp(1.5rem, 4vw, 3rem) 4rem;
+  padding-block: clamp(1.5rem, 3vw, 2.5rem) 3rem;
 }
 .podcast-heading {
   display: flex;
@@ -120,8 +120,8 @@
 }
 .podcast-format {
   border-top: 1px solid var(--hair);
-  margin-top: 48px;
-  padding-top: 32px;
+  margin-top: 32px;
+  padding-top: 24px;
 }
 .podcast-format h2 {
   font-size: 22px;

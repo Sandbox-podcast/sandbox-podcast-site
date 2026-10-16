@@ -476,7 +476,7 @@ export async function siteCard(): Promise<ImageResponse> {
             alignItems: 'flex-end',
           }}
         >
-          <span style={{ fontSize: 70, fontWeight: 900, letterSpacing: -2 }}>PODCASTS</span>
+          <span style={{ fontSize: 70, fontWeight: 900, letterSpacing: -2 }}>TALK SHOW</span>
           <span
             style={{
               marginLeft: 46,

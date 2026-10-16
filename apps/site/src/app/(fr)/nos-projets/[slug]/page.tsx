@@ -202,7 +202,7 @@ export default async function PersonalProjectPage({ params }: ProjectPageProps) 
         {appearances.length ? (
           <section className="project-episodes" aria-labelledby="project-episodes-title">
             <h2 id="project-episodes-title">
-              <Text>{'Dans le podcast'}</Text>
+              <Text>{'Dans le Talk Show'}</Text>
             </h2>
             {appearances.map((appearance) => (
               <div key={appearance.episodeNumber}>

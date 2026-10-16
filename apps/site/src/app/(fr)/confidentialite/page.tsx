@@ -30,7 +30,7 @@ export default function PrivacyPage() {
         <p>
           <Text>
             {
-              "L'équipe du podcast Sandbox est responsable des traitements décrits ici. Pour une question ou l'exercice de vos droits, écrivez à"
+              "L'équipe du Talk Show Sandbox est responsable des traitements décrits ici. Pour une question ou l'exercice de vos droits, écrivez à"
             }
           </Text>{' '}
           <a className="underline" href="mailto:sandbox.podcast.pro@gmail.com">

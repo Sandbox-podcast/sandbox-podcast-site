@@ -5,7 +5,7 @@
   background: var(--paper);
   color: var(--store-text);
   font-family: var(--font-sans);
-  padding-bottom: 4rem;
+  padding-bottom: 3rem;
   min-height: 75vh;
 }
 .page h1,

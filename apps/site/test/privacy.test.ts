@@ -8,7 +8,7 @@ import { siteDictionary } from '../src/i18n/dictionaries.ts';
 describe('information sur les données personnelles', () => {
   it("publie le responsable, le contact, les durées confirmées et l'accès au retrait", () => {
     const html = renderToStaticMarkup(createElement(PrivacyPage));
-    expect(html).toContain('L&#x27;équipe du podcast Sandbox');
+    expect(html).toContain('L&#x27;équipe du Talk Show Sandbox');
     expect(html).toContain('mailto:sandbox.podcast.pro@gmail.com');
     expect(html).toContain('14 mois');
     expect(html).toContain('180 jours');

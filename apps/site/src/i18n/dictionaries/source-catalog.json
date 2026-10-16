@@ -94,9 +94,9 @@
       "src/app/(fr)/episodes/[number]/page.tsx",
       "src/app/(fr)/podcast/page.tsx",
       "src/components/discovery-home.tsx",
-      "src/components/discovery-story.tsx",
       "src/components/entity-screen.tsx",
       "src/components/guide-article.tsx",
+      "src/components/home-host-card.tsx",
       "src/components/shell.tsx",
       "src/components/ui.tsx"
     ]
@@ -258,6 +258,10 @@
     "sources": ["src/i18n/dictionaries/en.json"]
   },
   "{topic} : les épisodes du podcast": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "{topic} : les épisodes du Talk Show": {
     "translation": "",
     "sources": ["src/i18n/dictionaries/en.json"]
   },
@@ -1820,10 +1824,6 @@
     "translation": "",
     "sources": ["src/components/badge-generator.tsx"]
   },
-  "Chargement de la chronologie mondiale de l'IA.": {
-    "translation": "",
-    "sources": ["src/app/(fr)/time-machine/loading.tsx"]
-  },
   "Chargement des distinctions.": {
     "translation": "",
     "sources": [
@@ -1859,6 +1859,10 @@
   "ChatGPT Space réunit équipes, documents et agents": {
     "translation": "",
     "sources": ["content/ai-history.json"]
+  },
+  "Chef d'orchestre des agents": {
+    "translation": "",
+    "sources": ["src/domain/home-story.ts"]
   },
   "chemin local attendu, ex. /team/nom.jpg": {
     "translation": "",
@@ -1999,7 +2003,8 @@
       "src/components/published-methodology.tsx",
       "src/components/reference-methodology.tsx",
       "src/components/search-screen.tsx",
-      "src/components/shell.tsx"
+      "src/components/shell.tsx",
+      "src/components/studio-easter-eggs.tsx"
     ]
   },
   "Classements commentés": {
@@ -2313,7 +2318,7 @@
     "translation": "",
     "sources": ["src/app/(fr)/charts/awards/[week]/page.tsx"]
   },
-  "Consultez les classements publiés ou les épisodes du podcast.": {
+  "Consultez les classements publiés ou les épisodes du Talk Show.": {
     "translation": "",
     "sources": ["src/components/demo-content-page.tsx"]
   },
@@ -2396,6 +2401,10 @@
   "Créateur": {
     "translation": "",
     "sources": ["src/app/(fr)/nos-projets/[slug]/page.tsx", "src/components/project-catalog.tsx"]
+  },
+  "Créateur de quêtes du quotidien": {
+    "translation": "",
+    "sources": ["src/domain/home-story.ts"]
   },
   "Création": {
     "translation": "",
@@ -2498,11 +2507,11 @@
     "translation": "",
     "sources": ["src/app/(fr)/podcast/page.tsx"]
   },
-  "Dans le podcast": {
+  "Dans le Talk Show": {
     "translation": "",
-    "sources": ["src/app/(fr)/nos-projets/[slug]/page.tsx"]
+    "sources": ["src/app/(fr)/nos-projets/[slug]/page.tsx", "src/components/chart-screen.tsx"]
   },
-  "DANS LE PODCAST": {
+  "DANS LE TALK SHOW": {
     "translation": "",
     "sources": ["src/components/charts-experience.tsx"]
   },
@@ -2513,10 +2522,6 @@
   "Dans les épisodes": {
     "translation": "",
     "sources": ["src/components/entity-screen.tsx"]
-  },
-  "Dans les podcasts": {
-    "translation": "",
-    "sources": ["src/components/chart-screen.tsx"]
   },
   "Dart": {
     "translation": "",
@@ -2587,7 +2592,11 @@
   },
   "Découvrir le projet": {
     "translation": "",
-    "sources": ["src/app/(fr)/nos-projets/[slug]/page.tsx", "src/components/video-club-dossier.tsx"]
+    "sources": [
+      "src/app/(fr)/nos-projets/[slug]/page.tsx",
+      "src/components/home-project-spotlight.tsx",
+      "src/components/video-club-dossier.tsx"
+    ]
   },
   "Découvrir le vidéoclub des projets": {
     "translation": "",
@@ -2803,7 +2812,7 @@
   },
   "Détails et sources": {
     "translation": "",
-    "sources": ["src/components/chart-row.tsx"]
+    "sources": ["src/components/chart-row.tsx", "src/components/time-machine.tsx"]
   },
   "DÉTECTION INTRAJOURNALIÈRE": {
     "translation": "",
@@ -2836,10 +2845,6 @@
   "dify.ai": {
     "translation": "",
     "sources": ["content/entities/projects.json"]
-  },
-  "Directeur de la flemme automatisée": {
-    "translation": "",
-    "sources": ["src/domain/home-story.ts"]
   },
   "Disponibilité": {
     "translation": "",
@@ -2917,7 +2922,7 @@
     "translation": "",
     "sources": ["content/entities/projects.json"]
   },
-  "Du podcast au concret": {
+  "Du Talk Show au concret": {
     "translation": "",
     "sources": ["src/components/discovery-story.tsx"]
   },
@@ -3196,6 +3201,10 @@
     "translation": "",
     "sources": ["src/app/(fr)/episodes/[number]/page.tsx"]
   },
+  "Épisodes": {
+    "translation": "",
+    "sources": ["src/components/search-screen.tsx"]
+  },
   "Épisodes liés": {
     "translation": "",
     "sources": ["src/components/chart-screen.tsx"]
@@ -3428,6 +3437,10 @@
     "translation": "",
     "sources": ["content/personal-projects.json"]
   },
+  "Faire connaissance": {
+    "translation": "",
+    "sources": ["src/components/home-host-card.tsx"]
+  },
   "Faire tourner des modèles : serveurs d'inférence, quantification, coûts.": {
     "translation": "",
     "sources": ["content/topics.json"]
@@ -3611,10 +3624,6 @@
   "Galerie défilante": {
     "translation": "",
     "sources": ["src/components/project-gallery.tsx"]
-  },
-  "Game designer des trucs chiants": {
-    "translation": "",
-    "sources": ["src/domain/home-story.ts"]
   },
   "games": {
     "translation": "",
@@ -4225,6 +4234,10 @@
     "translation": "",
     "sources": ["content/takes/open-source-ai.json"]
   },
+  "Illustrations de concept, sans valeur de document d'archive.": {
+    "translation": "",
+    "sources": ["src/components/time-machine.tsx"]
+  },
   "Image": {
     "translation": "",
     "sources": ["src/domain/github-charts.ts", "src/domain/sandbox-charts.ts"]
@@ -4352,6 +4365,14 @@
   "Introducing OpenAI, annonce originale": {
     "translation": "",
     "sources": ["content/ai-history.json"]
+  },
+  "Inventeur, même sans Wi-Fi": {
+    "translation": "",
+    "sources": ["src/domain/home-story.ts"]
+  },
+  "Inventions voisines dans la chronologie": {
+    "translation": "",
+    "sources": ["src/components/time-machine.tsx"]
   },
   "jalons à retenir": {
     "translation": "",
@@ -4497,7 +4518,7 @@
     "translation": "",
     "sources": ["src/domain/schema.ts"]
   },
-  "L'équipe du podcast Sandbox est responsable des traitements décrits ici. Pour une question ou l'exercice de vos droits, écrivez à": {
+  "L'équipe du Talk Show Sandbox est responsable des traitements décrits ici. Pour une question ou l'exercice de vos droits, écrivez à": {
     "translation": "",
     "sources": ["src/app/(fr)/confidentialite/page.tsx"]
   },
@@ -4985,31 +5006,6 @@
     "translation": "",
     "sources": ["content/takes/ai-models.json"]
   },
-  "Le podcast": {
-    "translation": "",
-    "sources": [
-      "src/app/(fr)/episodes/[number]/page.tsx",
-      "src/app/(fr)/podcast/page.tsx",
-      "src/components/nav.tsx",
-      "src/components/shell.tsx"
-    ]
-  },
-  "Le podcast IA & tech de Lou, Loïc et Nico.": {
-    "translation": "",
-    "sources": ["src/components/shell.tsx"]
-  },
-  "Le podcast IA et tech de Lou, Loïc et Nico. Chaque semaine, leurs essais d'outils IA et les projets qu'ils construisent avec.": {
-    "translation": "",
-    "sources": ["src/app/(fr)/page.tsx"]
-  },
-  "Le podcast qui teste, débat et remet les chiffres en perspective.": {
-    "translation": "",
-    "sources": ["content/site.json"]
-  },
-  "Le podcast Sandbox : replays et historique": {
-    "translation": "",
-    "sources": ["src/app/(fr)/podcast/page.tsx"]
-  },
   "Le podium": {
     "translation": "",
     "sources": ["src/components/charts-ranking.tsx"]
@@ -5102,6 +5098,31 @@
     "translation": "",
     "sources": ["content/personal-projects.json"]
   },
+  "Le Talk Show": {
+    "translation": "",
+    "sources": [
+      "src/app/(fr)/episodes/[number]/page.tsx",
+      "src/app/(fr)/podcast/page.tsx",
+      "src/components/nav.tsx",
+      "src/components/shell.tsx"
+    ]
+  },
+  "Le Talk Show IA & tech de Lou, Loïc et Nico.": {
+    "translation": "",
+    "sources": ["src/components/shell.tsx"]
+  },
+  "Le Talk Show IA et tech de Lou, Loïc et Nico. Chaque semaine, leurs essais d'outils IA et les projets qu'ils construisent avec.": {
+    "translation": "",
+    "sources": ["src/app/(fr)/page.tsx"]
+  },
+  "Le Talk Show qui teste, débat et remet les chiffres en perspective.": {
+    "translation": "",
+    "sources": ["content/site.json"]
+  },
+  "Le Talk Show Sandbox : replays et historique": {
+    "translation": "",
+    "sources": ["src/app/(fr)/podcast/page.tsx"]
+  },
   "Le téléchargement a échoué. Réessayez.": {
     "translation": "",
     "sources": ["src/components/time-machine.tsx"]
@@ -5186,7 +5207,7 @@
     "translation": "",
     "sources": ["src/components/reference-methodology.tsx"]
   },
-  "Les avis de l'équipe sont signés et séparés du calcul. Une recommandation dans le podcast ne modifie pas un rang.": {
+  "Les avis de l'équipe sont signés et séparés du calcul. Une recommandation dans le Talk Show ne modifie pas un rang.": {
     "translation": "",
     "sources": ["src/components/published-methodology.tsx"]
   },
@@ -5269,6 +5290,10 @@
   "Les éditions publiées et leurs premières places, conservées avec leur méthode de calcul.": {
     "translation": "",
     "sources": ["src/app/(fr)/charts/history/page.tsx"]
+  },
+  "Les épisodes": {
+    "translation": "",
+    "sources": ["src/app/(fr)/not-found.tsx"]
   },
   "Les épisodes, leurs ressources et les classements IA.": {
     "translation": "",
@@ -5365,10 +5390,6 @@
   "Les parents définissent les quêtes, valident leur réalisation et choisissent les récompenses. Ils règlent les retraits et l'accès aux placements. Les pièces ne s'achètent pas et ne se convertissent pas en euros. Les cartes à collectionner se gagnent en accomplissant les quêtes.": {
     "translation": "",
     "sources": ["content/personal-projects.json"]
-  },
-  "Les podcasts": {
-    "translation": "",
-    "sources": ["src/app/(fr)/not-found.tsx"]
   },
   "Les poids des familles": {
     "translation": "",
@@ -5469,6 +5490,10 @@
   "LES RECORDS": {
     "translation": "",
     "sources": ["src/components/charts-features.tsx"]
+  },
+  "Les références renvoient aux sources primaires.": {
+    "translation": "",
+    "sources": ["src/components/time-machine.tsx"]
   },
   "Les relevés récents sont momentanément indisponibles.": {
     "translation": "",
@@ -6121,10 +6146,6 @@
     "translation": "",
     "sources": ["src/components/charts-experience.tsx"]
   },
-  "Modèles, recherche et annonces mondiales.": {
-    "translation": "",
-    "sources": ["src/components/time-machine.tsx"]
-  },
   "Modélise un agent comme un graphe de nœuds avec un état persistant, des boucles et des points de reprise. Plus bas niveau que d'autres frameworks, donc plus de contrôle.": {
     "translation": "",
     "sources": ["content/entities/projects.json"]
@@ -6435,10 +6456,6 @@
   "On cherche ce qui émerge, pas ce qui est installé. Un projet qui gagne 8 000 stars en une semaine passe devant un géant qui en gagne 400, sauf si ce géant est aussi très actif. Le classement mesure donc une dynamique, pas une popularité historique.": {
     "translation": "",
     "sources": ["content/charts/github.json"]
-  },
-  "On remonte le temps...": {
-    "translation": "",
-    "sources": ["src/app/(fr)/time-machine/loading.tsx"]
   },
   "On s'en sert pour préparer les épisodes. Ce qui frappe, c'est moins le modèle que la boucle : il lit, il essaie, il corrige.": {
     "translation": "",
@@ -7008,22 +7025,6 @@
     "translation": "",
     "sources": ["src/components/entity-screen.tsx"]
   },
-  "Podcast indépendant · IA · développement · open source": {
-    "translation": "",
-    "sources": ["content/site.json"]
-  },
-  "Podcasts": {
-    "translation": "",
-    "sources": ["src/components/search-screen.tsx", "src/i18n/messages.ts"]
-  },
-  "Podcasts · ressources · classements": {
-    "translation": "",
-    "sources": ["src/components/search-screen.tsx"]
-  },
-  "Podcasts IA": {
-    "translation": "",
-    "sources": ["src/components/time-machine.tsx"]
-  },
   "Poids effectifs conservés": {
     "translation": "",
     "sources": ["src/components/published-methodology.tsx"]
@@ -7484,6 +7485,18 @@
     "translation": "",
     "sources": ["src/domain/awards.ts"]
   },
+  "Projet précédent": {
+    "translation": "",
+    "sources": ["src/components/home-project-spotlight.tsx"]
+  },
+  "Projet suivant": {
+    "translation": "",
+    "sources": ["src/components/home-project-spotlight.tsx"]
+  },
+  "Projets de l'équipe": {
+    "translation": "",
+    "sources": ["src/components/home-project-spotlight.tsx"]
+  },
   "PROJETS EN RAYON": {
     "translation": "",
     "sources": ["src/components/video-club.tsx"]
@@ -7838,13 +7851,9 @@
       "src/i18n/messages.ts"
     ]
   },
-  "Rechercher dans les podcasts et classements": {
+  "Rechercher dans le Talk Show et les classements": {
     "translation": "",
-    "sources": ["src/components/search-screen.tsx"]
-  },
-  "Rechercher dans les podcasts et les classements": {
-    "translation": "",
-    "sources": ["src/i18n/messages.ts"]
+    "sources": ["src/components/search-screen.tsx", "src/i18n/messages.ts"]
   },
   "Rechercher un projet": {
     "translation": "",
@@ -8102,10 +8111,6 @@
     "translation": "",
     "sources": ["src/components/time-machine.tsx"]
   },
-  "Revue au": {
-    "translation": "",
-    "sources": ["src/components/time-machine.tsx"]
-  },
   "RFdiffusion conçoit de nouvelles protéines": {
     "translation": "",
     "sources": ["content/ai-history.json"]
@@ -8177,6 +8182,7 @@
   "Sandbox": {
     "translation": "",
     "sources": [
+      "src/components/home-host-card.tsx",
       "src/components/shell.tsx",
       "src/components/time-machine.tsx",
       "src/components/video-club.tsx",
@@ -8345,17 +8351,13 @@
     "translation": "",
     "sources": ["src/components/time-machine.tsx"]
   },
-  "Sandbox, le podcast vidéo sur l'IA et la tech. Retrouvez les épisodes, leurs sources et les classements commentés.": {
+  "Sandbox, le Talk Show sur l'IA et la tech. Retrouvez les épisodes, leurs sources et les classements commentés.": {
     "translation": "",
     "sources": ["content/site.json"]
   },
   "sandbox.podcast.pro@gmail.com": {
     "translation": "",
     "sources": ["src/app/(fr)/confidentialite/page.tsx"]
-  },
-  "Savant fou en localhost": {
-    "translation": "",
-    "sources": ["src/domain/home-story.ts"]
   },
   "science": {
     "translation": "",
@@ -8418,7 +8420,7 @@
     "translation": "",
     "sources": ["src/i18n/messages.ts"]
   },
-  "Search podcasts and AI rankings": {
+  "Search the talk show and AI rankings": {
     "translation": "",
     "sources": ["src/i18n/messages.ts"]
   },
@@ -8685,10 +8687,6 @@
     "translation": "",
     "sources": ["src/app/(fr)/episodes/[number]/page.tsx", "src/components/search-screen.tsx"]
   },
-  "sources primaires": {
-    "translation": "",
-    "sources": ["src/components/time-machine.tsx"]
-  },
   "Sources, pondérations, fréquence de mise à jour et limites du classement {chart}. Aucune donnée inventée : chaque chiffre renvoie à sa source.": {
     "translation": "",
     "sources": ["src/i18n/dictionaries/en.json"]
@@ -8829,6 +8827,22 @@
     "translation": "",
     "sources": ["src/domain/external-charts.ts"]
   },
+  "Talk Show": {
+    "translation": "",
+    "sources": ["src/components/home-host-card.tsx", "src/i18n/messages.ts"]
+  },
+  "Talk Show · ressources · classements": {
+    "translation": "",
+    "sources": ["src/components/search-screen.tsx"]
+  },
+  "Talk Show IA": {
+    "translation": "",
+    "sources": ["src/components/time-machine.tsx"]
+  },
+  "Talk Show indépendant · IA · développement · open source": {
+    "translation": "",
+    "sources": ["content/site.json"]
+  },
   "Team Bots partage les agents Grok au sein d'une équipe": {
     "translation": "",
     "sources": ["content/ai-history.json"]
@@ -8934,6 +8948,7 @@
     "sources": [
       "src/components/discovery-story.tsx",
       "src/components/nav.tsx",
+      "src/components/studio-easter-eggs.tsx",
       "src/components/time-machine.tsx"
     ]
   },
@@ -8971,11 +8986,7 @@
   },
   "Tous les épisodes": {
     "translation": "",
-    "sources": ["src/i18n/messages.ts"]
-  },
-  "Tous les podcasts": {
-    "translation": "",
-    "sources": ["src/components/search-screen.tsx"]
+    "sources": ["src/components/search-screen.tsx", "src/i18n/messages.ts"]
   },
   "Tous les sous-scores et mesures": {
     "translation": "",
@@ -9243,10 +9254,6 @@
     "translation": "",
     "sources": ["content/entities/models.json"]
   },
-  "Un podcast pour y voir plus clair.": {
-    "translation": "",
-    "sources": ["content/site.json"]
-  },
   "Un profil publié doit avoir reviewedAt et publishedAt.": {
     "translation": "",
     "sources": ["src/domain/ranking-catalog.ts"]
@@ -9294,6 +9301,10 @@
   "Un tableau pour suivre le travail": {
     "translation": "",
     "sources": ["content/personal-projects.json"]
+  },
+  "Un Talk Show pour y voir plus clair.": {
+    "translation": "",
+    "sources": ["content/site.json"]
   },
   "Un titre en tête ?": {
     "translation": "",
@@ -9607,6 +9618,10 @@
     "translation": "",
     "sources": ["src/components/guide-article.tsx"]
   },
+  "Voir la courbe chronologique": {
+    "translation": "",
+    "sources": ["src/components/time-machine.tsx"]
+  },
   "Voir la fiche de l’épisode →": {
     "translation": "",
     "sources": ["src/components/cards.tsx"]
@@ -9647,13 +9662,13 @@
     "translation": "",
     "sources": ["src/components/demo-content-page.tsx"]
   },
+  "Voir les épisodes": {
+    "translation": "",
+    "sources": ["src/components/demo-content-page.tsx"]
+  },
   "Voir les lauréats": {
     "translation": "",
     "sources": ["src/app/(fr)/charts/awards/page.tsx"]
-  },
-  "Voir les podcasts": {
-    "translation": "",
-    "sources": ["src/components/demo-content-page.tsx"]
   },
   "Voir les rayons": {
     "translation": "",

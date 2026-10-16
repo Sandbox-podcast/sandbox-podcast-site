@@ -1,5 +1,7 @@
 # Site média : conception
 
+Rythme et espacements des pages publiques : [DD-0046](../design-decisions/dd-0046-rythme-et-espacements-publics.md). La passe réduit les marges cumulées de l'accueil et harmonise les pages éditoriales.
+
 Accueil mobile éditorial, sans montage du trio, et plateau conservé sur ordinateur : [DD-0039](../design-decisions/dd-0039-accueil-mobile-editorial-et-plateau-desktop.md) et [validation V11](refonte-2026-10-15/refonte-editoriale-mobile-v11.md).
 
 Le 16 octobre, les épaules coupées de Loïc et Nicolas sont complétées et les micros flottants retirés du plateau, avec les têtes issues des photos d'origine : [retouches et validation](refonte-2026-10-15/retouches-bustes-2026-10-16.md).
@@ -32,7 +34,7 @@ Les images et métadonnées de partage sont définies dans [DD-0013](../design-d
 
 La stratégie de découverte multilingue et le contrat de données pour les classements sont définis dans [ADR-0020](../adr/ADR-0020-architecture-seo-international-des-classements.md) et [la feuille de route SEO](seo-roadmap.md). [DD-0010](../design-decisions/DD-0010-quatre-langues-du-site.md) limite le site au français, à l'anglais, à l'espagnol et à l'allemand. Les chemins français restent sans préfixe ; les autres utilisent `/en`, `/es-es` et `/de-de`. Seules les traductions relues et reliées à des données réelles peuvent sortir du `noindex`.
 
-Le podcast est regroupé sur `/podcast`, avec le dernier replay et l'historique chronologique, à raison d'un épisode par semaine. L'accueil présente la promesse et le plateau, les animateurs, leurs projets, les rubriques, puis un seul dernier épisode. Les thèmes et la bibliothèque séparée sont retirés ; les anciennes URL redirigent vers `/podcast`. Voir [DD-0030](../design-decisions/DD-0030-podcast-replays-hebdomadaires.md) pour les replays et DD-0034 pour le parcours d'accueil.
+Le Talk Show est regroupé sur `/podcast`, avec le dernier replay et l'historique chronologique, à raison d'un épisode par semaine. L'accueil présente la promesse et le plateau, les animateurs, leurs projets, les rubriques, puis un seul dernier épisode. Les thèmes et la bibliothèque séparée sont retirés ; les anciennes URL redirigent vers `/podcast`. Voir [DD-0030](../design-decisions/DD-0030-podcast-replays-hebdomadaires.md) pour les replays et DD-0034 pour le parcours d'accueil.
 
 La fiche d'épisode suit [DD-0022](../design-decisions/DD-0022-fiche-episode-sans-description-longue.md) : lecteur sur toute la largeur, puis chapitres et ressources côte à côte sur ordinateur. La description longue reste la source éditoriale dans l'admin ; seul le résumé court est affiché sur la fiche.
 
@@ -45,6 +47,8 @@ Ce site est un produit distinct de la plateforme de production de podcasts décr
 Les contenus initiaux du dépôt restent simulés. L'indexation est ouverte par page pour les épisodes publiés avec vidéo et contenu substantiel, la page À propos et les classements disposant d'éditions réelles ; les fixtures et pages vides restent en `noindex` ([DD-0014](../design-decisions/DD-0014-indexation-selective-et-duree-youtube.md)). SANDBOX CHARTS collecte GitHub, Skills.sh, Hugging Face, Arena et OpenRouter dans Postgres, conserve des relevés immuables deux fois par jour et publie les classements quand la couverture et les contrôles le permettent. Les archives de démonstration historiques dans Git gardent leur format hebdomadaire ; elles ne décrivent pas la cadence des classements live v3. Les collecteurs Skills/Models sont implémentés, mais l'activation réelle attend la configuration des accès, la validation des conditions de source et l'application contrôlée des migrations. Le rafraîchissement planifié passe par GitHub Actions ; voir [le guide SANDBOX CHARTS](sandbox-charts.md), [les sources externes Skills/Models](external-rankings.md), [la fiche de mise en service](mise-en-service-neon-vercel.md), [le guide d'exploitation v3](reference-ranking-operations.md), [ADR-0019](../adr/ADR-0019-sandbox-charts-github-postgres.md), [ADR-0021](../adr/ADR-0021-classements-externes-skills-models.md), [ADR-0028](../adr/ADR-0028-cadence-des-classements.md) et [DD-0004](../design-decisions/DD-0004-sandbox-charts.md). Le passage global en `SITE_DATA_MODE=live` attend toujours des contenus vérifiés sur le reste du site.
 
 Les nouveaux gels suivent [ADR-0024](../adr/ADR-0024-classements-corrobores.md) : GitHub est croisé avec OpenSSF Scorecard, Skills.sh avec GitHub, et Arena avec Artificial Analysis pour le rang principal Models. La [revue de onze sources](multi-source-ranking-sources.md) explique les fournisseurs retenus et ceux dont les mesures ne peuvent pas être additionnées sans biaiser le résultat.
+
+L'accueil noir et le carrousel des trois projets suivent [DD-0042](../design-decisions/dd-0042-accueil-noir-spotlight-talk-show.md). La désignation publique de l'émission devient Talk Show ; les URL existantes sont conservées.
 
 ## 1. Architecture du produit
 

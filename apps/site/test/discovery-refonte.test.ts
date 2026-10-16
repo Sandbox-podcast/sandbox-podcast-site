@@ -26,6 +26,9 @@ import { stageMotion } from '../src/domain/stage-motion';
 import { homeProfiles, homeProjects } from '../src/domain/home-story';
 import { publicHosts } from '../src/lib/repository';
 import { personalProjects } from '../src/lib/personal-projects';
+import { HomeProjectSpotlight } from '../src/components/home-project-spotlight';
+import { HOME_PROJECT_ARTWORK } from '../src/domain/home-project-artwork';
+import { HOME_HOST_ARTWORK } from '../src/domain/home-host-artwork';
 
 const pilot = episodeSchema.parse({
   number: 1,
@@ -44,7 +47,34 @@ afterEach(() => {
   setSiteSettingsOverride(undefined);
 });
 
-describe('accueil du podcast', () => {
+describe('accueil du Talk Show', () => {
+  it('utilise les couvertures éditoriales à l’accueil et conserve les captures dans le catalogue', async () => {
+    const html = renderToStaticMarkup(
+      createElement(HomeProjectSpotlight, { projects: homeProjects(personalProjects) }),
+    );
+    for (const [slug, artwork] of Object.entries(HOME_PROJECT_ARTWORK)) {
+      if (!artwork) throw new Error('Couverture absente');
+      expect(html).toContain(encodeURIComponent(artwork));
+      expect(personalProjects.find((project) => project.slug === slug)?.cover?.src).not.toBe(
+        artwork,
+      );
+      expect((await stat(new URL(`../public${artwork}`, import.meta.url))).size).toBeLessThan(
+        300_000,
+      );
+    }
+  });
+  it('présente les trois projets dans un carrousel manuel accessible sans masquer leurs liens natifs', () => {
+    const projects = homeProjects(personalProjects);
+    const html = renderToStaticMarkup(createElement(HomeProjectSpotlight, { projects }));
+    expect(html).toContain('aria-roledescription="carrousel"');
+    expect(html).toContain('aria-label="Projet précédent"');
+    expect(html).toContain('aria-label="Projet suivant"');
+    expect(html).toContain('aria-live="polite"');
+    expect(html.match(/aria-pressed="true"/g)).toHaveLength(1);
+    for (const project of projects) expect(html).toContain(`href="/nos-projets/${project.slug}"`);
+    expect(html.match(/tabindex="-1"/g)).toHaveLength(2);
+    expect(renderToStaticMarkup(createElement(HomeProjectSpotlight, { projects: [] }))).toBe('');
+  });
   it('relie les deux objets du plateau aux rubriques publiques, même sans vidéoclub', () => {
     const objects = renderToStaticMarkup(createElement(StudioEasterEggs));
     expect(objects).toContain('href="/charts"');
@@ -194,12 +224,14 @@ describe('accueil du podcast', () => {
     expect(disabled).not.toContain('entrance-cinematic-v2.webp');
     expect(enabled).not.toContain('room-photoreal-v1.webp');
   });
-  it('présente les vraies photos dans les biographies sans les remplacer par les bustes retouchés', () => {
+  it('réserve les illustrations fantastiques aux cartes de l’accueil sans réutiliser les bustes du plateau', () => {
     const hosts = publicHosts();
     const page = renderToStaticMarkup(createElement(DiscoveryHome, { episodes: [], hosts }));
     const html = page.slice(page.indexOf('id="home-story"'));
     for (const host of hosts) {
-      if (!host.placeholder && host.photo) expect(html).toContain(encodeURIComponent(host.photo));
+      const illustration = HOME_HOST_ARTWORK[host.slug] ?? host.photo;
+      if (!host.placeholder && illustration)
+        expect(html).toContain(encodeURIComponent(illustration));
     }
     expect(html).not.toContain('body-no-mic');
     expect(html).not.toContain(encodeURIComponent(HOME_STUDIO_CLEAN_WALL));
@@ -210,7 +242,7 @@ describe('accueil du podcast', () => {
     const hosts = publicHosts();
     const lou = homeProfiles(hosts).find((host) => host.slug === 'lou');
     if (!lou) throw new Error('Le profil de Lou est requis pour ce test.');
-    expect(lou.focus).toBe('Game designer des trucs chiants');
+    expect(lou.focus).toBe('Créateur de quêtes du quotidien');
     expect(lou.bio).toBe(hosts.find((host) => host.slug === 'lou')?.bio);
     const paragraphs = lou.bio.split('\n\n');
     expect(paragraphs).toHaveLength(2);
@@ -225,9 +257,9 @@ describe('accueil du podcast', () => {
   it('présente trois titres humoristiques et des biographies de longueur comparable', () => {
     const team = homeProfiles(publicHosts());
     expect(team.map((host) => host.focus)).toEqual([
-      'Game designer des trucs chiants',
-      'Savant fou en localhost',
-      'Directeur de la flemme automatisée',
+      'Créateur de quêtes du quotidien',
+      'Inventeur, même sans Wi-Fi',
+      "Chef d'orchestre des agents",
     ]);
     expect(team.every((host) => host.bio.split('\n\n').length === 2)).toBe(true);
     const lengths = team.map((host) => host.bio.length);
