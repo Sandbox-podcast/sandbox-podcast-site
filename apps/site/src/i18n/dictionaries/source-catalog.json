@@ -213,6 +213,10 @@
     "translation": "",
     "sources": ["src/i18n/dictionaries/en.json"]
   },
+  "{name} : comprendre l'IA en la pratiquant": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
   "{name} · fiche et historique": {
     "translation": "",
     "sources": ["src/i18n/dictionaries/en.json"]
@@ -2467,6 +2471,10 @@
     "translation": "",
     "sources": ["content/personal-projects.json"]
   },
+  "d'avance sur la tech.": {
+    "translation": "",
+    "sources": ["src/components/discovery-home.tsx"]
+  },
   "DALL-E 2 améliore la fidélité des images et introduit des fonctions de variation et de modification, avec un accès initial restreint.": {
     "translation": "",
     "sources": ["content/ai-history.json"]
@@ -3453,6 +3461,10 @@
     "translation": "",
     "sources": ["src/components/video-club.tsx"]
   },
+  "Faites défiler pour découvrir l'équipe.": {
+    "translation": "",
+    "sources": ["src/components/discovery-story.tsx"]
+  },
   "Famille dupliquée.": {
     "translation": "",
     "sources": ["src/domain/reference-ranking.ts"]
@@ -3633,7 +3645,7 @@
     "translation": "",
     "sources": ["content/personal-projects.json"]
   },
-  "Gardez une longueur d'avance sur la tech.": {
+  "Gardez une longueur": {
     "translation": "",
     "sources": ["src/components/discovery-home.tsx"]
   },
@@ -5111,6 +5123,10 @@
       "src/components/shell.tsx"
     ]
   },
+  "Le Talk Show IA & tech": {
+    "translation": "",
+    "sources": ["src/components/discovery-home.tsx"]
+  },
   "Le Talk Show IA & tech de Lou, Loïc et Nico.": {
     "translation": "",
     "sources": ["src/components/shell.tsx"]
@@ -5950,7 +5966,7 @@
     "translation": "",
     "sources": ["src/components/move-screen.tsx"]
   },
-  "Mise à jour : 14 octobre 2026": {
+  "Mise à jour : 16 octobre 2026": {
     "translation": "",
     "sources": ["src/app/(fr)/confidentialite/page.tsx"]
   },
@@ -6377,7 +6393,7 @@
     "translation": "",
     "sources": ["src/app/(fr)/confidentialite/page.tsx"]
   },
-  "Nous utilisons Google Analytics et Vercel Analytics pour mesurer la fréquentation et les actions sur le site, avec votre accord. Votre choix vaut 180 jours. Vous pouvez le retirer à tout moment.": {
+  "Nous utilisons Google Analytics, Vercel Analytics et Speed Insights pour mesurer la fréquentation, les actions et la vitesse du site, avec votre accord. Votre choix vaut 180 jours. Vous pouvez le retirer à tout moment.": {
     "translation": "",
     "sources": ["src/components/analytics-consent.tsx"]
   },
@@ -6822,6 +6838,10 @@
     "sources": ["src/domain/kinds.ts"]
   },
   "Par": {
+    "translation": "",
+    "sources": ["src/components/time-machine.tsx"]
+  },
+  "Parcourir la chronologie": {
     "translation": "",
     "sources": ["src/components/time-machine.tsx"]
   },
@@ -8107,10 +8127,6 @@
     "translation": "",
     "sources": ["src/domain/schema.ts"]
   },
-  "Retrouvez-nous sur YouTube": {
-    "translation": "",
-    "sources": ["src/components/shell.tsx"]
-  },
   "Revenir au premier événement": {
     "translation": "",
     "sources": ["src/components/time-machine.tsx"]
@@ -8346,11 +8362,7 @@
   },
   "Sandbox Vidéo Club": {
     "translation": "",
-    "sources": ["src/components/video-club.tsx"]
-  },
-  "Sandbox Vidéo Club (essai local)": {
-    "translation": "",
-    "sources": ["src/app/(fr)/nos-projets/video-club/page.tsx"]
+    "sources": ["src/app/(fr)/nos-projets/video-club/page.tsx", "src/components/video-club.tsx"]
   },
   "SANDBOX WRAPPED": {
     "translation": "",
@@ -8362,7 +8374,7 @@
   },
   "sandbox.podcast.pro@gmail.com": {
     "translation": "",
-    "sources": ["src/app/(fr)/confidentialite/page.tsx"]
+    "sources": ["src/app/(fr)/confidentialite/page.tsx", "src/components/shell.tsx"]
   },
   "science": {
     "translation": "",
@@ -8718,7 +8730,7 @@
   },
   "Spotify": {
     "translation": "",
-    "sources": ["src/components/discovery-home.tsx"]
+    "sources": ["src/components/discovery-home.tsx", "src/components/shell.tsx"]
   },
   "Spotify ↗": {
     "translation": "",
@@ -9463,7 +9475,7 @@
     "translation": "",
     "sources": ["content/scoring/models.json"]
   },
-  "Usamos Google Analytics y Vercel Analytics para medir el uso del sitio. Estos servicios solo se activan con tu consentimiento. Puedes cambiar tu elección en cualquier momento.": {
+  "Usamos Google Analytics, Vercel Analytics y Speed Insights para medir el uso y la velocidad del sitio. Estos servicios solo se activan con tu consentimiento. Puedes cambiar tu elección en cualquier momento.": {
     "translation": "",
     "sources": ["src/components/analytics-consent.tsx"]
   },
@@ -9510,6 +9522,10 @@
   "Veo 3 génère la vidéo avec son": {
     "translation": "",
     "sources": ["content/ai-history.json"]
+  },
+  "Vercel Speed Insights mesure aussi les temps de chargement, la réactivité et la stabilité visuelle des pages. Il suit le même choix de consentement. Les paramètres d'URL et la zone d'administration sont exclus de nos envois.": {
+    "translation": "",
+    "sources": ["src/app/(fr)/confidentialite/page.tsx"]
   },
   "Vercel Web Analytics produit également des statistiques de fréquentation. Vercel indique ne pas utiliser de cookies pour ce service et supprimer sous 24 heures l'identifiant calculé pour distinguer les visites. Les statistiques agrégées restent consultables selon l'offre Vercel, de 1 à 24 mois. Nos envois excluent les paramètres d'URL et la zone d'administration.": {
     "translation": "",
@@ -9787,7 +9803,7 @@
     "translation": "",
     "sources": ["content/ai-history.json"]
   },
-  "We use Google Analytics and Vercel Analytics to measure site traffic. These services are enabled only with your consent. You can change your choice at any time.": {
+  "We use Google Analytics, Vercel Analytics and Speed Insights to measure site traffic and speed. These services are enabled only with your consent. You can change your choice at any time.": {
     "translation": "",
     "sources": ["src/components/analytics-consent.tsx"]
   },
@@ -9799,7 +9815,7 @@
     "translation": "",
     "sources": ["content/ai-history.json"]
   },
-  "Wir verwenden Google Analytics und Vercel Analytics, um die Nutzung der Website zu messen. Diese Dienste werden erst nach Ihrer Zustimmung aktiviert. Sie können Ihre Auswahl jederzeit ändern.": {
+  "Wir verwenden Google Analytics, Vercel Analytics und Speed Insights, um die Nutzung und Geschwindigkeit der Website zu messen. Diese Dienste werden erst nach Ihrer Zustimmung aktiviert. Sie können Ihre Auswahl jederzeit ändern.": {
     "translation": "",
     "sources": ["src/components/analytics-consent.tsx"]
   },
@@ -9858,21 +9874,5 @@
   "τ-bench": {
     "translation": "",
     "sources": ["content/scoring/models.json", "content/sources.json"]
-  },
-  "Le Talk Show IA & tech": {
-    "translation": "",
-    "sources": ["src/components/discovery-home.tsx"]
-  },
-  "Gardez une longueur": {
-    "translation": "",
-    "sources": ["src/components/discovery-home.tsx"]
-  },
-  "d'avance sur la tech.": {
-    "translation": "",
-    "sources": ["src/components/discovery-home.tsx"]
-  },
-  "Faites défiler pour découvrir l'équipe.": {
-    "translation": "",
-    "sources": ["src/components/discovery-story.tsx"]
   }
 }

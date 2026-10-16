@@ -6,7 +6,7 @@ import {
 } from '../src/domain/external-identity.ts';
 
 const source = {
-  provider: 'arena',
+  provider: 'arena' as const,
   externalId: 'publisher/model-high',
   url: 'https://example.test/model',
   label: 'Arena',
@@ -40,15 +40,50 @@ describe('identités stables des modèles collectés', () => {
         [{ ...known, sources: [{ ...source, externalId: 'publisher/model-low' }] }],
       ).get('new-slug'),
     ).toBe('new-slug');
-    expect(() =>
-      stableExternalSlugs(
-        [entity('original-slug')],
-        [{ ...known, sources: [{ ...source, externalId: 'publisher/model-low' }] }],
-      ),
-    ).toThrow('Variante');
+    const separate = stableExternalSlugs(
+      [entity('original-slug')],
+      [{ ...known, sources: [{ ...source, externalId: 'publisher/model-low' }] }],
+    ).get('original-slug');
+    expect(separate).toMatch(/^original-slug-[a-f0-9]{16}$/);
     expect(() =>
       stableExternalSlugs([entity('new-slug')], [known, { ...known, slug: 'duplicate' }]),
     ).toThrow('contradictoire');
+  });
+  it('priorise la référence historique même si le nom vise un autre modèle', () => {
+    expect(
+      stableExternalSlugs(
+        [entity('homonym')],
+        [known, { ...known, slug: 'homonym', sources: [{ ...source, externalId: 'other' }] }],
+      ).get('homonym'),
+    ).toBe(known.slug);
+  });
+  it('retrouve la variante isolée lors des collectes suivantes sans changer son historique', () => {
+    const previous = { ...known, sources: [{ ...source, externalId: 'other' }] };
+    const first = stableExternalSlugs([entity(known.slug)], [previous]).get(known.slug);
+    expect(first).toBeDefined();
+    if (!first) throw new Error('Identité isolée absente.');
+    const isolated = { ...known, slug: first };
+    expect(
+      stableExternalSlugs([entity('another-name')], [previous, isolated]).get('another-name'),
+    ).toBe(first);
+    expect(stableExternalSlugs([entity(known.slug)], [previous, isolated]).get(known.slug)).toBe(
+      first,
+    );
+  });
+  it('bloque encore les contradictions sur une référence réellement partagée', () => {
+    const incoming = {
+      ...entity('new-slug'),
+      sources: [source, { ...source, provider: 'huggingface' as const, externalId: 'new' }],
+    };
+    expect(() =>
+      stableExternalSlugs(
+        [incoming],
+        [{ ...known, sources: [source, { provider: 'huggingface', externalId: 'old' }] }],
+      ),
+    ).toThrow('Variante');
+    expect(() => stableExternalSlugs([entity(known.slug)], [{ ...known, sources: [] }])).toThrow(
+      'sans référence',
+    );
   });
   it('refuse deux partitions qui réutiliseraient la même identité dans un lot', () => {
     expect(() => stableExternalSlugs([entity('one'), entity('two')], [known])).toThrow(

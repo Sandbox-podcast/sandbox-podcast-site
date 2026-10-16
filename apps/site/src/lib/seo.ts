@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { isMock, siteConfig } from '@/config/site';
 import { hreflangAlternates, type HreflangPage } from '@/domain/ranking-catalog';
+import { sharedPageAlternates } from '@/i18n/indexing';
 
 export const absoluteUrl = (path: string): string => new URL(path, siteConfig.url).toString();
 export const SITE_SHARE_IMAGE_ALT = 'Sandbox : Talk Show et classements tech';
@@ -59,10 +60,12 @@ export function pageMetadata(meta: PageMeta): Metadata {
   const blocked = meta.noindex === true || (isMock && meta.noindex !== false);
   const openGraphLocale = openGraphLocaleForTag(meta.locale ?? siteConfig.locale);
   const fallbackImage = siteShareImage();
-  const languages =
-    !blocked && meta.localizedAlternates
-      ? hreflangAlternates(meta.localizedAlternates, siteConfig.url)
-      : undefined;
+  const languages = !blocked
+    ? hreflangAlternates(
+        meta.localizedAlternates ?? sharedPageAlternates(meta.path),
+        siteConfig.url,
+      )
+    : undefined;
   return {
     title: meta.title,
     description: meta.description,

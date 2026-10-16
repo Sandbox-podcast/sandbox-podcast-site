@@ -46,11 +46,11 @@ Les dates visibles sont formatées avec `Intl` et le fuseau UTC.
 
 ## Couverture actuelle
 
-Au 16 octobre 2026, les trois dictionnaires anglais, espagnol et allemand couvrent chacun les 2 397 entrées du catalogue local, badges compris. Le français reste la source. Les tests refusent une entrée manquante dans l'une de ces trois langues et vérifient les paramètres des modèles.
+Au 16 octobre 2026, les trois dictionnaires anglais, espagnol et allemand couvrent chacun les 2 403 entrées du catalogue local, badges compris. Le français reste la source. Les tests refusent une entrée manquante dans l'une de ces trois langues et vérifient les paramètres des modèles.
 
-Cette couverture porte sur les sources locales ; elle ne certifie ni une relecture native ni les textes édités uniquement dans la base de production. Exporter ces derniers depuis l'admin pour préparer leur lot. Une revue native des textes longs et des pages réellement prêtes reste nécessaire.
+Les textes propres à la production ont également été contrôlés : accueil, équipe, épisode publié, chapitres, ressources et descriptions des classements publics. Les 124 autres enregistrements éditoriaux ont été comparés aux sources locales par empreinte de leur JSON ; seule une phrase d'article différait et a été ajoutée aux dictionnaires. Les nouvelles publications restent à inclure dans les prochains lots manuels.
 
-Les pages partagées localisées restent `noindex`. L'ouverture de l'indexation nécessite une couverture complète de la page, une revue éditoriale et la publication autorisée décrites dans ADR-0020.
+Lou autorise l'ouverture ES/DE sans relecture native obligatoire. Le code reprend les restrictions d'indexation des pages sources, avec canoniques propres et liens de langue réciproques dans les pages et le sitemap. Les contrôles publics après déploiement restent à effectuer. Voir [DD-0048](../design-decisions/dd-0048-indexation-traductions-et-suivi-des-classements.md).
 
 ## Vérification
 

@@ -5,7 +5,7 @@ import { dirname, extname, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { z } from '../../apps/site/node_modules/zod/index.js';
 import { episode } from './content.js';
-import { initialState, normalizeState, transition } from './model.js';
+import { initialState, normalizeState, transition, scenes, stepCount } from './model.js';
 import { sourceMedia } from './media.js';
 
 const root = dirname(fileURLToPath(import.meta.url));
@@ -13,10 +13,16 @@ const port = Number(process.env.SANDBOX_BIS_PORT || 4324);
 const prefix = '/episode-002-bis/';
 const sessions = new Map();
 const epoch = Date.now();
+const maxStepDelta = Math.max(...scenes.map((scene) => stepCount(scene, episode))) - 1;
 const actionSchema = z.discriminatedUnion('type', [
   z.object({ type: z.literal('media'), id: z.enum(['', 'creator', 'studio']) }).strict(),
   z.object({ type: z.literal('scene'), index: z.number().int().min(0).max(22) }).strict(),
-  z.object({ type: z.literal('step'), delta: z.number().int().min(-8).max(8) }).strict(),
+  z
+    .object({
+      type: z.literal('step'),
+      delta: z.number().int().min(-maxStepDelta).max(maxStepDelta),
+    })
+    .strict(),
   z.object({ type: z.literal('toggle'), key: z.enum(['frozen', 'blackout']) }).strict(),
   z.object({ type: z.literal('view'), view: z.enum(['visual', 'fact', 'zoom']) }).strict(),
   z.object({ type: z.literal('speaker'), host: z.enum(['', 'Lou', 'Loïc', 'Nico']) }).strict(),

@@ -20,6 +20,7 @@ import { awardPath } from '@/domain/badges';
 import { readAwardSitemapEntries } from '@/lib/awards-store';
 import { isDemoEntity } from '@/lib/demo-content';
 import { timeMachineData } from '@/lib/time-machine';
+import { sharedPageAlternates } from '@/i18n/indexing';
 
 export const dynamic = 'force-dynamic';
 
@@ -120,7 +121,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ].map((path) => entry(path, undefined, 0.8));
   const episodes = allEpisodes().filter(indexableEpisode);
   const history = timeMachineData();
-  return uniqueSitemapEntries([
+  const entries = uniqueSitemapEntries([
     ...(episodes.length || chartEntries.length || history.events.length || personalProjects.length
       ? [entry('/', undefined, 1)]
       : []),
@@ -146,10 +147,25 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       : []),
     entry('/about', undefined, 0.4),
     ...(history.events.length ? [entry('/time-machine', history.reviewedAt, 0.7)] : []),
-    entry('/confidentialite', '2026-10-14T00:00:00.000Z', 0.3),
+    entry('/confidentialite', '2026-10-16T00:00:00.000Z', 0.3),
     entry('/nos-projets', undefined, 0.7),
     ...personalProjects.map((project) =>
       entry(personalProjectPath(project.slug), project.verifiedAt, 0.6),
     ),
   ]);
+  return uniqueSitemapEntries(
+    entries.flatMap((item) => {
+      const path = new URL(item.url).pathname;
+      const variants = sharedPageAlternates(path);
+      if (!variants.length) return [item];
+      const languages = Object.fromEntries(
+        variants.map((page) => [page.locale, absoluteUrl(page.path)]),
+      );
+      return variants.map((alternate) => ({
+        ...item,
+        url: absoluteUrl(alternate.path),
+        alternates: { languages },
+      }));
+    }),
+  );
 }

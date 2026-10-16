@@ -2,6 +2,8 @@
 
 import { Analytics as VercelAnalytics } from '@vercel/analytics/next';
 import type { BeforeSend } from '@vercel/analytics';
+import { SpeedInsights } from '@vercel/speed-insights/next';
+import type { BeforeSendMiddleware as BeforeSpeedSend } from '@vercel/speed-insights';
 import Script from 'next/script';
 import { usePathname } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -76,7 +78,7 @@ const messages = {
   de: {
     accept: 'Akzeptieren',
     description:
-      'Wir verwenden Google Analytics und Vercel Analytics, um die Nutzung der Website zu messen. Diese Dienste werden erst nach Ihrer Zustimmung aktiviert. Sie können Ihre Auswahl jederzeit ändern.',
+      'Wir verwenden Google Analytics, Vercel Analytics und Speed Insights, um die Nutzung und Geschwindigkeit der Website zu messen. Diese Dienste werden erst nach Ihrer Zustimmung aktiviert. Sie können Ihre Auswahl jederzeit ändern.',
     preferences: 'Mess-Einstellungen',
     reject: 'Ablehnen',
     storageUnavailable:
@@ -88,7 +90,7 @@ const messages = {
   en: {
     accept: 'Accept',
     description:
-      'We use Google Analytics and Vercel Analytics to measure site traffic. These services are enabled only with your consent. You can change your choice at any time.',
+      'We use Google Analytics, Vercel Analytics and Speed Insights to measure site traffic and speed. These services are enabled only with your consent. You can change your choice at any time.',
     preferences: 'Measurement preferences',
     reject: 'Reject',
     storageUnavailable: 'Your choice could not be saved. Allow local storage and try again.',
@@ -99,7 +101,7 @@ const messages = {
   es: {
     accept: 'Aceptar',
     description:
-      'Usamos Google Analytics y Vercel Analytics para medir el uso del sitio. Estos servicios solo se activan con tu consentimiento. Puedes cambiar tu elección en cualquier momento.',
+      'Usamos Google Analytics, Vercel Analytics y Speed Insights para medir el uso y la velocidad del sitio. Estos servicios solo se activan con tu consentimiento. Puedes cambiar tu elección en cualquier momento.',
     preferences: 'Preferencias de medición',
     reject: 'Rechazar',
     storageUnavailable:
@@ -111,7 +113,7 @@ const messages = {
   fr: {
     accept: 'Accepter',
     description:
-      'Nous utilisons Google Analytics et Vercel Analytics pour mesurer la fréquentation et les actions sur le site, avec votre accord. Votre choix vaut 180 jours. Vous pouvez le retirer à tout moment.',
+      'Nous utilisons Google Analytics, Vercel Analytics et Speed Insights pour mesurer la fréquentation, les actions et la vitesse du site, avec votre accord. Votre choix vaut 180 jours. Vous pouvez le retirer à tout moment.',
     preferences: 'Préférences de mesure',
     reject: 'Refuser',
     storageUnavailable:
@@ -251,6 +253,7 @@ export function AnalyticsConsent({ language }: { language: string }) {
   const [preferencesOpen, setPreferencesOpen] = useState(false);
   const [storageUnavailable, setStorageUnavailable] = useState(false);
   const [googleTagRequested, setGoogleTagRequested] = useState(false);
+  const [speedInsightsStarted, setSpeedInsightsStarted] = useState(false);
   const previousPageLocation = useRef<string | undefined>(undefined);
   const consentRef = useRef<AnalyticsConsent | null>(null);
   const rejectionNotSaved = useRef(false);
@@ -311,6 +314,23 @@ export function AnalyticsConsent({ language }: { language: string }) {
       return null;
     return filterAnalyticsEvent(event, readSavedConsent());
   }, []);
+
+  const beforeSpeedSend = useCallback<BeforeSpeedSend>((event) => {
+    if (consentRef.current !== 'accepted' || isAdminAnalyticsPath(window.location.pathname))
+      return null;
+    return filterAnalyticsEvent(event, readSavedConsent());
+  }, []);
+
+  useEffect(() => {
+    if (
+      ready &&
+      consent === 'accepted' &&
+      consentRef.current === 'accepted' &&
+      readSavedConsent() === 'accepted' &&
+      !isAdmin
+    )
+      setSpeedInsightsStarted(true);
+  }, [consent, isAdmin, ready]);
 
   useEffect(() => {
     function recordAction(event: MouseEvent) {
@@ -398,6 +418,8 @@ export function AnalyticsConsent({ language }: { language: string }) {
       {ready && consent === 'accepted' && !isAdmin ? (
         <VercelAnalytics beforeSend={beforeVercelSend} />
       ) : null}
+      {/* Le SDK conserve son script : garder sa ref de routage, filtrer chaque envoi. */}
+      {speedInsightsStarted ? <SpeedInsights beforeSend={beforeSpeedSend} /> : null}
       {googleTagRequested && measurementId ? (
         <Script
           id="google-analytics-tag"

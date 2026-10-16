@@ -2035,13 +2035,13 @@ dialog::backdrop {
     display: none;
   }
 }
-/* Sources réelles : la page occupe l'essentiel de l'antenne. */
+/* Radar : la capture et tous les points du sujet restent visibles ensemble. */
 .source-scene {
   position: absolute;
   inset: 0;
   padding: 7.7cqw 3cqw 6cqw;
   display: grid;
-  grid-template-columns: minmax(0, 2.6fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1.12fr) minmax(0, 1fr);
   gap: 2.6cqw;
   align-items: center;
 }
@@ -2108,21 +2108,29 @@ dialog::backdrop {
   hyphens: none;
   text-wrap: balance;
 }
-.source-caption h2 {
-  font-size: 1.35cqw;
-  line-height: 1.2;
-  margin: 1cqw 0 0.8cqw;
+.radar-points {
+  display: grid;
+  gap: 1.3cqw;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
-.source-caption p:not(.eyebrow) {
-  font-size: 1cqw;
-  line-height: 1.5;
+.radar-points h2 {
+  font-size: 1.45cqw;
+  line-height: 1.25;
+  margin: 0 0 0.4cqw;
+}
+.radar-points p {
+  font-size: 1.15cqw;
+  line-height: 1.45;
   color: #9eb7c3;
+  margin: 0;
 }
 .source-caption-rule {
   width: 2.8cqw;
   height: 3px;
   background: var(--accent);
-  margin: 2cqw 0;
+  margin: 1.3cqw 0;
 }
 .source-number {
   display: none;

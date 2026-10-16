@@ -8,28 +8,46 @@ export const escapeText = (value = '') =>
 const e = escapeText;
 export const useCases = [
   {
-    sector: 'Boutique',
-    title: 'Carte de fidélité + SMS',
+    sector: 'Commerçant',
+    title: 'Fidélité et relances par SMS',
     action:
-      "Une carte sur téléphone, reliée à une base clients : achats, points et dernier passage. L'IA prépare les SMS de relance des clients qui ne sont pas revenus. Vous validez l'envoi.",
-    gain: 'Faire revenir vos clients avec une offre qui leur correspond.',
-    note: "Créer avec l'IA une application de fidélité : inscription par QR code, fiche client, achats, solde de points et récompenses. Les règles calculent les points et repèrent les clients à recontacter ; l'IA aide à rédiger les SMS. Une base de données et un service d'envoi SMS sont nécessaires. Prévoir l'accord aux SMS, la désinscription et une validation avant envoi. Mesurer les retours et la marge après remise et coût SMS.",
+      'Une base de données clients, avec une interface pour saisir leurs achats et créditer leurs points de fidélité. Un système intelligent envoie vos promotions par SMS aux clients qui ne sont pas passés en magasin depuis X mois.',
+    gain: 'Faire revenir les clients absents avec vos promotions.',
+    note: "Créer une base de données clients avec une interface pour saisir les achats et créditer les points de fidélité. Le système de relance cible les clients qui ne sont pas passés en magasin depuis X mois et leur envoie les promotions par SMS. Le délai d'inactivité se règle en mois. Prévoir l'accord aux SMS, la désinscription et une validation avant envoi. Mesurer les retours et la marge après remise et coût SMS.",
   },
   {
     sector: 'Agence immobilière',
-    title: 'Un bien à explorer en 3D',
+    title: 'Explorer le bien, poser ses questions',
     action:
-      "Une vitrine où l'acheteur explore les pièces et compare plusieurs aménagements. L'IA propose des versions meublées ; le site affiche le bien en 3D à partir de plans et de relevés.",
-    gain: 'Aider les acheteurs à se projeter avant de se déplacer.',
-    note: "Créer une page par bien avec visite 3D, plans, photos réelles et propositions d'aménagement. L'IA peut aider à coder la vitrine et produire des visuels de décoration. La géométrie fidèle nécessite des plans, un relevé ou un modèle 3D vérifié ; une simple image générée ne garantit ni dimensions ni conformité du bien. Distinguer l'état réel des simulations de décoration. Mesurer la qualité des demandes de visite.",
+      "À partir des photos et du dossier du bien : visite virtuelle, plusieurs styles de décoration et pièces sans les meubles existants. Un assistant connaît le logement, répond aux questions et gère les réservations de visite. Il répond uniquement si l'information est disponible et fiable.",
+    gain: "Aider l'acheteur à se projeter et à préparer sa visite avec des réponses fiables.",
+    note: 'Un agent immobilier photographie un appartement. À partir des images et du dossier du bien, il propose une visite virtuelle, plusieurs styles de décoration, une visualisation sans les meubles existants, un assistant qui connaît les caractéristiques du logement et un système de réservation des visites. Exemples de questions : "Est-ce que je peux mettre un lit de 180 cm dans cette chambre ?", "Combien coûte la taxe foncière ?", "Le garage peut accueillir deux voitures ?". L\'assistant répond uniquement si l\'information est disponible et fiable.',
   },
   {
     sector: 'Restaurant',
+    menuLabel: 'Restaurant : menu 3D',
     title: 'Le menu en 3D',
     action:
       "Le client scanne un QR code et découvre les plats en 3D avant de commander. Vous créez la carte avec l'IA et y intégrez les modèles de vos vrais plats.",
     gain: 'Montrer les portions et donner envie de découvrir vos spécialités.',
     note: "Créer une carte mobile avec vues 3D des plats, descriptions traduites et informations vérifiées par le restaurant. Les modèles doivent être produits à partir des plats réels, puis vérifiés ; ils ne sont pas fournis par le lecteur 3D. L'IA aide à créer le site et les descriptions. Ne pas lui confier la détermination des allergènes. Vérifier les temps de chargement sur téléphone. Mesurer les commandes des spécialités mises en avant.",
+  },
+  {
+    sector: 'Restaurant',
+    menuLabel: 'Restaurant : téléphone',
+    title: "L'IA répond pendant le service",
+    action:
+      "Le restaurant est complet et le téléphone sonne. L'IA décroche, vérifie les disponibilités, enregistre la réservation et envoie une confirmation. Elle répond aussi aux questions sur les horaires, le menu et les événements privés.",
+    gain: 'Prendre les réservations et répondre aux clients sans interrompre le service.',
+    note: "Il est 12h45, le restaurant est complet et personne n'a le temps de répondre au téléphone. L'IA décroche : \"Bonjour, restaurant Chez Michel. Que puis-je faire pour vous ?\" Le client demande une table pour quatre personnes vendredi à 20h. L'agent vérifie les disponibilités, enregistre la réservation et envoie une confirmation. Il peut également répondre aux questions sur les horaires, le menu ou les événements privés.",
+  },
+  {
+    sector: 'Artisan',
+    title: 'Du vocal WhatsApp au devis',
+    action:
+      'Après le chantier, vous envoyez un vocal et vos photos sur WhatsApp. Le système applique vos propres tarifs, prépare un devis structuré et le transmet au client. Il peut ensuite gérer les relances.',
+    gain: 'Passer du compte rendu de chantier au devis, puis aux relances, sans tout ressaisir.',
+    note: 'Un artisan termine sa journée de chantier. Il ouvre WhatsApp et envoie un vocal : "Je suis passé chez Monsieur Dupont. Il faut remplacer deux radiateurs, ajouter trois prises, prévoir une journée et demie de travail. J\'ai pris des photos." Le système utilise les propres tarifs de l\'artisan, prépare un devis structuré et le transmet à Monsieur Dupont. Il peut ensuite gérer les relances.',
   },
   {
     sector: 'Menuisier',
@@ -40,12 +58,12 @@ export const useCases = [
     note: "Construire un configurateur à partir d'un catalogue de matériaux, dimensions et assemblages réalisables. Le rendu peut être une scène 3D ou une simulation sur photo. L'IA aide à développer l'interface et transforme les choix du client en brief. Les règles métier, dimensions, prix et faisabilité restent validés par le menuisier. Mesurer le temps pour parvenir à un projet accepté.",
   },
   {
-    sector: 'Garage',
-    title: 'La réparation expliquée',
+    sector: 'Architecte paysagiste',
+    title: "Le jardin, aujourd'hui et demain",
     action:
-      "Vous photographiez la pièce usée et dictez votre diagnostic. L'IA prépare une explication illustrée. Le client consulte les photos, comprend le travail et valide l'intervention depuis son téléphone.",
-    gain: 'Moins de temps au téléphone pour expliquer et faire accepter le travail.',
-    note: "Créer un espace client avec photos de l'intervention, explications simples, prix et accord du client. L'IA reformule le diagnostic dicté par le mécanicien ; elle ne pose pas le diagnostic et ne décide pas des réparations. Les photos authentiques restent consultables. Le garagiste valide le texte et le montant avant partage. Mesurer les délais d'accord et le temps passé en explications.",
+      "À partir d'une photo du terrain et de sa localisation, l'IA propose plusieurs aménagements : jardin méditerranéen ou japonais, terrasse, piscine intégrée ou espace végétalisé. Elle montre aussi leur évolution dans le temps.",
+    gain: "Se projeter dans l'aménagement et son évolution au fil des années.",
+    note: "Un client photographie son terrain. L'IA lui montre plusieurs versions : jardin méditerranéen, jardin japonais, terrasse aménagée, piscine intégrée ou aménagement végétalisé. Elle illustre surtout leur évolution dans le temps en tenant compte de la localisation du bien.",
   },
   {
     sector: 'Fleuriste',
@@ -56,12 +74,20 @@ export const useCases = [
     note: "Créer un assistant de commande relié à un catalogue de fleurs disponibles et à leurs prix. L'IA propose une composition selon l'occasion et le budget, avec un aperçu identifié comme une simulation. Le stock, les substitutions et la composition finale sont confirmés par le fleuriste. Le site peut recueillir les demandes hors horaires d'ouverture. Mesurer les commandes qualifiées et le temps de préparation du brief.",
   },
   {
-    sector: 'Boulangerie',
-    title: 'Le plan de cuisson du jour',
+    sector: 'Boulanger',
+    title: 'Prévoir la production du lendemain',
     action:
-      "L'outil croise vos ventes, vos invendus, la météo et le calendrier. Il propose combien de pains et de viennoiseries préparer, et à quelles heures lancer les fournées. Vous ajustez.",
-    gain: 'Moins de produits jetés, sans vider les rayons trop tôt.',
-    note: "Créer avec l'IA un outil de prévision par produit et créneau à partir de l'historique de caisse, des invendus et du calendrier. La prévision nécessite des données fiables et une évaluation face aux habitudes du boulanger. Les capacités du four, les temps de préparation et les contraintes de travail bornent les propositions. Le boulanger valide le plan. Le gain est un objectif à mesurer, pas un résultat garanti : suivre invendus, ruptures et charge de travail.",
+      "L'IA croise vos historiques de caisse, les jours fériés, les événements locaux et la météo. Elle prévoit les quantités à produire pour le lendemain : davantage de viennoiseries, moins de certains pains.",
+    gain: 'Produire suffisamment pour vos clients tout en limitant les invendus.',
+    note: 'Le problème du boulanger est de produire suffisamment sans trop jeter. Une IA connectée aux historiques de caisse, aux jours fériés, aux événements locaux et à la météo prépare des prévisions : "Demain, augmente la production de viennoiseries et réduis celle de certains pains."',
+  },
+  {
+    sector: 'Pâtisserie B2B',
+    title: 'Les commandes via Instagram',
+    action:
+      'Vous créez un compte Instagram géré par un bot. Les clients y passent commande. Le bot récupère les commandes, génère les bons de commande et les factures, puis prépare un récapitulatif chaque semaine par client.',
+    gain: 'Les documents de commande générés et le nombre de commandes par client suivi chaque semaine.',
+    note: "Créer un bot pour gérer le compte Instagram d'une pâtisserie B2B. Les clients passent commande directement via Instagram. Le bot recueille les commandes, génère les bons de commande et les factures, puis produit un récapitulatif hebdomadaire indiquant notamment le nombre de commandes par client.",
   },
   {
     sector: 'Salon de coiffure',
@@ -157,7 +183,8 @@ export function renderScene(scene, state, episode, chapter) {
     return `<div class="shop-scene"><div class="shop-copy"><p class="eyebrow">ARTISANS / COMMERÇANTS</p><h1>L'IA, dans<br/>votre quotidien.</h1><p>${e(originalTitle)}</p><span class="minimal-rule">Une tâche répétitive.<br/>Un premier essai en local.</span></div>${shopVisual()}</div>`;
   if (scene.kind === 'uses') {
     const item = useCases[state.step];
-    return `<div class="uses-scene"><div class="uses-list"><p class="eyebrow">8 MÉTIERS / 8 IDÉES À CRÉER</p><h1>Où l'IA<br/>vous aide.</h1>${useCases.map((it, i) => `<button class="use-option ${i === state.step ? 'active' : ''}" data-step="${i}"><span>0${i + 1}</span>${e(it.sector)}</button>`).join('')}</div><div class="use-detail"><span class="big-index">0${state.step + 1}</span><div class="use-detail-copy"><p class="eyebrow">${e(item.sector)} / À CRÉER AVEC L'IA</p><h2>${e(item.title)}</h2><p class="use-action">${e(item.action)}</p><div class="measure"><span>CE QUE VOUS GAGNEZ</span><strong>${e(item.gain)}</strong></div></div></div></div>`;
+    const sectorCount = new Set(useCases.map((useCase) => useCase.sector)).size;
+    return `<div class="uses-scene"><div class="uses-list"><p class="eyebrow">${sectorCount} MÉTIERS / ${useCases.length} IDÉES À CRÉER</p><h1>Où l'IA<br/>vous aide.</h1>${useCases.map((it, i) => `<button class="use-option ${i === state.step ? 'active' : ''}" data-step="${i}"><span>${String(i + 1).padStart(2, '0')}</span>${e(it.menuLabel ?? it.sector)}</button>`).join('')}</div><div class="use-detail"><span class="big-index">${String(state.step + 1).padStart(2, '0')}</span><div class="use-detail-copy"><p class="eyebrow">${e(item.sector)} / À CRÉER AVEC L'IA</p><h2>${e(item.title)}</h2><p class="use-action">${e(item.action)}</p><div class="measure"><span>CE QUE VOUS GAGNEZ</span><strong>${e(item.gain)}</strong></div></div></div></div>`;
   }
   if (scene.kind === 'tools') {
     const item = source.items[state.step];
@@ -189,11 +216,11 @@ export function renderScene(scene, state, episode, chapter) {
   }
   if (scene.kind === 'comments')
     return `<div class="comments-scene"><p class="eyebrow">ON CONTINUE EN COMMENTAIRE</p><h1>Votre métier.<br/>Votre idée.<br/><em>Votre question.</em></h1><div class="comment-box"><span>VOTRE PROCHAIN MESSAGE</span><p>Je suis <b>[votre métier]</b>,<br/>j'aimerais automatiser <b>[votre tâche]</b>.</p><div>Posez vos questions en commentaire.</div></div><p class="comments-foot">On vous aide à créer votre propre application.</p></div>`;
-  const item = source.items[state.step];
+  const points = `<ol class="radar-points">${source.items.map(([title, description]) => `<li><h2>${e(title)}</h2><p>${e(description)}</p></li>`).join('')}</ol>`;
   const media = sourceMedia[scene.id];
   if (media) {
     const detail = state.view === 'zoom' && media.detail;
-    return `<div class="source-scene ${state.view === 'zoom' ? 'source-zoom' : ''} ${state.view === 'fact' ? 'source-fact' : ''}"><div class="source-window"><div class="source-address"><span class="source-light"></span><span>${e(media.publisher)}</span><span>${e((detail ? media.detailUrl : media.url).replace('https://', ''))}</span></div><div class="source-image"><img src="./assets/sources/${e(detail || scene.id + '.jpg')}" alt="Capture réelle : ${e(media.title)}" style="--focus:${e(media.focus)}" class="${detail ? 'detail-capture' : ''}"/><div class="source-number"><strong>${e(scene.figure)}</strong><span>${e(scene.unit)}</span></div></div><div class="source-credit"><span>CAPTURE DU 16.10.2026</span><span>${detail ? 'AVIS ÉDITORIAL' : 'SOURCE DU SUJET'}</span></div></div><div class="source-caption"><p class="eyebrow">RADAR / ${String(scene.originalNumber - 1).padStart(2, '0')}</p><h1>${e(scene.title)}</h1><div class="source-caption-rule"></div><span class="eyebrow">POINT 0${state.step + 1}</span><h2>${e(item?.[0])}</h2><p>${e(item?.[1])}</p></div><div class="news-context"><span class="context-tag">LE CONTEXTE</span><p>${e(scene.caution)}</p><div class="point-dots">${source.items.map((_, i) => `<button data-step="${i}" aria-label="Afficher le point ${i + 1}" aria-pressed="${i === state.step}" class="${i === state.step ? 'active' : ''}"></button>`).join('')}</div></div></div>`;
+    return `<div class="source-scene ${state.view === 'zoom' ? 'source-zoom' : ''} ${state.view === 'fact' ? 'source-fact' : ''}"><div class="source-window"><div class="source-address"><span class="source-light"></span><span>${e(media.publisher)}</span><span>${e((detail ? media.detailUrl : media.url).replace('https://', ''))}</span></div><div class="source-image"><img src="./assets/sources/${e(detail || scene.id + '.jpg')}" alt="Capture réelle : ${e(media.title)}" style="--focus:${e(media.focus)}" class="${detail ? 'detail-capture' : ''}"/><div class="source-number"><strong>${e(scene.figure)}</strong><span>${e(scene.unit)}</span></div></div><div class="source-credit"><span>CAPTURE DU 16.10.2026</span><span>${detail ? 'AVIS ÉDITORIAL' : 'SOURCE DU SUJET'}</span></div></div><div class="source-caption"><p class="eyebrow">RADAR / ${String(scene.originalNumber - 1).padStart(2, '0')}</p><h1>${e(scene.title)}</h1><div class="source-caption-rule"></div>${points}</div><div class="news-context"><span class="context-tag">LE CONTEXTE</span><p>${e(scene.caution)}</p></div></div>`;
   }
-  return `<div class="news-scene kind-${scene.kind} ${state.view === 'fact' ? 'fact-view' : ''}"><div class="news-copy"><p class="eyebrow">${e(scene.mark)} <span> / ${String(scene.originalNumber - 1).padStart(2, '0')}</span></p><h1>${e(scene.headline)}</h1><div class="active-point" key="${state.step}"><span class="point-number">0${state.step + 1}</span><div><h2>${e(item?.[0])}</h2><p>${e(item?.[1])}</p></div></div></div><div class="news-visual">${visualFor(scene, state.step)}<div class="fact-overlay"><strong>${e(scene.figure)}</strong><span>${e(scene.unit)}</span></div></div><div class="news-context"><span class="context-tag">LE CONTEXTE</span><p>${e(scene.caution)}</p><div class="point-dots">${source.items.map((_, i) => `<button data-step="${i}" aria-label="Afficher le point ${i + 1}" aria-pressed="${i === state.step}" class="${i === state.step ? 'active' : ''}"></button>`).join('')}</div></div></div>`;
+  return `<div class="news-scene kind-${scene.kind} ${state.view === 'fact' ? 'fact-view' : ''}"><div class="news-copy"><p class="eyebrow">${e(scene.mark)} <span> / ${String(scene.originalNumber - 1).padStart(2, '0')}</span></p><h1>${e(scene.headline)}</h1>${points}</div><div class="news-visual">${visualFor(scene, state.step)}<div class="fact-overlay"><strong>${e(scene.figure)}</strong><span>${e(scene.unit)}</span></div></div><div class="news-context"><span class="context-tag">LE CONTEXTE</span><p>${e(scene.caution)}</p></div></div>`;
 }

@@ -13,6 +13,9 @@ import {
 } from '@/components/localized-pages';
 import { localeRouteSegment, localeTagFromRouteSegment } from '@/i18n/locales';
 import { isLocaleUiReviewed } from '@/i18n/messages';
+import { sharedPageAlternates, sourceAllowsIndexing } from '@/i18n/indexing';
+import { hreflangAlternates } from '@/domain/ranking-catalog';
+import { isMock, siteConfig } from '@/config/site';
 import { hasRankingUiTranslation, rankingMessages } from '@/i18n/ranking-messages';
 import {
   pageMetadata,
@@ -107,12 +110,16 @@ export async function generateMetadata({
       ? translateText(metadata.description, dictionary, locale)
       : metadata.description;
     const image = siteShareImage();
+    const indexable = isLocaleUiReviewed(locale) && sourceAllowsIndexing(metadata.robots, !isMock);
+    const languages = indexable
+      ? hreflangAlternates(sharedPageAlternates(pathName), siteConfig.url)
+      : undefined;
     return {
       ...metadata,
       title,
       description,
-      alternates: { canonical: absoluteUrl(pathName) },
-      robots: robotsMetadata(true),
+      alternates: { canonical: absoluteUrl(pathName), ...(languages ? { languages } : {}) },
+      robots: indexable ? robotsMetadata(false) : (metadata.robots ?? robotsMetadata(true)),
       openGraph: {
         ...metadata.openGraph,
         ...(typeof title === 'string' ? { title } : {}),

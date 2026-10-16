@@ -17,7 +17,7 @@ export default function PrivacyPage() {
       <Breadcrumbs items={[{ label: 'Confidentialité' }]} />
       <header className="localized-content-heading">
         <p className="label">
-          <Text>{'Mise à jour : 14 octobre 2026'}</Text>
+          <Text>{'Mise à jour : 16 octobre 2026'}</Text>
         </p>
         <h1>
           <Text>{"Données personnelles et mesure d'audience"}</Text>
@@ -95,6 +95,13 @@ export default function PrivacyPage() {
           <Text>
             {
               "Nous désactivons les signaux Google et la personnalisation publicitaire dans le tag du site. Nous n'envoyons pas d'identifiant utilisateur ni de données de compte dans nos événements."
+            }
+          </Text>
+        </p>
+        <p>
+          <Text>
+            {
+              "Vercel Speed Insights mesure aussi les temps de chargement, la réactivité et la stabilité visuelle des pages. Il suit le même choix de consentement. Les paramètres d'URL et la zone d'administration sont exclus de nos envois."
             }
           </Text>
         </p>

@@ -160,6 +160,7 @@ export function Footer() {
       </div>
       <div className="wrap discovery-footer-bottom">
         <span>© {new Date().getUTCFullYear()} SANDBOX</span>
+        <a href="mailto:sandbox.podcast.pro@gmail.com">sandbox.podcast.pro@gmail.com</a>
         <Link href="/confidentialite">
           <Text>Données personnelles</Text>
         </Link>

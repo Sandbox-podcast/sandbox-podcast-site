@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import type { ExternalEntity } from './external-charts.ts';
 
 export interface KnownExternalIdentity {
@@ -15,21 +16,7 @@ export function stableExternalSlugs(
   const used = new Set<string>();
   for (const entity of entities) {
     let slug = entity.slug;
-    const direct = known.find((item) => item.slug === slug);
-    if (
-      entity.type === 'model' &&
-      direct &&
-      entity.sources.some((incoming) =>
-        direct.sources.some(
-          (source) =>
-            source.provider === incoming.provider && source.externalId !== incoming.externalId,
-        ),
-      )
-    )
-      throw new Error(
-        `Variante Models contradictoire : ${entity.slug}. Aucun rapprochement automatique.`,
-      );
-    if (entity.type === 'model' && !known.some((item) => item.slug === slug)) {
+    if (entity.type === 'model') {
       // Excluded identities must still match: a generated slug must not bypass moderation.
       const matches = known.filter((item) =>
         item.sources.some((source) =>
@@ -56,6 +43,19 @@ export function stableExternalSlugs(
             `Variante Models contradictoire : ${entity.slug}. Aucun rapprochement automatique.`,
           );
         slug = match.slug;
+      } else if (known.some((item) => item.slug === slug)) {
+        // Un nom normalisé n'est pas une identité. Deux éditeurs peuvent publier
+        // des variantes homonymes ; garder leurs mesures et historiques séparés.
+        const direct = known.find((item) => item.slug === slug);
+        if (!direct?.sources.length)
+          throw new Error(`Identité Models sans référence : ${slug}. Revue requise.`);
+        const identity = entity.sources
+          .map(({ provider, externalId }) => JSON.stringify([provider, externalId]))
+          .sort();
+        const fingerprint = createHash('sha256').update(JSON.stringify(identity)).digest('hex');
+        slug = `${entity.slug}-${fingerprint.slice(0, 16)}`;
+        if (known.some((item) => item.slug === slug))
+          throw new Error(`Collision Models persistante : ${slug}. Revue requise.`);
       }
     }
     if (used.has(slug))

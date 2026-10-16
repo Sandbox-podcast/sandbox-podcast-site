@@ -1,5 +1,9 @@
 # Documentation
 
+Regroupement des conversations du 16 octobre : [périmètre, vérifications et captures](site/livraison-conversations-2026-10-16.md).
+
+Indexation ES/DE, collecte Models et mesures : [DD-0048](design-decisions/dd-0048-indexation-traductions-et-suivi-des-classements.md) et [validation du lot](site/issue-68-traductions-et-collectes-2026-10-16.md).
+
 Accueil cinématique, chapitres visuels et mouvements : [DD-0049](design-decisions/dd-0049-accueil-cinematique-et-mouvements.md), [recette locale](site/landing-cinematique-2026-10-16.md) et [vérification avant PR](site/verification-landing-pr-2026-10-16.md).
 
 Parité de l'accueil et ouverture du vidéoclub en mode production : [DD-0047](design-decisions/dd-0047-parite-accueil-production.md) et [diagnostic et contrôles](site/ecarts-production-2026-10-16.md).

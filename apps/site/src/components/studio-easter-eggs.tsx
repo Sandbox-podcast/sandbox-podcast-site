@@ -10,12 +10,18 @@ export function StudioEasterEggs() {
         href="/charts"
         className={`${styles['studioObject']} ${styles['studioTelevision']}`}
         aria-label="Classements"
+        data-analytics-event="discovery_open"
+        data-analytics-destination="charts"
+        data-analytics-placement="home"
       />
       <LocalizedElement
         as="a"
         href="/time-machine"
         className={`${styles['studioObject']} ${styles['studioTimeMachine']}`}
         aria-label="Time Machine"
+        data-analytics-event="discovery_open"
+        data-analytics-destination="time-machine"
+        data-analytics-placement="home"
       />
     </div>
   );

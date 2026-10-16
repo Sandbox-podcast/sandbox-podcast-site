@@ -97,13 +97,32 @@ test('la navigation ne sort jamais des limites et changer de sujet ferme la vid�
   assert.equal(state.media, '');
   assert.equal(state.step, 0);
 });
-test('développer un sujet ne passe jamais automatiquement au suivant', () => {
-  let state = normalizeState({ scene: 1, step: 2 }, episode);
+test('développer une étape du Build ne passe jamais automatiquement au sujet suivant', () => {
+  let state = normalizeState({ scene: 15, step: 2 }, episode);
   state = transition(state, { type: 'step', delta: 1 }, episode);
-  assert.equal(state.scene, 1);
+  assert.equal(state.scene, 15);
   assert.equal(state.step, 2);
-  assert.equal(stepCount(scenes[13], episode), 8);
+  assert.equal(stepCount(scenes[13], episode), 11);
+  assert.equal(normalizeState({ scene: 13, step: 11 }, episode).step, 10);
   assert.equal(stepCount(scenes[14], episode), 5);
+});
+test('chaque actualité du Radar réunit tous ses points et Suivant change directement de sujet', () => {
+  for (const [index, scene] of scenes.entries()) {
+    if (scene.chapter !== 'radar' || scene.kind === 'opener') continue;
+    const state = normalizeState({ scene: index, step: 2 }, episode);
+    const source = episode.original.slides.find((slide) => slide.n === scene.originalNumber);
+    assert.equal(stepCount(scene, episode), 1);
+    assert.equal(state.step, 0);
+    assert.deepEqual(navigationActions(state, 1, episode), [{ type: 'scene', index: index + 1 }]);
+    for (const view of ['visual', 'zoom', 'fact']) {
+      const markup = renderScene(scene, { ...state, view }, episode, chapters[0]);
+      for (const [title, description] of source.items) {
+        assert.ok(markup.includes(`<h2>${escapeText(title)}</h2>`));
+        assert.ok(markup.includes(`<p>${escapeText(description)}</p>`));
+      }
+      assert.doesNotMatch(markup, /data-step=|Afficher le point|POINT 0/);
+    }
+  }
 });
 test('le Clash ne préremplit aucune opinion, conserve les positions par question et accepte les nuances', () => {
   let state = normalizeState({ scene: 17 }, episode);
@@ -147,6 +166,10 @@ test('les scènes et tous leurs points se rendent sans texte indéfini', () => {
       );
       assert.match(markup, /<h1>/);
       assert.doesNotMatch(markup, /undefined|NaN/);
+      if (scene.kind === 'uses' && step === 10) {
+        assert.match(markup, /class="big-index">11</);
+        assert.doesNotMatch(markup, />010<|>011</);
+      }
     }
   });
 });

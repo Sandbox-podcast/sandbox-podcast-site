@@ -45,6 +45,18 @@ const vercelStub = `(() => {
   };
   pending.forEach((args) => window.va(...args));
 })();`;
+const speedStub = `(() => {
+  const script = document.currentScript;
+  let beforeSend = () => null;
+  const pending = window.siq || [];
+  window.si = (command, data) => { if (command === 'beforeSend') beforeSend = data; };
+  pending.forEach((args) => window.si(...args));
+  window.__qaEmitVital = () => {
+    const event = beforeSend({type:'vital',url:window.location.href,route:script?.dataset.route});
+    if (event) return fetch('/_vercel/speed-insights/vitals',{method:'POST',body:JSON.stringify(event)});
+  };
+  window.__qaEmitVital();
+})();`;
 
 process.env.NEXT_PUBLIC_GA4_READY = String(mode === '--ready');
 process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID = 'G-45XWR4KJ1M';
@@ -87,6 +99,17 @@ try {
       return route.fulfill({ contentType: 'text/javascript', body: googleStub });
     }
     if (
+      url.pathname.endsWith('/speed-insights/script.debug.js') ||
+      url.pathname === '/_vercel/speed-insights/script.js'
+    ) {
+      requests.push({ type: 'speed-tag' });
+      return route.fulfill({ contentType: 'text/javascript', body: speedStub });
+    }
+    if (url.pathname === '/_vercel/speed-insights/vitals') {
+      requests.push({ type: 'speed-event', body: request.postData() });
+      return route.fulfill({ status: 204 });
+    }
+    if (
       url.hostname === 'va.vercel-scripts.com' ||
       url.pathname === '/_vercel/insights/script.js'
     ) {
@@ -117,6 +140,62 @@ try {
   await page.getByRole('button', { name: 'Préférences de mesure', exact: true }).click();
   await page.getByRole('button', { name: 'Accepter', exact: true }).click();
   await page.waitForFunction(() => typeof window.va === 'function');
+  await page.waitForFunction(() => typeof window.__qaEmitVital === 'function');
+  await page.waitForLoadState('networkidle');
+  assert.equal(
+    requests.some((request) => request.type === 'speed-event'),
+    true,
+  );
+  assert.equal(
+    requests.some((request) => /qa-sensitive|qa-fragment/.test(request.body ?? '')),
+    false,
+  );
+  checks.push('Speed Insights après accord, URL sans recherche ni fragment');
+  const speedScript = page.locator('script[src*="/speed-insights/script"]');
+  const speedTagsBeforeRenewal = requests.filter((request) => request.type === 'speed-tag').length;
+  const vitalsBeforeRenewal = requests.filter((request) => request.type === 'speed-event').length;
+  await page.evaluate(() => {
+    window.__qaSpeedLifecycle = 'same-document';
+  });
+  await page.getByRole('button', { name: 'Préférences de mesure', exact: true }).first().click();
+  await page.getByRole('button', { name: 'Retirer mon accord', exact: true }).click();
+  await page.evaluate(() => window.__qaEmitVital());
+  await page.waitForLoadState('networkidle');
+  assert.equal(
+    requests.filter((request) => request.type === 'speed-event').length,
+    vitalsBeforeRenewal,
+    'Speed Insights doit rester silencieux après le retrait',
+  );
+  await page.getByRole('button', { name: 'Préférences de mesure', exact: true }).first().click();
+  await page.getByRole('button', { name: 'Accepter', exact: true }).click();
+  await page.locator('footer a[href="/about"]').click();
+  await page.waitForURL(`${fixture.origin}/about`);
+  await page.waitForLoadState('networkidle');
+  assert.equal(await page.evaluate(() => window.__qaSpeedLifecycle), 'same-document');
+  assert.equal(await speedScript.count(), 1);
+  assert.equal(
+    requests.filter((request) => request.type === 'speed-tag').length,
+    speedTagsBeforeRenewal,
+    'Le nouvel accord réutilise le script chargé avant le retrait',
+  );
+  assert.equal(
+    await speedScript.getAttribute('data-route'),
+    '/about',
+    'La route du script suit encore les navigations clientes après un nouvel accord',
+  );
+  await page.evaluate(() => window.__qaEmitVital());
+  await page.waitForLoadState('networkidle');
+  const renewedVital = requests.filter((request) => request.type === 'speed-event').at(-1);
+  assert.equal(
+    requests.filter((request) => request.type === 'speed-event').length,
+    vitalsBeforeRenewal + 1,
+  );
+  assert.deepEqual(JSON.parse(renewedVital.body), {
+    type: 'vital',
+    url: `${fixture.origin}/about`,
+    route: '/about',
+  });
+  checks.push('retrait, nouvel accord et navigation cliente : route Speed Insights actualisée');
   if (mode === '--blocked') {
     await page.goto(`${fixture.origin}/about`, { waitUntil: 'networkidle' });
     assert.equal(
@@ -128,13 +207,18 @@ try {
     await page.waitForFunction(() =>
       window.__qaGoogleEvents?.some((event) => event.name === 'page_view'),
     );
-    for (const [path, name] of [
-      ['/', 'discovery_open'],
-      ['/', 'youtube_open'],
-      ['/charts', 'experience_interaction'],
+    for (const [path, name, width] of [
+      ['/', 'discovery_open', 1280],
+      ['/', 'discovery_open', 320],
+      ['/', 'youtube_open', 320],
+      ['/charts', 'experience_interaction', 320],
     ]) {
+      await page.setViewportSize({ width, height: 900 });
       await page.goto(`${fixture.origin}${path}`, { waitUntil: 'networkidle' });
-      const action = page.locator(`[data-analytics-event="${name}"]`).first();
+      const action = page
+        .locator(`[data-analytics-event="${name}"]`)
+        .filter({ visible: true })
+        .first();
       await action.waitFor();
       await action.evaluate((element) => {
         document.addEventListener('click', (event) => event.preventDefault(), {
@@ -147,7 +231,7 @@ try {
         (eventName) => window.__qaGoogleEvents?.some((event) => event.name === eventName),
         name,
       );
-      checks.push(name);
+      checks.push(`${name} ${width}px`);
     }
     await page.goto(`${fixture.origin}/episodes/1`, { waitUntil: 'networkidle' });
     for (const name of ['episode_play_requested', 'episode_source_open', 'episode_project_open']) {
@@ -194,6 +278,7 @@ try {
   const beforeWithdrawalCheck = requests.filter((request) => request.type.endsWith('event')).length;
   await page.evaluate(() => {
     window.va?.('pageview', {});
+    window.__qaEmitVital?.();
     window.gtag?.('event', 'page_view', { page_location: window.location.href });
   });
   await page.goto(`${fixture.origin}/about`, { waitUntil: 'networkidle' });
@@ -219,12 +304,21 @@ try {
     beforeWithdrawalCheck,
   );
   checks.push('accord expiré redemandé sans mesure');
+  await second.close();
+  await page.addInitScript(() => {
+    window.localStorage.setItem(
+      'sandbox.analytics-consent.v2',
+      JSON.stringify({ version: 2, choice: 'accepted', chosenAt: Date.now() }),
+    );
+  });
+  const requestsBeforeAdmin = requests.length;
   await page.goto(`${fixture.origin}/admin`, { waitUntil: 'networkidle' });
   assert.equal(
     requests.filter((request) => request.type.endsWith('event')).length,
     beforeWithdrawalCheck,
   );
-  checks.push('administration exclue de la mesure');
+  assert.equal(requests.length, requestsBeforeAdmin);
+  checks.push('administration sans script ni mesure, même avec un accord enregistré');
   if (mode === '--ready') {
     const slowContext = await browser.newContext();
     const pendingTag = Promise.withResolvers();

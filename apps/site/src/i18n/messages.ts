@@ -96,7 +96,7 @@ export function siteMessages(locale: string): SiteMessages {
   return MESSAGES[siteMessageLocale(locale)];
 }
 
-/** L'espagnol et l'allemand restent hors indexation tant que leur interface n'est pas relue. */
+/** Les quatre interfaces traduites sont autorisées par Lou, sans revue native obligatoire. */
 export function isLocaleUiReviewed(locale: string): boolean {
-  return locale === 'fr-FR' || locale === 'en';
+  return ['fr-FR', 'en', 'es-ES', 'de-DE'].includes(locale);
 }
