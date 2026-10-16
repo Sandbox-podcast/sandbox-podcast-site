@@ -1,6 +1,6 @@
 # Épisode 002 BIS
 
-Prototype local indépendant, sans modification du support original ni publication.
+Version indépendante du support original. La PR 69 ne contenait que le prototype local ; le correctif de publication ajoute sa copie statique sous `apps/site/public/slides/episode-002-bis/`.
 
 ## Ouvrir
 
@@ -68,3 +68,11 @@ Vérification après correction des titres et simplification des cas d'usage : l
 L'état Git était déjà modifié avant cette tâche. Une empreinte des fichiers suivis a été enregistrée avant travail. La vérification de préservation porte notamment sur tous les fichiers des slides et les configurations de production ; les changements concurrents hors de ce périmètre ne sont pas attribués à BIS. Aucun commit, push, PR ou déploiement n'a été effectué.
 
 Vérification après simplification de la navigation : 21 tests BIS réussis, dont le parcours exhaustif dans les deux sens. `pnpm check` complet réussi. Dans le navigateur, les flèches passent de Muse 1/3 à 2/3, puis 3/3, puis Gemini 1/3 ; la flèche gauche retrouve Muse 3/3. Le lien historique `?view=director` affiche la vue unique. Les menus Sujets et Options, les notes et la sélection directe des métiers ont été vérifiés. Les 28 fichiers suivis sous `apps/site/public/slides/` ont la même empreinte qu'avant le travail, et leur diff Git est vide. La configuration racine des tests comporte une modification concurrente ajoutant `test:bis` ; elle n'a pas été modifiée lors de cette simplification.
+
+## Publication indépendante
+
+URL cible : https://slides.sandboxpodcast.fr/episode-002-bis/index.html. Le routage du sous-domaine existant sert ce fichier sans changement de configuration. L’index des présentations ajoute uniquement un lien vers BIS ; tous les fichiers de l’épisode 002 restent inchangés.
+
+Après chaque retouche du prototype, exécuter `node experiments/episode-002-bis/publish.mjs`, puis `node experiments/episode-002-bis/publish.mjs --check`. Les tests vérifient chaque copie publique et le routage jusqu’à un fichier existant. Seuls les fichiers du lecteur, ses médias et la licence de police sont copiés. Le serveur local, ses tests et l’ancienne démonstration ne sont pas publiés.
+
+Le HTML public sélectionne la synchronisation entre onglets du même navigateur, sans requête vers l’API de répétition ni boucle de polling. Les touches de navigation et les médias fonctionnent en hébergement statique. Pour OBS en ligne, capturer la fenêtre du navigateur ; une source navigateur OBS séparée ne partage pas cet état. La synchronisation du serveur local reste disponible dans le prototype.

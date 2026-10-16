@@ -16,6 +16,7 @@ import {
 } from '../model.js';
 import { renderScene, escapeText } from '../visuals.js';
 import { sourceMedia, videoMedia } from '../media.js';
+import { publicRoot, publicFiles, expectedPublicFile } from '../publish.mjs';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const originalRoot = resolve(root, '../../apps/site/public/slides/episode-002');
@@ -221,4 +222,23 @@ test('Suivant parcourt chaque point une seule fois et Précédent revient au mê
     ),
     1,
   );
+});
+
+test('la publication contient tous les fichiers du lecteur, sans serveur ni démonstration', async () => {
+  for (const file of publicFiles) {
+    assert.deepEqual(readFileSync(resolve(publicRoot, file)), await expectedPublicFile(file), file);
+  }
+  const entry = readFileSync(resolve(publicRoot, 'index.html'), 'utf8');
+  assert.match(entry, /name="sandbox-sync" content="browser"/);
+  for (const excluded of [
+    'serve.mjs',
+    'publish.mjs',
+    'test/show.test.mjs',
+    'assets/beta-demo.html',
+  ]) {
+    assert.equal(existsSync(resolve(publicRoot, excluded)), false, excluded);
+  }
+  for (const [, asset] of entry.matchAll(/(?:src|href)="(\.\/[^"?#]+)"/g)) {
+    assert.ok(existsSync(resolve(publicRoot, asset)), asset);
+  }
 });
