@@ -15,6 +15,7 @@ import { sourceMedia, videoMedia } from './media.js';
 
 const $ = (selector) => document.querySelector(selector);
 const params = new URLSearchParams(location.search);
+const localApi = $('meta[name="sandbox-sync"]')?.content === 'local-server';
 const program = params.get('view') === 'program' || params.has('obs');
 const session =
   (params.get('session') || 'rehearsal').replace(/[^a-zA-Z0-9_-]/g, '').slice(0, 50) || 'rehearsal';
@@ -208,7 +209,7 @@ function dispatch(action) {
 }
 
 async function poll() {
-  if (stopped) return;
+  if (stopped || !localApi) return;
   const before = localVersion;
   try {
     await queue;
@@ -407,20 +408,22 @@ async function start() {
   } catch {
     notify('Synchronisation entre fenêtres indisponible. Le serveur local prend le relais.');
   }
-  try {
-    const response = await fetch(api, {
-      cache: 'no-store',
-      signal: window.AbortSignal.timeout(2500),
-    });
-    if (response.ok) {
-      const body = await response.json();
-      server = true;
-      state = normalizeState(body.state, episode);
-      revision = body.revision;
+  if (localApi) {
+    try {
+      const response = await fetch(api, {
+        cache: 'no-store',
+        signal: window.AbortSignal.timeout(2500),
+      });
+      if (response.ok) {
+        const body = await response.json();
+        server = true;
+        state = normalizeState(body.state, episode);
+        revision = body.revision;
+      }
+    } catch {
+      /* Hébergement statique : synchronisation limitée au même navigateur. */
+      server = false;
     }
-  } catch {
-    /* Hébergement statique : synchronisation limitée au même navigateur. */
-    server = false;
   }
   if (location.hash && !program) {
     state = transition(state, { type: 'scene', index: indexFromHash(location.hash) }, episode);
@@ -430,7 +433,9 @@ async function start() {
   $('#boot').hidden = true;
   $('#app').hidden = false;
   $('#connection').textContent = server ? 'Sortie reliée' : 'Même navigateur uniquement';
-  $('#sync-status').textContent = server ? 'Sortie synchronisée' : 'Même navigateur uniquement';
+  $('#sync-status').textContent = server
+    ? 'Sortie synchronisée'
+    : 'Dans OBS, capturez la fenêtre de ce navigateur. Une source navigateur OBS séparée ne reçoit pas les commandes.';
   setInterval(updateTimer, 250);
   void poll();
 }

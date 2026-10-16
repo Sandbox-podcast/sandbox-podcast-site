@@ -31,3 +31,9 @@ Un écran de contenu en grand et une seule barre : Précédent, Sujets, Suivant,
 Le panneau de régie, son bouton d'ouverture, les onglets de séquences redondants et la commande distincte « Développer » sont retirés. `?view=director` reste un lien valide et ouvre la même interface. Les notes, captures agrandies et vidéos sont accessibles dans Options ; les paramètres de diffusion sont repliés. Le plein écran garde les commandes de navigation. La sortie OBS reste sans commandes.
 
 Décision locale et réversible, décidée par l'agent sur délégation (PD-0003), conformément à la demande explicite de simplification.
+
+## Correctif de publication après la PR 69
+
+Le 16 octobre 2026, Lou attend la disponibilité de `https://slides.sandboxpodcast.fr/episode-002-bis/index.html` après fusion. La livraison précédente ne publiait pas les fichiers du prototype : l’URL ne pouvait donc pas fonctionner.
+
+Une copie statique dédiée est ajoutée dans `apps/site/public/slides/episode-002-bis/`, avec une liste explicite de fichiers et un contrôle de parité. Aucun fichier de l’épisode original, asset partagé ou routage existant n’est modifié. L’index des présentations reçoit seulement le lien BIS, conformément à son contrôle de cohérence. Le mode public utilise la synchronisation navigateur et n’appelle pas l’API du serveur local. Les entrées HTML diffèrent uniquement par ce mode. Décision décidée par l’agent sur délégation (PD-0003) dans le cadre de la correction demandée.
