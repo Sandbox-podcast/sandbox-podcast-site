@@ -3,7 +3,7 @@
 - Date : 2026-10-14
 - Statut : acceptée pour l'implémentation locale
 - Décision : décidée par l'agent sur délégation (PD-0003).
-- Demande : actions A01 et A02 de [l'audit #62](https://github.com/Sandbox-podcast/sandbox-podcast-site/issues/62).
+- Demande : actions A01 et A02 de l'audit du 14 octobre (suivi dans l'[issue #68](https://github.com/Sandbox-podcast/sandbox-podcast-site/issues/68)).
 
 Les anciennes fiches `/projects`, `/models` et `/moves` lisent des snapshots Git simulés. Leur `noindex` ne suffit pas à informer une personne qui ouvre un lien partagé. Une route Skills spécialisée intercepte par ailleurs les dates d'archives comme des noms de plateforme, ce qui explique la 404 de `/charts/skills/2026-10-10`.
 

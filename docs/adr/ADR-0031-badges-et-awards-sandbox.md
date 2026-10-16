@@ -33,7 +33,7 @@ La finalisation du 14 octobre lève les blocages locaux de formatage et de lint.
 
 ## Extension du périmètre, 14 octobre 2026
 
-Lou demande de développer les six extensions et de conserver le code en local pendant sa vérification. L'issue [#63](https://github.com/Sandbox-podcast/sandbox-podcast-site/issues/63), créée à sa demande, explique les huit familles de badges avec des aperçus conceptuels identifiés comme exemples.
+Lou demande de développer les six extensions et de conserver le code en local pendant sa vérification. L'issue [#68](https://github.com/Sandbox-podcast/sandbox-podcast-site/issues/68), créée à sa demande, explique les huit familles de badges avec des aperçus conceptuels identifiés comme exemples.
 
 Décision : décidée par l'agent sur délégation (PD-0003). Les nouvelles règles restent des lectures des rangs officiels, sans score supplémentaire :
 

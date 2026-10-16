@@ -11,7 +11,7 @@ import {
 import { editionMark, shortWeek } from '@/domain/weeks';
 import { competitorsOf, episodesForEntity } from '@/lib/graph';
 import { absoluteUrl, breadcrumbLd } from '@/lib/seo';
-import { entityPath, entityView, getEntity, getTopic, type Appearance } from '@/lib/repository';
+import { entityPath, entityView, getEntity, type Appearance } from '@/lib/repository';
 import { EntityCard } from './cards';
 import { RankHistory, SeriesChart } from './charts-svg';
 import { JsonLd } from './json-ld';
@@ -365,14 +365,6 @@ export function EntityScreen({ slug }: { slug: string }) {
                 <Text>{'(nouvel onglet)'}</Text>
               </span>
             </a>
-          ))}
-        </Text>
-        <Text>
-          {entity.topics.map((t) => (
-            <Link key={t} href={`/topics/${t}`} className="chip hover:bg-hl hover:text-on-hl">
-              <Text>{'#'}</Text>
-              <Text>{getTopic(t).label}</Text>
-            </Link>
           ))}
         </Text>
       </div>

@@ -8,12 +8,13 @@ const contentSecurityPolicy = [
   "object-src 'none'",
   "form-action 'self'",
   "frame-ancestors 'self'",
-  "script-src 'self' 'unsafe-inline' https://va.vercel-scripts.com https://www.youtube.com",
+  "script-src 'self' 'unsafe-inline' https://va.vercel-scripts.com https://www.youtube.com https://www.googletagmanager.com",
+  "script-src-attr 'none'",
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: https://i.ytimg.com",
+  "img-src 'self' data: https://i.ytimg.com https://www.googletagmanager.com https://*.google-analytics.com",
   "font-src 'self' data:",
   "media-src 'self' https://marlburrow.github.io https://raw.githubusercontent.com",
-  "connect-src 'self' https://vitals.vercel-insights.com",
+  "connect-src 'self' https://vitals.vercel-insights.com https://www.googletagmanager.com https://*.google-analytics.com https://www.google.com",
   "frame-src 'self' https://www.youtube-nocookie.com https://www.youtube.com",
 ].join('; ');
 
@@ -21,7 +22,7 @@ const config: NextConfig = {
   reactStrictMode: true,
   experimental: { cpus: 2 },
   poweredByHeader: false,
-  serverExternalPackages: ['ws'],
+  serverExternalPackages: ['ws', '@neondatabase/serverless'],
   images: {
     qualities: [75, 90],
     remotePatterns: [
@@ -38,6 +39,10 @@ const config: NextConfig = {
   // Les URL du prompt d'origine (/rankings/…) restent valides : la section s'appelle CHARTS (DD-0001).
   redirects() {
     return Promise.resolve([
+      ...['', '/en', '/es-es', '/de-de'].flatMap((prefix) => [
+        { source: `${prefix}/episodes`, destination: `${prefix}/podcast`, permanent: true },
+        { source: `${prefix}/topics/:slug*`, destination: `${prefix}/podcast`, permanent: true },
+      ]),
       { source: '/rankings', destination: '/charts', permanent: true },
       { source: '/rankings/history', destination: '/charts/history', permanent: true },
       { source: '/rankings/history/:week', destination: '/charts/history/:week', permanent: true },
@@ -65,14 +70,20 @@ const config: NextConfig = {
         source: '/:path*',
         headers: [
           { key: 'X-Content-Type-Options', value: 'nosniff' },
-          { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+          { key: 'Referrer-Policy', value: 'strict-origin' },
           { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
           { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
-          ...(process.env.NODE_ENV === 'production'
-            ? [{ key: 'Content-Security-Policy', value: contentSecurityPolicy }]
-            : []),
         ],
       },
+      ...(process.env.NODE_ENV === 'production'
+        ? [
+            {
+              // /admin reçoit son nonce propre à la requête depuis le middleware.
+              source: '/((?!admin(?:/|$)).*)',
+              headers: [{ key: 'Content-Security-Policy', value: contentSecurityPolicy }],
+            },
+          ]
+        : []),
       {
         // Next applique les en-têtes de configuration après ceux du Route Handler.
         // Garder cette règle après la politique générale du site.

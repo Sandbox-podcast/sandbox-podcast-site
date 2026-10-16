@@ -1,11 +1,10 @@
-import { decodeEditionRouteParam } from '@/domain/weeks';
 import { notFound } from 'next/navigation';
 import { ChartsExperience } from '@/components/charts-experience';
 import { sandboxChartsData } from '@/lib/sandbox-charts';
 import { chartSelectionSchema, hasChartSelectionQuery } from '@/domain/chart-selection';
 import { hasChartEdition } from '@/domain/sandbox-charts';
 import { hasIndexableChartContent } from '@/domain/chart-seo';
-import { editionIdSchema } from '@/domain/schema';
+import { editionFromRoute } from '@/domain/edition-route';
 import { pageMetadata } from '@/lib/seo';
 export async function generateMetadata({
   params,
@@ -16,9 +15,8 @@ export async function generateMetadata({
   }>;
   searchParams?: Promise<Record<string, string | string[] | undefined>>;
 }) {
-  const { week: encodedEdition } = await params;
-  const week = decodeEditionRouteParam(encodedEdition);
-  if (!editionIdSchema.safeParse(week).success) return {};
+  const week = editionFromRoute((await params).week);
+  if (!week) return {};
   const data = await sandboxChartsData(week);
   return pageMetadata({
     title: `RISING 20 · ${week} · SANDBOX CHARTS`,
@@ -38,10 +36,9 @@ export default async function RisingWeekPage({
   }>;
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
-  const { week: encodedEdition } = await params;
-  const week = decodeEditionRouteParam(encodedEdition);
+  const week = editionFromRoute((await params).week);
   const selection = chartSelectionSchema.parse(await searchParams);
-  if (!editionIdSchema.safeParse(week).success) notFound();
+  if (!week) notFound();
   const data = await sandboxChartsData(week);
   if (data.mode !== 'unavailable' && !hasChartEdition(data, 'rising', week)) notFound();
   return (

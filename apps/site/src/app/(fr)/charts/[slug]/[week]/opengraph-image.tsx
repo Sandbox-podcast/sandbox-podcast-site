@@ -1,6 +1,7 @@
-import { decodeEditionRouteParam } from '@/domain/weeks';
 import { OG_SIZE, OG_TYPE, sandboxChartCard } from '@/lib/og';
 import { sandboxChartsData } from '@/lib/sandbox-charts';
+import { editionFromRoute } from '@/domain/edition-route';
+import { notFound } from 'next/navigation';
 
 export const alt = 'Classement hebdomadaire (archive)';
 export const size = OG_SIZE;
@@ -13,8 +14,9 @@ export default async function Image({
 }: {
   params: Promise<{ slug: string; week: string }>;
 }) {
-  const { slug, week: encodedEdition } = await params;
-  const week = decodeEditionRouteParam(encodedEdition);
+  const { slug, week: rawWeek } = await params;
+  const week = editionFromRoute(rawWeek);
+  if (!week) notFound();
   return sandboxChartCard(
     await sandboxChartsData(week),
     slug === 'skills'

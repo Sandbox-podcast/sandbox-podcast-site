@@ -16,10 +16,16 @@ import { isNextProductionBuild } from './next-build.ts';
 
 export { ContentConflictError };
 
+// Chaque serveur de test peut utiliser son propre fichier, toujours sous .local.
+const requestedFixtureFile = process.env['SANDBOX_FRONT_CONTENT_FILE'];
+const fixtureFile =
+  requestedFixtureFile && /^[a-z0-9-]+\.json$/.test(requestedFixtureFile)
+    ? requestedFixtureFile
+    : 'front-content.json';
 const LOCAL_STORE_PATH = join(
   process.cwd(),
   process.env.NODE_ENV === 'development' && process.env['SANDBOX_FRONT_PREVIEW'] === '1'
-    ? '.local/front-content.json'
+    ? `.local/${fixtureFile}`
     : '.site-content.local.json',
 );
 const CACHE_TTL_MS = 5_000;

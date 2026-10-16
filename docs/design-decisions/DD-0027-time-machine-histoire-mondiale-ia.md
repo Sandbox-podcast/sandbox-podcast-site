@@ -20,3 +20,5 @@ Complément du 15 octobre 2026, décidé par l'agent sur délégation (PD-0003),
 - Human Quality et Humanizer guident la réduction des textes : retrait des slogans, doublons et explications de provenance répétées. Les faits, les dates et les restrictions d'accès restent.
 
 L'indexation réelle dépend d'une publication ultérieure sur le domaine public. Aucun classement dans les moteurs n'est promis.
+
+Complément après les omissions signalées par Lou le 15 octobre 2026, décidé par l'agent sur délégation (PD-0003) : la couverture inclut les agents persistants et les grandes avancées scientifiques, au-delà des sorties de modèles. La recherche parcourt les principales familles et les annonces récentes. Les fiches distinguent preuve proposée, formalisation, expérience et essai clinique. La date de revue apparaît dès l'en-tête ; elle reste distincte de la date du dernier événement sourcé. Les exigences sur les sources et les dates priment sur le remplissage artificiel de chaque journée.

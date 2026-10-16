@@ -1,3 +1,4 @@
+import { readLimitedRequestText, RequestBodyTooLargeError } from '@/lib/request-body';
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { adminDisplayNameSchema, adminLoginSchema, adminRoleSchema } from '@/domain/admin-users';
@@ -71,12 +72,15 @@ export async function POST(request: Request): Promise<NextResponse> {
   }
   let body: unknown;
   try {
-    const raw = await request.text();
+    const raw = await readLimitedRequestText(request, MAX_BODY_BYTES);
     if (Buffer.byteLength(raw, 'utf8') > MAX_BODY_BYTES) {
       return NextResponse.json({ error: 'Requête trop volumineuse.' }, { status: 413 });
     }
     body = JSON.parse(raw) as unknown;
-  } catch {
+  } catch (error) {
+    if (error instanceof RequestBodyTooLargeError)
+      return NextResponse.json({ error: 'Requête trop volumineuse.' }, { status: 413 });
+
     return NextResponse.json({ error: 'Requête illisible.' }, { status: 400 });
   }
   const parsed = createSchema.safeParse(body);

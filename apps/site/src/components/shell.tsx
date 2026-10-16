@@ -2,12 +2,9 @@ import { Text, LocalizedElement } from '@/components/localization';
 import { LocalizedLink as Link } from '@/components/localization';
 import Image from 'next/image';
 import { siteConfig } from '@/config/site';
-import { allEpisodes } from '@/lib/repository';
-import { CHART_LABELS } from '@/domain/sandbox-charts';
-import { latestSitePublication } from '@/domain/site-freshness';
-import { lastUpdated } from '@/lib/graph';
+
 import { LocaleSwitcher, MainNav, MobileNav } from './nav';
-import { ScrollState, TimeAgo } from './client';
+import { ScrollState } from './client';
 import { siteMessages } from '@/i18n/messages';
 export function Wordmark({ className }: { className?: string }) {
   return (
@@ -42,30 +39,23 @@ export function Masthead({ locale = 'fr-FR' }: { locale?: string }) {
             <MainNav locale={locale} />
           </div>
           <div className="masthead-tools">
-            <Text>
-              {
-                <LocalizedElement
-                  as="form"
-                  action="/search"
-                  role="search"
-                  className="header-search"
-                >
-                  <label className="sr-only" htmlFor="site-search">
-                    <Text>{messages.searchLabel}</Text>
-                  </label>
-                  <LocalizedElement
-                    as="input"
-                    id="site-search"
-                    type="search"
-                    name="q"
-                    placeholder={messages.searchPlaceholder}
-                  />
-                  <LocalizedElement as="button" type="submit" aria-label={messages.searchSubmit}>
-                    <Text>{'\u21B5'}</Text>
-                  </LocalizedElement>
-                </LocalizedElement>
-              }
-            </Text>
+            <Link href="/search" className="site-search-action" aria-label={messages.searchLabel}>
+              <svg
+                viewBox="0 0 24 24"
+                width="20"
+                height="20"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                aria-hidden="true"
+              >
+                <circle cx="10" cy="10" r="6" />
+                <path d="m15 15 6 6" />
+              </svg>
+              <span className="sr-only">
+                <Text>{messages.search}</Text>
+              </span>
+            </Link>
             <LocaleSwitcher locale={locale} />
           </div>
           <MobileNav locale={locale} />
@@ -75,111 +65,88 @@ export function Masthead({ locale = 'fr-FR' }: { locale?: string }) {
   );
 }
 export function Footer() {
-  const charts = Object.values(CHART_LABELS);
-  const episodes = allEpisodes();
-  const updated = lastUpdated();
-  const messages = siteMessages('fr-FR');
   return (
-    <footer className="site-footer border-t border-hair bg-paper-2 text-ink">
-      <div className="wrap grid gap-10 py-12 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
+    <footer className="site-footer discovery-footer">
+      <div className="wrap discovery-footer-grid">
         <div>
           <Wordmark className="footer-wordmark" />
-          <p className="mt-4 max-w-xs text-sm opacity-80">
-            <Text>{siteConfig.tagline}</Text> <Text>{messages.podcastsDescription}</Text>
+          <p>
+            <Text>Le podcast IA & tech de Lou, Loïc et Nico.</Text>
           </p>
-          <p className="label mt-4 opacity-70">
-            <Text>{messages.updated}</Text>{' '}
-            <TimeAgo iso={latestSitePublication(updated.publishedAt, episodes)} />
-          </p>
+          <a
+            href={siteConfig.platforms.youtube}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-analytics-event="youtube_open"
+            data-analytics-placement="footer"
+          >
+            <Text>Retrouvez-nous sur YouTube</Text>
+            <span className="sr-only">
+              <Text>(nouvel onglet)</Text>
+            </span>
+          </a>
         </div>
-        <LocalizedElement as="nav" aria-label="Podcasts">
-          <p className="label mb-3 opacity-60">
-            <Text>{'Podcasts'}</Text>
-          </p>
-          <ul className="grid gap-2 text-sm">
-            <Text>
-              {episodes.slice(0, 4).map((episode) => (
-                <li key={episode.number}>
-                  <Link href={`/episodes/${String(episode.number)}`} className="hover:underline">
-                    <Text>{episode.title}</Text>
-                  </Link>
-                </li>
-              ))}
-            </Text>
+        <LocalizedElement as="nav" aria-label="Explorer">
+          <h2>
+            <Text>Explorer</Text>
+          </h2>
+          <ul>
             <li>
-              <Link href="/episodes" className="hover:underline">
-                <Text>{messages.allEpisodes}</Text>
-              </Link>
-            </li>
-          </ul>
-        </LocalizedElement>
-        <LocalizedElement as="nav" aria-label="Classements">
-          <p className="label mb-3 opacity-60">
-            <Text>{'Classements'}</Text>
-          </p>
-          <ul className="grid gap-2 text-sm">
-            <Text>
-              {charts.map((c) => (
-                <li key={c.slug}>
-                  <Link href={`/charts/${c.slug}`} className="hover:underline">
-                    <Text>{c.title}</Text>
-                  </Link>
-                </li>
-              ))}
-            </Text>
-            <li>
-              <Link href="/charts/history" className="hover:underline">
-                <Text>{messages.history}</Text>
-              </Link>
-            </li>
-          </ul>
-        </LocalizedElement>
-        <LocalizedElement as="nav" aria-label="À propos">
-          <p className="label mb-3 opacity-60">
-            <Text>{'Transparence'}</Text>
-          </p>
-          <ul className="grid gap-2 text-sm">
-            <li>
-              <Link href="/about" className="hover:underline">
-                <Text>{'\u00C0 propos'}</Text>
+              <Link href="/charts">
+                <Text>Classements</Text>
               </Link>
             </li>
             <li>
-              <Link href="/nos-projets" className="hover:underline">
+              <Link href="/time-machine">
+                <Text>Time Machine (en français)</Text>
+              </Link>
+            </li>
+            <li>
+              <Link href="/nos-projets">
                 <Text>Nos projets</Text>
               </Link>
             </li>
-            <Text>
-              {charts.slice(0, 2).map((c) => (
-                <li key={c.slug}>
-                  <Link href={`/charts/${c.slug}/methodology`} className="hover:underline">
-                    <Text>{'M\u00E9thode : '}</Text>
-                    <Text>{c.title}</Text>
-                  </Link>
-                </li>
-              ))}
-            </Text>
+            <li>
+              <Link href="/search">
+                <Text>Rechercher</Text>
+              </Link>
+            </li>
+          </ul>
+        </LocalizedElement>
+        <LocalizedElement as="nav" aria-label="Sandbox">
+          <h2>Sandbox</h2>
+          <ul>
+            <li>
+              <Link href="/podcast">
+                <Text>Le podcast</Text>
+              </Link>
+            </li>
+            <li>
+              <Link href="/about">
+                <Text>À propos</Text>
+              </Link>
+            </li>
+            <li>
+              <Link href="/charts/history">
+                <Text>Archives des classements</Text>
+              </Link>
+            </li>
+            <li>
+              <Link href="/charts/awards">
+                <Text>Badges & Awards</Text>
+              </Link>
+            </li>
           </ul>
         </LocalizedElement>
       </div>
-      <div className="border-t border-hair">
-        <div className="wrap label flex flex-wrap justify-between gap-2 py-4 opacity-70">
-          <span>
-            <Text>{'\u00A9 '}</Text>
-            <Text>{new Date().getUTCFullYear()}</Text> <Text>{siteConfig.name}</Text>
-          </span>
-          <div className="footer-utilities">
-            <Link href="/topics">
-              <Text>{messages.topics}</Text>
-            </Link>
-            <Link href="/search">
-              <Text>{messages.search}</Text>
-            </Link>
-            <a href="/feed.xml">
-              <Text>{messages.rss}</Text>
-            </a>
-          </div>
-        </div>
+      <div className="wrap discovery-footer-bottom">
+        <span>© {new Date().getUTCFullYear()} SANDBOX</span>
+        <Link href="/confidentialite">
+          <Text>Données personnelles</Text>
+        </Link>
+        <a href="/feed.xml">
+          <Text>Flux RSS</Text>
+        </a>
       </div>
     </footer>
   );

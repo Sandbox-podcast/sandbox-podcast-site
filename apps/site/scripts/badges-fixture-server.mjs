@@ -42,6 +42,7 @@ export async function startBadgeFixture({ kind = 'e2e', port = 0 } = {}) {
     '0012_badges_awards',
     '0013_extended_awards',
     '0014_awards_refresh_slots',
+    '0015_admin_login_attempts',
   ]) {
     const sql = await readFile(new URL(`../drizzle/${migration}.sql`, import.meta.url), 'utf8');
     for (const statement of sql.split('--> statement-breakpoint'))

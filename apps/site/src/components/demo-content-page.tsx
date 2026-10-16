@@ -20,7 +20,7 @@ export function DemoContentPage({ title }: { title: string }) {
         <Link className="btn btn-solid" href="/charts">
           <Text>Voir les classements</Text>
         </Link>
-        <Link className="btn" href="/episodes">
+        <Link className="btn" href="/podcast">
           <Text>Voir les podcasts</Text>
         </Link>
       </nav>

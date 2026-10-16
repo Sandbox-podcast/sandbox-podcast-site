@@ -59,11 +59,11 @@ describe('aperçus des liens partagés', () => {
 
   it('donne une image accessible et un titre traduit à une page localisée', async () => {
     const metadata = await localizedMetadata({
-      params: Promise.resolve({ locale: 'en', path: ['episodes'] }),
+      params: Promise.resolve({ locale: 'en', path: ['podcast'] }),
     });
 
     expect(metadata.openGraph).toMatchObject({
-      title: 'Podcasts: all episodes',
+      title: 'The Sandbox podcast: replays and archive',
       locale: 'en',
       images: [
         {

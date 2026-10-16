@@ -1,7 +1,6 @@
-import { decodeEditionRouteParam } from '@/domain/weeks';
 import { notFound } from 'next/navigation';
 import { ChartsExperience } from '@/components/charts-experience';
-import { editionIdSchema } from '@/domain/schema';
+import { editionFromRoute } from '@/domain/edition-route';
 import { sandboxChartsData } from '@/lib/sandbox-charts';
 import { pageMetadata } from '@/lib/seo';
 import { hasIndexableChartArchive } from '@/domain/chart-seo';
@@ -16,9 +15,8 @@ export async function generateMetadata({
   }>;
   searchParams?: Promise<Record<string, string | string[] | undefined>>;
 }) {
-  const { week: encodedEdition } = await params;
-  const week = decodeEditionRouteParam(encodedEdition);
-  if (!editionIdSchema.safeParse(week).success) return {};
+  const week = editionFromRoute((await params).week);
+  if (!week) return {};
   const data = await sandboxChartsData(week);
   return pageMetadata({
     title: `Archives des classements · ${week} · SANDBOX CHARTS`,
@@ -36,9 +34,8 @@ export default async function Page({
   }>;
   searchParams?: Promise<Record<string, string | string[] | undefined>>;
 }) {
-  const { week: encodedEdition } = await params;
-  const week = decodeEditionRouteParam(encodedEdition);
-  if (!editionIdSchema.safeParse(week).success) notFound();
+  const week = editionFromRoute((await params).week);
+  if (!week) notFound();
   const data = await sandboxChartsData(week);
   if (data.mode !== 'unavailable' && !data.weeks.includes(week)) notFound();
   const selection = chartSelectionSchema.parse(await searchParams);

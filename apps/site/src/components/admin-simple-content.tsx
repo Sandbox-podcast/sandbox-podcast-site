@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 import { ZodError } from 'zod';
-import { slugFromLabel, sourceFromFields, topicFromFields } from '@/domain/admin-fast-entry';
-import type { Source, Topic } from '@/domain/schema';
+import { slugFromLabel, sourceFromFields } from '@/domain/admin-fast-entry';
+import type { Source } from '@/domain/schema';
 
 type Action = 'draft' | 'publish';
 
@@ -19,92 +19,6 @@ function validationMessage(error: unknown): string {
     return 'Vérifiez les champs du formulaire.';
   }
   return error instanceof Error ? error.message : 'Vérifiez les champs.';
-}
-
-interface TopicProps {
-  item?: Topic | undefined;
-  existingIds: string[];
-  pending: boolean;
-  onSave: (item: Topic, action: Action) => Promise<boolean>;
-}
-
-export function TopicEditor({ item, existingIds, pending, onSave }: TopicProps) {
-  const [label, setLabel] = useState(item?.label ?? '');
-  const [description, setDescription] = useState(item?.description ?? '');
-  const [error, setError] = useState('');
-  const id = item?.slug ?? slugFromLabel(label);
-
-  async function submit(action: Action) {
-    setError('');
-    try {
-      const candidate = topicFromFields({ label, description }, item);
-      if (!item && existingIds.includes(candidate.slug)) {
-        throw new Error('Un thème porte déjà ce nom. Choisissez un nom différent.');
-      }
-      await onSave(candidate, action);
-    } catch (reason) {
-      setError(validationMessage(reason));
-    }
-  }
-
-  return (
-    <form
-      className="admin-editor admin-simple-form"
-      onSubmit={(event) => {
-        event.preventDefault();
-        void submit('draft');
-      }}
-    >
-      <div>
-        <span className="eyebrow">Thème éditorial</span>
-        <h3>{item ? 'Modifier le thème' : 'Nouveau thème'}</h3>
-        <p className="admin-help">Il pourra ensuite être choisi dans les épisodes.</p>
-      </div>
-      <label className="admin-field">
-        <span>Nom du thème</span>
-        <input
-          value={label}
-          onChange={(event) => {
-            setLabel(event.target.value);
-          }}
-          required
-          autoFocus={!item}
-        />
-      </label>
-      <label className="admin-field">
-        <span>Description</span>
-        <textarea
-          rows={3}
-          value={description}
-          onChange={(event) => {
-            setDescription(event.target.value);
-          }}
-          required
-        />
-      </label>
-      <p className="admin-generated-id">
-        Identifiant créé automatiquement : <code>{id || '…'}</code>
-      </p>
-      {error ? (
-        <p className="admin-error" role="alert">
-          {error}
-        </p>
-      ) : null}
-      <div className="admin-save-row">
-        <button className="btn" type="submit" disabled={pending}>
-          Enregistrer le brouillon
-        </button>
-        <button
-          className="btn btn-solid"
-          type="button"
-          onClick={() => void submit('publish')}
-          disabled={pending}
-        >
-          Publier
-        </button>
-      </div>
-    </form>
-  );
 }
 
 interface SourceProps {

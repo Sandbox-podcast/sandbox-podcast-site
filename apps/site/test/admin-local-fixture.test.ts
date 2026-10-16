@@ -37,4 +37,24 @@ describe('isolation du contenu de la prévisualisation navigateur', () => {
     await preparePublishedEditorialContent();
     expect(read).not.toHaveBeenCalled();
   });
+  it('isole chaque serveur de test et refuse les chemins hors du dossier local', async () => {
+    vi.stubEnv('NODE_ENV', 'development');
+    vi.stubEnv('SANDBOX_FRONT_PREVIEW', '1');
+    vi.stubEnv('SANDBOX_FRONT_CONTENT_FILE', 'analytics-e2e-123.json');
+    mocks.read.mockRejectedValue(Object.assign(new Error('Absent'), { code: 'ENOENT' }));
+    let module = await import('../src/lib/admin-persistence');
+    await module.getAdminContent();
+    expect(mocks.read).toHaveBeenCalledWith(
+      join(process.cwd(), '.local/analytics-e2e-123.json'),
+      'utf8',
+    );
+    vi.resetModules();
+    vi.stubEnv('SANDBOX_FRONT_CONTENT_FILE', '../published.json');
+    module = await import('../src/lib/admin-persistence');
+    await module.getAdminContent();
+    expect(mocks.read).toHaveBeenLastCalledWith(
+      join(process.cwd(), '.local/front-content.json'),
+      'utf8',
+    );
+  });
 });

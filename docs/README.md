@@ -1,5 +1,11 @@
 # Documentation
 
+Livraison groupée du 16 octobre : [périmètre, contrôles et captures](site/livraison-groupee-2026-10-16.md). Les objets du plateau ouvrent les classements et la Time Machine selon [DD-0041](design-decisions/dd-0041-objets-du-plateau-vers-classements-et-time-machine.md).
+
+Corrections de l'issue 68 au 16 octobre : [rapport et actions restantes](site/issue-68-2026-10-16.md), [sécurité et persistance](adr/ADR-0032-protections-et-persistance-issue-68.md) et [procédure de correction éditoriale](site/corrections-et-droit-de-reponse.md).
+
+Accueil mobile éditorial, sans montage du trio, et plateau conservé sur ordinateur : [DD-0039](design-decisions/dd-0039-accueil-mobile-editorial-et-plateau-desktop.md) et [validation V11](site/refonte-2026-10-15/refonte-editoriale-mobile-v11.md).
+
 Rapport local des classements v3 : [validation et limites](site/reference-ranking-delivery.md).
 
 Classements v3, deux publications quotidiennes et détection précoce GitHub : [conception et audit](site/reference-ranking-design.md), [configuration et reprise](site/reference-ranking-operations.md), [prompt réutilisable](site/prompt-classements-reference.md), [ADR-0026](adr/ADR-0026-classements-de-reference-ponderes.md), [ADR-0027](adr/ADR-0027-detection-precoce-github.md) et [ADR-0028](adr/ADR-0028-cadence-des-classements.md). Le [README du dépôt](../README.md) décrit le fonctionnement global. Les profils v3 attendent leur calibration avant publication.
@@ -8,15 +14,33 @@ Le dépôt sert le site média `apps/site`. La documentation du travail précéd
 
 ## Site média
 
+Accueil organisé autour de l'équipe : [DD-0034](design-decisions/DD-0034-accueil-equipe-projets-puis-rubriques.md) et [validation V4](site/refonte-2026-10-15/accueil-parcours-v4.md). Les biographies et projets précèdent la Time Machine et les classements ; les onglets sont retirés du premier écran.
+
+Accueil cinématique avec Lou, Loïc et Nico sur un plateau télé : [DD-0033](design-decisions/DD-0033-accueil-cinematique-et-trio-sur-plateau-tv.md), [visuel et provenance](site/refonte-2026-10-15/plateau-provisoire.md). Cette itération complète DD-0032 après la revue locale de Lou.
+
+Refonte du site : [audit business et site](SANDBOX_AUDIT.md), [stratégie UX](SANDBOX_UX_STRATEGY.md) et [roadmap](SANDBOX_ROADMAP.md). [DD-0032](design-decisions/DD-0032-accueil-marque-et-plateau.md) place le pitch du podcast et son plateau sur l'accueil. Elle remplace les choix d'accueil de [DD-0031](design-decisions/DD-0031-refonte-decouverte.md), dont les améliorations des pages annexes restent applicables.
+
+Replays hebdomadaires sur une page unique `/podcast`, sans thèmes : [DD-0030](design-decisions/DD-0030-podcast-replays-hebdomadaires.md).
+
 Accueil centré sur les classements et navigation mobile : [DD-0028](design-decisions/DD-0028-accueil-classements-et-navigation-mobile.md).
 
 Sandbox Time Machine, histoire mondiale de l'IA et Wrapped annuel (localhost) : [guide](site/time-machine.md) et [DD-0027](design-decisions/DD-0027-time-machine-histoire-mondiale-ia.md).
 
-Confiance et parcours après l'audit #62 : [corrections A01/A02 et contrôles](site/confiance-parcours-2026-10-14.md), [DD-0025](design-decisions/DD-0025-confiance-pages-et-archives.md).
+Confiance et parcours : [corrections initiales](site/confiance-parcours-2026-10-14.md), [intégration locale des méthodes et de la mesure](site/audit-integration-2026-10-15.md), [DD-0029](design-decisions/DD-0029-integration-audit-methodes-et-mesure.md) et [suivi #68](https://github.com/Sandbox-podcast/sandbox-podcast-site/issues/68).
 
-Badges et Awards (huit familles, développement local) : [guide](site/badges-awards.md) et [ADR-0031](adr/ADR-0031-badges-et-awards-sandbox.md).
+Badges et Awards (huit familles, validations réelles à terminer) : [guide](site/badges-awards.md) et [ADR-0031](adr/ADR-0031-badges-et-awards-sandbox.md).
 
 Catalogue Nos projets : [guide et inventaire](site/nos-projets.md) et [DD-0019](design-decisions/DD-0019-catalogue-nos-projets.md).
+
+Vue alternative locale dans un vidéoclub : [essayer le prototype](site/video-club.md) et [DD-0035](design-decisions/dd-0035-videoclub-local-des-projets.md).
+
+Porte discrète intégrée au plateau local et petits boutons de chaînes : [visuel et validation](site/refonte-2026-10-15/porte-video-club.md) et [DD-0036](design-decisions/dd-0036-porte-du-videoclub-et-liens-des-chaines.md).
+
+Nouveau décor fourni par Lou et ouverture animée de la porte : [provenance et validation](site/refonte-2026-10-15/decor-chaleureux-et-porte-animee.md) et [DD-0037](design-decisions/dd-0037-decor-chaleureux-et-ouverture-de-la-porte.md).
+
+Accueil plein écran avec les vrais portraits et boîtes VHS photographiques : [sources, prompts et validation](site/refonte-2026-10-15/accueil-plein-ecran-et-vhs.md) et [DD-0038](design-decisions/dd-0038-accueil-plein-ecran-portraits-reels-et-vhs.md).
+
+Retouches du 16 octobre : [épaules complétées et retrait des micros du plateau](site/refonte-2026-10-15/retouches-bustes-2026-10-16.md).
 
 UI/UX du site : [rapport du 8 octobre 2026](site/ui-ux-2026-10-08.md) et [DD-0005](design-decisions/DD-0005-ux-globale-du-site.md).
 Fiche d'épisode sans description longue : [DD-0022](design-decisions/DD-0022-fiche-episode-sans-description-longue.md).

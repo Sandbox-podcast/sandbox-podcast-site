@@ -5,19 +5,19 @@ import { z } from 'zod';
 import Link from 'next/link';
 import { editableContentSchema, type EditableContent } from '@/domain/admin-content';
 import { applyChartMarkdown, serializeChartMarkdown } from '@/domain/chart-markdown';
-import { type Episode, type Host, type Source, type Topic } from '@/domain/schema';
+import { type Episode, type Host, type Source } from '@/domain/schema';
 import { AdminChartEditor } from './admin-chart-editor';
 import { AdminHostPhoto } from './admin-host-photo';
 import { AdminChartsConsole } from './admin-charts-console';
 import { AdminPasswordForm } from './admin-password-form';
 import { AdminUsersPanel } from './admin-users-panel';
-import { SourceEditor, TopicEditor } from './admin-simple-content';
+import { SourceEditor } from './admin-simple-content';
 import { EpisodeComposer } from './episode-composer';
 import { SiteSettingsEditor } from './site-settings-editor';
 import { AdminTranslations } from './admin-translations';
 import { AdminSlides } from './admin-slides';
 
-type CollectionKey = 'episodes' | 'charts' | 'hosts' | 'topics' | 'sources';
+type CollectionKey = 'episodes' | 'charts' | 'hosts' | 'sources';
 type SectionKey = CollectionKey | 'site' | 'slides';
 type HostSocialKey = keyof Host['socials'];
 const storageModeSchema = z.enum(['local', 'postgres', 'unavailable']);
@@ -56,7 +56,6 @@ const collections: { key: CollectionKey; label: string }[] = [
   { key: 'episodes', label: 'Épisodes' },
   { key: 'charts', label: 'Classements' },
   { key: 'hosts', label: 'Animateurs' },
-  { key: 'topics', label: 'Thèmes' },
   { key: 'sources', label: 'Sources des classements' },
 ];
 
@@ -220,19 +219,6 @@ export function AdminConsole() {
     }
   }
 
-  async function saveTopic(item: Topic, action: 'draft' | 'publish'): Promise<boolean> {
-    if (!contentResponse) return false;
-    const topics =
-      selectedItem === 'new'
-        ? [...contentResponse.content.topics, item]
-        : contentResponse.content.topics.map((current) =>
-            current.slug === selectedItem ? item : current,
-          );
-    const saved = await save(action, { ...contentResponse.content, topics });
-    if (saved) setSelectedItem(item.slug);
-    return saved;
-  }
-
   async function saveSource(item: Source, action: 'draft' | 'publish'): Promise<boolean> {
     if (!contentResponse) return false;
     const sources =
@@ -342,9 +328,7 @@ export function AdminConsole() {
           ? (contentResponse?.content.hosts.find((host) => !host.placeholder)?.slug ?? '')
           : key === 'charts'
             ? (contentResponse?.content.charts[0]?.slug ?? '')
-            : key === 'topics'
-              ? (contentResponse?.content.topics[0]?.slug ?? '')
-              : (contentResponse?.content.sources[0]?.id ?? ''),
+            : (contentResponse?.content.sources[0]?.id ?? ''),
     );
     setRawError('');
   }
@@ -667,7 +651,6 @@ export function AdminConsole() {
                     initialNumber={selectedEpisode?.number ?? nextEpisodeNumber}
                     episode={selectedEpisode}
                     hosts={contentResponse.content.hosts}
-                    topics={contentResponse.content.topics}
                     defaultHostSlug={status.username}
                     otherEpisodes={contentResponse.content.episodes}
                     onSelectEpisode={(number) => {
@@ -879,9 +862,7 @@ export function AdminConsole() {
               <div className="admin-section-heading">
                 <div>
                   <span className="eyebrow">Organisation du contenu</span>
-                  <h2 id="admin-section-title">
-                    {activeCollection === 'topics' ? 'Thèmes' : 'Sources des classements'}
-                  </h2>
+                  <h2 id="admin-section-title">Sources des classements</h2>
                 </div>
                 <button
                   className="btn btn-solid"
@@ -890,69 +871,37 @@ export function AdminConsole() {
                     setSelectedItem('new');
                   }}
                 >
-                  {activeCollection === 'topics' ? 'Nouveau thème' : 'Nouvelle source'} ＋
+                  Nouvelle source ＋
                 </button>
               </div>
               <div className="admin-editor-grid">
-                <nav
-                  className="admin-record-list"
-                  aria-label={
-                    activeCollection === 'topics' ? 'Thèmes existants' : 'Sources existantes'
-                  }
-                >
-                  {activeCollection === 'topics'
-                    ? contentResponse.content.topics.map((topic) => (
-                        <button
-                          key={topic.slug}
-                          type="button"
-                          className={`admin-record${selectedItem === topic.slug ? ' is-active' : ''}`}
-                          onClick={() => {
-                            setSelectedItem(topic.slug);
-                          }}
-                        >
-                          <span className="admin-record-title">{topic.label}</span>
-                          <span className="admin-record-meta">{topic.slug}</span>
-                        </button>
-                      ))
-                    : contentResponse.content.sources.map((source) => (
-                        <button
-                          key={source.id}
-                          type="button"
-                          className={`admin-record${selectedItem === source.id ? ' is-active' : ''}`}
-                          onClick={() => {
-                            setSelectedItem(source.id);
-                          }}
-                        >
-                          <span className="admin-record-title">{source.label}</span>
-                          <span className="admin-record-meta">
-                            {source.status === 'connected' ? 'Connectée' : 'Référence'} ·{' '}
-                            {source.id}
-                          </span>
-                        </button>
-                      ))}
+                <nav className="admin-record-list" aria-label="Sources existantes">
+                  {contentResponse.content.sources.map((source) => (
+                    <button
+                      key={source.id}
+                      type="button"
+                      className={`admin-record${selectedItem === source.id ? ' is-active' : ''}`}
+                      onClick={() => {
+                        setSelectedItem(source.id);
+                      }}
+                    >
+                      <span className="admin-record-title">{source.label}</span>
+                      <span className="admin-record-meta">
+                        {source.status === 'connected' ? 'Connectée' : 'Référence'} · {source.id}
+                      </span>
+                    </button>
+                  ))}
                 </nav>
                 {selectedItem ? (
-                  activeCollection === 'topics' ? (
-                    <TopicEditor
-                      key={selectedItem}
-                      item={contentResponse.content.topics.find(
-                        (topic) => topic.slug === selectedItem,
-                      )}
-                      existingIds={contentResponse.content.topics.map((topic) => topic.slug)}
-                      pending={pending || !status.user?.permissions.draft}
-                      onSave={saveTopic}
-                    />
-                  ) : (
-                    <SourceEditor
-                      key={selectedItem}
-                      item={contentResponse.content.sources.find(
-                        (source) => source.id === selectedItem,
-                      )}
-                      existingIds={contentResponse.content.sources.map((source) => source.id)}
-                      pending={pending || !status.user?.permissions.draft}
-                      onSave={saveSource}
-                    />
-                  )
+                  <SourceEditor
+                    key={selectedItem}
+                    item={contentResponse.content.sources.find(
+                      (source) => source.id === selectedItem,
+                    )}
+                    existingIds={contentResponse.content.sources.map((source) => source.id)}
+                    pending={pending || !status.user?.permissions.draft}
+                    onSave={saveSource}
+                  />
                 ) : (
                   <div className="admin-empty">
                     <h3>Choisissez une entrée</h3>

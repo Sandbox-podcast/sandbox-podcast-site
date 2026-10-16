@@ -1,4 +1,10 @@
-import { analyticsConsentStorageKey, parseAnalyticsConsent } from './google-analytics.ts';
+import {
+  analyticsConsentStorageKey,
+  defaultGoogleAnalyticsMeasurementId,
+  googleAnalyticsMeasurementId,
+  isAdminAnalyticsPath,
+  parseAnalyticsConsent,
+} from './google-analytics.ts';
 
 export type BadgeAnalyticsEvent =
   'badge_generator_open' | 'badge_preview' | 'badge_copy' | 'badge_share' | 'badge_visit';
@@ -21,7 +27,13 @@ export function recordBadgeEvent(
 ): void {
   if (typeof window === 'undefined') return;
   try {
+    const measurementId =
+      googleAnalyticsMeasurementId(process.env['NEXT_PUBLIC_GA_MEASUREMENT_ID']) ??
+      defaultGoogleAnalyticsMeasurementId;
+    const flags = window as unknown as Record<string, unknown>;
     if (
+      flags[`ga-disable-${measurementId}`] !== false ||
+      isAdminAnalyticsPath(window.location.pathname) ||
       parseAnalyticsConsent(window.localStorage.getItem(analyticsConsentStorageKey)) !== 'accepted'
     )
       return;

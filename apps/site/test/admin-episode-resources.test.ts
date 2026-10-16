@@ -25,7 +25,6 @@ describe('ressources de l’éditeur d’épisode', () => {
         initialNumber: 1,
         episode,
         hosts: base.hosts,
-        topics: base.topics,
         otherEpisodes: [],
         onSelectEpisode: () => undefined,
         pending: false,

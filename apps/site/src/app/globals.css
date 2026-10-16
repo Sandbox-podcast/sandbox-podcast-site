@@ -58,10 +58,11 @@
   --color-accent: var(--accent);
   --color-accent-ink: var(--accent-ink);
   --color-take: var(--take-bg);
-  --font-display: 'Archivo Variable', 'Arial Narrow', 'Helvetica Neue', Arial, sans-serif;
-  --font-sans: 'Archivo Variable', system-ui, 'Segoe UI', Roboto, sans-serif;
-  --font-serif: 'Newsreader Variable', Georgia, 'Times New Roman', serif;
-  --font-mono: 'JetBrains Mono Variable', ui-monospace, 'SF Mono', Consolas, monospace;
+  --font-display: var(--font-archivo), 'Arial Narrow', Arial, sans-serif;
+  --font-sans: var(--font-archivo), system-ui, sans-serif;
+  --font-serif: var(--font-newsreader), Georgia, serif;
+  --font-serif-italic: var(--font-newsreader-italic), Georgia, serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, Consolas, monospace;
   --breakpoint-xs: 30rem;
 }
 
@@ -556,6 +557,7 @@
     font-family: var(--font-serif);
   }
   .take-body {
+    font-family: var(--font-serif-italic);
     font-style: italic;
     font-size: 1.0625rem;
     line-height: 1.45;
@@ -824,7 +826,12 @@
   .prose li + li {
     margin-top: 0.4rem;
   }
+  .prose em,
+  .serif em {
+    font-family: var(--font-serif-italic);
+  }
   .prose blockquote {
+    font-family: var(--font-serif-italic);
     border-left: 6px solid var(--hl);
     box-shadow: -1px 0 0 var(--ink) inset;
     padding: 0.25rem 0 0.25rem 1.25rem;

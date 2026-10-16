@@ -13,6 +13,8 @@
     "content:check": "node scripts/content-check.ts",
     "sitemap:check": "node scripts/check-sitemap.ts",
     "test:public-routes": "node scripts/test-public-routes.mjs",
+    "test:analytics:e2e": "node scripts/test-analytics-e2e.mjs",
+    "test:admin:http": "node scripts/test-admin-security-production.mjs",
     "content:new": "node scripts/content-new.ts",
     "week:run": "node scripts/week-run.ts",
     "charts:discover": "node --env-file-if-exists=.env.local scripts/charts.ts discover",
@@ -63,6 +65,7 @@
     "@types/react-dom": "^19.3.0",
     "@types/ws": "^8.18.2",
     "drizzle-kit": "^0.31.11",
+    "playwright": "1.62.1",
     "postcss": "^8.5.29",
     "tailwindcss": "^4.3.3"
   }

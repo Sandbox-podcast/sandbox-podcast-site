@@ -553,3 +553,14 @@ export const siteTranslationMessages = pgTable(
   },
   (table) => [primaryKey({ columns: [table.locale, table.sourceHash] })],
 );
+
+/** Compteurs partagés, sans adresse IP ni identifiant en clair. */
+export const adminLoginAttempts = pgTable(
+  'admin_login_attempts',
+  {
+    key: text('key').primaryKey(),
+    attempts: integer('attempts').notNull(),
+    expiresAt: timestamp('expires_at', { withTimezone: true, mode: 'string' }).notNull(),
+  },
+  (table) => [index('admin_login_attempts_expiration_idx').on(table.expiresAt)],
+);

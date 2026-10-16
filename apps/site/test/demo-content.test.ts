@@ -41,7 +41,7 @@ function expectNeutral(html: string) {
   expect(html).toContain('Ancienne page de démonstration');
   expect(html).toContain('simulés');
   expect(html).toContain('href="/charts"');
-  expect(html).toContain('href="/episodes"');
+  expect(html).toContain('href="/podcast"');
   expect(html).not.toContain('<svg');
   expect(html).not.toContain('application/ld+json');
   expect(html).not.toContain('Current ranking');

@@ -7,7 +7,7 @@ import { formatDateShort, formatDuration, formatNumber } from '@/domain/format';
 import type { Entity, Episode, Story } from '@/domain/schema';
 import { plainText } from '@/domain/markup';
 import { shortWeek } from '@/domain/weeks';
-import { chartView, currentRanks, entityPath, getHost, getTopic } from '@/lib/repository';
+import { chartView, currentRanks, entityPath, getHost } from '@/lib/repository';
 import { MoveBadge, Mark, RankNum, TypeTag } from './ui';
 export function readingMinutes(story: Story): number {
   const words = story.body
@@ -190,14 +190,6 @@ export function EpisodeCard({ episode }: { episode: Episode }) {
         </p>
         <p className="episode-card-popover-dek">
           <Text>{episode.dek}</Text>
-        </p>
-        <p className="episode-card-topics label">
-          <Text>
-            {episode.topics
-              .slice(0, 3)
-              .map((topic) => getTopic(topic).label)
-              .join(' · ')}
-          </Text>
         </p>
       </div>
       <details className="episode-card-touch-details">

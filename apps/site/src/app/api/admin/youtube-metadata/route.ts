@@ -1,3 +1,4 @@
+import { readLimitedRequestText, RequestBodyTooLargeError } from '@/lib/request-body';
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import {
@@ -91,12 +92,15 @@ export async function POST(request: Request): Promise<NextResponse> {
   }
   let raw: unknown;
   try {
-    const text = await request.text();
+    const text = await readLimitedRequestText(request, 4096);
     if (Buffer.byteLength(text, 'utf8') > 4096) {
       return NextResponse.json({ error: 'Adresse trop longue.' }, { status: 413 });
     }
     raw = JSON.parse(text) as unknown;
-  } catch {
+  } catch (error) {
+    if (error instanceof RequestBodyTooLargeError)
+      return NextResponse.json({ error: 'Requête trop volumineuse.' }, { status: 413 });
+
     return NextResponse.json({ error: 'Adresse YouTube illisible.' }, { status: 400 });
   }
   const parsed = requestSchema.safeParse(raw);

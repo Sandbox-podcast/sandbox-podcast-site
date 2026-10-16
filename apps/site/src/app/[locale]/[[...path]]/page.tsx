@@ -210,7 +210,7 @@ export default async function LocalizedPage({
   const shared = matchSharedPage(sourcePath(pathName));
   if (shared) {
     if (shared.route === '/latest' || shared.route === '/stories/:slug')
-      redirect(localizedHref('/episodes', locale));
+      redirect(localizedHref('/podcast', locale));
     const dictionary = await siteDictionary(locale);
     return sharedPages[shared.route].render({
       params: shared.params,

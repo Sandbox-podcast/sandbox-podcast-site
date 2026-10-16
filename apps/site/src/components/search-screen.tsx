@@ -4,19 +4,14 @@ import { LocalizedLink as Link } from '@/components/localization';
 import { z } from 'zod';
 import { Breadcrumbs } from '@/components/ui';
 import { episodeResourcePath, matchesSearch, normalizeSearch } from '@/domain/discovery';
-import {
-  allCharts,
-  allEntities,
-  allEpisodes,
-  allTopics,
-  entityPath,
-  getHost,
-  getTopic,
-} from '@/lib/repository';
+import { allCharts, allEntities, allEpisodes, entityPath, getHost } from '@/lib/repository';
 import { pageMetadata } from '@/lib/seo';
 import { translateText, type TranslationDictionary } from '@/i18n/translation';
 import { personalProjects } from '@/lib/personal-projects';
 import { PROJECT_CREATORS, personalProjectPath } from '@/domain/personal-projects';
+import { isDemoEntity } from '@/lib/demo-content';
+import { timeMachineData } from '@/lib/time-machine';
+import { historyEventAnchor } from '@/domain/time-machine';
 export const dynamic = 'force-dynamic';
 export const metadata = pageMetadata({
   title: 'Rechercher dans les podcasts et classements',
@@ -32,7 +27,7 @@ interface Props {
   }>;
 }
 const searchTypeSchema = z
-  .enum(['all', 'episodes', 'resources', 'entities', 'charts', 'topics', 'personal-projects'])
+  .enum(['all', 'episodes', 'resources', 'entities', 'charts', 'personal-projects', 'history'])
   .catch('all');
 export default async function SearchPage({ searchParams, dictionary = {} }: Props) {
   const params = await searchParams;
@@ -51,18 +46,27 @@ export default async function SearchPage({ searchParams, dictionary = {} }: Prop
       episode.dek,
       episode.description,
       ...episode.hosts.map((slug) => getHost(slug).name),
-      ...episode.topics.map((slug) => getTopic(slug).label),
       ...episode.mentions.flatMap((mention) => [mention.label, mention.note]),
       ...episode.sources.flatMap((source) => [source.label, source.publisher]),
     ),
   );
-  const entities = allEntities().filter((entity) =>
-    includes(entity.name, entity.org, entity.category, entity.tagline, entity.description),
+  const entities = allEntities().filter(
+    (entity) =>
+      !isDemoEntity(entity.slug) &&
+      includes(entity.name, entity.org, entity.category, entity.tagline, entity.description),
+  );
+  const history = timeMachineData().events.filter((event) =>
+    includes(
+      event.title,
+      event.shortTitle,
+      event.summary,
+      event.organization,
+      event.date.slice(0, 4),
+    ),
   );
   const charts = allCharts().filter((chart) =>
     includes(chart.title, chart.short, chart.tagline, chart.description),
   );
-  const topics = allTopics().filter((topic) => includes(topic.label, topic.description));
   const teamProjects = personalProjects.filter((project) =>
     includes(
       project.name,
@@ -73,7 +77,7 @@ export default async function SearchPage({ searchParams, dictionary = {} }: Prop
   );
   const resources = allEpisodes()
     .flatMap((episode) =>
-      episodeResources(episode).map((mention, index) => ({
+      episodeResources(episode, personalProjects).map((mention, index) => ({
         title: mention.label,
         detail: `${episode.title} · ${mention.kind}${mention.at === undefined ? '' : ` · ${String(Math.floor(mention.at / 60))} min`}`,
         href: episodeResourcePath(episode.number, index),
@@ -85,9 +89,9 @@ export default async function SearchPage({ searchParams, dictionary = {} }: Prop
     episodes.length +
     entities.length +
     charts.length +
-    topics.length +
     resources.length +
-    teamProjects.length;
+    teamProjects.length +
+    history.length;
   const facets = [
     { id: 'all', label: 'Tout', count },
     { id: 'episodes', label: 'Podcasts', count: episodes.length },
@@ -95,7 +99,7 @@ export default async function SearchPage({ searchParams, dictionary = {} }: Prop
     { id: 'personal-projects', label: 'Nos projets', count: teamProjects.length },
     { id: 'charts', label: 'Classements', count: charts.length },
     { id: 'entities', label: 'Projets et modèles', count: entities.length },
-    { id: 'topics', label: 'Thèmes', count: topics.length },
+    { id: 'history', label: "Histoire de l'IA", count: history.length },
   ];
   const shownCount = facets.find((facet) => facet.id === type)?.count ?? count;
   return (
@@ -182,7 +186,7 @@ export default async function SearchPage({ searchParams, dictionary = {} }: Prop
               <Text>{'Essayez un mot plus court ou parcourez la biblioth\u00E8que.'}</Text>
             </p>
             <div className="page-actions">
-              <Link href="/episodes" className="btn">
+              <Link href="/podcast" className="btn">
                 <Text>{'Tous les podcasts'}</Text>
               </Link>
               <Text>
@@ -213,24 +217,30 @@ export default async function SearchPage({ searchParams, dictionary = {} }: Prop
         )}
       </Text>
 
-      <Text>
-        {!needle ? (
-          <section className="search-suggestions" aria-labelledby="search-suggestions">
-            <h2 id="search-suggestions">
-              <Text>{'Explorer par th\u00E8me'}</Text>
-            </h2>
-            <div className="library-filters">
-              <Text>
-                {allTopics().map((topic) => (
-                  <Link className="filter-pill" href={`/topics/${topic.slug}`} key={topic.slug}>
-                    <Text>{topic.label}</Text>
-                  </Link>
-                ))}
-              </Text>
-            </div>
-          </section>
-        ) : null}
-      </Text>
+      {history.length > 0 && (type === 'all' || type === 'history') ? (
+        <section className="search-results" aria-labelledby="search-history">
+          <h2 id="search-history" className="section-title">
+            <Text>Histoire de l'IA</Text> <span>{history.length}</span>
+          </h2>
+          {history.map((event) => (
+            <Link
+              key={event.id}
+              className="search-result"
+              href={`/time-machine#${historyEventAnchor(event.id)}`}
+            >
+              <span className="search-result-kicker">
+                {event.date.slice(0, 4)} · {event.organization}
+              </span>
+              <span className="search-result-title">
+                <Text>{event.title}</Text>
+              </span>
+              <span className="search-result-detail">
+                <Text>{event.summary}</Text>
+              </span>
+            </Link>
+          ))}
+        </section>
+      ) : null}
 
       <Text>
         {episodes.length > 0 && (type === 'all' || type === 'episodes') ? (
@@ -358,31 +368,6 @@ export default async function SearchPage({ searchParams, dictionary = {} }: Prop
                   </span>
                   <span className="search-result-detail">
                     <Text>{chart.tagline}</Text>
-                  </span>
-                </Link>
-              ))}
-            </Text>
-          </section>
-        ) : null}
-      </Text>
-
-      <Text>
-        {topics.length > 0 && (type === 'all' || type === 'topics') ? (
-          <section className="search-results" aria-labelledby="search-topics">
-            <h2 id="search-topics" className="section-title">
-              <Text>{'Th\u00E8mes '}</Text>
-              <span>
-                <Text>{topics.length}</Text>
-              </span>
-            </h2>
-            <Text>
-              {topics.map((topic) => (
-                <Link key={topic.slug} className="search-result" href={`/topics/${topic.slug}`}>
-                  <span className="search-result-title">
-                    <Text>{topic.label}</Text>
-                  </span>
-                  <span className="search-result-detail">
-                    <Text>{topic.description}</Text>
                   </span>
                 </Link>
               ))}

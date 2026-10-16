@@ -10,6 +10,11 @@ describe('interface historique Time Machine', () => {
     const html = renderToStaticMarkup(createElement(TimeMachine, { data: timeMachineData() }));
     expect(html).toContain('Histoire de l&#x27;intelligence artificielle');
     expect(html).toContain('sources primaires');
+    expect(html).toContain('Revue au <time dateTime="2026-10-15">15 octobre 2026</time>');
+    expect(html).toContain('GPT-6.1 Sol');
+    expect(html).toContain('OpenAI lance Dots');
+    expect(html).toContain('Navier-Stokes');
+    expect(html).toContain('Grok Bot');
     expect(html).toContain('30 novembre 2022');
     expect(html).toContain('https://openai.com/index/chatgpt/');
     expect(html).toContain('Toutes les annonces');

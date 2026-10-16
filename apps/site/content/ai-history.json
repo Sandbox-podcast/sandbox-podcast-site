@@ -571,6 +571,25 @@
       ]
     },
     {
+      "id": "halicin",
+      "date": "2020-02-20",
+      "dateKind": "publication",
+      "title": "L'apprentissage profond identifie l'halicine comme antibiotique",
+      "shortTitle": "Halicine",
+      "organization": "MIT et Broad Institute",
+      "category": "research",
+      "summary": "Un modèle repère une molécule dont l'activité antibiotique est ensuite testée en laboratoire et chez la souris.",
+      "context": "Ces résultats précliniques concernent notamment des bactéries résistantes. Ils ne constituent pas une autorisation de traitement chez l'humain.",
+      "landmark": true,
+      "tags": ["médecine", "antibiotiques", "biologie"],
+      "sources": [
+        {
+          "label": "Annonce de l'étude sur l'halicine, MIT",
+          "url": "https://news.mit.edu/2020/artificial-intelligence-identifies-new-antibiotic-0220"
+        }
+      ]
+    },
+    {
       "id": "gpt-3-paper",
       "date": "2020-05-28",
       "dateKind": "publication",
@@ -761,6 +780,25 @@
       ]
     },
     {
+      "id": "plasma-control",
+      "date": "2022-02-16",
+      "dateKind": "publication",
+      "title": "Une IA contrôle le plasma d'un tokamak",
+      "shortTitle": "Contrôle du plasma",
+      "organization": "DeepMind et EPFL",
+      "category": "research",
+      "summary": "Un système d'apprentissage par renforcement pilote les bobines magnétiques du tokamak TCV pour maintenir différentes formes de plasma.",
+      "context": "L'expérience porte sur le contrôle du plasma dans un dispositif de recherche. Elle ne démontre pas une centrale à fusion produisant de l'électricité.",
+      "landmark": true,
+      "tags": ["physique", "fusion", "énergie"],
+      "sources": [
+        {
+          "label": "Contrôle du plasma, DeepMind et EPFL",
+          "url": "https://deepmind.google/blog/accelerating-fusion-science-through-learned-plasma-control/"
+        }
+      ]
+    },
+    {
       "id": "chinchilla",
       "date": "2022-03-29",
       "dateKind": "publication",
@@ -856,6 +894,25 @@
       ]
     },
     {
+      "id": "alphafold-database-200m",
+      "date": "2022-07-28",
+      "dateKind": "release",
+      "title": "AlphaFold ouvre plus de 200 millions de structures prédites",
+      "shortTitle": "AlphaFold, 200 millions",
+      "organization": "DeepMind et EMBL-EBI",
+      "category": "research",
+      "summary": "La base AlphaFold étend son accès libre aux structures prédites de presque toutes les protéines cataloguées par la science.",
+      "context": "Il s'agit de prédictions de structure, accompagnées d'indications de confiance, et non de 200 millions de structures mesurées expérimentalement.",
+      "landmark": true,
+      "tags": ["biologie", "protéines", "science ouverte"],
+      "sources": [
+        {
+          "label": "Extension de la base AlphaFold",
+          "url": "https://deepmind.google/blog/alphafold-reveals-the-structure-of-the-protein-universe/"
+        }
+      ]
+    },
+    {
       "id": "stable-diffusion",
       "date": "2022-08-22",
       "dateKind": "release",
@@ -894,6 +951,25 @@
         {
           "label": "Annonce de Whisper, OpenAI",
           "url": "https://openai.com/index/whisper/"
+        }
+      ]
+    },
+    {
+      "id": "alphatensor",
+      "date": "2022-10-05",
+      "dateKind": "publication",
+      "title": "AlphaTensor découvre des algorithmes de multiplication de matrices",
+      "shortTitle": "AlphaTensor",
+      "organization": "DeepMind",
+      "category": "research",
+      "summary": "AlphaTensor trouve des algorithmes qui réduisent le nombre de multiplications pour certaines tailles de matrices.",
+      "context": "Le résultat publié dans Nature améliore des cas précis, dont des calculs en corps fini. Il ne résout pas la complexité optimale de toute multiplication matricielle.",
+      "landmark": true,
+      "tags": ["mathématiques", "algorithmes", "calcul"],
+      "sources": [
+        {
+          "label": "Publication et présentation d'AlphaTensor",
+          "url": "https://deepmind.google/blog/discovering-novel-algorithms-with-alphatensor/"
         }
       ]
     },
@@ -974,6 +1050,44 @@
       ]
     },
     {
+      "id": "alphadev",
+      "date": "2023-06-07",
+      "dateKind": "publication",
+      "title": "AlphaDev découvre de nouveaux algorithmes de tri",
+      "shortTitle": "AlphaDev",
+      "organization": "Google DeepMind",
+      "category": "research",
+      "summary": "AlphaDev utilise l'apprentissage par renforcement pour chercher des séquences d'instructions qui accélèrent le tri de données.",
+      "context": "La publication dans Nature documente des gains sur des cas et des architectures précis. Elle ne promet pas la même accélération pour tous les programmes.",
+      "landmark": false,
+      "tags": ["algorithmes", "informatique", "calcul"],
+      "sources": [
+        {
+          "label": "Publication scientifique AlphaDev",
+          "url": "https://deepmind.google/blog/alphadev-discovers-faster-sorting-algorithms/"
+        }
+      ]
+    },
+    {
+      "id": "rfdiffusion",
+      "date": "2023-07-11",
+      "dateKind": "publication",
+      "title": "RFdiffusion conçoit de nouvelles protéines",
+      "shortTitle": "RFdiffusion",
+      "organization": "Institute for Protein Design, UW",
+      "category": "research",
+      "summary": "Une méthode de diffusion génère des structures de protéines, notamment des assemblages et des protéines capables de se lier à une cible.",
+      "context": "La publication associe conception informatique et validations expérimentales. Concevoir une protéine ne suffit pas à en faire un médicament.",
+      "landmark": true,
+      "tags": ["biologie", "protéines", "médecine"],
+      "sources": [
+        {
+          "label": "Étude RFdiffusion dans Nature",
+          "url": "https://www.nature.com/articles/s41586-023-06415-8"
+        }
+      ]
+    },
+    {
       "id": "llama-2",
       "date": "2023-07-18",
       "dateKind": "release",
@@ -1031,6 +1145,25 @@
       ]
     },
     {
+      "id": "alphamissense",
+      "date": "2023-09-19",
+      "dateKind": "publication",
+      "title": "AlphaMissense prédit les effets de mutations génétiques",
+      "shortTitle": "AlphaMissense",
+      "organization": "Google DeepMind",
+      "category": "research",
+      "summary": "AlphaMissense classe les effets probables de mutations qui changent un acide aminé dans une protéine humaine.",
+      "context": "Le catalogue aide à prioriser les recherches sur les variants. Une prédiction de pathogénicité ne remplace pas la validation clinique.",
+      "landmark": false,
+      "tags": ["biologie", "génétique", "médecine"],
+      "sources": [
+        {
+          "label": "Publication AlphaMissense dans Science",
+          "url": "https://deepmind.google/research/publications/21083/"
+        }
+      ]
+    },
+    {
       "id": "mistral-7b",
       "date": "2023-09-27",
       "dateKind": "release",
@@ -1069,6 +1202,44 @@
       ]
     },
     {
+      "id": "graphcast",
+      "date": "2023-11-14",
+      "dateKind": "publication",
+      "title": "GraphCast produit des prévisions météo à dix jours",
+      "shortTitle": "GraphCast",
+      "organization": "Google DeepMind",
+      "category": "research",
+      "summary": "GraphCast utilise un réseau de neurones sur graphes pour prévoir la météo mondiale jusqu'à dix jours à l'avance.",
+      "context": "La publication dans Science compare ses résultats au modèle HRES du centre européen de prévision sur un ensemble de variables et d'échéances.",
+      "landmark": false,
+      "tags": ["climat", "météo", "science"],
+      "sources": [
+        {
+          "label": "Publication de GraphCast",
+          "url": "https://deepmind.google/blog/graphcast-ai-model-for-faster-and-more-accurate-global-weather-forecasting/"
+        }
+      ]
+    },
+    {
+      "id": "gnome",
+      "date": "2023-11-29",
+      "dateKind": "publication",
+      "title": "GNoME explore la stabilité de nouveaux matériaux",
+      "shortTitle": "GNoME et les matériaux",
+      "organization": "Google DeepMind",
+      "category": "research",
+      "summary": "GNoME propose des structures cristallines et évalue leur stabilité avec des calculs de physique des matériaux.",
+      "context": "Les millions de structures annoncées sont des prédictions informatiques. Elles ne correspondent pas toutes à des matériaux synthétisés ou exploitables industriellement.",
+      "landmark": true,
+      "tags": ["matériaux", "chimie", "énergie"],
+      "sources": [
+        {
+          "label": "Étude GNoME et publication Nature",
+          "url": "https://deepmind.google/blog/millions-of-new-materials-discovered-with-deep-learning/"
+        }
+      ]
+    },
+    {
       "id": "gemini-1",
       "date": "2023-12-06",
       "dateKind": "announcement",
@@ -1103,6 +1274,25 @@
         {
           "label": "Publication de Mixtral",
           "url": "https://mistral.ai/news/mixtral-of-experts/"
+        }
+      ]
+    },
+    {
+      "id": "funsearch",
+      "date": "2023-12-14",
+      "dateKind": "publication",
+      "title": "FunSearch améliore des constructions mathématiques",
+      "shortTitle": "FunSearch",
+      "organization": "Google DeepMind",
+      "category": "research",
+      "summary": "FunSearch combine un modèle de langage et un évaluateur de programmes pour trouver de nouvelles constructions pour les cap sets et des heuristiques de rangement.",
+      "context": "Les programmes produits sont vérifiés par l'évaluateur. Les progrès sur les cap sets ne résolvent pas l'ensemble de ce problème de combinatoire.",
+      "landmark": true,
+      "tags": ["mathématiques", "combinatoire", "algorithmes"],
+      "sources": [
+        {
+          "label": "Publication de FunSearch",
+          "url": "https://deepmind.google/blog/funsearch-making-new-discoveries-in-mathematical-sciences-using-large-language-models/"
         }
       ]
     },
@@ -1297,6 +1487,25 @@
       ]
     },
     {
+      "id": "alphaproof-imo",
+      "date": "2024-07-25",
+      "dateKind": "announcement",
+      "title": "AlphaProof et AlphaGeometry 2 atteignent le niveau argent à l'IMO",
+      "shortTitle": "AlphaProof, niveau argent",
+      "organization": "Google DeepMind",
+      "category": "milestone",
+      "summary": "Les deux systèmes résolvent quatre des six problèmes des Olympiades internationales de mathématiques 2024, soit 28 points sur 42.",
+      "context": "Il s'agit d'une évaluation des solutions par des mathématiciens, pas d'une participation humaine au concours ni de la résolution d'un problème du millénaire.",
+      "landmark": true,
+      "tags": ["mathématiques", "preuves", "olympiades"],
+      "sources": [
+        {
+          "label": "Évaluation IMO 2024 par Google DeepMind",
+          "url": "https://deepmind.google/blog/ai-solves-imo-problems-at-silver-medal-level/"
+        }
+      ]
+    },
+    {
       "id": "ai-act-effective",
       "date": "2024-08-01",
       "dateKind": "effective",
@@ -1331,6 +1540,25 @@
         {
           "label": "Publication de FLUX.1",
           "url": "https://bfl.ai/blog/24-08-01-bfl"
+        }
+      ]
+    },
+    {
+      "id": "alphaproteo",
+      "date": "2024-09-05",
+      "dateKind": "publication",
+      "title": "AlphaProteo génère des protéines de liaison",
+      "shortTitle": "AlphaProteo",
+      "organization": "Google DeepMind",
+      "category": "research",
+      "summary": "AlphaProteo conçoit des protéines destinées à se lier à des cibles moléculaires pour la recherche en biologie et en santé.",
+      "context": "Les protéines de liaison sont des outils et des candidats de recherche. Leur conception ne démontre pas un bénéfice thérapeutique chez les patients.",
+      "landmark": false,
+      "tags": ["biologie", "protéines", "médecine"],
+      "sources": [
+        {
+          "label": "Publication de recherche AlphaProteo",
+          "url": "https://deepmind.google/blog/alphaproteo-generates-novel-proteins-for-biology-and-health-research/"
         }
       ]
     },
@@ -1487,6 +1715,44 @@
       ]
     },
     {
+      "id": "operator",
+      "date": "2025-01-23",
+      "dateKind": "release",
+      "title": "Operator ouvre une préversion de navigation autonome",
+      "shortTitle": "Operator",
+      "organization": "OpenAI",
+      "category": "product",
+      "summary": "Operator utilise son propre navigateur pour cliquer, saisir du texte et réaliser des tâches sur des sites web.",
+      "context": "La préversion initiale est réservée aux abonnés Pro aux États-Unis. Certaines actions demandent une intervention ou une validation de l'utilisateur.",
+      "landmark": false,
+      "tags": ["agents", "navigation", "ordinateur"],
+      "sources": [
+        {
+          "label": "Annonce d'Operator",
+          "url": "https://openai.com/index/introducing-operator/"
+        }
+      ]
+    },
+    {
+      "id": "ai-co-scientist",
+      "date": "2025-02-19",
+      "dateKind": "announcement",
+      "title": "Google présente un assistant de recherche scientifique multi-agent",
+      "shortTitle": "AI co-scientist",
+      "organization": "Google Research",
+      "category": "research",
+      "summary": "AI co-scientist utilise plusieurs agents basés sur Gemini 2.0 pour proposer, discuter et améliorer des hypothèses scientifiques.",
+      "context": "Les chercheurs fixent les questions et évaluent les propositions. Les hypothèses générées demandent des vérifications et, selon le domaine, des expériences.",
+      "landmark": true,
+      "tags": ["science", "biologie", "agents"],
+      "sources": [
+        {
+          "label": "Présentation de AI co-scientist",
+          "url": "https://research.google/blog/accelerating-scientific-breakthroughs-with-an-ai-co-scientist/"
+        }
+      ]
+    },
+    {
       "id": "claude-3-7-code",
       "date": "2025-02-24",
       "dateKind": "release",
@@ -1521,6 +1787,25 @@
         {
           "label": "Journal de publication officiel de Wan2.1",
           "url": "https://github.com/Wan-Video/Wan2.1"
+        }
+      ]
+    },
+    {
+      "id": "gemini-robotics",
+      "date": "2025-03-12",
+      "dateKind": "announcement",
+      "title": "Gemini Robotics relie compréhension visuelle et action physique",
+      "shortTitle": "Gemini Robotics",
+      "organization": "Google DeepMind",
+      "category": "model",
+      "summary": "Google présente Gemini Robotics et Robotics-ER, deux modèles dérivés de Gemini 2.0 pour la manipulation et le raisonnement spatial.",
+      "context": "Les démonstrations concernent des plateformes robotiques et des partenaires de recherche. Elles ne constituent pas une mise en vente de robots domestiques.",
+      "landmark": true,
+      "tags": ["robotique", "vision", "monde physique"],
+      "sources": [
+        {
+          "label": "Présentation de Gemini Robotics",
+          "url": "https://deepmind.google/blog/gemini-robotics-brings-ai-into-the-physical-world/"
         }
       ]
     },
@@ -1658,6 +1943,82 @@
       ]
     },
     {
+      "id": "rentosertib-phase-2a",
+      "date": "2025-06-03",
+      "dateKind": "publication",
+      "title": "Un candidat médicament conçu avec l'IA publie ses résultats de phase 2a",
+      "shortTitle": "Rentosertib, phase 2a",
+      "organization": "Insilico Medicine et partenaires cliniques",
+      "category": "research",
+      "summary": "Nature Medicine publie un essai randomisé du rentosertib, inhibiteur de TNIK conçu avec l'IA, dans la fibrose pulmonaire idiopathique.",
+      "context": "L'étude porte sur 71 patients et douze semaines. Ces résultats exploratoires ne constituent ni une preuve définitive d'efficacité ni une autorisation de mise sur le marché.",
+      "landmark": true,
+      "tags": ["médecine", "essai clinique", "découverte de médicaments"],
+      "sources": [
+        {
+          "label": "Essai clinique publié dans Nature Medicine",
+          "url": "https://www.nature.com/articles/s41591-025-03743-2"
+        }
+      ]
+    },
+    {
+      "id": "alphagenome",
+      "date": "2025-06-25",
+      "dateKind": "release",
+      "title": "AlphaGenome prédit les effets de variations de l'ADN",
+      "shortTitle": "AlphaGenome",
+      "organization": "Google DeepMind",
+      "category": "research",
+      "summary": "Google ouvre une API de recherche pour AlphaGenome, qui prédit plusieurs propriétés de régulation des gènes à partir de séquences d'ADN.",
+      "context": "L'annonce concerne un outil de recherche en génomique. La publication dans Nature intervient ensuite, en janvier 2026.",
+      "landmark": true,
+      "tags": ["biologie", "génétique", "génomique"],
+      "sources": [
+        {
+          "label": "Annonce de l'API AlphaGenome",
+          "url": "https://deepmind.google/blog/alphagenome-ai-for-better-understanding-the-genome/"
+        }
+      ]
+    },
+    {
+      "id": "chatgpt-agent",
+      "date": "2025-07-17",
+      "dateKind": "release",
+      "title": "ChatGPT intègre les capacités de navigation d'Operator",
+      "shortTitle": "ChatGPT agent",
+      "organization": "OpenAI",
+      "category": "product",
+      "summary": "Le mode agent de ChatGPT intègre les capacités d'Operator pour réaliser des tâches dans un navigateur.",
+      "context": "L'annonce remplace progressivement l'accès au site autonome Operator. Les conditions d'accès dépendent des offres et du déploiement.",
+      "landmark": false,
+      "tags": ["agents", "navigation", "ordinateur"],
+      "sources": [
+        {
+          "label": "Mise à jour du 17 juillet sur l'intégration d'Operator",
+          "url": "https://openai.com/index/introducing-operator/"
+        }
+      ]
+    },
+    {
+      "id": "gemini-imo-gold",
+      "date": "2025-07-21",
+      "dateKind": "announcement",
+      "title": "Gemini Deep Think atteint le niveau or à l'IMO",
+      "shortTitle": "Gemini, niveau or",
+      "organization": "Google DeepMind",
+      "category": "milestone",
+      "summary": "Une version avancée de Gemini Deep Think résout cinq des six problèmes de l'IMO 2025 et obtient 35 points sur 42.",
+      "context": "Les coordinateurs de l'IMO ont évalué les solutions selon les critères du concours. Une performance olympique ne démontre pas la résolution de questions de recherche ouvertes.",
+      "landmark": true,
+      "tags": ["mathématiques", "olympiades", "raisonnement"],
+      "sources": [
+        {
+          "label": "Évaluation officielle IMO 2025",
+          "url": "https://deepmind.google/blog/advanced-version-of-gemini-with-deep-think-officially-achieves-gold-medal-standard-at-the-international-mathematical-olympiad/"
+        }
+      ]
+    },
+    {
       "id": "gpt-oss",
       "date": "2025-08-05",
       "dateKind": "release",
@@ -1753,6 +2114,25 @@
       ]
     },
     {
+      "id": "aletheia",
+      "date": "2026-02-11",
+      "dateKind": "publication",
+      "title": "Aletheia explore des problèmes de recherche mathématique",
+      "shortTitle": "Aletheia et Deep Think",
+      "organization": "Google DeepMind",
+      "category": "research",
+      "summary": "Google présente Aletheia, un agent basé sur Deep Think qui génère, vérifie et révise des arguments mathématiques.",
+      "context": "Les travaux décrits sont menés sous la direction de chercheurs. La recherche de sources et la vérification des arguments font partie du dispositif.",
+      "landmark": true,
+      "tags": ["mathématiques", "preuves", "science"],
+      "sources": [
+        {
+          "label": "Présentation des travaux Aletheia",
+          "url": "https://deepmind.google/blog/accelerating-mathematical-and-scientific-discovery-with-gemini-deep-think/"
+        }
+      ]
+    },
+    {
       "id": "gemini-3-1-pro",
       "date": "2026-02-19",
       "dateKind": "release",
@@ -1829,6 +2209,25 @@
       ]
     },
     {
+      "id": "erdos-unit-distance",
+      "date": "2026-05-20",
+      "dateKind": "publication",
+      "title": "OpenAI annonce une réfutation de la conjecture des distances unité d'Erdős",
+      "shortTitle": "Conjecture des distances unité",
+      "organization": "OpenAI",
+      "category": "research",
+      "summary": "OpenAI publie un résultat de géométrie discrète obtenu par un modèle interne, présenté comme une réfutation de la conjecture des distances unité d'Erdős.",
+      "context": "Cette conjecture est distincte des sept problèmes du millénaire. Le résultat et son argument sont documentés dans la publication de recherche.",
+      "landmark": true,
+      "tags": ["mathématiques", "Erdős", "géométrie", "conjectures"],
+      "sources": [
+        {
+          "label": "Publication sur la conjecture d'Erdős",
+          "url": "https://openai.com/index/model-disproves-discrete-geometry-conjecture/"
+        }
+      ]
+    },
+    {
       "id": "claude-fable-mythos-5",
       "date": "2026-06-09",
       "dateKind": "release",
@@ -1844,6 +2243,139 @@
         {
           "label": "Annonce de Claude Fable 5 et Mythos 5",
           "url": "https://www.anthropic.com/news/claude-fable-5-mythos-5"
+        }
+      ]
+    },
+    {
+      "id": "gpt-5-6-sol",
+      "date": "2026-07-09",
+      "dateKind": "release",
+      "title": "GPT-5.6 Sol arrive dans ChatGPT",
+      "shortTitle": "GPT-5.6 Sol",
+      "organization": "OpenAI",
+      "category": "model",
+      "summary": "OpenAI commence le déploiement de GPT-5.6 Sol pour les tâches complexes de code, recherche, sciences et utilisation de l'ordinateur.",
+      "context": "La date correspond à son déploiement dans ChatGPT consigné dans les notes officielles des modèles.",
+      "landmark": false,
+      "tags": ["raisonnement", "code", "science"],
+      "sources": [
+        {
+          "label": "Notes officielles des modèles, 9 juillet 2026",
+          "url": "https://help.openai.com/en/articles/9624314-model-release-notes"
+        }
+      ]
+    },
+    {
+      "id": "jacobian-counterexample",
+      "date": "2026-07-21",
+      "dateKind": "publication",
+      "title": "Terence Tao explique un contre-exemple à la conjecture jacobienne obtenu avec Fable",
+      "shortTitle": "Conjecture jacobienne",
+      "organization": "Terence Tao et travaux avec Fable",
+      "category": "research",
+      "summary": "Terence Tao expose et vérifie un contre-exemple polynomial en dimension trois à la conjecture jacobienne, obtenu avec l'aide de Fable.",
+      "context": "La date est celle de cette exposition mathématique. Le cas de dimension deux reste ouvert dans cette source ; la conjecture jacobienne n'est pas un problème du millénaire.",
+      "landmark": true,
+      "tags": ["mathématiques", "Jacobi", "géométrie algébrique", "conjectures"],
+      "sources": [
+        {
+          "label": "Exposition et vérification par Terence Tao",
+          "url": "https://terrytao.wordpress.com/2026/07/21/a-digestion-of-the-jacobian-conjecture-counterexample/"
+        }
+      ]
+    },
+    {
+      "id": "openai-ten-math-advances",
+      "date": "2026-08-01",
+      "dateKind": "publication",
+      "title": "OpenAI publie dix résultats de mathématiques et d'informatique théorique",
+      "shortTitle": "Dix résultats mathématiques",
+      "organization": "OpenAI",
+      "category": "research",
+      "summary": "Les résultats annoncés concernent notamment les empilements de sphères, les codes, les groupes et la complexité des calculs.",
+      "context": "OpenAI publie des manuscrits et des certificats Lean. Les dix résultats comprennent des résolutions et des progrès partiels, pas dix problèmes du millénaire résolus.",
+      "landmark": true,
+      "tags": ["mathématiques", "preuves", "complexité", "Lean"],
+      "sources": [
+        {
+          "label": "Publication des dix résultats",
+          "url": "https://openai.com/index/ten-advances-in-mathematics/"
+        }
+      ]
+    },
+    {
+      "id": "qwen-3-8-max",
+      "date": "2026-08-03",
+      "dateKind": "release",
+      "title": "Qwen3.8-Max ouvre son accès API",
+      "shortTitle": "Qwen3.8-Max",
+      "organization": "Alibaba Qwen",
+      "category": "model",
+      "summary": "Alibaba lance Qwen3.8-Max sur QwenCloud pour le code, la recherche et les tâches longues.",
+      "context": "L'annonce promet les poids pour la semaine suivante. Cette fiche date l'accès API et ne confond pas cette promesse avec une publication des poids déjà réalisée.",
+      "landmark": false,
+      "tags": ["Chine", "multimodal", "agents", "code"],
+      "sources": [
+        {
+          "label": "Annonce officielle Qwen3.8-Max",
+          "url": "https://qwen.ai/blog?id=qwen3.8"
+        }
+      ]
+    },
+    {
+      "id": "grok-bot",
+      "date": "2026-08-11",
+      "dateKind": "release",
+      "title": "Grok Bot ouvre sa bêta d'agents persistants",
+      "shortTitle": "Grok Bot",
+      "organization": "xAI / SpaceX, Cursor",
+      "category": "product",
+      "summary": "Grok Bot propose des agents dotés d'un ordinateur dans le cloud, d'une mémoire et de routines pour travailler dans les outils de l'utilisateur.",
+      "context": "Les Bots peuvent se coordonner et continuer une tâche en arrière-plan. Le lancement est une bêta ; les accès et quotas varient selon les abonnements.",
+      "landmark": true,
+      "tags": ["Grok Bots", "agents", "mémoire", "automatisation"],
+      "sources": [
+        {
+          "label": "Annonce de lancement de Grok Bot",
+          "url": "https://x.ai/news/introducing-grok-bot"
+        }
+      ]
+    },
+    {
+      "id": "glm-5-3",
+      "date": "2026-08-14",
+      "dateKind": "release",
+      "title": "GLM-5.3 renforce le code et les tâches longues",
+      "shortTitle": "GLM-5.3",
+      "organization": "Z.ai",
+      "category": "model",
+      "summary": "Z.ai publie GLM-5.3, issu du même modèle de base que GLM-5.2 avec un entraînement complémentaire centré sur les tâches longues.",
+      "context": "La publication documente trois niveaux d'effort de raisonnement et des changements de paramètres API. Les comparaisons de performance restent celles de l'éditeur.",
+      "landmark": false,
+      "tags": ["Chine", "poids ouverts", "code", "agents"],
+      "sources": [
+        {
+          "label": "Publication de GLM-5.3",
+          "url": "https://z.ai/blog/glm-5.3"
+        }
+      ]
+    },
+    {
+      "id": "gemini-3-8-flash",
+      "date": "2026-09-02",
+      "dateKind": "publication",
+      "title": "Google publie la fiche de Gemini 3.8 Flash",
+      "shortTitle": "Gemini 3.8 Flash",
+      "organization": "Google DeepMind",
+      "category": "model",
+      "summary": "La fiche de Gemini 3.8 Flash décrit des progrès en ingénierie logicielle et dans les tâches professionnelles réalisées par des agents.",
+      "context": "La date retenue est celle de publication de la fiche du modèle. Elle conserve les limites et les évaluations documentées par Google.",
+      "landmark": false,
+      "tags": ["multimodal", "agents", "code"],
+      "sources": [
+        {
+          "label": "Fiche officielle de Gemini 3.8 Flash",
+          "url": "https://deepmind.google/models/model-cards/gemini-3-8-flash/"
         }
       ]
     },
@@ -1867,6 +2399,322 @@
       ]
     },
     {
+      "id": "meta-muse",
+      "date": "2026-09-08",
+      "dateKind": "announcement",
+      "title": "Meta présente Muse, son agent personnel",
+      "shortTitle": "Meta Muse",
+      "organization": "Meta",
+      "category": "product",
+      "summary": "Meta présente Muse comme un agent personnel capable de suivre des objectifs et d'utiliser des services connectés.",
+      "context": "L'annonce de l'assistant précède celle des modèles Muse Wonder du 12 octobre. Les usages dépendent des applications connectées et de leurs permissions.",
+      "landmark": true,
+      "tags": ["Muse", "agents", "assistant personnel"],
+      "sources": [
+        {
+          "label": "Annonce initiale de Muse",
+          "url": "https://about.fb.com/news/2026/09/introducing-muse-personal-ai-agent/"
+        }
+      ]
+    },
+    {
+      "id": "navier-stokes-proposed-proof",
+      "date": "2026-09-08",
+      "dateKind": "publication",
+      "title": "OpenAI propose une preuve pour le problème du millénaire de Navier-Stokes",
+      "shortTitle": "Navier-Stokes, preuve proposée",
+      "organization": "OpenAI",
+      "category": "research",
+      "summary": "OpenAI publie une preuve analytique et une formalisation Lean d'une singularité en temps fini pour un fluide 3D soumis à une force extérieure lisse.",
+      "context": "OpenAI présente ce résultat comme répondant aux formulations C et D du problème du millénaire. L'annonce d'une preuve et sa formalisation ne valent pas attribution du prix Clay ; OpenAI indique ne pas le réclamer.",
+      "landmark": true,
+      "tags": ["mathématiques", "problèmes du millénaire", "Navier-Stokes", "physique", "Lean"],
+      "sources": [
+        {
+          "label": "Preuve proposée et précisions d'OpenAI",
+          "url": "https://openai.com/index/navier-stokes-solution/"
+        },
+        {
+          "label": "Formulation du problème, Clay Mathematics Institute",
+          "url": "https://www.claymath.org/millennium/navier-stokes-equation/"
+        }
+      ]
+    },
+    {
+      "id": "grok-4-7",
+      "date": "2026-09-21",
+      "dateKind": "release",
+      "title": "Grok 4.7 renouvelle la gamme Grok",
+      "shortTitle": "Grok 4.7",
+      "organization": "xAI / SpaceX",
+      "category": "model",
+      "summary": "xAI annonce Grok 4.7, une nouvelle version de sa famille de modèles destinée aux usages de Grok et de ses agents.",
+      "context": "La fiche renvoie à l'annonce du modèle pour distinguer ses capacités, ses évaluations et ses conditions d'accès.",
+      "landmark": false,
+      "tags": ["Grok", "modèle", "agents"],
+      "sources": [
+        {
+          "label": "Annonce officielle de Grok 4.7",
+          "url": "https://x.ai/news/grok-4-7"
+        }
+      ]
+    },
+    {
+      "id": "claude-opus-5-5",
+      "date": "2026-09-22",
+      "dateKind": "release",
+      "title": "Anthropic lance Claude Opus 5.5",
+      "shortTitle": "Claude Opus 5.5",
+      "organization": "Anthropic",
+      "category": "model",
+      "summary": "Anthropic présente Opus 5.5 pour les travaux complexes, avec des capacités rapprochées de Fable 5.1 sur ses évaluations.",
+      "context": "Les comparaisons et réductions de coût annoncées dépendent des tâches et des réglages de raisonnement. Elles ne valent pas un classement universel.",
+      "landmark": false,
+      "tags": ["raisonnement", "code", "agents"],
+      "sources": [
+        {
+          "label": "Présentation de Claude Opus 5.5",
+          "url": "https://www.anthropic.com/claude-opus-5-5"
+        }
+      ]
+    },
+    {
+      "id": "gpt-6-sol-luna",
+      "date": "2026-09-22",
+      "dateKind": "release",
+      "title": "GPT-6 Sol et Luna complètent Astra",
+      "shortTitle": "GPT-6 Sol et Luna",
+      "organization": "OpenAI",
+      "category": "model",
+      "summary": "OpenAI lance Sol et Luna pour proposer différents compromis entre capacités, rapidité et coût dans la famille GPT-6.",
+      "context": "L'accès initial concerne ChatGPT Work, Codex et l'API. Le déploiement dans le mode Chat de ChatGPT est un événement distinct, annoncé le 7 octobre.",
+      "landmark": true,
+      "tags": ["raisonnement", "code", "agents"],
+      "sources": [
+        {
+          "label": "Annonce de GPT-6 Sol et Luna",
+          "url": "https://openai.com/index/introducing-gpt-6-sol-and-luna/"
+        }
+      ]
+    },
+    {
+      "id": "claude-art-enzyme",
+      "date": "2026-09-23",
+      "dateKind": "publication",
+      "title": "Claude identifie un système enzymatique associé à des répétitions d'ADN",
+      "shortTitle": "Claude et les enzymes ART",
+      "organization": "Anthropic",
+      "category": "research",
+      "summary": "Des agents Claude repèrent un système de transcriptases inverses associé à des répétitions d'ADN, nommé ART, puis étudié au laboratoire.",
+      "context": "Les motifs rappellent certains traits de CRISPR, mais la fonction du système reste à établir. Les expériences sont réalisées par des scientifiques humains ; aucun nouvel outil d'édition génétique opérationnel n'est démontré.",
+      "landmark": true,
+      "tags": ["biologie", "CRISPR", "enzymes", "génomique"],
+      "sources": [
+        {
+          "label": "Recherche et prépublication sur les enzymes ART",
+          "url": "https://www.anthropic.com/news/claude-discovers-novel-enzyme-system"
+        }
+      ]
+    },
+    {
+      "id": "claude-sonnet-5-5",
+      "date": "2026-09-28",
+      "dateKind": "release",
+      "title": "Claude Sonnet 5.5 succède à Sonnet 5",
+      "shortTitle": "Claude Sonnet 5.5",
+      "organization": "Anthropic",
+      "category": "model",
+      "summary": "Anthropic lance Sonnet 5.5 avec des améliorations annoncées en rapidité et en coût sur les tâches professionnelles et le code.",
+      "context": "Sonnet 5.5 complète Opus 5.5. La disponibilité de Haiku 5.5 fait l'objet d'une annonce séparée le 7 octobre.",
+      "landmark": false,
+      "tags": ["code", "raisonnement", "agents"],
+      "sources": [
+        {
+          "label": "Présentation de Claude Sonnet 5.5",
+          "url": "https://www.anthropic.com/claude-sonnet-5-5"
+        }
+      ]
+    },
+    {
+      "id": "grok-team-bots",
+      "date": "2026-09-28",
+      "dateKind": "release",
+      "title": "Team Bots partage les agents Grok au sein d'une équipe",
+      "shortTitle": "Grok Team Bots",
+      "organization": "xAI / SpaceX",
+      "category": "product",
+      "summary": "Team Bots permet de partager un agent Grok doté de fichiers, de compétences, de connexions aux applications et d'une mémoire commune.",
+      "context": "Le lancement étend Grok Bot à des rôles partagés. L'accès aux outils reste lié aux connexions et permissions configurées pour l'équipe.",
+      "landmark": false,
+      "tags": ["Grok Bots", "agents", "équipe", "mémoire"],
+      "sources": [
+        {
+          "label": "Annonce de Team Bots",
+          "url": "https://x.ai/news/team-bots"
+        }
+      ]
+    },
+    {
+      "id": "agents-api-computer-use",
+      "date": "2026-09-29",
+      "dateKind": "release",
+      "title": "Agents API ajoute l'utilisation de l'ordinateur",
+      "shortTitle": "Agents API, computer use",
+      "organization": "OpenAI",
+      "category": "product",
+      "summary": "OpenAI étend Agents API à l'interaction avec des logiciels et aux tâches multi-agents sur son infrastructure.",
+      "context": "La publication décrit aussi la recherche d'outils et la réduction du contexte. Les accès varient selon les offres.",
+      "landmark": false,
+      "tags": ["API", "agents", "ordinateur"],
+      "sources": [
+        {
+          "label": "DevDay 2026, Agents API",
+          "url": "https://openai.com/index/devday-2026-recap/"
+        }
+      ]
+    },
+    {
+      "id": "chatgpt-space",
+      "date": "2026-09-29",
+      "dateKind": "release",
+      "title": "ChatGPT Space réunit équipes, documents et agents",
+      "shortTitle": "ChatGPT Space et Pages",
+      "organization": "OpenAI",
+      "category": "product",
+      "summary": "Space et Pages proposent un espace partagé pour travailler avec ChatGPT, les Dots et des collègues.",
+      "context": "L'accès annoncé concerne Pro, Business et Enterprise. La création et l'édition sur mobile sont encore annoncées pour plus tard.",
+      "landmark": false,
+      "tags": ["Space", "Pages", "collaboration", "agents"],
+      "sources": [
+        {
+          "label": "Récapitulatif officiel du DevDay 2026",
+          "url": "https://openai.com/index/devday-2026-recap/"
+        }
+      ]
+    },
+    {
+      "id": "decisions-api",
+      "date": "2026-09-29",
+      "dateKind": "release",
+      "title": "OpenAI présente Decisions API",
+      "shortTitle": "Decisions API",
+      "organization": "OpenAI",
+      "category": "product",
+      "summary": "Decisions API utilise Luna pour répondre à des questions dont les réponses possibles sont définies à l'avance.",
+      "context": "Le lancement est une préversion limitée, pour classer des contenus, aiguiller des demandes ou choisir une action.",
+      "landmark": false,
+      "tags": ["API", "agents", "classification"],
+      "sources": [
+        {
+          "label": "DevDay 2026, préversion Decisions API",
+          "url": "https://openai.com/index/devday-2026-recap/"
+        }
+      ]
+    },
+    {
+      "id": "gpt-6-1-sol",
+      "date": "2026-09-29",
+      "dateKind": "release",
+      "title": "GPT-6.1 Sol rapproche les capacités d'Astra à moindre coût",
+      "shortTitle": "GPT-6.1 Sol",
+      "organization": "OpenAI",
+      "category": "model",
+      "summary": "GPT-6.1 Sol améliore le code, l'utilisation de l'ordinateur et les tâches professionnelles par rapport à GPT-6 Sol.",
+      "context": "OpenAI annonce un prix standard des tokens d'entrée et de sortie égal au cinquième de celui d'Astra. Les performances comparées proviennent des évaluations publiées par l'éditeur.",
+      "landmark": true,
+      "tags": ["GPT 6.1 Sol", "raisonnement", "code", "agents"],
+      "sources": [
+        {
+          "label": "Présentation de GPT-6.1 Sol",
+          "url": "https://openai.com/index/introducing-gpt-6-1-sol/"
+        },
+        {
+          "label": "Index de recherche OpenAI, annonce du 29 septembre",
+          "url": "https://openai.com/research/index/"
+        }
+      ]
+    },
+    {
+      "id": "openai-dots",
+      "date": "2026-09-29",
+      "dateKind": "release",
+      "title": "OpenAI lance Dots, ses agents personnels persistants",
+      "shortTitle": "OpenAI Dots",
+      "organization": "OpenAI",
+      "category": "product",
+      "summary": "Les Dots utilisent GPT-6 Astra et leur propre ordinateur dans le cloud pour poursuivre des objectifs, conserver du contexte et utiliser des applications connectées.",
+      "context": "Le déploiement commence pour les offres Pro, Business Premium et Enterprise dans les marchés éligibles. Les actions restent soumises aux permissions ; la recherche proactive en arrière-plan utilise des outils en lecture seule.",
+      "landmark": true,
+      "tags": ["Dots", "agents", "ordinateur", "mémoire", "automatisation"],
+      "sources": [
+        {
+          "label": "Annonce officielle de Dots",
+          "url": "https://openai.com/index/introducing-dots/"
+        }
+      ]
+    },
+    {
+      "id": "mistral-large-4",
+      "date": "2026-10-06",
+      "dateKind": "release",
+      "title": "Mistral Large 4 ouvre sa préversion publique",
+      "shortTitle": "Mistral Large 4",
+      "organization": "Mistral AI",
+      "category": "model",
+      "summary": "Mistral ouvre l'API de Large 4, un modèle multimodal à mélange d'experts, pour le code et les tâches professionnelles.",
+      "context": "Au 15 octobre, la source annonce les poids pour la fin du mois. La préversion API est accessible, mais cette annonce ne prouve pas que les poids sont déjà publiés.",
+      "landmark": true,
+      "tags": ["Europe", "multimodal", "code", "préversion"],
+      "sources": [
+        {
+          "label": "Annonce de Mistral Large 4",
+          "url": "https://mistral.ai/news/mistral-large-4/"
+        }
+      ]
+    },
+    {
+      "id": "openai-math-repository",
+      "date": "2026-10-06",
+      "dateKind": "publication",
+      "title": "OpenAI publie un corpus de résultats sur des problèmes mathématiques ouverts",
+      "shortTitle": "OpenAI Math",
+      "organization": "OpenAI",
+      "category": "research",
+      "summary": "OpenAI ouvre un dépôt de manuscrits produits avec un modèle interne, avec des formalisations Lean et des informations sur la méthode de recherche.",
+      "context": "Les résultats comprennent des solutions et des progrès partiels. Les manuscrits sont soumis à la lecture critique, aux corrections et aux retraits ; leur nombre ne signifie pas autant de théorèmes indépendamment validés.",
+      "landmark": true,
+      "tags": ["mathématiques", "preuves", "Lean", "conjectures", "recherche"],
+      "sources": [
+        {
+          "label": "Annonce du corpus mathématique",
+          "url": "https://openai.com/index/sharing-ai-progress-in-mathematics/"
+        },
+        {
+          "label": "Dépôt des manuscrits, corrections et formalisations",
+          "url": "https://github.com/openai/math"
+        }
+      ]
+    },
+    {
+      "id": "claude-haiku-5-5",
+      "date": "2026-10-07",
+      "dateKind": "release",
+      "title": "Claude Haiku 5.5 complète la famille Claude 5.5",
+      "shortTitle": "Claude Haiku 5.5",
+      "organization": "Anthropic",
+      "category": "model",
+      "summary": "Anthropic lance Haiku 5.5 pour les tâches rapides et répétitives, notamment les résumés, la classification et les sous-agents de code.",
+      "context": "Le modèle vise les usages sensibles à la latence et au coût. Les performances annoncées restent liées aux évaluations et conditions publiées par Anthropic.",
+      "landmark": false,
+      "tags": ["code", "petits modèles", "agents"],
+      "sources": [
+        {
+          "label": "Présentation de Claude Haiku 5.5",
+          "url": "https://www.anthropic.com/claude-haiku-5-5"
+        }
+      ]
+    },
+    {
       "id": "gpt-6-intelligent-ui",
       "date": "2026-10-07",
       "dateKind": "release",
@@ -1882,6 +2730,181 @@
         {
           "label": "Lancement de GPT-6 avec Intelligent UI",
           "url": "https://openai.com/index/gpt-6-for-everyone/"
+        }
+      ]
+    },
+    {
+      "id": "anthropic-cyber-mission",
+      "date": "2026-10-08",
+      "dateKind": "announcement",
+      "title": "Anthropic annonce sa Cyber Mission",
+      "shortTitle": "Anthropic Cyber Mission",
+      "organization": "Anthropic",
+      "category": "governance",
+      "summary": "Anthropic présente une initiative consacrée à la défense informatique et aux usages de ses modèles par les équipes de sécurité.",
+      "context": "Cette annonce concerne un programme de cybersécurité. Elle ne garantit pas que les systèmes analysés sont exempts de vulnérabilités.",
+      "landmark": false,
+      "tags": ["cybersécurité", "société", "défense"],
+      "sources": [
+        {
+          "label": "Annonce de la Cyber Mission",
+          "url": "https://www.anthropic.com/news/anthropic-cyber-mission"
+        }
+      ]
+    },
+    {
+      "id": "muse-wonder",
+      "date": "2026-10-12",
+      "dateKind": "release",
+      "title": "Meta lance Muse Wonder et Muse Wonder Full",
+      "shortTitle": "Muse Wonder",
+      "organization": "Meta",
+      "category": "model",
+      "summary": "Meta présente deux modèles pour les agents personnels et professionnels. Muse Wonder arrive dans Meta Model API et Muse Code.",
+      "context": "Muse Wonder Full est annoncé pour les abonnés Muse Code. L'intégration à l'assistant Muse reste un déploiement à venir dans l'annonce initiale.",
+      "landmark": true,
+      "tags": ["agents", "modèles", "Meta"],
+      "sources": [
+        {
+          "label": "Annonce officielle de Muse Wonder",
+          "url": "https://about.fb.com/news/2026/10/introducing-muse-wonder-models/"
+        }
+      ]
+    },
+    {
+      "id": "x-subscription",
+      "date": "2026-10-12",
+      "dateKind": "release",
+      "title": "Un abonnement X réunit Grok, Grok Bot et Cursor",
+      "shortTitle": "Abonnement X et Grok Bot",
+      "organization": "xAI / SpaceX",
+      "category": "product",
+      "summary": "The X Subscription rassemble Grok, Grok Bot, Cursor et X Premium dans une offre commune.",
+      "context": "L'événement porte sur la distribution des outils et leurs quotas communs. Il est distinct du lancement de Grok Bot en août.",
+      "landmark": false,
+      "tags": ["Grok Bots", "Cursor", "agents", "abonnements"],
+      "sources": [
+        {
+          "label": "Annonce de l'abonnement X",
+          "url": "https://x.ai/news/x-subscription"
+        }
+      ]
+    },
+    {
+      "id": "gemini-4-argon",
+      "date": "2026-10-13",
+      "dateKind": "release",
+      "title": "Gemini 4 Argon arrive dans l'API et les applications Google",
+      "shortTitle": "Gemini 4 Argon",
+      "organization": "Google DeepMind",
+      "category": "model",
+      "summary": "Google ouvre Gemini 4 Argon pour les tâches longues de développement, de raisonnement et de recherche.",
+      "context": "L'API, Antigravity et l'application Gemini proposent des accès selon les offres. Les comparaisons de performance sont celles des évaluations publiées.",
+      "landmark": true,
+      "tags": ["raisonnement", "code", "agents", "science"],
+      "sources": [
+        {
+          "label": "Annonce développeurs de Gemini 4 Argon",
+          "url": "https://blog.google/innovation-and-ai/technology/developers-tools/build-with-gemini-4-argon/"
+        },
+        {
+          "label": "Déploiement dans l'application Gemini",
+          "url": "https://blog.google/innovation-and-ai/products/gemini-app/gemini-4-argon-availability/"
+        }
+      ]
+    },
+    {
+      "id": "aa-robotics",
+      "date": "2026-10-14",
+      "dateKind": "publication",
+      "title": "AA-Robotics teste des modèles de langage aux commandes d'un bras robotique",
+      "shortTitle": "AA-Robotics",
+      "organization": "Artificial Analysis",
+      "category": "milestone",
+      "summary": "Artificial Analysis publie une première évaluation de modèles généralistes qui pilotent un bras robotique sur huit tâches.",
+      "context": "La version 0.1 est une préversion de recherche sur un dispositif précis. Ses scores ne prouvent pas que ces modèles peuvent contrôler seuls des robots en production.",
+      "landmark": false,
+      "tags": ["robotique", "évaluation", "monde physique"],
+      "sources": [
+        {
+          "label": "Protocole et premiers résultats AA-Robotics",
+          "url": "https://artificialanalysis.ai/articles/aa-robotics"
+        }
+      ]
+    },
+    {
+      "id": "deep-review",
+      "date": "2026-10-14",
+      "dateKind": "release",
+      "title": "Deep Review ouvre la relecture technique de documents",
+      "shortTitle": "Google Deep Review",
+      "organization": "Google Research",
+      "category": "research",
+      "summary": "Google ouvre Deep Review, un système d'agents qui analyse les arguments et la cohérence de documents techniques et scientifiques.",
+      "context": "Issu du Paper Assistant Tool, le service fournit un retour critique. Son avis ne remplace pas une évaluation humaine ni la validation d'une preuve.",
+      "landmark": false,
+      "tags": ["science", "mathématiques", "évaluation", "agents"],
+      "sources": [
+        {
+          "label": "Ouverture publique de Deep Review",
+          "url": "https://research.google/blog/analyzing-technical-documents-with-deep-review/"
+        }
+      ]
+    },
+    {
+      "id": "earth-ai-agents",
+      "date": "2026-10-14",
+      "dateKind": "announcement",
+      "title": "Earth AI étend ses agents d'analyse géospatiale",
+      "shortTitle": "Earth AI, agents géospatiaux",
+      "organization": "Google Research",
+      "category": "research",
+      "summary": "Google présente un agent qui combine modèles spécialisés, données géospatiales et outils pour analyser des phénomènes à l'échelle de la planète.",
+      "context": "Le rapport technique accompagne une extension des accès expérimentaux via Ask Google Earth et un service Agent-to-Agent. Les prédictions restent à évaluer pour chaque usage.",
+      "landmark": false,
+      "tags": ["climat", "géospatial", "science", "agents"],
+      "sources": [
+        {
+          "label": "Rapport et accès expérimentaux Earth AI",
+          "url": "https://research.google/blog/putting-earth-ai-to-work-geospatial-agents-for-our-planets-biggest-challenges/"
+        }
+      ]
+    },
+    {
+      "id": "grok-voice-3",
+      "date": "2026-10-14",
+      "dateKind": "release",
+      "title": "Grok Voice 3.0 arrive dans l'API vocale",
+      "shortTitle": "Grok Voice 3.0",
+      "organization": "xAI / SpaceX",
+      "category": "model",
+      "summary": "Grok Voice 3.0 renouvelle le modèle de conversation vocale de xAI, avec gestion des tours de parole et des interruptions.",
+      "context": "La disponibilité API est annoncée le 14 octobre. Les résultats sur les appels et la latence sont ceux rapportés dans la publication du fournisseur.",
+      "landmark": false,
+      "tags": ["voix", "audio", "agents"],
+      "sources": [
+        {
+          "label": "Annonce de Grok Voice 3.0",
+          "url": "https://x.ai/news/grok-voice-3"
+        }
+      ]
+    },
+    {
+      "id": "hiro-ace-v2",
+      "date": "2026-10-14",
+      "dateKind": "publication",
+      "title": "HiRO-ACEv2 simule les événements météo extrêmes à 3 km",
+      "shortTitle": "HiRO-ACEv2",
+      "organization": "Ai2",
+      "category": "research",
+      "summary": "Ai2 présente une nouvelle version de son émulateur climatique qui produit des champs de pluie, de vent et de pression à haute résolution.",
+      "context": "La comparaison de coût et de précision est mesurée face au simulateur X-SHiELD dans le rapport. Une simulation climatique ne constitue pas une prévision locale garantie.",
+      "landmark": false,
+      "tags": ["climat", "météo", "simulation", "science"],
+      "sources": [
+        {
+          "label": "Publication et rapport technique HiRO-ACEv2",
+          "url": "https://allenai.org/blog/hiro-acev2"
         }
       ]
     }

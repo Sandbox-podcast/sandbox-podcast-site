@@ -36,7 +36,8 @@ export default async function ChartsPage({
             '@type': 'CollectionPage',
             name: 'SANDBOX CHARTS',
             url: absoluteUrl('/charts'),
-            description: 'Projets open source, skills et modèles IA à suivre chaque semaine.',
+            description:
+              'Projets open source, skills et modèles IA, avec éditions datées et méthodes publiques.',
           },
           breadcrumbLd([
             { name: 'Accueil', path: '/' },

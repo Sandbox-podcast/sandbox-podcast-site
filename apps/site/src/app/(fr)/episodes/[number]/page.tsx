@@ -3,6 +3,7 @@ import { LocalizedLink as Link } from '@/components/localization';
 import { notFound } from 'next/navigation';
 import { EpisodeCover } from '@/components/cards';
 import { episodeArtwork } from '@/domain/episode-artwork';
+import { episodeYoutubeUrl } from '@/domain/home-discovery';
 import {
   episodeChapters,
   episodeVideoClips,
@@ -10,6 +11,9 @@ import {
   verifiedEpisodeDuration,
 } from '@/domain/episode-presentation';
 import { episodeResources } from '@/domain/episode-resources';
+import { episodeProjects } from '@/domain/episode-projects';
+import { personalProjectPath, PROJECT_CREATORS } from '@/domain/personal-projects';
+import { personalProjects } from '@/lib/personal-projects';
 import { indexableEpisode } from '@/domain/episode-seo';
 import { CopyButton, YouTubeFacade } from '@/components/client';
 import { Breadcrumbs } from '@/components/ui';
@@ -17,7 +21,7 @@ import { JsonLd } from '@/components/json-ld';
 import { siteConfig } from '@/config/site';
 import { formatDate, formatDurationExact, formatTimestamp, isoDuration } from '@/domain/format';
 import type { Episode } from '@/domain/schema';
-import { allEpisodes, getEpisode, getHost, getTopic } from '@/lib/repository';
+import { allEpisodes, getEpisode, getHost } from '@/lib/repository';
 import { preparePublishedEditorialContent } from '@/lib/admin-persistence';
 import { absoluteUrl, breadcrumbLd, pageMetadata } from '@/lib/seo';
 // Les épisodes publiés dans l'admin après le build doivent aussi être accessibles.
@@ -61,12 +65,13 @@ export default async function EpisodePage({ params, searchParams }: Props) {
   const older = all[idx + 1];
   const newer = all[idx - 1];
   const path = `/episodes/${String(episode.number)}`;
-  const resources = episodeResources(episode);
+  const resources = episodeResources(episode, personalProjects);
+  const projects = episodeProjects(episode, personalProjects);
   return (
     <article className="wrap episode-page pt-6">
       <Breadcrumbs
         items={[
-          { label: 'Podcasts', href: '/episodes' },
+          { label: 'Le podcast', href: '/podcast' },
           { label: `Épisode ${String(episode.number)}` },
         ]}
       />
@@ -95,24 +100,17 @@ export default async function EpisodePage({ params, searchParams }: Props) {
         <p className="episode-dek">
           <Text>{episode.dek}</Text>
         </p>
-        {episode.topics.length > 0 ? (
-          <p className="mt-4 flex flex-wrap gap-2">
-            {episode.topics.map((topic) => (
-              <Link key={topic} href={`/topics/${topic}`} className="chip">
-                <Text>{'#'}</Text>
-                <Text>{getTopic(topic).label}</Text>
-              </Link>
-            ))}
-          </p>
-        ) : null}
         <div className="mt-5 flex flex-wrap gap-2">
           <a
             className="btn btn-solid"
-            href={episode.platforms.youtubeUrl ?? siteConfig.platforms.youtube}
+            href={episodeYoutubeUrl(episode) ?? siteConfig.platforms.youtube}
             target="_blank"
             rel="noopener noreferrer"
+            data-analytics-event="youtube_open"
+            data-analytics-placement="episode"
+            data-analytics-episode={episode.number}
           >
-            <Text>{episode.platforms.youtubeUrl ? 'Voir sur YouTube' : 'La chaîne YouTube'}</Text>
+            <Text>{episodeYoutubeUrl(episode) ? 'Voir sur YouTube' : 'La chaîne YouTube'}</Text>
             <Text>{' \u2197'}</Text>
             <span className="sr-only">
               <Text>{'(nouvel onglet)'}</Text>
@@ -175,6 +173,7 @@ export default async function EpisodePage({ params, searchParams }: Props) {
             {youtubeId ? (
               <YouTubeFacade
                 id={youtubeId}
+                episodeNumber={episode.number}
                 title={episode.title}
                 {...(startAt !== undefined ? { startAt } : {})}
                 thumbnailUrl={episodeArtwork(episode)}
@@ -200,6 +199,28 @@ export default async function EpisodePage({ params, searchParams }: Props) {
 
       <div className="episode-layout">
         <div className="episode-main">
+          {projects.length ? (
+            <section className="episode-projects" aria-labelledby="episode-projects-title">
+              <h2 id="episode-projects-title" className="episode-details-heading">
+                <Text>{'Les projets de cet épisode'}</Text>
+              </h2>
+              {projects.map(({ project }) => (
+                <p key={project.slug}>
+                  <Link
+                    className="underline"
+                    href={personalProjectPath(project.slug)}
+                    data-analytics-event="episode_project_open"
+                    data-analytics-episode={episode.number}
+                    data-analytics-project={project.slug}
+                  >
+                    <Text>{'Découvrir'}</Text> {project.name}
+                  </Link>
+                  {' · '}
+                  <Text>{'Un projet de'}</Text> {PROJECT_CREATORS[project.creator].name}
+                </p>
+              ))}
+            </section>
+          ) : null}
           <section className="episode-chapters" aria-labelledby="chapters">
             <h2 id="chapters" className="episode-details-heading">
               <Text>{'Chapitres '}</Text>
@@ -305,7 +326,14 @@ export default async function EpisodePage({ params, searchParams }: Props) {
                       >
                         <Text>
                           {mention.url ? (
-                            <a href={mention.url} target="_blank" rel="noopener noreferrer">
+                            <a
+                              href={mention.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              data-analytics-event="episode_source_open"
+                              data-analytics-episode={episode.number}
+                              data-analytics-resource={index}
+                            >
                               <Text>{mention.label}</Text>
                             </a>
                           ) : (
@@ -402,8 +430,11 @@ export default async function EpisodePage({ params, searchParams }: Props) {
             ...(durationSec !== undefined ? { timeRequired: isoDuration(durationSec) } : {}),
             url: absoluteUrl(path),
             inLanguage: siteConfig.language,
-            partOfSeries: { '@type': 'PodcastSeries', name: siteConfig.name, url: siteConfig.url },
-            keywords: episode.topics.map((topic) => getTopic(topic).label).join(', '),
+            partOfSeries: {
+              '@type': 'PodcastSeries',
+              name: siteConfig.name,
+              url: absoluteUrl('/podcast'),
+            },
             ...(youtubeId ? { associatedMedia: { '@id': `${absoluteUrl(path)}#video` } } : {}),
           },
           ...(youtubeId
@@ -427,7 +458,7 @@ export default async function EpisodePage({ params, searchParams }: Props) {
             : []),
           breadcrumbLd([
             { name: 'Accueil', path: '/' },
-            { name: 'Podcasts', path: '/episodes' },
+            { name: 'Le podcast', path: '/podcast' },
             { name: `Épisode ${String(episode.number)}`, path },
           ]),
         ]}

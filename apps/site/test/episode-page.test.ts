@@ -50,7 +50,8 @@ describe("fiche publique d'un épisode", () => {
     expect(visible).toContain('href="/episodes/999?t=150#episode-video"');
     expect(visible.match(/href="https:\/\/example\.org\/source"/g)).toHaveLength(1);
     expect(visible).toContain('id="resource-0"');
-    expect(visible).toContain('href="/topics/agents"');
+    expect(visible).not.toContain('href="/topics/');
+    expect(visible).toContain('href="/podcast"');
     expect(html).toContain('La description longue reste une source éditoriale.');
   });
 

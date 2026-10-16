@@ -67,7 +67,6 @@ describe('description Markdown d’un épisode', () => {
         initialNumber: episode.number,
         episode,
         hosts: content.hosts,
-        topics: content.topics,
         otherEpisodes: content.episodes,
         onSelectEpisode: () => undefined,
         pending: false,

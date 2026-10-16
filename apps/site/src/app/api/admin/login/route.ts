@@ -1,11 +1,8 @@
+import { checkAdminAttempt } from '@/lib/admin-rate-limit';
+import { readLimitedRequestText, RequestBodyTooLargeError } from '@/lib/request-body';
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
-import {
-  ADMIN_COOKIE,
-  ADMIN_SESSION_SECONDS,
-  allowLoginAttempt,
-  originIsSameSite,
-} from '@/lib/admin-auth';
+import { ADMIN_COOKIE, ADMIN_SESSION_SECONDS, originIsSameSite } from '@/lib/admin-auth';
 import { adminAuthReady, loginAdmin } from '@/lib/admin-auth-db';
 
 export const runtime = 'nodejs';
@@ -30,10 +27,17 @@ export async function POST(request: Request): Promise<NextResponse> {
       { status: 503 },
     );
   }
-  if (!allowLoginAttempt(request)) {
+  const attempt = await checkAdminAttempt(request);
+  if (attempt.status === 'unavailable') {
+    return NextResponse.json(
+      { error: 'Protection des connexions indisponible. Réessayez plus tard.' },
+      { status: 503 },
+    );
+  }
+  if (attempt.status === 'limited') {
     return NextResponse.json(
       { error: 'Trop de tentatives. Réessayez dans quelques minutes.' },
-      { status: 429 },
+      { status: 429, headers: { 'Retry-After': String(attempt.retryAfter) } },
     );
   }
   const declaredSize = Number(request.headers.get('content-length') ?? '0');
@@ -42,12 +46,15 @@ export async function POST(request: Request): Promise<NextResponse> {
   }
   let body: unknown;
   try {
-    const raw = await request.text();
+    const raw = await readLimitedRequestText(request, MAX_LOGIN_BYTES);
     if (Buffer.byteLength(raw, 'utf8') > MAX_LOGIN_BYTES) {
       return NextResponse.json({ error: 'Requête trop volumineuse.' }, { status: 413 });
     }
     body = JSON.parse(raw) as unknown;
-  } catch {
+  } catch (error) {
+    if (error instanceof RequestBodyTooLargeError)
+      return NextResponse.json({ error: 'Requête trop volumineuse.' }, { status: 413 });
+
     return NextResponse.json({ error: 'Requête illisible.' }, { status: 400 });
   }
   const parsed = loginSchema.safeParse(body);

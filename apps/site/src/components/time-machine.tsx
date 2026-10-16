@@ -26,6 +26,8 @@ import {
 } from '@/domain/time-machine';
 import { timeMachineWrappedSvg } from '@/domain/time-machine-export';
 import { TimeMachineChart } from './time-machine-chart';
+import { CopyButton } from './client';
+import { historySelectionFromHash } from '@/domain/history-sharing';
 import styles from './time-machine.module.css';
 
 type IconName =
@@ -66,29 +68,6 @@ function Icon({ name }: { name: IconName }) {
     >
       {paths[name]}
     </svg>
-  );
-}
-
-function TimeDial() {
-  return (
-    <div className={styles['dial']} aria-hidden="true">
-      <svg viewBox="0 0 230 230" fill="none">
-        <circle cx="115" cy="115" r="99" stroke="#294457" strokeWidth="7" strokeDasharray="1 10" />
-        <circle cx="115" cy="115" r="81" stroke="#294457" />
-        <path
-          d="M115 34a81 81 0 0 1 81 81"
-          stroke="#50d9ee"
-          strokeWidth="2"
-          className={styles['dialArc']}
-        />
-        <path d="M115 8v15m0 184v15M8 115h15m184 0h15" stroke="#7c99aa" />
-        <circle cx="196" cy="115" r="4" fill="#50d9ee" />
-      </svg>
-      <div>
-        <strong>30</strong>
-        <span>ANS D'HISTOIRE</span>
-      </div>
-    </div>
   );
 }
 
@@ -164,7 +143,16 @@ function EventInspector({
         </div>
       </div>
       <div className={styles['inspectorBottom']}>
-        <span>SOURCE PRIMAIRE</span>
+        <span
+          data-analytics-event="experience_interaction"
+          data-analytics-placement="time-machine"
+          data-analytics-action="share"
+        >
+          <CopyButton
+            text={'/time-machine#' + historyEventAnchor(event.id)}
+            label="Partager cette date"
+          />
+        </span>
         <div>
           <button
             type="button"
@@ -250,6 +238,30 @@ export function TimeMachine({ data }: { data: TimeMachineData }) {
     group.push(event);
     groups.set(eventYear, group);
   });
+
+  useEffect(() => {
+    function restoreSelection() {
+      const selection = historySelectionFromHash(window.location.hash, data);
+      if (!selection) return;
+      setPlaying(false);
+      if (selection.kind === 'event') {
+        setPeriod({ fromYear: data.fromYear, toYear: data.toYear });
+        setCategory('all');
+        setQuery('');
+        setLandmarksOnly(false);
+        setSelectedId(selection.id);
+        setView('explore');
+      } else {
+        setYear(selection.year);
+        setView('wrapped');
+      }
+    }
+    restoreSelection();
+    window.addEventListener('hashchange', restoreSelection);
+    return () => {
+      window.removeEventListener('hashchange', restoreSelection);
+    };
+  }, [data]);
 
   useEffect(() => {
     if (!isPlaying) return;
@@ -357,12 +369,20 @@ export function TimeMachine({ data }: { data: TimeMachineData }) {
             <span>
               {data.fromYear} - {data.toYear}
             </span>
+            <span>
+              Revue au <time dateTime={data.reviewedAt}>{historyDate(data.reviewedAt)}</time>
+            </span>
           </div>
         </div>
-        <TimeDial />
       </header>
       <div className={styles['tabsBar']}>
-        <div role="tablist" aria-label="Explorer l'histoire ou son récapitulatif annuel">
+        <div
+          role="tablist"
+          aria-label="Explorer l'histoire ou son récapitulatif annuel"
+          data-analytics-event="experience_interaction"
+          data-analytics-placement="time-machine"
+          data-analytics-action="tab"
+        >
           <button
             id="tm-explore-tab"
             role="tab"
@@ -397,7 +417,7 @@ export function TimeMachine({ data }: { data: TimeMachineData }) {
               changeView('wrapped');
             }}
           >
-            Sandbox Wrapped<span>PAR ANNÉE</span>
+            L'année en IA<span>WRAPPED</span>
           </button>
         </div>
         <button
@@ -411,7 +431,7 @@ export function TimeMachine({ data }: { data: TimeMachineData }) {
           disabled={reducedMotion}
         >
           <Icon name="motion" />
-          {motionEnabled ? 'Motion activé' : 'Motion réduit'}
+          {motionEnabled ? 'Animations activées' : 'Animations réduites'}
         </button>
       </div>
       <section
@@ -425,126 +445,136 @@ export function TimeMachine({ data }: { data: TimeMachineData }) {
             ? historyDate(selected.date) + ', ' + selected.title
             : 'Aucun événement sélectionné.'}
         </p>
-        <div className={styles['eras']} aria-label="Périodes de l'histoire de l'IA">
-          {HISTORY_ERAS.map((item, index) => (
-            <button
-              type="button"
-              key={item.id}
-              aria-pressed={era?.id === item.id}
-              onClick={() => {
-                setPeriod(
-                  era?.id === item.id
-                    ? { fromYear: data.fromYear, toYear: data.toYear }
-                    : { fromYear: item.from, toYear: item.to },
-                );
-                setPlaying(false);
-              }}
-            >
-              <span>
-                <small>{String(index + 1).padStart(2, '0')}</small>
-                {item.from} - {item.to}
-              </span>
-              <strong>{item.label}</strong>
-            </button>
-          ))}
-        </div>
-        <div className={styles['filterBar']}>
-          <div className={styles['categories']} aria-label="Types d'événements">
-            <button
-              type="button"
-              aria-pressed={category === 'all'}
-              onClick={() => {
-                setCategory('all');
-                setPlaying(false);
-              }}
-            >
-              Tout
-            </button>
-            {(
-              Object.entries(HISTORY_CATEGORIES) as [
-                HistoryCategory,
-                (typeof HISTORY_CATEGORIES)[HistoryCategory],
-              ][]
-            ).map(([id, item]) => (
+        <details className={styles['advancedFilters']}>
+          <summary>
+            Affiner la chronologie
+            <span>
+              {fromYear} - {toYear}
+              {category !== 'all' ? ' / ' + HISTORY_CATEGORIES[category].label : ''}
+              {query ? ' / Recherche active' : ''}
+            </span>
+          </summary>
+          <div className={styles['eras']} aria-label="Périodes de l'histoire de l'IA">
+            {HISTORY_ERAS.map((item, index) => (
               <button
                 type="button"
-                key={id}
-                style={{ '--event-color': item.color } as CSSProperties}
-                aria-pressed={category === id}
+                key={item.id}
+                aria-pressed={era?.id === item.id}
                 onClick={() => {
-                  setCategory(id);
+                  setPeriod(
+                    era?.id === item.id
+                      ? { fromYear: data.fromYear, toYear: data.toYear }
+                      : { fromYear: item.from, toYear: item.to },
+                  );
                   setPlaying(false);
                 }}
               >
-                <i />
-                {item.label}
+                <span>
+                  <small>{String(index + 1).padStart(2, '0')}</small>
+                  {item.from} - {item.to}
+                </span>
+                <strong>{item.label}</strong>
               </button>
             ))}
           </div>
-          <label className={styles['search']}>
-            <Icon name="search" />
-            <span className="sr-only">Rechercher une annonce, un modèle ou une organisation</span>
-            <input
-              type="search"
-              value={query}
-              placeholder="Un modèle, une annonce..."
-              onChange={(event) => {
-                setQuery(event.target.value);
-                setPlaying(false);
-              }}
-            />
-          </label>
-        </div>
-        <div className={styles['periodBar']} role="group" aria-label="Filtrer par années">
-          <div className={styles['periodLabel']}>
-            <span>PÉRIODE AFFICHÉE</span>
-            <strong>{fromYear === toYear ? fromYear : `${fromYear} - ${toYear}`}</strong>
-          </div>
-          <div className={styles['periodControls']}>
-            <label>
-              <span>De</span>
-              <select
-                aria-label="Année de début"
-                value={fromYear}
-                onChange={(event) => {
-                  changeYear('from', event.target.value);
+          <div className={styles['filterBar']}>
+            <div className={styles['categories']} aria-label="Types d'événements">
+              <button
+                type="button"
+                aria-pressed={category === 'all'}
+                onClick={() => {
+                  setCategory('all');
+                  setPlaying(false);
                 }}
               >
-                {availableYears.map((value) => (
-                  <option value={value} key={value}>
-                    {value}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label>
-              <span>à</span>
-              <select
-                aria-label="Année de fin"
-                value={toYear}
+                Tout
+              </button>
+              {(
+                Object.entries(HISTORY_CATEGORIES) as [
+                  HistoryCategory,
+                  (typeof HISTORY_CATEGORIES)[HistoryCategory],
+                ][]
+              ).map(([id, item]) => (
+                <button
+                  type="button"
+                  key={id}
+                  style={{ '--event-color': item.color } as CSSProperties}
+                  aria-pressed={category === id}
+                  onClick={() => {
+                    setCategory(id);
+                    setPlaying(false);
+                  }}
+                >
+                  <i />
+                  {item.label}
+                </button>
+              ))}
+            </div>
+            <label className={styles['search']}>
+              <Icon name="search" />
+              <span className="sr-only">Rechercher une annonce, un modèle ou une organisation</span>
+              <input
+                type="search"
+                value={query}
+                placeholder="Un modèle, une annonce..."
                 onChange={(event) => {
-                  changeYear('to', event.target.value);
+                  setQuery(event.target.value);
+                  setPlaying(false);
+                }}
+              />
+            </label>
+          </div>
+          <div className={styles['periodBar']} role="group" aria-label="Filtrer par années">
+            <div className={styles['periodLabel']}>
+              <span>PÉRIODE AFFICHÉE</span>
+              <strong>{fromYear === toYear ? fromYear : `${fromYear} - ${toYear}`}</strong>
+            </div>
+            <div className={styles['periodControls']}>
+              <label>
+                <span>De</span>
+                <select
+                  aria-label="Année de début"
+                  value={fromYear}
+                  onChange={(event) => {
+                    changeYear('from', event.target.value);
+                  }}
+                >
+                  {availableYears.map((value) => (
+                    <option value={value} key={value}>
+                      {value}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label>
+                <span>à</span>
+                <select
+                  aria-label="Année de fin"
+                  value={toYear}
+                  onChange={(event) => {
+                    changeYear('to', event.target.value);
+                  }}
+                >
+                  {availableYears.map((value) => (
+                    <option value={value} key={value}>
+                      {value}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <button
+                type="button"
+                disabled={allYears}
+                onClick={() => {
+                  setPeriod({ fromYear: data.fromYear, toYear: data.toYear });
+                  setPlaying(false);
                 }}
               >
-                {availableYears.map((value) => (
-                  <option value={value} key={value}>
-                    {value}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <button
-              type="button"
-              disabled={allYears}
-              onClick={() => {
-                setPeriod({ fromYear: data.fromYear, toYear: data.toYear });
-                setPlaying(false);
-              }}
-            >
-              Toutes les années
-            </button>
+                Toutes les années
+              </button>
+            </div>
           </div>
-        </div>
+        </details>
         <section ref={board} className={styles['board']} aria-label="Explorateur chronologique">
           <div className={styles['boardHeading']}>
             <div>
@@ -765,6 +795,16 @@ export function TimeMachine({ data }: { data: TimeMachineData }) {
         hidden={view !== 'wrapped'}
       >
         <div className={styles['wrappedControls']}>
+          <span
+            data-analytics-event="experience_interaction"
+            data-analytics-placement="time-machine"
+            data-analytics-action="share"
+          >
+            <CopyButton
+              text={'/time-machine#wrapped-' + String(year)}
+              label="Partager cette année"
+            />
+          </span>
           <label>
             Année
             <select
@@ -836,7 +876,12 @@ export function TimeMachine({ data }: { data: TimeMachineData }) {
               : ''}
           </p>
         </div>
-        <div className={styles['exportBar']}>
+        <div
+          className={styles['exportBar']}
+          data-analytics-event="experience_interaction"
+          data-analytics-placement="time-machine"
+          data-analytics-action="export"
+        >
           <div>
             <button
               type="button"
@@ -894,12 +939,16 @@ export function TimeMachine({ data }: { data: TimeMachineData }) {
             accès public. Les dates conservent leur précision d'origine.
           </p>
           <p>
+            En recherche, les fiches précisent la portée du résultat : preuve proposée, vérification
+            formelle, expérience ou essai clinique.
+          </p>
+          <p>
             Vérifié le <time dateTime={data.reviewedAt}>{historyDate(data.reviewedAt)}</time>.
             Dernier événement : {latestEvent ? historyDate(latestEvent.date) : 'aucun'}.
           </p>
           <p>
             Par <Link href="/about">l'équipe Sandbox</Link>.{' '}
-            <Link href="/episodes">Podcasts IA</Link> et{' '}
+            <Link href="/podcast">Podcasts IA</Link> et{' '}
             <Link href="/charts">classements d'outils IA</Link>.
           </p>
         </div>

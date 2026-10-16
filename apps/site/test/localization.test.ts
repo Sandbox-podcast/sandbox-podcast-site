@@ -1,10 +1,10 @@
 import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { LocalizationProvider } from '../src/components/localization';
 import HomePage from '../src/app/(fr)/page';
 import SearchPage from '../src/components/search-screen';
-import EpisodesPage from '../src/app/(fr)/episodes/page';
+import PodcastPage from '../src/app/(fr)/podcast/page';
 import { EntityScreen } from '../src/components/entity-screen';
 import { SITE_LOCALES } from '../src/i18n/locales';
 import { siteDictionary } from '../src/i18n/dictionaries';
@@ -18,7 +18,12 @@ import {
   chartSelectionSchema,
   hasChartSelectionQuery,
 } from '../src/domain/chart-selection';
-import { episodeSelectionSchema, episodeSelectionQuery } from '../src/domain/episode-selection';
+
+// Ces tests de rendu utilisent le contenu Git ; le serveur HTTP teste séparément la version publiée.
+vi.mock(import('../src/lib/admin-persistence'), async (importOriginal) => ({
+  ...(await importOriginal()),
+  preparePublishedEditorialContent: async () => undefined,
+}));
 
 describe('langue et ressource', () => {
   it('traduit les textes publiés de la page À propos en anglais', async () => {
@@ -32,39 +37,6 @@ describe('langue et ressource', () => {
         'en',
       ),
     ).toBe("Lou, Nicolas and Loïc. The Sandbox team's links, together in one place.");
-  });
-  it('conserve les filtres des podcasts et ignore les valeurs invalides', () => {
-    const selection = episodeSelectionSchema.parse({
-      q: 'agent',
-      topic: 'coding',
-      sort: 'shortest',
-    });
-    expect(new URLSearchParams(episodeSelectionQuery('utm_source=mail', selection)).get('q')).toBe(
-      'agent',
-    );
-    expect(
-      episodeSelectionQuery(
-        'utm_source=mail&q=agent&topic=coding&sort=shortest',
-        episodeSelectionSchema.parse({}),
-      ),
-    ).toBe('utm_source=mail');
-    expect(
-      episodeSelectionSchema.parse({ q: ['bad'], sort: 'invalid', topic: '<script>' }),
-    ).toEqual({ q: '', topic: 'all', sort: 'newest' });
-  });
-  it('rend la recherche des podcasts dans la même langue et avec la sélection de l’URL', async () => {
-    const dictionary = await siteDictionary('en');
-    const page = await EpisodesPage({
-      searchParams: Promise.resolve({ q: 'protocol', topic: 'coding', sort: 'oldest' }),
-    });
-    const html = renderToStaticMarkup(
-      createElement(LocalizationProvider, { locale: 'en', dictionary, children: page }),
-    );
-    expect(html).toContain('value="protocol"');
-    expect(html).toContain('value="oldest" selected=""');
-    expect(html).toContain('0 episodes found');
-    expect(html).toContain('Upcoming episodes will appear here.');
-    expect(html).not.toContain('aria-label="Voir l’épisode');
   });
   it('conserve la ressource, la requête et les ancres pour les quatre langues', () => {
     const path = '/episodes?q=Claude%20Code&type=resources#main';
@@ -148,7 +120,7 @@ describe('textes locaux', () => {
     }
     await expect(siteDictionary('it-IT')).rejects.toThrow();
   });
-  it('conserve les paramètres de chaque traduction locale et couvre le catalogue anglais', async () => {
+  it('conserve les paramètres et couvre le catalogue dans les trois langues', async () => {
     const placeholders = (source: string) =>
       [
         ...new Set([...source.matchAll(/\{([a-zA-Z][a-zA-Z0-9]*)\}/g)].map((match) => match[1])),
@@ -157,8 +129,11 @@ describe('textes locaux', () => {
       for (const [source, translation] of Object.entries(await siteDictionary(locale)))
         expect(placeholders(translation), `${locale}: ${source}`).toEqual(placeholders(source));
     }
-    const english = await siteDictionary('en');
-    for (const source of Object.keys(sourceCatalog)) expect(english[source], source).toBeTruthy();
+    for (const locale of ['en', 'es-ES', 'de-DE']) {
+      const dictionary = await siteDictionary(locale);
+      for (const source of Object.keys(sourceCatalog))
+        expect(dictionary[source], `${locale}: ${source}`).toBeTruthy();
+    }
   });
   it('traduit les textes éditoriaux des épisodes anglais', async () => {
     const dictionary = await siteDictionary('en');
@@ -246,24 +221,24 @@ describe('même site en français et en anglais', () => {
     const sections = (html: string) => [...html.matchAll(/<section\b/g)].length;
     expect(assets(english)).toEqual(assets(french));
     expect(sections(english)).toBe(sections(french));
-    expect(english).toContain('Upcoming episodes will appear here.');
-    expect(english).toContain('No episodes published yet.');
-    expect(english).toContain('href="/en/episodes"');
+    expect(english).not.toContain('Upcoming episodes will appear here.');
+    expect(english).not.toContain('Derniers épisodes');
     expect(english).not.toContain('Quatre classements');
     for (const html of [french, english]) {
-      expect(html).toContain('<h1>Sandbox Charts</h1>');
-      expect(html.indexOf('Sandbox Charts')).toBeLessThan(html.indexOf('id="empty-library-title"'));
+      expect(html).toContain('id="discovery-title"');
+      expect(html).not.toContain('class="sc-chart-tabs"');
+      expect(html).not.toContain('empty-library-title');
       expect([...html.matchAll(/<h1\b/g)]).toHaveLength(1);
     }
   });
   it('garde la bibliothèque podcast vide traduite sans fiche de démonstration', async () => {
-    const page = await EpisodesPage({ searchParams: Promise.resolve({}) });
+    const page = await PodcastPage();
     const dictionary = await siteDictionary('en');
     const html = renderToStaticMarkup(
       createElement(LocalizationProvider, { locale: 'en', dictionary, children: page }),
     );
-    expect(html).toContain('All podcasts.');
-    expect(html).toContain('Upcoming episodes will appear here.');
+    expect(html).toContain('The podcast');
+    expect(html).toContain('No replays yet.');
     expect(html).not.toContain('href="/en/episodes/40"');
     expect(html).not.toContain('href="/en/episodes/41"');
     expect(html).not.toContain('href="/en/episodes/42"');
@@ -280,7 +255,7 @@ describe('même site en français et en anglais', () => {
     expect(html).toContain('Old demo page');
     expect(html).toContain('simulated figures');
     expect(html).toContain('href="/en/charts"');
-    expect(html).toContain('href="/en/episodes"');
+    expect(html).toContain('href="/en/podcast"');
     expect(html).not.toContain('<svg');
     expect(html).not.toContain('Old demo page de');
     expect(html).not.toContain('[object Object]');

@@ -1,7 +1,4 @@
-import '@fontsource-variable/archivo/wdth.css';
-import '@fontsource-variable/newsreader/wght.css';
-import '@fontsource-variable/newsreader/wght-italic.css';
-import '@fontsource-variable/jetbrains-mono/wght.css';
+import { siteFonts } from '../fonts';
 import '../globals.css';
 import '../site-polish.css';
 import type { Metadata, Viewport } from 'next';
@@ -47,7 +44,7 @@ export const revalidate = 3600;
 export default async function RootLayout({ children }: { children: ReactNode }) {
   await preparePublishedEditorialContent();
   return (
-    <html lang={siteConfig.language}>
+    <html lang={siteConfig.language} className={siteFonts}>
       <body>
         <a className="skip" href="#main">
           Aller au contenu

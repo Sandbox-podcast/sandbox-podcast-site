@@ -46,9 +46,9 @@ describe("corpus historique de l'IA", () => {
     const checked = timeMachineDataSchema.parse(raw);
     const loaded = timeMachineData();
     expect(loaded.events).toEqual(sortHistory(checked.events));
-    expect(loaded.events.length).toBeGreaterThanOrEqual(85);
+    expect(loaded.events.length).toBeGreaterThanOrEqual(150);
     expect(loaded.events[0]?.date).toBe('1996-02');
-    expect(loaded.events.at(-1)?.date).toBe('2026-10-07');
+    expect(loaded.events.at(-1)?.date).toBe('2026-10-14');
     expect(new Set(loaded.events.map((item) => item.category))).toEqual(
       new Set(['model', 'product', 'research', 'milestone', 'governance']),
     );
@@ -57,6 +57,50 @@ describe("corpus historique de l'IA", () => {
     expect(loaded).not.toHaveProperty('collections');
     expect(loaded).not.toHaveProperty('mode');
     expect(loaded.events.every((item) => item.sources.length > 0)).toBe(true);
+  });
+  it('couvre les agents, modèles récents et découvertes scientifiques demandés', () => {
+    const corpus = timeMachineData();
+    const expected = {
+      'grok-bot': '2026-08-11',
+      'grok-team-bots': '2026-09-28',
+      'openai-dots': '2026-09-29',
+      'gpt-6-1-sol': '2026-09-29',
+      'navier-stokes-proposed-proof': '2026-09-08',
+      'openai-math-repository': '2026-10-06',
+      'jacobian-counterexample': '2026-07-21',
+      'claude-art-enzyme': '2026-09-23',
+      'muse-wonder': '2026-10-12',
+      'gemini-4-argon': '2026-10-13',
+      'grok-voice-3': '2026-10-14',
+      'hiro-ace-v2': '2026-10-14',
+    };
+    for (const [id, date] of Object.entries(expected)) {
+      expect(corpus.events.find((item) => item.id === id)).toMatchObject({ date });
+    }
+    for (const [query, id] of [
+      ['Grok Bots', 'grok-bot'],
+      ['Dots', 'openai-dots'],
+      ['6.1 Sol', 'gpt-6-1-sol'],
+      ['millenaire', 'navier-stokes-proposed-proof'],
+      ['antibiotiques', 'halicin'],
+      ['fusion', 'plasma-control'],
+      ['materiaux', 'gnome'],
+    ] as const) {
+      expect(filterHistory(corpus.events, { query }).map((item) => item.id)).toContain(id);
+    }
+    const wrapped = buildHistoryWrapped(corpus, 2026);
+    expect(wrapped.events.map((item) => item.id)).toContain('gpt-6-1-sol');
+    expect(wrapped.events.map((item) => item.id)).toContain('navier-stokes-proposed-proof');
+  });
+  it('conserve les limites scientifiques et distingue préversion et poids publiés', () => {
+    const corpus = timeMachineData();
+    const byId = (id: string) => corpus.events.find((item) => item.id === id);
+    expect(byId('navier-stokes-proposed-proof')?.title).toContain('propose une preuve');
+    expect(byId('navier-stokes-proposed-proof')?.context).toContain('ne valent pas attribution');
+    expect(byId('jacobian-counterexample')?.context).toContain('dimension deux reste ouvert');
+    expect(byId('claude-art-enzyme')?.context).toContain('fonction du système reste à établir');
+    expect(byId('rentosertib-phase-2a')?.context).toContain('ni une autorisation');
+    expect(byId('mistral-large-4')?.context).toContain('ne prouve pas');
   });
   it('refuse les dates impossibles, futures ou hors période et les identifiants dupliqués', () => {
     for (const date of [

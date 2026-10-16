@@ -1,5 +1,6 @@
 import { entityHistory } from './history.ts';
 import { computeMovements } from './movements.ts';
+import type { PublishedSnapshot } from './chart-publication.ts';
 import type { ChartEdition, Entity, Movement, Snapshot, SnapshotEntry } from './schema.ts';
 import { compareWeeks, editionStart, editionsFollow, previousComparableEdition } from './weeks.ts';
 
@@ -14,17 +15,17 @@ export const CHART_PERIODS: { id: ChartPeriod; label: string; weeks: number | nu
 export const CHART_LABELS: Record<ChartId, { title: string; subtitle: string; slug: string }> = {
   github: {
     title: 'GITHUB TOP 20',
-    subtitle: 'Les projets open source qui progressent le plus vite sur GitHub.',
+    subtitle: "Les projets open source, d'après les mesures de chaque édition.",
     slug: 'github',
   },
   skills: {
     title: 'SKILLS TOP 20',
-    subtitle: 'Les skills, agents et MCP qui gagnent du terrain.',
+    subtitle: 'Les skills, agents et MCP, avec leurs mesures et leurs sources.',
     slug: 'skills',
   },
   models: {
     title: 'MODELS TOP 20',
-    subtitle: 'Les modèles d’IA en tête actuellement.',
+    subtitle: "Les modèles d'IA classés selon les mesures de chaque édition.",
     slug: 'ai-models',
   },
   rising: { title: 'RISING 20', subtitle: 'Les projets à suivre dès maintenant.', slug: 'rising' },
@@ -122,7 +123,7 @@ export interface ChartsSeries {
   primary: string;
   dimensions: { id: string; label: string }[];
   metrics: { key: string; label: string; unit: string; source: string; url: string }[];
-  snapshots: Snapshot[];
+  snapshots: PublishedSnapshot[];
   editions: ChartEdition[];
 }
 export interface ChartsTake {

@@ -1,79 +1,43 @@
-# Tests et Quality Gates
+# Tests et contrôles du site média
 
-Livraison du 13 octobre 2026, classements v3 et détection précoce : `corepack pnpm check` réussi, 345 tests dans 59 fichiers, build Next.js réussi. Les tests couvrent les budgets de sources, bornes des candidats incomplets, sensibilité, rejeu, gel Models et GitHub sur Postgres, migration 0009, poussées intrajournalières et Trending. Les contrôles API, navigateur, CLI et l'alerte de dépendance modérée préexistante sont détaillés dans [le rapport de livraison](site/reference-ranking-delivery.md). Les inventaires historiques ci-dessous décrivent les étapes précédentes.
-
-Référence : §32 à §35 du prompt maître de la plateforme vidéo (archivé : `old/PODCAST_PLATFORM_MASTER_PROMPT.md`).
+Le dépôt actif contient le site `apps/site`, les tests du générique et ceux des assets vidéo. La plateforme vidéo et ses POC sont archivés dans [old/](../old/README.md).
 
 ## Commandes
 
-```bash
-pnpm check        # format:check + lint + typecheck + test
-pnpm test         # vitest dans chaque package
-pnpm lint         # ESLint, règles strictes typées
-pnpm typecheck    # tsc --noEmit, TypeScript strict
+Node 24 et pnpm 12.9.1, selon `package.json`.
+
+```powershell
+pnpm check
+pnpm build
+pnpm --filter @podcast/site test:public-routes
+pnpm --filter @podcast/site test:analytics:e2e
+pnpm --filter @podcast/site test:admin:http
+pnpm --filter @podcast/site test:badges:http
+pnpm --filter @podcast/site test:badges:e2e
+pnpm audit --audit-level=high
 ```
 
-## Ce qui existe aujourd'hui
+`pnpm check` enchaîne formatage, lint, TypeScript et tests. Un échec arrête la chaîne ; il ne vaut pas exécution des étapes suivantes. Les contrôles navigateur nécessitent Playwright. Chromium est préparé en CI ; `SANDBOX_BROWSER_CHANNEL=msedge` ou `chrome` utilise un navigateur installé en local.
 
-| Niveau                       | État                                                                                                                                                                   |
-| ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Format, lint, typecheck      | en place, passent en local                                                                                                                                             |
-| Tests unitaires              | 112 tests : `recording-core` (46), `recording-control` (23), POC 3 (43 : analyse ffprobe, relevés Docker, réparation MP4, configuration)                               |
-| Audit des dépendances        | `pnpm audit --audit-level=high`, aucune vulnérabilité au 2026-10-05                                                                                                    |
-| Secret scan                  | Gitleaks exécuté sur la PR #3 ; exception précise pour un faux positif dans l'archive `old/`                                                                           |
-| Composants, intégration, E2E | pas commencés. Site média (`apps/site`) : 48 tests de logique pure, de contenu et de squelettes, build complet vérifié en local, aucun test de navigateur automatisé   |
-| Média et pannes serveur      | scénarios manuels S1 à S5 et S3b à S3e du POC 3 sur une vraie pile Docker (`pnpm s1` etc.), pas dans la CI ; réseau dégradé et navigateur réel : pas commencés (POC 1) |
-| Sécurité, performance        | pas commencés                                                                                                                                                          |
+## Périmètre
+
+- Domaine : schémas, scores, mouvements, éditions, sources, périodes, preuves, rejouabilité, contenu et traductions.
+- Persistance : PGlite exécute les migrations versionnées et vérifie permissions, conflits, unicité, retraits et preuves immuables. Aucun test ne migre Neon.
+- Routes publiques : une base éphémère sert les classements, archives, méthodes et démonstrations. Toutes les URL de son sitemap doivent répondre 200, rester indexables et annoncer le bon canonical ; les routes absentes restent en 404.
+- Consentement : Playwright teste GA4 bloqué par défaut et activé dans un processus de test, refus, retrait dans un autre onglet, expiration, événements filtrés et exclusion de l'administration. Les services Google/Vercel sont simulés localement ; ces parcours ne prouvent pas la réception distante.
+- Sécurité : compteur Postgres concurrent et expiration, refus des connexions si le compteur est indisponible, nonces CSP distincts dans le HTML du build de production, permissions et origine des mutations, secrets cron, tailles des corps JSON bornées pendant leur lecture, paramètres invalides et états d'erreur sans fuite de secret.
+- Badges : huit familles, périodes complètes, dernier créneau du dimanche, concurrence, absence de doublon, retrait, SVG/PNG, copies, liens, filtres, pagination et accessibilité des générateurs.
+
+Les serveurs de test écoutent sur loopback et neutralisent les secrets de collecte. Les fichiers éditoriaux de prévisualisation sont isolés sous `.local`, avec noms bornés, et ne sont jamais lus en production. Les dossiers générés sont exclus du lint, sans exclure les sources ni les tests.
 
 ## CI
 
-Le workflow `.github/workflows/ci.yml` lance format, lint, typecheck, tests, audit et secret scan à chaque push et chaque PR.
+`.github/workflows/ci.yml` lance formatage, lint, types, tests, build, parcours HTTP, parcours de consentement et audit des dépendances. Le job séparé Gitleaks contrôle les secrets ; sur une PR, le scan porte sur les commits du lot. Aucun test ni contrôle n'est désactivé pour obtenir un résultat vert.
 
-Le premier run sur la PR #3 a démarré le 2026-10-07. Le scan des secrets a relevé `vertical-9x16` dans `old/packages/episode-factory/src/catalog.ts` : c'est un nom de format vidéo, sans secret. L'exception dans `.gitleaks.toml` exige ce chemin **et** la ligne exacte, sans désactiver la règle `generic-api-key` ailleurs. Au commit `ef51d24`, la CI GitHub a réussi : jobs `quality` et `secret-scan`, 14 fichiers de test et 87 tests réussis. Le contrôle Vercel reste en échec tant que le projet n'est pas configuré pour `apps/site`.
+## Validations
 
-Points à vérifier lors des prochains runs :
+La livraison #67 du 15 octobre est validée avec 566 tests du site, 11 tests média, un build de 215 pages, 43 contrôles navigateur Badges & Awards et 21 parcours interactifs. Ces résultats précèdent l'intégration locale de l'audit et ne certifient pas les changements suivants.
 
-- `pnpm/action-setup@v4` avec pnpm 12 (version lue dans `packageManager`).
-- Le secret scan utilise l'image `ghcr.io/gitleaks/gitleaks:latest`, non épinglée. À épingler après validation de la CI.
-- La CI suppose GitHub Actions, déduit du chemin du dépôt (`C:\github`). Ce n'est pas une décision validée : voir [open-questions.md](open-questions.md).
-- L'étape `pnpm --filter @podcast/site build` a réussi en local ; vérifier son résultat dans la CI.
+Les résultats du lot courant sont consignés dans [le rapport du 16 octobre](site/issue-68-2026-10-16.md). Le [rapport d'intégration](site/audit-integration-2026-10-15.md) conserve les résultats antérieurs. Les tests YouTube utilisent un Postgres local isolé pour vérifier la concurrence, la persistance et les opérations interrompues. Les tests Vitest utilisent quatre workers pour borner la mémoire des instances PGlite, sans modifier leurs assertions ni leurs délais. Les mesures mobiles et validations distantes y restent distinguées des essais locaux.
 
-## Quality Gates bloquants
-
-Build ou type en échec, test critique en échec, vulnérabilité critique, accès cross-podcast, régression de perte de données d'enregistrement, régression de performance critique, migration dangereuse. Aucun gate n'est désactivé sans exception approuvée, documentée et datée.
-
-## Fixtures média (à créer avec le POC 1 et 3)
-
-Vidéo avec un visage, sans visage, plusieurs visages ; voix, bruit court, silence, clipping ; latence et pertes simulées. Générées de façon déterministe (FFmpeg est installé), jamais commitées en gros fichiers.
-
-## Matrice navigateurs
-
-Chrome desktop uniquement ([PD-0001](../old/docs/product-decisions/PD-0001-navigateurs-et-appareils-mvp.md), archivée).
-
-## SANDBOX CHARTS
-
-Livraison groupée du 15 octobre 2026 : après réconciliation avec `main`, `pnpm check` réussit avec 566 tests du site dans 85 fichiers, sept tests du générique et quatre tests des jingles. Les 47 tests Python des outils YouTube réussissent. Le build de production génère 215 pages statiques. Les 43 contrôles navigateur Badges & Awards passent sans erreur JavaScript ; les 21 parcours interactifs passent à 320, 390 et 1440 pixels. L'audit des dépendances ne signale plus de vulnérabilité après correction d'esbuild ; Gitleaks ne détecte aucun secret dans le lot.
-
-Le contrôle HTTP valide les 81 URL du sitemap et 20 parcours complémentaires, dont les archives à créneaux horaires. Les paramètres encodés par Next sont normalisés avant la recherche des éditions.
-
-Les nouveaux tests couvrent les preuves v3 falsifiées, le dernier créneau publié du dimanche, la relance sans réattribution et l'échec des Awards après un gel réussi. Les migrations des badges sont `0012`, `0013` et `0014` ; elles sont exécutées sur PGlite pendant les tests. Les anciennes migrations publiées restent intactes. Les serveurs de test disposent chacun de leur propre dossier de compilation pour coexister avec les aperçus locaux.
-
-Accueil et responsive, 15 octobre 2026 : 120 contrôles de pages et largeurs, 68 contrôles de fiches projets mobiles, 36 contrôles finaux et 21 parcours interactifs Playwright réussis. Suite complète : 465 tests réussis dans 75 fichiers, types valides. Le formatage et le lint globaux restent en échec dans la réécriture Time Machine confiée à une autre tâche. Voir [le bilan, les limites et les commandes](site/responsive-accueil-2026-10-15.md).
-
-Validation locale du 14 octobre 2026 pour les huit familles Badges & Awards : `pnpm check` passe avec 447 tests dans 71 fichiers, puis le build de production, 43 contrôles navigateur et 18 contrôles HTTP. Cinq commandes réelles vérifient l'aide, la simulation sans base et les options invalides. Le navigateur ne rapporte aucune erreur JavaScript. Lou demande de garder le code local pendant sa vérification ; les migrations et les sources distantes attendent une future livraison autorisée. Voir [le bilan et la procédure](site/badges-awards.md#mise-en-service-restant-à-exécuter).
-
-Badges & Awards : les tests couvrent les bornes 1/100/101, la fraîcheur, les périodes ISO et civiles Europe/Paris, les sept règles, les agrégations complètes et incomplètes, les égalités, les snippets et l'échappement. PGlite exécute les migrations 0012 à 0014 et vérifie les renommages, les créations concurrentes, la preuve immuable, les retraits, les sources exclues et les réponses SVG/PNG. Le job commun est testé avec bail, reprise filtrée et panne partielle sans journaliser les messages de connexion. `pnpm --filter @podcast/site test:badges:e2e` vérifie le parcours navigateur sur une base éphémère. `dev:badges` fournit une démonstration loopback des huit familles. Voir [le guide et les captures locales](site/badges-awards.md).
-
-Les tests du pipeline GitHub couvrent les différences J−7, la tolérance de date, l’accélération J−14, les percentiles, les petits dénominateurs, les poids manquants et les exclusions. Les tests PGlite exécutent les migrations 0002 à 0004 et vérifient le gel, les relances, le dry run, le verrou des jobs, les erreurs partielles, les quotas, les commentaires séparés, les conflits ETag et les localisations publiées. Les tests i18n valident les quatre langues, leurs préfixes, le refus des autres locales et les états de relecture.
-
-Les tests d’API vérifient les permissions viewer/editor/admin, l’origine des mutations, le refus d’édition des compteurs et le secret du cron. Les tests de présentation couvrent les périodes, les rangs conservés sous filtre, les données absentes, le Markdown et l’échappement des cartes de partage. Les gates du dépôt restent `pnpm check` et le build.
-
-## Intégration des changements locaux du 14 octobre 2026
-
-`videos/sandbox-intro` rejoint l'espace de travail pnpm : ses types et ses sept tests sont exécutés avec ceux du site. Quatre tests supplémentaires vérifient les masters des jingles, leurs assets et les liens de lecture. ESLint contrôle leurs scripts avec les variables globales de leur environnement Node ou navigateur.
-
-Validation locale : `pnpm check` réussi, avec 414 tests du site, sept tests du générique et quatre tests des jingles. `pnpm build` réussit avec 213 pages statiques. Les 47 tests Python de `tools/youtube-growth` passent avec `python -m unittest discover -s tools/youtube-growth/tests -v`.
-
-Le contrôle HyperFrames du Clash ne signale aucune erreur de lint, runtime, disposition, mouvement ou contraste. FFmpeg décode les quatre masters des jingles et les deux exports du générique sans erreur. Le générique respecte 63,56 secondes et 3 178 images à 50 images/s ; l'audio des deux exports correspond au mix source.
-
-Gitleaks ne détecte aucun secret dans les fichiers de la livraison, avec parcours des ZIP jusqu'à deux niveaux. L'audit des dépendances passe au seuil `high` ; une vulnérabilité modérée reste signalée. Ces contrôles ne valident pas les traitements YouTube permanents : OAuth et le journal distant restent à configurer.
+Bloquants : build ou type en échec, test critique en échec, faille critique, accès interdit, perte de données, régression critique de performance ou migration dangereuse. Les migrations SQL déjà publiées restent intactes.
