@@ -11,3 +11,13 @@ Le vidéoclub devient accessible en mode production depuis la porte du plateau e
 Cette décision remplace la restriction au développement de DD-0035 et DD-0039. Elle ne vaut pas publication technique du lot : les règles de commit, push et publication du dépôt restent applicables.
 
 Les contrôles et les limites sont consignés dans [le rapport des écarts](../site/ecarts-production-2026-10-16.md).
+
+## Complément : écrans panoramiques et interactions du plateau
+
+Après le merge de la PR 71, Lou signale un chevauchement du titre et du portrait sur son écran panoramique, un clic limité au bas de la voiture et demande une surbrillance sur la porte. Ajustement décidé par l'agent sur délégation (PD-0003).
+
+Les portraits et la typographie du plateau s'adaptent désormais à la hauteur disponible. Au-delà du ratio 2:1, le décor central est cadré et prolongé sur les côtés par une version assombrie et floutée. Les images sources restent intactes. L'accueil mobile éditorial est conservé.
+
+L'en-tête transparent laisse passer les clics vers le décor ; ses liens et son sélecteur de langue restent actifs. La zone de la Time Machine couvre le cadre de la voiture. La porte reçoit un éclairage chaud, un contour et un halo au survol, retirés pendant l'ouverture. Le focus clavier conserve son indication dédiée.
+
+Voir [la validation locale](../site/plateau-responsive-2026-10-16.md). Ce complément reste local jusqu'à une nouvelle demande de publication.

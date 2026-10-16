@@ -1,16 +1,18 @@
 'use client';
 
 import Image from 'next/image';
-import { useRef, useState } from 'react';
+import { useContext, useRef, useState } from 'react';
 import { PROJECT_CREATORS, type PersonalProject } from '@/domain/personal-projects';
 import { HOME_PROJECT_ARTWORK } from '@/domain/home-project-artwork';
 import { LocalizedLink, Text, useLocalization } from './localization';
+import { StageMotionContext } from './home-motion';
 import styles from './home-project-spotlight.module.css';
 
 export function HomeProjectSpotlight({ projects }: { projects: readonly PersonalProject[] }) {
   const [selected, setSelected] = useState(0);
-  const gesture = useRef<{ x: number; y: number } | null>(null);
+  const gesture = useRef<{ id: number; x: number; y: number } | null>(null);
   const swiped = useRef(false);
+  const paused = useContext(StageMotionContext);
   const { t } = useLocalization();
   const active = selected % Math.max(1, projects.length);
   const select = (index: number) => {
@@ -20,6 +22,7 @@ export function HomeProjectSpotlight({ projects }: { projects: readonly Personal
   return (
     <div
       className={styles['spotlight']}
+      data-motion-paused={paused}
       role="region"
       aria-roledescription={t('carrousel')}
       aria-label={t("Projets de l'équipe")}
@@ -47,16 +50,17 @@ export function HomeProjectSpotlight({ projects }: { projects: readonly Personal
       <div
         className={styles['rail']}
         onPointerDown={(event) => {
-          gesture.current = { x: event.clientX, y: event.clientY };
+          if (!event.isPrimary || event.button !== 0) return;
+          gesture.current = { id: event.pointerId, x: event.clientX, y: event.clientY };
           swiped.current = false;
         }}
-        onPointerCancel={() => {
-          gesture.current = null;
+        onPointerCancel={(event) => {
+          if (gesture.current?.id === event.pointerId) gesture.current = null;
         }}
         onPointerUp={(event) => {
           const start = gesture.current;
+          if (start?.id !== event.pointerId) return;
           gesture.current = null;
-          if (!start) return;
           const dx = event.clientX - start.x;
           if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(event.clientY - start.y)) {
             swiped.current = true;
@@ -84,7 +88,7 @@ export function HomeProjectSpotlight({ projects }: { projects: readonly Personal
                 event.preventDefault();
               }}
               onClick={(event) => {
-                if (swiped.current) {
+                if (swiped.current && event.detail > 0) {
                   event.preventDefault();
                   swiped.current = false;
                   return;

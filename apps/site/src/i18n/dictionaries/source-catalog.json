@@ -4032,7 +4032,11 @@
   },
   "Histoire de l'IA": {
     "translation": "",
-    "sources": ["src/components/search-screen.tsx", "src/domain/time-machine-seo.ts"]
+    "sources": [
+      "src/components/discovery-story.tsx",
+      "src/components/search-screen.tsx",
+      "src/domain/time-machine-seo.ts"
+    ]
   },
   "Histoire de l'intelligence artificielle": {
     "translation": "",
@@ -8256,7 +8260,8 @@
     "translation": "",
     "sources": [
       "src/app/(fr)/charts/entity/[slug]/page.tsx",
-      "src/components/charts-experience.tsx"
+      "src/components/charts-experience.tsx",
+      "src/components/discovery-story.tsx"
     ]
   },
   "SANDBOX CHARTS": {
@@ -9853,5 +9858,21 @@
   "τ-bench": {
     "translation": "",
     "sources": ["content/scoring/models.json", "content/sources.json"]
+  },
+  "Le Talk Show IA & tech": {
+    "translation": "",
+    "sources": ["src/components/discovery-home.tsx"]
+  },
+  "Gardez une longueur": {
+    "translation": "",
+    "sources": ["src/components/discovery-home.tsx"]
+  },
+  "d'avance sur la tech.": {
+    "translation": "",
+    "sources": ["src/components/discovery-home.tsx"]
+  },
+  "Faites défiler pour découvrir l'équipe.": {
+    "translation": "",
+    "sources": ["src/components/discovery-story.tsx"]
   }
 }
