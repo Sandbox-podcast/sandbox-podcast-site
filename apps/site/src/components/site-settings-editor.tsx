@@ -121,8 +121,8 @@ export function SiteSettingsEditor({ initial, pending, onSave }: Props) {
           </small>
         </label>
         <div className="admin-seo-preview" aria-label="Aperçu du résultat de recherche">
-          <span>Sandbox · Podcasts</span>
-          <strong>{site.name} — Podcasts vidéo et classements tech</strong>
+          <span>Sandbox · Talk Show</span>
+          <strong>{site.name} — Talk Show et classements tech</strong>
           <p>{site.description}</p>
         </div>
       </section>
@@ -202,7 +202,7 @@ export function SiteSettingsEditor({ initial, pending, onSave }: Props) {
       </section>
 
       <section className="admin-form-section" aria-labelledby="site-platforms-title">
-        <h3 id="site-platforms-title">Plateformes du podcast</h3>
+        <h3 id="site-platforms-title">Plateformes du Talk Show</h3>
         <div className="admin-form-grid">
           {platformFields.map(({ key, label }) => (
             <label className="admin-field admin-span-2" key={key}>

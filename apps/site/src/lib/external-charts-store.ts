@@ -1,4 +1,5 @@
 import { randomUUID } from 'node:crypto';
+import { stableExternalSlugs } from '../domain/external-identity.ts';
 import { and, eq, gte, inArray, isNotNull, lte, or, sql } from 'drizzle-orm';
 import { getDb } from '../db/client.ts';
 import {
@@ -32,8 +33,8 @@ export async function saveExternalBatch(
   rawEntities: readonly ExternalEntity[],
   rawObservations: readonly ExternalObservation[],
 ): Promise<number> {
-  const entities = rawEntities.map((item) => externalEntitySchema.parse(item));
-  const observations = rawObservations.map((item) => externalObservationSchema.parse(item));
+  let entities = rawEntities.map((item) => externalEntitySchema.parse(item));
+  let observations = rawObservations.map((item) => externalObservationSchema.parse(item));
   if (entities.length === 0) {
     if (observations.length) throw new Error('Mesures reçues sans entités externes.');
     return 0;
@@ -67,6 +68,39 @@ export async function saveExternalBatch(
 
   const db = getDb();
   return db.transaction(async (tx) => {
+    if (entities.some((entity) => entity.type === 'model')) {
+      // All collectors use this transaction lock, including overlapping retries.
+      await tx.execute(sql`SELECT pg_advisory_xact_lock(680016)`);
+      const knownRows = await tx
+        .select({
+          slug: chartEntities.slug,
+          active: chartEntities.active,
+          provider: chartEntitySources.provider,
+          externalId: chartEntitySources.externalId,
+        })
+        .from(chartEntities)
+        .leftJoin(chartEntitySources, eq(chartEntitySources.entityId, chartEntities.id))
+        .where(eq(chartEntities.type, 'model'));
+      const known = new Map<
+        string,
+        { slug: string; active: boolean; sources: { provider: string; externalId: string }[] }
+      >();
+      for (const row of knownRows) {
+        const item = known.get(row.slug) ?? { slug: row.slug, active: row.active, sources: [] };
+        if (row.provider && row.externalId)
+          item.sources.push({ provider: row.provider, externalId: row.externalId });
+        known.set(row.slug, item);
+      }
+      const slugs = stableExternalSlugs(entities, [...known.values()]);
+      entities = entities.map((entity) => ({
+        ...entity,
+        slug: slugs.get(entity.slug) ?? entity.slug,
+      }));
+      observations = observations.map((observation) => ({
+        ...observation,
+        entitySlug: slugs.get(observation.entitySlug) ?? observation.entitySlug,
+      }));
+    }
     await tx
       .insert(chartEntities)
       .values(
@@ -82,7 +116,6 @@ export async function saveExternalBatch(
           openWeights: entity.openWeights,
           sourceUrl: entity.sourceUrl,
           websiteUrl: entity.websiteUrl,
-          active: true,
           updatedAt: new Date().toISOString(),
         })),
       )
@@ -98,7 +131,7 @@ export async function saveExternalBatch(
           openWeights: sql`excluded.open_weights`,
           sourceUrl: sql`excluded.source_url`,
           websiteUrl: sql`excluded.website_url`,
-          active: true,
+          // Keep a manual deactivation across subsequent collections.
           updatedAt: new Date().toISOString(),
         },
       });

@@ -1,6 +1,6 @@
 # Confiance et parcours, 14 octobre 2026
 
-Correction locale des actions A01 et A02 de [l'audit #62](https://github.com/Sandbox-podcast/sandbox-podcast-site/issues/62). Décision : [DD-0025](../design-decisions/DD-0025-confiance-pages-et-archives.md).
+Correction locale des actions A01 et A02 de l'audit du 14 octobre (suivi dans l'[issue #68](https://github.com/Sandbox-podcast/sandbox-podcast-site/issues/68)). Décision : [DD-0025](../design-decisions/DD-0025-confiance-pages-et-archives.md).
 
 ## Changements
 

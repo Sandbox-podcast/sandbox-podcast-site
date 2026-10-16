@@ -1,12 +1,26 @@
 # Site média : conception
 
+Rythme et espacements des pages publiques : [DD-0046](../design-decisions/dd-0046-rythme-et-espacements-publics.md). La passe réduit les marges cumulées de l'accueil et harmonise les pages éditoriales.
+
+Accueil mobile éditorial, sans montage du trio, et plateau conservé sur ordinateur : [DD-0039](../design-decisions/dd-0039-accueil-mobile-editorial-et-plateau-desktop.md) et [validation V11](refonte-2026-10-15/refonte-editoriale-mobile-v11.md).
+
+Le 16 octobre, les épaules coupées de Loïc et Nicolas sont complétées et les micros flottants retirés du plateau, avec les têtes issues des photos d'origine : [retouches et validation](refonte-2026-10-15/retouches-bustes-2026-10-16.md).
+
+L'accueil couvre désormais le premier écran et place les trois vrais portraits détourés derrière la table. La porte reste un easter egg sans libellé visible ; le vidéoclub utilise des boîtes VHS photographiques. Voir [DD-0038](../design-decisions/dd-0038-accueil-plein-ecran-portraits-reels-et-vhs.md) et [les sources et contrôles](refonte-2026-10-15/accueil-plein-ecran-et-vhs.md).
+
+Le décor actuel de l'accueil reprend l'image chaleureuse fournie par Lou, avec une porte animée vers le vidéoclub en développement : [DD-0037](../design-decisions/dd-0037-decor-chaleureux-et-ouverture-de-la-porte.md) et [provenance et validation](refonte-2026-10-15/decor-chaleureux-et-porte-animee.md).
+
+La dernière itération de l'accueil suit le parcours plateau, biographies, projets, puis Time Machine et classements : [DD-0034](../design-decisions/DD-0034-accueil-equipe-projets-puis-rubriques.md). Les onglets quittent le premier écran. Les biographies s'appuient sur les projets documentés, selon le choix de Lou. Le plateau et sa courte progression au scroll restent définis par [DD-0033](../design-decisions/DD-0033-accueil-cinematique-et-trio-sur-plateau-tv.md). Voir la [validation V4](refonte-2026-10-15/accueil-parcours-v4.md).
+
+La refonte du 15 octobre présente le podcast et sa promesse sur l'accueil, avec le plateau comme image de marque et un accès au dernier épisode. Les classements, l'histoire de l'IA et les réalisations attirent depuis leurs propres pages. Voir [l'audit business et site](../SANDBOX_AUDIT.md), [la stratégie UX](../SANDBOX_UX_STRATEGY.md), [la roadmap](../SANDBOX_ROADMAP.md) et [DD-0032](../design-decisions/DD-0032-accueil-marque-et-plateau.md).
+
 L'évolution v3 des classements et la détection des poussées d'étoiles sont décrites dans [conception et audit](reference-ranking-design.md), [le guide d'activation](reference-ranking-operations.md), ADR-0026, ADR-0027 et [ADR-0028](../adr/ADR-0028-cadence-des-classements.md). Les collectes et éditions ont lieu deux fois par jour ; les fenêtres de score J-7 et J-14 mesurent l'historique, pas la cadence. Les nouveaux profils pondèrent les familles différemment, conservent une preuve rejouable et attendent leur revue avant publication. Les descriptions d'ADR-0024 ci-dessous concernent la méthode précédente ; les éditions historiques la conservent.
 
 Application : [`apps/site`](../../apps/site). Décision de fond : [ADR-0015](../adr/ADR-0015-site-media-et-classements.md). Direction artistique et nommage : [DD-0001](../design-decisions/DD-0001-direction-artistique-du-site.md).
 
 La [Time Machine](time-machine.md) retrace l'histoire mondiale de l'IA depuis 1996, avec une chronologie sourcée et un récapitulatif annuel. Elle suit [DD-0027](../design-decisions/DD-0027-time-machine-histoire-mondiale-ia.md) et fonctionne indépendamment des classements.
 
-Confiance et parcours : [corrections A01/A02 après l'audit du 14 octobre](confiance-parcours-2026-10-14.md) et [DD-0025](../design-decisions/DD-0025-confiance-pages-et-archives.md). Les anciennes pages de démonstration sont neutralisées selon leur provenance ; les archives conservent la date demandée et leur sitemap dispose d'un contrôle HTTP.
+Confiance et parcours : [corrections initiales](confiance-parcours-2026-10-14.md) et [intégration locale des méthodes, de la mesure et des parcours](audit-integration-2026-10-15.md), selon [DD-0029](../design-decisions/DD-0029-integration-audit-methodes-et-mesure.md). Les pages historiques simulées sont neutralisées ; les validations distantes restent séparées des tests locaux.
 
 Les badges publics et les sept Awards sont décrits dans [le guide](badges-awards.md) et [ADR-0031](../adr/ADR-0031-badges-et-awards-sandbox.md). Ils lisent les éditions officielles ; les migrations 0009 et 0010 conservent les attributions et leurs retraits. Lou demande une vérification locale avant livraison.
 
@@ -20,7 +34,7 @@ Les images et métadonnées de partage sont définies dans [DD-0013](../design-d
 
 La stratégie de découverte multilingue et le contrat de données pour les classements sont définis dans [ADR-0020](../adr/ADR-0020-architecture-seo-international-des-classements.md) et [la feuille de route SEO](seo-roadmap.md). [DD-0010](../design-decisions/DD-0010-quatre-langues-du-site.md) limite le site au français, à l'anglais, à l'espagnol et à l'allemand. Les chemins français restent sans préfixe ; les autres utilisent `/en`, `/es-es` et `/de-de`. Seules les traductions relues et reliées à des données réelles peuvent sortir du `noindex`.
 
-Le parcours média centré sur les podcasts, les ressources en barre latérale et la recherche sont définis par [DD-0003](../design-decisions/DD-0003-parcours-podcast-et-theme-rouge.md). [DD-0008](../design-decisions/DD-0008-logo-et-navigation-publique.md) fixe le logo complet, les sous-menus Podcasts et le retrait du choix de thème. Les articles historiques du dépôt ne sont plus publiés comme pages autonomes.
+Le Talk Show est regroupé sur `/podcast`, avec le dernier replay et l'historique chronologique, à raison d'un épisode par semaine. L'accueil présente la promesse et le plateau, les animateurs, leurs projets, les rubriques, puis un seul dernier épisode. Les thèmes et la bibliothèque séparée sont retirés ; les anciennes URL redirigent vers `/podcast`. Voir [DD-0030](../design-decisions/DD-0030-podcast-replays-hebdomadaires.md) pour les replays et DD-0034 pour le parcours d'accueil.
 
 La fiche d'épisode suit [DD-0022](../design-decisions/DD-0022-fiche-episode-sans-description-longue.md) : lecteur sur toute la largeur, puis chapitres et ressources côte à côte sur ordinateur. La description longue reste la source éditoriale dans l'admin ; seul le résumé court est affiché sur la fiche.
 
@@ -33,6 +47,8 @@ Ce site est un produit distinct de la plateforme de production de podcasts décr
 Les contenus initiaux du dépôt restent simulés. L'indexation est ouverte par page pour les épisodes publiés avec vidéo et contenu substantiel, la page À propos et les classements disposant d'éditions réelles ; les fixtures et pages vides restent en `noindex` ([DD-0014](../design-decisions/DD-0014-indexation-selective-et-duree-youtube.md)). SANDBOX CHARTS collecte GitHub, Skills.sh, Hugging Face, Arena et OpenRouter dans Postgres, conserve des relevés immuables deux fois par jour et publie les classements quand la couverture et les contrôles le permettent. Les archives de démonstration historiques dans Git gardent leur format hebdomadaire ; elles ne décrivent pas la cadence des classements live v3. Les collecteurs Skills/Models sont implémentés, mais l'activation réelle attend la configuration des accès, la validation des conditions de source et l'application contrôlée des migrations. Le rafraîchissement planifié passe par GitHub Actions ; voir [le guide SANDBOX CHARTS](sandbox-charts.md), [les sources externes Skills/Models](external-rankings.md), [la fiche de mise en service](mise-en-service-neon-vercel.md), [le guide d'exploitation v3](reference-ranking-operations.md), [ADR-0019](../adr/ADR-0019-sandbox-charts-github-postgres.md), [ADR-0021](../adr/ADR-0021-classements-externes-skills-models.md), [ADR-0028](../adr/ADR-0028-cadence-des-classements.md) et [DD-0004](../design-decisions/DD-0004-sandbox-charts.md). Le passage global en `SITE_DATA_MODE=live` attend toujours des contenus vérifiés sur le reste du site.
 
 Les nouveaux gels suivent [ADR-0024](../adr/ADR-0024-classements-corrobores.md) : GitHub est croisé avec OpenSSF Scorecard, Skills.sh avec GitHub, et Arena avec Artificial Analysis pour le rang principal Models. La [revue de onze sources](multi-source-ranking-sources.md) explique les fournisseurs retenus et ceux dont les mesures ne peuvent pas être additionnées sans biaiser le résultat.
+
+L'accueil noir et le carrousel des trois projets suivent [DD-0042](../design-decisions/dd-0042-accueil-noir-spotlight-talk-show.md). La désignation publique de l'émission devient Talk Show ; les URL existantes sont conservées.
 
 ## 1. Architecture du produit
 
@@ -54,9 +70,9 @@ Un graphe de contenus relie les entités (projets et modèles), les classements 
 
 | Route                                                   | Page                                                                                          |
 | ------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| `/`                                                     | accueil streaming : épisode à la une, rangées d'épisodes par date et thème                    |
-| `/episodes`                                             | bibliothèque complète, rangées filtrées par thème                                             |
-| `/search?q=…`                                           | recherche dans épisodes, ressources, sources, entités, thèmes et classements                  |
+| `/`                                                     | podcast, trio sur plateau et accès au dernier épisode                                         |
+| `/podcast`                                              | dernier replay et historique chronologique, sans filtres                                      |
+| `/search?q=…`                                           | recherche dans épisodes, ressources, sources, entités et classements                          |
 | `/charts`                                               | accueil des classements : sélecteur, top 3 à la une, aperçu des tops et historique            |
 | `/charts/[slug]`                                        | classement courant (rangs, mouvements, DATA, OUR TAKE, tri par critère, Hall of #1)           |
 | `/charts/[slug]/[semaine]`                              | archive d'une semaine (`2026-W40`)                                                            |
@@ -64,9 +80,9 @@ Un graphe de contenus relie les entités (projets et modèles), les classements 
 | `/charts/history`, `/charts/history/[semaine]`          | sélecteur de semaine, tableau des #1, mouvements par semaine                                  |
 | `/moves/[classement]/[semaine]/[entité]`                | carte de partage d'un mouvement (+ image OpenGraph), 3 dernières semaines                     |
 | `/episodes/[numéro]`                                    | lecteur vidéo, résumé court, chapitres et colonne des mentions, sources et annexes            |
-| `/stories/[slug]`                                       | ancienne route redirigée vers la bibliothèque d'épisodes                                      |
+| `/stories/[slug]`                                       | ancienne route redirigée vers `/podcast`                                                      |
 | `/projects/[slug]`, `/models/[slug]`                    | fiche d'entité : rang actuel et précédent, pic, semaines au Top, courbes, avis, épisodes      |
-| `/topics`, `/topics/[slug]`                             | thèmes et sélections d'épisodes                                                               |
+| `/topics`, `/topics/[slug]`                             | anciennes routes redirigées vers `/podcast`                                                   |
 | `/about`                                                | profils et liens sociaux des animateurs publiés                                               |
 | `/en`, `/en/charts`                                     | mêmes pages et assets que le français, textes anglais dans les dictionnaires locaux           |
 | `/es-es/…`, `/de-de/…`                                  | pages publiques partagées, dictionnaire local espagnol ou allemand                            |
@@ -86,7 +102,7 @@ Code : `src/domain` (logique pure, sans I/O), `src/i18n` (cibles, routage et cha
 - **MiniChart** : aperçu d'un classement avec une hauteur de titre réservée pour aligner les aperçus.
 - **EpisodeCover** : couverture 16:9 typographique, remplacée par la meilleure miniature YouTube disponible ou par le fichier haute définition choisi dans l'admin (voir [DD-0012](../design-decisions/DD-0012-miniatures-episodes.md)).
 - **EpisodeComposer** : création et modification d'un épisode depuis son URL YouTube. La Data API v3 renseigne les métadonnées complètes ; les horodatages et liens de la description alimentent les chapitres et une seule liste de ressources. Sans clé API, oEmbed ne donne que le titre, la chaîne et la miniature.
-- **Saisie rapide admin** : épisode prêt dès l'ouverture du backoffice, import au collage du lien, formulaires de thèmes et de sources sans JSON, avis et fiches ajoutés au Markdown par des actions guidées. Les détails secondaires se déplient au besoin et les brouillons sont enregistrés avant publication.
+- **Saisie rapide admin** : épisode prêt dès l'ouverture du backoffice, import au collage du lien, formulaire de sources sans JSON, avis et fiches ajoutés au Markdown par des actions guidées. Les détails secondaires se déplient au besoin et les brouillons sont enregistrés avant publication.
 - **ChartWeekSelect** : choix d'une édition directement dans l'en-tête de chaque classement.
 - **Chart Markdown** : document éditorial unique par classement dans l'admin, avec présentation, méthode, fiches et avis. Les snapshots et scores restent structurés et immuables.
 - **SiteSettingsEditor** : réglages de marque, métadescription, plateformes et textes de la page À propos. Les noms et liens des animateurs viennent de leur collection éditoriale.
@@ -140,14 +156,14 @@ Voir [data-strategy.md](data-strategy.md) pour les connecteurs des anciennes dé
 
 Fait : 4 classements de 10 avec 16 semaines d'historique (démonstration locale), bibliothèque podcast vide en attendant les vrais épisodes, 55 fiches, 29 avis, pages de classement avec avancement de collecte, recherche, import de métadonnées YouTube, formulaires d'édition des épisodes et réglages du site (dont À propos), brouillons et publication authentifiés, SEO (métadonnées, JSON-LD, sitemap, RSS), scripts de création de contenu.
 
-Fait : fondations i18n (quatre langues, schémas de traduction, statuts de revue, routes dynamiques, canoniques, `hreflang` et barrières du sitemap). Les 24 modèles de pages publiques utilisent les mêmes composants et assets. Le sélecteur propose Français, Anglais, Espagnol et Allemand. Le dictionnaire anglais couvre les contenus existants ; les dictionnaires espagnol et allemand restent partiels et nécessitent une relecture. Les pages localisées partagées restent `noindex` pendant cette préparation. Voir [le guide de traduction](traductions-locales.md).
+Fait : fondations i18n (quatre langues, schémas de traduction, statuts de revue, routes dynamiques, canoniques, `hreflang` et barrières du sitemap). Les 24 modèles de pages publiques utilisent les mêmes composants et assets. Le sélecteur propose Français, Anglais, Espagnol et Allemand. Les trois dictionnaires couvrent le catalogue local au 16 octobre ; une revue native et le contrôle des contenus uniquement présents en production restent nécessaires. Les pages localisées partagées restent `noindex` pendant cette préparation. Voir [le guide de traduction](traductions-locales.md).
 
 Fait : workflow de traduction déclenché manuellement dans le harnais, export des textes publiés depuis l'admin, détection des entrées manquantes et import authentifié des lots JSON. Les résultats importés sont conservés localement en développement et dans Neon en production après la migration 0006. Voir [le prompt et la mise en service](prompt-traductions-harnais.md).
 
-Pas encore fait : activation en production des collecteurs Skills et Models (accès, conditions des sources, migrations 0005 et 0010, et secrets du planificateur GitHub Actions) ; traduction complète et revue native de l'espagnol et de l'allemand ; revue SEO des variantes traduites ; migration 0006 et déploiement du workflow de classements ; newsletter, commentaires et politique de cookies. Le composant Vercel Analytics est présent dans le layout, mais son activation dans le projet Vercel et sa collecte en production restent à vérifier. La situation déclarée par Lou est un contenu éditorial simulé et des classements réels en production ; les fixtures du dépôt restent identifiées comme démonstration. Les épisodes fournis n'ont pas encore d'identifiants vidéo YouTube réels. Les liens LinkedIn, GitHub et X de Nicolas et Loïc restent à renseigner. Ces changements locaux ne sont pas encore publiés sur Vercel.
+À terminer : mise en service et calibration des profils v3, vérification des migrations Neon et du secret Actions, réception GA4/Vercel, premières attributions réelles des Awards et relecture native des traductions. Le détail courant est dans [les questions ouvertes](../open-questions.md) et l'[issue #68](https://github.com/Sandbox-podcast/sandbox-podcast-site/issues/68). Le domaine public et la chaîne YouTube sont déjà reliés ; l'épisode pilote réel est publié.
 
-Limites connues : pas de politique de contenu (CSP) stricte avec nonce, pas de test de navigateur automatisé (Playwright), accessibilité vérifiée à la main sur peu de pages, aucune mesure de performance (Lighthouse, Core Web Vitals) faite. Voir [rapport](../adr/ADR-0015-site-media-et-classements.md#risques).
+Le lot local de l'issue 68 ajoute un limiteur Postgres partagé et une CSP avec nonce sur l'administration. La CSP publique conserve les scripts inline nécessaires au rendu statique/ISR. Voir [ADR-0032](../adr/ADR-0032-protections-et-persistance-issue-68.md) et [les contrôles du 16 octobre](issue-68-2026-10-16.md). Des tests HTTP et navigateur existent ; ils ne remplacent pas une revue complète d'accessibilité ni les mesures de performance sur le déploiement. Les nouveaux contrôles de consentement utilisent des services Analytics simulés.
 
 ## Optimisation UI/UX du 8 octobre 2026
 
-La bibliothèque propose désormais recherche, filtre par thème et tri par date ou durée. Les fiches, les méthodes et les classements ont des sommaires. L'en-tête, le pied de page, les états vides et le studio partagent les mêmes repères. Voir [DD-0005](../design-decisions/DD-0005-ux-globale-du-site.md) et le [rapport de validation](ui-ux-2026-10-08.md).
+Le parcours podcast décrit dans DD-0005 est remplacé par la page unique de replays de DD-0030. Les fiches, les méthodes et les classements ont des sommaires. L'en-tête, le pied de page, les états vides et le studio partagent les mêmes repères. Voir [DD-0005](../design-decisions/DD-0005-ux-globale-du-site.md) et le [rapport de validation](ui-ux-2026-10-08.md).

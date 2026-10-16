@@ -210,6 +210,69 @@ async function seedModels(includeUnpaired = false) {
 }
 
 describe('pipeline charts sur Postgres', () => {
+  it('réutilise les sources connues malgré un changement de slug et conserve les exclusions', async () => {
+    await seedModels();
+    const old = (
+      await db
+        .select()
+        .from(schema.chartEntities)
+        .where(eq(schema.chartEntities.slug, 'fixture-model-0'))
+    )[0];
+    if (!old) throw new Error('Le modèle de référence doit être créé par la fixture.');
+    const source = {
+      provider: 'arena' as const,
+      externalId: 'model-0',
+      url: 'https://example.com/arena',
+      label: 'Arena',
+    };
+    const entity = externalEntitySchema.parse({
+      ...old,
+      slug: 'different-generated-slug',
+      sources: [source],
+    });
+    const observation = externalObservationSchema.parse({
+      entitySlug: entity.slug,
+      source,
+      observedOn: date,
+      collectedAt: `${date}T14:00:00.000Z`,
+      metrics: {
+        text_style_control: 1100,
+        text_style_controlVotes: 3000,
+        text_style_controlPublishedAt: date,
+      },
+    });
+    expect(await saveExternalBatch([entity], [observation])).toBe(1);
+    expect(await db.select().from(schema.chartEntities)).toHaveLength(20);
+    const rows = await db
+      .select()
+      .from(schema.chartEntitySources)
+      .where(eq(schema.chartEntitySources.entityId, old.id));
+    expect(rows).toHaveLength(2);
+    const arenaSource = rows.find((row) => row.provider === 'arena');
+    if (!arenaSource) throw new Error('La source Arena doit être enregistrée.');
+    const snapshots = await db
+      .select()
+      .from(schema.chartSourceSnapshots)
+      .where(eq(schema.chartSourceSnapshots.entitySourceId, arenaSource.id));
+    expect(snapshots).toHaveLength(2);
+    await db
+      .update(schema.chartEntities)
+      .set({ active: false })
+      .where(eq(schema.chartEntities.id, old.id));
+    await saveExternalBatch([entity], [observation]);
+    expect(await db.select().from(schema.chartEntities)).toHaveLength(20);
+    expect(
+      await db
+        .select()
+        .from(schema.chartEntities)
+        .where(eq(schema.chartEntities.slug, entity.slug)),
+    ).toHaveLength(0);
+    expect(
+      (await db.select().from(schema.chartEntities).where(eq(schema.chartEntities.id, old.id)))[0]
+        ?.active,
+    ).toBe(false);
+  });
+
   it('fige deux éditions distinctes par jour et rend chaque créneau idempotent', async () => {
     const projects = await seed();
     const morning = await calculateGithubWeek({ date });

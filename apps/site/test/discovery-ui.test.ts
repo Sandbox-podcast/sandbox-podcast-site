@@ -2,7 +2,7 @@ import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it } from 'vitest';
 import SearchPage from '../src/app/(fr)/search/page';
-import EpisodesPage from '../src/app/(fr)/episodes/page';
+import PodcastPage from '../src/app/(fr)/podcast/page';
 import { allEpisodes } from '../src/lib/repository';
 
 describe('recherche publique', () => {
@@ -25,7 +25,7 @@ describe('recherche publique', () => {
     );
     expect(html).toContain('Aucun résultat');
     expect(html).toContain('Nouvelle recherche');
-    expect(html).toContain('href="/episodes"');
+    expect(html).toContain('href="/podcast"');
   });
   it('échappe une requête reçue depuis une URL', async () => {
     const html = renderToStaticMarkup(
@@ -42,11 +42,9 @@ describe('parcours de la bibliothèque podcast', () => {
   });
 
   it('rend la bibliothèque vide sans lecteur vidéo de démo', async () => {
-    const page = await EpisodesPage({
-      searchParams: Promise.resolve({}),
-    });
+    const page = await PodcastPage();
     const html = renderToStaticMarkup(createElement('div', null, page));
-    expect(html).toContain('Tous les podcasts');
+    expect(html).toContain('Le Talk Show');
     expect(html).not.toContain('EP. 40');
     expect(html).not.toContain('EP. 41');
     expect(html).not.toContain('EP. 42');

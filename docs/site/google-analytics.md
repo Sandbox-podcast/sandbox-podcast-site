@@ -1,27 +1,47 @@
-# Mesure d’audience Google Analytics
+# Mesure d'audience et consentement
 
-Le site conserve Vercel Analytics et ajoute Google Analytics 4 via `gtag.js`. L’identifiant `G-45XWR4KJ1M` fourni par la propriétaire est intégré comme valeur par défaut ; `NEXT_PUBLIC_GA_MEASUREMENT_ID` peut le remplacer si nécessaire. Les deux outils mesurent la fréquentation seulement après un choix explicite dans la bannière. Le site envoie manuellement un événement `page_view` par chemin, sans requête ni fragment d’URL. Les routes `/admin` ne sont pas mesurées. Aucun événement personnalisé de conversion, de formulaire ou de clic n’est défini. Google Analytics peut aussi générer ses événements automatiques standards (par exemple `first_visit`, `session_start` et `user_engagement`).
+Le site utilise Vercel Web Analytics après accord. Le tag GA4 via `gtag.js` est prêt mais bloqué par défaut tant que la configuration de son flux n'est pas validée. L'identifiant fourni par Lou est `G-45XWR4KJ1M` ; `NEXT_PUBLIC_GA_MEASUREMENT_ID` peut le remplacer. La page `/confidentialite` et le pied de page donnent accès aux préférences.
 
-Décision de conception : [DD-0020](../design-decisions/DD-0020-google-analytics-et-consentement.md).
+Le responsable confirmé est " L'équipe du podcast Sandbox ", joignable à `sandbox.podcast.pro@gmail.com`. La propriétaire indique une conservation GA4 des événements de 14 mois. Le choix d'accepter ou de refuser est daté et vaut 180 jours. Les anciennes valeurs sans date sont redemandées. Le retrait bloque les nouveaux envois et efface les cookies GA4 accessibles au site ; il ne supprime pas les données déjà reçues. Les cookies GA4 expirent après 180 jours sans prolongation automatique.
 
-Cette règle technique est décidée par l’agent sur délégation (PD-0003). Elle ne vaut pas validation juridique des traitements ni des mentions d’information, qui restent à vérifier par la propriétaire avant activation.
+Voir [DD-0020](../design-decisions/DD-0020-google-analytics-et-consentement.md) pour le choix initial et [DD-0029](../design-decisions/DD-0029-integration-audit-methodes-et-mesure.md) pour cette correction.
 
 ## Plan de mesure
 
-| Événement   | Déclenchement                                                             | Données envoyées                                                   |
-| ----------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------ |
-| `page_view` | Chargement ou navigation vers un nouveau chemin public, après acceptation | Chemin, titre de page, référent réduit à son origine et son chemin |
+| Événement                | Déclenchement                                   | Paramètres utiles                                |
+| ------------------------ | ----------------------------------------------- | ------------------------------------------------ |
+| `page_view`              | Nouveau chemin public après accord              | Chemin, titre, référent sans requête ni fragment |
+| `episode_play_requested` | Clic pour charger le lecteur                    | Numéro d'épisode                                 |
+| `episode_source_open`    | Clic sur une source d'épisode                   | Numéro d'épisode, index de ressource             |
+| `episode_project_open`   | Clic de l'épisode vers un projet                | Numéro d'épisode, slug du projet                 |
+| `project_episode_open`   | Clic d'un projet vers l'épisode ou son chapitre | Numéro d'épisode, slug du projet                 |
 
-Les paramètres de requête et fragments sont retirés des vues et du contexte de page. Les identifiants de compte, formulaires et clics ne sont pas envoyés par cette intégration. La mesure améliorée du flux doit rester désactivée pour empêcher les événements automatiques de défilement, clics sortants et changements d’historique en plus des vues manuelles.
+Une demande de lecteur ou un clic ne prouve pas un visionnage. Les conversions YouTube sont relevées dans Studio avec leur période et leur attribution. Les événements manuels ne contiennent ni texte saisi, ni e-mail, ni URL de ressource. Le titre de la recherche est fixe. La zone `/admin` est exclue. Les signaux Google et la personnalisation publicitaire sont désactivés.
 
-À la date du 14 octobre 2026, l’identifiant `G-45XWR4KJ1M` a été fourni par la propriétaire et intégré. La session Google ouverte pour cette configuration n’a pas de compte Analytics provisionné ; l’association de cet identifiant à un flux Web pour `www.sandboxpodcast.fr` n’a donc pas pu être vérifiée. L’assistant Google affiche les conditions d’utilisation et les choix de partage de données du compte. La session Vercel actuellement connectée n’a pas accès au projet de production ; le projet attendu est `sandboxpodcastpro-5518/sandbox-podcast` selon la [fiche de mise en service](mise-en-service-neon-vercel.md).
+Le 14 octobre, l'essai de recherche `qa-sensitive` sur le build de production a observé ce marqueur dans un événement automatique `view_search_results`. Nos événements manuels étaient expurgés, mais la mesure améliorée les contournait. La variable `NEXT_PUBLIC_GA4_READY` vaut donc `false` par défaut. La mesure améliorée du flux GA4 doit rester désactivée : les vues sont envoyées manuellement pour éviter les doublons et les URL de recherche brutes. Les événements standards propres à GA4, comme `session_start`, peuvent subsister. Le filtre `beforeSend` de Vercel relit le choix et son expiration à chaque envoi, même si le script a survécu à son composant.
 
-## Activation
+## Vérification de la réception
 
-1. Dans la session Google voulue, créer/provisionner le compte Analytics si nécessaire. Le propriétaire doit lire et accepter les conditions d’utilisation lui-même et décider des options de partage de données. Si le compte existe sous une autre session Google, réutiliser celui-là plutôt que créer un doublon.
-2. Vérifier que `G-45XWR4KJ1M` est bien l’identifiant du flux Web de `www.sandboxpodcast.fr`. Si ce n’est pas le cas, sélectionner ou créer le bon flux et remplacer l’identifiant intégré.
-3. Dans les réglages du flux, désactiver la mesure améliorée : le site envoie lui-même les vues `page_view` afin de retirer les requêtes des URL et d’éviter les doublons. Les événements automatiquement collectés par GA4, comme `session_start`, peuvent toutefois subsister.
-4. Le code inclut déjà l’identifiant par défaut. Si l’identifiant du flux diffère, ajouter `NEXT_PUBLIC_GA_MEASUREMENT_ID` à **Production uniquement** sur le projet Vercel qui sert `www.sandboxpodcast.fr`. Ne pas mettre de secret dans cette variable : l’identifiant de mesure est public.
-5. Redéployer, accepter la mesure sur le site, puis vérifier `page_view` dans Temps réel ou DebugView. Refuser doit laisser les deux outils de mesure inactifs ; le contrôle « Préférences de mesure » permet de changer ensuite le choix.
+### Événements de découverte ajoutés le 15 octobre
 
-La mise en production reste en attente de la vérification de l’identifiant fourni, de l’accès au bon projet Vercel et de la revue des mentions légales / cookies. Le compte Analytics et le domaine n’ont pas été modifiés par ce changement local.
+`discovery_open` mesure les liens principaux de l'accueil, avec une destination parmi `charts`, `time-machine`, `podcast` et `projects`. `youtube_open` couvre les liens directs de l'accueil, du podcast, de la fiche d'épisode et du pied de page. Le numéro d'épisode n'est fourni que lorsqu'un replay précis est visé. `experience_interaction` distingue les onglets, l'ouverture de l'explication des données, la demande de copie d'un lien et la demande d'export. Un clic de partage ne prouve pas la réussite de la copie.
+
+Ces événements passent par le même accord, le même contrôle d'expiration et le même verrou GA4. Les paramètres `placement`, `destination` et `action` sont limités à des listes fermées. Ils ne contiennent pas le texte de recherche. Les pages vues permettent d'étudier les entrées et le parcours de la découverte à l'épisode, puis à YouTube ; les clics vers YouTube doivent être rapprochés des données de Studio, sans les assimiler à des abonnements. Aucune cible chiffrée n'est fixée avant une première période d'observation.
+
+La réception et l'attribution dans les comptes distants restent à vérifier lors de l'activation. Référence technique : [événements GA4](https://developers.google.com/analytics/devguides/collection/ga4/events).
+
+### Contrôles de configuration
+
+Les tests du 14 octobre sur le build local de production observent le chargement du tag et une transmission `page_view` seulement après acceptation. Le refus ne charge pas le tag ; après retrait, les navigations observées n'ajoutent pas d'envoi. Le collecteur Google répond de manière opaque au navigateur : un statut JavaScript 0 ne signifie ni HTTP 0 ni validation dans une propriété.
+
+La session GA4 accessible affiche le compte " bress " sans propriété Sandbox. Le connecteur Vercel refuse l'accès au projet de production attendu, `sandboxpodcastpro-5518/sandbox-podcast`. Ces accès restent nécessaires pour confirmer l'association du flux, la désactivation de la mesure améliorée et la réception dans les rapports. Aucune propriété ni préférence de compte n'a été créée ou modifiée.
+
+1. Ouvrir la propriété existante du podcast et vérifier son identifiant de mesure et son domaine.
+2. Vérifier la conservation déclarée de 14 mois et la désactivation de la mesure améliorée.
+3. Après désactivation de la mesure améliorée, construire une prévisualisation avec `NEXT_PUBLIC_GA4_READY=true`. Vérifier qu'aucun terme saisi ni paramètre d'URL ne part, puis tester accepter, refuser, retirer et naviguer vers un second chemin.
+4. Vérifier `page_view` et les actions ci-dessus dans Temps réel ou DebugView, puis l'absence de nouveaux événements après retrait.
+5. Activer le même réglage sur la production seulement après ces contrôles. Vérifier aussi la collecte Vercel sur le projet qui sert le domaine public. Les captures locales et la validation du filtre ne prouvent pas l'activation distante.
+
+## Sources
+
+Les mentions reprennent les choix confirmés par la propriétaire et le fonctionnement du code. Références : [information des personnes, CNIL](https://www.cnil.fr/fr/conformite-rgpd-information-des-personnes-et-transparence), [conservation du choix, CNIL](https://www.cnil.fr/en/cnil-direct/question/cookies-si-jai-refuse-ses-cookies-un-site-web-peut-il-me-redemander-de-les), [CSP Google sans fonctions publicitaires](https://developers.google.com/tag-platform/security/guides/csp), [conservation GA4](https://support.google.com/analytics/answer/7667196), [mesure améliorée](https://support.google.com/analytics/answer/9216061), [vues automatiques et changements de page](https://developers.google.com/analytics/devguides/collection/ga4/views), [données Vercel Web Analytics](https://vercel.com/docs/analytics/privacy-policy).

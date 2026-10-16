@@ -17,8 +17,8 @@ describe('404 des routes localisées', () => {
       }),
     );
     expect(html).toContain(english['Cette page est introuvable.']);
-    expect(html).toContain('href="/en/episodes"');
-    expect(html).not.toContain('href="/episodes"');
+    expect(html).toContain('href="/en/podcast"');
+    expect(html).not.toContain('href="/podcast"');
   });
 
   it('empêche l’indexation de la page 404', () => {

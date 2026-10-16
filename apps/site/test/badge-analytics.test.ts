@@ -1,5 +1,10 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { BADGE_CAMPAIGNS, badgeAttribution, recordBadgeEvent } from '../src/lib/badge-analytics.ts';
+import {
+  analyticsConsentLifetimeMs,
+  analyticsConsentRecord,
+  defaultGoogleAnalyticsMeasurementId,
+} from '../src/lib/google-analytics.ts';
 
 afterEach(() => {
   vi.unstubAllGlobals();
@@ -22,16 +27,47 @@ describe('mesure consentie des badges', () => {
   );
   it('ne mesure rien sans consentement et ne transmet que le type et le format', () => {
     const gtag = vi.fn();
-    const getItem = vi.fn().mockReturnValue('rejected');
-    vi.stubGlobal('window', { localStorage: { getItem }, gtag });
+    const getItem = vi.fn().mockReturnValue(analyticsConsentRecord('rejected'));
+    vi.stubGlobal('window', {
+      localStorage: { getItem },
+      location: { pathname: '/charts/project/test' },
+      [`ga-disable-${defaultGoogleAnalyticsMeasurementId}`]: false,
+      gtag,
+    });
     recordBadgeEvent('badge_copy', 'github_top_100', 'markdown');
     expect(gtag).not.toHaveBeenCalled();
-    getItem.mockReturnValue('accepted');
+    getItem.mockReturnValue(analyticsConsentRecord('accepted'));
     recordBadgeEvent('badge_copy', 'github_top_100', 'markdown');
     expect(gtag).toHaveBeenCalledWith('event', 'badge_copy', {
       badge_type: 'github_top_100',
       format: 'markdown',
     });
+  });
+  it('bloque les anciens accords, les accords expirés, le tag désactivé et les routes admin', () => {
+    const gtag = vi.fn();
+    const getItem = vi.fn();
+    const location = { pathname: '/charts/project/test' };
+    const browser = {
+      localStorage: { getItem },
+      location,
+      gtag,
+      [`ga-disable-${defaultGoogleAnalyticsMeasurementId}`]: false,
+    };
+    vi.stubGlobal('window', browser);
+    for (const value of [
+      'accepted',
+      analyticsConsentRecord('accepted', Date.now() - analyticsConsentLifetimeMs),
+    ]) {
+      getItem.mockReturnValue(value);
+      recordBadgeEvent('badge_copy', 'github_top_100', 'markdown');
+    }
+    getItem.mockReturnValue(analyticsConsentRecord('accepted'));
+    browser[`ga-disable-${defaultGoogleAnalyticsMeasurementId}`] = true;
+    recordBadgeEvent('badge_copy', 'github_top_100', 'markdown');
+    browser[`ga-disable-${defaultGoogleAnalyticsMeasurementId}`] = false;
+    location.pathname = '/admin';
+    recordBadgeEvent('badge_copy', 'github_top_100', 'markdown');
+    expect(gtag).not.toHaveBeenCalled();
   });
   it('ignore le stockage bloqué et valide strictement les liens attribués', () => {
     vi.stubGlobal('window', {

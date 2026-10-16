@@ -1,0 +1,98 @@
+{
+  "sourceUrl": "https://www.sandboxpodcast.fr/episodes/1",
+  "observedOn": "2026-10-14",
+  "purpose": "Référence publique pour les essais de rendu, sans modification de la base réelle.",
+  "episode": {
+    "number": 1,
+    "title": "Sandbox #1 (pilote)  Mistral Large 4, Claude Haiku 5.5, Gemini at Work, Sillage et les harnais IA",
+    "dek": "Premier épisode (pilote) de Sandbox, le podcast qui teste, débat et remet les chiffres en perspective. Lou, Nicolas et Loïc passent en revue l'actualité IA et tech de la semaine, présentent un outil fait maison et racontent leurs expérimentations en cours.",
+    "publishedAt": "2026-10-12T19:40:00.000Z",
+    "durationSec": 4702,
+    "description": "Quatre séquences : Le Radar (l'actu), Le Build (un outil qu'on a construit), Le Clash (on débat) et La Bêta (nos tests du moment).\n\n\n🔗 SOURCES DU RADAR\n• Impulsion IA, 12 mesures (ministère du Travail) : https://travail-emploi.gouv.fr/impulsion-ia-12-mesures-pour-impulser-anticiper-et-dialoguer-face-la-transformation-du-monde-du-travail-par-lintelligence-artificielle\n• Émeutes lycées simulator, le jeu vibe-codé de Vincent Flibustier : https://emeutes-2eyfvtil.manus.game/\n• Google Labs Playground : https://labs.google/playground\n• Mistral Large 4 : https://mistral.ai/news/mistral-large-4/\n• Claude Haiku 5.5 (Anthropic) : https://www.anthropic.com/claude-haiku-5-5\n• Claude Haiku 5.5 sur Artificial Analysis : https://artificialanalysis.ai/changelog\n• Claude Startups : https://claude.com/fr/programs/startups\n   – Avenant startups : https://www.anthropic.com/legal/startup-program-addendum\n   – Conditions commerciales : https://www.anthropic.com/legal/commercial-terms\n   – Conditions par service (ZDR) : https://www.anthropic.com/legal/service-specific-terms\n• Gemini at Work 2026 (Google Cloud) : https://cloud.google.com/blog/products/ai-machine-learning/welcome-to-gemini-at-work-2026\n\n🛠️ LE BUILD : SILLAGE\n• Le site et le film de présentation : https://marlburrow.github.io/sillage/\n• Le dépôt GitHub (open source, MIT) : https://github.com/MarlBurroW/sillage\n\n🧪 LA BÊTA\n• Power Rush, le jeu de Nicolas : https://powerrush.marlburrow.dev\n",
+    "hosts": ["lou", "nicolas", "loic"],
+    "topics": ["agents", "coding", "open-source"],
+    "chapters": [
+      {
+        "at": 0,
+        "title": "Dans cet épisode (extraits)"
+      },
+      {
+        "at": 62,
+        "title": "Intro : le format Sandbox (Radar, Build, Clash, Bêta)"
+      },
+      {
+        "at": 111,
+        "title": "Le Radar · Impulsion IA 2027 : 80 M€ pour former à l’IA"
+      },
+      {
+        "at": 219,
+        "title": "Le Radar · Vibe coder l’actualité (Vincent Flibustier)"
+      },
+      {
+        "at": 383,
+        "title": "Le Radar · Google Playground : créer un jeu à partir d’un prompt"
+      },
+      {
+        "at": 555,
+        "title": "Le Radar · Mistral Large 4, le « chonk »"
+      },
+      {
+        "at": 936,
+        "title": "Le Radar · Claude Haiku 5.5 : 10× moins cher"
+      },
+      {
+        "at": 1073,
+        "title": "Le Radar · Claude Startups : crédits et conditions"
+      },
+      {
+        "at": 1263,
+        "title": "Le Radar · Gemini at Work 2026 : l’intégration avant le modèle ?"
+      },
+      {
+        "at": 1550,
+        "title": "Le Build · Sillage, une brique au-dessus des harnais (Nicolas)"
+      },
+      {
+        "at": 2237,
+        "title": "Le Clash · Sillage est-il un harnais ? Codex, Claude Code, OpenCode"
+      },
+      {
+        "at": 2905,
+        "title": "Le Clash · Contexte, mémoire et « context rot »"
+      },
+      {
+        "at": 3172,
+        "title": "Le Clash · Dispatch, orchestration et interfaces"
+      },
+      {
+        "at": 3545,
+        "title": "La Bêta · Lou : une chaîne YouTube Lo-Fi 100 % IA et des skills"
+      },
+      {
+        "at": 4137,
+        "title": "La Bêta · Loïc : Nemotron 3.5, Strata, Qwen Image 2.1"
+      },
+      {
+        "at": 4304,
+        "title": "La Bêta · Nicolas : jeux vidéo vibe-codés et Power Rush"
+      },
+      {
+        "at": 4661,
+        "title": "Conclusion"
+      }
+    ],
+    "mentions": [],
+    "sources": [],
+    "platforms": {
+      "youtubeId": "GgSiPkADCz4",
+      "youtubeUrl": "https://www.youtube.com/watch?v=GgSiPkADCz4",
+      "thumbnailUrl": "https://i.ytimg.com/vi/GgSiPkADCz4/hqdefault.jpg"
+    },
+    "featured": true,
+    "status": "published",
+    "cover": {
+      "tone": 1,
+      "kicker": "Le modèle ne suffit pas"
+    }
+  }
+}

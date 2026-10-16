@@ -2,17 +2,17 @@
   "name": "Sandbox",
   "wordmark": ["SANDBOX", "STUDIO"],
   "tagline": "La tech mérite mieux que du bruit.",
-  "strapline": "Le podcast qui teste, débat et remet les chiffres en perspective.",
-  "description": "Sandbox, le podcast vidéo sur l'IA et la tech. Retrouvez les épisodes, leurs sources et les classements commentés.",
-  "heroEyebrow": "Podcast indépendant · IA · développement · open source",
-  "heroTitle": "Un podcast pour y voir plus clair.",
+  "strapline": "Le Talk Show qui teste, débat et remet les chiffres en perspective.",
+  "description": "Sandbox, le Talk Show sur l'IA et la tech. Retrouvez les épisodes, leurs sources et les classements commentés.",
+  "heroEyebrow": "Talk Show indépendant · IA · développement · open source",
+  "heroTitle": "Un Talk Show pour y voir plus clair.",
   "heroDek": "Chaque semaine, nos épisodes vidéo explorent les outils, les modèles et les idées qui changent le travail. Retrouvez aussi les sources citées et les classements commentés.",
   "aboutEyebrow": "L’équipe",
   "aboutTitle": "Retrouvez-nous.",
   "aboutIntro": "Lou, Nicolas et Loïc. Les liens de l'équipe Sandbox, réunis ici.",
   "platforms": {
     "youtube": "https://www.youtube.com/@SandboxFR",
-    "spotify": "https://open.spotify.com",
+    "spotify": "https://open.spotify.com/show/2Wp6S4qgRqQaV01AjkDcMH",
     "apple": "https://podcasts.apple.com"
   }
 }

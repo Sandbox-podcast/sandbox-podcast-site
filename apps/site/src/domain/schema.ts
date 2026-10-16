@@ -461,7 +461,7 @@ export const episodeSchema = z.object({
       audioUrl: httpsUrlSchema.optional(),
     })
     .default({}),
-  /** Une seule sélection peut être mise en avant dans la page d'accueil. */
+  /** Champ historique conservé ; le dernier replay est choisi par date de publication. */
   featured: z.boolean().default(false),
   /** Les brouillons importés par l'admin restent invisibles dans les pages publiques. */
   status: z.enum(['draft', 'published']).default('published'),

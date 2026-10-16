@@ -5,6 +5,7 @@ import { LocalizedLink as Link } from '@/components/localization';
 import dynamic from 'next/dynamic';
 import { useEffect, useMemo, useState } from 'react';
 import { chartSelectionQuery, type ChartSelection } from '@/domain/chart-selection';
+import { chartMethodPath, chartMethodSummary, hasModelMeasure } from '@/domain/chart-publication';
 import { formatCompact } from '@/domain/format';
 import {
   CHART_LABELS,
@@ -25,6 +26,7 @@ import { compareWeeks, editionStart, isCalendarEdition } from '@/domain/weeks';
 import { intlLocale } from '@/i18n/translation';
 import { ChartsWatchlist } from './charts-features';
 import { ChartsRanking } from './charts-ranking';
+import { ChartPublication } from './chart-publication';
 import styles from './charts-compact.module.css';
 
 const ChartsShare = dynamic(() => import('./charts-share').then((module) => module.ChartsShare));
@@ -90,9 +92,19 @@ export function ChartsExperience({
     [series],
   );
   const meta = CHART_LABELS[id];
+  const snapshot = series?.snapshots.find((item) => item.week === week);
+  const method = chartMethodSummary(id, snapshot?.publication?.scoringVersion);
+  const measureAvailable = id !== 'models' || hasModelMeasure(snapshot, view);
+  const displaySeries = series && {
+    ...series,
+    dimensions: series.dimensions.map((dimension) =>
+      dimension.id === series.primary ? { ...dimension, label: method.label } : dimension,
+    ),
+  };
   const rows = useMemo(
-    () => chartRows(data, id, week, period, id === 'models' ? view : undefined),
-    [data, id, week, period, view],
+    () =>
+      measureAvailable ? chartRows(data, id, week, period, id === 'models' ? view : undefined) : [],
+    [data, id, week, period, view, measureAvailable],
   );
   const visible = rows.filter((row) => matchesChartFilter(row.entity, filter));
   const edition = series?.editions.find((item) => item.week === week);
@@ -148,9 +160,14 @@ export function ChartsExperience({
   return (
     <div className={`wrap sc-page ${styles['page']}`}>
       <header className={styles['header']}>
-        <h1>Sandbox Charts</h1>
+        <div>
+          <h1>Sandbox Charts</h1>
+          <p className={styles['intro']}>
+            <Text>Des outils à découvrir. Des données pour les comparer.</Text>
+          </p>
+        </div>
         <p className={styles['update']}>
-          <Text>{'Deux mises à jour prévues par jour'}</Text>
+          <Text>{'Éditions datées et sourcées'}</Text>
         </p>
       </header>
       {publicationLate ? (
@@ -168,6 +185,9 @@ export function ChartsExperience({
           <button
             key={chart}
             type="button"
+            data-analytics-event="experience_interaction"
+            data-analytics-placement="charts"
+            data-analytics-action="tab"
             aria-pressed={id === chart}
             onClick={() => {
               chooseChart(chart);
@@ -179,8 +199,8 @@ export function ChartsExperience({
                 : chart === 'skills'
                   ? 'Skills'
                   : chart === 'models'
-                    ? 'Models'
-                    : 'Rising'}
+                    ? t('Modèles IA')
+                    : t('À suivre')}
             </span>
           </button>
         ))}
@@ -192,8 +212,40 @@ export function ChartsExperience({
               <Text>{meta.title}</Text>
             </h2>
             <p>
-              <Text>{meta.subtitle}</Text>
+              <Text>
+                {id === 'github'
+                  ? 'Explorez les projets open source du classement GitHub.'
+                  : id === 'skills'
+                    ? 'Des instructions et outils pour vos agents IA.'
+                    : id === 'models'
+                      ? 'Comparez les modèles selon la capacité qui vous intéresse.'
+                      : 'Les projets repérés par le classement Rising.'}
+              </Text>
             </p>
+            <details className={styles['method']}>
+              <summary
+                data-analytics-event="experience_interaction"
+                data-analytics-placement="charts"
+                data-analytics-action="method"
+              >
+                <Text>Comprendre les données de cette édition</Text>
+              </summary>
+              <p>
+                <Text>{method.description}</Text>
+              </p>
+              {snapshot?.publication ? (
+                <ChartPublication publication={snapshot.publication} />
+              ) : null}
+            </details>
+            {period !== 'week' ? (
+              <p>
+                <Text>
+                  {
+                    'Sur une période longue, le score mesure la présence aux meilleures places. Les scores de méthodes différentes ne sont pas moyennés.'
+                  }
+                </Text>
+              </p>
+            ) : null}
           </div>
         </div>
         <div className={styles['toolbar']}>
@@ -231,10 +283,7 @@ export function ChartsExperience({
                   <option
                     key={item.id}
                     value={item.id}
-                    disabled={
-                      item.id !== 'open' &&
-                      !series?.dimensions.some((dimension) => dimension.id === item.id)
-                    }
+                    disabled={item.id !== 'open' && !hasModelMeasure(snapshot, item.id)}
                   >
                     <Text>{item.label}</Text>
                   </option>
@@ -347,7 +396,7 @@ export function ChartsExperience({
             </div>
             <ChartsRanking
               rows={visible}
-              series={series}
+              series={displaySeries}
               period={period}
               onShare={setShareRow}
               badgeSlugs={data.mode === 'live' ? (data.badgeSlugs ?? []) : []}
@@ -357,9 +406,13 @@ export function ChartsExperience({
           <div className={styles['empty']} role="status">
             <h3>
               <Text>
-                {isUnavailable
-                  ? 'Données temporairement indisponibles.'
-                  : 'Aucune édition publiée pour ce classement.'}
+                {!measureAvailable
+                  ? 'Cette mesure est indisponible pour cette édition.'
+                  : id === 'models' && view === 'open' && snapshot
+                    ? 'Aucun modèle à poids ouverts dans cette édition.'
+                    : isUnavailable
+                      ? 'Données temporairement indisponibles.'
+                      : 'Aucune édition publiée pour ce classement.'}
               </Text>
             </h3>
             {isUnavailable ? (
@@ -388,7 +441,7 @@ export function ChartsExperience({
             <Text>{' entrées'}</Text>
           </span>
           <nav className={styles['footerLinks']}>
-            <Link href={`/charts/${meta.slug}/methodology`}>
+            <Link href={chartMethodPath(meta.slug, snapshot?.week)}>
               <Text>{'Méthodologie et sources'}</Text>
             </Link>
             <Link href="/charts/history">
@@ -405,7 +458,7 @@ export function ChartsExperience({
         {episodes.length ? (
           <section className="sc-podcast">
             <span className="sc-label">
-              <Text>{'DANS LE PODCAST'}</Text>
+              <Text>{'DANS LE TALK SHOW'}</Text>
             </span>
             {episodes.map((episode) => (
               <Link key={episode.number} href={episode.href}>

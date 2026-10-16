@@ -4,11 +4,18 @@ import { REFERENCE_PROFILES } from '@/domain/reference-profiles';
 import { referenceProfileSchema, referenceWeights } from '@/domain/reference-ranking';
 import type { ChartId } from '@/domain/sandbox-charts';
 import { publicChartEdition } from '@/lib/charts-public';
+import { ChartPublication } from './chart-publication';
 
-export async function ReferenceMethodology({ chart }: { chart: ChartId }) {
+export async function ReferenceMethodology({
+  chart,
+  edition: suppliedEdition,
+}: {
+  chart: ChartId;
+  edition?: Awaited<ReturnType<typeof publicChartEdition>>;
+}) {
   let edition: Awaited<ReturnType<typeof publicChartEdition>>;
   try {
-    edition = await publicChartEdition(chart);
+    edition = suppliedEdition === undefined ? await publicChartEdition(chart) : suppliedEdition;
   } catch (error) {
     console.error(
       'Reference methodology unavailable:',
@@ -40,6 +47,25 @@ export async function ReferenceMethodology({ chart }: { chart: ChartId }) {
       ? referenceProfileSchema.safeParse(config.input.profile)
       : null;
   const profile = frozen?.success ? frozen.data : REFERENCE_PROFILES[chart];
+  if (
+    edition &&
+    (!frozen?.success || profile.chart !== chart || profile.version !== edition.scoringVersion)
+  ) {
+    return (
+      <article className="wrap sc-methodology">
+        <h1>
+          <Text>{'Méthode du classement'}</Text>
+        </h1>
+        <p>
+          <Text>
+            {
+              'La preuve de cette édition ne permet pas de vérifier son profil de calcul. Aucun autre profil ne lui est attribué.'
+            }
+          </Text>
+        </p>
+      </article>
+    );
+  }
   const weights = referenceWeights(profile);
   const published = frozen?.success === true;
   const slug = chart === 'models' ? 'ai-models' : chart;
@@ -70,6 +96,12 @@ export async function ReferenceMethodology({ chart }: { chart: ChartId }) {
           </Text>
         </p>
       </header>
+      {published && edition ? <ChartPublication publication={edition.publication} /> : null}
+      {profile.status === 'experimental' ? (
+        <p role="note">
+          <Text>{'Profil expérimental : pondérations en cours de calibration.'}</Text>
+        </p>
+      ) : null}
       <section>
         <h2>
           <Text>{'Les poids des familles'}</Text>
@@ -90,9 +122,7 @@ export async function ReferenceMethodology({ chart }: { chart: ChartId }) {
         </p>
         <p>
           <Text>
-            {
-              'Le score est la moyenne pondérée des familles, moins 20 % de leur déviation absolue pondérée. Un même jeu de mesures republié par un autre site ne reçoit pas une seconde voix.'
-            }
+            {`Le score est la moyenne pondérée des familles, moins ${profile.disagreementPenalty * 100} % de leur déviation absolue pondérée. Un même jeu de mesures republié par un autre site ne reçoit pas une seconde voix.`}
           </Text>
         </p>
       </section>
@@ -156,9 +186,7 @@ export async function ReferenceMethodology({ chart }: { chart: ChartId }) {
         </h2>
         <p>
           <Text>
-            {
-              'Chaque édition v3 conserve le profil, les observations normalisées et leurs liens, les contributions, la couverture, les exclusions et une empreinte SHA-256. Les rangs de sensibilité viennent de variations de 20 % et du retrait de chaque source ou famille. Ils décrivent des scénarios, sans probabilité statistique.'
-            }
+            {`Chaque édition v3 conserve le profil, les observations normalisées et leurs liens, les contributions, la couverture, les exclusions et une empreinte SHA-256. Les rangs de sensibilité viennent de variations de ${profile.sensitivityVariation * 100} % et du retrait de chaque source ou famille. Ils décrivent des scénarios, sans probabilité statistique.`}
           </Text>
         </p>
         {published ? (

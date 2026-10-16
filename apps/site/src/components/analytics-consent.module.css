@@ -17,6 +17,15 @@
   color: var(--accent-ink);
 }
 
+/* Sur l'accueil, le rappel reste en fin de page pour dégager le plateau et son action. */
+:global(body:has([data-home='editorial'])) .preferencesButton {
+  position: relative;
+  inset: auto;
+  display: block;
+  margin: 0 auto 1.5rem;
+  min-height: 44px;
+}
+
 .preferencesButton:focus-visible,
 .actionButton:focus-visible {
   outline: 3px solid var(--accent-ink);

@@ -72,6 +72,36 @@ describe('classement compact', () => {
       'Mise à jour en retard.',
     );
   });
+
+  it("n'attribue pas une valeur qualité-prix à une ancienne édition sans prix", () => {
+    const data = dataset();
+    const series = data.series[0];
+    const snapshot = series?.snapshots[0];
+    if (!series || !snapshot) throw new Error('Édition requise.');
+    series.id = 'models';
+    series.primary = 'quality';
+    snapshot.publication = {
+      scoringVersion: 'models-cross-source-v1',
+      observedAt: snapshot.retrievedAt,
+      calculatedAt: snapshot.publishedAt,
+      publishedAt: snapshot.publishedAt,
+    };
+    snapshot.entries = snapshot.entries.map((entry) => ({
+      ...entry,
+      dimensions: { quality: entry.score, value: entry.score },
+    }));
+    const html = renderToStaticMarkup(
+      createElement(ChartsExperience, { data, initialChart: 'models', initialView: 'value' }),
+    );
+    expect(html).toContain('Cette mesure est indisponible pour cette édition.');
+    expect(html).not.toContain('Aucune édition publiée pour ce classement.');
+    expect(summaries(html)).toHaveLength(0);
+    const openHtml = renderToStaticMarkup(
+      createElement(ChartsExperience, { data, initialChart: 'models', initialView: 'open' }),
+    );
+    expect(openHtml).toContain('Aucun modèle à poids ouverts dans cette édition.');
+    expect(openHtml).not.toContain('Aucune édition publiée pour ce classement.');
+  });
   it('affiche chaque projet une fois et conserve les détails et les sources', () => {
     const html = renderToStaticMarkup(createElement(ChartsExperience, { data: dataset() }));
     expect(summaries(html)).toHaveLength(2);
@@ -83,7 +113,7 @@ describe('classement compact', () => {
     expect(html).not.toContain('sc-records');
     expect(html).not.toContain('sc-newsletter');
     expect(html).toContain('Mesures, composants du score et sources');
-    expect(html.match(/href="\/charts\/github\/methodology"/g)).toHaveLength(1);
+    expect(html.match(/href="\/charts\/github\/methodology\?edition=2026-10-13"/g)).toHaveLength(1);
     expect(html).toContain('href="/charts/history"');
     expect(html).toContain('PARTAGER LE CLASSEMENT');
     expect(html).toContain('13 oct. 2026');
@@ -183,9 +213,9 @@ describe('classement compact', () => {
   });
 
   it.each([
-    ['en', 'Two updates scheduled per day', 'This edition', 'Category'],
-    ['es-ES', 'Dos actualizaciones previstas al día', 'Esta edición', 'Categoría'],
-    ['de-DE', 'Zwei Aktualisierungen pro Tag geplant', 'Diese Ausgabe', 'Kategorie'],
+    ['en', 'Dated, sourced editions', 'This edition', 'Category'],
+    ['es-ES', 'Ediciones fechadas y con fuentes', 'Esta edición', 'Categoría'],
+    ['de-DE', 'Datierte Ausgaben mit Quellen', 'Diese Ausgabe', 'Kategorie'],
   ])('traduit les nouveaux contrôles en %s', async (locale, cadence, period, category) => {
     const html = renderToStaticMarkup(
       createElement(LocalizationProvider, {

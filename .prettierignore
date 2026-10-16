@@ -19,5 +19,6 @@ tools/youtube-growth/.venv/
 **/.hyperframes/
 # Licences de polices et consignes fournies par les dépendances : conserver leur texte original.
 videos/**/assets/*OFL.md
+videos/sandbox-intro/public/LeagueGothic-OFL.md
 videos/le-clash-jingle/AGENTS.md
 videos/le-clash-jingle/CLAUDE.md

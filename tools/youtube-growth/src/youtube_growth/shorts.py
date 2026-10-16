@@ -16,13 +16,32 @@ from urllib.request import Request, urlopen
 from .shorts_core import format_publish_time, make_srt, next_publish_time, parse_publish_time, validate_clip_candidates
 from .editorial import weekly_slots as daily_publish_times
 from .thumbnails import safe_slug
-from .storage import exclusive_run, save_json
+from .storage import exclusive_run, save_json, open_journal
 
 
 CHUNK_SECONDS = 600
 TRANSCRIPTION_MODEL = "whisper-1"
 MIN_CLIP_SECONDS = 15
 MAX_CLIP_SECONDS = 60
+
+
+def upload_once(service, clip_path: Path, clip: dict, source_title: str, source_video_id: str) -> str:
+    from .identity import expected_channel_id
+    journal = open_journal(clip_path.parent / "operations.sqlite3")
+    try:
+        identity = {"channel_id": expected_channel_id(), "source_video_id": source_video_id,
+                    "media_sha256": _sha256(clip_path)}
+        operation_id, should_upload = journal.begin("short_upload", {**identity, "clip": clip}, identity)
+        if should_upload:
+            video_id = _upload_clip(service, clip_path, clip, source_title, source_video_id)
+            journal.finish(operation_id, {"id": video_id})
+            return video_id
+        result = journal.result(operation_id)
+        if not isinstance(result, dict) or not isinstance(result.get("id"), str) or not result["id"]:
+            raise RuntimeError("Upload enregistré sans identifiant exploitable. Vérifiez Studio.")
+        return result["id"]
+    finally:
+        journal.close()
 
 
 def _call(command: list[str]) -> str:
@@ -492,7 +511,7 @@ def _render_and_report(source: Path, work_dir: Path, manifest: dict[str, Any], f
             clip_path = work_dir / clip["file"]
             clip["upload_status"] = "started"
             _save_manifest(work_dir / "manifest.json", manifest)
-            video_id = _upload_clip(service, clip_path, clip, source_title, manifest["source_video_id"])
+            video_id = upload_once(service, clip_path, clip, source_title, manifest["source_video_id"])
             clip["youtube_video_id"] = video_id
             clip["upload_status"] = "scheduled"
             _save_manifest(work_dir / "manifest.json", manifest)

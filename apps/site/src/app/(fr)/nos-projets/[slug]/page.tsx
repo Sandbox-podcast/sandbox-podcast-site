@@ -5,7 +5,12 @@ import { CopyButton } from '@/components/client';
 import { JsonLd } from '@/components/json-ld';
 import { ProjectGallery } from '@/components/project-gallery';
 import { ProjectIcon, ProjectRow } from '@/components/project-store';
-import { LocalizedLink as Link, LocalizedDate, Text } from '@/components/localization';
+import {
+  LocalizedLink as Link,
+  LocalizedDate,
+  LocalizedElement,
+  Text,
+} from '@/components/localization';
 import {
   PROJECT_ACCESS_LABELS,
   PROJECT_CATEGORIES,
@@ -13,12 +18,17 @@ import {
   personalProjectPath,
 } from '@/domain/personal-projects';
 import { personalProject, personalProjects } from '@/lib/personal-projects';
+import { allEpisodes } from '@/lib/repository';
+import { preparePublishedEditorialContent } from '@/lib/admin-persistence';
+import { episodeProjects } from '@/domain/episode-projects';
+import { formatTimestamp } from '@/domain/format';
 import { absoluteUrl, breadcrumbLd, pageMetadata } from '@/lib/seo';
 import styles from '@/components/project-store.module.css';
 
 interface ProjectPageProps {
   params: Promise<{ slug: string }>;
 }
+export const dynamic = 'force-dynamic';
 
 export function generateStaticParams() {
   return personalProjects.map(({ slug }) => ({ slug }));
@@ -44,6 +54,7 @@ export async function generateMetadata({ params }: ProjectPageProps) {
 }
 
 export default async function PersonalProjectPage({ params }: ProjectPageProps) {
+  await preparePublishedEditorialContent();
   const { slug } = await params;
   const project = personalProject(slug);
   if (!project) notFound();
@@ -52,6 +63,7 @@ export default async function PersonalProjectPage({ params }: ProjectPageProps) 
     .filter((item) => item.slug !== slug && item.creator === project.creator)
     .slice(0, 6);
   const codeOnly = project.access === 'source';
+  const appearances = allEpisodes().flatMap((episode) => episodeProjects(episode, [project]));
   return (
     <article className={styles['page']}>
       <JsonLd
@@ -187,6 +199,46 @@ export default async function PersonalProjectPage({ params }: ProjectPageProps) 
           </div>
         </dl>
         <ProjectGallery name={project.name} images={project.images} videos={project.videos} />
+        {appearances.length ? (
+          <section className="project-episodes" aria-labelledby="project-episodes-title">
+            <h2 id="project-episodes-title">
+              <Text>{'Dans le Talk Show'}</Text>
+            </h2>
+            {appearances.map((appearance) => (
+              <div key={appearance.episodeNumber}>
+                <p>
+                  <Link
+                    className="underline"
+                    href={`/episodes/${appearance.episodeNumber}`}
+                    data-analytics-event="project_episode_open"
+                    data-analytics-episode={appearance.episodeNumber}
+                    data-analytics-project={project.slug}
+                  >
+                    <Text>{appearance.episodeTitle}</Text>
+                  </Link>
+                </p>
+                <ul>
+                  {appearance.chapters.map((chapter) => (
+                    <li key={chapter.at}>
+                      <LocalizedElement
+                        as="a"
+                        className="underline"
+                        href={`/episodes/${appearance.episodeNumber}?t=${chapter.at}#episode-video`}
+                        data-analytics-event="project_episode_open"
+                        data-analytics-episode={appearance.episodeNumber}
+                        data-analytics-project={project.slug}
+                      >
+                        {formatTimestamp(chapter.at)}
+                        {' · '}
+                        <Text>{chapter.title}</Text>
+                      </LocalizedElement>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </section>
+        ) : null}
         <div className={styles['descriptionLayout']}>
           <section className={styles['description']} aria-labelledby="project-description-title">
             <h2 id="project-description-title">

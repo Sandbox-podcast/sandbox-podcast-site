@@ -8,7 +8,7 @@ Depuis les détails d'un dépôt éligible dans `/charts/github`, le lien "Obten
 
 `/charts/awards` présente les critères, l'installation, les attributions et leurs éventuels retraits. Les pages utilisent le système de traductions locales français, anglais, espagnol et allemand. La relecture native des traductions espagnoles et allemandes reste nécessaire, comme pour le reste du site.
 
-Les six extensions sont incluses à la demande de Lou. Le développement reste local jusqu'à sa vérification. L'[issue #63](https://github.com/Sandbox-podcast/sandbox-podcast-site/issues/63) explique le concept et montre les huit familles de badges. Ses images sont des exemples conceptuels, sans attribution réelle.
+Les six extensions sont incluses à la demande de Lou et intégrées dans la livraison #67 du 15 octobre. La mise en service réelle reste suivie dans l'issue #68. Les exemples locaux restent identifiés comme fixtures, sans attribution réelle.
 
 ## Les six extensions
 

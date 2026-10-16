@@ -1,4 +1,5 @@
 import { existsSync, readFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
 import { join } from 'node:path';
 import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
@@ -34,15 +35,18 @@ describe('photos des animateurs', () => {
     const nicolas = loadContent().hosts.find((host) => host.slug === 'nicolas');
     expect(nicolas).toMatchObject({
       aka: 'MarlburroW',
-      photo: '/team/nicolas.jpg',
+      photo: '/team/nicolas-prod-2026-10-15.webp',
       socials: {
         github: 'https://github.com/MarlBurroW',
         linkedin: 'https://www.linkedin.com/in/nicolas-varrot-b6b05857/',
         x: 'https://x.com/MarlburroW38',
       },
     });
-    expect(readFileSync(join(process.cwd(), 'public/team/nicolas.jpg')).subarray(0, 3)).toEqual(
-      Buffer.from([255, 216, 255]),
+    const photo = readFileSync(join(process.cwd(), 'public/team/nicolas-prod-2026-10-15.webp'));
+    expect(photo.subarray(0, 4).toString('ascii')).toBe('RIFF');
+    expect(photo.subarray(8, 12).toString('ascii')).toBe('WEBP');
+    expect(createHash('sha256').update(photo).digest('hex')).toBe(
+      'aea75f5d4a0c46079e5464a94bc5338a19a720c61063001e23e0e5e6b06b7fe7',
     );
     expect(loadContent().hosts.find((host) => host.slug === 'loic')?.socials.github).toBe(
       'https://github.com/azerothl',
@@ -102,7 +106,7 @@ describe('photos des animateurs', () => {
     expect(html.match(/class="about-social-portrait" aria-hidden="true"/g)).toHaveLength(3);
     expect(html.match(/data-nimg="fill"/g)).toHaveLength(3);
     expect(html).toContain(encodeURIComponent('/team/lou.png'));
-    expect(html).toContain(encodeURIComponent('/team/nicolas.jpg'));
+    expect(html).toContain(encodeURIComponent('/team/nicolas-prod-2026-10-15.webp'));
     expect(html).toContain(encodeURIComponent('/team/loic.png'));
     expect(html).not.toContain('class="about-social-monogram"');
     expect(html).toContain('MarlburroW');

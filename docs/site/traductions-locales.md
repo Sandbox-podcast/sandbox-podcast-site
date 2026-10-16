@@ -46,9 +46,9 @@ Les dates visibles sont formatées avec `Intl` et le fuseau UTC.
 
 ## Couverture actuelle
 
-Le français est la source. Le dictionnaire anglais contient les traductions des textes éditoriaux existants et de l'interface publique. Les dictionnaires espagnol et allemand contiennent les commandes principales et les libellés des classements.
+Au 16 octobre 2026, les trois dictionnaires anglais, espagnol et allemand couvrent chacun les 2 397 entrées du catalogue local, badges compris. Le français reste la source. Les tests refusent une entrée manquante dans l'une de ces trois langues et vérifient les paramètres des modèles.
 
-Ces deux dictionnaires restent partiels. Les phrases absentes restent françaises ; une revue native reste nécessaire pour les longs textes éditoriaux.
+Cette couverture porte sur les sources locales ; elle ne certifie ni une relecture native ni les textes édités uniquement dans la base de production. Exporter ces derniers depuis l'admin pour préparer leur lot. Une revue native des textes longs et des pages réellement prêtes reste nécessaire.
 
 Les pages partagées localisées restent `noindex`. L'ouverture de l'indexation nécessite une couverture complète de la page, une revue éditoriale et la publication autorisée décrites dans ADR-0020.
 

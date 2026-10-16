@@ -1,7 +1,8 @@
 import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it, vi } from 'vitest';
-import config from '../next.config';
+import { NextRequest } from 'next/server';
+import { proxy } from '../src/proxy';
 import { AdminSlides } from '../src/components/admin-slides';
 
 describe('consultation des slides dans l’admin', () => {
@@ -15,14 +16,11 @@ describe('consultation des slides dans l’admin', () => {
     expect(html).toContain('Revenir à la liste des présentations');
   });
 
-  it('autorise le cadre de même origine dans la CSP de production', async () => {
+  it('autorise le cadre de même origine dans la CSP de production', () => {
     vi.stubEnv('NODE_ENV', 'production');
     try {
-      const productionRules = await config.headers?.();
-      const productionCsp = productionRules
-        ?.find((rule) => rule.source === '/:path*')
-        ?.headers.find((header) => header.key === 'Content-Security-Policy');
-      expect(productionCsp?.value).toContain("frame-src 'self'");
+      const response = proxy(new NextRequest('https://sandbox.test/admin'));
+      expect(response.headers.get('Content-Security-Policy')).toContain("frame-src 'self'");
     } finally {
       vi.unstubAllEnvs();
     }

@@ -127,6 +127,16 @@ try {
     assert.equal(archive.status, 200);
     assert.match(await archive.text(), /FIXTURE skills 0/);
     checks.push(`${prefix}/charts/skills/2026-10-10`);
+    const method = await fetch(
+      `${fixture.origin}${prefix}/charts/skills/methodology?edition=2026-10-10`,
+    );
+    assert.equal(method.status, 200);
+    assert.match(await method.text(), /fixture-routing-test/);
+    checks.push(`${prefix}/charts/skills/methodology?edition=2026-10-10`);
+    const privacy = await fetch(`${fixture.origin}${prefix}/confidentialite`);
+    assert.equal(privacy.status, 200);
+    assert.match(await privacy.text(), /sandbox\.podcast\.pro@gmail\.com/);
+    checks.push(`${prefix}/confidentialite`);
   }
   for (const [path, imageUrl] of shareImages) {
     const image = await fetch(imageUrl);
@@ -138,6 +148,11 @@ try {
   const absent = await fetch(`${fixture.origin}/charts/skills/2026-10-09`);
   assert.equal(absent.status, 404);
   checks.push('archive absente : 404');
+  const absentMethod = await fetch(
+    `${fixture.origin}/charts/skills/methodology?edition=2026-10-09`,
+  );
+  assert.equal(absentMethod.status, 404);
+  checks.push('méthode absente : 404');
   await writeFile(
     new URL('routes.json', fixture.artifactDir),
     JSON.stringify({ status: 'passed', database: 'ephemeral-pglite', checks }, null, 2),

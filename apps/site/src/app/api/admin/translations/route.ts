@@ -1,3 +1,4 @@
+import { readLimitedRequestText, RequestBodyTooLargeError } from '@/lib/request-body';
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 import { originIsSameSite } from '@/lib/admin-auth';
@@ -63,14 +64,17 @@ export async function POST(request: Request) {
     return Response.json({ error: 'Fichier trop volumineux (limite : 1,5 Mo).' }, { status: 413 });
   let value: unknown;
   try {
-    const raw = await request.text();
+    const raw = await readLimitedRequestText(request, 1_600_000);
     if (Buffer.byteLength(raw, 'utf8') > 1_600_000)
       return Response.json(
         { error: 'Fichier trop volumineux (limite : 1,5 Mo).' },
         { status: 413 },
       );
     value = JSON.parse(raw) as unknown;
-  } catch {
+  } catch (error) {
+    if (error instanceof RequestBodyTooLargeError)
+      return Response.json({ error: 'Requête trop volumineuse.' }, { status: 413 });
+
     return Response.json({ error: 'Fichier JSON illisible.' }, { status: 400 });
   }
   const parsed = translatedBundleSchema.safeParse(value);

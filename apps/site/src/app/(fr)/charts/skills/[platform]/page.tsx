@@ -1,9 +1,8 @@
-import { decodeEditionRouteParam } from '@/domain/weeks';
 import { RankingCatalogRoute, rankingCatalogMetadata } from '@/components/ranking-catalog-route';
 import ChartWeekPage, {
   generateMetadata as chartWeekMetadata,
 } from '@/app/(fr)/charts/[slug]/[week]/page';
-import { editionIdSchema } from '@/domain/schema';
+import { editionFromRoute } from '@/domain/edition-route';
 
 export const dynamic = 'force-dynamic';
 interface Props {
@@ -14,9 +13,8 @@ interface Props {
 }
 
 export async function generateMetadata({ params, searchParams }: Props) {
-  const { platform: encodedEdition } = await params;
-  const platform = decodeEditionRouteParam(encodedEdition);
-  if (editionIdSchema.safeParse(platform).success)
+  const { platform } = await params;
+  if (editionFromRoute(platform))
     return chartWeekMetadata({
       params: Promise.resolve({ slug: 'skills', week: platform }),
       searchParams,
@@ -24,9 +22,8 @@ export async function generateMetadata({ params, searchParams }: Props) {
   return rankingCatalogMetadata(`/charts/skills/${platform}`);
 }
 export default async function SkillsRankingPage({ params, searchParams }: Props) {
-  const { platform: encodedEdition } = await params;
-  const platform = decodeEditionRouteParam(encodedEdition);
-  if (editionIdSchema.safeParse(platform).success)
+  const { platform } = await params;
+  if (editionFromRoute(platform))
     return ChartWeekPage({
       params: Promise.resolve({ slug: 'skills', week: platform }),
       searchParams,

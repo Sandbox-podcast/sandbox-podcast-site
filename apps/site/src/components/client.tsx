@@ -117,11 +117,13 @@ export function YouTubeFacade({
   title,
   startAt,
   thumbnailUrl,
+  episodeNumber,
 }: {
   id: string;
   title: string;
   startAt?: number;
   thumbnailUrl?: string | undefined;
+  episodeNumber?: number;
 }) {
   const [active, setActive] = useState(startAt !== undefined);
   if (active) {
@@ -146,6 +148,8 @@ export function YouTubeFacade({
         setActive(true);
       }}
       className="youtube-facade group relative grid aspect-video w-full place-items-center overflow-hidden border-2 border-ink bg-ink text-paper"
+      data-analytics-event={episodeNumber ? 'episode_play_requested' : undefined}
+      data-analytics-episode={episodeNumber}
       aria-label={`Lire la vidéo : ${title}`}
     >
       <Text>

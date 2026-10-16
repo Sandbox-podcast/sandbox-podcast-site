@@ -39,6 +39,13 @@ export async function seedAwardFixtures(
       const order =
         chart === 'github' && index === days.length - 1 ? ['c', 'a', 'b'] : ['a', 'b', 'c'];
       const source = awardFixture(chart, day, order, prefix);
+      const payload = snapshotSchema.parse(source.payload);
+      // La vue générale Models exige une mesure explicite, même dans les fixtures.
+      if (chart === 'models')
+        payload.entries = payload.entries.map((entry) => ({
+          ...entry,
+          dimensions: { quality: entry.score },
+        }));
       for (const row of source.rows) {
         await db
           .insert(chartEntities)
@@ -81,7 +88,7 @@ export async function seedAwardFixtures(
           week: day,
           scoringVersion: source.scoringVersion,
           config: z.record(z.string(), z.unknown()).parse(source.config),
-          payload: snapshotSchema.parse(source.payload),
+          payload,
           frozenAt: source.frozenAt,
           publishedAt: source.publishedAt,
         })

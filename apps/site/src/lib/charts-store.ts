@@ -16,6 +16,7 @@ import {
   sql,
 } from 'drizzle-orm';
 import { z } from 'zod';
+import { chartPublicationSchema, type PublishedSnapshot } from '../domain/chart-publication.ts';
 import { getDb, hasDatabaseConfiguration } from '../db/client.ts';
 import {
   chartEntities,
@@ -46,7 +47,7 @@ import {
   type ScorecardEvidence,
   type TrackingStatus,
 } from '../domain/github-charts.ts';
-import { snapshotSchema, type Snapshot } from '../domain/schema.ts';
+import { snapshotSchema } from '../domain/schema.ts';
 import type { ChartsCollectionProgress } from '../domain/sandbox-charts.ts';
 import { compareWeeks, previousComparableEdition } from '../domain/weeks.ts';
 import { reviewedReferenceVersion, validateReferenceEdition } from './reference-publication.ts';
@@ -577,21 +578,30 @@ export async function scorecardsForProjects(
   }
   return latest;
 }
-export async function readLiveWeeklySnapshots(publishedOnly = true): Promise<Snapshot[]> {
+export async function readLiveWeeklySnapshots(publishedOnly = true): Promise<PublishedSnapshot[]> {
   requireChartsDatabase();
   const editions = await getDb()
     .select()
     .from(weeklyChartEditions)
     .where(publishedOnly ? isNotNull(weeklyChartEditions.publishedAt) : undefined);
   return editions
-    .map((edition) =>
-      snapshotSchema.parse({
+    .map((edition) => {
+      const snapshot = snapshotSchema.parse({
         ...edition.payload,
         publishedAt: edition.publishedAt
           ? new Date(edition.publishedAt).toISOString()
           : edition.payload.publishedAt,
-      }),
-    )
+      });
+      return {
+        ...snapshot,
+        publication: chartPublicationSchema.parse({
+          scoringVersion: edition.scoringVersion,
+          observedAt: snapshot.retrievedAt,
+          calculatedAt: new Date(edition.frozenAt).toISOString(),
+          publishedAt: edition.publishedAt ? new Date(edition.publishedAt).toISOString() : null,
+        }),
+      };
+    })
     .toSorted((left, right) => compareWeeks(left.week, right.week));
 }
 /** Les dépôts suivis sans relevé du jour restent des candidats inconnus. */

@@ -7,7 +7,9 @@
 
 La rubrique `/nos-projets` présente les projets personnels de Lou, Nicolas et Loïc. Les fiches utilisent `/nos-projets/[slug]`. Les routes existantes `/projects/[slug]`, réservées aux entités des classements, conservent leur rôle.
 
-Le catalogue reprend les captures de référence fournies par Lou : fond sombre, grandes sélections illustrées, listes à icônes et boutons "Afficher". Les fiches présentent une icône, un bandeau coloré, les informations vérifiées, une galerie, une description et les liens vers le projet. Le logo et la navigation Sandbox restent communs au site. Le gris sombre et la typographie système sont limités à cette rubrique.
+Le catalogue reprend les captures de référence fournies par Lou : grandes sélections illustrées, listes à icônes et boutons "Afficher". Les fiches présentent une icône, les informations vérifiées, une galerie, une description et les liens vers le projet. Le logo et la navigation Sandbox restent communs au site.
+
+Correction demandée par Lou le 15 octobre 2026 : le fond gris et la police système propres à cette rubrique sont abandonnés. Le catalogue, les fiches, les filtres, les galeries et les aperçus utilisent les variables communes de DD-0002 : fond noir bleuté, surfaces bleu nuit, textes et bordures Sandbox, actions cyan et police Archivo. Les images et identités des projets conservent leurs couleurs d'origine. Application locale décidée par l'agent sur délégation (PD-0003).
 
 Les fiches sont conservées dans `apps/site/content/personal-projects.json`, validées par Zod et générées sans collecte réseau à la visite. Chaque fiche indique ses sources et sa date de vérification. Les forks, miroirs de distribution et plugins d'une même application sont regroupés. KinBot et Hivekeep forment une seule fiche. Les travaux du compte AkashaBot sont reliés à Loïc par sa publication publique.
 

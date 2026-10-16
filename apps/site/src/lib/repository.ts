@@ -1,4 +1,5 @@
 import { explainMovement, type Explanation } from '../domain/explain.ts';
+import { episodeEditorialPresentation } from '../domain/episode-editorial.ts';
 import { entityHistory, reigns, type EntityHistory, type Reign } from '../domain/history.ts';
 import { computeMovements, isBaseline } from '../domain/movements.ts';
 import type {
@@ -101,13 +102,14 @@ function isPublicEpisode(episode: Episode): boolean {
 
 export const getEpisode = (n: number): Episode | undefined => {
   const episode = index().episodes.get(n);
-  return episode && isPublicEpisode(episode) ? episode : undefined;
+  return episode && isPublicEpisode(episode) ? episodeEditorialPresentation(episode) : undefined;
 };
 export const getStory = (slug: string): Story | undefined => index().stories.get(slug);
 
 export const allCharts = (): ChartDef[] => content().charts;
 export const allEntities = (): Entity[] => content().entities;
-export const allEpisodes = (): Episode[] => content().episodes.filter(isPublicEpisode);
+export const allEpisodes = (): Episode[] =>
+  content().episodes.filter(isPublicEpisode).map(episodeEditorialPresentation);
 export const allStories = (): Story[] => content().stories;
 export const allHosts = (): Host[] => content().hosts;
 export const publicHosts = (): Host[] => allHosts().filter((host) => !host.placeholder);

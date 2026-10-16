@@ -14,14 +14,14 @@ export function DemoContentPage({ title }: { title: string }) {
         <Text>{DEMO_CONTENT_DESCRIPTION}</Text>
       </p>
       <p className="mt-3 max-w-2xl text-ink-2">
-        <Text>Consultez les classements publiés ou les épisodes du podcast.</Text>
+        <Text>Consultez les classements publiés ou les épisodes du Talk Show.</Text>
       </p>
       <nav className="mt-6 flex flex-wrap gap-3">
         <Link className="btn btn-solid" href="/charts">
           <Text>Voir les classements</Text>
         </Link>
-        <Link className="btn" href="/episodes">
-          <Text>Voir les podcasts</Text>
+        <Link className="btn" href="/podcast">
+          <Text>Voir les épisodes</Text>
         </Link>
       </nav>
     </article>

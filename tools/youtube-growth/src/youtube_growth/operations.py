@@ -4,7 +4,7 @@ import copy
 from pathlib import Path
 
 from .identity import expected_channel_id, verify_video
-from .storage import Journal, digest, now_iso, save_json
+from .storage import open_journal, remote_journal_configured, digest, now_iso, save_json
 
 
 SNIPPET_FIELDS = ("title", "description", "tags", "categoryId", "defaultLanguage", "defaultAudioLanguage")
@@ -62,8 +62,8 @@ def execute_plan(service, plan: dict, directory: Path, execute: bool = False) ->
     payload = {"channel_id": plan["channel_id"], "video_id": plan["video_id"], "before": before, "after": after, "revision": revision}
     if current == after:
         result = {"status": "already_applied", "video_id": video["id"]}
-        if execute and (directory / "operations.sqlite3").is_file():
-            journal = Journal(directory / "operations.sqlite3")
+        if execute and (remote_journal_configured() or (directory / "operations.sqlite3").is_file()):
+            journal = open_journal(directory / "operations.sqlite3")
             try:
                 journal.finish(digest({"kind": "video_metadata", "payload": payload}), result)
             finally:
@@ -74,7 +74,7 @@ def execute_plan(service, plan: dict, directory: Path, execute: bool = False) ->
     if not execute:
         return {"status": "dry_run", "video_id": video["id"], "before": current, "after": after}
     save_json(directory / "backups" / f"{digest(payload)}.json", plan)
-    journal = Journal(directory / "operations.sqlite3")
+    journal = open_journal(directory / "operations.sqlite3")
     try:
         operation_id, should_execute = journal.begin("video_metadata", payload)
         if not should_execute:

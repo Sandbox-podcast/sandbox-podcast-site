@@ -9,7 +9,7 @@ describe('fiches des animateurs', () => {
       .parse(hosts)
       .find((host) => host.slug === 'nicolas');
     expect(nicolas?.aka).toBe('MarlburroW');
-    expect(nicolas?.photo).toBe('/team/nicolas.jpg');
+    expect(nicolas?.photo).toBe('/team/nicolas-prod-2026-10-15.webp');
     expect(nicolas?.socials).toEqual({
       github: 'https://github.com/MarlBurroW',
       linkedin: 'https://www.linkedin.com/in/nicolas-varrot-b6b05857/',

@@ -1,7 +1,4 @@
-import '@fontsource-variable/archivo/wdth.css';
-import '@fontsource-variable/newsreader/wght.css';
-import '@fontsource-variable/newsreader/wght-italic.css';
-import '@fontsource-variable/jetbrains-mono/wght.css';
+import { siteFonts } from '../fonts';
 import '../globals.css';
 import '../site-polish.css';
 import '../(fr)/charts/charts.css';
@@ -34,7 +31,7 @@ export async function generateMetadata({
   return {
     metadataBase: new URL(siteConfig.url),
     title: {
-      default: `${siteConfig.name} — ${translateText('Podcasts et classements IA', dictionary, locale)}`,
+      default: `${siteConfig.name} — ${translateText('Talk Show et classements IA', dictionary, locale)}`,
       template: `%s · ${siteConfig.name}`,
     },
     description,
@@ -71,7 +68,7 @@ export default async function LocalizedRootLayout({
   const dictionary = await siteDictionary(locale);
   const messages = siteMessages('fr-FR');
   return (
-    <html lang={locale}>
+    <html lang={locale} className={siteFonts}>
       <body>
         <LocalizationProvider locale={locale} dictionary={dictionary}>
           <a className="skip" href="#main">

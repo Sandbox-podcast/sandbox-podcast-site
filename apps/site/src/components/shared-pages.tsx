@@ -1,12 +1,11 @@
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import * as Home from '@/app/(fr)/page';
-import * as Episodes from '@/app/(fr)/episodes/page';
+import * as Podcast from '@/app/(fr)/podcast/page';
 import * as Episode from '@/app/(fr)/episodes/[number]/page';
-import * as Topics from '@/app/(fr)/topics/page';
-import * as Topic from '@/app/(fr)/topics/[slug]/page';
 import * as About from '@/app/(fr)/about/page';
 import * as Search from '@/components/search-screen';
+import * as Privacy from '@/app/(fr)/confidentialite/page';
 import * as Latest from '@/app/(fr)/latest/page';
 import * as Story from '@/app/(fr)/stories/[slug]/page';
 import * as Project from '@/app/(fr)/projects/[slug]/page';
@@ -54,24 +53,17 @@ interface SharedPage {
 
 export const sharedPages: Record<SharedPageRoute, SharedPage> = {
   '/': {
-    render: (o) => <Home.default searchParams={o.searchParams} />,
+    render: (o) => <Home.default searchParams={o.searchParams} locale={o.locale ?? 'fr-FR'} />,
     metadata: (o) => Home.generateMetadata({ searchParams: o.searchParams }),
   },
-  '/episodes': {
-    render: (o) => <Episodes.default searchParams={o.searchParams} />,
-    metadata: (o) => Episodes.generateMetadata({ searchParams: o.searchParams }),
-  },
+  '/podcast': { render: () => <Podcast.default />, metadata: () => Podcast.generateMetadata() },
   '/episodes/:number': {
     render: (o) => <Episode.default params={Promise.resolve({ number: value(o, 'number') })} />,
     metadata: (o) =>
       Episode.generateMetadata({ params: Promise.resolve({ number: value(o, 'number') }) }),
   },
-  '/topics': { render: () => <Topics.default />, metadata: () => Topics.generateMetadata() },
-  '/topics/:slug': {
-    render: (o) => <Topic.default params={slugParams(o)} />,
-    metadata: (o) => Topic.generateMetadata({ params: slugParams(o) }),
-  },
   '/about': { render: () => <About.default />, metadata: () => About.metadata },
+  '/confidentialite': { render: () => <Privacy.default />, metadata: () => Privacy.metadata },
   '/nos-projets': {
     render: () => <PersonalProjects.default />,
     metadata: () => PersonalProjects.metadata,
@@ -84,10 +76,10 @@ export const sharedPages: Record<SharedPageRoute, SharedPage> = {
     render: (o) => <Search.default searchParams={o.searchParams} dictionary={o.dictionary} />,
     metadata: () => Search.metadata,
   },
-  '/latest': { render: () => <Latest.default />, metadata: () => Episodes.generateMetadata({}) },
+  '/latest': { render: () => <Latest.default />, metadata: () => Podcast.generateMetadata() },
   '/stories/:slug': {
     render: () => <Story.default />,
-    metadata: () => Episodes.generateMetadata({}),
+    metadata: () => Podcast.generateMetadata(),
   },
   '/projects/:slug': {
     render: (o) => <Project.default params={slugParams(o)} />,
@@ -175,8 +167,8 @@ export const sharedPages: Record<SharedPageRoute, SharedPage> = {
     metadata: (o) => Rising.generateMetadata({ searchParams: o.searchParams }),
   },
   '/charts/rising/methodology': {
-    render: () => <RisingMethod.default />,
-    metadata: () => RisingMethod.metadata,
+    render: (o) => <RisingMethod.default searchParams={o.searchParams} />,
+    metadata: (o) => RisingMethod.generateMetadata({ searchParams: o.searchParams }),
   },
   '/charts/rising/:week': {
     render: (o) => <RisingWeek.default params={weekParams(o)} searchParams={o.searchParams} />,
@@ -184,8 +176,9 @@ export const sharedPages: Record<SharedPageRoute, SharedPage> = {
       RisingWeek.generateMetadata({ params: weekParams(o), searchParams: o.searchParams }),
   },
   '/charts/:slug/methodology': {
-    render: (o) => <ChartMethod.default params={slugParams(o)} />,
-    metadata: (o) => ChartMethod.generateMetadata({ params: slugParams(o) }),
+    render: (o) => <ChartMethod.default params={slugParams(o)} searchParams={o.searchParams} />,
+    metadata: (o) =>
+      ChartMethod.generateMetadata({ params: slugParams(o), searchParams: o.searchParams }),
   },
   '/charts/:slug/:week': {
     render: (o) => <ChartWeek.default params={chartWeekParams(o)} searchParams={o.searchParams} />,

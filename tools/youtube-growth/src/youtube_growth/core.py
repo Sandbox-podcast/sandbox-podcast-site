@@ -28,6 +28,10 @@ class State:
         if not path.exists():
             return cls()
         raw: Any = json.loads(path.read_text(encoding="utf-8"))
+        return cls.from_dict(raw)
+
+    @classmethod
+    def from_dict(cls, raw: object) -> State:
         if not isinstance(raw, dict):
             raise ValueError("Le fichier d'état YouTube doit contenir un objet JSON.")
         known = {key: raw.get(key, default) for key, default in asdict(cls()).items()}

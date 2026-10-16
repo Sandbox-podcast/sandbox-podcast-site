@@ -10,7 +10,7 @@ from datetime import date, datetime
 from pathlib import Path
 
 from .identity import FIRST_VIDEO_ID, expected_channel_id, verify_video
-from .storage import Journal, exclusive_run, save_json
+from .storage import open_journal, exclusive_run, save_json
 
 
 def doctor(token_path: Path) -> dict:
@@ -57,7 +57,7 @@ def main() -> None:
             result = doctor(args.token)
             save_json(args.state_dir / "doctor.json", result)
         elif args.command == "status":
-            journal = Journal(args.state_dir / "operations.sqlite3")
+            journal = open_journal(args.state_dir / "operations.sqlite3")
             try:
                 result = journal.entries()
             finally:

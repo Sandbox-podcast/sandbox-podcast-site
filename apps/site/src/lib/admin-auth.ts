@@ -4,10 +4,6 @@ import { z } from 'zod';
 export const ADMIN_COOKIE = 'sandbox_admin_session';
 export const ADMIN_SESSION_SECONDS = 8 * 60 * 60;
 
-const ATTEMPT_WINDOW_MS = 15 * 60 * 1000;
-const MAX_ATTEMPTS = 5;
-const MAX_TRACKED_ADDRESSES = 2048;
-const attempts = new Map<string, { count: number; startedAt: number }>();
 const adminUserSchema = z
   .array(
     z.object({
@@ -101,29 +97,6 @@ export function passwordMatches(username: string, candidate: string): boolean {
   const actual = scryptSync(candidate, salt ? Buffer.from(salt, 'hex') : Buffer.alloc(16), 64);
   const expected = hash ? Buffer.from(hash, 'hex') : Buffer.alloc(64);
   return timingSafeEqual(actual, expected) && user !== undefined;
-}
-
-export function allowLoginAttempt(request: Request): boolean {
-  const forwarded = request.headers.get('x-forwarded-for');
-  const address = forwarded?.split(',')[0]?.trim() ?? request.headers.get('x-real-ip') ?? 'unknown';
-  const now = Date.now();
-  const current = attempts.get(address);
-  if (!current || now - current.startedAt > ATTEMPT_WINDOW_MS) {
-    if (!current && attempts.size >= MAX_TRACKED_ADDRESSES) {
-      for (const [key, attempt] of attempts) {
-        if (now - attempt.startedAt > ATTEMPT_WINDOW_MS) attempts.delete(key);
-      }
-      if (attempts.size >= MAX_TRACKED_ADDRESSES) {
-        const oldest = attempts.keys().next().value;
-        if (oldest) attempts.delete(oldest);
-      }
-    }
-    attempts.set(address, { count: 1, startedAt: now });
-    return true;
-  }
-  if (current.count >= MAX_ATTEMPTS) return false;
-  current.count += 1;
-  return true;
 }
 
 export function originIsSameSite(request: Request): boolean {

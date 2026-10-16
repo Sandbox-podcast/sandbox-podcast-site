@@ -1,6 +1,8 @@
 import { mentionTag } from './kinds.ts';
 import type { Episode, Mention } from './schema.ts';
 import { parseYouTubeVideoId } from './youtube.ts';
+import type { PersonalProject } from './personal-projects.ts';
+import { resourceProject } from './project-resources.ts';
 
 const INLINE_LINK_START = /(!?)\[([^\]\n]+)\]\(/g;
 const REFERENCE_LINK = /(!?)\[([^\]\n]+)\]\[([^\]\n]*)\]/g;
@@ -38,7 +40,7 @@ function normalizedUrl(raw: string): URL | undefined {
 }
 
 function cleanLabel(value: string): string {
-  return value.replace(/^[\s#*_[\]()>•–—-]+|[\s:*_[\]()>•–—-]+$/g, '').trim();
+  return value.replace(/^[\s#*_[\]>•–—-]+|[\s:*_[\]>•–—-]+$/g, '').trim();
 }
 
 /** Extrait les URL HTTPS visibles du Markdown, sans les blocs de code ni les images. */
@@ -154,7 +156,10 @@ export function mergeDescriptionResources(
 }
 
 /** Liste unique utilisée par la fiche et la recherche, dans le même ordre. */
-export function episodeResources(episode: Episode): Mention[] {
+export function episodeResources(
+  episode: Episode,
+  projects: readonly PersonalProject[] = [],
+): Mention[] {
   return mergeDescriptionResources(
     [
       ...episode.mentions,
@@ -167,5 +172,10 @@ export function episodeResources(episode: Episode): Mention[] {
     ],
     episode.description,
     episode.platforms.youtubeId,
-  );
+  ).map((resource) => {
+    const project = resourceProject(resource.url, projects);
+    return project && !resource.label.toLowerCase().includes(project.name.toLowerCase())
+      ? { ...resource, label: `${project.name} : ${resource.label}` }
+      : resource;
+  });
 }

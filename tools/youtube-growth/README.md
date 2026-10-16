@@ -1,6 +1,6 @@
 # SANDBOX YouTube Growth Agent
 
-Outil Python pour [Sandbox Podcast](https://www.youtube.com/@SandboxFR). Il complète le site existant sans modifier `old/`. Voir [ADR-0026](../../docs/adr/ADR-0026-growth-agent-et-extraits-youtube.md) et [la livraison du 14 octobre](../../docs/site/youtube-growth-2026-10-14.md).
+Outil Python pour [Sandbox Podcast](https://www.youtube.com/@SandboxFR). Il complète le site existant sans modifier `old/`. Voir [ADR-0029](../../docs/adr/ADR-0029-growth-agent-et-extraits-youtube.md), [ADR-0032](../../docs/adr/ADR-0032-protections-et-persistance-issue-68.md) et [la livraison du 14 octobre](../../docs/site/youtube-growth-2026-10-14.md).
 
 ## Connexion et audit
 
@@ -38,7 +38,7 @@ python -m youtube_growth.cli apply .local/growth/metadata-plan.json --execute
 python -m youtube_growth.cli status
 ```
 
-Sans `--execute`, `apply` simule. L'exécution préserve catégorie et langues, sauvegarde les métadonnées dans `.local/growth/backups/`, puis inscrit l'intention dans SQLite avant l'appel. Une modification faite depuis la préparation bloque le plan. Une réponse réseau perdue impose une vérification avant reprise. Aucune vidéo n'est supprimée.
+Sans `--execute`, `apply` simule. L'exécution préserve catégorie et langues, sauvegarde les métadonnées dans `.local/growth/backups/`, puis inscrit l'intention avant l'appel dans le journal configuré : Postgres distant ou SQLite local. Le journal conserve aussi les valeurs avant/après. Une modification faite depuis la préparation bloque le plan. Une réponse réseau perdue impose une vérification avant reprise. Aucune vidéo n'est supprimée.
 
 `restore CHEMIN_SAUVEGARDE` simule une restauration; ajouter `--execute` pour l'appliquer. Les sauvegardes ne contiennent pas de jeton.
 
@@ -75,12 +75,23 @@ Le pipeline historique `youtube_growth.shorts` reste disponible pour un nouveau 
 
 Le workflow `.github/workflows/youtube-growth.yml` prévoit un polling toutes les 30 minutes. Il exige la branche par défaut et les Secrets/Variables configurés. Le premier polling initialise un curseur sans retraiter l'historique; `audit` peut viser explicitement le premier épisode.
 
-Le polling reste en lecture seule sur GitHub : son cache n'est pas un journal durable d'écritures. Un stockage hébergé persistant, OAuth et le contrôle initial manquent avant l'activation des publications automatiques. `YOUTUBE_POST_EPISODE_COMMENT` et `YOUTUBE_AUTO_REPLY` sont désactivés par défaut. Un commentaire de lancement doit être lié au contenu réel.
+Le polling refuse les écritures GitHub Actions sans `YOUTUBE_JOURNAL_DATABASE_URL` et sans `YOUTUBE_INITIAL_REVIEW_CONFIRMED=1`. Le journal Postgres conserve les intentions, résultats et curseurs entre deux runners. Le cache Actions ne sert jamais de garantie d'écriture. `YOUTUBE_POST_EPISODE_COMMENT` et `YOUTUBE_AUTO_REPLY` restent désactivés par défaut. Un commentaire de lancement doit être lié au contenu réel.
+
+Avant une activation autorisée :
+
+1. Sauvegarder la base cible et les anciens journaux SQLite. Vérifier la séparation Preview/Production, puis appliquer `sql/001_durable_journal.sql` dans la base choisie. Le programme ne crée aucune table automatiquement.
+2. Préparer un rôle limité aux lectures et écritures des tables `youtube_operations` et `youtube_poll_state`. Configurer `YOUTUBE_JOURNAL_DATABASE_URL` avec une connexion Postgres directe et TLS (`sslmode=require` ou `verify-full`). Une URL Neon avec `-pooler` est refusée : le verrou du polling appartient à la session.
+3. Réconcilier les anciennes opérations et les vidéos privées avec les journaux conservés. Une ligne `started` bloque toute reprise automatique ; vérifier le résultat dans YouTube avant de corriger son statut avec une preuve. Ne jamais effacer une intention pour forcer une nouvelle tentative.
+4. Connecter OAuth à la chaîne attendue, contrôler la collecte réelle et exécuter le premier polling sans écriture. Après validation du contenu et accord du propriétaire, configurer les secrets et variables Actions, puis activer seulement les actions autorisées.
+
+Les commentaires sont identifiés par chaîne et vidéo, les réponses par chaîne et commentaire parent, les uploads par chaîne, vidéo source et empreinte du média. Changer le texte généré ne crée pas une nouvelle autorisation d'écriture. Un verrou commun bloque deux pollings concurrents. Les tests Postgres couvrent ces reprises ; ils ne prouvent pas une connexion à la chaîne réelle.
 
 Test natif, épinglage, podcast, Communauté, écrans de fin et vidéo associée gardent une tâche Studio. Les résultats d'un test viennent de Studio; une rotation séquentielle n'est pas un test contrôlé. Le petit échantillon de départ ne justifie pas un gagnant statistique.
 
 ```powershell
 python -m unittest discover -s tests -v
 ```
+
+Les trois tests Postgres nécessitent `YOUTUBE_TEST_DATABASE_URL` vers une base locale de test (`localhost` ou `127.0.0.1`). Ils créent puis retirent un schéma isolé. La CI fournit ce service ; sans URL locale, ces trois tests sont explicitement ignorés.
 
 Références : [OAuth](https://developers.google.com/youtube/v3/guides/auth/installed-apps), [Analytics](https://developers.google.com/youtube/analytics/channel_reports), [extraits Studio](https://support.google.com/youtube/answer/15824265?hl=fr), [remix](https://support.google.com/youtube/answer/12836917?hl=fr), [téléchargement propriétaire](https://support.google.com/youtube/answer/56100?hl=fr), [tests natifs](https://support.google.com/youtube/answer/16391400?hl=fr).

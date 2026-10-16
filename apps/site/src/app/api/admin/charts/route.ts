@@ -1,3 +1,4 @@
+import { readLimitedRequestText, RequestBodyTooLargeError } from '@/lib/request-body';
 import { revalidatePath } from 'next/cache';
 import { chartsAdminWriteSchema } from '@/domain/charts-admin';
 import { trackingStatusSchema } from '@/domain/github-charts';
@@ -36,15 +37,12 @@ export async function POST(request: Request) {
     return Response.json({ error: 'Requête refusée.' }, { status: 403 });
   const user = await getAuthenticatedAdmin(request);
   if (!user) return Response.json({ error: 'Connexion requise.' }, { status: 401 });
-  if (Number(request.headers.get('content-length')) > 64000)
-    return Response.json({ error: 'Requête trop volumineuse.' }, { status: 413 });
-  const raw = await request.text();
-  if (Buffer.byteLength(raw, 'utf8') > 64000)
-    return Response.json({ error: 'Requête trop volumineuse.' }, { status: 413 });
   let value: unknown;
   try {
-    value = JSON.parse(raw) as unknown;
-  } catch {
+    value = JSON.parse(await readLimitedRequestText(request, 64000)) as unknown;
+  } catch (error) {
+    if (error instanceof RequestBodyTooLargeError)
+      return Response.json({ error: 'Requête trop volumineuse.' }, { status: 413 });
     return Response.json({ error: 'JSON invalide.' }, { status: 400 });
   }
   const parsed = chartsAdminWriteSchema.safeParse(value);

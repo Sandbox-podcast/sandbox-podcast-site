@@ -1,5 +1,5 @@
 # Quality Gates à chaque push et chaque PR (master prompt §35.1 / §35.2).
-# Statut : écrit mais jamais exécuté. À valider au premier run (voir docs/testing.md).
+# Périmètre actuel et validations : docs/testing.md.
 name: CI
 
 on:
@@ -30,6 +30,10 @@ jobs:
       - run: pnpm test
       # Le build du site génère toutes les pages statiques et les images OpenGraph : il échoue si un contenu ou une route est cassé.
       - run: pnpm --filter @podcast/site build
+      - run: pnpm --filter @podcast/site test:admin:http
+      - run: pnpm --filter @podcast/site test:public-routes
+      - run: pnpm --filter @podcast/site exec playwright install --with-deps chromium
+      - run: pnpm --filter @podcast/site test:analytics:e2e
       - run: pnpm audit --audit-level=high
 
   secret-scan:

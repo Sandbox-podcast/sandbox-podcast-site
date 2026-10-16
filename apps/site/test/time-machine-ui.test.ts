@@ -6,10 +6,48 @@ import { TimeMachineChart } from '../src/components/time-machine-chart.tsx';
 import { timeMachineData } from '../src/lib/time-machine.ts';
 
 describe('interface historique Time Machine', () => {
+  it('présente une invention avant la courbe et garde les détails scientifiques accessibles sans JavaScript', () => {
+    const data = timeMachineData();
+    const html = renderToStaticMarkup(createElement(TimeMachine, { data }));
+    const inspector = /<aside\b[^>]*>[\s\S]*?<\/aside>/.exec(html)?.[0];
+    expect(inspector).toBeDefined();
+    expect(inspector).toContain('L&#x27;ouverture de ChatGPT');
+    expect(inspector?.match(/data-expanded-event=/g)).toHaveLength(5);
+    expect(inspector?.match(/data-active="true"/g)).toHaveLength(1);
+    expect(inspector).toContain('data-mobile-count="3"');
+    expect(inspector).toContain(
+      'data-history-date="prominent"><strong>2022</strong><span>30 novembre</span>',
+    );
+    expect(inspector).toMatch(
+      /<time\b[^>]*datetime="2022-11-30"[^>]*aria-label="30 novembre 2022"/i,
+    );
+    expect(inspector).toMatch(/<details\b[^>]*>\s*<summary>Détails et sources/);
+    expect(inspector).not.toMatch(/<details\b[^>]*\sopen(?:=|\s|>)/);
+    expect(html.indexOf('<aside')).toBeLessThan(html.indexOf('Voir la courbe chronologique'));
+    expect(html).toContain('aria-hidden="true" data-temporal-starfield=""');
+    for (const event of data.events) {
+      const context = renderToStaticMarkup(createElement('span', null, event.context))
+        .replace(/^<span>/, '')
+        .replace(/<\/span>$/, '');
+      expect(html).toContain(context);
+      for (const source of event.sources) {
+        expect(html).toContain(source.url.replaceAll('&', '&amp;'));
+      }
+    }
+  });
   it('présente une histoire mondiale sourcée sans scores, collections ou simulation', () => {
     const html = renderToStaticMarkup(createElement(TimeMachine, { data: timeMachineData() }));
     expect(html).toContain('Histoire de l&#x27;intelligence artificielle');
     expect(html).toContain('sources primaires');
+    expect(html).toContain('Vérifié le <time dateTime="2026-10-15">15 octobre 2026</time>');
+    const hero = /<header\b[^>]*>[\s\S]*?<\/header>/.exec(html)?.[0];
+    expect(hero).not.toContain('événements');
+    expect(hero).not.toContain('sources primaires');
+    expect(hero).not.toContain('Revue au');
+    expect(html).toContain('GPT-6.1 Sol');
+    expect(html).toContain('OpenAI lance Dots');
+    expect(html).toContain('Navier-Stokes');
+    expect(html).toContain('Grok Bot');
     expect(html).toContain('30 novembre 2022');
     expect(html).toContain('https://openai.com/index/chatgpt/');
     expect(html).toContain('Toutes les annonces');

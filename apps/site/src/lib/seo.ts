@@ -3,7 +3,7 @@ import { isMock, siteConfig } from '@/config/site';
 import { hreflangAlternates, type HreflangPage } from '@/domain/ranking-catalog';
 
 export const absoluteUrl = (path: string): string => new URL(path, siteConfig.url).toString();
-export const SITE_SHARE_IMAGE_ALT = 'Sandbox : podcasts et classements tech';
+export const SITE_SHARE_IMAGE_ALT = 'Sandbox : Talk Show et classements tech';
 
 export function siteShareImage() {
   return {

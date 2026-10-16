@@ -1,4 +1,3 @@
-import { decodeEditionRouteParam } from '@/domain/weeks';
 import { notFound } from 'next/navigation';
 import { ChartScreen } from '@/components/chart-screen';
 import { ChartsExperience } from '@/components/charts-experience';
@@ -8,7 +7,7 @@ import { pageMetadata } from '@/lib/seo';
 import { CHART_LABELS, hasChartEdition } from '@/domain/sandbox-charts';
 import { chartSelectionSchema, hasChartSelectionQuery } from '@/domain/chart-selection';
 import { chartIdForSlug, hasIndexableChartContent } from '@/domain/chart-seo';
-import { editionIdSchema } from '@/domain/schema';
+import { editionFromRoute } from '@/domain/edition-route';
 export const dynamicParams = true;
 export const dynamic = 'force-dynamic';
 interface Props {
@@ -19,10 +18,10 @@ interface Props {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }
 export async function generateMetadata({ params, searchParams }: Props) {
-  const { slug, week: encodedEdition } = await params;
-  const week = decodeEditionRouteParam(encodedEdition);
+  const { slug, week: rawWeek } = await params;
+  const week = editionFromRoute(rawWeek);
   const chart = findChart(slug);
-  if (!chart || !editionIdSchema.safeParse(week).success) return {};
+  if (!chart || !week) return {};
   const title =
     Object.values(CHART_LABELS).find((item) => item.slug === slug)?.title ?? 'MODELS TOP 20';
   const chartId = chartIdForSlug(slug);
@@ -42,10 +41,10 @@ export async function generateMetadata({ params, searchParams }: Props) {
   });
 }
 export default async function ChartWeekPage({ params, searchParams }: Props) {
-  const { slug, week: encodedEdition } = await params;
-  const week = decodeEditionRouteParam(encodedEdition);
+  const { slug, week: rawWeek } = await params;
+  const week = editionFromRoute(rawWeek);
   const selection = chartSelectionSchema.parse(await searchParams);
-  if (!findChart(slug) || !editionIdSchema.safeParse(week).success) notFound();
+  if (!findChart(slug) || !week) notFound();
   if (slug === 'github' || slug === 'skills' || slug === 'ai-models' || slug === 'open-source-ai') {
     const chartId = slug === 'ai-models' || slug === 'open-source-ai' ? 'models' : slug;
     const data = await sandboxChartsData(week);

@@ -1,6 +1,7 @@
 import { DEFAULT_SITE_LOCALE, localeRouteSegment, localeTagFromRouteSegment } from './locales';
 
 const PUBLIC_ROOTS = new Set([
+  'podcast',
   'episodes',
   'charts',
   'projects',
@@ -10,6 +11,7 @@ const PUBLIC_ROOTS = new Set([
   'moves',
   'latest',
   'about',
+  'confidentialite',
   'nos-projets',
   'search',
 ]);

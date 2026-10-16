@@ -1,10 +1,13 @@
-import { ChartsMethodology } from '@/components/charts-methodology';
-import { pageMetadata } from '@/lib/seo';
-export const metadata = pageMetadata({
-  title: 'SANDBOX CHARTS · Méthode Rising 20',
-  description: 'La méthode pour repérer les projets IA en accélération sur GitHub.',
-  path: '/charts/rising/methodology',
-});
-export default function Page() {
-  return <ChartsMethodology rising />;
+import MethodologyPage, {
+  generateMetadata as methodologyMetadata,
+} from '@/app/(fr)/charts/[slug]/methodology/page';
+export const dynamic = 'force-dynamic';
+interface Props {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}
+export function generateMetadata({ searchParams }: Props) {
+  return methodologyMetadata({ params: Promise.resolve({ slug: 'rising' }), searchParams });
+}
+export default function Page({ searchParams }: Props) {
+  return MethodologyPage({ params: Promise.resolve({ slug: 'rising' }), searchParams });
 }

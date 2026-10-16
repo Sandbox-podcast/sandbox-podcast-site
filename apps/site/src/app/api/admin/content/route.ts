@@ -1,3 +1,4 @@
+import { readLimitedRequestText, RequestBodyTooLargeError } from '@/lib/request-body';
 import { revalidatePath } from 'next/cache';
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
@@ -57,8 +58,11 @@ export async function POST(request: Request): Promise<NextResponse> {
   }
   let raw: string;
   try {
-    raw = await request.text();
-  } catch {
+    raw = await readLimitedRequestText(request, 1_600_000);
+  } catch (error) {
+    if (error instanceof RequestBodyTooLargeError)
+      return NextResponse.json({ error: 'Requête trop volumineuse.' }, { status: 413 });
+
     return NextResponse.json({ error: 'Requête illisible.' }, { status: 400 });
   }
   if (Buffer.byteLength(raw, 'utf8') > 1_600_000) {

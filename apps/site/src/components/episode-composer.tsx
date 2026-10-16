@@ -3,7 +3,7 @@
 import { useRef, useState } from 'react';
 import Image from 'next/image';
 import { z } from 'zod';
-import { episodeSchema, type Episode, type Host, type Topic } from '@/domain/schema';
+import { episodeSchema, type Episode, type Host } from '@/domain/schema';
 import { episodeArtwork } from '@/domain/episode-artwork';
 import { MENTION_KINDS } from '@/domain/kinds';
 import { parseYouTubeVideoId } from '@/domain/youtube';
@@ -42,7 +42,6 @@ interface Props {
   initialNumber: number;
   episode?: Episode | undefined;
   hosts: Host[];
-  topics: Topic[];
   defaultHostSlug?: string | undefined;
   otherEpisodes: Episode[];
   onSelectEpisode: (number: number) => void;
@@ -76,7 +75,6 @@ export function EpisodeComposer({
   initialNumber,
   episode,
   hosts,
-  topics,
   defaultHostSlug,
   otherEpisodes,
   onSelectEpisode,
@@ -114,8 +112,6 @@ export function EpisodeComposer({
         ? [defaultHostSlug]
         : []),
   );
-  const [selectedTopics, setSelectedTopics] = useState<string[]>(episode?.topics ?? []);
-  const [featured, setFeatured] = useState(episode?.featured ?? false);
   const [chapters, setChapters] = useState<Episode['chapters']>(
     episode ? episodeChapters(episode) : [],
   );
@@ -373,12 +369,12 @@ export function EpisodeComposer({
       description,
       hosts: selectedHosts,
       guests: episode.guests,
-      topics: selectedTopics,
+      topics: episode.topics,
       chapters,
       mentions: mergeDescriptionResources(resources, description, videoId),
       sources: [],
       platforms,
-      featured,
+      featured: episode.featured,
       status: action === 'publish' ? 'published' : episode.status,
       charts: episode.charts,
       cover: {
@@ -742,29 +738,6 @@ export function EpisodeComposer({
 
             <details className="admin-disclosure admin-span-2">
               <summary>
-                Thèmes <span>{String(selectedTopics.length)} sélectionné(s)</span>
-              </summary>
-              <fieldset className="admin-field">
-                <legend>Thèmes</legend>
-                <div className="admin-check-list">
-                  {topics.map((topic) => (
-                    <label className="admin-check" key={topic.slug}>
-                      <input
-                        type="checkbox"
-                        checked={selectedTopics.includes(topic.slug)}
-                        onChange={() => {
-                          toggle(selectedTopics, setSelectedTopics, topic.slug);
-                        }}
-                      />
-                      <span>{topic.label}</span>
-                    </label>
-                  ))}
-                </div>
-              </fieldset>
-            </details>
-
-            <details className="admin-disclosure admin-span-2">
-              <summary>
                 Liens d’écoute{' '}
                 <span>
                   {String(Number(Boolean(spotifyUrl)) + Number(Boolean(appleUrl)))} lien(s)
@@ -1023,16 +996,6 @@ export function EpisodeComposer({
               </section>
             </details>
 
-            <label className="admin-check admin-span-2">
-              <input
-                type="checkbox"
-                checked={featured}
-                onChange={(event) => {
-                  setFeatured(event.target.checked);
-                }}
-              />
-              <span>Mettre en avant sur l’accueil</span>
-            </label>
             {error ? (
               <p className="admin-error admin-span-2" role="alert">
                 {error}

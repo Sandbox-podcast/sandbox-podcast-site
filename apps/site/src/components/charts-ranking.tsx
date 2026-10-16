@@ -246,7 +246,13 @@ export function ChartsRanking({
                     </h3>
                     <p>
                       <Text>
-                        {row.entity.github?.repo ?? row.entity.org ?? row.entity.category}
+                        {[
+                          row.insight?.whatItIs,
+                          row.entity.tagline,
+                          row.entity.description,
+                          row.entity.github?.repo,
+                          row.entity.org,
+                        ].find((text) => Boolean(text?.trim())) ?? row.entity.category}
                       </Text>
                     </p>
                   </div>

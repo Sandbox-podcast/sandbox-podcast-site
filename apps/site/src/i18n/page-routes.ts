@@ -3,11 +3,10 @@ import { editionIdSchema } from '../domain/schema.ts';
 
 export const SHARED_PAGE_ROUTES = [
   '/',
-  '/episodes',
+  '/podcast',
   '/episodes/:number',
-  '/topics',
-  '/topics/:slug',
   '/about',
+  '/confidentialite',
   '/nos-projets',
   '/nos-projets/:slug',
   '/search',

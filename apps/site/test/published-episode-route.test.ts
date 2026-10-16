@@ -10,11 +10,7 @@ vi.mock('../src/lib/admin-persistence', async (importOriginal) => {
 });
 import HomePage, { dynamic as homeDynamic } from '../src/app/(fr)/page';
 import AboutPage, { dynamic as aboutDynamic } from '../src/app/(fr)/about/page';
-import TopicsPage, { dynamic as topicsDynamic } from '../src/app/(fr)/topics/page';
-import TopicPage, {
-  dynamic as topicDynamic,
-  dynamicParams as topicDynamicParams,
-} from '../src/app/(fr)/topics/[slug]/page';
+import PodcastPage, { dynamic as podcastDynamic } from '../src/app/(fr)/podcast/page';
 import { GET as getFeed, dynamic as feedDynamic } from '../src/app/feed.xml/route';
 import sitemap, { dynamic as sitemapDynamic } from '../src/app/sitemap';
 import EpisodePage, {
@@ -29,15 +25,13 @@ describe('épisodes publiés après le build', () => {
   it('rend les vues éditoriales à la requête pour lire la publication Postgres', () => {
     expect(homeDynamic).toBe('force-dynamic');
     expect(aboutDynamic).toBe('force-dynamic');
-    expect(topicsDynamic).toBe('force-dynamic');
-    expect(topicDynamic).toBe('force-dynamic');
-    expect(topicDynamicParams).toBe(true);
+    expect(podcastDynamic).toBe('force-dynamic');
     expect(feedDynamic).toBe('force-dynamic');
     expect(episodeDynamic).toBe('force-dynamic');
     expect(sitemapDynamic).toBe('force-dynamic');
   });
 
-  it('ouvre la fiche ciblée par le bouton de l’accueil', async () => {
+  it('ouvre le replay publié depuis la page podcast', async () => {
     const base = loadContent();
     const episode = episodeSchema.parse({
       number: 1,
@@ -75,10 +69,17 @@ describe('épisodes publiés après le build', () => {
     try {
       const home = renderToStaticMarkup(await HomePage({}));
       expect(home).toContain('href="/episodes/1"');
-      expect(home).toContain('<h1>Sandbox Charts</h1>');
-      expect(home.indexOf('Sandbox Charts')).toBeLessThan(home.indexOf('id="featured-title"'));
-      expect(home).toContain('<h2 id="featured-title"');
+      expect(home).toContain('Épisode publié après le build');
+      expect(home).toContain('href="https://www.youtube.com/watch?v=GgSiPkADCz4"');
+      expect(home).toContain('id="discovery-title"');
+      expect([
+        ...home.matchAll(/<article\b[^>]*aria-labelledby="home-episode-title"/g),
+      ]).toHaveLength(1);
       expect([...home.matchAll(/<h1\b/g)]).toHaveLength(1);
+      const podcast = renderToStaticMarkup(await PodcastPage());
+      expect(podcast).toContain('href="/episodes/1"');
+      expect(podcast).toContain('Épisode publié après le build');
+      expect(podcast).not.toContain('Épisodes précédents');
       const detail = renderToStaticMarkup(
         createElement('div', null, await EpisodePage({ params: Promise.resolve({ number: '1' }) })),
       );
@@ -93,18 +94,15 @@ describe('épisodes publiés après le build', () => {
       expect(about).toContain('href="https://github.com/azerothl"');
       expect(about.includes('Équipe Sandbox')).toBe(false);
 
-      const topics = renderToStaticMarkup(await TopicsPage());
-      expect(topics).toContain('1 épisode');
-      const topic = renderToStaticMarkup(
-        await TopicPage({ params: Promise.resolve({ slug: 'agents' }) }),
-      );
-      expect(topic).toContain('Épisode publié après le build');
-
       const rss = await getFeed();
       expect(rss.status).toBe(200);
       expect(await rss.text()).toContain('Épisode publié après le build');
       const sitemapEntries = await sitemap();
       expect(sitemapEntries.some((entry) => entry.url.endsWith('/episodes/1'))).toBe(true);
+      expect(sitemapEntries.some((entry) => entry.url.endsWith('/podcast'))).toBe(true);
+      expect(
+        sitemapEntries.some((entry) => /\/(episodes|topics)$|\/topics\//.test(entry.url)),
+      ).toBe(false);
       expect(sitemapEntries.find((entry) => entry.url.endsWith('/time-machine'))).toMatchObject({
         lastModified: '2026-10-15',
       });

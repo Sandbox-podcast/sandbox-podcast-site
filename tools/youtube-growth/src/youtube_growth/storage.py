@@ -57,8 +57,8 @@ class Journal:
     def close(self) -> None:
         self.connection.close()
 
-    def begin(self, kind: str, payload: dict) -> tuple[str, bool]:
-        operation_id = digest({"kind": kind, "payload": payload})
+    def begin(self, kind: str, payload: dict, identity: dict | None = None) -> tuple[str, bool]:
+        operation_id = digest({"kind": kind, "payload": identity if identity is not None else payload})
         with self.connection:
             cursor = self.connection.execute(
                 "INSERT OR IGNORE INTO operations VALUES (?, ?, ?, 'started', NULL, ?)",
@@ -77,3 +77,36 @@ class Journal:
 
     def entries(self) -> list[dict]:
         return [dict(row) for row in self.connection.execute("SELECT id,kind,status,updated_at FROM operations ORDER BY updated_at DESC")]
+
+    def result(self, operation_id: str) -> dict | None:
+        row = self.connection.execute("SELECT result FROM operations WHERE id=? AND status='complete'", (operation_id,)).fetchone()
+        return json.loads(row['result']) if row and row['result'] else None
+
+
+def remote_journal_configured() -> bool:
+    return bool(os.environ.get("YOUTUBE_JOURNAL_DATABASE_URL", "").strip())
+
+
+def open_journal(path: Path):
+    url = os.environ.get("YOUTUBE_JOURNAL_DATABASE_URL", "").strip()
+    if url:
+        from urllib.parse import urlparse, parse_qs
+        parsed = urlparse(url)
+        if parsed.scheme not in {"postgres", "postgresql"} or not parsed.hostname or "-pooler" in parsed.hostname:
+            raise RuntimeError("Le journal exige une URL Postgres directe, sans pool de transactions.")
+        if parsed.hostname not in {"localhost", "127.0.0.1", "::1"} and parse_qs(parsed.query).get("sslmode", [""])[0] not in {"require", "verify-ca", "verify-full"}:
+            raise RuntimeError("Le journal distant exige sslmode=require ou verify-full.")
+        from .postgres_storage import PostgresJournal
+        return PostgresJournal(url)
+    if os.environ.get("GITHUB_ACTIONS") == "true":
+        raise RuntimeError("YOUTUBE_JOURNAL_DATABASE_URL requis pour les écritures depuis GitHub Actions.")
+    return Journal(path)
+
+
+def execute_once(journal, kind: str, identity: dict, payload: dict, action) -> bool:
+    operation_id, should_execute = journal.begin(kind, payload, identity=identity)
+    if not should_execute:
+        return False
+    result = action()
+    journal.finish(operation_id, {"id": result})
+    return True

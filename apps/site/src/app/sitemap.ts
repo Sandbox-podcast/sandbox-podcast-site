@@ -10,7 +10,7 @@ import { publicChartHistory, publicGithubRankedProjectSlugs } from '@/lib/charts
 import { publicLocalizedSitePages, publicRankingCollectionPages } from '@/lib/localized-content';
 import { isLocaleUiReviewed } from '@/i18n/messages';
 import { localeRouteSegment } from '@/i18n/locales';
-import { allEntities, allEpisodes, allTopics, entityPath } from '@/lib/repository';
+import { allEntities, allEpisodes, entityPath } from '@/lib/repository';
 import { indexableEpisode } from '@/domain/episode-seo';
 import { uniqueSitemapEntries } from '@/domain/site-sitemap';
 import { personalProjects } from '@/lib/personal-projects';
@@ -119,12 +119,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ),
   ].map((path) => entry(path, undefined, 0.8));
   const episodes = allEpisodes().filter(indexableEpisode);
-  const topics = allTopics().filter((topic) =>
-    episodes.some((episode) => episode.topics.includes(topic.slug)),
-  );
   const history = timeMachineData();
   return uniqueSitemapEntries([
-    ...(episodes.length || chartEntries.length ? [entry('/', undefined, 1)] : []),
+    ...(episodes.length || chartEntries.length || history.events.length || personalProjects.length
+      ? [entry('/', undefined, 1)]
+      : []),
     ...chartEntries,
     entry('/charts/awards', undefined, 0.5),
     ...(awardResult.status === 'fulfilled'
@@ -138,10 +137,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       : []),
     ...localizedEntries,
     ...localizedRankingHubs,
-    ...(episodes.length ? [entry('/episodes', undefined, 0.8)] : []),
+    ...(episodes.length ? [entry('/podcast', undefined, 0.8)] : []),
     ...episodes.map((e) => entry(`/episodes/${String(e.number)}`, e.publishedAt, 0.8)),
-    ...(topics.length ? [entry('/topics', undefined, 0.5)] : []),
-    ...topics.map((t) => entry(`/topics/${t.slug}`, undefined, 0.4)),
     ...(!isMock
       ? allEntities()
           .filter((e) => !isDemoEntity(e.slug))
@@ -149,6 +146,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       : []),
     entry('/about', undefined, 0.4),
     ...(history.events.length ? [entry('/time-machine', history.reviewedAt, 0.7)] : []),
+    entry('/confidentialite', '2026-10-14T00:00:00.000Z', 0.3),
     entry('/nos-projets', undefined, 0.7),
     ...personalProjects.map((project) =>
       entry(personalProjectPath(project.slug), project.verifiedAt, 0.6),

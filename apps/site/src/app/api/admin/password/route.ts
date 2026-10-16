@@ -1,11 +1,8 @@
+import { checkAdminAttempt } from '@/lib/admin-rate-limit';
+import { readLimitedRequestText, RequestBodyTooLargeError } from '@/lib/request-body';
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
-import {
-  ADMIN_COOKIE,
-  ADMIN_SESSION_SECONDS,
-  allowLoginAttempt,
-  originIsSameSite,
-} from '@/lib/admin-auth';
+import { ADMIN_COOKIE, ADMIN_SESSION_SECONDS, originIsSameSite } from '@/lib/admin-auth';
 import {
   ADMIN_PASSWORD_MAX_LENGTH,
   ADMIN_PASSWORD_MIN_LENGTH,
@@ -30,10 +27,17 @@ export async function POST(request: Request): Promise<NextResponse> {
     return NextResponse.json({ error: 'Requête refusée.' }, { status: 403 });
   const user = await getAuthenticatedAdmin(request);
   if (!user) return NextResponse.json({ error: 'Connexion requise.' }, { status: 401 });
-  if (!allowLoginAttempt(request)) {
+  const attempt = await checkAdminAttempt(request);
+  if (attempt.status === 'unavailable') {
+    return NextResponse.json(
+      { error: 'Protection des connexions indisponible. Réessayez plus tard.' },
+      { status: 503 },
+    );
+  }
+  if (attempt.status === 'limited') {
     return NextResponse.json(
       { error: 'Trop de tentatives. Réessayez dans quelques minutes.' },
-      { status: 429 },
+      { status: 429, headers: { 'Retry-After': String(attempt.retryAfter) } },
     );
   }
   const declaredSize = Number(request.headers.get('content-length') ?? '0');
@@ -42,12 +46,15 @@ export async function POST(request: Request): Promise<NextResponse> {
   }
   let body: unknown;
   try {
-    const raw = await request.text();
+    const raw = await readLimitedRequestText(request, MAX_BODY_BYTES);
     if (Buffer.byteLength(raw, 'utf8') > MAX_BODY_BYTES) {
       return NextResponse.json({ error: 'Requête trop volumineuse.' }, { status: 413 });
     }
     body = JSON.parse(raw) as unknown;
-  } catch {
+  } catch (error) {
+    if (error instanceof RequestBodyTooLargeError)
+      return NextResponse.json({ error: 'Requête trop volumineuse.' }, { status: 413 });
+
     return NextResponse.json({ error: 'Requête illisible.' }, { status: 400 });
   }
   const parsed = passwordChangeSchema.safeParse(body);

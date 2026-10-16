@@ -1,0 +1,82 @@
+{
+  "artificial": {
+    "source": "https://artificialanalysis.ai",
+    "retrievedAt": "2026-10-16",
+    "path": "/images/time-machine/brands/artificial.svg",
+    "sha256": "73ffa280eac430c0b6f47780389428007e993ae205a62d7f08c0c7b1a89e22ab",
+    "viewBox": "0 0 16 16"
+  },
+  "claude": {
+    "source": "https://claude.com",
+    "retrievedAt": "2026-10-16",
+    "path": "/images/time-machine/brands/claude.svg",
+    "sha256": "c4e7bac7d5cf2421aa691acb974e66a1b1c7760c4ba52051b172aac287b1f2e1",
+    "viewBox": "0 0 573 125"
+  },
+  "google": {
+    "source": "https://deepmind.google/models/gemini/",
+    "retrievedAt": "2026-10-16",
+    "path": "/images/time-machine/brands/google.svg",
+    "sha256": "5082cbd4cf41f164ea7dbcd5b2cfe859b738e1c8784dfd85a8884f54cc72f66f",
+    "viewBox": "0 0 74 24"
+  },
+  "meta": {
+    "source": "https://about.meta.com/brand/resources/meta/company-brand/",
+    "retrievedAt": "2026-10-16",
+    "path": "/images/time-machine/brands/meta.svg",
+    "sha256": "21b643ac7fc8f5f4a31548b01c58eb5c5a886c3d077f1ae7aa3a1e95fc93a4f1",
+    "viewBox": "0 0 85 17"
+  },
+  "mistral": {
+    "source": "https://mistral.ai/brand/",
+    "retrievedAt": "2026-10-16",
+    "path": "/images/time-machine/brands/mistral.svg",
+    "sha256": "23bce7eb32f8de2d4e0dd36607c05b2001f9647b85cd1011f9328d4e3d3a8e7e",
+    "viewBox": "0 0 98 22"
+  },
+  "nvidia": {
+    "source": "https://www.nvidia.com",
+    "retrievedAt": "2026-10-16",
+    "path": "/images/time-machine/brands/nvidia.svg",
+    "sha256": "e229b52d72267e143efda3f2a974404ebb3dd4e808bea1f86606e298e69a768c",
+    "viewBox": "0 0 117 35",
+    "beforeNormalizationSha256": "5d7d736631b540bf805a418511b443b5f1971a9bdaa13d60951901fd07ec5537",
+    "normalization": "Indentation normalisée : remplacement des tabulations par des espaces. Les chemins, couleurs et proportions restent identiques."
+  },
+  "openai": {
+    "source": "https://developers.openai.com",
+    "retrievedAt": "2026-10-16",
+    "path": "/images/time-machine/brands/openai.svg",
+    "sha256": "730bc8787be1ac90e529e0f437f68c8731c1795be92351a48ec967f4a7a6f8d8",
+    "viewBox": "0 0 24 24"
+  },
+  "pytorch": {
+    "source": "https://pytorch.org/wp-content/uploads/2024/10/logo.svg",
+    "retrievedAt": "2026-10-16",
+    "path": "/images/time-machine/brands/pytorch.svg",
+    "sha256": "81ed1b54bf98e1e8755ca9c5dff1634d0ed3dfc8b64d0500b98de361c9bcf6a3",
+    "viewBox": "0.6 539.9 487.3 120.2"
+  },
+  "qwen": {
+    "source": "https://raw.githubusercontent.com/QwenLM/Qwen-MM-Plugins/main/src/capabilities/video-edit/skill/assets/images/qwen-icon.svg",
+    "retrievedAt": "2026-10-16",
+    "path": "/images/time-machine/brands/qwen.svg",
+    "sha256": "ac8fce32836495dd53567e441dbd1256d3ebb7faa7b2403599830682a19c83e8",
+    "viewBox": "0 0 233.00 236.00"
+  },
+  "xai": {
+    "source": "https://docs.x.ai/overview",
+    "retrievedAt": "2026-10-16",
+    "path": "/images/time-machine/brands/xai.svg",
+    "sha256": "047adaf0ee673917f8114928b5577252a3c058a53fb8945f0158798eadc7d78c",
+    "viewBox": "0 7.4 24 9.2"
+  },
+  "deepseek": {
+    "source": "https://deepseek.com",
+    "retrievedAt": "2026-10-16",
+    "path": "/images/time-machine/brands/deepseek.svg",
+    "sha256": "1d0573eed8c305f9b48fa1c35f01b6151263c65541f9f8b715f5663ccd4b375f",
+    "viewBox": "0 0 143 23",
+    "normalization": "Le clip rectangulaire local du symbole est remplacé par un viewport SVG de mêmes coordonnées. Les chemins restent identiques."
+  }
+}

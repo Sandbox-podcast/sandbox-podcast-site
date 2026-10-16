@@ -1,7 +1,7 @@
 import { OG_SIZE, OG_TYPE, episodeCard } from '@/lib/og';
 import { allEpisodes, getEpisode } from '@/lib/repository';
 
-export const alt = 'Épisode du podcast';
+export const alt = 'Épisode du Talk Show';
 export const size = OG_SIZE;
 export const contentType = OG_TYPE;
 

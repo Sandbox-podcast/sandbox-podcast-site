@@ -9,38 +9,34 @@ import { LocalizationProvider } from '../src/components/localization.tsx';
 import { siteDictionary } from '../src/i18n/dictionaries.ts';
 import { localizedHref } from '../src/i18n/routing.ts';
 
-const navigation = vi.hoisted(() => ({ pathname: '/topics' }));
+const navigation = vi.hoisted(() => ({ pathname: '/podcast' }));
 vi.mock('next/navigation', () => ({ usePathname: () => navigation.pathname }));
 afterEach(() => {
-  navigation.pathname = '/topics';
+  navigation.pathname = '/podcast';
 });
 
 describe('navigation publique', () => {
-  it('donne la priorité aux classements et garde tous les accès dans le menu mobile', () => {
+  it('présente le podcast en premier et garde les contenus accessibles dans le menu mobile', () => {
     const html = renderToStaticMarkup(createElement(MobileNav));
     expect(html).toContain('<summary class="mobile-menu-trigger">Menu');
-    expect(html.indexOf('href="/charts"')).toBeLessThan(html.indexOf('href="/episodes"'));
-    for (const path of [
-      '/charts',
-      '/episodes',
-      '/topics',
-      '/time-machine',
-      '/nos-projets',
-      '/about',
-      '/search',
-    ])
+    expect(html.indexOf('href="/podcast"')).toBeLessThan(html.indexOf('href="/charts"'));
+    for (const path of ['/charts', '/podcast', '/time-machine', '/nos-projets', '/search'])
       expect(html).toContain(`href="${path}"`);
+    expect(html).not.toContain('href="/about"');
+    expect(renderToStaticMarkup(createElement(Footer))).toContain('href="/about"');
   });
   it('garde la ressource courante lorsque la langue change', () => {
     expect(localizedHref('/topics/ai?q=agent#top', 'en')).toBe('/en/topics/ai?q=agent#top');
     expect(localizedHref('/en/charts/github', 'fr-FR')).toBe('/charts/github');
   });
 
-  it('propose les épisodes et les thèmes sous Podcasts', async () => {
+  it('ouvre directement le podcast sans sous-menu', async () => {
     const html = renderToStaticMarkup(createElement(MainNav));
-    expect(html).toMatch(/<summary[^>]*aria-current="page"[^>]*>Podcasts/);
-    expect(html).toContain('href="/episodes"');
-    expect(html).toContain('href="/topics"');
+    const podcastLink = /<a\b[^>]*href="\/podcast"[^>]*>/.exec(html)?.[0];
+    expect(podcastLink).toContain('aria-current="page"');
+    expect(html).toContain('href="/podcast"');
+    expect(html).not.toContain('href="/topics"');
+    expect(html).not.toContain('nav-submenu');
     expect(html).toContain('href="/charts"');
     expect(html).toContain('href="/time-machine"');
     expect(html).toContain('href="/nos-projets"');
@@ -52,14 +48,14 @@ describe('navigation publique', () => {
         children: createElement(MainNav, { locale: 'en' }),
       }),
     );
-    expect(english).toContain('href="/en/episodes"');
+    expect(english).toContain('href="/en/podcast"');
     expect(english).toContain('href="/en/nos-projets"');
     expect(english).not.toContain('href="/en/time-machine"');
-    expect(english).toContain('All episodes');
-    expect(english).toContain('Topics');
+    expect(english).toContain('The Talk Show');
+    expect(english).not.toContain('Topics');
   });
 
-  it('garde le choix de langue visible sur une page de thème', () => {
+  it('garde le choix de langue visible sur la page podcast', () => {
     const html = renderToStaticMarkup(createElement(LocaleSwitcher));
     expect(html).toContain('aria-label="Changer de langue');
     expect(html).toContain('aria-haspopup="dialog"');
@@ -87,6 +83,9 @@ describe('identité et contrôles communs', () => {
     const footer = renderToStaticMarkup(createElement(Footer));
     expect(header).toContain('sandbox-logo.png');
     expect(footer).toContain('sandbox-logo.png');
+    expect(footer).toContain('https://www.youtube.com/@SandboxFR');
+    expect(footer).toContain('https://open.spotify.com/');
+    expect(footer).toContain('data-analytics-platform="spotify"');
     expect(header).not.toContain('Podcasts &amp; classements IA');
     expect(footer).not.toContain('Podcasts &amp; classements IA');
     expect(header).not.toContain('theme-picker');
