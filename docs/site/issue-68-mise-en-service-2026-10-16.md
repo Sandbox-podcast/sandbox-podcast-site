@@ -45,7 +45,7 @@ Le script local `verify-production.mjs` a vérifié deux réponses admin avec no
 
 Le premier essai utilisait les mauvais préfixes `/es-ES` et `/de-DE` et a rencontré une 404. Le test a été corrigé d'après `src/i18n/locales.ts`, puis exécuté avec succès. Aucune correction du site n'était nécessaire pour ce point.
 
-La commande `pnpm check` a été exécutée après la mise à jour documentaire : format, lint et types valides, 656 tests site, 11 tests média et 21 tests BIS réussis.
+La commande `pnpm check` a été exécutée après la mise à jour documentaire : format, lint et types valides, 686 tests site, 7 tests de la vidéo d'introduction, 4 tests des jingles et 24 tests BIS réussis.
 
 ## Blocages et suite
 
