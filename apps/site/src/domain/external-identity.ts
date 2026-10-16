@@ -30,15 +30,14 @@ export function stableExternalSlugs(
         `Variante Models contradictoire : ${entity.slug}. Aucun rapprochement automatique.`,
       );
     if (entity.type === 'model' && !known.some((item) => item.slug === slug)) {
-      const matches = known.filter(
-        (item) =>
-          item.active &&
-          item.sources.some((source) =>
-            entity.sources.some(
-              (incoming) =>
-                source.provider === incoming.provider && source.externalId === incoming.externalId,
-            ),
+      // Excluded identities must still match: a generated slug must not bypass moderation.
+      const matches = known.filter((item) =>
+        item.sources.some((source) =>
+          entity.sources.some(
+            (incoming) =>
+              source.provider === incoming.provider && source.externalId === incoming.externalId,
           ),
+        ),
       );
       if (matches.length > 1)
         throw new Error(

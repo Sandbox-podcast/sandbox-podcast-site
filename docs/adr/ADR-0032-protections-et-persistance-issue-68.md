@@ -20,7 +20,7 @@ Les pages publiques gardent leur rendu statique/ISR et leur CSP avec `unsafe-inl
 
 ## Identité des modèles
 
-Un slug généré peut changer avec les fournisseurs disponibles. Avant d'insérer des modèles, le collecteur recherche leurs identifiants exacts de source dans une transaction protégée par un verrou commun. Un seul rapprochement actif et sans contradiction de variante réutilise le slug connu, ses sources et ses mesures. Plusieurs correspondances ou des références contradictoires bloquent le lot. Une collecte ne réactive plus une entité exclue manuellement.
+Un slug généré peut changer avec les fournisseurs disponibles. Avant d'insérer des modèles, le collecteur recherche leurs identifiants exacts de source dans une transaction protégée par un verrou commun. Un seul rapprochement sans contradiction de variante réutilise le slug connu, ses sources et ses mesures, même si l'entité est exclue. Plusieurs correspondances ou des références contradictoires bloquent le lot. Une collecte ne réactive plus une entité exclue manuellement, même lorsque son slug généré change.
 
 Il n'y a aucune fusion par nom ni suppression de mesure historique. Les doublons existants exigent une revue de leurs références avant une correction de données autorisée.
 

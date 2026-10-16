@@ -259,10 +259,14 @@ describe('pipeline charts sur Postgres', () => {
       .update(schema.chartEntities)
       .set({ active: false })
       .where(eq(schema.chartEntities.id, old.id));
-    await saveExternalBatch(
-      [{ ...entity, slug: old.slug }],
-      [{ ...observation, entitySlug: old.slug }],
-    );
+    await saveExternalBatch([entity], [observation]);
+    expect(await db.select().from(schema.chartEntities)).toHaveLength(20);
+    expect(
+      await db
+        .select()
+        .from(schema.chartEntities)
+        .where(eq(schema.chartEntities.slug, entity.slug)),
+    ).toHaveLength(0);
     expect(
       (await db.select().from(schema.chartEntities).where(eq(schema.chartEntities.id, old.id)))[0]
         ?.active,

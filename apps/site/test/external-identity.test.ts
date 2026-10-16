@@ -55,9 +55,17 @@ describe('identités stables des modèles collectés', () => {
       'Plusieurs variantes',
     );
   });
-  it('ne rattache pas une nouvelle variante à une entité désactivée', () => {
+  it('conserve une exclusion manuelle quand le slug change mais pas la source', () => {
     expect(
       stableExternalSlugs([entity('new-slug')], [{ ...known, active: false }]).get('new-slug'),
-    ).toBe('new-slug');
+    ).toBe('original-slug');
+  });
+  it('refuse une source partagée entre une identité active et une identité exclue', () => {
+    expect(() =>
+      stableExternalSlugs(
+        [entity('new-slug')],
+        [known, { ...known, slug: 'excluded-duplicate', active: false }],
+      ),
+    ).toThrow('contradictoire');
   });
 });
