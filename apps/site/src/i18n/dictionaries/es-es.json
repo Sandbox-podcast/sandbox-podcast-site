@@ -2516,7 +2516,7 @@
   "Le Talk Show": "El pódcast",
   "Le Talk Show Sandbox : replays et historique": "El pódcast Sandbox: repeticiones y archivo",
   "Le Talk Show de Lou, Loïc et Nico": "El pódcast de Lou, Loïc y Nico",
-  "Le Talk Show IA & tech": "El pódcast de IA y tecnología",
+  "Le Talk Show IA & tech": "El talk show de IA y tecnología",
   "Le Talk Show IA & tech de Lou, Loïc et Nico.": "El pódcast de IA y tecnología de Lou, Loïc y Nico.",
   "Du Talk Show au concret": "Del pódcast a los proyectos",
   "{topic} : les épisodes du Talk Show": "{topic}: los episodios del Talk Show",
@@ -2628,5 +2628,8 @@
   "Official agent plugin providing skills and MCP server configurations for Azure scenarios.": "Plugin oficial para agentes con skills y configuraciones de servidores MCP para escenarios de Azure.",
   "CLI for AI-powered web scraping, structured data extraction, web search, multi-page crawling, and scheduled page-change monitoring powered by the ScrapeGraph AI API. Turn any URL into markdown, HTML, screenshots, links, images, summaries, or brand assets; pull structured JSON with a prompt + schema; watch pages on a cron with webhook alert": "CLI para extracción web con IA, extracción de datos estructurados, búsqueda web, rastreo de varias páginas y seguimiento programado de cambios, basada en la API de ScrapeGraph AI. Convierte una URL en Markdown, HTML, capturas, enlaces, imágenes, resúmenes o recursos de marca; extrae JSON estructurado con un prompt y un esquema; vigila páginas mediante cron y alertas por webhook.",
   "CLI for AI-powered web scraping, structured data extraction, web search, multi-page crawling, and scheduled": "CLI para extracción web con IA, extracción de datos estructurados, búsqueda web, rastreo de varias páginas y seguimiento programado de cambios, basada en la API de ScrapeGraph AI. Convierte una URL en Markdown, HTML, capturas, enlaces, imágenes, resúmenes o recursos de marca; extrae JSON estructurado con un prompt y un esquema; vigila páginas mediante cron y alertas por webhook.",
-  "Write HTML. Render video. Built for agents.": "Escribe HTML. Renderiza vídeo. Diseñado para agentes."
+  "Write HTML. Render video. Built for agents.": "Escribe HTML. Renderiza vídeo. Diseñado para agentes.",
+  "Gardez une longueur": "Ve un paso",
+  "d'avance sur la tech.": "por delante en tecnología.",
+  "Faites défiler pour découvrir l'équipe.": "Desliza para conocer al equipo."
 }

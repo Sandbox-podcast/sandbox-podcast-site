@@ -253,6 +253,7 @@ export function AnalyticsConsent({ language }: { language: string }) {
   const [preferencesOpen, setPreferencesOpen] = useState(false);
   const [storageUnavailable, setStorageUnavailable] = useState(false);
   const [googleTagRequested, setGoogleTagRequested] = useState(false);
+  const [speedInsightsStarted, setSpeedInsightsStarted] = useState(false);
   const previousPageLocation = useRef<string | undefined>(undefined);
   const consentRef = useRef<AnalyticsConsent | null>(null);
   const rejectionNotSaved = useRef(false);
@@ -319,6 +320,17 @@ export function AnalyticsConsent({ language }: { language: string }) {
       return null;
     return filterAnalyticsEvent(event, readSavedConsent());
   }, []);
+
+  useEffect(() => {
+    if (
+      ready &&
+      consent === 'accepted' &&
+      consentRef.current === 'accepted' &&
+      readSavedConsent() === 'accepted' &&
+      !isAdmin
+    )
+      setSpeedInsightsStarted(true);
+  }, [consent, isAdmin, ready]);
 
   useEffect(() => {
     function recordAction(event: MouseEvent) {
@@ -404,11 +416,10 @@ export function AnalyticsConsent({ language }: { language: string }) {
   return (
     <>
       {ready && consent === 'accepted' && !isAdmin ? (
-        <>
-          <VercelAnalytics beforeSend={beforeVercelSend} />
-          <SpeedInsights beforeSend={beforeSpeedSend} />
-        </>
+        <VercelAnalytics beforeSend={beforeVercelSend} />
       ) : null}
+      {/* Le SDK conserve son script : garder sa ref de routage, filtrer chaque envoi. */}
+      {speedInsightsStarted ? <SpeedInsights beforeSend={beforeSpeedSend} /> : null}
       {googleTagRequested && measurementId ? (
         <Script
           id="google-analytics-tag"

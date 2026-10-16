@@ -46,7 +46,7 @@ Les dates visibles sont formatées avec `Intl` et le fuseau UTC.
 
 ## Couverture actuelle
 
-Au 16 octobre 2026, les trois dictionnaires anglais, espagnol et allemand couvrent chacun les 2 400 entrées du catalogue local, badges compris. Le français reste la source. Les tests refusent une entrée manquante dans l'une de ces trois langues et vérifient les paramètres des modèles.
+Au 16 octobre 2026, les trois dictionnaires anglais, espagnol et allemand couvrent chacun les 2 403 entrées du catalogue local, badges compris. Le français reste la source. Les tests refusent une entrée manquante dans l'une de ces trois langues et vérifient les paramètres des modèles.
 
 Les textes propres à la production ont également été contrôlés : accueil, équipe, épisode publié, chapitres, ressources et descriptions des classements publics. Les 124 autres enregistrements éditoriaux ont été comparés aux sources locales par empreinte de leur JSON ; seule une phrase d'article différait et a été ajoutée aux dictionnaires. Les nouvelles publications restent à inclure dans les prochains lots manuels.
 

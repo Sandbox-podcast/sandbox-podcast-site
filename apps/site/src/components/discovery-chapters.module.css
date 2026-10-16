@@ -1,0 +1,556 @@
+.story {
+  --chapter-space: clamp(64px, 7.3vw, 104px);
+  --chapter-gutter: clamp(24px, 5.5vw, 80px);
+  --chapter-cyan: #75e6f4;
+  color: #f4f7fa;
+  scroll-margin-top: 32px;
+}
+
+.chapter {
+  width: 100%;
+  max-width: 1360px;
+  margin-inline: auto;
+  padding: var(--chapter-space) var(--chapter-gutter);
+}
+
+.chapterHeading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 32px;
+  margin-bottom: clamp(32px, 4.3vw, 60px);
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin: 0 0 24px;
+  color: #9baebb;
+  font: 400 10px/1.5 var(--font-mono);
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.chapterNumber {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  color: var(--chapter-cyan);
+}
+
+.chapterNumber::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -28px;
+  width: 8px;
+  height: 8px;
+  translate: 0 -50%;
+  border: 1px solid #a4eef3b3;
+  border-radius: 50%;
+  background: #0a151b;
+  box-shadow:
+    0 0 0 4px #75e6f409,
+    0 0 14px #75e6f438;
+}
+
+.chapterNumber::after {
+  content: '';
+  width: 32px;
+  height: 1px;
+  background: #75e6f466;
+}
+
+.chapterHeading h2 {
+  max-width: 17ch;
+  margin: 0;
+  font: 400 clamp(52px, 6.4vw, 88px)/0.98 var(--font-newsreader);
+  letter-spacing: -0.055em;
+  text-wrap: balance;
+}
+
+.chapterIntro {
+  max-width: 270px;
+  margin: 0 0 5px;
+  color: #aab6c6;
+  font: 400 14px/1.8 var(--font-sans);
+  text-wrap: pretty;
+}
+
+.teamChapter {
+  position: relative;
+  padding-bottom: calc(var(--chapter-space) - 14px);
+}
+
+.teamChapter::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: var(--chapter-gutter);
+  right: var(--chapter-gutter);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #75e6f44a, transparent);
+}
+
+.teamNames {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin: 0 0 9px;
+  color: #9baebb;
+  font: 400 10px/1.5 var(--font-mono);
+  letter-spacing: 0.02em;
+}
+
+.teamNames span + span::before {
+  content: '/';
+  margin-right: 9px;
+  color: #536374;
+}
+
+.teamGrid {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: start;
+  gap: clamp(24px, 3.1vw, 44px);
+  border-radius: 4px;
+}
+
+.teamGrid::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: -30px -18px 22%;
+  pointer-events: none;
+  border-top: 1px solid #86dae315;
+  border-radius: 50% 50% 0 0;
+  background: radial-gradient(ellipse at 50% 30%, #559eae15, transparent 66%);
+}
+
+.teamCard {
+  min-width: 0;
+}
+
+.collectionHint {
+  display: none;
+}
+
+.projectsChapter {
+  position: relative;
+  background: #0b1018;
+  border-block: 1px solid #ffffff0c;
+}
+
+.projectsChapter::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(ellipse at 50% 0, #4d9fac0d, transparent 56%),
+    linear-gradient(90deg, #ffffff03 1px, transparent 1px);
+  background-size:
+    100% 100%,
+    80px 100%;
+}
+
+.projectsChapter::after {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 50%;
+  width: min(58%, 680px);
+  height: 1px;
+  translate: -50% 0;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, #8ce9ed80, transparent);
+  box-shadow: 0 0 18px #75e6f41f;
+}
+
+.projectsChapter .chapter {
+  position: relative;
+  padding-bottom: clamp(40px, 4.2vw, 60px);
+}
+
+.projectsChapter .chapterHeading {
+  margin-bottom: 24px;
+}
+
+.chapterFooter {
+  display: flex;
+  justify-content: center;
+  margin-top: 26px;
+}
+
+.chapterAction {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  min-height: 48px;
+  padding-block: 12px;
+  border-bottom: 1px solid #627482;
+  color: #dfe7ee;
+  font: 400 13px/1.5 var(--font-sans);
+  transition:
+    color 180ms ease,
+    border-color 180ms ease;
+}
+
+.chapterAction svg {
+  color: var(--chapter-cyan);
+  transition: transform 220ms ease;
+}
+
+.chapterAction:hover {
+  color: var(--chapter-cyan);
+  border-color: var(--chapter-cyan);
+}
+
+:global([data-home-motion='active']) .chapterAction:hover svg {
+  transform: translateX(4px);
+}
+
+.exploreChapter {
+  padding-top: clamp(56px, 6vw, 84px);
+  padding-bottom: clamp(64px, 6vw, 84px);
+}
+
+.exploreGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.exploreLink {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 0;
+  min-height: 560px;
+  padding: 32px;
+  overflow: hidden;
+  border: 1px solid #ffffff21;
+  border-radius: 10px;
+  background: #07101b;
+  color: #f4f7fa;
+  transition:
+    border-color 220ms ease,
+    box-shadow 220ms ease;
+}
+
+.exploreArtwork {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  overflow: hidden;
+}
+
+.exploreArtwork img {
+  object-fit: cover;
+  object-position: center top;
+  transition: transform 800ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.rankingArtwork {
+  bottom: 36px;
+}
+
+.rankingArtwork img {
+  object-position: 66% top;
+}
+
+.exploreArtwork::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    #07101b80 0%,
+    transparent 21%,
+    transparent 40%,
+    #07101b66 62%,
+    #07101bee 84%,
+    #07101b 100%
+  );
+}
+
+.panelKicker {
+  position: relative;
+  align-self: start;
+  padding: 7px 10px;
+  border: 1px solid #ffffff20;
+  border-radius: 3px;
+  background: #07101bd9;
+  color: #c3e0e7;
+  font: 400 9px/1.5 var(--font-mono);
+  letter-spacing: 0.19em;
+  text-transform: uppercase;
+}
+
+.panelKicker::before {
+  content: '';
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  margin-right: 10px;
+  border-radius: 50%;
+  background: var(--chapter-cyan);
+  vertical-align: 1px;
+}
+
+.exploreCopy {
+  position: relative;
+  max-width: calc(100% - 36px);
+  margin-top: 200px;
+}
+
+.exploreName {
+  margin: 0;
+  font: 400 clamp(48px, 4.1vw, 60px)/0.96 var(--font-newsreader);
+  letter-spacing: -0.052em;
+  text-wrap: balance;
+}
+
+.exploreDescription {
+  max-width: 31ch;
+  margin: 20px 0 0;
+  color: #c1cdd7;
+  font: 400 13px/1.75 var(--font-sans);
+  text-wrap: pretty;
+}
+
+.exploreArrow {
+  position: absolute;
+  right: 28px;
+  bottom: 32px;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  color: #a4edfa;
+  border: 1px solid #b4ddea47;
+  border-radius: 50%;
+  background: #12243180;
+  transition:
+    background-color 220ms ease,
+    color 220ms ease,
+    transform 220ms ease;
+}
+
+.exploreArrow svg {
+  transform: rotate(-40deg);
+}
+
+.story :focus-visible {
+  outline: 2px solid var(--chapter-cyan);
+  outline-offset: 5px;
+}
+
+:global([data-home-motion='static']) .exploreArtwork img,
+:global([data-home-motion='static']) .exploreArrow {
+  transition: none;
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .exploreLink:hover {
+    border-color: #75e6f469;
+    box-shadow: 0 20px 50px #0003;
+  }
+  :global([data-home-motion='active']) .exploreLink:hover .exploreArtwork img {
+    transform: scale(1.045);
+  }
+  :global([data-home-motion='active']) .exploreLink:hover .exploreArrow {
+    color: #09141d;
+    background: var(--chapter-cyan);
+    transform: translate(2px, -2px);
+  }
+}
+
+@media (max-width: 1050px) {
+  .chapterHeading h2 {
+    font-size: clamp(50px, 6.5vw, 68px);
+  }
+  .teamNames {
+    display: none;
+  }
+  .exploreLink {
+    padding: 28px;
+  }
+  .exploreName {
+    font-size: 58px;
+  }
+  .exploreDescription {
+    max-width: 28ch;
+  }
+}
+
+@media (max-width: 900px) {
+  .story {
+    --chapter-space: 64px;
+    --chapter-gutter: 24px;
+  }
+  .chapterHeading {
+    gap: 24px;
+    margin-bottom: 30px;
+  }
+  .chapterNumber::before {
+    left: -16px;
+  }
+  .teamGrid {
+    position: relative;
+    isolation: isolate;
+    contain: paint;
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: min(80vw, 340px);
+    gap: 20px;
+    margin-inline: calc(-1 * var(--chapter-gutter));
+    padding: 0 var(--chapter-gutter) 12px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--chapter-gutter);
+    scrollbar-width: thin;
+    scrollbar-color: #657c8b #ffffff06;
+  }
+  .teamGrid::before {
+    inset: 0 24px 24%;
+    border-top-color: #86dae30d;
+  }
+  .teamCard {
+    scroll-snap-align: start;
+    scroll-margin-inline: 0;
+  }
+  .collectionHint {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 18px;
+    margin: 18px 0 0;
+    font: 400 10px/1.6 var(--font-mono);
+    color: #9baebb;
+  }
+  .collectionHint svg {
+    flex-shrink: 0;
+    color: var(--chapter-cyan);
+  }
+  .chapterIntro {
+    max-width: 240px;
+    font-size: 13px;
+  }
+  .chapterFooter {
+    margin-top: 16px;
+  }
+  .exploreGrid {
+    gap: 16px;
+  }
+  .exploreLink {
+    min-height: 520px;
+    padding: 24px;
+  }
+  .exploreName {
+    font-size: 52px;
+  }
+  .exploreCopy {
+    max-width: 100%;
+  }
+  .exploreDescription {
+    max-width: calc(100% - 38px);
+    font-size: 12px;
+  }
+  .exploreArrow {
+    right: 20px;
+    bottom: 24px;
+    width: 36px;
+    height: 36px;
+  }
+}
+
+@media (max-width: 700px) {
+  .chapterHeading {
+    display: block;
+  }
+  .eyebrow {
+    gap: 12px;
+    margin-bottom: 20px;
+    font-size: 9px;
+    letter-spacing: 0.08em;
+  }
+  .chapterNumber {
+    gap: 12px;
+  }
+  .chapterNumber::after {
+    width: 24px;
+  }
+  .chapterHeading h2 {
+    max-width: 13ch;
+    font-size: clamp(48px, 12.3vw, 68px);
+    line-height: 1;
+  }
+  .chapterIntro {
+    max-width: 33ch;
+    margin-top: 22px;
+  }
+  .exploreGrid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .exploreLink {
+    min-height: 520px;
+    border-radius: 9px;
+    padding: 28px;
+  }
+  .exploreName {
+    font-size: clamp(54px, 14vw, 68px);
+    max-width: 11ch;
+  }
+  .exploreDescription {
+    max-width: calc(100% - 32px);
+    font-size: 12px;
+    margin-top: 18px;
+  }
+  .exploreCopy {
+    margin-top: 180px;
+  }
+  .exploreArrow {
+    right: 24px;
+    bottom: 28px;
+  }
+}
+
+@media (max-width: 360px) {
+  .exploreLink {
+    padding: 24px;
+  }
+  .exploreName {
+    font-size: clamp(44px, 14vw, 49px);
+  }
+  .exploreArrow {
+    right: 20px;
+    bottom: 24px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chapterAction,
+  .chapterAction svg,
+  .exploreArtwork img,
+  .exploreLink,
+  .exploreArrow {
+    transition: none;
+  }
+  :global([data-home-motion='active']) .chapterAction:hover svg {
+    transform: none;
+  }
+  .teamGrid {
+    scroll-behavior: auto;
+  }
+}

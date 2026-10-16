@@ -1,4 +1,5 @@
 import { videoMedia } from './media.js';
+import { useCases } from './visuals.js';
 export const chapters = [
   {
     id: 'radar',
@@ -226,8 +227,10 @@ export const scenes = [
 ];
 
 export function stepCount(scene, episode) {
+  if (scene.chapter === 'radar') return 1;
   if (['opener', 'debate', 'shop', 'comments', 'demo'].includes(scene.kind)) return 1;
   if (scene.kind === 'method') return 3;
+  if (scene.kind === 'uses') return useCases.length;
   return Math.max(
     1,
     episode.original.slides.find((s) => s.n === scene.originalNumber)?.items.length ?? 1,

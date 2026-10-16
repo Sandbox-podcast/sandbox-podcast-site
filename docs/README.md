@@ -1,6 +1,10 @@
 # Documentation
 
+Regroupement des conversations du 16 octobre : [périmètre, vérifications et captures](site/livraison-conversations-2026-10-16.md).
+
 Indexation ES/DE, collecte Models et mesures : [DD-0048](design-decisions/dd-0048-indexation-traductions-et-suivi-des-classements.md) et [validation du lot](site/issue-68-traductions-et-collectes-2026-10-16.md).
+
+Accueil cinématique, chapitres visuels et mouvements : [DD-0049](design-decisions/dd-0049-accueil-cinematique-et-mouvements.md), [recette locale](site/landing-cinematique-2026-10-16.md) et [vérification avant PR](site/verification-landing-pr-2026-10-16.md).
 
 Parité de l'accueil et ouverture du vidéoclub en mode production : [DD-0047](design-decisions/dd-0047-parite-accueil-production.md) et [diagnostic et contrôles](site/ecarts-production-2026-10-16.md).
 
@@ -8,7 +12,7 @@ PR globale du 16 octobre : [périmètre complet, validations et captures](site/l
 
 Livraison groupée du 16 octobre : [périmètre, contrôles et captures](site/livraison-groupee-2026-10-16.md). Les objets du plateau ouvrent les classements et la Time Machine selon [DD-0041](design-decisions/dd-0041-objets-du-plateau-vers-classements-et-time-machine.md).
 
-Corrections de l'issue 68 au 16 octobre : [rapport et actions restantes](site/issue-68-2026-10-16.md), [sécurité et persistance](adr/ADR-0032-protections-et-persistance-issue-68.md) et [ancienne proposition de procédure, non retenue](site/corrections-et-droit-de-reponse.md).
+Corrections de l'issue 68 au 16 octobre : [rapport et actions restantes](site/issue-68-2026-10-16.md), [sécurité et persistance](adr/ADR-0032-protections-et-persistance-issue-68.md) et [procédure de correction éditoriale](site/corrections-et-droit-de-reponse.md).
 
 Accueil mobile éditorial, sans montage du trio, et plateau conservé sur ordinateur : [DD-0039](design-decisions/dd-0039-accueil-mobile-editorial-et-plateau-desktop.md) et [validation V11](site/refonte-2026-10-15/refonte-editoriale-mobile-v11.md).
 

@@ -5,7 +5,7 @@
 ## Lot local
 
 - ES/DE autorisés à l'indexation selon les restrictions de la page source. Canoniques et liens de langue réciproques dans les métadonnées et le sitemap. Recherche, démonstrations et vidéoclub restent exclus.
-- 2 400 sources locales remplies dans les trois dictionnaires. Compléments pour l'épisode et les textes édités seulement en production, une phrase d'article et 24 descriptions publiques de classements, avec leurs extraits. Les liens et les données chiffrées restent communs.
+- 2 403 sources locales remplies dans les trois dictionnaires. Compléments pour l'épisode et les textes édités seulement en production, une phrase d'article et 24 descriptions publiques de classements, avec leurs extraits. Les liens et les données chiffrées restent communs.
 - Models : priorité aux références exactes des fournisseurs. Les homonymes distincts sont isolés, les historiques et exclusions sont conservés, les vraies contradictions restent bloquées.
 - Mesure des liens du plateau ajoutée. Speed Insights suit le consentement, sans paramètres d'URL ni administration.
 - Email rétabli dans le footer. La publication de la procédure proposée est abandonnée.

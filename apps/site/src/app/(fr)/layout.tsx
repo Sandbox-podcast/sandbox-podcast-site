@@ -44,7 +44,7 @@ export const revalidate = 3600;
 export default async function RootLayout({ children }: { children: ReactNode }) {
   await preparePublishedEditorialContent();
   return (
-    <html lang={siteConfig.language} className={siteFonts}>
+    <html lang={siteConfig.language} className={siteFonts} data-scroll-behavior="smooth">
       <body>
         <a className="skip" href="#main">
           Aller au contenu

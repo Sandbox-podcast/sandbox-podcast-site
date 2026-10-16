@@ -66,6 +66,20 @@ test('serveur local isolé, commandes et protections', async (t) => {
     assert.equal(other.state.positions.tickets.Lou, '');
   });
   await t.test(
+    'les cas 10 et 11 restent directement accessibles et le retour au premier fonctionne',
+    async () => {
+      await post({ type: 'scene', index: 13 });
+      assert.equal((await post({ type: 'step', delta: 9 })).status, 200);
+      assert.equal((await (await fetch(endpoint)).json()).state.step, 9);
+      await post({ type: 'step', delta: -9 });
+      assert.equal((await post({ type: 'step', delta: 10 })).status, 200);
+      assert.equal((await (await fetch(endpoint)).json()).state.step, 10);
+      assert.equal((await post({ type: 'step', delta: -10 })).status, 200);
+      assert.equal((await (await fetch(endpoint)).json()).state.step, 0);
+      assert.equal((await post({ type: 'step', delta: 100 })).status, 400);
+    },
+  );
+  await t.test(
     'commandes malformées, origine externe et corps excessifs sont refusés',
     async () => {
       assert.equal((await post({ type: 'scene', index: 999 })).status, 400);

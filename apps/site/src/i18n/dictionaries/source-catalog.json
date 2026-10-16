@@ -2471,6 +2471,10 @@
     "translation": "",
     "sources": ["content/personal-projects.json"]
   },
+  "d'avance sur la tech.": {
+    "translation": "",
+    "sources": ["src/components/discovery-home.tsx"]
+  },
   "DALL-E 2 améliore la fidélité des images et introduit des fonctions de variation et de modification, avec un accès initial restreint.": {
     "translation": "",
     "sources": ["content/ai-history.json"]
@@ -3457,6 +3461,10 @@
     "translation": "",
     "sources": ["src/components/video-club.tsx"]
   },
+  "Faites défiler pour découvrir l'équipe.": {
+    "translation": "",
+    "sources": ["src/components/discovery-story.tsx"]
+  },
   "Famille dupliquée.": {
     "translation": "",
     "sources": ["src/domain/reference-ranking.ts"]
@@ -3637,7 +3645,7 @@
     "translation": "",
     "sources": ["content/personal-projects.json"]
   },
-  "Gardez une longueur d'avance sur la tech.": {
+  "Gardez une longueur": {
     "translation": "",
     "sources": ["src/components/discovery-home.tsx"]
   },
@@ -4036,7 +4044,11 @@
   },
   "Histoire de l'IA": {
     "translation": "",
-    "sources": ["src/components/search-screen.tsx", "src/domain/time-machine-seo.ts"]
+    "sources": [
+      "src/components/discovery-story.tsx",
+      "src/components/search-screen.tsx",
+      "src/domain/time-machine-seo.ts"
+    ]
   },
   "Histoire de l'intelligence artificielle": {
     "translation": "",
@@ -5110,6 +5122,10 @@
       "src/components/nav.tsx",
       "src/components/shell.tsx"
     ]
+  },
+  "Le Talk Show IA & tech": {
+    "translation": "",
+    "sources": ["src/components/discovery-home.tsx"]
   },
   "Le Talk Show IA & tech de Lou, Loïc et Nico.": {
     "translation": "",
@@ -8260,7 +8276,8 @@
     "translation": "",
     "sources": [
       "src/app/(fr)/charts/entity/[slug]/page.tsx",
-      "src/components/charts-experience.tsx"
+      "src/components/charts-experience.tsx",
+      "src/components/discovery-story.tsx"
     ]
   },
   "SANDBOX CHARTS": {

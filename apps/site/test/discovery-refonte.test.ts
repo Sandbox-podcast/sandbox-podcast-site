@@ -23,7 +23,7 @@ import siteSettings from '../content/site.json';
 import { timeMachineData } from '../src/lib/time-machine';
 
 import guideCatalog from '../content/guides.json';
-import { stageMotion } from '../src/domain/stage-motion';
+import { stagePointerMotion } from '../src/domain/stage-motion';
 import { homeProfiles, homeProjects } from '../src/domain/home-story';
 import { publicHosts } from '../src/lib/repository';
 import { personalProjects } from '../src/lib/personal-projects';
@@ -193,7 +193,8 @@ describe('accueil du Talk Show', () => {
   it('présente une promesse et un accès direct au replay sans charger les autres expériences', () => {
     const html = renderToStaticMarkup(createElement(DiscoveryHome, { episodes: [pilot] }));
     expect(html).not.toContain('Le podcast IA &amp; tech');
-    expect(html).toContain('Gardez une longueur d&#x27;avance sur la tech.');
+    const title = /<h1\b[^>]*>(.*?)<\/h1>/.exec(html)?.[1]?.replace(/<[^>]*>/g, '');
+    expect(title).toBe('Gardez une longueur d&#x27;avance sur la tech.');
     expect(html).toContain('Chaque semaine, retrouvez Lou, Loïc et Nico pour décrypter');
     expect(html).toContain('Regarder le dernier épisode');
     expect(html).toContain('href="/episodes/1"');
@@ -321,22 +322,31 @@ describe('accueil du Talk Show', () => {
 });
 
 describe('mouvement du plateau', () => {
-  it('borne la caméra avant et après la scène et ignore une géométrie invalide', () => {
-    expect(stageMotion(200, 600).progress).toBe(0);
-    expect(stageMotion(-900, 600)).toMatchObject({ progress: 1, scale: 1.12 });
-    for (const [top, travel] of [
-      [NaN, 600],
-      [-20, 0],
-      [-20, Infinity],
-      [-20, -1],
-    ] as const)
-      expect(stageMotion(top, travel).progress).toBe(0);
+  it('garde le décor immobile au centre et borne sa profondeur même hors du cadre', () => {
+    expect(stagePointerMotion(600, 400, 1200, 800)).toEqual({ x: 0, y: 0 });
+    expect(stagePointerMotion(0, 0, 1200, 800)).toEqual({ x: -6, y: -4 });
+    expect(stagePointerMotion(1200, 800, 1200, 800)).toEqual({ x: 6, y: 4 });
+    expect(stagePointerMotion(-500, 2000, 1200, 800)).toEqual({ x: -6, y: 4 });
+    expect(stagePointerMotion(2000, -500, 1200, 800)).toEqual({ x: 6, y: -4 });
   });
-  it('reconstruit le même cadrage au retour sans dépendre de la vitesse de scroll', () => {
-    const outbound = stageMotion(-300, 600);
-    stageMotion(-600, 600);
-    expect(stageMotion(-300, 600)).toEqual(outbound);
-    expect(outbound).toMatchObject({ progress: 0.5, scale: 1.06, titleOpacity: 0.675 });
+  it('revient à une profondeur nulle si les coordonnées ou dimensions sont invalides', () => {
+    for (const [x, y, width, height] of [
+      [NaN, 400, 1200, 800],
+      [600, Infinity, 1200, 800],
+      [600, 400, 0, 800],
+      [600, 400, 1200, 0],
+      [600, 400, -1, 800],
+      [600, 400, 1200, -1],
+      [600, 400, Infinity, 800],
+      [600, 400, 1200, NaN],
+    ] as const)
+      expect(stagePointerMotion(x, y, width, height)).toEqual({ x: 0, y: 0 });
+  });
+  it('reconstruit la même profondeur sans dépendre de la trajectoire du pointeur', () => {
+    const initial = stagePointerMotion(900, 600, 1200, 800);
+    stagePointerMotion(0, 0, 1200, 800);
+    expect(stagePointerMotion(900, 600, 1200, 800)).toEqual(initial);
+    expect(initial).toEqual({ x: 3, y: 2 });
   });
 });
 

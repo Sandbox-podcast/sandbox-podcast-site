@@ -27,12 +27,36 @@ try {
     const carousel = page.getByRole('region', { name: "Projets de l'équipe" });
     await carousel.scrollIntoViewIfNeeded();
     const current = carousel.locator('a[data-position="active"]');
+    const layoutBefore = await carousel.locator('a[data-position]').evaluateAll((cards) =>
+      cards.map((card) => ({
+        href: card.getAttribute('href'),
+        width: card.offsetWidth,
+        height: card.offsetHeight,
+      })),
+    );
     assert.ok((await current.getAttribute('href')).endsWith('/okodukai'));
     await carousel.getByRole('button', { name: 'Projet suivant' }).click();
     assert.ok((await current.getAttribute('href')).endsWith('/song-maker'));
+    assert.deepEqual(
+      await carousel.locator('a[data-position]').evaluateAll((cards) =>
+        cards.map((card) => ({
+          href: card.getAttribute('href'),
+          width: card.offsetWidth,
+          height: card.offsetHeight,
+        })),
+      ),
+      layoutBefore,
+      'Les panneaux gardent leurs dimensions pendant le changement de projet',
+    );
     await carousel.getByRole('button', { name: 'Projet précédent' }).click();
     assert.ok((await current.getAttribute('href')).endsWith('/okodukai'));
     await current.press('ArrowLeft');
+    assert.ok((await current.getAttribute('href')).endsWith('/sillage'));
+    await page.waitForFunction(() => document.activeElement?.matches('a[data-position="active"]'));
+    await current.press('Home');
+    assert.ok((await current.getAttribute('href')).endsWith('/okodukai'));
+    await page.waitForFunction(() => document.activeElement?.matches('a[data-position="active"]'));
+    await current.press('End');
     assert.ok((await current.getAttribute('href')).endsWith('/sillage'));
     await page.waitForFunction(() => document.activeElement?.matches('a[data-position="active"]'));
     await carousel.getByRole('button', { name: 'Okodukai', exact: true }).click();
@@ -67,6 +91,7 @@ try {
     results.push({
       width,
       navigation: true,
+      stablePanelDimensions: true,
       clavier: true,
       swipe: true,
       link: true,

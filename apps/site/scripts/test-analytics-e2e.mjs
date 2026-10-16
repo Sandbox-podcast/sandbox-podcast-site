@@ -46,13 +46,14 @@ const vercelStub = `(() => {
   pending.forEach((args) => window.va(...args));
 })();`;
 const speedStub = `(() => {
+  const script = document.currentScript;
   let beforeSend = () => null;
   const pending = window.siq || [];
   window.si = (command, data) => { if (command === 'beforeSend') beforeSend = data; };
   pending.forEach((args) => window.si(...args));
   window.__qaEmitVital = () => {
-    const event = beforeSend({type:'vital',url:window.location.href});
-    if (event) fetch('/_vercel/speed-insights/vitals',{method:'POST',body:JSON.stringify(event)});
+    const event = beforeSend({type:'vital',url:window.location.href,route:script?.dataset.route});
+    if (event) return fetch('/_vercel/speed-insights/vitals',{method:'POST',body:JSON.stringify(event)});
   };
   window.__qaEmitVital();
 })();`;
@@ -150,6 +151,51 @@ try {
     false,
   );
   checks.push('Speed Insights après accord, URL sans recherche ni fragment');
+  const speedScript = page.locator('script[src*="/speed-insights/script"]');
+  const speedTagsBeforeRenewal = requests.filter((request) => request.type === 'speed-tag').length;
+  const vitalsBeforeRenewal = requests.filter((request) => request.type === 'speed-event').length;
+  await page.evaluate(() => {
+    window.__qaSpeedLifecycle = 'same-document';
+  });
+  await page.getByRole('button', { name: 'Préférences de mesure', exact: true }).first().click();
+  await page.getByRole('button', { name: 'Retirer mon accord', exact: true }).click();
+  await page.evaluate(() => window.__qaEmitVital());
+  await page.waitForLoadState('networkidle');
+  assert.equal(
+    requests.filter((request) => request.type === 'speed-event').length,
+    vitalsBeforeRenewal,
+    'Speed Insights doit rester silencieux après le retrait',
+  );
+  await page.getByRole('button', { name: 'Préférences de mesure', exact: true }).first().click();
+  await page.getByRole('button', { name: 'Accepter', exact: true }).click();
+  await page.locator('footer a[href="/about"]').click();
+  await page.waitForURL(`${fixture.origin}/about`);
+  await page.waitForLoadState('networkidle');
+  assert.equal(await page.evaluate(() => window.__qaSpeedLifecycle), 'same-document');
+  assert.equal(await speedScript.count(), 1);
+  assert.equal(
+    requests.filter((request) => request.type === 'speed-tag').length,
+    speedTagsBeforeRenewal,
+    'Le nouvel accord réutilise le script chargé avant le retrait',
+  );
+  assert.equal(
+    await speedScript.getAttribute('data-route'),
+    '/about',
+    'La route du script suit encore les navigations clientes après un nouvel accord',
+  );
+  await page.evaluate(() => window.__qaEmitVital());
+  await page.waitForLoadState('networkidle');
+  const renewedVital = requests.filter((request) => request.type === 'speed-event').at(-1);
+  assert.equal(
+    requests.filter((request) => request.type === 'speed-event').length,
+    vitalsBeforeRenewal + 1,
+  );
+  assert.deepEqual(JSON.parse(renewedVital.body), {
+    type: 'vital',
+    url: `${fixture.origin}/about`,
+    route: '/about',
+  });
+  checks.push('retrait, nouvel accord et navigation cliente : route Speed Insights actualisée');
   if (mode === '--blocked') {
     await page.goto(`${fixture.origin}/about`, { waitUntil: 'networkidle' });
     assert.equal(
@@ -258,12 +304,21 @@ try {
     beforeWithdrawalCheck,
   );
   checks.push('accord expiré redemandé sans mesure');
+  await second.close();
+  await page.addInitScript(() => {
+    window.localStorage.setItem(
+      'sandbox.analytics-consent.v2',
+      JSON.stringify({ version: 2, choice: 'accepted', chosenAt: Date.now() }),
+    );
+  });
+  const requestsBeforeAdmin = requests.length;
   await page.goto(`${fixture.origin}/admin`, { waitUntil: 'networkidle' });
   assert.equal(
     requests.filter((request) => request.type.endsWith('event')).length,
     beforeWithdrawalCheck,
   );
-  checks.push('administration exclue de la mesure');
+  assert.equal(requests.length, requestsBeforeAdmin);
+  checks.push('administration sans script ni mesure, même avec un accord enregistré');
   if (mode === '--ready') {
     const slowContext = await browser.newContext();
     const pendingTag = Promise.withResolvers();

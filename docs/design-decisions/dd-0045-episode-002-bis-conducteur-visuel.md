@@ -14,7 +14,13 @@ Le serveur ne répond qu'en boucle locale. Il expose `/episode-002-bis/`, une in
 
 Le parcours compte 23 scènes : dix actualités, quatre intertitres, quatre sujets Build, quatre débats et un appel aux essais du public. Les 22 écrans originaux, leurs notes et 34 références restent conservés dans le dossier éditorial, sans modifier leur source. Les transitions historiques sont identifiées comme telles.
 
-Le Radar affiche des captures réelles des sources, conservées localement, leur provenance, un point de discussion et les réserves éditoriales. Le menu Options permet de zoomer ou afficher un chiffre. Le Build présente huit usages, cinq outils et la méthode en trois étapes. Le Clash pose les questions aux trois animateurs sans préremplir leurs opinions. La Bêta sollicite les idées et questions du public.
+Le Radar affiche des captures réelles des sources, conservées localement, leur provenance, tous les points de discussion et les réserves éditoriales. Le menu Options permet de zoomer ou afficher un chiffre. Le Build présente onze usages, cinq outils et la méthode en trois étapes. Le Clash pose les questions aux trois animateurs sans préremplir leurs opinions. La Bêta sollicite les idées et questions du public.
+
+Corrections demandées par Lou le 16 octobre 2026 : retrait de l'exemple du garage, renommage de "Boutique" en "Commerçant" et remplacement de "Boulangerie" par "Pâtisserie B2B". Ce dernier exemple décrit un bot Instagram qui récupère les commandes, génère les bons de commande et les factures, puis récapitule les commandes par client chaque semaine. Le commerçant dispose d'une base clients, d'une interface de saisie des achats et de points de fidélité ; les SMS promotionnels ciblent les clients absents depuis X mois.
+
+L'exemple immobilier part des photos et du dossier du bien : visite virtuelle, styles de décoration, pièces sans meubles, assistant et réservation des visites. L'assistant répond uniquement si l'information est disponible et fiable. L'artisan envoie un vocal WhatsApp pour préparer et transmettre un devis selon ses propres tarifs, puis gérer les relances. Le restaurant conserve son menu en 3D et reçoit un second cas : un agent téléphonique prend les réservations, envoie une confirmation et répond aux questions pratiques. Les deux cas du restaurant portent des libellés distincts.
+
+L'architecte paysagiste montre plusieurs aménagements et leur évolution dans le temps selon la localisation du terrain. Le boulanger prévoit sa production à partir des historiques de caisse, des jours fériés, des événements locaux et de la météo. Le compteur distingue onze cas pour dix métiers ; les numéros 10 et 11 et leur sélection directe fonctionnent comme les précédents.
 
 Deux vidéos liées à Gemini sont proposées : un extrait du test de Sam Witteveen et une création 3D publiée par Google. Leur auteur et leur nature sont affichés. Elles ne sont chargées qu'à la demande, via le lecteur YouTube officiel. Aucun post X non vérifié n'est utilisé. Les vidéos dépendent du réseau ; les captures restent disponibles sans réseau externe.
 
@@ -26,7 +32,9 @@ La copie de la démo déjà créée reste sur disque pour respecter la consigne 
 
 ## Simplification demandée par Lou
 
-Un écran de contenu en grand et une seule barre : Précédent, Sujets, Suivant, Options. Les boutons Précédent et Suivant parcourent les points de chaque sujet avant de changer de sujet. Le retour est symétrique. Les écrans fixes ne génèrent pas de clics sans changement visible. Les métiers et outils restent directement sélectionnables.
+Un écran de contenu en grand et une seule barre : Précédent, Sujets, Suivant, Options. Dans le Radar, chaque actualité tient sur un écran avec ses trois points affichés ensemble, à la demande de Lou le 16 octobre 2026. Précédent et Suivant changent directement d'actualité ; les pastilles et compteurs de points sont retirés. La capture partage l'écran avec une colonne de texte élargie.
+
+Dans le Build, Précédent et Suivant parcourent les cas d'usage, outils et étapes avant de changer de sujet. Le retour est symétrique. Les écrans fixes ne génèrent pas de clics sans changement visible. Les métiers et outils restent directement sélectionnables.
 
 Le panneau de régie, son bouton d'ouverture, les onglets de séquences redondants et la commande distincte « Développer » sont retirés. `?view=director` reste un lien valide et ouvre la même interface. Les notes, captures agrandies et vidéos sont accessibles dans Options ; les paramètres de diffusion sont repliés. Le plein écran garde les commandes de navigation. La sortie OBS reste sans commandes.
 

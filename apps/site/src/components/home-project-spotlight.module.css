@@ -11,43 +11,41 @@
 .card {
   position: absolute;
   left: 50%;
-  top: 42px;
-  width: 34%;
-  height: 420px;
-  transform: translateX(-50%) scale(0.93);
+  top: 10px;
+  width: 62%;
+  height: 480px;
+  transform: translate3d(-50%, 0, 0);
   border: 1px solid #ffffff26;
   border-radius: 16px;
   overflow: hidden;
   background: #111720;
-  transition:
-    left 650ms cubic-bezier(0.22, 1, 0.36, 1),
-    width 650ms cubic-bezier(0.22, 1, 0.36, 1),
-    height 650ms cubic-bezier(0.22, 1, 0.36, 1),
-    top 650ms cubic-bezier(0.22, 1, 0.36, 1),
-    transform 650ms cubic-bezier(0.22, 1, 0.36, 1),
-    filter 650ms;
+  box-shadow: 0 24px 70px #0008;
+  transition: transform 650ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #03070d;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 450ms ease;
 }
 .card img {
   object-fit: cover;
   object-position: center;
 }
 .card[data-position='previous'] {
-  left: 18%;
-  transform: translateX(-50%) rotate(-4deg) scale(0.93);
-  filter: brightness(0.48) saturate(0.6);
+  transform: translate3d(-103%, 0, 0) rotate(-4deg) scale(0.78);
 }
 .card[data-position='next'] {
-  left: 82%;
-  transform: translateX(-50%) rotate(4deg) scale(0.93);
-  filter: brightness(0.48) saturate(0.6);
+  transform: translate3d(3%, 0, 0) rotate(4deg) scale(0.78);
 }
 .card[data-position='active'] {
-  width: 62%;
-  height: 480px;
-  top: 10px;
-  transform: translateX(-50%);
   z-index: 2;
-  box-shadow: 0 24px 70px #0008;
+}
+.card:not([data-position='active'])::after {
+  opacity: 0.54;
 }
 .caption {
   position: absolute;
@@ -124,17 +122,28 @@
   border: 0;
 }
 .pagination span {
-  width: 5px;
+  position: relative;
+  width: 24px;
   height: 5px;
   border-radius: 10px;
   background: #657181;
-  transition:
-    width 250ms,
-    background 250ms;
+  transform: scaleX(0.21);
+  transition: transform 250ms ease;
+}
+.pagination span::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: #7de2f5;
+  opacity: 0;
+  transition: opacity 250ms ease;
 }
 .pagination [aria-pressed='true'] span {
-  width: 24px;
-  background: #7de2f5;
+  transform: scaleX(1);
+}
+.pagination [aria-pressed='true'] span::after {
+  opacity: 1;
 }
 .spotlight :focus-visible {
   outline: 2px solid #7de2f5;
@@ -148,18 +157,14 @@
     height: 450px;
   }
   .card {
-    width: 66%;
-    height: 350px;
-  }
-  .card[data-position='active'] {
     width: 82%;
     height: 420px;
   }
   .card[data-position='previous'] {
-    left: -15%;
+    transform: translate3d(-126%, 0, 0) rotate(-4deg) scale(0.78);
   }
   .card[data-position='next'] {
-    left: 115%;
+    transform: translate3d(26%, 0, 0) rotate(4deg) scale(0.78);
   }
   .caption {
     padding: 26px 22px;
@@ -175,10 +180,17 @@
     gap: 22px;
   }
 }
+.spotlight[data-motion-paused='true'] :is(.card, .caption, .pagination span),
+.spotlight[data-motion-paused='true'] .card::after,
+.spotlight[data-motion-paused='true'] .pagination span::after {
+  transition: none;
+}
 @media (prefers-reduced-motion: reduce) {
   .card,
+  .card::after,
   .caption,
-  .pagination span {
+  .pagination span,
+  .pagination span::after {
     transition: none;
   }
 }

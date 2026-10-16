@@ -1,10 +1,18 @@
 'use client';
 
 import Image from 'next/image';
-import { useCallback, useEffect, useRef, type CSSProperties, type PointerEvent } from 'react';
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  type CSSProperties,
+  type PointerEvent,
+} from 'react';
 import type { homeProfiles } from '@/domain/home-story';
 import { HOME_HOST_ARTWORK } from '@/domain/home-host-artwork';
 import { Text } from './localization';
+import { StageMotionContext } from './home-motion';
 import styles from './home-host-card.module.css';
 
 type HomeHost = ReturnType<typeof homeProfiles>[number];
@@ -48,6 +56,7 @@ function HostSigil({ slug }: { slug: string }) {
 }
 
 export function HomeHostCard({ host, index }: { host: HomeHost; index: number }) {
+  const paused = useContext(StageMotionContext);
   const surface = useRef<HTMLDivElement>(null);
   const frame = useRef<number | null>(null);
   const pointer = useRef<{ x: number; y: number } | null>(null);
@@ -67,7 +76,7 @@ export function HomeHostCard({ host, index }: { host: HomeHost; index: number })
     const reduction = window.matchMedia('(prefers-reduced-motion: reduce)');
     const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
     const update = () => {
-      motionDisabled.current = reduction.matches || !finePointer.matches;
+      motionDisabled.current = paused || reduction.matches || !finePointer.matches;
       if (motionDisabled.current) resetMotion();
     };
     update();
@@ -78,10 +87,10 @@ export function HomeHostCard({ host, index }: { host: HomeHost; index: number })
       finePointer.removeEventListener('change', update);
       resetMotion();
     };
-  }, [resetMotion]);
+  }, [paused, resetMotion]);
 
   function move(event: PointerEvent<HTMLDivElement>) {
-    if (motionDisabled.current || event.pointerType !== 'mouse') return;
+    if (paused || motionDisabled.current || event.pointerType !== 'mouse') return;
     pointer.current = { x: event.clientX, y: event.clientY };
     if (frame.current !== null) return;
     frame.current = requestAnimationFrame(() => {
