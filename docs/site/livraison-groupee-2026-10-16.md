@@ -15,18 +15,18 @@ L'archive `old/`, les migrations SQL historiques, les secrets, les données édi
 
 ## Dernier contrôle du lot commun
 
-| Contrôle                                  | Résultat                                                                           |
-| ----------------------------------------- | ---------------------------------------------------------------------------------- |
-| `pnpm check`                              | Formatage, lint et types réussis ; 641 tests du site et 11 tests média réussis     |
-| Build Next avec Webpack                   | Réussi, 203 pages générées                                                         |
-| HTTP admin de production                  | Réussi, contrôles sans accès à une base distante                                   |
-| Routes publiques                          | 84 URL du sitemap et 29 parcours HTTP réussis                                      |
-| Consentement Playwright                   | 22 contrôles réussis sur Edge, services de mesure simulés                          |
-| Audit pnpm                                | Aucune vulnérabilité connue signalée                                               |
-| Gitleaks 8.30.1 sur le lot préparé        | Aucun secret détecté, résultats expurgés                                           |
-| Tests YouTube de la conversation issue 68 | 57 réussis, dont trois intégrations sur Postgres local jetable                     |
-| Easter eggs dans le navigateur            | Télé et DeLorean au clic et au clavier, animation de porte, destinations vérifiées |
-| Responsive                                | Contrôles à 320, 390, 844 paysage, 1024 et 1440 pixels sur les parcours concernés  |
+| Contrôle                                  | Résultat                                                                                  |
+| ----------------------------------------- | ----------------------------------------------------------------------------------------- |
+| `pnpm check`                              | Formatage, lint et types réussis ; 641 tests du site et 11 tests média réussis            |
+| Build Next avec Webpack                   | Réussi, 203 pages générées                                                                |
+| HTTP admin de production                  | Réussi, contrôles sans accès à une base distante                                          |
+| Routes publiques                          | 84 URL du sitemap et 29 parcours HTTP réussis                                             |
+| Consentement Playwright                   | 22 contrôles réussis sur Edge, services de mesure simulés                                 |
+| Audit pnpm                                | Aucune vulnérabilité connue signalée                                                      |
+| Gitleaks 8.30.1 sur le lot préparé        | Aucun secret détecté, résultats expurgés                                                  |
+| Tests YouTube de la conversation issue 68 | 58 réussis avec `GITHUB_ACTIONS=true`, dont trois intégrations sur Postgres local jetable |
+| Easter eggs dans le navigateur            | Télé et DeLorean au clic et au clavier, animation de porte, destinations vérifiées        |
+| Responsive                                | Contrôles à 320, 390, 844 paysage, 1024 et 1440 pixels sur les parcours concernés         |
 
 L'ancien échec de couverture des traductions anglaises est résolu dans le lot commun. La vérification du build utilise `next build --webpack` ; le blocage local Turbopack est décrit dans le rapport de l'issue 68. Aucun gain Lighthouse ni réception réelle de statistiques n'est déduit des tests locaux.
 

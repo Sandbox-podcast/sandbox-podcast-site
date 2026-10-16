@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import copy
+import os
 import sys
 import tempfile
 import unittest
@@ -60,11 +61,22 @@ class IdentityTests(unittest.TestCase):
 
 class MutationTests(unittest.TestCase):
     def setUp(self):
+        # These cases exercise the local SQLite journal with a mocked YouTube client.
+        self.enterContext(patch.dict(os.environ, {
+            "GITHUB_ACTIONS": "false", "YOUTUBE_JOURNAL_DATABASE_URL": "",
+        }))
         self.directory = tempfile.TemporaryDirectory(dir=Path(__file__).resolve().parents[1])
         self.addCleanup(self.directory.cleanup)
         self.path = Path(self.directory.name)
         self.service, self.video = service_fixture()
         self.plan = make_plan(self.video, {"title": "Titre plus précis"})
+
+    def test_github_actions_mutation_requires_remote_journal(self):
+        with patch.dict(os.environ, {"GITHUB_ACTIONS": "true"}):
+            with self.assertRaisesRegex(RuntimeError, "YOUTUBE_JOURNAL_DATABASE_URL"):
+                execute_plan(self.service, self.plan, self.path, True)
+        self.service.videos.return_value.update.assert_not_called()
+        self.assertFalse((self.path / "operations.sqlite3").exists())
 
     def test_dry_run_never_mutates_remote_state(self):
         self.assertEqual(execute_plan(self.service, self.plan, self.path)["status"], "dry_run")
