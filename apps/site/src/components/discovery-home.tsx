@@ -62,7 +62,7 @@ export function DiscoveryHome({
                       }}
                     >
                       <Image
-                        src={host.photo === person.source ? person.photo : host.photo}
+                        src={person.photo}
                         alt={host.name}
                         fill
                         quality={90}

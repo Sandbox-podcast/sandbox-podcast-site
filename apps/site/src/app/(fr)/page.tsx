@@ -55,7 +55,7 @@ export default async function HomePage({
       episodes={allEpisodes()}
       hosts={publicHosts()}
       projects={personalProjects}
-      videoClubEnabled={process.env.NODE_ENV === 'development'}
+      videoClubEnabled
     />
   );
 }

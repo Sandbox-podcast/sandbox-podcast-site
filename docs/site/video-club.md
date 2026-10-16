@@ -1,5 +1,7 @@
 # Vidéoclub des projets
 
+Le 16 octobre, la correction des écarts de production retire la restriction au développement. La porte et la vignette mobile sont disponibles dans le build de production, avec des routes dans les quatre langues. Voir [DD-0047](../design-decisions/dd-0047-parite-accueil-production.md). Les validations historiques ci-dessous décrivent le prototype initial.
+
 Les boîtiers fermés et ouverts utilisent maintenant des assets VHS photographiques avec fond transparent. La cassette ouverte remplace le dessin CSS initial. Voir [les assets, prompts et contrôles](refonte-2026-10-15/accueil-plein-ecran-et-vhs.md) et [DD-0038](../design-decisions/dd-0038-accueil-plein-ecran-portraits-reels-et-vhs.md).
 
 Prototype demandé par Lou le 15 octobre 2026. Décision : [DD-0035](../design-decisions/dd-0035-videoclub-local-des-projets.md).
@@ -32,13 +34,13 @@ Les 34 projets et leurs médias viennent de `content/personal-projects.json`. Au
 
 Le décor principal utilise une image photoréaliste générée avec ImageGen. Les cassettes restent des éléments HTML interactifs, superposés aux étagères. La perspective CSS et les positions de caméra prédéfinies déplacent l'ensemble. Le décor CSS initial reste disponible en repli si l'image échoue. Il ne propose pas de déplacement libre. Les mouvements sont supprimés si la préférence système le demande. Les mobiles disposent des boutons de rayon et de la liste. [Image, provenance et prompt](video-club-image.md).
 
-La page est réservée au serveur de développement, avec une réponse 404 en production et une directive de non-indexation. Aucun lien n'est ajouté au site public.
+La page est accessible dans les builds de développement et de production. Elle conserve une directive de non-indexation et les liens vers le catalogue classique.
 
 ## Validation
 
 L'entrée depuis le plateau et les boutons de chaînes sont vérifiés dans le [rapport du 15 octobre](refonte-2026-10-15/porte-video-club.md). Après cette intégration, `pnpm check` passe avec 615 tests du site et 11 tests média.
 
-Les tests `test/video-club.test.ts` vérifient l'inventaire complet, les attributions, la conservation du catalogue, les positions de caméra, le refus de la route hors développement et la reprise des sources et vidéos sans chargement automatique.
+Les tests `test/video-club.test.ts` vérifient l'inventaire complet, les attributions, la conservation du catalogue, les positions de caméra, l'accès en production, les routes multilingues et la reprise des sources et vidéos sans chargement automatique.
 
 L'itération photoréaliste ajoute le contrôle de présence du décor WebP dans le projet, son budget de 500 Ko et son utilisation sans dépendre du dossier de génération. Les six tests du vidéoclub passent séparément après cette modification.
 

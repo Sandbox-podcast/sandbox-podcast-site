@@ -95,6 +95,20 @@ try {
 
   const checks = [];
   const shareImages = new Map();
+  for (const path of [
+    '/charts',
+    '/charts/github',
+    '/charts/skills',
+    '/charts/ai-models',
+    '/charts/rising',
+  ]) {
+    const response = await fetch(fixture.origin + path);
+    assert.equal(response.status, 200);
+    const html = await response.text();
+    const imageUrl = html.match(/<meta property="og:image" content="([^"]+)"/)?.[1];
+    assert.ok(imageUrl, `Image de partage annoncée : ${path}`);
+    shareImages.set(path, imageUrl.replaceAll('&amp;', '&'));
+  }
   const { moveTriples } = await import('../src/lib/move-params.ts');
   const { allEntities } = await import('../src/lib/repository.ts');
   const model = allEntities().find((entity) => entity.kind === 'model');

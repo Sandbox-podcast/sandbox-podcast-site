@@ -3,6 +3,8 @@
 import Image from 'next/image';
 import { useContext, useEffect, useRef, useState, type CSSProperties } from 'react';
 import { StageMotionContext } from './cinematic-stage';
+import { useLocalization } from './localization';
+import { localizedHref } from '@/i18n/routing';
 import {
   HOME_STUDIO_DOOR_IMAGE,
   STUDIO_DOOR_DURATION_MS,
@@ -12,6 +14,8 @@ import { VIDEO_CLUB_ROOM_IMAGE } from '@/domain/video-club';
 import styles from './discovery-home.module.css';
 
 export function StudioDoor() {
+  const { locale, t } = useLocalization();
+  const href = localizedHref(STUDIO_VIDEO_CLUB_HREF, locale);
   const paused = useContext(StageMotionContext);
   const [opening, setOpening] = useState(false);
   const started = useRef(false);
@@ -50,9 +54,9 @@ export function StudioDoor() {
         </span>
       ) : null}
       <a
-        href={STUDIO_VIDEO_CLUB_HREF}
+        href={href}
         className={styles['stageDoor']}
-        aria-label="Entrer dans le vidéoclub"
+        aria-label={t('Entrer dans le vidéoclub')}
         aria-busy={opening || undefined}
         onClick={(event) => {
           if (
@@ -75,7 +79,7 @@ export function StudioDoor() {
           started.current = true;
           setOpening(true);
           timer.current = setTimeout(() => {
-            window.location.assign(STUDIO_VIDEO_CLUB_HREF);
+            window.location.assign(href);
           }, STUDIO_DOOR_DURATION_MS);
         }}
       />

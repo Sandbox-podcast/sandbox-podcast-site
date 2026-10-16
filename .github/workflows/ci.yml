@@ -30,6 +30,7 @@ jobs:
       - run: pnpm test
       # Le build du site génère toutes les pages statiques et les images OpenGraph : il échoue si un contenu ou une route est cassé.
       - run: pnpm --filter @podcast/site build
+      - run: pnpm --filter @podcast/site test:og:tracing
       - run: pnpm --filter @podcast/site test:admin:http
       - run: pnpm --filter @podcast/site test:public-routes
       - run: pnpm --filter @podcast/site exec playwright install --with-deps chromium

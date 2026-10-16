@@ -31,6 +31,14 @@ export function youtubeChannelUrl(configured: string): string {
     : configured;
 }
 
+/** Compatibilité avec le lien générique conservé dans les anciennes publications. */
+export function spotifyChannelUrl(configured: string): string {
+  const url = new URL(configured);
+  return url.hostname.toLowerCase() === 'open.spotify.com' && url.pathname === '/'
+    ? defaultSiteSettings.platforms.spotify
+    : configured;
+}
+
 /** Le contenu éditorial de la marque peut être rechargé depuis le stockage privé en ISR. */
 export const siteConfig = {
   get name(): string {
@@ -70,6 +78,7 @@ export const siteConfig = {
     return {
       ...activeSiteSettings.platforms,
       youtube: youtubeChannelUrl(activeSiteSettings.platforms.youtube),
+      spotify: spotifyChannelUrl(activeSiteSettings.platforms.spotify),
     };
   },
   url: canonicalSiteUrl(process.env['SITE_URL'], process.env['VERCEL_PROJECT_PRODUCTION_URL']),

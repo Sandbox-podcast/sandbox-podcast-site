@@ -59,6 +59,20 @@ try {
       assert.equal(await card.getAttribute('data-host-card'), slug);
       assert.equal(await card.getByText(focusTitles[slug], { exact: true }).count(), 1);
       await card.scrollIntoViewIfNeeded();
+      const identity = card
+        .getByRole('heading', { name: host.name, exact: true })
+        .locator('..')
+        .locator('..');
+      const identityBox = await identity.boundingBox();
+      const surfaceBox = await card.locator('[data-holo-surface]').boundingBox();
+      assert.ok(
+        identityBox.height <= surfaceBox.height * 0.22,
+        'Identité compacte : au plus 22 % de la carte',
+      );
+      const nameSize = await card
+        .getByRole('heading', { name: host.name, exact: true })
+        .evaluate((element) => parseFloat(getComputedStyle(element).fontSize));
+      assert.ok(nameSize >= 28 && nameSize <= 36, 'Prénom lisible sans dominer le portrait');
       const image = card.locator('img');
       await page.waitForFunction((hostSlug) => {
         const image = document.querySelector(`[data-host-card="${hostSlug}"] img`);

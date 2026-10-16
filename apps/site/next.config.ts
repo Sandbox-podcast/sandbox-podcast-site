@@ -23,6 +23,16 @@ const config: NextConfig = {
   experimental: { cpus: 2 },
   poweredByHeader: false,
   serverExternalPackages: ['ws', '@neondatabase/serverless'],
+  // Les chemins construits par le moteur OG ne sont pas détectés par le traçage du build.
+  outputFileTracingIncludes: {
+    '/*': [
+      './node_modules/@fontsource/archivo/files/archivo-latin-900-normal.woff',
+      './node_modules/@fontsource/archivo/files/archivo-latin-800-normal.woff',
+      './node_modules/@fontsource/jetbrains-mono/files/jetbrains-mono-latin-500-normal.woff',
+      './node_modules/@fontsource/jetbrains-mono/files/jetbrains-mono-latin-700-normal.woff',
+      './node_modules/@fontsource/newsreader/files/newsreader-latin-400-italic.woff',
+    ],
+  },
   images: {
     qualities: [75, 90],
     remotePatterns: [

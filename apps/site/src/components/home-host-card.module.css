@@ -237,16 +237,8 @@
 .identity {
   position: relative;
   z-index: 2;
-  padding: 11px 13px 10px;
-  margin: 0 7px;
-  border: 1px solid #e8f4ffd9;
-  border-radius: 4px 4px 2px 2px;
-  background:
-    linear-gradient(120deg, #eff6fff2, #c5d6e9ef 42%, #f4e5f5f0 65%, #e8f6fff2),
-    radial-gradient(ellipse at var(--shine-x) var(--shine-y), white, transparent);
-  box-shadow:
-    0 -5px 20px #06101e40,
-    inset 0 0 0 1px #14253c80;
+  padding: 20px 14px 8px;
+  background: linear-gradient(180deg, transparent, #07101cd9 26%, #07101cf2);
 }
 .nameLine {
   display: flex;
@@ -255,24 +247,21 @@
   gap: 8px;
 }
 .nameLine h3 {
-  font: 500 clamp(37px, 3.8vw, 48px)/1.02 var(--font-newsreader);
+  font: 500 32px/1.02 var(--font-newsreader);
   letter-spacing: -0.035em;
-  color: #17263d;
+  color: #f1f4fa;
   margin: 0;
-  text-shadow: 0 1px #fff;
+  text-shadow: 0 1px 8px #0008;
 }
 .sigil {
   display: grid;
   place-items: center;
-  width: 32px;
-  height: 32px;
-  padding: 5px;
+  width: 24px;
+  height: 24px;
+  padding: 3px;
   border-radius: 50%;
-  border: 1px solid #f2f7ff;
-  box-shadow:
-    0 0 0 1px #4054728c,
-    inset 0 0 8px #cbdcfa45;
-  background: #20304b;
+  border: 1px solid #b5c9e04d;
+  background: #101b2b80;
   flex-shrink: 0;
   color: var(--host-accent);
 }
@@ -281,16 +270,14 @@
   height: 100%;
 }
 .focus {
-  min-height: 32px;
-  max-width: 29ch;
-  margin-top: 5px;
-  font: 500 11px/1.5 var(--font-sans);
-  color: #26384e;
+  margin-top: 3px;
+  font: 400 11px/1.45 var(--font-sans);
+  color: #c4d0df;
 }
 .collection {
-  margin: 0 7px 7px;
-  padding: 6px 6px 0;
-  min-height: 23px;
+  padding: 5px 14px 8px;
+  min-height: 22px;
+  background: #07101cf2;
   font-size: 7px;
   letter-spacing: 0.1em;
   color: #e5efff;
@@ -370,25 +357,17 @@
   .profile {
     max-width: 380px;
   }
-  .nameLine h3 {
-    font-size: clamp(40px, 12vw, 54px);
-  }
-  .focus {
-    font-size: 12px;
-  }
 }
 @media (max-width: 370px) {
   .card {
     padding: 10px;
   }
   .identity {
-    padding: 9px 10px 8px;
+    padding-top: 18px;
+    padding-inline: 12px;
   }
   .nameLine h3 {
-    font-size: 39px;
-  }
-  .focus {
-    font-size: 11px;
+    font-size: 30px;
   }
 }
 @media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
