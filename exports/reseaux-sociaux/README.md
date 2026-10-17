@@ -4,12 +4,12 @@ Ce dossier rassemble les quatre exports verticaux destinés à Instagram Reels, 
 
 ## Shorts
 
-| Fichier | Sujet | Durée |
-|---|---|---:|
-| `shorts/01-IA-et-Product-Owners.mp4` | IA et Product Owners | 29 s |
-| `shorts/02-IA-comme-Google.mp4` | Usages de l'IA | 45 s |
-| `shorts/03-Codex-ou-OpenCode.mp4` | Harnais IA et choix des modèles | 47 s |
-| `shorts/04-vibe-coding-et-jeux.mp4` | Vibe coding et game design | 44 s |
+| Fichier                              | Sujet                           | Durée |
+| ------------------------------------ | ------------------------------- | ----: |
+| `shorts/01-IA-et-Product-Owners.mp4` | IA et Product Owners            |  29 s |
+| `shorts/02-IA-comme-Google.mp4`      | Usages de l'IA                  |  45 s |
+| `shorts/03-Codex-ou-OpenCode.mp4`    | Harnais IA et choix des modèles |  47 s |
+| `shorts/04-vibe-coding-et-jeux.mp4`  | Vibe coding et game design      |  44 s |
 
 Les fichiers `.ass` associés contiennent les sous-titres incrustés lors du rendu. Les MP4 sont encodés verticalement en 1080 × 1920.
 
