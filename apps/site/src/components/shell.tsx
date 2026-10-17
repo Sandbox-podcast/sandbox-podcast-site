@@ -74,15 +74,23 @@ export function Footer() {
             <Text>Le Talk Show IA & tech de Lou, Loïc et Nico.</Text>
           </p>
           <div className="footer-platforms">
-            {(['youtube', 'spotify'] as const).map((platform) => (
+            {(
+              [
+                { label: 'YouTube', href: siteConfig.platforms.youtube },
+                { label: 'Spotify', href: siteConfig.platforms.spotify },
+                { label: 'X', href: 'https://x.com/SandboxTalkShow' },
+                { label: 'TikTok', href: 'https://www.tiktok.com/@sandbox.talkshow' },
+                { label: 'Instagram', href: 'https://www.instagram.com/Sandbox.TalkShow/' },
+              ] as const
+            ).map(({ label, href }) => (
               <a
-                key={platform}
-                href={siteConfig.platforms[platform]}
+                key={label}
+                href={href}
                 target="_blank"
                 rel="noopener noreferrer"
-                data-analytics-event={platform === 'youtube' ? 'youtube_open' : 'listen_click'}
+                data-analytics-event={label === 'YouTube' ? 'youtube_open' : 'social_click'}
                 data-analytics-placement="footer"
-                data-analytics-platform={platform}
+                data-analytics-platform={label.toLowerCase()}
               >
                 <svg
                   width="18"
@@ -91,13 +99,19 @@ export function Footer() {
                   fill="currentColor"
                   aria-hidden="true"
                 >
-                  {platform === 'youtube' ? (
+                  {label === 'YouTube' ? (
                     <path d="M23 7a3 3 0 0 0-2-2C19 4.5 12 4.5 12 4.5S5 4.5 3 5a3 3 0 0 0-2 2 31 31 0 0 0 0 10 3 3 0 0 0 2 2c2 .5 9 .5 9 .5s7 0 9-.5a3 3 0 0 0 2-2 31 31 0 0 0 0-10ZM9.5 15.5v-7l6 3.5-6 3.5Z" />
-                  ) : (
+                  ) : label === 'Spotify' ? (
                     <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm4.6 14.5a.75.75 0 0 1-1 .25c-2.7-1.65-5.65-1.9-9.1-1.1a.75.75 0 1 1-.35-1.45c3.85-.9 7.25-.6 10.2 1.25a.75.75 0 0 1 .25 1.05Zm1.2-2.7a.9.9 0 0 1-1.25.3c-3.05-1.85-7.65-2.4-11.2-1.3a.9.9 0 1 1-.55-1.7c4.05-1.25 9.15-.65 12.7 1.5a.9.9 0 0 1 .3 1.2Zm.1-2.8C14.25 8.85 8.2 8.65 4.7 9.7a1.1 1.1 0 1 1-.65-2.1c4.05-1.2 10.75-.95 14.95 1.5a1.1 1.1 0 0 1-1.1 1.9Z" />
+                  ) : label === 'X' ? (
+                    <path d="M18.9 2H22l-6.8 7.8L23.2 22h-6.3l-5-7.2L5.6 22H2.4l7.3-8.4L1.8 2h6.5l4.5 6.7L18.9 2Zm-1.1 18h1.7L7.3 3.9H5.5L17.8 20Z" />
+                  ) : label === 'TikTok' ? (
+                    <path d="M19.6 6.2a5.1 5.1 0 0 1-3.1-4.4V1h-4v15.4a2.8 2.8 0 1 1-2.8-2.8c.4 0 .8.1 1.1.2v-4.1a6.8 6.8 0 1 0 5.7 6.7V8.6a9.1 9.1 0 0 0 5.3 1.7V6.3c-.8 0-1.5 0-2.2-.1Z" />
+                  ) : (
+                    <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm0 3a7 7 0 0 1 4.1 12.7c-.1-1.2-.4-2.3-1.3-3 .3-.5.5-1.1.5-1.8 0-1.4-.8-2.4-2-2.8.6-.4.9-1 .9-1.8 0-1.4-1-2.3-2.6-2.3s-2.6.9-2.6 2.3c0 .8.4 1.4.9 1.8-1.2.4-2 1.4-2 2.8 0 .7.2 1.3.5 1.8-.9.7-1.2 1.8-1.3 3A7 7 0 0 1 12 5Zm-3.5 12.9c.1-1.1.4-1.8 1.2-2.3.6.4 1.4.7 2.3.7s1.7-.3 2.3-.7c.8.5 1.1 1.2 1.2 2.3a7 7 0 0 1-7 0Z" />
                   )}
                 </svg>
-                {platform === 'youtube' ? 'YouTube' : 'Spotify'}
+                {label}
                 <span className="sr-only">
                   <Text>(nouvel onglet)</Text>
                 </span>

@@ -16,9 +16,10 @@ import { EpisodeComposer } from './episode-composer';
 import { SiteSettingsEditor } from './site-settings-editor';
 import { AdminTranslations } from './admin-translations';
 import { AdminSlides } from './admin-slides';
+import { AdminSocialDashboard } from './admin-social-dashboard';
 
 type CollectionKey = 'episodes' | 'charts' | 'hosts' | 'sources';
-type SectionKey = CollectionKey | 'site' | 'slides';
+type SectionKey = CollectionKey | 'site' | 'slides' | 'social';
 type HostSocialKey = keyof Host['socials'];
 const storageModeSchema = z.enum(['local', 'postgres', 'unavailable']);
 const adminStatusSchema = z.object({
@@ -565,6 +566,17 @@ export function AdminConsole() {
           >
             Slides
           </button>
+          <p className="admin-sidebar-label admin-sidebar-divider">Analyser</p>
+          <button
+            className={`admin-tab${activeCollection === 'social' ? ' is-active' : ''}`}
+            aria-pressed={activeCollection === 'social'}
+            type="button"
+            onClick={() => {
+              setActiveCollection('social');
+            }}
+          >
+            Réseaux sociaux <span>↗</span>
+          </button>
           <p className="admin-sidebar-label admin-sidebar-divider">Réglages</p>
           <button
             className={`admin-tab${activeCollection === 'site' ? ' is-active' : ''}`}
@@ -596,7 +608,9 @@ export function AdminConsole() {
         </aside>
 
         <section className="admin-workspace" aria-labelledby="admin-section-title">
-          {activeCollection === 'site' ? (
+          {activeCollection === 'social' ? (
+            <AdminSocialDashboard />
+          ) : activeCollection === 'site' ? (
             <>
               <div className="admin-section-heading">
                 <div>

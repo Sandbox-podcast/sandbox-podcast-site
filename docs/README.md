@@ -101,3 +101,5 @@ Passation pour finaliser la livraison, les données réelles et le SEO : [liste 
 Reprise des classements du 15 octobre : [constat, correctifs et mise en service](site/incident-classements-2026-10-15.md), [ADR-0030](adr/ADR-0030-reprise-et-controle-des-classements.md).
 
 Plateforme de production de podcasts vidéo (studio virtuel, régie, enregistrement serveur, MCP, post-production) : code, 10 POC, ADR-0001 à 0014, modèle de menaces, modèle de coût, rapport final. Point d'entrée : [old/README.md](../old/README.md) ; index de ses documents : [old/docs/README.md](../old/docs/README.md).
+
+Gestion multi-réseaux : [guide et plan de lancement sur 30 jours](site/social-network-manager-2026-10-17.md) et [mode opératoire de l'agent](../tools/social-network-manager/README.md).
