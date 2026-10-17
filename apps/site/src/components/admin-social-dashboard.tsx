@@ -90,7 +90,7 @@ export function AdminSocialDashboard() {
           <span className="social-snapshot-date">
             {refreshedAt
               ? `Actualisé · ${new Date(refreshedAt).toLocaleString('fr-FR')}`
-              : 'Dernier relevé manuel · 17 oct. 2026'}
+              : 'Relevé manuel · 17 oct. 2026'}
           </span>
           <button
             className="btn btn-solid"
@@ -106,12 +106,12 @@ export function AdminSocialDashboard() {
       <div className="social-demo-banner">
         <span className="social-demo-dot" />{' '}
         {refreshedAt
-          ? 'Résultat de la dernière collecte officielle.'
-          : 'Instantané basé sur des observations réelles.'}{' '}
+          ? 'Résultat de la tentative de collecte officielle.'
+          : 'Chiffres manuels enregistrés le 17 octobre 2026.'}{' '}
         <span>·</span>{' '}
         {sources
           ? 'Les réseaux non configurés sont indiqués ci-dessous.'
-          : 'Utilise Actualiser pour interroger les sources configurées.'}
+          : 'Actualiser teste les connexions configurées ; cela ne crée pas les accès manquants.'}
       </div>
       {refreshError ? (
         <p className="social-refresh-error" role="alert">
@@ -271,17 +271,17 @@ export function AdminSocialDashboard() {
         <div className="social-integration-grid">
           <div>
             <strong>YouTube Data API</strong>
-            <span>Configurer YOUTUBE_API_KEY · statistiques publiques</span>
+            <span>Créer une clé API YouTube gratuite, puis la saisir sur le serveur</span>
             <em>{sources ? stateText(sources, 'youtube') : 'Prêt à vérifier'}</em>
           </div>
           <div>
             <strong>Meta / Instagram</strong>
-            <span>Compte professionnel · jeton de lecture et ID du compte</span>
+            <span>Compte pro Meta + jeton autorisé (à connecter une fois)</span>
             <em>{sources ? stateText(sources, 'instagram') : 'Prêt à vérifier'}</em>
           </div>
           <div>
             <strong>TikTok</strong>
-            <span>Jeton de lecture du profil et des vidéos</span>
+            <span>Application développeur approuvée + autorisation TikTok</span>
             <em>{sources ? stateText(sources, 'tiktok') : 'Prêt à vérifier'}</em>
           </div>
           <div>
