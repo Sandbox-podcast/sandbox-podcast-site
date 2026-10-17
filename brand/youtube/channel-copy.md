@@ -11,6 +11,12 @@ SANDBOX est un média indépendant sur l'IA, le développement et l'open source.
 
 Sur sandboxpodcast.fr, retrouvez les épisodes, leurs sources et SANDBOX CHARTS, nos classements tech et IA.
 
+Suivez Sandbox :
+X : https://x.com/SandboxTalkShow
+TikTok : https://www.tiktok.com/@sandbox.talkshow
+Instagram : https://www.instagram.com/Sandbox.TalkShow/
+YouTube : https://www.youtube.com/@SandboxFR
+
 La tech mérite mieux que du bruit.
 
 Lien du profil : https://www.sandboxpodcast.fr/

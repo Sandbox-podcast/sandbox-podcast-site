@@ -82,7 +82,7 @@ Pour l'audit, les modifications de métadonnées, le rendu local, le pipeline av
 
 ## Agent Social Network Manager
 
-Le mode opératoire multi-réseaux est décrit dans [`tools/social-network-manager/README.md`](tools/social-network-manager/README.md). Il complète l'agent YouTube sans le remplacer. Le [dossier de lancement](docs/site/social-network-manager-2026-10-17.md) rassemble l'état vérifié des profils, les limites d'accès, les propositions de bio, le calendrier de 30 jours et dix brouillons.
+Le mode opératoire multi-réseaux est décrit dans [`tools/social-network-manager/README.md`](tools/social-network-manager/README.md). Il complète l'agent YouTube sans le remplacer. Le [dossier de lancement](docs/site/social-network-manager-2026-10-17.md) rassemble l'état vérifié des profils, l'identité Instagram, les limites d'accès, le calendrier de 30 jours et les brouillons. Le symbole social réutilise le [kit de marque SANDBOX](brand/social/README.md).
 
 ### Utiliser l'agent avec Nico et Loïc
 

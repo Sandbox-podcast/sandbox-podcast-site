@@ -7,20 +7,20 @@
 | Surface        | État observé                                                                                                                                                                                                                                                                                                                                                 | Conséquence                                                                                                                                         |
 | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------- |
 | YouTube        | Émission 1, playlist podcast et métadonnées déjà traités. Studio affiche quatre Shorts : deux publics (15 et 16 octobre) et deux programmés (17 et 18 octobre). Les compteurs visibles au relevé sont respectivement 45 et 867 vues pour les Shorts publics. OAuth du programme absent et journal distant non mis en service d'après les documents du dépôt. | Garder `tools/youtube-growth/` comme source du pipeline. Ne pas retéléverser ces quatre Shorts. Vérifier leur statut après les créneaux programmés. |
-| Instagram      | `@sandbox.podcast.pro`, nom Sandbox TalkShow, bio déjà renseignée, quatre Reels, zéro abonné, aucun avatar au relevé actuel. Les quatre Reels sont les extraits sur Product Owners, IA comme Google, Codex/OpenCode et jeu vidéo.                                                                                                                            | Ne pas dupliquer les quatre Reels. Ajouter une identité de profil et du contenu distinct seulement après validation.                                |
+| Instagram      | `@sandbox.talkshow` (anciennement `@sandbox.podcast.pro`), nom Sandbox TalkShow, bio renseignée, avatar SANDBOX appliqué le 17 octobre 2026, quatre Reels et zéro abonné. Les quatre Reels couvrent Product Owners, IA comme Google, Codex/OpenCode et jeu vidéo.                                                                                            | Le nom et l'identité visuelle sont configurés. Ne pas dupliquer les quatre Reels; développer ensuite les stories à la une et du contenu distinct.   |
 | TikTok         | `@sandbox.talkshow`, nom Sandbox TalkShow, bio "IA, dev, open source. Tests & débats sans bruit.", zéro publication, zéro abonné, zéro suivi, zéro mention J'aime au relevé actuel.                                                                                                                                                                          | Premier réseau à alimenter avec les quatre exports après relecture audio/sous-titres.                                                               |
-| X              | Présence d'un visuel de bannière préparé dans `exports/reseaux-sociaux/visuels/`. L'existence et l'état du compte n'ont pas été vérifiés.                                                                                                                                                                                                                    | Garder les textes ci-dessous comme propositions; ne pas prétendre que le compte ou ses métriques sont actifs.                                       |
+| X              | `@SandboxTalkShow`, nom « Sandbox TalkShow », bio et bannière présents; avatar SANDBOX appliqué le 17 octobre 2026.                                                                                                                                                                                                                                          | Le compte est actif. Les métriques restent à relever depuis les données natives.                                                                    |
 | Site et marque | Site média, promesse indépendante IA, développement et open source, charte bleu nuit/cyan et logo existants.                                                                                                                                                                                                                                                 | Réutiliser le symbole et les couleurs existants. Ne pas redessiner la marque.                                                                       |
 
 Les quatre MP4 locaux sont dans `exports/reseaux-sociaux/shorts/`. Les notes d'exploitation indiquent que les sous-titres ont été corrigés au contexte, mais que l'écoute audio n'est pas confirmée. Ils ne sont pas nécessairement identiques aux versions déjà dans Studio. Le relevé YouTube du 14 octobre est limité à une émission et un petit volume; il ne permet pas de fixer une cible de croissance ni un horaire gagnant. Les impressions, clics et métriques sociales doivent être collectés séparément.
 
-## Identité et profils proposés
+## Identité et profils
 
-Le nom et l'identité officielle restent ceux de SANDBOX. La variante "Sandbox TalkShow" est déjà utilisée sur Instagram et TikTok, tandis que la chaîne YouTube s'appelle "Sandbox Podcast". Ne pas renommer les profils dans cette phase.
+Le nom public Instagram est « Sandbox TalkShow »; l'identifiant est désormais `@sandbox.talkshow` (anciennement `@sandbox.podcast.pro`). Le compte n'a pas de bannière de profil. L'avatar commun `brand/social/sandbox-social-avatar.png` adapte le logotype source `logov2.png`, selon la palette de DD-0002. Il est appliqué et vérifié sur Instagram, TikTok et X le 17 octobre 2026.
 
-Bio Instagram proposée, 129 caractères environ :
+Bio Instagram actuelle :
 
-> Talk-show IA & Tech. On teste, on débat, on construit. Épisodes et sources sur sandboxpodcast.fr
+> IA, dev & open source. Tests et débats sans bruit. 🎙️ Podcast Sandbox TalkShow · sandboxpodcast.fr
 
 Bio TikTok proposée, 77 caractères environ :
 
@@ -30,7 +30,7 @@ Texte X proposé si le compte est confirmé :
 
 > Talk-show francophone sur l'IA, le développement et l'open source. On teste les outils, on débat et on construit. Épisodes et sources : sandboxpodcast.fr
 
-Ces bios sont des brouillons. Leur enregistrement change les profils publics et requiert l'accord explicite de Lou. Garder l'avatar officiel existant. Instagram et TikTok n'ont pas de bannière de profil; ne pas tenter d'y appliquer la bannière X.
+La bio Instagram et le nom sont déjà affichés sur le profil. Instagram et TikTok n'ont pas de bannière de profil; utiliser l'avatar officiel et, plus tard, des couvertures de stories à la une cohérentes plutôt que la bannière X.
 
 ## Épingles proposées
 
@@ -161,10 +161,12 @@ Texte : "Pour la prochaine émission, quel usage de l'IA aimeriez-vous voir test
 
 Contrôle : publier seulement si l'équipe a confirmé le thème de la prochaine émission et souhaite utiliser les réponses pour préparer le conducteur.
 
-## Automatisations à établir
+## Automatisations en service et à établir
+
+Deux tâches récurrentes Codex sont actives dans la conversation de Lou : un contrôle quotidien à 09 h et un bilan hebdomadaire le lundi à 09 h 30, heure de Paris. Elles examinent les sources et exports locaux, écrivent des notes dans `.local/social-network-manager/` uniquement si de nouvelles informations le justifient, et restent silencieuses quand rien n'a changé. Elles préparent des brouillons et des bilans; elles ne publient pas, ne programment pas et ne modifient aucun compte. Ce réglage appartient à la tâche de Lou et ne se copie pas automatiquement aux comptes Codex de Nico et Loïc. Comme ces routines lisent le dépôt local, l'ordinateur, Codex et le projet doivent rester disponibles au moment prévu.
 
 1. Réutiliser l'audit YouTube déjà implémenté et compléter son OAuth/journal après autorisation et vérifications listées dans `tools/youtube-growth/README.md`.
-2. Déclencher chaque semaine un paquet de préparation local : nouveaux épisodes, transcription, propositions d'extraits, textes de plateformes, calendrier, liste de contrôles et rapport de métriques. Enregistrer les sorties dans un espace local ignoré par Git lorsqu'elles contiennent des données de compte.
+2. Étendre les notes quotidiennes et le rapport hebdomadaire en paquet de préparation local : nouveaux épisodes, transcription, propositions d'extraits, textes de plateformes, calendrier, liste de contrôles et métriques disponibles. Enregistrer les sorties dans `.local/social-network-manager/`, ignoré par Git.
 3. Ajouter Instagram, TikTok et X seulement avec des API officielles et permissions documentées. Vérifier les capacités réelles de publication, programmation et métriques pour chaque réseau; prévoir une voie manuelle tant qu'une API n'est pas configurée.
 4. Centraliser le statut éditorial dans un journal durable : `idea`, `draft`, `needs_review`, `approved`, `scheduled`, `published`, `blocked`. Une transition vers `approved` ou `scheduled` doit porter l'identité du valideur, l'horodatage, les empreintes du média et du texte, la plateforme et le créneau.
 5. Relancer après erreur uniquement après réconciliation de l'état distant. Une réponse réseau ambiguë ne doit pas générer un doublon.

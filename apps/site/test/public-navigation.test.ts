@@ -85,6 +85,9 @@ describe('identité et contrôles communs', () => {
     expect(footer).toContain('sandbox-logo.png');
     expect(footer).toContain('https://www.youtube.com/@SandboxFR');
     expect(footer).toContain('https://open.spotify.com/');
+    expect(footer).toContain('https://x.com/SandboxTalkShow');
+    expect(footer).toContain('https://www.tiktok.com/@sandbox.talkshow');
+    expect(footer).toContain('https://www.instagram.com/Sandbox.TalkShow/');
     expect(footer).toContain('data-analytics-platform="spotify"');
     expect(header).not.toContain('Podcasts &amp; classements IA');
     expect(footer).not.toContain('Podcasts &amp; classements IA');

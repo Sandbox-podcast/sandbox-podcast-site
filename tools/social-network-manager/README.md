@@ -12,9 +12,9 @@ Faire découvrir le talk-show et ses expériences réelles, puis conduire les pe
 - La chaîne YouTube est déjà équipée d'un agent d'audit, de métadonnées, de sélection de passages, de rendu et de suivi. Son guide est `tools/youtube-growth/README.md`.
 - Les quatre Shorts de l'émission 1 sont maintenant visibles dans Studio : deux publics (15 et 16 octobre), deux programmés (17 et 18 octobre). Le relevé Studio actuel prime sur les notes plus anciennes de `docs/open-questions.md`.
 - Les quatre exports verticaux du dossier `exports/reseaux-sociaux/shorts/` sont des fichiers locaux. Leur audio et leurs sous-titres doivent être relus avant toute nouvelle diffusion. Les exports du dossier ne sont pas à confondre avec les quatre vidéos déjà présentes dans Studio.
-- Le profil Instagram `@sandbox.podcast.pro` affiche quatre Reels, zéro abonné et aucun avatar au relevé du 17 octobre 2026. Ces Reels reprennent déjà les quatre exports. Ne pas les republier tels quels sur Instagram.
+- Le profil Instagram `@sandbox.talkshow` s'affiche sous le nom « Sandbox TalkShow », avec la bio renseignée et quatre Reels. L'identifiant a été modifié depuis `@sandbox.podcast.pro` le 17 octobre 2026. Le même avatar officiel `brand/social/sandbox-social-avatar.png`, dérivé de `logov2.png`, est appliqué sur Instagram, TikTok et X; les trois profils ont été vérifiés le 17 octobre 2026. Les quatre Reels Instagram reprennent déjà les exports et ne doivent pas être repostés tels quels.
 - Le profil TikTok `@sandbox.talkshow` affiche zéro publication, zéro abonné, zéro suivi et zéro mention J'aime au relevé du 17 octobre 2026. La bio présente le sujet du talk-show.
-- Le compte X, les données natives Instagram/TikTok/X et un flux d'analytique unifié ne sont pas établis par les accès examinés. Ne pas en déduire des performances.
+- Le compte X `@SandboxTalkShow` est confirmé. Les données natives Instagram/TikTok/X et un flux d'analytique unifié ne sont pas établis par les accès examinés. Ne pas en déduire des performances.
 - Le jeton OAuth du programme YouTube et la mise en service de son journal durable restent à traiter. Le workflow GitHub existant ne prouve pas que les opérations sont connectées ni publiées.
 
 ## Règle d'exploitation
@@ -33,6 +33,10 @@ Un brouillon n'est pas une publication. Une date proposée n'est pas une program
 6. Préparer le calendrier, puis demander l'accord avant chaque écriture publique ou programmation.
 7. À 48 heures et 7 jours, relever les chiffres natifs disponibles. Comparer des périodes équivalentes; signaler les données absentes et les échantillons trop faibles.
 8. Produire un rapport qui sépare faits observés, hypothèses, décisions proposées et blocages.
+
+## Automatisation Codex
+
+Dans la conversation de Lou, deux tâches locales sont programmées : contrôle quotidien à 09 h et bilan hebdomadaire le lundi à 09 h 30, heure de Paris. Elles réutilisent le contexte de cette conversation et enregistrent les observations datées sous `.local/social-network-manager/`. Elles restent en préparation : aucune publication, programmation, modification de profil, interaction sociale, commit ou push n'est automatique. Les associés doivent créer leur propre routine s'ils souhaitent les mêmes rappels dans leur session Codex. Les tâches locales nécessitent que l'ordinateur, l'application Codex et le dépôt soient disponibles au moment prévu.
 
 ## Mesure
 

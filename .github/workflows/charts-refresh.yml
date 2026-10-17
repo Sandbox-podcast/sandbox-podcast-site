@@ -38,8 +38,10 @@ jobs:
               --header "Authorization: Bearer $CRON_SECRET" \
               "$CHARTS_ORIGIN/api/cron/$1"
           }
-          call_job github-trending
-          call_job github-discovery
+          result=0
+          call_job github-trending || result=1
+          call_job github-discovery || result=1
+          exit "$result"
 
   refresh:
     if: (github.event_name == 'schedule' && github.event.schedule == '17 3,15 * * *') || github.event_name == 'workflow_dispatch'
