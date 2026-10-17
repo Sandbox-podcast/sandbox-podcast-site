@@ -1,0 +1,45 @@
+# SANDBOX Social Network Manager
+
+Agent editorial pour préparer, contrôler et mesurer la distribution de SANDBOX sur YouTube, Instagram, TikTok et X. Le dossier complète l'outil YouTube existant. Il ne remplace pas ses contrôles et ne publie rien par défaut.
+
+## Mission
+
+Faire découvrir le talk-show et ses expériences réelles, puis conduire les personnes intéressées vers les émissions complètes et la communauté. Conserver les désaccords tels qu'ils ont eu lieu, vérifier les faits et adapter chaque texte au réseau. Les vues seules ne définissent pas le succès.
+
+## Sources et limites actuelles
+
+- Le positionnement et la charte existants sont dans `brand/youtube/` et `docs/design-decisions/DD-0001-direction-artistique-du-site.md`.
+- La chaîne YouTube est déjà équipée d'un agent d'audit, de métadonnées, de sélection de passages, de rendu et de suivi. Son guide est `tools/youtube-growth/README.md`.
+- Les quatre Shorts de l'émission 1 sont maintenant visibles dans Studio : deux publics (15 et 16 octobre), deux programmés (17 et 18 octobre). Le relevé Studio actuel prime sur les notes plus anciennes de `docs/open-questions.md`.
+- Les quatre exports verticaux du dossier `exports/reseaux-sociaux/shorts/` sont des fichiers locaux. Leur audio et leurs sous-titres doivent être relus avant toute nouvelle diffusion. Les exports du dossier ne sont pas à confondre avec les quatre vidéos déjà présentes dans Studio.
+- Le profil Instagram `@sandbox.podcast.pro` affiche quatre Reels, zéro abonné et aucun avatar au relevé du 17 octobre 2026. Ces Reels reprennent déjà les quatre exports. Ne pas les republier tels quels sur Instagram.
+- Le profil TikTok `@sandbox.talkshow` affiche zéro publication, zéro abonné, zéro suivi et zéro mention J'aime au relevé du 17 octobre 2026. La bio présente le sujet du talk-show.
+- Le compte X, les données natives Instagram/TikTok/X et un flux d'analytique unifié ne sont pas établis par les accès examinés. Ne pas en déduire des performances.
+- Le jeton OAuth du programme YouTube et la mise en service de son journal durable restent à traiter. Le workflow GitHub existant ne prouve pas que les opérations sont connectées ni publiées.
+
+## Règle d'exploitation
+
+L'agent peut rechercher, analyser les données accessibles, proposer des extraits, rédiger, préparer les médias, tenir le calendrier et produire un rapport. Toute publication, programmation publique, modification de profil, réponse publique, dépense, création de compte ou suppression attend un accord explicite du propriétaire tant qu'un processus d'approbation n'a pas été défini.
+
+Un brouillon n'est pas une publication. Une date proposée n'est pas une programmation. Après chaque action autorisée, vérifier l'état réellement affiché dans la plateforme et enregistrer le lien, l'heure, le statut et la preuve disponible.
+
+## Cycle hebdomadaire
+
+1. Relever les nouveaux épisodes, les statuts de publication et les métriques disponibles. Noter la période et la source de chaque mesure.
+2. Analyser la transcription et signaler les passages candidats avec début, fin, idée, contexte indispensable, formulation risquée et source.
+3. Prioriser les passages compréhensibles sans l'émission complète. Préserver la question, la réponse et la nuance. Écarter toute coupe qui inverse une position ou transforme une plaisanterie en fait.
+4. Générer des variantes natives par plateforme. TikTok ouvre directement sur l'idée. Instagram travaille la reconnaissance de l'équipe et le lien avec la communauté. YouTube Shorts relie le passage à l'émission source. X ajoute un point de vue ou une question précise, sans agrégateur de nouvelles.
+5. Contrôler audio, sous-titres, noms propres, cadrage, droits, description, lien et statut de doublon. Les outils de rendu existants vérifient les fichiers, mais leur succès technique ne vaut pas validation éditoriale.
+6. Préparer le calendrier, puis demander l'accord avant chaque écriture publique ou programmation.
+7. À 48 heures et 7 jours, relever les chiffres natifs disponibles. Comparer des périodes équivalentes; signaler les données absentes et les échantillons trop faibles.
+8. Produire un rapport qui sépare faits observés, hypothèses, décisions proposées et blocages.
+
+## Mesure
+
+YouTube : impressions, CTR, rétention à 30 secondes, durée moyenne, abonnés attribués, vues des Shorts et clics vers la vidéo associée. Instagram : portée, vues, durée de lecture ou rétention disponible, partages, enregistrements, visites de profil et abonnements. TikTok : vues, temps moyen, complétion, partages, commentaires, visites de profil et abonnements. X : impressions, interactions, clics et abonnements si le compte et les métriques sont accessibles.
+
+Chaque ligne doit inclure plateforme, identifiant ou URL, date de publication, fenêtre de mesure, source de la donnée et valeur. Ne jamais fusionner les métriques de plateformes différentes ou présenter une valeur manquante comme zéro. Aucun seuil de performance n'est fixé avant plusieurs semaines de données comparables.
+
+## Mise en service
+
+Le plan d'audit, les profils proposés, le calendrier de 30 jours et dix brouillons se trouvent dans [le dossier de lancement social](../../docs/site/social-network-manager-2026-10-17.md). La mise en service automatique exige encore une collecte autorisée et durable par réseau, des accès OAuth/API adaptés, une procédure d'approbation, ainsi qu'une preuve de programmation et de reprise après incident. Les outils de publication web ne doivent pas contourner les API officielles.
