@@ -29,7 +29,7 @@ const youtubeMetadataSchema = z.object({
   resources: episodeSchema.shape.mentions.optional(),
   spotifyUrl: z.url().optional(),
   appleUrl: z.url().optional(),
-  source: z.enum(['youtube-data-api', 'oembed']),
+  source: z.enum(['youtube-data-api', 'youtube-page', 'oembed']),
 });
 type YouTubeMetadata = z.infer<typeof youtubeMetadataSchema>;
 const uploadedThumbnailSchema = z.object({
@@ -142,9 +142,8 @@ export function EpisodeComposer({
   const currentVideoId = parseYouTubeVideoId(youtubeUrl);
   const needsDurationProbe =
     currentVideoId &&
-    ((metadata?.source === 'oembed' && metadata.videoId === currentVideoId) ||
-      (episode?.platforms.youtubeId === currentVideoId &&
-        (metadata?.videoId !== currentVideoId || metadata.source === 'oembed')));
+    ((metadata?.videoId === currentVideoId && !metadata.durationSec) ||
+      (episode?.platforms.youtubeId === currentVideoId && metadata?.videoId !== currentVideoId));
   const previewArtwork = episodeArtwork({
     cover: {
       ...(episode?.cover ?? { tone: 1, kicker: `Épisode ${String(initialNumber)}` }),
@@ -468,9 +467,13 @@ export function EpisodeComposer({
         ) : null}
         {metadata ? (
           <p className="admin-help" role="status">
-            {metadata.source === 'youtube-data-api'
+            {metadata.publishedAt && metadata.durationSec
               ? `Vidéo importée · ${metadata.channel}. La date et la durée viennent de YouTube.`
-              : `Vidéo importée · ${metadata.channel}. La durée est lue automatiquement dans le lecteur ; la date de publication reste celle enregistrée.`}
+              : metadata.publishedAt
+                ? `Vidéo importée · ${metadata.channel}. La date vient de YouTube ; le lecteur récupère la durée.`
+                : episode
+                  ? `Vidéo importée · ${metadata.channel}. La date enregistrée est conservée ; le lecteur vérifie la durée si nécessaire.`
+                  : `Vidéo importée · ${metadata.channel}. YouTube n’a pas fourni la date de publication. Actualisez l’import.`}
           </p>
         ) : null}
         {needsDurationProbe && currentVideoId ? (
@@ -540,9 +543,7 @@ export function EpisodeComposer({
           <div className="episode-readiness admin-span-2" role="status">
             <strong>Épisode {String(initialNumber)}</strong>
             <span>
-              {metadata?.source === 'youtube-data-api' &&
-              metadata.durationSec &&
-              metadata.publishedAt
+              {metadata?.durationSec && metadata.publishedAt
                 ? `${metadata.title} · ${formatDuration(metadata.durationSec)} · ${new Date(metadata.publishedAt).toLocaleDateString('fr-FR')}`
                 : 'Collez l’URL pour récupérer le titre, la date et la durée depuis YouTube.'}
             </span>

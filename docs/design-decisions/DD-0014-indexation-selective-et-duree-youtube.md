@@ -4,6 +4,8 @@
 - Statut : accepté pour l'implémentation locale
 - Décision : décidée par l'agent sur délégation (PD-0003), après l'autorisation explicite de Lou d'ouvrir l'indexation.
 
+Mise à jour du 18 octobre 2026 : [DD-0058](dd-0058-import-youtube-sans-cle-api.md) remplace l'obligation de Data API pour la date des nouveaux épisodes. L'import lit désormais la date et la durée dans la page publique YouTube sans clé.
+
 ## Contexte
 
 Le site utilise encore `SITE_DATA_MODE=mock` pour distinguer les fixtures, mais un premier épisode réel et des éditions réelles des classements peuvent être publiés depuis Postgres. Le blocage SEO global empêchait leur découverte. La durée enregistrée de l'épisode 1 (13 min) contredit les chapitres de sa description et les 4 702 secondes indiquées par le lecteur YouTube. La clé YouTube Data API n'est pas configurée sur le serveur de production.
