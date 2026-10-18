@@ -21,6 +21,16 @@
 
 Les empreintes et durées exactes sont dans `assets.json` et les fichiers `montage.json` et `extrait.json`.
 
+## Correction du double affichage des sous-titres, le 18 octobre
+
+Lou signale un doublon à la lecture de son extrait. Les images extraites du MP4 horizontal montrent une seule couche incrustée, et ffprobe ne trouve aucune piste de sous-titres supplémentaire. Le fichier voisin `extrait.srt` peut être chargé automatiquement par le lecteur et ajouter une seconde couche. L'image vérifiée dans l'extrait vertical montre aussi une seule couche de sous-titres.
+
+Les SRT des trois kits personnels sont déplacés à l'identique dans `production/captions/`. Les trois ZIP sont actualisés sans ces SRT ; leurs autres fichiers correspondent aux dossiers personnels. Le script de montage écrit désormais les SRT dans ce dossier de production. Les empreintes des médias restent identiques, sans réencodage.
+
+Les quatre tests Python passent, dont le test qui vérifie que la génération des trois extraits place les SRT hors des kits personnels. Les 26 empreintes et tailles du manifeste, les 41 liens locaux et les trois archives sont vérifiés. Les deux extraits de Lou passent le décodage intégral. La lecture dans le lecteur utilisé par Lou reste à confirmer après fermeture et réouverture du fichier.
+
+La relance de `pnpm check` passe le formatage puis échoue au lint : 7 140 erreurs dans les 30 copies de `gsap.min.js` sous `exports/reseaux-sociaux/episode-02/revisions/camera-unique-v2/projects/`, hors de cette correction. La chaîne n'exécute donc pas les types ni les tests du site. Aucun contrôle n'est désactivé.
+
 ## Limites de revue
 
 Les sous-titres proviennent de transcriptions automatiques. Quelques erreurs évidentes sont corrigées, mais la relecture humaine complète à l'écoute reste à faire avant diffusion. Le contrôle de décodage et les images de contrôle ne démontrent pas une validation d'écoute complète.

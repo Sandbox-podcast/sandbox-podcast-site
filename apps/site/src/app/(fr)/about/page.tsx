@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { Text, LocalizedElement } from '@/components/localization';
 import { siteConfig } from '@/config/site';
-import { preparePublishedEditorialContent } from '@/lib/admin-persistence';
+import { preparePublicEditorialContent } from '@/lib/admin-persistence';
 import { publicHosts } from '@/lib/repository';
 import { pageMetadata } from '@/lib/seo';
 export const dynamic = 'force-dynamic';
@@ -18,7 +18,7 @@ const networks = [
   { key: 'x', label: 'X' },
 ] as const;
 export default async function AboutPage() {
-  await preparePublishedEditorialContent();
+  await preparePublicEditorialContent();
   const hosts = publicHosts();
   return (
     <div className="wrap about-social-page">

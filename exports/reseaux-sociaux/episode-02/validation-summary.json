@@ -1,18 +1,19 @@
 {
-  "checked_at": "2026-10-18T15:45:59.767Z",
+  "checked_at": "2026-10-18T21:02:45.113Z",
   "clips": 30,
   "publication_rows": 120,
   "unique_rows": true,
   "local_files_present": true,
   "timezone_verified": "Europe/Paris",
   "counts": {
-    "youtube:scheduled_confirmed": 30,
-    "tiktok:scheduled_confirmed": 24,
-    "instagram:scheduled_confirmed": 8,
-    "x:scheduled_confirmed": 30,
-    "tiktok:needs_verification": 1,
-    "instagram:needs_verification": 2,
-    "instagram:submitting": 20,
-    "tiktok:queued_native_retry": 5
+    "youtube:published_confirmed": 3,
+    "tiktok:replacement_pending": 29,
+    "instagram:published_confirmed": 1,
+    "x:published_confirmed": 1,
+    "instagram:replacement_pending": 29,
+    "x:scheduled_confirmed": 4,
+    "youtube:replacement_pending": 27,
+    "x:replacement_pending": 25,
+    "tiktok:published_confirmed": 1
   }
 }

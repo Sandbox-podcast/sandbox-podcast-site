@@ -22,7 +22,7 @@ import {
 // Ces tests de rendu utilisent le contenu Git ; le serveur HTTP teste séparément la version publiée.
 vi.mock(import('../src/lib/admin-persistence'), async (importOriginal) => ({
   ...(await importOriginal()),
-  preparePublishedEditorialContent: async () => undefined,
+  preparePublicEditorialContent: async () => undefined,
 }));
 
 describe('langue et ressource', () => {
@@ -112,6 +112,18 @@ describe('textes locaux', () => {
         'category',
       ),
     ).toBe('Editor');
+  });
+  it("traduit le titre public de l'accueil", async () => {
+    const source = "Sandbox TalkShow : actualité IA, tests d'outils et podcast tech";
+    expect(translateText(source, await siteDictionary('en'), 'en')).toBe(
+      'Sandbox TalkShow: AI news, tool tests and a tech podcast',
+    );
+    expect(translateText(source, await siteDictionary('es-ES'), 'es-ES')).toBe(
+      'Sandbox TalkShow: actualidad de IA, pruebas de herramientas y un pódcast de tecnología',
+    );
+    expect(translateText(source, await siteDictionary('de-DE'), 'de-DE')).toBe(
+      'Sandbox TalkShow: KI-Nachrichten, Werkzeugtests und ein Tech-Podcast',
+    );
   });
   it('charge un dictionnaire pour chaque langue proposée', async () => {
     for (const { locale } of SITE_LOCALES) {

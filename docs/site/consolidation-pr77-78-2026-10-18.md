@@ -45,4 +45,4 @@ Le build local émet un avertissement Turbopack sur le motif `.local`, qui conti
 
 La recette de publication utilise une fiche fictive déjà rédigée dans les quatre langues. Elle ne lance pas l'inférence Qwen ; ses validations et rejets sont couverts par les tests du pipeline. Le premier cycle réel de génération planifiée reste à vérifier lors de la mise en service documentée dans [DD-0057](../design-decisions/dd-0057-automatisation-production-news.md).
 
-L'activation News en production, la migration 0016, la validation DNS Search Console et le cadrage OBS avant le live restent des étapes distinctes. Le regroupement conserve la PR unique ouverte pour revue.
+La PR 77 a été fusionnée le 18 octobre 2026 à 16:35 UTC. La PR 78 a été fermée sans fusion séparée, son contenu ayant été repris dans la PR 77. L'activation News en production, l'application de la migration 0016, la validation DNS Search Console, la sélection finale du Radar et le cadrage OBS avant le live restent à terminer.

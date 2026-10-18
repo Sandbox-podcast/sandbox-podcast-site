@@ -58,6 +58,8 @@ Ce constat précédait le push de la branche locale. La persistance de la PR #2 
 
 ## Création d'épisode par URL et description — 2026-10-12
 
+Mise à jour du 18 octobre 2026 : [DD-0058](../design-decisions/dd-0058-import-youtube-sans-cle-api.md) remplace l'obligation de clé décrite ci-dessous. La page publique YouTube fournit désormais les métadonnées sans configuration de la Data API.
+
 Décidée par l'agent sur délégation (PD-0003), à la demande du propriétaire de réduire la saisie d'un épisode. La création ne présente que l'URL YouTube et une description complète contenant les sources. La vidéo fournit le titre, la date, la durée, la chaîne et la miniature via YouTube Data API v3 ; le texte collé fournit le résumé, les chapitres horodatés et les liens. La description YouTube est proposée si le champ est encore vide. L'animateur est repris du compte admin quand un profil correspondant existe ; sinon, l'équipe le choisit. La durée n'est plus modifiable en secondes dans le formulaire.
 
 La création exige l'import complet : sans `YOUTUBE_API_KEY` ou si la date ou la durée manque, l'admin affiche la configuration requise et refuse l'enregistrement. Aucune durée ou date n'est inventée. L'édition détaillée des épisodes déjà enregistrés reste disponible ; brouillon et publication restent deux actions distinctes, avec les permissions serveur existantes.

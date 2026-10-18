@@ -14,38 +14,53 @@
       "render_status": "rendered_verified",
       "platforms": {
         "youtube": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-24T20:30:00+02:00",
+          "published_observed_local": null,
           "native_id": "2agV4WC1zWU",
           "native_url": "https://youtube.com/shorts/2agV4WC1zWU",
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-youtube-e02-001-scheduled.jpg"
         },
         "tiktok": {
-          "status": "queued_native_retry",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-28T20:30:00+01:00",
+          "published_observed_local": null,
           "native_id": null,
           "native_url": null,
           "proof": null
         },
         "instagram": {
-          "status": "submitting",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-26T13:00:00+01:00",
+          "published_observed_local": null,
           "native_id": null,
           "native_url": null,
           "proof": null
         },
         "x": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-24T20:00:00+02:00",
+          "published_observed_local": null,
           "native_id": null,
           "native_url": null,
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-x-e02-001-scheduled.jpg"
         }
       },
-      "composition": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\composition\\projects\\e02-001-quotas",
+      "composition": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\camera-unique-v2\\projects\\e02-001-quotas",
       "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-001-quotas.mp4",
       "captions_status": "automatic_transcript_checked_not_full_listening",
-      "visual_qa": "2026-10-18: début, milieu et fin examinés ; pas d’écoute intégrale"
+      "visual_qa": "2026-10-18: début, milieu et fin examinés ; pas d’écoute intégrale",
+      "revision": "camera-unique-v2",
+      "layout_shots": [
+        {
+          "start": 0,
+          "mode": "column",
+          "end": 33.8
+        }
+      ],
+      "audio_qa": "Trois fenêtres comparées à la source par corrélation ; écart inférieur ou égal à 10 ms ; pas d’écoute intégrale.",
+      "sha256": "25fb98e94d13b37aa7d6d3d4b405f4eadefbdb2f5d99f5d0067cc0a15ed7e1e4",
+      "previous_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\avant-correction-camera\\shorts\\e02-001-quotas.mp4"
     },
     {
       "id": "E02-002",
@@ -60,38 +75,68 @@
       "render_status": "rendered_verified",
       "platforms": {
         "youtube": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-23T18:00:00+02:00",
+          "published_observed_local": null,
           "native_id": "Mpb-xZGabuM",
           "native_url": "https://youtube.com/shorts/Mpb-xZGabuM",
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-youtube-e02-002-scheduled.jpg"
         },
         "tiktok": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-23T18:00:00+02:00",
+          "published_observed_local": null,
           "native_id": "7698024094565928194",
           "native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7698024094565928194",
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-tiktok-e02-002-scheduled-23-oct-18h.png"
         },
         "instagram": {
-          "status": "submitting",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-24T20:00:00+02:00",
+          "published_observed_local": null,
           "native_id": null,
           "native_url": null,
           "proof": null
         },
         "x": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-23T17:30:00+02:00",
+          "published_observed_local": null,
           "native_id": null,
           "native_url": null,
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-x-e02-002-scheduled.jpg"
         }
       },
-      "composition": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\composition\\projects\\e02-002-regard-neuf",
+      "composition": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\camera-unique-v2\\projects\\e02-002-regard-neuf",
       "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-002-regard-neuf.mp4",
       "captions_status": "automatic_transcript_checked_not_full_listening",
-      "visual_qa": "2026-10-18: début, milieu et fin examinés ; pas d’écoute intégrale"
+      "visual_qa": "2026-10-18: début, milieu et fin examinés ; pas d’écoute intégrale",
+      "revision": "camera-unique-v2",
+      "layout_shots": [
+        {
+          "start": 0,
+          "mode": "column",
+          "end": 8
+        },
+        {
+          "start": 8,
+          "mode": "portrait",
+          "end": 34.8
+        },
+        {
+          "start": 34.8,
+          "mode": "column",
+          "end": 45.2
+        },
+        {
+          "start": 45.2,
+          "mode": "speaker",
+          "end": 54.4
+        }
+      ],
+      "audio_qa": "Trois fenêtres comparées à la source par corrélation ; écart inférieur ou égal à 10 ms ; pas d’écoute intégrale.",
+      "sha256": "9fa848c65ea8d853bdaeabbbf51ab7ca5a540ee22cbac134a0b5bfcdfef08ae2",
+      "previous_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\avant-correction-camera\\shorts\\e02-002-regard-neuf.mp4"
     },
     {
       "id": "E02-003",
@@ -106,22 +151,25 @@
       "render_status": "rendered_verified",
       "platforms": {
         "youtube": {
-          "status": "scheduled_confirmed",
-          "scheduled_local": "2026-10-19T16:00:00+02:00",
+          "status": "published_confirmed",
+          "scheduled_local": null,
+          "published_observed_local": "2026-10-18T21:53:59+02:00",
           "native_id": "Lc4hn570eY0",
           "native_url": "https://youtube.com/shorts/Lc4hn570eY0",
-          "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-youtube-e02-003-scheduled.jpg"
+          "proof": ".local/social-network-manager/daily/proofs/2026-10-18-youtube-e02-003-published.png"
         },
         "tiktok": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-19T20:30:00+02:00",
+          "published_observed_local": null,
           "native_id": "7697945013128269078",
           "native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697945013128269078",
           "proof": ".local/social-network-manager/daily/proofs/2026-10-18-tiktok-e02-003-scheduled.jpg"
         },
         "instagram": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-19T15:00:00+02:00",
+          "published_observed_local": null,
           "native_id": "2373176370102206",
           "native_url": "https://business.facebook.com/latest/posts/scheduled_posts?asset_id=1362145476982216&business_id=1606295391172453&ir_qe_exposed=1",
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-instagram-e02-003-scheduled.jpg"
@@ -129,15 +177,27 @@
         "x": {
           "status": "scheduled_confirmed",
           "scheduled_local": "2026-10-19T15:00:00+02:00",
+          "published_observed_local": null,
           "native_id": null,
           "native_url": null,
-          "proof": ".local/social-network-manager/daily/proofs/2026-10-18-x-e02-003-scheduled.jpg"
+          "proof": "C:/github/sandbox-podcast/.local/social-network-manager/x-e02-003-v2-saved.png"
         }
       },
-      "composition": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\composition\\projects\\e02-003-comparer-modeles",
+      "composition": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\camera-unique-v2\\projects\\e02-003-comparer-modeles",
       "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-003-comparer-modeles.mp4",
       "captions_status": "automatic_transcript_checked_not_full_listening",
-      "visual_qa": "2026-10-18: début, milieu et fin examinés ; pas d’écoute intégrale"
+      "visual_qa": "2026-10-18: début, milieu et fin examinés ; pas d’écoute intégrale",
+      "revision": "camera-unique-v2",
+      "layout_shots": [
+        {
+          "start": 0,
+          "mode": "speaker",
+          "end": 78.66
+        }
+      ],
+      "audio_qa": "Trois fenêtres comparées à la source par corrélation ; écart inférieur ou égal à 10 ms ; pas d’écoute intégrale.",
+      "sha256": "5f9979780c47679cb75ec029a838ee1812d0f5f63575f57eac91567cb1270209",
+      "previous_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\avant-correction-camera\\shorts\\e02-003-comparer-modeles.mp4"
     },
     {
       "id": "E02-004",
@@ -152,38 +212,63 @@
       "render_status": "rendered_verified",
       "platforms": {
         "youtube": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-20T09:00:00+02:00",
+          "published_observed_local": null,
           "native_id": "YDxz8mZKoLk",
           "native_url": "https://youtube.com/shorts/YDxz8mZKoLk",
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-youtube-e02-004-scheduled.jpg"
         },
         "tiktok": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-20T20:30:00+02:00",
+          "published_observed_local": null,
           "native_id": "7697949413355916566",
           "native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697949413355916566",
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-tiktok-e02-004-scheduled.jpg"
         },
         "instagram": {
-          "status": "needs_verification",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-20T10:00:00+02:00",
-          "native_id": null,
+          "published_observed_local": null,
+          "native_id": "3562861680560650",
           "native_url": "https://business.facebook.com/latest/posts/scheduled_posts?asset_id=1362145476982216&business_id=1606295391172453",
           "proof": null
         },
         "x": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-20T10:30:00+02:00",
+          "published_observed_local": null,
           "native_id": null,
           "native_url": null,
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-x-e02-004-scheduled.jpg"
         }
       },
-      "composition": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\composition\\projects\\e02-004-commerce",
+      "composition": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\camera-unique-v2\\projects\\e02-004-commerce",
       "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-004-commerce.mp4",
       "captions_status": "automatic_transcript_checked_not_full_listening",
-      "visual_qa": "2026-10-18: début, milieu et fin examinés ; pas d’écoute intégrale"
+      "visual_qa": "2026-10-18: début, milieu et fin examinés ; pas d’écoute intégrale",
+      "revision": "camera-unique-v2",
+      "layout_shots": [
+        {
+          "start": 0,
+          "mode": "column",
+          "end": 4.8
+        },
+        {
+          "start": 4.8,
+          "mode": "portrait",
+          "end": 65.2
+        },
+        {
+          "start": 65.2,
+          "mode": "column",
+          "end": 93.2
+        }
+      ],
+      "audio_qa": "Trois fenêtres comparées à la source par corrélation ; écart inférieur ou égal à 10 ms ; pas d’écoute intégrale.",
+      "sha256": "c5f8e4c1c128e5248601d49b7a81914510039ef0393e68edfe1c72a231e32508",
+      "previous_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\avant-correction-camera\\shorts\\e02-004-commerce.mp4"
     },
     {
       "id": "E02-005",
@@ -198,38 +283,68 @@
       "render_status": "rendered_verified",
       "platforms": {
         "youtube": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-20T18:00:00+02:00",
+          "published_observed_local": null,
           "native_id": "rw4VlPLmMGE",
           "native_url": "https://youtube.com/shorts/rw4VlPLmMGE",
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-youtube-e02-005-scheduled.jpg"
         },
         "tiktok": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-21T20:30:00+02:00",
+          "published_observed_local": null,
           "native_id": "7697951887877868822",
           "native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697951887877868822",
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-tiktok-e02-005-scheduled.jpg"
         },
         "instagram": {
-          "status": "submitting",
-          "scheduled_local": "2026-10-21T10:00:00+02:00",
-          "native_id": null,
-          "native_url": null,
+          "status": "replacement_pending",
+          "scheduled_local": "2026-10-20T17:00:00+02:00",
+          "published_observed_local": null,
+          "native_id": "1135218735916107",
+          "native_url": "https://business.facebook.com/latest/posts/scheduled_posts?asset_id=1362145476982216&business_id=1606295391172453&ir_qe_exposed=1",
           "proof": null
         },
         "x": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-20T17:30:00+02:00",
+          "published_observed_local": null,
           "native_id": null,
           "native_url": null,
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-x-e02-005-scheduled.jpg"
         }
       },
-      "composition": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\composition\\projects\\e02-005-immobilier",
+      "composition": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\camera-unique-v2\\projects\\e02-005-immobilier",
       "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-005-immobilier.mp4",
       "captions_status": "automatic_transcript_checked_not_full_listening",
-      "visual_qa": "2026-10-18: début, milieu et fin examinés ; pas d’écoute intégrale"
+      "visual_qa": "2026-10-18: début, milieu et fin examinés ; pas d’écoute intégrale",
+      "revision": "camera-unique-v2",
+      "layout_shots": [
+        {
+          "start": 0,
+          "mode": "column",
+          "end": 10.4
+        },
+        {
+          "start": 10.4,
+          "mode": "portrait",
+          "end": 29.2
+        },
+        {
+          "start": 29.2,
+          "mode": "slide",
+          "end": 42.8
+        },
+        {
+          "start": 42.8,
+          "mode": "portrait",
+          "end": 106.25
+        }
+      ],
+      "audio_qa": "Trois fenêtres comparées à la source par corrélation ; écart inférieur ou égal à 10 ms ; pas d’écoute intégrale.",
+      "sha256": "be73d20b815d3b30f0cdbb4f41f3920c5674a28dd9479276c79c168d6499c1fb",
+      "previous_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\avant-correction-camera\\shorts\\e02-005-immobilier.mp4"
     },
     {
       "id": "E02-006",
@@ -244,38 +359,63 @@
       "render_status": "rendered_verified",
       "platforms": {
         "youtube": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-21T18:00:00+02:00",
+          "published_observed_local": null,
           "native_id": "VBMQbFnmHxk",
           "native_url": "https://youtube.com/shorts/VBMQbFnmHxk",
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-youtube-e02-006-scheduled.jpg"
         },
         "tiktok": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-23T16:30:00+02:00",
+          "published_observed_local": null,
           "native_id": "7697964126332751126",
           "native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697964126332751126",
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-tiktok-e02-006-scheduled.jpg"
         },
         "instagram": {
-          "status": "submitting",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-22T13:00:00+02:00",
+          "published_observed_local": null,
           "native_id": null,
           "native_url": null,
           "proof": null
         },
         "x": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-21T17:30:00+02:00",
+          "published_observed_local": null,
           "native_id": null,
           "native_url": null,
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-x-e02-006-scheduled.jpg"
         }
       },
-      "composition": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\composition\\projects\\e02-006-menu-3d",
+      "composition": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\camera-unique-v2\\projects\\e02-006-menu-3d",
       "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-006-menu-3d.mp4",
       "captions_status": "automatic_transcript_checked_not_full_listening",
-      "visual_qa": "2026-10-18: début, milieu et fin examinés ; pas d’écoute intégrale"
+      "visual_qa": "2026-10-18: début, milieu et fin examinés ; pas d’écoute intégrale",
+      "revision": "camera-unique-v2",
+      "layout_shots": [
+        {
+          "start": 0,
+          "mode": "portrait",
+          "end": 4
+        },
+        {
+          "start": 4,
+          "mode": "column",
+          "end": 79.6
+        },
+        {
+          "start": 79.6,
+          "mode": "speaker",
+          "end": 82.5
+        }
+      ],
+      "audio_qa": "Trois fenêtres comparées à la source par corrélation ; écart inférieur ou égal à 10 ms ; pas d’écoute intégrale.",
+      "sha256": "6c55d541e60db9a253f30f770313addf671ed5f9537fe07ba23c9cb002feda8d",
+      "previous_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\avant-correction-camera\\shorts\\e02-006-menu-3d.mp4"
     },
     {
       "id": "E02-007",
@@ -290,38 +430,53 @@
       "render_status": "rendered_verified",
       "platforms": {
         "youtube": {
-          "status": "scheduled_confirmed",
-          "scheduled_local": "2026-10-19T09:00:00+02:00",
+          "status": "published_confirmed",
+          "scheduled_local": null,
+          "published_observed_local": "2026-10-18T21:53:59+02:00",
           "native_id": "0UXV5Ex6638",
           "native_url": "https://youtube.com/shorts/0UXV5Ex6638",
-          "proof": ".local/social-network-manager/daily/proofs/2026-10-18-youtube-e02-007-scheduled.jpg"
+          "proof": ".local/social-network-manager/daily/proofs/2026-10-18-youtube-e02-007-published.png"
         },
         "tiktok": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-19T11:30:00+02:00",
+          "published_observed_local": null,
           "native_id": "7697941363861638422",
           "native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697941363861638422",
           "proof": ".local/social-network-manager/daily/proofs/2026-10-18-tiktok-e02-007-scheduled.jpg"
         },
         "instagram": {
-          "status": "scheduled_confirmed",
-          "scheduled_local": "2026-10-19T10:00:00+02:00",
+          "status": "published_confirmed",
+          "scheduled_local": null,
+          "published_observed_local": "2026-10-18T22:01:52+02:00",
           "native_id": "1136088638778331",
-          "native_url": "https://business.facebook.com/latest/posts/scheduled_posts?asset_id=1362145476982216&business_id=1606295391172453&ir_qe_exposed=1",
-          "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-instagram-e02-007-scheduled.jpg"
+          "native_url": "https://www.instagram.com/sandbox.talkshow/reel/Depfbe4jF6Z/",
+          "proof": ".local/social-network-manager/daily/proofs/2026-10-18-instagram-e02-007-published.png"
         },
         "x": {
-          "status": "scheduled_confirmed",
-          "scheduled_local": "2026-10-19T10:30:00+02:00",
-          "native_id": null,
-          "native_url": null,
-          "proof": ".local/social-network-manager/daily/proofs/2026-10-18-x-e02-007-scheduled.jpg"
+          "status": "published_confirmed",
+          "scheduled_local": null,
+          "published_observed_local": "2026-10-18T22:00:45+02:00",
+          "native_id": "2111910150881882189",
+          "native_url": "https://x.com/SandboxTalkShow/status/2111910150881882189",
+          "proof": ".local/social-network-manager/daily/proofs/2026-10-18-x-e02-007-published.png"
         }
       },
-      "composition": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\composition\\projects\\e02-007-reservations",
+      "composition": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\camera-unique-v2\\projects\\e02-007-reservations",
       "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-007-reservations.mp4",
       "captions_status": "automatic_transcript_checked_not_full_listening",
-      "visual_qa": "2026-10-18: début, milieu et fin examinés ; pas d’écoute intégrale"
+      "visual_qa": "2026-10-18: début, milieu et fin examinés ; pas d’écoute intégrale",
+      "revision": "camera-unique-v2",
+      "layout_shots": [
+        {
+          "start": 0,
+          "mode": "portrait",
+          "end": 29.7
+        }
+      ],
+      "audio_qa": "Trois fenêtres comparées à la source par corrélation ; écart inférieur ou égal à 10 ms ; pas d’écoute intégrale.",
+      "sha256": "83af1d804f403d91a57da0c0eee7de5cb1d85a9151fcdf65082d7c75ef099af1",
+      "previous_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\avant-correction-camera\\shorts\\e02-007-reservations.mp4"
     },
     {
       "id": "E02-008",
@@ -336,22 +491,25 @@
       "render_status": "rendered_verified",
       "platforms": {
         "youtube": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-19T18:00:00+02:00",
+          "published_observed_local": null,
           "native_id": "KXNJgY11fR4",
           "native_url": "https://youtube.com/shorts/KXNJgY11fR4",
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-youtube-e02-008-scheduled.jpg"
         },
         "tiktok": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-20T11:30:00+02:00",
+          "published_observed_local": null,
           "native_id": "7697946742620278038",
           "native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697946742620278038",
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-tiktok-e02-008-scheduled.jpg"
         },
         "instagram": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-19T17:00:00+02:00",
+          "published_observed_local": null,
           "native_id": "2052244282815455",
           "native_url": "https://business.facebook.com/latest/posts/scheduled_posts?asset_id=1362145476982216&business_id=1606295391172453&ir_qe_exposed=1",
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-instagram-e02-008-rescheduled-19-oct-17h.png"
@@ -359,15 +517,32 @@
         "x": {
           "status": "scheduled_confirmed",
           "scheduled_local": "2026-10-19T17:30:00+02:00",
+          "published_observed_local": null,
           "native_id": null,
           "native_url": null,
-          "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-x-e02-008-scheduled.jpg"
+          "proof": "C:/github/sandbox-podcast/.local/social-network-manager/x-e02-008-v2-scheduled.png"
         }
       },
-      "composition": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\composition\\projects\\e02-008-devis-whatsapp",
+      "composition": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\camera-unique-v2\\projects\\e02-008-devis-whatsapp",
       "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-008-devis-whatsapp.mp4",
       "captions_status": "automatic_transcript_checked_not_full_listening",
-      "visual_qa": "2026-10-18: début, milieu et fin examinés ; pas d’écoute intégrale"
+      "visual_qa": "2026-10-18: début, milieu et fin examinés ; pas d’écoute intégrale",
+      "revision": "camera-unique-v2",
+      "layout_shots": [
+        {
+          "start": 0,
+          "mode": "portrait",
+          "end": 30.8
+        },
+        {
+          "start": 30.8,
+          "mode": "column",
+          "end": 41.6
+        }
+      ],
+      "audio_qa": "Trois fenêtres comparées à la source par corrélation ; écart inférieur ou égal à 10 ms ; pas d’écoute intégrale.",
+      "sha256": "817202814f14362de01241d0f0a7cb5b865f80521ed21da7f60fb83706dd6240",
+      "previous_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\avant-correction-camera\\shorts\\e02-008-devis-whatsapp.mp4"
     },
     {
       "id": "E02-009",
@@ -382,38 +557,58 @@
       "render_status": "rendered_verified",
       "platforms": {
         "youtube": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-22T20:30:00+02:00",
+          "published_observed_local": null,
           "native_id": "1weoOPomKkw",
           "native_url": "https://youtube.com/shorts/1weoOPomKkw",
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-youtube-e02-009-scheduled.jpg"
         },
         "tiktok": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-25T16:30:00+01:00",
+          "published_observed_local": null,
           "native_id": "7697958312351927554",
           "native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697958312351927554",
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-tiktok-e02-009-scheduled.jpg"
         },
         "instagram": {
-          "status": "submitting",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-23T20:00:00+02:00",
+          "published_observed_local": null,
           "native_id": null,
           "native_url": null,
           "proof": null
         },
         "x": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-22T20:00:00+02:00",
+          "published_observed_local": null,
           "native_id": null,
           "native_url": null,
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-x-e02-009-scheduled.jpg"
         }
       },
-      "composition": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\composition\\projects\\e02-009-menuisier",
+      "composition": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\camera-unique-v2\\projects\\e02-009-menuisier",
       "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-009-menuisier.mp4",
       "captions_status": "automatic_transcript_checked_not_full_listening",
-      "visual_qa": "2026-10-18: début, milieu et fin examinés ; pas d’écoute intégrale"
+      "visual_qa": "2026-10-18: début, milieu et fin examinés ; pas d’écoute intégrale",
+      "revision": "camera-unique-v2",
+      "layout_shots": [
+        {
+          "start": 0,
+          "mode": "column",
+          "end": 4.8
+        },
+        {
+          "start": 4.8,
+          "mode": "slide",
+          "end": 21.22
+        }
+      ],
+      "audio_qa": "Trois fenêtres comparées à la source par corrélation ; écart inférieur ou égal à 10 ms ; pas d’écoute intégrale.",
+      "sha256": "c21efce759111f1a4f6e1d9bbd695524b1c0ff73f3d4d34884dfae7a46476460",
+      "previous_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\avant-correction-camera\\shorts\\e02-009-menuisier.mp4"
     },
     {
       "id": "E02-010",
@@ -428,38 +623,73 @@
       "render_status": "rendered_verified",
       "platforms": {
         "youtube": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-22T12:30:00+02:00",
+          "published_observed_local": null,
           "native_id": "X06fR6ISfBo",
           "native_url": "https://youtube.com/shorts/X06fR6ISfBo",
           "proof": ".local/social-network-manager/daily/proofs/2026-10-18-youtube-e02-010-schedule-verified.png"
         },
         "tiktok": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-24T16:30:00+02:00",
+          "published_observed_local": null,
           "native_id": "7697966781973007638",
           "native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697966781973007638",
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-tiktok-e02-010-scheduled.jpg"
         },
         "instagram": {
-          "status": "submitting",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-23T10:00:00+02:00",
+          "published_observed_local": null,
           "native_id": null,
           "native_url": null,
           "proof": null
         },
         "x": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-22T12:30:00+02:00",
+          "published_observed_local": null,
           "native_id": null,
           "native_url": null,
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-x-e02-010-scheduled.jpg"
         }
       },
-      "composition": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\composition\\projects\\e02-010-paysagiste",
+      "composition": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\camera-unique-v2\\projects\\e02-010-paysagiste",
       "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-010-paysagiste.mp4",
       "captions_status": "automatic_transcript_checked_not_full_listening",
-      "visual_qa": "2026-10-18: début, milieu et fin examinés ; pas d’écoute intégrale"
+      "visual_qa": "2026-10-18: début, milieu et fin examinés ; pas d’écoute intégrale",
+      "revision": "camera-unique-v2",
+      "layout_shots": [
+        {
+          "start": 0,
+          "mode": "speaker",
+          "end": 3.6
+        },
+        {
+          "start": 3.6,
+          "mode": "slide",
+          "end": 23.6
+        },
+        {
+          "start": 23.6,
+          "mode": "portrait",
+          "end": 45.4
+        },
+        {
+          "start": 45.4,
+          "mode": "slide",
+          "end": 55.6
+        },
+        {
+          "start": 55.6,
+          "mode": "portrait",
+          "end": 72.3
+        }
+      ],
+      "audio_qa": "Trois fenêtres comparées à la source par corrélation ; écart inférieur ou égal à 10 ms ; pas d’écoute intégrale.",
+      "sha256": "b995a4227d1120a1d6346078e0cbe30b3978e23ad9bb26813138bf21161cda84",
+      "previous_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\avant-correction-camera\\shorts\\e02-010-paysagiste.mp4"
     },
     {
       "id": "E02-011",
@@ -474,38 +704,58 @@
       "render_status": "rendered_verified",
       "platforms": {
         "youtube": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-24T12:30:00+02:00",
+          "published_observed_local": null,
           "native_id": "9Dgy0gC8shU",
           "native_url": "https://youtube.com/shorts/9Dgy0gC8shU",
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-youtube-e02-011-scheduled.jpg"
         },
         "tiktok": {
-          "status": "queued_native_retry",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-27T20:30:00+01:00",
+          "published_observed_local": null,
           "native_id": null,
           "native_url": null,
           "proof": null
         },
         "instagram": {
-          "status": "submitting",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-25T17:00:00+01:00",
+          "published_observed_local": null,
           "native_id": null,
           "native_url": null,
           "proof": null
         },
         "x": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-24T12:30:00+02:00",
+          "published_observed_local": null,
           "native_id": null,
           "native_url": null,
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-x-e02-011-scheduled.jpg"
         }
       },
-      "composition": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\composition\\projects\\e02-011-fleuriste",
+      "composition": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\camera-unique-v2\\projects\\e02-011-fleuriste",
       "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-011-fleuriste.mp4",
       "captions_status": "automatic_transcript_checked_not_full_listening",
-      "visual_qa": "2026-10-18: début, milieu et fin examinés ; pas d’écoute intégrale"
+      "visual_qa": "2026-10-18: début, milieu et fin examinés ; pas d’écoute intégrale",
+      "revision": "camera-unique-v2",
+      "layout_shots": [
+        {
+          "start": 0,
+          "mode": "portrait",
+          "end": 3.8
+        },
+        {
+          "start": 3.8,
+          "mode": "slide",
+          "end": 15.6
+        }
+      ],
+      "audio_qa": "Trois fenêtres comparées à la source par corrélation ; écart inférieur ou égal à 10 ms ; pas d’écoute intégrale.",
+      "sha256": "f26992533e0865d38b19d7a51e45e4955ac6e26a196b1f55923a1b52058c33f6",
+      "previous_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\avant-correction-camera\\shorts\\e02-011-fleuriste.mp4"
     },
     {
       "id": "E02-012",
@@ -520,38 +770,63 @@
       "render_status": "rendered_verified",
       "platforms": {
         "youtube": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-21T09:00:00+02:00",
+          "published_observed_local": null,
           "native_id": "ohZg2mN0FP8",
           "native_url": "https://youtube.com/shorts/ohZg2mN0FP8",
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-youtube-e02-012-scheduled.jpg"
         },
         "tiktok": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-22T16:05:00+02:00",
+          "published_observed_local": null,
           "native_id": "7697953411056012566",
           "native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697953411056012566",
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-tiktok-e02-012-scheduled.jpg"
         },
         "instagram": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-21T10:00:00+02:00",
+          "published_observed_local": null,
           "native_id": "1479468857613300",
           "native_url": "https://business.facebook.com/latest/posts/scheduled_posts?asset_id=1362145476982216&business_id=1606295391172453&ir_qe_exposed=1",
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-instagram-e02-012-scheduled.jpg"
         },
         "x": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-21T10:30:00+02:00",
+          "published_observed_local": null,
           "native_id": null,
           "native_url": null,
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-x-e02-012-scheduled.jpg"
         }
       },
-      "composition": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\composition\\projects\\e02-012-boulanger",
+      "composition": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\camera-unique-v2\\projects\\e02-012-boulanger",
       "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-012-boulanger.mp4",
       "captions_status": "automatic_transcript_checked_not_full_listening",
-      "visual_qa": "2026-10-18: début, milieu et fin examinés ; pas d’écoute intégrale"
+      "visual_qa": "2026-10-18: début, milieu et fin examinés ; pas d’écoute intégrale",
+      "revision": "camera-unique-v2",
+      "layout_shots": [
+        {
+          "start": 0,
+          "mode": "slide",
+          "end": 10.8
+        },
+        {
+          "start": 10.8,
+          "mode": "speaker",
+          "end": 27.6
+        },
+        {
+          "start": 27.6,
+          "mode": "portrait",
+          "end": 45.08
+        }
+      ],
+      "audio_qa": "Trois fenêtres comparées à la source par corrélation ; écart inférieur ou égal à 10 ms ; pas d’écoute intégrale.",
+      "sha256": "997aea0d8f842def2f7aeab9a501b31a64dbc0940caefc91ecd0bd0f05d62eae",
+      "previous_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\avant-correction-camera\\shorts\\e02-012-boulanger.mp4"
     },
     {
       "id": "E02-013",
@@ -566,38 +841,68 @@
       "render_status": "rendered_verified",
       "platforms": {
         "youtube": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-23T12:30:00+02:00",
+          "published_observed_local": null,
           "native_id": "QEmH0EkTlBc",
           "native_url": "https://youtube.com/shorts/QEmH0EkTlBc",
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-youtube-e02-013-scheduled.jpg"
         },
         "tiktok": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-26T11:30:00+01:00",
+          "published_observed_local": null,
           "native_id": "7697967443058216214",
           "native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697967443058216214",
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-tiktok-e02-013-scheduled.jpg"
         },
         "instagram": {
-          "status": "submitting",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-24T13:00:00+02:00",
+          "published_observed_local": null,
           "native_id": null,
           "native_url": null,
           "proof": null
         },
         "x": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-23T12:30:00+02:00",
+          "published_observed_local": null,
           "native_id": null,
           "native_url": null,
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-x-e02-013-scheduled.jpg"
         }
       },
-      "composition": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\composition\\projects\\e02-013-patisserie",
+      "composition": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\camera-unique-v2\\projects\\e02-013-patisserie",
       "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-013-patisserie.mp4",
       "captions_status": "automatic_transcript_checked_not_full_listening",
-      "visual_qa": "2026-10-18: début, milieu et fin examinés ; pas d’écoute intégrale"
+      "visual_qa": "2026-10-18: début, milieu et fin examinés ; pas d’écoute intégrale",
+      "revision": "camera-unique-v2",
+      "layout_shots": [
+        {
+          "start": 0,
+          "mode": "slide",
+          "end": 12.8
+        },
+        {
+          "start": 12.8,
+          "mode": "portrait",
+          "end": 31.8
+        },
+        {
+          "start": 31.8,
+          "mode": "column",
+          "end": 59.4
+        },
+        {
+          "start": 59.4,
+          "mode": "portrait",
+          "end": 64.16
+        }
+      ],
+      "audio_qa": "Trois fenêtres comparées à la source par corrélation ; écart inférieur ou égal à 10 ms ; pas d’écoute intégrale.",
+      "sha256": "77917e5f62042820d533c8b292c62a29c23920b6985128f2bac91f622a98a296",
+      "previous_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\avant-correction-camera\\shorts\\e02-013-patisserie.mp4"
     },
     {
       "id": "E02-014",
@@ -612,38 +917,53 @@
       "render_status": "rendered_verified",
       "platforms": {
         "youtube": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-23T20:30:00+02:00",
+          "published_observed_local": null,
           "native_id": "iHUIkUDubds",
           "native_url": "https://youtube.com/shorts/iHUIkUDubds",
           "proof": ".local/social-network-manager/daily/proofs/2026-10-18-youtube-e02-014-schedule-verified.png"
         },
         "tiktok": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-23T20:30:00+02:00",
+          "published_observed_local": null,
           "native_id": "7698016642806107414",
           "native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7698016642806107414",
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-tiktok-e02-014-scheduled-23-oct-2030.png"
         },
         "instagram": {
-          "status": "submitting",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-25T10:00:00+01:00",
+          "published_observed_local": null,
           "native_id": null,
           "native_url": null,
           "proof": null
         },
         "x": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-23T20:00:00+02:00",
+          "published_observed_local": null,
           "native_id": null,
           "native_url": null,
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-x-e02-014-scheduled.jpg"
         }
       },
-      "composition": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\composition\\projects\\e02-014-coiffeur",
+      "composition": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\camera-unique-v2\\projects\\e02-014-coiffeur",
       "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-014-coiffeur.mp4",
       "captions_status": "automatic_transcript_checked_not_full_listening",
-      "visual_qa": "2026-10-18: début, milieu et fin examinés ; pas d’écoute intégrale"
+      "visual_qa": "2026-10-18: début, milieu et fin examinés ; pas d’écoute intégrale",
+      "revision": "camera-unique-v2",
+      "layout_shots": [
+        {
+          "start": 0,
+          "mode": "portrait",
+          "end": 22.3
+        }
+      ],
+      "audio_qa": "Trois fenêtres comparées à la source par corrélation ; écart inférieur ou égal à 10 ms ; pas d’écoute intégrale.",
+      "sha256": "8dc3cede6f6137a193b73b0720d4f5ab5b359adf958b02b364ad5a77402ebe20",
+      "previous_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\avant-correction-camera\\shorts\\e02-014-coiffeur.mp4"
     },
     {
       "id": "E02-015",
@@ -658,38 +978,53 @@
       "render_status": "rendered_verified",
       "platforms": {
         "youtube": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-20T12:30:00+02:00",
+          "published_observed_local": null,
           "native_id": "2-nKpriPOAc",
           "native_url": "https://youtube.com/shorts/2-nKpriPOAc",
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-youtube-e02-015-scheduled.jpg"
         },
         "tiktok": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-21T11:30:00+02:00",
+          "published_observed_local": null,
           "native_id": "7697950998920301846",
           "native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697950998920301846",
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-tiktok-e02-015-scheduled.jpg"
         },
         "instagram": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-20T13:00:00+02:00",
+          "published_observed_local": null,
           "native_id": "1679753910390006",
           "native_url": "https://business.facebook.com/latest/posts/scheduled_posts?asset_id=1362145476982216&business_id=1606295391172453&ir_qe_exposed=1",
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-instagram-e02-015-rescheduled-20-oct-13h.png"
         },
         "x": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-20T12:30:00+02:00",
+          "published_observed_local": null,
           "native_id": null,
           "native_url": null,
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-x-e02-015-scheduled.jpg"
         }
       },
-      "composition": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\composition\\projects\\e02-015-cadrer-besoin",
+      "composition": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\camera-unique-v2\\projects\\e02-015-cadrer-besoin",
       "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-015-cadrer-besoin.mp4",
       "captions_status": "automatic_transcript_checked_not_full_listening",
-      "visual_qa": "2026-10-18: début, milieu et fin examinés ; pas d’écoute intégrale"
+      "visual_qa": "2026-10-18: début, milieu et fin examinés ; pas d’écoute intégrale",
+      "revision": "camera-unique-v2",
+      "layout_shots": [
+        {
+          "start": 0,
+          "mode": "speaker",
+          "end": 64.28
+        }
+      ],
+      "audio_qa": "Trois fenêtres comparées à la source par corrélation ; écart inférieur ou égal à 10 ms ; pas d’écoute intégrale.",
+      "sha256": "c9082faefd2750d04e596690797fb889bba62e09ffe20239883dac6b625136b4",
+      "previous_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\avant-correction-camera\\shorts\\e02-015-cadrer-besoin.mp4"
     },
     {
       "id": "E02-016",
@@ -704,38 +1039,53 @@
       "render_status": "rendered_verified",
       "platforms": {
         "youtube": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-21T12:30:00+02:00",
+          "published_observed_local": null,
           "native_id": "3hRy6z9TY6I",
           "native_url": "https://youtube.com/shorts/3hRy6z9TY6I",
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-youtube-e02-016-scheduled.jpg"
         },
         "tiktok": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-22T20:30:00+02:00",
+          "published_observed_local": null,
           "native_id": "7697953404177468694",
           "native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697953404177468694",
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-tiktok-e02-016-scheduled.jpg"
         },
         "instagram": {
-          "status": "submitting",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-21T20:00:00+02:00",
+          "published_observed_local": null,
           "native_id": null,
           "native_url": null,
           "proof": null
         },
         "x": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-21T12:30:00+02:00",
+          "published_observed_local": null,
           "native_id": null,
           "native_url": null,
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-x-e02-016-scheduled.jpg"
         }
       },
-      "composition": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\composition\\projects\\e02-016-contexte",
+      "composition": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\camera-unique-v2\\projects\\e02-016-contexte",
       "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-016-contexte.mp4",
       "captions_status": "automatic_transcript_checked_not_full_listening",
-      "visual_qa": "2026-10-18: début, milieu et fin examinés ; pas d’écoute intégrale"
+      "visual_qa": "2026-10-18: début, milieu et fin examinés ; pas d’écoute intégrale",
+      "revision": "camera-unique-v2",
+      "layout_shots": [
+        {
+          "start": 0,
+          "mode": "speaker",
+          "end": 72.6
+        }
+      ],
+      "audio_qa": "Trois fenêtres comparées à la source par corrélation ; écart inférieur ou égal à 10 ms ; pas d’écoute intégrale.",
+      "sha256": "c7202c9ae920d4cf93c2b5078ad461f182cdbc5615ebce7c2b83a90b824cfab3",
+      "previous_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\avant-correction-camera\\shorts\\e02-016-contexte.mp4"
     },
     {
       "id": "E02-017",
@@ -750,22 +1100,25 @@
       "render_status": "rendered_verified",
       "platforms": {
         "youtube": {
-          "status": "scheduled_confirmed",
-          "scheduled_local": "2026-10-19T12:30:00+02:00",
+          "status": "published_confirmed",
+          "scheduled_local": null,
+          "published_observed_local": "2026-10-18T21:53:59+02:00",
           "native_id": "DZKIL0bqKyw",
           "native_url": "https://youtube.com/shorts/DZKIL0bqKyw",
-          "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-youtube-e02-017-scheduled.jpg"
+          "proof": ".local/social-network-manager/daily/proofs/2026-10-18-youtube-e02-017-published.png"
         },
         "tiktok": {
-          "status": "needs_verification",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-19T12:30:00+02:00",
+          "published_observed_local": null,
           "native_id": null,
           "native_url": null,
           "proof": null
         },
         "instagram": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-19T13:00:00+02:00",
+          "published_observed_local": null,
           "native_id": "1642391494348694",
           "native_url": "https://business.facebook.com/latest/posts/scheduled_posts?asset_id=1362145476982216&business_id=1606295391172453&ir_qe_exposed=1",
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-instagram-e02-017-scheduled.jpg"
@@ -773,15 +1126,32 @@
         "x": {
           "status": "scheduled_confirmed",
           "scheduled_local": "2026-10-19T12:30:00+02:00",
+          "published_observed_local": null,
           "native_id": null,
           "native_url": null,
-          "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-x-e02-017-scheduled.jpg"
+          "proof": "C:/github/sandbox-podcast/.local/social-network-manager/x-e02-017-v2-scheduled.png"
         }
       },
-      "composition": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\composition\\projects\\e02-017-lire-tickets",
+      "composition": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\camera-unique-v2\\projects\\e02-017-lire-tickets",
       "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-017-lire-tickets.mp4",
       "captions_status": "automatic_transcript_checked_not_full_listening",
-      "visual_qa": "2026-10-18: début, milieu et fin examinés ; pas d’écoute intégrale"
+      "visual_qa": "2026-10-18: début, milieu et fin examinés ; pas d’écoute intégrale",
+      "revision": "camera-unique-v2",
+      "layout_shots": [
+        {
+          "start": 0,
+          "mode": "column",
+          "end": 50.4
+        },
+        {
+          "start": 50.4,
+          "mode": "speaker",
+          "end": 80.2
+        }
+      ],
+      "audio_qa": "Trois fenêtres comparées à la source par corrélation ; écart inférieur ou égal à 10 ms ; pas d’écoute intégrale.",
+      "sha256": "d0ce502389dc931932ee9132a5f30d3ea4975a7e93329b7e46b02ff8de5f30a7",
+      "previous_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\avant-correction-camera\\shorts\\e02-017-lire-tickets.mp4"
     },
     {
       "id": "E02-018",
@@ -796,38 +1166,53 @@
       "render_status": "rendered_verified",
       "platforms": {
         "youtube": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-20T20:30:00+02:00",
+          "published_observed_local": null,
           "native_id": "db5JMC5nWAw",
           "native_url": "https://youtube.com/shorts/db5JMC5nWAw",
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-youtube-e02-018-scheduled.jpg"
         },
         "tiktok": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-22T11:30:00+02:00",
+          "published_observed_local": null,
           "native_id": "7697953401199414550",
           "native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697953401199414550",
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-tiktok-e02-018-scheduled.jpg"
         },
         "instagram": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-20T20:00:00+02:00",
+          "published_observed_local": null,
           "native_id": "1110552381565639",
           "native_url": "https://business.facebook.com/latest/posts/scheduled_posts?asset_id=1362145476982216&business_id=1606295391172453&ir_qe_exposed=1",
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-instagram-e02-018-scheduled.jpg"
         },
         "x": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-20T20:00:00+02:00",
+          "published_observed_local": null,
           "native_id": null,
           "native_url": null,
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-x-e02-018-scheduled.jpg"
         }
       },
-      "composition": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\composition\\projects\\e02-018-ticket-fonctionnel",
+      "composition": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\camera-unique-v2\\projects\\e02-018-ticket-fonctionnel",
       "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-018-ticket-fonctionnel.mp4",
       "captions_status": "automatic_transcript_checked_not_full_listening",
-      "visual_qa": "2026-10-18: début, milieu et fin examinés ; pas d’écoute intégrale"
+      "visual_qa": "2026-10-18: début, milieu et fin examinés ; pas d’écoute intégrale",
+      "revision": "camera-unique-v2",
+      "layout_shots": [
+        {
+          "start": 0,
+          "mode": "speaker",
+          "end": 82.3
+        }
+      ],
+      "audio_qa": "Trois fenêtres comparées à la source par corrélation ; écart inférieur ou égal à 10 ms ; pas d’écoute intégrale.",
+      "sha256": "a33cd750d538053a64690dac2f0f48cb001261ef041a0f5711bae217a58da593",
+      "previous_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\avant-correction-camera\\shorts\\e02-018-ticket-fonctionnel.mp4"
     },
     {
       "id": "E02-019",
@@ -842,38 +1227,53 @@
       "render_status": "rendered_verified",
       "platforms": {
         "youtube": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-21T16:00:00+02:00",
+          "published_observed_local": null,
           "native_id": "GwdRVw8O5a8",
           "native_url": "https://youtube.com/shorts/GwdRVw8O5a8",
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-youtube-e02-019-scheduled.jpg"
         },
         "tiktok": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-23T11:30:00+02:00",
+          "published_observed_local": null,
           "native_id": "7697961970271636758",
           "native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697961970271636758",
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-tiktok-e02-019-scheduled.jpg"
         },
         "instagram": {
-          "status": "submitting",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-22T10:00:00+02:00",
+          "published_observed_local": null,
           "native_id": null,
           "native_url": null,
           "proof": null
         },
         "x": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-21T15:00:00+02:00",
+          "published_observed_local": null,
           "native_id": null,
           "native_url": null,
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-x-e02-019-scheduled.jpg"
         }
       },
-      "composition": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\composition\\projects\\e02-019-ticket-sans-contexte",
+      "composition": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\camera-unique-v2\\projects\\e02-019-ticket-sans-contexte",
       "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-019-ticket-sans-contexte.mp4",
       "captions_status": "automatic_transcript_checked_not_full_listening",
-      "visual_qa": "2026-10-18: début, milieu et fin examinés ; pas d’écoute intégrale"
+      "visual_qa": "2026-10-18: début, milieu et fin examinés ; pas d’écoute intégrale",
+      "revision": "camera-unique-v2",
+      "layout_shots": [
+        {
+          "start": 0,
+          "mode": "speaker",
+          "end": 66.3
+        }
+      ],
+      "audio_qa": "Trois fenêtres comparées à la source par corrélation ; écart inférieur ou égal à 10 ms ; pas d’écoute intégrale.",
+      "sha256": "6e7802ef33755a704bbd8578bb9e8b058b9aeb4c12c45c4bbdf6d3db55ab3e5b",
+      "previous_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\avant-correction-camera\\shorts\\e02-019-ticket-sans-contexte.mp4"
     },
     {
       "id": "E02-020",
@@ -888,22 +1288,25 @@
       "render_status": "rendered_verified",
       "platforms": {
         "youtube": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-19T20:30:00+02:00",
+          "published_observed_local": null,
           "native_id": "sA3PMqKaIRQ",
           "native_url": "https://youtube.com/shorts/sA3PMqKaIRQ",
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-youtube-e02-020-scheduled.jpg"
         },
         "tiktok": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-20T16:00:00+02:00",
+          "published_observed_local": null,
           "native_id": "7697948163549809942",
           "native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697948163549809942",
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-tiktok-e02-020-scheduled.jpg"
         },
         "instagram": {
-          "status": "needs_verification",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-19T20:00:00+02:00",
+          "published_observed_local": null,
           "native_id": null,
           "native_url": "https://business.facebook.com/latest/posts/scheduled_posts?asset_id=1362145476982216&business_id=1606295391172453&ir_qe_exposed=1",
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-instagram-e02-020-alternative-limit.jpg"
@@ -911,15 +1314,27 @@
         "x": {
           "status": "scheduled_confirmed",
           "scheduled_local": "2026-10-19T20:00:00+02:00",
+          "published_observed_local": null,
           "native_id": null,
           "native_url": null,
-          "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-x-e02-020-scheduled.jpg"
+          "proof": "C:/github/sandbox-podcast/.local/social-network-manager/x-e02-020-v2-scheduled.png"
         }
       },
-      "composition": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\composition\\projects\\e02-020-maquette",
+      "composition": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\camera-unique-v2\\projects\\e02-020-maquette",
       "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-020-maquette.mp4",
       "captions_status": "automatic_transcript_checked_not_full_listening",
-      "visual_qa": "2026-10-18: début, milieu et fin examinés ; pas d’écoute intégrale"
+      "visual_qa": "2026-10-18: début, milieu et fin examinés ; pas d’écoute intégrale",
+      "revision": "camera-unique-v2",
+      "layout_shots": [
+        {
+          "start": 0,
+          "mode": "speaker",
+          "end": 117
+        }
+      ],
+      "audio_qa": "Trois fenêtres comparées à la source par corrélation ; écart inférieur ou égal à 10 ms ; pas d’écoute intégrale.",
+      "sha256": "06f82290ba900d67190407f1be10c47a3c5503c9a20c5aa4e6265deb3cd57eeb",
+      "previous_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\avant-correction-camera\\shorts\\e02-020-maquette.mp4"
     },
     {
       "id": "E02-021",
@@ -934,38 +1349,53 @@
       "render_status": "rendered_verified",
       "platforms": {
         "youtube": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-23T16:00:00+02:00",
+          "published_observed_local": null,
           "native_id": "O7PV8r-Bq8M",
           "native_url": "https://youtube.com/shorts/O7PV8r-Bq8M",
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-youtube-e02-021-scheduled.jpg"
         },
         "tiktok": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-26T16:30:00+01:00",
+          "published_observed_local": null,
           "native_id": "7697968114260036886",
           "native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697968114260036886",
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-tiktok-e02-021-scheduled.jpg"
         },
         "instagram": {
-          "status": "submitting",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-24T17:00:00+02:00",
+          "published_observed_local": null,
           "native_id": null,
           "native_url": null,
           "proof": null
         },
         "x": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-23T15:00:00+02:00",
+          "published_observed_local": null,
           "native_id": null,
           "native_url": null,
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-x-e02-021-scheduled.jpg"
         }
       },
-      "composition": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\composition\\projects\\e02-021-caracteriser-bug",
+      "composition": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\camera-unique-v2\\projects\\e02-021-caracteriser-bug",
       "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-021-caracteriser-bug.mp4",
       "captions_status": "automatic_transcript_checked_not_full_listening",
-      "visual_qa": "2026-10-18: début, milieu et fin examinés ; pas d’écoute intégrale"
+      "visual_qa": "2026-10-18: début, milieu et fin examinés ; pas d’écoute intégrale",
+      "revision": "camera-unique-v2",
+      "layout_shots": [
+        {
+          "start": 0,
+          "mode": "speaker",
+          "end": 64.9
+        }
+      ],
+      "audio_qa": "Trois fenêtres comparées à la source par corrélation ; écart inférieur ou égal à 10 ms ; pas d’écoute intégrale.",
+      "sha256": "392185e55dd3c828978044cecf518010cc11b0a3376d1f0e159baeb6d743bb60",
+      "previous_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\avant-correction-camera\\shorts\\e02-021-caracteriser-bug.mp4"
     },
     {
       "id": "E02-022",
@@ -980,38 +1410,58 @@
       "render_status": "rendered_verified",
       "platforms": {
         "youtube": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-22T16:00:00+02:00",
+          "published_observed_local": null,
           "native_id": "aAqY0BH1uCU",
           "native_url": "https://youtube.com/shorts/aAqY0BH1uCU",
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-youtube-e02-022-scheduled.jpg"
         },
         "tiktok": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-24T20:30:00+02:00",
+          "published_observed_local": null,
           "native_id": "7697956242500652310",
           "native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697956242500652310",
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-tiktok-e02-022-scheduled.jpg"
         },
         "instagram": {
-          "status": "submitting",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-23T13:00:00+02:00",
+          "published_observed_local": null,
           "native_id": null,
           "native_url": null,
           "proof": null
         },
         "x": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-22T15:00:00+02:00",
+          "published_observed_local": null,
           "native_id": null,
           "native_url": null,
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-x-e02-022-scheduled.jpg"
         }
       },
-      "composition": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\composition\\projects\\e02-022-refonte",
+      "composition": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\camera-unique-v2\\projects\\e02-022-refonte",
       "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-022-refonte.mp4",
       "captions_status": "automatic_transcript_checked_not_full_listening",
-      "visual_qa": "2026-10-18: début, milieu et fin examinés ; pas d’écoute intégrale"
+      "visual_qa": "2026-10-18: début, milieu et fin examinés ; pas d’écoute intégrale",
+      "revision": "camera-unique-v2",
+      "layout_shots": [
+        {
+          "start": 0,
+          "mode": "column",
+          "end": 19.8
+        },
+        {
+          "start": 19.8,
+          "mode": "speaker",
+          "end": 40.3
+        }
+      ],
+      "audio_qa": "Trois fenêtres comparées à la source par corrélation ; écart inférieur ou égal à 10 ms ; pas d’écoute intégrale.",
+      "sha256": "5fa520182a3e194ec7ab4f856574fb9c8cd5652fdc88f620a6b2f57254b4b805",
+      "previous_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\avant-correction-camera\\shorts\\e02-022-refonte.mp4"
     },
     {
       "id": "E02-023",
@@ -1026,38 +1476,53 @@
       "render_status": "rendered_verified",
       "platforms": {
         "youtube": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-20T16:00:00+02:00",
+          "published_observed_local": null,
           "native_id": "LbDAgSH6Bu0",
           "native_url": "https://youtube.com/shorts/LbDAgSH6Bu0",
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-youtube-e02-023-scheduled.jpg"
         },
         "tiktok": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-21T16:00:00+02:00",
+          "published_observed_local": null,
           "native_id": "7697951416425418006",
           "native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697951416425418006",
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-tiktok-e02-023-scheduled.jpg"
         },
         "instagram": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-20T15:00:00+02:00",
+          "published_observed_local": null,
           "native_id": "1121578623990395",
           "native_url": "https://business.facebook.com/latest/posts/scheduled_posts?asset_id=1362145476982216&business_id=1606295391172453&ir_qe_exposed=1",
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-instagram-e02-023-rescheduled-20-oct-15h.png"
         },
         "x": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-20T15:00:00+02:00",
+          "published_observed_local": null,
           "native_id": null,
           "native_url": null,
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-x-e02-023-scheduled.jpg"
         }
       },
-      "composition": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\composition\\projects\\e02-023-legacy",
+      "composition": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\camera-unique-v2\\projects\\e02-023-legacy",
       "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-023-legacy.mp4",
       "captions_status": "automatic_transcript_checked_not_full_listening",
-      "visual_qa": "2026-10-18: début, milieu et fin examinés ; pas d’écoute intégrale"
+      "visual_qa": "2026-10-18: début, milieu et fin examinés ; pas d’écoute intégrale",
+      "revision": "camera-unique-v2",
+      "layout_shots": [
+        {
+          "start": 0,
+          "mode": "speaker",
+          "end": 70.5
+        }
+      ],
+      "audio_qa": "Trois fenêtres comparées à la source par corrélation ; écart inférieur ou égal à 10 ms ; pas d’écoute intégrale.",
+      "sha256": "03c3c76ff1806727869485e0d1403453b1782d4979a3972ee83277f262ad35b7",
+      "previous_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\avant-correction-camera\\shorts\\e02-023-legacy.mp4"
     },
     {
       "id": "E02-024",
@@ -1072,38 +1537,53 @@
       "render_status": "rendered_verified",
       "platforms": {
         "youtube": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-24T18:00:00+02:00",
+          "published_observed_local": null,
           "native_id": "jLR-OzivxbM",
           "native_url": "https://youtube.com/shorts/jLR-OzivxbM",
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-youtube-e02-024-scheduled.jpg"
         },
         "tiktok": {
-          "status": "queued_native_retry",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-28T16:30:00+01:00",
+          "published_observed_local": null,
           "native_id": null,
           "native_url": null,
           "proof": null
         },
         "instagram": {
-          "status": "submitting",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-26T10:00:00+01:00",
+          "published_observed_local": null,
           "native_id": null,
           "native_url": null,
           "proof": null
         },
         "x": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-24T17:30:00+02:00",
+          "published_observed_local": null,
           "native_id": null,
           "native_url": null,
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-x-e02-024-scheduled.jpg"
         }
       },
-      "composition": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\composition\\projects\\e02-024-relire-code",
+      "composition": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\camera-unique-v2\\projects\\e02-024-relire-code",
       "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-024-relire-code.mp4",
       "captions_status": "automatic_transcript_checked_not_full_listening",
-      "visual_qa": "2026-10-18: début, milieu et fin examinés ; pas d’écoute intégrale"
+      "visual_qa": "2026-10-18: début, milieu et fin examinés ; pas d’écoute intégrale",
+      "revision": "camera-unique-v2",
+      "layout_shots": [
+        {
+          "start": 0,
+          "mode": "column",
+          "end": 30.06
+        }
+      ],
+      "audio_qa": "Trois fenêtres comparées à la source par corrélation ; écart inférieur ou égal à 10 ms ; pas d’écoute intégrale.",
+      "sha256": "44bfc42b10ff33f23c007a174a72b29328db279c1f186fec4834a247a39d2c57",
+      "previous_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\avant-correction-camera\\shorts\\e02-024-relire-code.mp4"
     },
     {
       "id": "E02-025",
@@ -1118,38 +1598,53 @@
       "render_status": "rendered_verified",
       "platforms": {
         "youtube": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-24T09:00:00+02:00",
+          "published_observed_local": null,
           "native_id": "Wt22S5a6Zqs",
           "native_url": "https://youtube.com/shorts/Wt22S5a6Zqs",
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-youtube-e02-025-scheduled.jpg"
         },
         "tiktok": {
-          "status": "queued_native_retry",
-          "scheduled_local": "2026-10-27T16:30:00+01:00",
-          "native_id": null,
-          "native_url": null,
-          "proof": null
+          "status": "published_confirmed",
+          "scheduled_local": null,
+          "published_observed_local": "2026-10-18T22:07:33+02:00",
+          "native_id": "7698101602938375446",
+          "native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7698101602938375446",
+          "proof": ".local/social-network-manager/daily/proofs/2026-10-18-tiktok-e02-025-published.png"
         },
         "instagram": {
-          "status": "submitting",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-25T13:00:00+01:00",
+          "published_observed_local": null,
           "native_id": null,
           "native_url": null,
           "proof": null
         },
         "x": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-24T10:30:00+02:00",
+          "published_observed_local": null,
           "native_id": null,
           "native_url": null,
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-x-e02-025-scheduled.jpg"
         }
       },
-      "composition": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\composition\\projects\\e02-025-transformation",
+      "composition": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\camera-unique-v2\\projects\\e02-025-transformation",
       "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-025-transformation.mp4",
       "captions_status": "automatic_transcript_checked_not_full_listening",
-      "visual_qa": "2026-10-18: début, milieu et fin examinés ; pas d’écoute intégrale"
+      "visual_qa": "2026-10-18: début, milieu et fin examinés ; pas d’écoute intégrale",
+      "revision": "camera-unique-v2",
+      "layout_shots": [
+        {
+          "start": 0,
+          "mode": "trio",
+          "end": 85.28
+        }
+      ],
+      "audio_qa": "Trois fenêtres comparées à la source par corrélation ; écart inférieur ou égal à 10 ms ; pas d’écoute intégrale.",
+      "sha256": "10570681c6d2015dffcb03b2244aeff94a569b06a139cc0246677adc47235cf7",
+      "previous_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\avant-correction-camera\\shorts\\e02-025-transformation.mp4"
     },
     {
       "id": "E02-026",
@@ -1164,38 +1659,53 @@
       "render_status": "rendered_verified",
       "platforms": {
         "youtube": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-21T20:30:00+02:00",
+          "published_observed_local": null,
           "native_id": "FAN1g37IRPA",
           "native_url": "https://youtube.com/shorts/FAN1g37IRPA",
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-youtube-e02-026-scheduled.jpg"
         },
         "tiktok": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-23T20:30:00+02:00",
+          "published_observed_local": null,
           "native_id": "7697954121839676694",
           "native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697954121839676694",
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-tiktok-e02-026-scheduled.jpg"
         },
         "instagram": {
-          "status": "submitting",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-22T17:00:00+02:00",
+          "published_observed_local": null,
           "native_id": null,
           "native_url": null,
           "proof": null
         },
         "x": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-21T20:00:00+02:00",
+          "published_observed_local": null,
           "native_id": null,
           "native_url": null,
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-x-e02-026-scheduled.jpg"
         }
       },
-      "composition": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\composition\\projects\\e02-026-experience-echecs",
+      "composition": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\camera-unique-v2\\projects\\e02-026-experience-echecs",
       "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-026-experience-echecs.mp4",
       "captions_status": "automatic_transcript_checked_not_full_listening",
-      "visual_qa": "2026-10-18: début, milieu et fin examinés ; pas d’écoute intégrale"
+      "visual_qa": "2026-10-18: début, milieu et fin examinés ; pas d’écoute intégrale",
+      "revision": "camera-unique-v2",
+      "layout_shots": [
+        {
+          "start": 0,
+          "mode": "speaker",
+          "end": 59.7
+        }
+      ],
+      "audio_qa": "Trois fenêtres comparées à la source par corrélation ; écart inférieur ou égal à 10 ms ; pas d’écoute intégrale.",
+      "sha256": "1dbc4b26cc0b3b4328764d0763c6fbf1ab92ac65dced0d666eea5c9149b6b465",
+      "previous_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\avant-correction-camera\\shorts\\e02-026-experience-echecs.mp4"
     },
     {
       "id": "E02-027",
@@ -1210,38 +1720,53 @@
       "render_status": "rendered_verified",
       "platforms": {
         "youtube": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-23T09:00:00+02:00",
+          "published_observed_local": null,
           "native_id": "pSbxDwqhOGM",
           "native_url": "https://youtube.com/shorts/pSbxDwqhOGM",
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-youtube-e02-027-scheduled.jpg"
         },
         "tiktok": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-25T20:30:00+01:00",
+          "published_observed_local": null,
           "native_id": "7697958980236119318",
           "native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697958980236119318",
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-tiktok-e02-027-scheduled.jpg"
         },
         "instagram": {
-          "status": "submitting",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-24T10:00:00+02:00",
+          "published_observed_local": null,
           "native_id": null,
           "native_url": null,
           "proof": null
         },
         "x": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-23T10:30:00+02:00",
+          "published_observed_local": null,
           "native_id": null,
           "native_url": null,
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-x-e02-027-scheduled.jpg"
         }
       },
-      "composition": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\composition\\projects\\e02-027-metier-dev",
+      "composition": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\camera-unique-v2\\projects\\e02-027-metier-dev",
       "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-027-metier-dev.mp4",
       "captions_status": "automatic_transcript_checked_not_full_listening",
-      "visual_qa": "2026-10-18: début, milieu et fin examinés ; pas d’écoute intégrale"
+      "visual_qa": "2026-10-18: début, milieu et fin examinés ; pas d’écoute intégrale",
+      "revision": "camera-unique-v2",
+      "layout_shots": [
+        {
+          "start": 0,
+          "mode": "column",
+          "end": 68.3
+        }
+      ],
+      "audio_qa": "Trois fenêtres comparées à la source par corrélation ; écart inférieur ou égal à 10 ms ; pas d’écoute intégrale.",
+      "sha256": "40f957dcbf5c2af95cfc75d21402ffb678cec095bb33502bfe16c67a3504c545",
+      "previous_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\avant-correction-camera\\shorts\\e02-027-metier-dev.mp4"
     },
     {
       "id": "E02-028",
@@ -1256,38 +1781,63 @@
       "render_status": "rendered_verified",
       "platforms": {
         "youtube": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-24T16:00:00+02:00",
+          "published_observed_local": null,
           "native_id": "6tXk1eM-YfQ",
           "native_url": "https://youtube.com/shorts/6tXk1eM-YfQ",
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-youtube-e02-028-scheduled.jpg"
         },
         "tiktok": {
-          "status": "queued_native_retry",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-28T11:30:00+01:00",
+          "published_observed_local": null,
           "native_id": null,
           "native_url": null,
           "proof": null
         },
         "instagram": {
-          "status": "submitting",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-25T20:00:00+01:00",
+          "published_observed_local": null,
           "native_id": null,
           "native_url": null,
           "proof": null
         },
         "x": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-24T15:00:00+02:00",
+          "published_observed_local": null,
           "native_id": null,
           "native_url": null,
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-x-e02-028-scheduled.jpg"
         }
       },
-      "composition": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\composition\\projects\\e02-028-pm-maquette",
+      "composition": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\camera-unique-v2\\projects\\e02-028-pm-maquette",
       "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-028-pm-maquette.mp4",
       "captions_status": "automatic_transcript_checked_not_full_listening",
-      "visual_qa": "2026-10-18: début, milieu et fin examinés ; pas d’écoute intégrale"
+      "visual_qa": "2026-10-18: début, milieu et fin examinés ; pas d’écoute intégrale",
+      "revision": "camera-unique-v2",
+      "layout_shots": [
+        {
+          "start": 0,
+          "mode": "column",
+          "end": 13.4
+        },
+        {
+          "start": 13.4,
+          "mode": "portrait",
+          "end": 28.8
+        },
+        {
+          "start": 28.8,
+          "mode": "trio",
+          "end": 79.3
+        }
+      ],
+      "audio_qa": "Trois fenêtres comparées à la source par corrélation ; écart inférieur ou égal à 10 ms ; pas d’écoute intégrale.",
+      "sha256": "f1f2311192647a9c3ea61fa1d448a58f47f88d362f5d07b4573e2151a192e244",
+      "previous_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\avant-correction-camera\\shorts\\e02-028-pm-maquette.mp4"
     },
     {
       "id": "E02-029",
@@ -1302,38 +1852,53 @@
       "render_status": "rendered_verified",
       "platforms": {
         "youtube": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-22T09:00:00+02:00",
+          "published_observed_local": null,
           "native_id": "NpuAU_Ehm9o",
           "native_url": "https://youtube.com/shorts/NpuAU_Ehm9o",
           "proof": ".local/social-network-manager/daily/proofs/2026-10-18-youtube-e02-029-schedule-verified.png"
         },
         "tiktok": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-24T11:30:00+02:00",
+          "published_observed_local": null,
           "native_id": "7697964716118887702",
           "native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697964716118887702",
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-tiktok-e02-029-scheduled.jpg"
         },
         "instagram": {
-          "status": "submitting",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-22T20:00:00+02:00",
+          "published_observed_local": null,
           "native_id": null,
           "native_url": null,
           "proof": null
         },
         "x": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-22T10:30:00+02:00",
+          "published_observed_local": null,
           "native_id": null,
           "native_url": null,
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-x-e02-029-scheduled.jpg"
         }
       },
-      "composition": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\composition\\projects\\e02-029-skills",
+      "composition": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\camera-unique-v2\\projects\\e02-029-skills",
       "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-029-skills.mp4",
       "captions_status": "automatic_transcript_checked_not_full_listening",
-      "visual_qa": "2026-10-18: début, milieu et fin examinés ; pas d’écoute intégrale"
+      "visual_qa": "2026-10-18: début, milieu et fin examinés ; pas d’écoute intégrale",
+      "revision": "camera-unique-v2",
+      "layout_shots": [
+        {
+          "start": 0,
+          "mode": "speaker",
+          "end": 65.3
+        }
+      ],
+      "audio_qa": "Trois fenêtres comparées à la source par corrélation ; écart inférieur ou égal à 10 ms ; pas d’écoute intégrale.",
+      "sha256": "204d0053bef1d226fe7e4f88334aa147e1d6b5efdd2df059703f2c1a6a728715",
+      "previous_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\avant-correction-camera\\shorts\\e02-029-skills.mp4"
     },
     {
       "id": "E02-030",
@@ -1348,38 +1913,63 @@
       "render_status": "rendered_verified",
       "platforms": {
         "youtube": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-22T18:00:00+02:00",
+          "published_observed_local": null,
           "native_id": "54NyXt0CmDY",
           "native_url": "https://youtube.com/shorts/54NyXt0CmDY",
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-youtube-e02-030-scheduled.jpg"
         },
         "tiktok": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-25T11:30:00+01:00",
+          "published_observed_local": null,
           "native_id": "7697965548142923010",
           "native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697965548142923010",
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-tiktok-e02-030-scheduled.jpg"
         },
         "instagram": {
-          "status": "submitting",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-23T17:00:00+02:00",
+          "published_observed_local": null,
           "native_id": null,
           "native_url": null,
           "proof": null
         },
         "x": {
-          "status": "scheduled_confirmed",
+          "status": "replacement_pending",
           "scheduled_local": "2026-10-22T17:30:00+02:00",
+          "published_observed_local": null,
           "native_id": null,
           "native_url": null,
           "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-x-e02-030-scheduled.jpg"
         }
       },
-      "composition": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\composition\\projects\\e02-030-regie",
+      "composition": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\camera-unique-v2\\projects\\e02-030-regie",
       "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-030-regie.mp4",
       "captions_status": "automatic_transcript_checked_not_full_listening",
-      "visual_qa": "2026-10-18: début, milieu et fin examinés ; pas d’écoute intégrale"
+      "visual_qa": "2026-10-18: début, milieu et fin examinés ; pas d’écoute intégrale",
+      "revision": "camera-unique-v2",
+      "layout_shots": [
+        {
+          "start": 0,
+          "mode": "speaker",
+          "end": 28.6
+        },
+        {
+          "start": 28.6,
+          "mode": "trio",
+          "end": 30
+        },
+        {
+          "start": 30,
+          "mode": "speaker",
+          "end": 111
+        }
+      ],
+      "audio_qa": "Trois fenêtres comparées à la source par corrélation ; écart inférieur ou égal à 10 ms ; pas d’écoute intégrale.",
+      "sha256": "cfb7395e575c21f07c473bdda6ac239701539261d0917e4cf11b6a2a33a41a10",
+      "previous_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\avant-correction-camera\\shorts\\e02-030-regie.mp4"
     }
   ]
 }

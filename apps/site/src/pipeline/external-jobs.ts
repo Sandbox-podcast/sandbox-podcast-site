@@ -7,6 +7,8 @@ import {
   modelVariantSignature,
   scoreModels,
   scoreSkills,
+  rankSkillsByObservedInstalls,
+  representativeSkillInputs,
   slugifyExternalId,
   type ExternalEntity,
   type ExternalObservation,
@@ -30,6 +32,7 @@ import {
   externalCandidates,
   freezeExternalEdition,
   saveExternalBatch,
+  saveExternalBatchReport,
   type CompetitiveEditionEntry,
   type ExternalCandidate,
 } from '../lib/external-charts-store.ts';
@@ -42,6 +45,7 @@ import {
 } from '../domain/reference-adapters.ts';
 import { createReferenceArtifact } from '../lib/reference-artifact.ts';
 import { refreshSlotForDate, refreshSlotId, isRefreshSlotId } from '../domain/chart-refresh.ts';
+import { OBSERVED_SCORING_VERSIONS } from '../domain/chart-publication.ts';
 import { reviewedReferenceVersion } from '../lib/reference-publication.ts';
 import {
   ARENA_CONFIGS,
@@ -570,18 +574,44 @@ function mergeModelRecords(
   };
 }
 
-export async function collectModels(): Promise<ExternalJobSummary> {
+export interface ModelCatalogSources {
+  huggingFace?: () => Promise<HuggingFaceModel[]>;
+  arena?: () => Promise<ArenaModelResult[]>;
+}
+
+export async function collectModels(
+  sources: ModelCatalogSources = {},
+): Promise<ExternalJobSummary> {
   return runLogged('models_daily_sync', async (summary) => {
     const day = utcDate();
-    const arenaClient = new ArenaClient();
-    const [hfResult, arenaResults] = await Promise.all([
-      new HuggingFaceClient().listModels(500),
-      Promise.all(ARENA_CONFIGS.map((config) => arenaClient.latest(config))),
-    ]);
-    const records: ModelRecord[] = hfResult.map(huggingFaceRecord);
-    records.push(...arenaModelRecords(arenaResults.flat(), day));
+    const loadHuggingFace = sources.huggingFace ?? (() => new HuggingFaceClient().listModels(500));
+    const loadArena =
+      sources.arena ??
+      (async () => {
+        const arenaClient = new ArenaClient();
+        return (
+          await Promise.all(ARENA_CONFIGS.map((config) => arenaClient.latest(config)))
+        ).flat();
+      });
+    const [hfResult, arenaResult] = await Promise.allSettled([loadHuggingFace(), loadArena()]);
+    const records: ModelRecord[] = [];
+    if (hfResult.status === 'fulfilled') records.push(...hfResult.value.map(huggingFaceRecord));
+    else {
+      summary.failed++;
+      summary.details.push(
+        `Hugging Face indisponible (${hfResult.reason instanceof Error ? hfResult.reason.message : 'source'}).`,
+      );
+    }
+    if (arenaResult.status === 'fulfilled')
+      records.push(...arenaModelRecords(arenaResult.value, day));
+    else {
+      summary.failed++;
+      summary.details.push(
+        `Arena indisponible (${arenaResult.reason instanceof Error ? arenaResult.reason.message : 'source'}).`,
+      );
+    }
     summary.details.push(
-      `${hfResult.length.toString()} modèles Hugging Face et ${arenaResults.flat().length.toString()} lignes Arena reçus.`,
+      `${(hfResult.status === 'fulfilled' ? hfResult.value.length : 0).toString()} modèles Hugging Face et ${(arenaResult.status === 'fulfilled' ? arenaResult.value.length : 0).toString()} lignes Arena reçus.`,
     );
 
     const openRouterToken = process.env['OPENROUTER_API_KEY'];
@@ -613,16 +643,43 @@ export async function collectModels(): Promise<ExternalJobSummary> {
         'OPENROUTER_API_KEY absent : prix, contexte, débit et indices Artificial Analysis restent absents.',
       );
     }
+    if (
+      records.length === 0 &&
+      hfResult.status === 'rejected' &&
+      arenaResult.status === 'rejected'
+    ) {
+      summary.status = 'failed';
+      summary.details.push(
+        'Aucune source Models n’a fourni de catalogue. Aucune mesure n’est enregistrée.',
+      );
+      return;
+    }
     const merged = mergeModelRecords(records, day);
     if (merged.ambiguousMatches)
       summary.details.push(
         `${merged.ambiguousMatches.toString()} identités ambiguës sont restées séparées; aucun rapprochement approximatif n’a été fait.`,
       );
     summary.processed = records.length;
-    summary.succeeded = merged.entities.length;
-    summary.snapshotsCreated = await saveExternalBatch(merged.entities, merged.observations);
+    const saved = await saveExternalBatchReport(merged.entities, merged.observations, {
+      skipConflictingModels: true,
+    });
+    summary.succeeded = saved.entitiesSaved;
+    summary.snapshotsCreated = saved.snapshotsCreated;
+    summary.failed += saved.identityConflicts.length;
+    if (saved.identityConflicts.length) {
+      if (!saved.entitiesSaved) summary.status = 'failed';
+      summary.details.push(
+        `${saved.identityConflicts.length.toString()} identités Models en attente de revue ; leurs références et historiques sont conservés.`,
+      );
+      summary.details.push(
+        ...saved.identityConflicts.map(
+          (conflict) =>
+            `${conflict.slug} : ${conflict.reason} Fiches connues : ${conflict.knownSlugs.join(', ') || 'aucune'}. Sources : ${conflict.sources.map(({ provider, externalId }) => `${provider}/${externalId}`).join(', ')}.`,
+        ),
+      );
+    }
     summary.details.push(
-      `${merged.entities.length.toString()} entités modèles enregistrées avec leurs références de source.`,
+      `${saved.entitiesSaved.toString()} entités modèles enregistrées avec leurs références de source.`,
     );
   });
 }
@@ -916,6 +973,8 @@ export async function freezeExternalCharts(
     chart?: 'skills' | 'models' | undefined;
     date?: string | undefined;
     slotId?: string | undefined;
+    /** Identifiant d'édition, s'il doit différer du créneau de collecte. Même jour UTC. */
+    week?: string | undefined;
     dryRun?: boolean | undefined;
     publish?: boolean | undefined;
   } = {},
@@ -923,14 +982,16 @@ export async function freezeExternalCharts(
   const date = z.iso.date().parse(options.date ?? utcDate());
   const slotId =
     options.slotId ?? (options.date ? refreshSlotForDate(date) : refreshSlotId(new Date()));
+  if (options.week && (!isRefreshSlotId(options.week) || options.week.slice(0, 10) !== date))
+    throw new Error('L’édition corrigée doit être un créneau du jour calculé.');
   if (options.dryRun) {
     const summary = emptySummary();
-    await calculateExternalWeek(date, slotId, options, summary);
+    await calculateExternalWeek(date, slotId, options, summary, options.week ?? slotId);
     return summary;
   }
   return runLogged(
     options.chart ? `${options.chart}_ranking` : 'external_weekly_ranking',
-    (summary) => calculateExternalWeek(date, slotId, options, summary),
+    (summary) => calculateExternalWeek(date, slotId, options, summary, options.week ?? slotId),
   );
 }
 
@@ -943,6 +1004,7 @@ async function calculateExternalWeek(
     publish?: boolean | undefined;
   },
   summary: ExternalJobSummary,
+  editionWeek = slotId,
 ): Promise<void> {
   if (date > utcDate()) throw new Error('Une édition future ne peut pas être calculée.');
   if (!isRefreshSlotId(slotId) || slotId.slice(0, 10) !== date)
@@ -957,7 +1019,7 @@ async function calculateExternalWeek(
     );
     return;
   }
-  const week = slotId;
+  const week = editionWeek;
   const [skillCandidates, modelCandidates] = await Promise.all([
     ready.skills ? externalCandidates('skill', date, 16, slotId) : Promise.resolve([]),
     ready.models ? externalCandidates('model', date, 16, slotId) : Promise.resolve([]),
@@ -1018,18 +1080,40 @@ async function calculateExternalWeek(
   summary.details.push(
     `${skills.length.toString()} skills et ${models.length.toString()} modèles disposent de l’historique et des signaux requis.`,
   );
+  const skillsWithInstalls = skillInputs.filter(
+    (item) => item.metrics.installs7d !== null && Number.isFinite(item.metrics.installs7d),
+  );
+  const skillsWithBoth = skillsWithInstalls.filter(
+    (item) => item.metrics.stars7d !== null && Number.isFinite(item.metrics.stars7d),
+  );
+  const skillsSize = skillsProof.input.profile.size;
+  const skillsMinimum = skillsProof.input.profile.minimumCandidates;
+  const observedInstalls = rankSkillsByObservedInstalls(
+    representativeSkillInputs(skillInputs),
+    skillsSize,
+  );
+  const skillsObserved =
+    ready.skills && !skillsProof.report.publishable && observedInstalls.cohort >= skillsMinimum
+      ? {
+          version: OBSERVED_SCORING_VERSIONS.skills,
+          entries: observedInstalls.entries,
+          detail: `${observedInstalls.cohort.toString()} dépôts ont une progression d'installations mesurée. Un dépôt ne contribue qu'une fois. Les étoiles GitHub restent un contexte. ${skillsWithBoth.length.toString()} skills avaient aussi une progression d'étoiles.`,
+        }
+      : null;
   if (options.dryRun) {
-    const skillsShort = ready.skills && !skillsProof.report.publishable;
+    const skillsShort = ready.skills && !skillsProof.report.publishable && !skillsObserved;
     const modelsShort = ready.models && !modelsProof.report.publishable;
     summary.status = skillsShort || modelsShort ? 'insufficient_history' : 'success';
+    if (skillsObserved) summary.details.push(`Simulation Skills : ${skillsObserved.detail}`);
     summary.details.push('Simulation : aucune édition ni journal de job écrit.');
     return;
   }
   let written = 0;
+  let referenceWritten = 0;
   if (!ready.skills && options.chart !== 'models')
     summary.details.push('Collecte Skills absente ou en échec : aucune édition Skills.');
   else if (ready.skills && skillsProof.report.publishable)
-    written += await freezeExternalEdition(
+    referenceWritten += await freezeExternalEdition(
       'skills',
       week,
       date,
@@ -1046,11 +1130,27 @@ async function calculateExternalWeek(
       editionEntries(skills),
       options.publish ?? true,
     );
-  else if (ready.skills) summary.failed++;
+  else if (skillsObserved) {
+    written += await freezeExternalEdition(
+      'skills',
+      week,
+      date,
+      skillsObserved.version,
+      {
+        size: skillsSize,
+        basis: skillsObserved.version,
+        cohort: observedInstalls.cohort,
+        minimumCandidates: skillsMinimum,
+      },
+      editionEntries(skillsObserved.entries),
+      options.publish ?? true,
+    );
+    summary.details.push(skillsObserved.detail);
+  } else if (ready.skills) summary.failed++;
   if (!ready.models && options.chart !== 'skills')
     summary.details.push('Collecte Models absente ou en échec : aucune édition Models.');
   else if (ready.models && modelsProof.report.publishable)
-    written += await freezeExternalEdition(
+    referenceWritten += await freezeExternalEdition(
       'models',
       week,
       date,
@@ -1069,13 +1169,13 @@ async function calculateExternalWeek(
       options.publish ?? true,
     );
   else if (ready.models) summary.failed++;
-  summary.snapshotsCreated = written;
+  summary.snapshotsCreated = written + referenceWritten;
   for (const proof of [skillsProof, modelsProof])
     summary.details.push(
       `${proof.input.profile.chart} : ${proof.report.eligibleCount.toString()}/${proof.report.candidateCount.toString()} candidats complets ; ${proof.report.excluded.filter((item) => item.canEnterTop).length.toString()} candidats incomplets pouvant entrer dans le Top ; ${proof.report.sensitivityScenarios.toString()} scénarios de sensibilité.`,
     );
   if (
-    written &&
+    referenceWritten &&
     [skillsProof, modelsProof]
       .filter((proof) => !options.chart || proof.input.profile.chart === options.chart)
       .some((proof) => !reviewedReferenceVersion(proof.input.profile.version))
@@ -1085,7 +1185,9 @@ async function calculateExternalWeek(
       'Profils v3 en attente de revue : les éditions correspondantes sont conservées en brouillon. Configurer CHARTS_REVIEWED_PROFILE_VERSIONS après validation.',
     );
   }
-  if (summary.failed) summary.status = written ? 'partial' : 'insufficient_history';
+  if (summary.failed)
+    summary.status = written + referenceWritten > 0 ? 'partial' : 'insufficient_history';
+  else if (written && !referenceWritten) summary.status = 'partial';
 }
 
 export async function collectExternalCharts(oidcToken?: string): Promise<ExternalJobSummary> {

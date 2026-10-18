@@ -10,7 +10,7 @@ import { AnalyticsConsent } from '@/components/analytics-consent';
 import { LocalizationProvider, Text } from '@/components/localization';
 import { siteDictionary } from '@/i18n/dictionaries';
 import { translateText } from '@/i18n/translation';
-import { preparePublishedEditorialContent } from '@/lib/admin-persistence';
+import { preparePublicEditorialContent } from '@/lib/admin-persistence';
 import { JsonLd } from '@/components/json-ld';
 import { isMock, siteConfig } from '@/config/site';
 import { localeTagFromRouteSegment } from '@/i18n/locales';
@@ -25,6 +25,7 @@ export async function generateMetadata({
   const { locale: routeLocale } = await params;
   const locale = localeTagFromRouteSegment(routeLocale);
   if (!locale) return {};
+  await preparePublicEditorialContent();
   const googleSiteVerification = process.env['GOOGLE_SITE_VERIFICATION']?.trim();
   const dictionary = await siteDictionary(locale);
   const description = translateText(siteConfig.description, dictionary, locale);
@@ -64,7 +65,7 @@ export default async function LocalizedRootLayout({
   const { locale: routeLocale } = await params;
   const locale = localeTagFromRouteSegment(routeLocale);
   if (!locale) notFound();
-  await preparePublishedEditorialContent();
+  await preparePublicEditorialContent();
   const dictionary = await siteDictionary(locale);
   const messages = siteMessages('fr-FR');
   return (

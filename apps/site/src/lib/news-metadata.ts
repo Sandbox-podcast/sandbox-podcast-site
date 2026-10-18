@@ -1,6 +1,7 @@
 import { pageMetadata } from './seo';
 import { sharedPageAlternates } from '@/i18n/indexing';
 import { newsPublicEnabled } from './news-store';
+import { readNewsPageData } from './news-page-data';
 
 const COPY = {
   'fr-FR': {
@@ -25,9 +26,8 @@ const COPY = {
   },
 } as const;
 
-export function newsPageMetadata(locale = 'fr-FR') {
+export function newsPageMetadata(locale = 'fr-FR', indexable = newsPublicEnabled()) {
   const copy = Object.hasOwn(COPY, locale) ? COPY[locale as keyof typeof COPY] : COPY['fr-FR'];
-  const indexable = newsPublicEnabled();
   return pageMetadata({
     ...copy,
     path: locale === 'fr-FR' ? '/news' : `/${locale.toLowerCase()}/news`,
@@ -44,4 +44,9 @@ export function newsPageMetadata(locale = 'fr-FR') {
     noindex: !indexable,
     localizedAlternates: indexable ? sharedPageAlternates('/news') : [],
   });
+}
+
+export async function publicNewsPageMetadata(locale = 'fr-FR') {
+  const data = await readNewsPageData();
+  return newsPageMetadata(locale, data.status === 'published' && data.feed.items.length > 0);
 }

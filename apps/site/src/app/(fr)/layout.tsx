@@ -7,11 +7,11 @@ import { AnalyticsConsent } from '@/components/analytics-consent';
 import { Footer, Masthead } from '@/components/shell';
 import { JsonLd } from '@/components/json-ld';
 import { isMock, siteConfig } from '@/config/site';
-import { preparePublishedEditorialContent } from '@/lib/admin-persistence';
+import { preparePublicEditorialContent } from '@/lib/admin-persistence';
 import { absoluteUrl, openGraphLocaleForTag, robotsMetadata } from '@/lib/seo';
 
 export async function generateMetadata(): Promise<Metadata> {
-  await preparePublishedEditorialContent();
+  await preparePublicEditorialContent();
   const googleSiteVerification = process.env['GOOGLE_SITE_VERIFICATION']?.trim();
   return {
     metadataBase: new URL(siteConfig.url),
@@ -42,7 +42,7 @@ export const viewport: Viewport = {
 export const revalidate = 3600;
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
-  await preparePublishedEditorialContent();
+  await preparePublicEditorialContent();
   return (
     <html lang={siteConfig.language} className={siteFonts} data-scroll-behavior="smooth">
       <body>

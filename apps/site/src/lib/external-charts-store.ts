@@ -1,5 +1,9 @@
 import { randomUUID } from 'node:crypto';
-import { stableExternalSlugs } from '../domain/external-identity.ts';
+import {
+  planExternalIdentities,
+  stableExternalSlugs,
+  type ExternalIdentityConflict,
+} from '../domain/external-identity.ts';
 import { and, eq, gte, inArray, isNotNull, lte, or, sql } from 'drizzle-orm';
 import { getDb } from '../db/client.ts';
 import {
@@ -33,11 +37,24 @@ export async function saveExternalBatch(
   rawEntities: readonly ExternalEntity[],
   rawObservations: readonly ExternalObservation[],
 ): Promise<number> {
+  return (await saveExternalBatchReport(rawEntities, rawObservations)).snapshotsCreated;
+}
+
+export async function saveExternalBatchReport(
+  rawEntities: readonly ExternalEntity[],
+  rawObservations: readonly ExternalObservation[],
+  options: { skipConflictingModels?: boolean } = {},
+): Promise<{
+  snapshotsCreated: number;
+  entitiesSaved: number;
+  identityConflicts: ExternalIdentityConflict[];
+}> {
   let entities = rawEntities.map((item) => externalEntitySchema.parse(item));
   let observations = rawObservations.map((item) => externalObservationSchema.parse(item));
+  let identityConflicts: ExternalIdentityConflict[] = [];
   if (entities.length === 0) {
     if (observations.length) throw new Error('Mesures reçues sans entités externes.');
-    return 0;
+    return { snapshotsCreated: 0, entitiesSaved: 0, identityConflicts };
   }
   const entitySlugs = new Set<string>();
   const sourceKeys = new Set<string>();
@@ -91,7 +108,14 @@ export async function saveExternalBatch(
           item.sources.push({ provider: row.provider, externalId: row.externalId });
         known.set(row.slug, item);
       }
-      const slugs = stableExternalSlugs(entities, [...known.values()]);
+      const plan = options.skipConflictingModels
+        ? planExternalIdentities(entities, [...known.values()])
+        : { slugs: stableExternalSlugs(entities, [...known.values()]), conflicts: [] };
+      const { slugs } = plan;
+      identityConflicts = plan.conflicts;
+      entities = entities.filter((entity) => slugs.has(entity.slug));
+      observations = observations.filter((observation) => slugs.has(observation.entitySlug));
+      if (!entities.length) return { snapshotsCreated: 0, entitiesSaved: 0, identityConflicts };
       entities = entities.map((entity) => ({
         ...entity,
         slug: slugs.get(entity.slug) ?? entity.slug,
@@ -221,7 +245,7 @@ export async function saveExternalBatch(
       .values(snapshotInputs)
       .onConflictDoNothing()
       .returning({ id: chartSourceSnapshots.id });
-    return inserted.length;
+    return { snapshotsCreated: inserted.length, entitiesSaved: entities.length, identityConflicts };
   });
 }
 
@@ -340,7 +364,10 @@ export async function freezeExternalEdition(
     );
     const previous = published.find((row) => row.week === previousId);
     const previousRanks = new Map(
-      (previous?.payload.entries ?? []).map((entry) => [entry.entity, entry.rank]),
+      (previous?.scoringVersion === scoringVersion ? previous.payload.entries : []).map((entry) => [
+        entry.entity,
+        entry.rank,
+      ]),
     );
     const entityRows = await tx
       .select({ id: chartEntities.id, slug: chartEntities.slug })

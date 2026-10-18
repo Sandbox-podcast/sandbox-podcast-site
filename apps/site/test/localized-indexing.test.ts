@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 vi.mock('../src/lib/admin-persistence', async (importOriginal) => ({
   ...(await importOriginal<typeof import('../src/lib/admin-persistence')>()),
-  preparePublishedEditorialContent: async () => undefined,
+  preparePublicEditorialContent: async () => undefined,
 }));
 import { generateMetadata } from '../src/app/[locale]/[[...path]]/page';
 import sitemap from '../src/app/sitemap';
@@ -10,8 +10,33 @@ import { pageMetadata } from '../src/lib/seo';
 import { siteDictionary } from '../src/i18n/dictionaries';
 import { translateText } from '../src/i18n/translation';
 import { personalProjects } from '../src/lib/personal-projects';
+import { setSiteSettingsOverride } from '../src/config/site';
+import { loadContent } from '../src/lib/load';
 
 describe('ouverture des pages traduites', () => {
+  it.each([
+    ['en', 'AI news, tool tests and a tech podcast'],
+    ['es-es', 'actualidad de IA, pruebas de herramientas y un pódcast de tecnología'],
+    ['de-de', 'KI-Nachrichten, Werkzeugtests und ein Tech-Podcast'],
+  ])(
+    "traduit les métadonnées de l'accueil en %s, même si son nom change",
+    async (locale, suffix) => {
+      for (const name of ['Sandbox TalkShow', 'Sandbox Studio']) {
+        setSiteSettingsOverride({ ...loadContent().site, name });
+        try {
+          const metadata = await generateMetadata({ params: Promise.resolve({ locale }) });
+          const title = `${name}: ${suffix}`;
+          expect(metadata.title).toBe(title);
+          expect(metadata.openGraph?.title).toBe(title);
+          expect(metadata.twitter?.title).toBe(title);
+          expect(metadata.alternates?.canonical).toContain(`/${locale}`);
+          expect(metadata.description).not.toContain('Chaque semaine');
+        } finally {
+          setSiteSettingsOverride(undefined);
+        }
+      }
+    },
+  );
   it.each(['en', 'es-es', 'de-de'])(
     'localise les titres composés des fiches projet en %s sans traduire leurs noms',
     async (locale) => {

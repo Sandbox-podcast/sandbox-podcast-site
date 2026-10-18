@@ -9,6 +9,7 @@ import {
 } from '@/domain/youtube';
 import { originIsSameSite } from '@/lib/admin-auth';
 import { adminCan, getAuthenticatedAdmin } from '@/lib/admin-auth-db';
+import { fetchYouTubePageMetadata } from '@/lib/youtube-page';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -120,8 +121,15 @@ export async function POST(request: Request): Promise<NextResponse> {
   try {
     const apiKey = process.env['YOUTUBE_API_KEY']?.trim();
     if (apiKey) {
-      const full = await fullMetadata(videoId, apiKey);
-      return NextResponse.json(full, { headers: { 'Cache-Control': 'no-store' } });
+      // Une clé expirée ou un quota épuisé ne doit pas bloquer la lecture publique.
+      const full = await fullMetadata(videoId, apiKey).catch(() => undefined);
+      if (full?.publishedAt && full.durationSec) {
+        return NextResponse.json(full, { headers: { 'Cache-Control': 'no-store' } });
+      }
+    }
+    const pageMetadata = await fetchYouTubePageMetadata(videoId).catch(() => undefined);
+    if (pageMetadata) {
+      return NextResponse.json(pageMetadata, { headers: { 'Cache-Control': 'no-store' } });
     }
     const response = await fetch(oEmbedUrl, {
       cache: 'no-store',

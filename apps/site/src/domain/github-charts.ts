@@ -3,6 +3,11 @@ import { isoWeekOf } from './weeks.ts';
 
 export const trackingStatusSchema = z.enum(['candidate', 'tracked', 'ignored', 'blocked']);
 export type TrackingStatus = z.infer<typeof trackingStatusSchema>;
+
+/** GitHub confirme que le dépôt n'existe plus sous ce nom. Une erreur transitoire ne correspond pas. */
+export function isUnresolvedGithubRepository(reason: string): boolean {
+  return /could not resolve to a repository/i.test(reason);
+}
 export const chartCategorySchema = z.enum([
   'Agents',
   'Coding',

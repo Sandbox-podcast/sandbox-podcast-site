@@ -2,6 +2,7 @@ import { z } from 'zod';
 import { refreshSlotId } from './chart-refresh.ts';
 import { editionStart } from './weeks.ts';
 import { editionIdSchema } from './schema.ts';
+import { editionFromRoute } from './edition-route.ts';
 
 export const refreshSummarySchema = z.object({
   status: z.enum([
@@ -23,7 +24,10 @@ const currentEditionSchema = z.object({
   chart: z.enum(['github', 'skills', 'models', 'rising']),
   weekId: editionIdSchema,
   publishedAt: z.string().min(1),
-  entries: z.array(z.object({ rank: z.number().int().positive() })).min(1),
+  entries: z
+    .array(z.object({ rank: z.number().int().positive() }))
+    .min(1)
+    .refine((entries) => entries.every((entry, index) => entry.rank === index + 1)),
 });
 
 /** Vérifie l'édition servie aux lecteurs, pas seulement la réussite d'un appel cron. */
@@ -37,8 +41,10 @@ export function verifyPublishedEdition(
   if (!parsed.success || parsed.data.chart !== chart)
     return { ok: false, edition: null, reason: 'Aucune édition publique valide.' };
   const edition = parsed.data.weekId;
+  if (!editionFromRoute(edition)) return { ok: false, edition, reason: 'Date d’édition invalide.' };
   const age = now.getTime() - editionStart(edition).getTime();
-  if (!Number.isFinite(Date.parse(parsed.data.publishedAt)) || age < 0)
+  const publishedAt = Date.parse(parsed.data.publishedAt);
+  if (!Number.isFinite(publishedAt) || publishedAt > now.getTime() || age < 0)
     return { ok: false, edition, reason: 'Date de publication invalide ou édition future.' };
   if (exactSlot ? edition !== exactSlot : age > 18 * 60 * 60 * 1000)
     return { ok: false, edition, reason: 'Le classement public est en retard.' };

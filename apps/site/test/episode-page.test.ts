@@ -7,7 +7,7 @@ import { loadContent, setEditorialOverride } from '../src/lib/load';
 
 vi.mock('../src/lib/admin-persistence', async (importOriginal) => {
   const actual = await importOriginal<typeof import('../src/lib/admin-persistence')>();
-  return { ...actual, preparePublishedEditorialContent: vi.fn(async () => undefined) };
+  return { ...actual, preparePublicEditorialContent: vi.fn(async () => undefined) };
 });
 
 async function renderEpisode(overrides: Partial<Episode> = {}) {

@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { once } from 'node:events';
 import { mkdir, writeFile } from 'node:fs/promises';
-import { URL } from 'node:url';
+import { URL, URLSearchParams } from 'node:url';
 import { log } from 'node:console';
 import process from 'node:process';
 import { startBadgeFixture } from './badges-fixture-server.mjs';
@@ -94,6 +94,36 @@ try {
   log(`Sitemap local : ${report.passed}/${report.total} URL valides.`);
 
   const checks = [];
+  const { rows: githubFixtures } = await fixture.pg.query(`
+    SELECT entity.slug, entity.name, repo.full_name
+    FROM chart_entities entity
+    INNER JOIN github_projects repo ON repo.entity_id = entity.id
+    ORDER BY repo.full_name LIMIT 1
+  `);
+  const githubFixture = githubFixtures[0];
+  assert.ok(githubFixture, 'Une fiche GitHub publiée doit être présente dans la base de test.');
+  const searchFixtures = [
+    {
+      name: githubFixture.name,
+      slug: githubFixture.slug,
+      query: githubFixture.full_name,
+      path: `/charts/project/${githubFixture.slug}`,
+    },
+    ...['skills', 'models'].map((chart) => ({
+      name: `FIXTURE ${chart} 0`,
+      slug: `fixture-${chart}-0`,
+      query: `fixture-${chart}-0`,
+      path: `/charts/entity/fixture-${chart}-0`,
+    })),
+  ];
+  const homeTitles = new Map([
+    ['/en', 'Sandbox TalkShow: AI news, tool tests and a tech podcast'],
+    [
+      '/es-es',
+      'Sandbox TalkShow: actualidad de IA, pruebas de herramientas y un pódcast de tecnología',
+    ],
+    ['/de-de', 'Sandbox TalkShow: KI-Nachrichten, Werkzeugtests und ein Tech-Podcast'],
+  ]);
   const shareImages = new Map();
   for (const path of [
     '/charts',
@@ -120,6 +150,36 @@ try {
     `/moves/${move.chart}/${move.week}/${move.entity}`,
   ];
   for (const prefix of ['', '/en', '/es-es', '/de-de']) {
+    if (homeTitles.has(prefix)) {
+      const response = await fetch(`${fixture.origin}${prefix}`);
+      assert.equal(response.status, 200);
+      const html = await response.text();
+      const expected = homeTitles.get(prefix);
+      const title = html.match(/<title>([^<]+)<\/title>/)?.[1];
+      assert.ok(title?.startsWith(expected), `Titre d'accueil traduit : ${prefix}`);
+      assert.equal(html.match(/<meta property="og:title" content="([^"]+)"/)?.[1], expected);
+      assert.equal(html.match(/<meta name="twitter:title" content="([^"]+)"/)?.[1], expected);
+      checks.push(`${prefix} : titres HTML, Open Graph et Twitter traduits`);
+    }
+    for (const entry of searchFixtures) {
+      const searchPath = `${prefix}/search?${new URLSearchParams({ q: entry.query, type: 'entities' })}`;
+      const response = await fetch(fixture.origin + searchPath);
+      assert.equal(response.status, 200, searchPath);
+      const html = (await response.text()).replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, '');
+      assert.match(html, /name="robots" content="noindex/);
+      assert.ok(
+        html.includes(`href="${prefix}${entry.path}"`),
+        `Résultat publié cliquable : ${searchPath}`,
+      );
+      assert.ok(html.includes(entry.name), `Nom publié visible : ${searchPath}`);
+      const detail = await fetch(`${fixture.origin}${prefix}${entry.path}`);
+      assert.equal(detail.status, 200, `${prefix}${entry.path}`);
+      assert.ok(
+        (await detail.text()).includes(entry.name),
+        `Fiche accessible : ${prefix}${entry.path}`,
+      );
+      checks.push(`${searchPath} : résultat publié et fiche accessibles`);
+    }
     for (const path of legacyPaths) {
       const response = await fetch(fixture.origin + prefix + path);
       assert.equal(response.status, 200);

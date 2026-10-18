@@ -9,10 +9,11 @@ import { siteConfig } from '@/config/site';
 import { indexableEpisode } from '@/domain/episode-seo';
 import { allEpisodes, publicHosts } from '@/lib/repository';
 import { pageMetadata } from '@/lib/seo';
-import { preparePublishedEditorialContent } from '@/lib/admin-persistence';
+import { preparePublicEditorialContent } from '@/lib/admin-persistence';
 import { timeMachineData } from '@/lib/time-machine';
 import { personalProjects } from '@/lib/personal-projects';
 import { localizedHref } from '@/i18n/routing';
+import { interpolateText } from '@/i18n/translation';
 
 // Le build ne lit pas Postgres : l'accueil doit charger la publication à chaque requête.
 export const dynamic = 'force-dynamic';
@@ -22,10 +23,12 @@ export async function generateMetadata({
 }: {
   searchParams?: Promise<Record<string, string | string[] | undefined>>;
 }) {
-  await preparePublishedEditorialContent();
+  await preparePublicEditorialContent();
   const hasPublishedEpisode = allEpisodes().some(indexableEpisode);
   return pageMetadata({
-    title: `${siteConfig.name} : actualité IA, tests d'outils et podcast tech`,
+    title: interpolateText("{name} : actualité IA, tests d'outils et podcast tech", {
+      name: siteConfig.name,
+    }),
     description:
       "Un podcast vidéo sur l'actualité de l'intelligence artificielle et de la tech. Chaque semaine, Lou, Loïc et Nico testent des outils IA, débattent de leurs usages et citent leurs sources.",
     path: '/',
@@ -49,7 +52,7 @@ export default async function HomePage({
     const query = chartSelectionQuery('', chartSelectionSchema.parse(params));
     redirect(localizedHref(`/charts${query ? `?${query}` : ''}`, locale));
   }
-  await preparePublishedEditorialContent();
+  await preparePublicEditorialContent();
   return (
     <DiscoveryHome
       episodes={allEpisodes()}

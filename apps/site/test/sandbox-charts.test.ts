@@ -168,6 +168,25 @@ describe('présentation des charts', () => {
     firstSeries.snapshots.push({ ...latest, week: '2026-10-20' });
     expect(chartRows(data, 'github', '2026-10-20').every((row) => row.baseline)).toBe(true);
   });
+  it('ne transforme pas un changement de méthode en montée ou en descente', () => {
+    const data = dataset();
+    const firstSeries = data.series[0];
+    if (!firstSeries) throw new Error('Série fixture absente');
+    const latest = firstSeries.snapshots.at(-1);
+    if (!latest) throw new Error('Fixture absente');
+    const publication = {
+      observedAt: '2026-10-10T00:00:00.000Z',
+      calculatedAt: '2026-10-10T01:00:00.000Z',
+      publishedAt: '2026-10-10T01:00:00.000Z',
+    };
+    latest.publication = { ...publication, scoringVersion: 'github-momentum-v1+stars' };
+    firstSeries.snapshots.push({
+      ...latest,
+      week: '2026-10-11',
+      publication: { ...publication, scoringVersion: 'github-momentum-observed' },
+    });
+    expect(chartRows(data, 'github', '2026-10-11').every((row) => row.baseline)).toBe(true);
+  });
   it('ne compare pas une semaine à une archive éloignée si l’édition précédente manque', () => {
     const data = dataset();
     const firstSeries = data.series[0];
@@ -202,6 +221,21 @@ describe('présentation des charts', () => {
   });
 });
 describe('édition et exports', () => {
+  it.each(['2026-10-18', '2026-10-18T00:00Z', '2026-10-18T12:00Z'])(
+    'conserve les commentaires de l’édition datée %s lors d’une mise à jour Markdown',
+    (week) => {
+      const original = chartEditionSchema.parse({ week: '2026-W41', headline: 'Archive' });
+      const current = chartEditionSchema.parse({ week, headline: 'Édition courante' });
+      const document = `${editionMarkdown(original)}\n## Entrées et avis\nFiches conservées\n`;
+      const once = updateEditionMarkdown(document, current);
+      expect(editionsFromMarkdown(once)).toEqual([original, current]);
+      const updated = { ...current, headline: 'Commentaire corrigé' };
+      const twice = updateEditionMarkdown(once, updated);
+      expect(editionsFromMarkdown(twice)).toEqual([original, updated]);
+      expect(twice).toContain('Fiches conservées');
+    },
+  );
+
   it('le Markdown conserve les retours à la ligne, guillemets et usages contenant un séparateur', () => {
     const edition = chartEditionSchema.parse({
       week: '2026-W41',

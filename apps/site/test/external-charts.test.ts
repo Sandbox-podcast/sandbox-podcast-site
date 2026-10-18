@@ -1,6 +1,8 @@
 import { describe, expect, it, vi } from 'vitest';
 import {
   externalEntitySchema,
+  rankSkillsByObservedInstalls,
+  representativeSkillInputs,
   scoreModels,
   scoreSkills,
   type ExternalEntity,
@@ -70,6 +72,43 @@ function jsonResponse(value: unknown): Response {
 }
 
 describe('classements externes', () => {
+  it('classe les installations mesurées sans estimer celles qui manquent', () => {
+    const missing = skill('skill-missing', 0, 0);
+    missing.metrics.installs7d = null;
+    const ranked = rankSkillsByObservedInstalls(
+      [skill('skill-low', 5, 1), missing, skill('skill-high', 50, 1)],
+      20,
+    );
+    expect(ranked.cohort).toBe(2);
+    expect(ranked.entries.map((entry) => entry.entity.slug)).toEqual(['skill-high', 'skill-low']);
+    expect(ranked.entries[0]?.dimensions['momentum']).toBe(ranked.entries[0]?.score);
+  });
+  it('ne laisse pas un dépôt occuper plusieurs places du classement Skills', () => {
+    const first = skill('skill-pack-alpha', 40, 10);
+    const second = skill('skill-pack-beta', 80, 10);
+    const other = skill('skill-other', 50, 4);
+    first.entity.sources.push({
+      provider: 'github',
+      externalId: 'sandbox/pack',
+      url: 'https://github.com/sandbox/pack',
+      label: 'GitHub',
+    });
+    second.entity.sources.push({
+      provider: 'github',
+      externalId: 'sandbox/pack',
+      url: 'https://github.com/sandbox/pack',
+      label: 'GitHub',
+    });
+    other.entity.sources.push({
+      provider: 'github',
+      externalId: 'sandbox/other',
+      url: 'https://github.com/sandbox/other',
+      label: 'GitHub',
+    });
+    expect(
+      representativeSkillInputs([first, second, other]).map((item) => item.entity.slug),
+    ).toEqual(['skill-pack-beta', 'skill-other']);
+  });
   it('croise la croissance des installations et celle des stars pour noter les skills', () => {
     const rows = scoreSkills([skill('skill-alpha', 100, 10), skill('skill-beta', 10, 100)]);
     expect(rows).toHaveLength(2);

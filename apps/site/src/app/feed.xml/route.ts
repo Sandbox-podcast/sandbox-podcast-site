@@ -1,7 +1,7 @@
 import { siteConfig } from '@/config/site';
 import { feed } from '@/lib/graph';
 import { absoluteUrl } from '@/lib/seo';
-import { preparePublishedEditorialContent } from '@/lib/admin-persistence';
+import { preparePublicEditorialContent } from '@/lib/admin-persistence';
 
 // Le build ne lit pas Postgres : les nouveaux épisodes doivent apparaître dès la publication.
 export const dynamic = 'force-dynamic';
@@ -16,7 +16,7 @@ const xml = (s: string): string =>
 
 /** Flux RSS des épisodes publiés. */
 export async function GET(): Promise<Response> {
-  await preparePublishedEditorialContent();
+  await preparePublicEditorialContent();
   const items = feed()
     .filter((item) => item.type === 'episode')
     .slice(0, 30)

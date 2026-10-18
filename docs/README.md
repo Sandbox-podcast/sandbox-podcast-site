@@ -1,5 +1,9 @@
 # Documentation
 
+Correction des classements, News et recherche du 18 octobre : [diagnostic, correctifs et validations](site/remise-en-etat-2026-10-18.md). Le rapport distingue les essais locaux des actions de mise en service encore nécessaires.
+
+Import d'épisode sans clé YouTube : [DD-0058](design-decisions/dd-0058-import-youtube-sans-cle-api.md). La page publique fournit la date et la durée ; le lecteur complète la durée si nécessaire.
+
 PR unique du 18 octobre : [regroupement des PR 77 et 78 et résultats des tests complets](site/consolidation-pr77-78-2026-10-18.md). News, SEO, contenus de relais et épisode 003 sont réunis dans la PR 77.
 
 Nom public Sandbox TalkShow sur les médias : [DD-0054](design-decisions/dd-0054-nom-public-sandbox-talkshow.md). Spotify renommé, couverture officielle appliquée et noms YouTube, Instagram, TikTok et X vérifiés le 18 octobre 2026.
@@ -28,7 +32,7 @@ PR globale du 16 octobre : [périmètre complet, validations et captures](site/l
 
 Livraison groupée du 16 octobre : [périmètre, contrôles et captures](site/livraison-groupee-2026-10-16.md). Les objets du plateau ouvrent les classements et la Time Machine selon [DD-0041](design-decisions/dd-0041-objets-du-plateau-vers-classements-et-time-machine.md).
 
-Corrections de l'issue 68 au 16 octobre : [rapport et actions restantes](site/issue-68-2026-10-16.md), [sécurité et persistance](adr/ADR-0032-protections-et-persistance-issue-68.md) et [procédure de correction éditoriale](site/corrections-et-droit-de-reponse.md).
+Corrections de l'issue 68 au 16 octobre : [rapport et actions restantes](site/issue-68-2026-10-16.md), [sécurité et persistance](adr/ADR-0032-protections-et-persistance-issue-68.md) et [procédure de correction éditoriale](site/corrections-et-droit-de-reponse.md). Constat du 18 octobre : [collectes, éditions et blocages restants](site/issue-68-2026-10-18.md), avec [ADR-0034](adr/ADR-0034-collectes-partielles-github-et-models.md) pour les dépôts GitHub introuvables et l'isolement des sources Models. Si la corroboration ne couvre pas le Top, une édition observée distincte est publiée selon [ADR-0035](adr/ADR-0035-edition-observee-quand-la-corroboration-manque.md).
 
 Accueil mobile éditorial, sans montage du trio, et plateau conservé sur ordinateur : [DD-0039](design-decisions/dd-0039-accueil-mobile-editorial-et-plateau-desktop.md) et [validation V11](site/refonte-2026-10-15/refonte-editoriale-mobile-v11.md).
 

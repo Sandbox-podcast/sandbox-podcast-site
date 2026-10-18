@@ -7,6 +7,82 @@ export interface KnownExternalIdentity {
   sources: { provider: string; externalId: string }[];
 }
 
+export interface ExternalIdentityConflict {
+  slug: string;
+  reason: string;
+  knownSlugs: string[];
+  sources: { provider: string; externalId: string }[];
+}
+
+/** Isole chaque ambiguïté ; toutes les partitions visant la même fiche restent en attente. */
+export function planExternalIdentities(
+  entities: readonly ExternalEntity[],
+  known: readonly KnownExternalIdentity[],
+): { slugs: Map<string, string>; conflicts: ExternalIdentityConflict[] } {
+  const slugs = new Map<string, string>();
+  const reasons = new Map<string, string>();
+  for (const entity of entities) {
+    try {
+      const resolved = stableExternalSlugs([entity], known).get(entity.slug);
+      if (resolved) slugs.set(entity.slug, resolved);
+    } catch (error) {
+      reasons.set(entity.slug, error instanceof Error ? error.message : 'Identité indéterminée.');
+    }
+  }
+  const targets = new Map<string, Set<string>>();
+  const modelSources = new Map<string, Set<string>>();
+  for (const entity of entities) {
+    const target = slugs.get(entity.slug);
+    if (target) {
+      const incoming = targets.get(target) ?? new Set<string>();
+      incoming.add(entity.slug);
+      targets.set(target, incoming);
+    }
+    if (entity.type !== 'model') continue;
+    for (const source of entity.sources) {
+      const key = JSON.stringify([source.provider, source.externalId]);
+      const incoming = modelSources.get(key) ?? new Set<string>();
+      incoming.add(entity.slug);
+      modelSources.set(key, incoming);
+    }
+  }
+  for (const incoming of [...targets.values(), ...modelSources.values()]) {
+    if (incoming.size < 2) continue;
+    for (const slug of incoming)
+      reasons.set(
+        slug,
+        `Plusieurs variantes Models partagent une identité : ${[...incoming].sort().join(', ')}. Revue requise.`,
+      );
+  }
+  const conflicts = entities.flatMap((entity) => {
+    const reason = reasons.get(entity.slug);
+    if (!reason) return [];
+    slugs.delete(entity.slug);
+    const knownSlugs = known
+      .filter(
+        (item) =>
+          item.slug === entity.slug ||
+          item.sources.some((source) =>
+            entity.sources.some(
+              (incoming) =>
+                incoming.provider === source.provider && incoming.externalId === source.externalId,
+            ),
+          ),
+      )
+      .map((item) => item.slug)
+      .sort();
+    return [
+      {
+        slug: entity.slug,
+        reason,
+        knownSlugs,
+        sources: entity.sources.map(({ provider, externalId }) => ({ provider, externalId })),
+      },
+    ];
+  });
+  return { slugs, conflicts };
+}
+
 /** Preserve a known identity when the set of available providers changes its generated slug. */
 export function stableExternalSlugs(
   entities: readonly ExternalEntity[],

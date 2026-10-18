@@ -1,9 +1,19 @@
 import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import SearchPage from '../src/app/(fr)/search/page';
 import PodcastPage from '../src/app/(fr)/podcast/page';
 import { allEpisodes } from '../src/lib/repository';
+import { setEditorialOverride } from '../src/lib/load';
+
+// Cette suite utilise les épisodes Git ; les publications locales sont testées séparément.
+vi.mock('../src/lib/admin-persistence', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('../src/lib/admin-persistence')>()),
+  preparePublicEditorialContent: async () => undefined,
+}));
+beforeEach(() => {
+  setEditorialOverride(undefined);
+});
 
 describe('recherche publique', () => {
   it('garde un champ modifiable et un filtre de catégorie adressable', async () => {

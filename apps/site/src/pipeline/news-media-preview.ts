@@ -158,7 +158,10 @@ export function parseNewsArticle(
       ' ',
     ),
   );
-  const sourceExcerpt = (metaExcerpt.length >= 180 ? metaExcerpt : articleExcerpt).slice(0, 8000);
+  const sourceExcerpt = (articleExcerpt.length >= 240 ? articleExcerpt : metaExcerpt).slice(
+    0,
+    8000,
+  );
   const rawDate =
     meta.get('article:published_time') ??
     structured?.datePublished ??

@@ -49,6 +49,7 @@ const COPY = {
     time: 'Publication (Paris)',
     news: 'Information / source',
     empty: 'Aucune actualité ne correspond à cette recherche.',
+    waiting: 'Aucune actualité récente disponible. Le fil attend la prochaine collecte.',
     clear: 'Effacer les filtres',
     more: 'Afficher la suite',
     preview: 'Aperçu local',
@@ -95,6 +96,7 @@ const COPY = {
     time: 'Published (Paris)',
     news: 'News item / source',
     empty: 'No news matches your search.',
+    waiting: 'No recent news is available. The feed is waiting for the next collection.',
     clear: 'Clear filters',
     more: 'Show more',
     preview: 'Local preview',
@@ -141,6 +143,7 @@ const COPY = {
     time: 'Publicación (París)',
     news: 'Noticia / fuente',
     empty: 'No hay noticias para esta búsqueda.',
+    waiting: 'No hay noticias recientes disponibles. El flujo espera la próxima recopilación.',
     clear: 'Borrar filtros',
     more: 'Mostrar más',
     preview: 'Vista previa local',
@@ -187,6 +190,8 @@ const COPY = {
     time: 'Veröffentlicht (Paris)',
     news: 'Meldung / Quelle',
     empty: 'Keine Nachrichten für diese Suche.',
+    waiting:
+      'Derzeit sind keine aktuellen Nachrichten verfügbar. Der nächste Abruf steht noch aus.',
     clear: 'Filter zurücksetzen',
     more: 'Mehr anzeigen',
     preview: 'Lokale Vorschau',
@@ -214,11 +219,13 @@ export function NewsScreen({
   locale = 'fr-FR',
   canonicalUrl,
   isPreview = false,
+  isUnavailable = false,
 }: {
   initialFeed: NewsFeed;
   locale?: string;
   canonicalUrl?: string;
   isPreview?: boolean;
+  isUnavailable?: boolean;
 }) {
   const copy = Object.hasOwn(COPY, locale) ? COPY[locale as keyof typeof COPY] : COPY['fr-FR'];
   const [feed, setFeed] = useState(initialFeed);
@@ -230,7 +237,11 @@ export function NewsScreen({
   const [limit, setLimit] = useState(NEWS_PAGE_SIZE);
   const [pending, setPending] = useState(false);
   const [error, setError] = useState(
-    initialFeed.sources.some((source) => !source.ok) ? copy.failed : '',
+    isUnavailable
+      ? copy.unavailable
+      : initialFeed.sources.some((source) => !source.ok)
+        ? copy.failed
+        : '',
   );
   const selected = selectNews(feed.items, { query, category, source, order, limit, locale });
   const formatter = new Intl.DateTimeFormat(locale, {
@@ -274,7 +285,7 @@ export function NewsScreen({
   }
   return (
     <div className={styles['page']}>
-      {canonicalUrl ? (
+      {canonicalUrl && feed.items.length > 0 ? (
         <JsonLd data={newsCollectionLd(selected.items, canonicalUrl, copy.title, locale)} />
       ) : null}
       <div className={styles['topline']}>
@@ -436,12 +447,14 @@ export function NewsScreen({
             </li>
           ))}
         </ol>
-        {selected.total === 0 ? (
+        {selected.total === 0 && !isUnavailable ? (
           <div className={styles['empty']}>
-            <p>{copy.empty}</p>
-            <button type="button" onClick={reset}>
-              {copy.clear}
-            </button>
+            <p>{feed.items.length ? copy.empty : copy.waiting}</p>
+            {feed.items.length ? (
+              <button type="button" onClick={reset}>
+                {copy.clear}
+              </button>
+            ) : null}
           </div>
         ) : null}
         <div className={styles['bottomline']}>

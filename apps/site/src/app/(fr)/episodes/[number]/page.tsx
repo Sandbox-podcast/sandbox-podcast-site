@@ -22,7 +22,7 @@ import { siteConfig } from '@/config/site';
 import { formatDate, formatDurationExact, formatTimestamp, isoDuration } from '@/domain/format';
 import type { Episode } from '@/domain/schema';
 import { allEpisodes, getEpisode, getHost } from '@/lib/repository';
-import { preparePublishedEditorialContent } from '@/lib/admin-persistence';
+import { preparePublicEditorialContent } from '@/lib/admin-persistence';
 import { absoluteUrl, breadcrumbLd, pageMetadata } from '@/lib/seo';
 // Les épisodes publiés dans l'admin après le build doivent aussi être accessibles.
 export const dynamic = 'force-dynamic';
@@ -35,7 +35,7 @@ interface Props {
 }
 const find = (raw: string): Episode | undefined => getEpisode(Number(raw));
 export async function generateMetadata({ params }: Props) {
-  await preparePublishedEditorialContent();
+  await preparePublicEditorialContent();
   const { number } = await params;
   const episode = find(number);
   if (!episode) return {};
@@ -50,7 +50,7 @@ export async function generateMetadata({ params }: Props) {
   });
 }
 export default async function EpisodePage({ params, searchParams }: Props) {
-  await preparePublishedEditorialContent();
+  await preparePublicEditorialContent();
   const { number } = await params;
   const episode = find(number);
   if (!episode) notFound();
