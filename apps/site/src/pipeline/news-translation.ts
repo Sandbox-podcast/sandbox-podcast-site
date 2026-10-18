@@ -1,6 +1,4 @@
 import { spawn } from 'node:child_process';
-import { existsSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
 import { join } from 'node:path';
 import { z } from 'zod';
 import type { NewsItem } from '../domain/news-preview.ts';
@@ -19,7 +17,7 @@ import {
 } from './news-translations.ts';
 
 const locales: readonly NewsLocale[] = ['en', 'es-ES', 'de-DE'];
-const applicationRoot = fileURLToPath(new URL('../../', import.meta.url));
+const applicationRoot = process.cwd();
 const localDirectory = join(applicationRoot, '.local');
 const workerPath = join(applicationRoot, 'scripts', 'news-argos-translate.py');
 const packageDirectory = join(localDirectory, 'news-translator-models');
@@ -99,12 +97,7 @@ function editorialTranslation(
 
 function argosPython(): string {
   const override = process.env['SANDBOX_NEWS_ARGOS_PYTHON'];
-  if (override) return override;
-  return existsSync(bundledPython)
-    ? bundledPython
-    : process.platform === 'win32'
-      ? 'python'
-      : 'python3';
+  return override ?? bundledPython;
 }
 
 function translatorWorkerEnvironment(): NodeJS.ProcessEnv {
@@ -130,7 +123,7 @@ function runArgosBatch(
   targetLocale: NewsLocale,
 ): Promise<readonly string[]> {
   return new Promise((resolve, reject) => {
-    const child = spawn(argosPython(), [workerPath], {
+    const child = spawn(/* turbopackIgnore: true */ argosPython(), [workerPath], {
       cwd: applicationRoot,
       env: translatorWorkerEnvironment(),
       stdio: ['pipe', 'pipe', 'pipe'],

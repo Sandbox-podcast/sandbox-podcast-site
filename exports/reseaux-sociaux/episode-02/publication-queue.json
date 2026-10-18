@@ -100,7 +100,7 @@
     "native_import_started": true,
     "checks_pending": false,
     "resume_tab_id": null,
-    "last_error": "Le formulaire de transfert utilisé précédemment n’est plus accessible (onglet 38 absent). Le contrôle de TikTok Studio est accessible : Brouillons affiche 0, mais la recherche par titre ne filtre pas la liste et aucun résultat exact n’a pu être établi. Aucun envoi n’a été soumis. Ne pas relancer avant réconciliation native plus précise."
+    "last_error": "La liste Contenu accessible affiche des réservations le 19 octobre à 11 h 30 et 20 h 30, sans E02-017 ni créneau à 12 h 30 dans les éléments visibles. La recherche par titre ne filtre pas les lignes. L’onglet utilisateur d’import (URL TikTok Studio upload) reste inaccessible ; impossible de confirmer qu’il ne conserve pas le formulaire à 0 %. Aucun nouvel import soumis. Attendre une vérification native plus précise avant reprise."
   },
   {
     "clip_id": "E02-017",
