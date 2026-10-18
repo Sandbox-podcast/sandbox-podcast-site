@@ -141,3 +141,7 @@ Le lecteur s'adapte au rectangle partagé, pas au canevas du logiciel de diffusi
 Recette de cette correction : les 21 écrans sont parcourus en 1280 par 720, 1920 par 1080, 2560 par 1440 et 3440 par 1440. Les 84 contrôles constatent une diapositive à la taille de la fenêtre, sans débordement et avec 80 % de largeur pour l'image sur les actualités. Le mode image seule, le retour régie, les notes et la sortie du Radar sont vérifiés. La régie reste dans la fenêtre en 1024 par 768, 712 par 1244 et 390 par 844. Les 26 tests ciblés du support et de l'index passent. Capture : `.local/episode-003-live-image.jpg`.
 
 Le navigateur intégré n'accorde pas le plein écran natif pendant cette recette ; le repli en mode live dans la fenêtre est vérifié. La capture par le logiciel de diffusion reste à contrôler avant l'émission.
+
+## Regroupement dans la PR unique
+
+À la demande de Lou le 18 octobre, la PR 78 de l'épisode 003 est intégrée à la PR 77 avec News, le SEO et les contenus de relais. Les révisions éditoriales plus récentes de `content.json` et `shorts.json` sont conservées. La suite complète et les 84 contrôles live sont relancés sur le lot réuni ; voir [le rapport de regroupement](consolidation-pr77-78-2026-10-18.md).

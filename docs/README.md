@@ -1,5 +1,7 @@
 # Documentation
 
+PR unique du 18 octobre : [regroupement des PR 77 et 78 et résultats des tests complets](site/consolidation-pr77-78-2026-10-18.md). News, SEO, contenus de relais et épisode 003 sont réunis dans la PR 77.
+
 Nom public Sandbox TalkShow sur les médias : [DD-0054](design-decisions/dd-0054-nom-public-sandbox-talkshow.md). Spotify renommé, couverture officielle appliquée et noms YouTube, Instagram, TikTok et X vérifiés le 18 octobre 2026.
 
 Référencement, suite locale du 18 octobre : [images allégées et traductions des fiches projet](site/seo-2026-10-18/correctifs-locaux.md), selon [DD-0054](design-decisions/dd-0054-correctifs-seo-images-et-traductions.md). Validation DNS Search Console toujours en attente.
