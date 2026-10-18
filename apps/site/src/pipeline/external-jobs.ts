@@ -570,18 +570,44 @@ function mergeModelRecords(
   };
 }
 
-export async function collectModels(): Promise<ExternalJobSummary> {
+export interface ModelCatalogSources {
+  huggingFace?: () => Promise<HuggingFaceModel[]>;
+  arena?: () => Promise<ArenaModelResult[]>;
+}
+
+export async function collectModels(
+  sources: ModelCatalogSources = {},
+): Promise<ExternalJobSummary> {
   return runLogged('models_daily_sync', async (summary) => {
     const day = utcDate();
-    const arenaClient = new ArenaClient();
-    const [hfResult, arenaResults] = await Promise.all([
-      new HuggingFaceClient().listModels(500),
-      Promise.all(ARENA_CONFIGS.map((config) => arenaClient.latest(config))),
-    ]);
-    const records: ModelRecord[] = hfResult.map(huggingFaceRecord);
-    records.push(...arenaModelRecords(arenaResults.flat(), day));
+    const loadHuggingFace = sources.huggingFace ?? (() => new HuggingFaceClient().listModels(500));
+    const loadArena =
+      sources.arena ??
+      (async () => {
+        const arenaClient = new ArenaClient();
+        return (
+          await Promise.all(ARENA_CONFIGS.map((config) => arenaClient.latest(config)))
+        ).flat();
+      });
+    const [hfResult, arenaResult] = await Promise.allSettled([loadHuggingFace(), loadArena()]);
+    const records: ModelRecord[] = [];
+    if (hfResult.status === 'fulfilled') records.push(...hfResult.value.map(huggingFaceRecord));
+    else {
+      summary.failed++;
+      summary.details.push(
+        `Hugging Face indisponible (${hfResult.reason instanceof Error ? hfResult.reason.message : 'source'}).`,
+      );
+    }
+    if (arenaResult.status === 'fulfilled')
+      records.push(...arenaModelRecords(arenaResult.value, day));
+    else {
+      summary.failed++;
+      summary.details.push(
+        `Arena indisponible (${arenaResult.reason instanceof Error ? arenaResult.reason.message : 'source'}).`,
+      );
+    }
     summary.details.push(
-      `${hfResult.length.toString()} modèles Hugging Face et ${arenaResults.flat().length.toString()} lignes Arena reçus.`,
+      `${(hfResult.status === 'fulfilled' ? hfResult.value.length : 0).toString()} modèles Hugging Face et ${(arenaResult.status === 'fulfilled' ? arenaResult.value.length : 0).toString()} lignes Arena reçus.`,
     );
 
     const openRouterToken = process.env['OPENROUTER_API_KEY'];
@@ -612,6 +638,17 @@ export async function collectModels(): Promise<ExternalJobSummary> {
       summary.details.push(
         'OPENROUTER_API_KEY absent : prix, contexte, débit et indices Artificial Analysis restent absents.',
       );
+    }
+    if (
+      records.length === 0 &&
+      hfResult.status === 'rejected' &&
+      arenaResult.status === 'rejected'
+    ) {
+      summary.status = 'failed';
+      summary.details.push(
+        'Aucune source Models n’a fourni de catalogue. Aucune mesure n’est enregistrée.',
+      );
+      return;
     }
     const merged = mergeModelRecords(records, day);
     if (merged.ambiguousMatches)
