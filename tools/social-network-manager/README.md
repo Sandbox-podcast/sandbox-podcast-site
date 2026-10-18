@@ -13,8 +13,9 @@ Faire découvrir le talk-show et ses expériences réelles, puis conduire les pe
 - Les quatre Shorts de l'émission 1 sont maintenant visibles dans Studio : deux publics (15 et 16 octobre), deux programmés (17 et 18 octobre). Le relevé Studio actuel prime sur les notes plus anciennes de `docs/open-questions.md`.
 - Les quatre exports verticaux du dossier `exports/reseaux-sociaux/shorts/` sont des fichiers locaux. Leur audio et leurs sous-titres doivent être relus avant toute nouvelle diffusion. Les exports du dossier ne sont pas à confondre avec les quatre vidéos déjà présentes dans Studio.
 - Le profil Instagram `@sandbox.talkshow` s'affiche sous le nom « Sandbox TalkShow », avec la bio renseignée et quatre Reels. L'identifiant a été modifié depuis `@sandbox.podcast.pro` le 17 octobre 2026. Le même avatar officiel `brand/social/sandbox-social-avatar.png`, dérivé de `logov2.png`, est appliqué sur Instagram, TikTok et X; les trois profils ont été vérifiés le 17 octobre 2026. Les quatre Reels Instagram reprennent déjà les exports et ne doivent pas être repostés tels quels.
-- Le profil TikTok `@sandbox.talkshow` affiche zéro publication, zéro abonné, zéro suivi et zéro mention J'aime au relevé du 17 octobre 2026. La bio présente le sujet du talk-show.
-- Le compte X `@SandboxTalkShow` est confirmé. Les données natives Instagram/TikTok/X et un flux d'analytique unifié ne sont pas établis par les accès examinés. Ne pas en déduire des performances.
+- Le profil TikTok `@sandbox.talkshow` a quatre vidéos listées dans TikTok Studio avec l'audience « Tout le monde » au contrôle du 17 octobre. Le compteur du profil public n'était pas cohérent avec Studio; vérifier l'état de chaque vidéo avant de la considérer comme effectivement publiée. Aucun résultat de performance n'est déduit.
+- Le compte X `@SandboxTalkShow` a quatre vidéos dans sa file « Scheduled » pour les 18, 20, 22 et 24 octobre 2026 à 18 h, heure affichée par X. Vérifier après chaque créneau que la publication a bien eu lieu.
+- Les données natives Instagram/TikTok/X et un flux d'analytique unifié ne sont pas établis par les accès examinés. Ne pas en déduire des performances.
 - Le jeton OAuth du programme YouTube et la mise en service de son journal durable restent à traiter. Le workflow GitHub existant ne prouve pas que les opérations sont connectées ni publiées.
 
 ## Règle d'exploitation
@@ -33,6 +34,18 @@ Un brouillon n'est pas une publication. Une date proposée n'est pas une program
 6. Préparer le calendrier, puis demander l'accord avant chaque écriture publique ou programmation.
 7. À 48 heures et 7 jours, relever les chiffres natifs disponibles. Comparer des périodes équivalentes; signaler les données absentes et les échantillons trop faibles.
 8. Produire un rapport qui sépare faits observés, hypothèses, décisions proposées et blocages.
+
+## Acquisition organique et gratuite
+
+Le plan d'exécution détaillé se trouve dans [la stratégie de croissance du 18 octobre](../../docs/site/social-network-growth-2026-10-18.md). L'objectif de 10 000 abonnés est une ambition, pas une promesse ni une échéance prévisible avec les données actuelles.
+
+- Ne pas faire de campagne follow-for-follow, de suivi/désabonnement massif, de copie automatisée des abonnés de concurrents, de pods d'engagement, d'achat d'abonnés ou de commentaires copiés-collés. Ces tactiques gonflent un chiffre sans construire une audience intéressée et exposent les comptes aux restrictions des plateformes.
+- Un suivi manuel sert à organiser le fil autour de créateurs réellement pertinents, jamais à provoquer un retour de follow. Ne pas fixer de quota ni chercher à contourner les limites de fréquence propres à chaque plateforme.
+- Consacrer une courte session quotidienne à lire les échanges et répondre aux commentaires reçus avec une réponse utile et personnelle. Participer aux discussions d'autres créateurs uniquement si SANDBOX apporte un point précis, sans déposer mécaniquement un lien ou une autopromotion.
+- Chaque vidéo doit donner une raison de rester et une prochaine étape claire : accroche compréhensible dès la première phrase, idée ou désaccord complet, question précise à la communauté, puis lien vers l'épisode complet quand la plateforme le permet.
+- Chercher des collaborations pertinentes (invitation, réponse croisée, co-publication ou extrait autorisé). Préparer une proposition personnalisée et obtenir l'accord de l'équipe avant tout contact externe.
+- Réutiliser chaque épisode en angles distincts plutôt que republier en boucle le même fichier. Tester une seule variable à la fois (accroche, angle, couverture ou CTA) et garder un journal des variantes.
+- À chaque bilan, comparer séparément portée/impressions, rétention ou complétion, partages/enregistrements, visites de profil, nouveaux abonnés et clics sortants. Utiliser les statistiques natives et la même fenêtre de mesure; si une donnée manque, l'indiquer comme indisponible.
 
 ## Automatisation Codex
 
