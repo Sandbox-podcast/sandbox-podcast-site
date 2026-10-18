@@ -33,6 +33,7 @@ export const HISTORY_ARTWORK_GROUPS = {
     'model-context-protocol',
   ],
   image: [
+    'flux-3-image-klein',
     'gan',
     'ddpm',
     'dall-e',
@@ -46,6 +47,8 @@ export const HISTORY_ARTWORK_GROUPS = {
   ],
   video: ['sora-preview', 'sora-public', 'wan-2-1', 'veo-3', 'sora-2'],
   biology: [
+    'antigravity-antimicrobial-peptides',
+    'rosalind-academic-plan',
     'halicin',
     'alphafold-2',
     'alphafold-database-200m',
@@ -60,6 +63,8 @@ export const HISTORY_ARTWORK_GROUPS = {
     'claude-art-enzyme',
   ],
   math: [
+    'claude-quantum-circuits',
+    'claude-ecdsa-curve-origins',
     'alphatensor',
     'alphadev',
     'funsearch',
@@ -79,6 +84,7 @@ export const HISTORY_ARTWORK_GROUPS = {
   robotics: ['darpa-grand-challenge-2005', 'rt-2', 'gemini-robotics', 'aa-robotics'],
   governance: ['ai-act-effective', 'openai-announcement', 'anthropic-cyber-mission'],
   agent: [
+    'genesis-agent-skills',
     'devin',
     'operator',
     'chatgpt-agent',
@@ -92,6 +98,11 @@ export const HISTORY_ARTWORK_GROUPS = {
     'gpt-6-intelligent-ui',
   ],
   model: [
+    'muse-spark-open',
+    'jais-3',
+    'granite-switch-4-1',
+    'beam-open-weights',
+    'deepseek-v4-1-flash-1017',
     'gpt-1',
     'gpt-2',
     'gpt-3-paper',

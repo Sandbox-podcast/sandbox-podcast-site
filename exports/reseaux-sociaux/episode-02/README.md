@@ -1,8 +1,10 @@
 # SANDBOX #2 : Shorts corrigés
 
-Mise à jour du 2026-10-18T21:02:45.185816+00:00. La révision `camera-unique-v2` remplace le montage qui affichait deux fois la même caméra.
+Instantané de livraison du 2026-10-18T21:17:26.980317+00:00. La révision `camera-unique-v2` remplace le montage qui affichait deux fois la même caméra. Les programmations continuent d'évoluer ; relire la file avant une action.
 
 ## Fichiers à utiliser
+
+Les chemins `shorts/`, `revisions/` et `.local/` ci-dessous désignent les fichiers du poste de production ; les médias et captures lourds sont exclus de Git. Les [sources des trente compositions et le pipeline de reproduction](../../../tools/social-network-manager/episode-02/camera-unique-v2/README.md) sont versionnés. Un nouveau clonage doit préparer les médias avant de reproduire ces montages.
 
 Les **30 MP4 corrigés** sont dans [`shorts/`](shorts/), avec leurs noms d’origine. Le [manifeste des fichiers](shorts/manifest-camera-unique-v2.json) donne les empreintes SHA-256 et les chemins des anciennes versions archivées. Les sources et les six publications déjà en ligne sont conservées.
 
@@ -27,9 +29,9 @@ Un fichier corrigé sur le disque ne remplace pas à lui seul la vidéo sur un r
 
 | Réseau    | Publications existantes conservées | Nouvelles versions programmées et vérifiées | Remplacements restant à confirmer |
 | --------- | ---------------------------------- | ------------------------------------------- | --------------------------------- |
-| youtube   | 3                                  | 0                                           | 27                                |
+| youtube   | 3                                  | 1                                           | 26                                |
 | instagram | 1                                  | 0                                           | 29                                |
-| x         | 1                                  | 4                                           | 25                                |
+| x         | 1                                  | 9                                           | 20                                |
 | tiktok    | 1                                  | 0                                           | 29                                |
 
 Les 27 anciens Shorts YouTube programmés ont été rendus privés. Les neuf Reels Instagram réellement programmés ont été déplacés en brouillons ; la liste Meta des programmations a ensuite été vérifiée vide. Les anciennes réservations X et TikTok peuvent rester actives tant que leur remplacement n’est pas confirmé. Les routines de publication Meta et TikTok restent suspendues pendant cette reprise.

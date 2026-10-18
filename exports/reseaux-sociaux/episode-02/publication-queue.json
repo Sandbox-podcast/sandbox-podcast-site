@@ -30,9 +30,9 @@
     "scheduled_local": "2026-10-19T11:30:00+02:00",
     "timezone": "Europe/Paris",
     "status": "replacement_pending",
-    "native_id": "7697941363861638422",
+    "native_id": null,
     "proof": ".local/social-network-manager/daily/proofs/2026-10-18-tiktok-e02-007-scheduled.jpg",
-    "url": "https://www.tiktok.com/@sandbox.talkshow/video/7697941363861638422",
+    "url": null,
     "last_error": "La ligne native porte le même identifiant et le 19 octobre à 11 h 30, mais son titre et sa légende affichés diffèrent du titre et du texte présents dans la file. Ne pas supprimer ni recréer avant de rattacher avec certitude la vidéo à cette ligne.",
     "native_evidence": "TikTok Studio affiche l’ID 7697941363861638422, le 19 oct. à 11:30, avec le titre « Restaurant : comment répondre aux réservations quand toute l’équipe est en service ? » et une légende différente du texte courant de la file. Le sujet et la durée de 00:29 correspondent à l’extrait E02-007; l’identité de la ligne n’est pas assez certaine pour suppression.",
     "replacement_revision": "camera-unique-v2",
@@ -51,10 +51,15 @@
       }
     ],
     "previous_native_status": "needs_verification",
-    "old_native_visibility": "old_schedule_requires_replacement",
+    "old_native_visibility": "deleted_confirmed",
     "source_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-007-reservations.mp4",
     "replacement_source_sha256": "83af1d804f403d91a57da0c0eee7de5cb1d85a9151fcdf65082d7c75ef099af1",
-    "publication_note": "Version caméra unique prête localement. La nouvelle programmation doit être confirmée dans le réseau ; le lien natif existant désigne encore l’ancienne version."
+    "publication_note": "Ancienne réservation supprimée après confirmation explicite de Lou pour les 24 réservations. Nouvelle version prête, encore à programmer.",
+    "old_native_id": "7697941363861638422",
+    "old_native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697941363861638422",
+    "native_url": null,
+    "old_native_retirement_proof": "C:/github/sandbox-podcast/.local/social-network-manager/tiktok-e02-anciens-retires-v2.png",
+    "old_native_retired_at": "2026-10-18T21:12:33.075Z"
   },
   {
     "clip_id": "E02-007",
@@ -281,9 +286,9 @@
     "scheduled_local": "2026-10-19T20:30:00+02:00",
     "timezone": "Europe/Paris",
     "status": "replacement_pending",
-    "native_id": "7697945013128269078",
+    "native_id": null,
     "proof": ".local/social-network-manager/daily/proofs/2026-10-18-tiktok-e02-003-scheduled.jpg",
-    "url": "https://www.tiktok.com/@sandbox.talkshow/video/7697945013128269078",
+    "url": null,
     "replacement_revision": "camera-unique-v2",
     "replacement_status": "ready_for_upload",
     "replacement_history": [
@@ -300,10 +305,15 @@
       }
     ],
     "previous_native_status": "scheduled_confirmed",
-    "old_native_visibility": "old_schedule_requires_replacement",
+    "old_native_visibility": "deleted_confirmed",
     "source_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-003-comparer-modeles.mp4",
     "replacement_source_sha256": "5f9979780c47679cb75ec029a838ee1812d0f5f63575f57eac91567cb1270209",
-    "publication_note": "Version caméra unique prête localement. La nouvelle programmation doit être confirmée dans le réseau ; le lien natif existant désigne encore l’ancienne version."
+    "publication_note": "Ancienne réservation supprimée après confirmation explicite de Lou pour les 24 réservations. Nouvelle version prête, encore à programmer.",
+    "old_native_id": "7697945013128269078",
+    "old_native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697945013128269078",
+    "native_url": null,
+    "old_native_retirement_proof": "C:/github/sandbox-podcast/.local/social-network-manager/tiktok-e02-anciens-retires-v2.png",
+    "old_native_retired_at": "2026-10-18T21:12:33.076Z"
   },
   {
     "clip_id": "E02-003",
@@ -403,7 +413,7 @@
     "native_list_verified_at": "2026-10-18T14:37:19Z",
     "checks_pending": false,
     "replacement_revision": "camera-unique-v2",
-    "replacement_status": "ready_for_upload",
+    "replacement_status": "uploaded_draft",
     "old_native_visibility": "private_confirmed",
     "replacement_note": "Ancienne version rendue privée dans YouTube Studio le 18 octobre 2026, sans suppression. Créneau conservé dans cette file comme cible du nouveau fichier.",
     "old_private_proof": ".local/social-network-manager/youtube-e02-anciens-prives-v2.png",
@@ -423,7 +433,8 @@
     "previous_native_status": "replacement_pending",
     "source_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-008-devis-whatsapp.mp4",
     "replacement_source_sha256": "817202814f14362de01241d0f0a7cb5b865f80521ed21da7f60fb83706dd6240",
-    "publication_note": "Version caméra unique prête localement. La nouvelle programmation doit être confirmée dans le réseau ; le lien natif existant désigne encore l’ancienne version."
+    "publication_note": "Version caméra unique importée dans YouTube Studio en brouillon. Métadonnées et programmation à terminer ; ancien Short privé.",
+    "pending_uploaded_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-008-devis-whatsapp.mp4"
   },
   {
     "clip_id": "E02-008",
@@ -434,9 +445,9 @@
     "scheduled_local": "2026-10-20T11:30:00+02:00",
     "timezone": "Europe/Paris",
     "status": "replacement_pending",
-    "native_id": "7697946742620278038",
+    "native_id": null,
     "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-tiktok-e02-008-scheduled.jpg",
-    "native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697946742620278038",
+    "native_url": null,
     "replacement_revision": "camera-unique-v2",
     "replacement_status": "ready_for_upload",
     "replacement_history": [
@@ -453,10 +464,15 @@
       }
     ],
     "previous_native_status": "scheduled_confirmed",
-    "old_native_visibility": "old_schedule_requires_replacement",
+    "old_native_visibility": "deleted_confirmed",
     "source_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-008-devis-whatsapp.mp4",
     "replacement_source_sha256": "817202814f14362de01241d0f0a7cb5b865f80521ed21da7f60fb83706dd6240",
-    "publication_note": "Version caméra unique prête localement. La nouvelle programmation doit être confirmée dans le réseau ; le lien natif existant désigne encore l’ancienne version."
+    "publication_note": "Ancienne réservation supprimée après confirmation explicite de Lou pour les 24 réservations. Nouvelle version prête, encore à programmer.",
+    "old_native_id": "7697946742620278038",
+    "old_native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697946742620278038",
+    "url": null,
+    "old_native_retirement_proof": "C:/github/sandbox-podcast/.local/social-network-manager/tiktok-e02-anciens-retires-v2.png",
+    "old_native_retired_at": "2026-10-18T21:12:33.076Z"
   },
   {
     "clip_id": "E02-008",
@@ -556,7 +572,7 @@
     "checks_pending": false,
     "native_list_verified_at": "2026-10-18T14:37:19Z",
     "replacement_revision": "camera-unique-v2",
-    "replacement_status": "ready_for_upload",
+    "replacement_status": "uploaded_draft",
     "old_native_visibility": "private_confirmed",
     "replacement_note": "Ancienne version rendue privée dans YouTube Studio le 18 octobre 2026, sans suppression. Créneau conservé dans cette file comme cible du nouveau fichier.",
     "old_private_proof": ".local/social-network-manager/youtube-e02-anciens-prives-v2.png",
@@ -576,7 +592,8 @@
     "previous_native_status": "replacement_pending",
     "source_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-020-maquette.mp4",
     "replacement_source_sha256": "06f82290ba900d67190407f1be10c47a3c5503c9a20c5aa4e6265deb3cd57eeb",
-    "publication_note": "Version caméra unique prête localement. La nouvelle programmation doit être confirmée dans le réseau ; le lien natif existant désigne encore l’ancienne version."
+    "publication_note": "Version caméra unique importée dans YouTube Studio en brouillon. Métadonnées et programmation à terminer ; ancien Short privé.",
+    "pending_uploaded_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-020-maquette.mp4"
   },
   {
     "clip_id": "E02-020",
@@ -587,10 +604,10 @@
     "scheduled_local": "2026-10-20T16:00:00+02:00",
     "timezone": "Europe/Paris",
     "status": "replacement_pending",
-    "native_id": "7697948163549809942",
+    "native_id": null,
     "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-tiktok-e02-020-scheduled.jpg",
     "checks_pending": true,
-    "native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697948163549809942",
+    "native_url": null,
     "replacement_revision": "camera-unique-v2",
     "replacement_status": "ready_for_upload",
     "replacement_history": [
@@ -607,10 +624,15 @@
       }
     ],
     "previous_native_status": "scheduled_confirmed",
-    "old_native_visibility": "old_schedule_requires_replacement",
+    "old_native_visibility": "deleted_confirmed",
     "source_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-020-maquette.mp4",
     "replacement_source_sha256": "06f82290ba900d67190407f1be10c47a3c5503c9a20c5aa4e6265deb3cd57eeb",
-    "publication_note": "Version caméra unique prête localement. La nouvelle programmation doit être confirmée dans le réseau ; le lien natif existant désigne encore l’ancienne version."
+    "publication_note": "Ancienne réservation supprimée après confirmation explicite de Lou pour les 24 réservations. Nouvelle version prête, encore à programmer.",
+    "old_native_id": "7697948163549809942",
+    "old_native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697948163549809942",
+    "url": null,
+    "old_native_retirement_proof": "C:/github/sandbox-podcast/.local/social-network-manager/tiktok-e02-anciens-retires-v2.png",
+    "old_native_retired_at": "2026-10-18T21:12:33.076Z"
   },
   {
     "clip_id": "E02-020",
@@ -724,7 +746,7 @@
     "checks_pending": false,
     "native_list_verified_at": "2026-10-18T14:37:19Z",
     "replacement_revision": "camera-unique-v2",
-    "replacement_status": "ready_for_upload",
+    "replacement_status": "uploaded_draft",
     "old_native_visibility": "private_confirmed",
     "replacement_note": "Ancienne version rendue privée dans YouTube Studio le 18 octobre 2026, sans suppression. Créneau conservé dans cette file comme cible du nouveau fichier.",
     "old_private_proof": ".local/social-network-manager/youtube-e02-anciens-prives-v2.png",
@@ -744,7 +766,8 @@
     "previous_native_status": "replacement_pending",
     "source_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-004-commerce.mp4",
     "replacement_source_sha256": "c5f8e4c1c128e5248601d49b7a81914510039ef0393e68edfe1c72a231e32508",
-    "publication_note": "Version caméra unique prête localement. La nouvelle programmation doit être confirmée dans le réseau ; le lien natif existant désigne encore l’ancienne version."
+    "publication_note": "Version caméra unique importée dans YouTube Studio en brouillon. Métadonnées et programmation à terminer ; ancien Short privé.",
+    "pending_uploaded_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-004-commerce.mp4"
   },
   {
     "clip_id": "E02-004",
@@ -755,10 +778,10 @@
     "scheduled_local": "2026-10-20T20:30:00+02:00",
     "timezone": "Europe/Paris",
     "status": "replacement_pending",
-    "native_id": "7697949413355916566",
+    "native_id": null,
     "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-tiktok-e02-004-scheduled.jpg",
     "checks_pending": true,
-    "native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697949413355916566",
+    "native_url": null,
     "replacement_revision": "camera-unique-v2",
     "replacement_status": "ready_for_upload",
     "replacement_history": [
@@ -775,10 +798,15 @@
       }
     ],
     "previous_native_status": "scheduled_confirmed",
-    "old_native_visibility": "old_schedule_requires_replacement",
+    "old_native_visibility": "deleted_confirmed",
     "source_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-004-commerce.mp4",
     "replacement_source_sha256": "c5f8e4c1c128e5248601d49b7a81914510039ef0393e68edfe1c72a231e32508",
-    "publication_note": "Version caméra unique prête localement. La nouvelle programmation doit être confirmée dans le réseau ; le lien natif existant désigne encore l’ancienne version."
+    "publication_note": "Ancienne réservation supprimée après confirmation explicite de Lou pour les 24 réservations. Nouvelle version prête, encore à programmer.",
+    "old_native_id": "7697949413355916566",
+    "old_native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697949413355916566",
+    "url": null,
+    "old_native_retirement_proof": "C:/github/sandbox-podcast/.local/social-network-manager/tiktok-e02-anciens-retires-v2.png",
+    "old_native_retired_at": "2026-10-18T21:12:33.076Z"
   },
   {
     "clip_id": "E02-004",
@@ -892,7 +920,7 @@
     "checks_pending": false,
     "native_list_verified_at": "2026-10-18T14:37:19Z",
     "replacement_revision": "camera-unique-v2",
-    "replacement_status": "ready_for_upload",
+    "replacement_status": "uploaded_draft",
     "old_native_visibility": "private_confirmed",
     "replacement_note": "Ancienne version rendue privée dans YouTube Studio le 18 octobre 2026, sans suppression. Créneau conservé dans cette file comme cible du nouveau fichier.",
     "old_private_proof": ".local/social-network-manager/youtube-e02-anciens-prives-v2.png",
@@ -912,7 +940,8 @@
     "previous_native_status": "replacement_pending",
     "source_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-015-cadrer-besoin.mp4",
     "replacement_source_sha256": "c9082faefd2750d04e596690797fb889bba62e09ffe20239883dac6b625136b4",
-    "publication_note": "Version caméra unique prête localement. La nouvelle programmation doit être confirmée dans le réseau ; le lien natif existant désigne encore l’ancienne version."
+    "publication_note": "Version caméra unique importée dans YouTube Studio en brouillon. Métadonnées et programmation à terminer ; ancien Short privé.",
+    "pending_uploaded_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-015-cadrer-besoin.mp4"
   },
   {
     "clip_id": "E02-015",
@@ -923,10 +952,10 @@
     "scheduled_local": "2026-10-21T11:30:00+02:00",
     "timezone": "Europe/Paris",
     "status": "replacement_pending",
-    "native_id": "7697950998920301846",
+    "native_id": null,
     "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-tiktok-e02-015-scheduled.jpg",
     "checks_pending": false,
-    "native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697950998920301846",
+    "native_url": null,
     "replacement_revision": "camera-unique-v2",
     "replacement_status": "ready_for_upload",
     "replacement_history": [
@@ -943,10 +972,15 @@
       }
     ],
     "previous_native_status": "scheduled_confirmed",
-    "old_native_visibility": "old_schedule_requires_replacement",
+    "old_native_visibility": "deleted_confirmed",
     "source_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-015-cadrer-besoin.mp4",
     "replacement_source_sha256": "c9082faefd2750d04e596690797fb889bba62e09ffe20239883dac6b625136b4",
-    "publication_note": "Version caméra unique prête localement. La nouvelle programmation doit être confirmée dans le réseau ; le lien natif existant désigne encore l’ancienne version."
+    "publication_note": "Ancienne réservation supprimée après confirmation explicite de Lou pour les 24 réservations. Nouvelle version prête, encore à programmer.",
+    "old_native_id": "7697950998920301846",
+    "old_native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697950998920301846",
+    "url": null,
+    "old_native_retirement_proof": "C:/github/sandbox-podcast/.local/social-network-manager/tiktok-e02-anciens-retires-v2.png",
+    "old_native_retired_at": "2026-10-18T21:12:33.076Z"
   },
   {
     "clip_id": "E02-015",
@@ -1004,15 +1038,15 @@
     "platform": "x",
     "title": "Avant de demander une application à l'IA, faites-vous questionner",
     "text": "Avant de demander une application à l'IA, faites-vous questionner\n\nAvant de demander une application, demander à l'IA de poser les bonnes questions pour préciser le besoin.\n\nÉpisode complet : https://youtu.be/7KVqydbGow0",
-    "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-015-cadrer-besoin.mp4",
+    "file": "C:/github/sandbox-podcast/exports/reseaux-sociaux/episode-02/shorts/e02-015-cadrer-besoin.mp4",
     "scheduled_local": "2026-10-20T12:30:00+02:00",
     "timezone": "Europe/Paris",
-    "status": "replacement_pending",
+    "status": "scheduled_confirmed",
     "native_id": null,
-    "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-x-e02-015-scheduled.jpg",
+    "proof": "C:/github/sandbox-podcast/.local/social-network-manager/x-e02-015-v2-scheduled.png",
     "native_evidence": "Will send on Tue, Oct 20, 2026 at 12:30 PMAvant de demander une application à l'IA, faites-vous questionner\n\nAvant de demander une application, demander à l'IA de poser les bonnes questions pour préciser le besoin.\n\nÉpisode complet : https://youtu.be/7KVqydbGow01:04",
     "replacement_revision": "camera-unique-v2",
-    "replacement_status": "ready_for_upload",
+    "replacement_status": "scheduled_verified",
     "replacement_history": [
       {
         "status": "scheduled_confirmed",
@@ -1024,13 +1058,24 @@
         "uploaded_file": null,
         "upload_variant": null,
         "scheduled_local": "2026-10-20T12:30:00+02:00"
+      },
+      {
+        "status": "replacement_pending",
+        "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-x-e02-015-scheduled.jpg",
+        "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-015-cadrer-besoin.mp4",
+        "scheduled_local": "2026-10-20T12:30:00+02:00"
       }
     ],
     "previous_native_status": "scheduled_confirmed",
     "old_native_visibility": "old_schedule_requires_replacement",
     "source_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-015-cadrer-besoin.mp4",
     "replacement_source_sha256": "c9082faefd2750d04e596690797fb889bba62e09ffe20239883dac6b625136b4",
-    "publication_note": "Version caméra unique prête localement. La nouvelle programmation doit être confirmée dans le réseau ; le lien natif existant désigne encore l’ancienne version."
+    "publication_note": "Ancien média remplacé dans la programmation X ; titre, texte et créneau conservés. Nouvelle miniature native et aperçu contrôlés.",
+    "uploaded_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\camera-unique-v2\\shorts\\e02-015-cadrer-besoin.mp4",
+    "media_revision": "camera-unique-v2",
+    "native_media_id": "2111926300076118017",
+    "replacement_verified_at": "2026-10-18T21:08:46.772Z",
+    "replacement_sha256": "c9082faefd2750d04e596690797fb889bba62e09ffe20239883dac6b625136b4"
   },
   {
     "clip_id": "E02-023",
@@ -1049,7 +1094,7 @@
     "checks_pending": false,
     "native_list_verified_at": "2026-10-18T14:37:19Z",
     "replacement_revision": "camera-unique-v2",
-    "replacement_status": "ready_for_upload",
+    "replacement_status": "uploaded_draft",
     "old_native_visibility": "private_confirmed",
     "replacement_note": "Ancienne version rendue privée dans YouTube Studio le 18 octobre 2026, sans suppression. Créneau conservé dans cette file comme cible du nouveau fichier.",
     "old_private_proof": ".local/social-network-manager/youtube-e02-anciens-prives-v2.png",
@@ -1069,7 +1114,8 @@
     "previous_native_status": "replacement_pending",
     "source_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-023-legacy.mp4",
     "replacement_source_sha256": "03c3c76ff1806727869485e0d1403453b1782d4979a3972ee83277f262ad35b7",
-    "publication_note": "Version caméra unique prête localement. La nouvelle programmation doit être confirmée dans le réseau ; le lien natif existant désigne encore l’ancienne version."
+    "publication_note": "Version caméra unique importée dans YouTube Studio en brouillon. Métadonnées et programmation à terminer ; ancien Short privé.",
+    "pending_uploaded_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-023-legacy.mp4"
   },
   {
     "clip_id": "E02-023",
@@ -1080,10 +1126,10 @@
     "scheduled_local": "2026-10-21T16:00:00+02:00",
     "timezone": "Europe/Paris",
     "status": "replacement_pending",
-    "native_id": "7697951416425418006",
+    "native_id": null,
     "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-tiktok-e02-023-scheduled.jpg",
     "checks_pending": true,
-    "native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697951416425418006",
+    "native_url": null,
     "replacement_revision": "camera-unique-v2",
     "replacement_status": "ready_for_upload",
     "replacement_history": [
@@ -1100,10 +1146,15 @@
       }
     ],
     "previous_native_status": "scheduled_confirmed",
-    "old_native_visibility": "old_schedule_requires_replacement",
+    "old_native_visibility": "deleted_confirmed",
     "source_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-023-legacy.mp4",
     "replacement_source_sha256": "03c3c76ff1806727869485e0d1403453b1782d4979a3972ee83277f262ad35b7",
-    "publication_note": "Version caméra unique prête localement. La nouvelle programmation doit être confirmée dans le réseau ; le lien natif existant désigne encore l’ancienne version."
+    "publication_note": "Ancienne réservation supprimée après confirmation explicite de Lou pour les 24 réservations. Nouvelle version prête, encore à programmer.",
+    "old_native_id": "7697951416425418006",
+    "old_native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697951416425418006",
+    "url": null,
+    "old_native_retirement_proof": "C:/github/sandbox-podcast/.local/social-network-manager/tiktok-e02-anciens-retires-v2.png",
+    "old_native_retired_at": "2026-10-18T21:12:33.076Z"
   },
   {
     "clip_id": "E02-023",
@@ -1161,15 +1212,15 @@
     "platform": "x",
     "title": "Legacy : quand faut-il repartir de zéro ?",
     "text": "Legacy : quand faut-il repartir de zéro ?\n\nQuand le savoir sur une application a disparu, faut-il repartir de zéro ? Le débat garde la question des tests.\n\nÉpisode complet : https://youtu.be/7KVqydbGow0",
-    "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-023-legacy.mp4",
+    "file": "C:/github/sandbox-podcast/exports/reseaux-sociaux/episode-02/shorts/e02-023-legacy.mp4",
     "scheduled_local": "2026-10-20T15:00:00+02:00",
     "timezone": "Europe/Paris",
-    "status": "replacement_pending",
+    "status": "scheduled_confirmed",
     "native_id": null,
-    "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-x-e02-023-scheduled.jpg",
+    "proof": "C:/github/sandbox-podcast/.local/social-network-manager/x-e02-023-v2-scheduled.png",
     "native_evidence": "Will send on Tue, Oct 20, 2026 at 3:00 PMLegacy : quand faut-il repartir de zéro ?\n\nQuand le savoir sur une application a disparu, faut-il repartir de zéro ? Le débat garde la question des tests.\n\nÉpisode complet : https://youtu.be/7KVqydbGow01:10",
     "replacement_revision": "camera-unique-v2",
-    "replacement_status": "ready_for_upload",
+    "replacement_status": "scheduled_verified",
     "replacement_history": [
       {
         "status": "scheduled_confirmed",
@@ -1181,13 +1232,24 @@
         "uploaded_file": null,
         "upload_variant": null,
         "scheduled_local": "2026-10-20T15:00:00+02:00"
+      },
+      {
+        "status": "replacement_pending",
+        "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-x-e02-023-scheduled.jpg",
+        "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-023-legacy.mp4",
+        "scheduled_local": "2026-10-20T15:00:00+02:00"
       }
     ],
     "previous_native_status": "scheduled_confirmed",
     "old_native_visibility": "old_schedule_requires_replacement",
     "source_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-023-legacy.mp4",
     "replacement_source_sha256": "03c3c76ff1806727869485e0d1403453b1782d4979a3972ee83277f262ad35b7",
-    "publication_note": "Version caméra unique prête localement. La nouvelle programmation doit être confirmée dans le réseau ; le lien natif existant désigne encore l’ancienne version."
+    "publication_note": "Ancien média remplacé dans la programmation X ; titre, texte et créneau conservés. Nouvelle miniature native et aperçu contrôlés.",
+    "uploaded_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\camera-unique-v2\\shorts\\e02-023-legacy.mp4",
+    "media_revision": "camera-unique-v2",
+    "native_media_id": "2111927150412439552",
+    "replacement_verified_at": "2026-10-18T21:11:08.458Z",
+    "replacement_sha256": "03c3c76ff1806727869485e0d1403453b1782d4979a3972ee83277f262ad35b7"
   },
   {
     "clip_id": "E02-005",
@@ -1206,7 +1268,7 @@
     "checks_pending": false,
     "native_list_verified_at": "2026-10-18T14:37:19Z",
     "replacement_revision": "camera-unique-v2",
-    "replacement_status": "ready_for_upload",
+    "replacement_status": "uploaded_draft",
     "old_native_visibility": "private_confirmed",
     "replacement_note": "Ancienne version rendue privée dans YouTube Studio le 18 octobre 2026, sans suppression. Créneau conservé dans cette file comme cible du nouveau fichier.",
     "old_private_proof": ".local/social-network-manager/youtube-e02-anciens-prives-v2.png",
@@ -1226,7 +1288,8 @@
     "previous_native_status": "replacement_pending",
     "source_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-005-immobilier.mp4",
     "replacement_source_sha256": "be73d20b815d3b30f0cdbb4f41f3920c5674a28dd9479276c79c168d6499c1fb",
-    "publication_note": "Version caméra unique prête localement. La nouvelle programmation doit être confirmée dans le réseau ; le lien natif existant désigne encore l’ancienne version."
+    "publication_note": "Version caméra unique importée dans YouTube Studio en brouillon. Métadonnées et programmation à terminer ; ancien Short privé.",
+    "pending_uploaded_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-005-immobilier.mp4"
   },
   {
     "clip_id": "E02-005",
@@ -1237,10 +1300,10 @@
     "scheduled_local": "2026-10-21T20:30:00+02:00",
     "timezone": "Europe/Paris",
     "status": "replacement_pending",
-    "native_id": "7697951887877868822",
+    "native_id": null,
     "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-tiktok-e02-005-scheduled.jpg",
     "checks_pending": false,
-    "native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697951887877868822",
+    "native_url": null,
     "replacement_revision": "camera-unique-v2",
     "replacement_status": "ready_for_upload",
     "replacement_history": [
@@ -1257,10 +1320,15 @@
       }
     ],
     "previous_native_status": "scheduled_confirmed",
-    "old_native_visibility": "old_schedule_requires_replacement",
+    "old_native_visibility": "deleted_confirmed",
     "source_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-005-immobilier.mp4",
     "replacement_source_sha256": "be73d20b815d3b30f0cdbb4f41f3920c5674a28dd9479276c79c168d6499c1fb",
-    "publication_note": "Version caméra unique prête localement. La nouvelle programmation doit être confirmée dans le réseau ; le lien natif existant désigne encore l’ancienne version."
+    "publication_note": "Ancienne réservation supprimée après confirmation explicite de Lou pour les 24 réservations. Nouvelle version prête, encore à programmer.",
+    "old_native_id": "7697951887877868822",
+    "old_native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697951887877868822",
+    "url": null,
+    "old_native_retirement_proof": "C:/github/sandbox-podcast/.local/social-network-manager/tiktok-e02-anciens-retires-v2.png",
+    "old_native_retired_at": "2026-10-18T21:12:33.076Z"
   },
   {
     "clip_id": "E02-005",
@@ -1313,15 +1381,15 @@
     "platform": "x",
     "title": "Immobilier : un assistant pour répondre quand l'agence est fermée",
     "text": "Immobilier : un assistant pour répondre quand l'agence est fermée\n\nRépondre aux questions sur un bien, puis passer le relais à l'agent : une piste pour garder le contact hors horaires d'ouverture.\n\nÉpisode complet : https://youtu.be/7KVqydbGow0",
-    "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-005-immobilier.mp4",
+    "file": "C:/github/sandbox-podcast/exports/reseaux-sociaux/episode-02/shorts/e02-005-immobilier.mp4",
     "scheduled_local": "2026-10-20T17:30:00+02:00",
     "timezone": "Europe/Paris",
-    "status": "replacement_pending",
+    "status": "scheduled_confirmed",
     "native_id": null,
-    "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-x-e02-005-scheduled.jpg",
+    "proof": "C:/github/sandbox-podcast/.local/social-network-manager/x-e02-005-v2-scheduled.png",
     "native_evidence": "Will send on Tue, Oct 20, 2026 at 5:30 PMImmobilier : un assistant pour répondre quand l'agence est fermée\n\nRépondre aux questions sur un bien, puis passer le relais à l'agent : une piste pour garder le contact hors horaires d'ouverture.\n\nÉpisode complet : https://youtu.be/7KVqydbGow01:46",
     "replacement_revision": "camera-unique-v2",
-    "replacement_status": "ready_for_upload",
+    "replacement_status": "scheduled_verified",
     "replacement_history": [
       {
         "status": "scheduled_confirmed",
@@ -1333,13 +1401,24 @@
         "uploaded_file": null,
         "upload_variant": null,
         "scheduled_local": "2026-10-20T17:30:00+02:00"
+      },
+      {
+        "status": "replacement_pending",
+        "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-x-e02-005-scheduled.jpg",
+        "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-005-immobilier.mp4",
+        "scheduled_local": "2026-10-20T17:30:00+02:00"
       }
     ],
     "previous_native_status": "scheduled_confirmed",
     "old_native_visibility": "old_schedule_requires_replacement",
     "source_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-005-immobilier.mp4",
     "replacement_source_sha256": "be73d20b815d3b30f0cdbb4f41f3920c5674a28dd9479276c79c168d6499c1fb",
-    "publication_note": "Version caméra unique prête localement. La nouvelle programmation doit être confirmée dans le réseau ; le lien natif existant désigne encore l’ancienne version."
+    "publication_note": "Ancien média remplacé dans la programmation X ; titre, texte et créneau conservés. Nouvelle miniature native et aperçu contrôlés.",
+    "uploaded_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\camera-unique-v2\\shorts\\e02-005-immobilier.mp4",
+    "media_revision": "camera-unique-v2",
+    "native_media_id": "2111927964619149312",
+    "replacement_verified_at": "2026-10-18T21:15:35.469Z",
+    "replacement_sha256": "be73d20b815d3b30f0cdbb4f41f3920c5674a28dd9479276c79c168d6499c1fb"
   },
   {
     "clip_id": "E02-018",
@@ -1358,7 +1437,7 @@
     "checks_pending": false,
     "native_list_verified_at": "2026-10-18T14:37:19Z",
     "replacement_revision": "camera-unique-v2",
-    "replacement_status": "ready_for_upload",
+    "replacement_status": "uploaded_draft",
     "old_native_visibility": "private_confirmed",
     "replacement_note": "Ancienne version rendue privée dans YouTube Studio le 18 octobre 2026, sans suppression. Créneau conservé dans cette file comme cible du nouveau fichier.",
     "old_private_proof": ".local/social-network-manager/youtube-e02-anciens-prives-v2.png",
@@ -1378,7 +1457,8 @@
     "previous_native_status": "replacement_pending",
     "source_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-018-ticket-fonctionnel.mp4",
     "replacement_source_sha256": "a33cd750d538053a64690dac2f0f48cb001261ef041a0f5711bae217a58da593",
-    "publication_note": "Version caméra unique prête localement. La nouvelle programmation doit être confirmée dans le réseau ; le lien natif existant désigne encore l’ancienne version."
+    "publication_note": "Version caméra unique importée dans YouTube Studio en brouillon. Métadonnées et programmation à terminer ; ancien Short privé.",
+    "pending_uploaded_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-018-ticket-fonctionnel.mp4"
   },
   {
     "clip_id": "E02-018",
@@ -1389,10 +1469,10 @@
     "scheduled_local": "2026-10-22T11:30:00+02:00",
     "timezone": "Europe/Paris",
     "status": "replacement_pending",
-    "native_id": "7697953401199414550",
+    "native_id": null,
     "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-tiktok-e02-018-scheduled.jpg",
     "checks_pending": false,
-    "native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697953401199414550",
+    "native_url": null,
     "replacement_revision": "camera-unique-v2",
     "replacement_status": "ready_for_upload",
     "replacement_history": [
@@ -1409,10 +1489,15 @@
       }
     ],
     "previous_native_status": "scheduled_confirmed",
-    "old_native_visibility": "old_schedule_requires_replacement",
+    "old_native_visibility": "deleted_confirmed",
     "source_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-018-ticket-fonctionnel.mp4",
     "replacement_source_sha256": "a33cd750d538053a64690dac2f0f48cb001261ef041a0f5711bae217a58da593",
-    "publication_note": "Version caméra unique prête localement. La nouvelle programmation doit être confirmée dans le réseau ; le lien natif existant désigne encore l’ancienne version."
+    "publication_note": "Ancienne réservation supprimée après confirmation explicite de Lou pour les 24 réservations. Nouvelle version prête, encore à programmer.",
+    "old_native_id": "7697953401199414550",
+    "old_native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697953401199414550",
+    "url": null,
+    "old_native_retirement_proof": "C:/github/sandbox-podcast/.local/social-network-manager/tiktok-e02-anciens-retires-v2.png",
+    "old_native_retired_at": "2026-10-18T21:12:33.076Z"
   },
   {
     "clip_id": "E02-018",
@@ -1469,15 +1554,15 @@
     "platform": "x",
     "title": "Un ticket doit-il expliquer le besoin ou l'implémentation ?",
     "text": "Un ticket doit-il expliquer le besoin ou l'implémentation ?\n\nLe besoin fonctionnel et le choix technique ne jouent pas le même rôle. Le débat porte sur ce que le ticket doit transmettre.\n\nÉpisode complet : https://youtu.be/7KVqydbGow0",
-    "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-018-ticket-fonctionnel.mp4",
+    "file": "C:/github/sandbox-podcast/exports/reseaux-sociaux/episode-02/shorts/e02-018-ticket-fonctionnel.mp4",
     "scheduled_local": "2026-10-20T20:00:00+02:00",
     "timezone": "Europe/Paris",
-    "status": "replacement_pending",
+    "status": "scheduled_confirmed",
     "native_id": null,
-    "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-x-e02-018-scheduled.jpg",
+    "proof": "C:/github/sandbox-podcast/.local/social-network-manager/x-e02-018-v2-scheduled.png",
     "native_evidence": "Will send on Tue, Oct 20, 2026 at 8:00 PMUn ticket doit-il expliquer le besoin ou l'implémentation ?\n\nLe besoin fonctionnel et le choix technique ne jouent pas le même rôle. Le débat porte sur ce que le ticket doit transmettre.\n\nÉpisode complet : https://youtu.be/7KVqydbGow01:22",
     "replacement_revision": "camera-unique-v2",
-    "replacement_status": "ready_for_upload",
+    "replacement_status": "scheduled_verified",
     "replacement_history": [
       {
         "status": "scheduled_confirmed",
@@ -1489,13 +1574,24 @@
         "uploaded_file": null,
         "upload_variant": null,
         "scheduled_local": "2026-10-20T20:00:00+02:00"
+      },
+      {
+        "status": "replacement_pending",
+        "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-x-e02-018-scheduled.jpg",
+        "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-018-ticket-fonctionnel.mp4",
+        "scheduled_local": "2026-10-20T20:00:00+02:00"
       }
     ],
     "previous_native_status": "scheduled_confirmed",
     "old_native_visibility": "old_schedule_requires_replacement",
     "source_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-018-ticket-fonctionnel.mp4",
     "replacement_source_sha256": "a33cd750d538053a64690dac2f0f48cb001261ef041a0f5711bae217a58da593",
-    "publication_note": "Version caméra unique prête localement. La nouvelle programmation doit être confirmée dans le réseau ; le lien natif existant désigne encore l’ancienne version."
+    "publication_note": "Ancien média remplacé dans la programmation X ; titre, texte et créneau conservés. Nouvelle miniature native et aperçu contrôlés.",
+    "uploaded_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\revisions\\camera-unique-v2\\shorts\\e02-018-ticket-fonctionnel.mp4",
+    "media_revision": "camera-unique-v2",
+    "native_media_id": "2111928549061877762",
+    "replacement_verified_at": "2026-10-18T21:16:20.102Z",
+    "replacement_sha256": "a33cd750d538053a64690dac2f0f48cb001261ef041a0f5711bae217a58da593"
   },
   {
     "clip_id": "E02-012",
@@ -1512,7 +1608,7 @@
     "checks_pending": false,
     "native_list_verified_at": "2026-10-18T14:37:19Z",
     "replacement_revision": "camera-unique-v2",
-    "replacement_status": "ready_for_upload",
+    "replacement_status": "uploaded_draft",
     "old_native_visibility": "private_confirmed",
     "replacement_note": "Ancienne version rendue privée dans YouTube Studio le 18 octobre 2026, sans suppression. Créneau conservé dans cette file comme cible du nouveau fichier.",
     "old_private_proof": ".local/social-network-manager/youtube-e02-anciens-prives-v2.png",
@@ -1532,7 +1628,8 @@
     "previous_native_status": "replacement_pending",
     "source_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-012-boulanger.mp4",
     "replacement_source_sha256": "997aea0d8f842def2f7aeab9a501b31a64dbc0940caefc91ecd0bd0f05d62eae",
-    "publication_note": "Version caméra unique prête localement. La nouvelle programmation doit être confirmée dans le réseau ; le lien natif existant désigne encore l’ancienne version."
+    "publication_note": "Version caméra unique importée dans YouTube Studio en brouillon. Métadonnées et programmation à terminer ; ancien Short privé.",
+    "pending_uploaded_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-012-boulanger.mp4"
   },
   {
     "clip_id": "E02-012",
@@ -1543,11 +1640,11 @@
     "scheduled_local": "2026-10-22T16:05:00+02:00",
     "timezone": "Europe/Paris",
     "status": "replacement_pending",
-    "native_id": "7697953411056012566",
+    "native_id": null,
     "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-tiktok-e02-012-scheduled.jpg",
     "schedule_note": "Créneau natif conservé à 16:05 après arrondi du sélecteur.",
     "checks_pending": false,
-    "native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697953411056012566",
+    "native_url": null,
     "replacement_revision": "camera-unique-v2",
     "replacement_status": "ready_for_upload",
     "replacement_history": [
@@ -1564,10 +1661,15 @@
       }
     ],
     "previous_native_status": "scheduled_confirmed",
-    "old_native_visibility": "old_schedule_requires_replacement",
+    "old_native_visibility": "deleted_confirmed",
     "source_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-012-boulanger.mp4",
     "replacement_source_sha256": "997aea0d8f842def2f7aeab9a501b31a64dbc0940caefc91ecd0bd0f05d62eae",
-    "publication_note": "Version caméra unique prête localement. La nouvelle programmation doit être confirmée dans le réseau ; le lien natif existant désigne encore l’ancienne version."
+    "publication_note": "Ancienne réservation supprimée après confirmation explicite de Lou pour les 24 réservations. Nouvelle version prête, encore à programmer.",
+    "old_native_id": "7697953411056012566",
+    "old_native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697953411056012566",
+    "url": null,
+    "old_native_retirement_proof": "C:/github/sandbox-podcast/.local/social-network-manager/tiktok-e02-anciens-retires-v2.png",
+    "old_native_retired_at": "2026-10-18T21:12:33.076Z"
   },
   {
     "clip_id": "E02-012",
@@ -1667,7 +1769,7 @@
     "checks_pending": false,
     "native_list_verified_at": "2026-10-18T14:37:19Z",
     "replacement_revision": "camera-unique-v2",
-    "replacement_status": "ready_for_upload",
+    "replacement_status": "uploaded_draft",
     "old_native_visibility": "private_confirmed",
     "replacement_note": "Ancienne version rendue privée dans YouTube Studio le 18 octobre 2026, sans suppression. Créneau conservé dans cette file comme cible du nouveau fichier.",
     "old_private_proof": ".local/social-network-manager/youtube-e02-anciens-prives-v2.png",
@@ -1687,7 +1789,8 @@
     "previous_native_status": "replacement_pending",
     "source_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-016-contexte.mp4",
     "replacement_source_sha256": "c7202c9ae920d4cf93c2b5078ad461f182cdbc5615ebce7c2b83a90b824cfab3",
-    "publication_note": "Version caméra unique prête localement. La nouvelle programmation doit être confirmée dans le réseau ; le lien natif existant désigne encore l’ancienne version."
+    "publication_note": "Version caméra unique importée dans YouTube Studio en brouillon. Métadonnées et programmation à terminer ; ancien Short privé.",
+    "pending_uploaded_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-016-contexte.mp4"
   },
   {
     "clip_id": "E02-016",
@@ -1698,10 +1801,10 @@
     "scheduled_local": "2026-10-22T20:30:00+02:00",
     "timezone": "Europe/Paris",
     "status": "replacement_pending",
-    "native_id": "7697953404177468694",
+    "native_id": null,
     "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-tiktok-e02-016-scheduled.jpg",
     "checks_pending": false,
-    "native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697953404177468694",
+    "native_url": null,
     "replacement_revision": "camera-unique-v2",
     "replacement_status": "ready_for_upload",
     "replacement_history": [
@@ -1718,10 +1821,15 @@
       }
     ],
     "previous_native_status": "scheduled_confirmed",
-    "old_native_visibility": "old_schedule_requires_replacement",
+    "old_native_visibility": "deleted_confirmed",
     "source_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-016-contexte.mp4",
     "replacement_source_sha256": "c7202c9ae920d4cf93c2b5078ad461f182cdbc5615ebce7c2b83a90b824cfab3",
-    "publication_note": "Version caméra unique prête localement. La nouvelle programmation doit être confirmée dans le réseau ; le lien natif existant désigne encore l’ancienne version."
+    "publication_note": "Ancienne réservation supprimée après confirmation explicite de Lou pour les 24 réservations. Nouvelle version prête, encore à programmer.",
+    "old_native_id": "7697953404177468694",
+    "old_native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697953404177468694",
+    "url": null,
+    "old_native_retirement_proof": "C:/github/sandbox-podcast/.local/social-network-manager/tiktok-e02-anciens-retires-v2.png",
+    "old_native_retired_at": "2026-10-18T21:12:33.076Z"
   },
   {
     "clip_id": "E02-016",
@@ -1808,7 +1916,7 @@
     "checks_pending": false,
     "native_list_verified_at": "2026-10-18T14:37:19Z",
     "replacement_revision": "camera-unique-v2",
-    "replacement_status": "ready_for_upload",
+    "replacement_status": "uploaded_draft",
     "old_native_visibility": "private_confirmed",
     "replacement_note": "Ancienne version rendue privée dans YouTube Studio le 18 octobre 2026, sans suppression. Créneau conservé dans cette file comme cible du nouveau fichier.",
     "old_private_proof": ".local/social-network-manager/youtube-e02-anciens-prives-v2.png",
@@ -1828,7 +1936,8 @@
     "previous_native_status": "replacement_pending",
     "source_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-019-ticket-sans-contexte.mp4",
     "replacement_source_sha256": "6e7802ef33755a704bbd8578bb9e8b058b9aeb4c12c45c4bbdf6d3db55ab3e5b",
-    "publication_note": "Version caméra unique prête localement. La nouvelle programmation doit être confirmée dans le réseau ; le lien natif existant désigne encore l’ancienne version."
+    "publication_note": "Version caméra unique importée dans YouTube Studio en brouillon. Métadonnées et programmation à terminer ; ancien Short privé.",
+    "pending_uploaded_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-019-ticket-sans-contexte.mp4"
   },
   {
     "clip_id": "E02-019",
@@ -1839,12 +1948,12 @@
     "scheduled_local": "2026-10-23T11:30:00+02:00",
     "timezone": "Europe/Paris",
     "status": "replacement_pending",
-    "native_id": "7697961970271636758",
+    "native_id": null,
     "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-tiktok-e02-019-scheduled.jpg",
     "automation_id": "sandbox-e02-terminer-la-programmation-tiktok",
     "execution_note": "Pas encore programmé nativement. Reprise conditionnée à un import et un aperçu complets, des contrôles TikTok disponibles et terminés, sans erreur réseau ni passage outre un avertissement.",
     "checks_pending": false,
-    "native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697961970271636758",
+    "native_url": null,
     "native_evidence": "Le piège du ticket IA rédigé sans le contexte du projet Un ticket très détaillé peut quand même manquer du contexte du produit. On discute de ce risque avec les équipes. Extrait de SANDBOX #2. Émission complète sur youtube.com/@SandboxFR #IntelligenceArtificielle #SandboxTalkShow #Tech\n23 oct., 11:30",
     "replacement_revision": "camera-unique-v2",
     "replacement_status": "ready_for_upload",
@@ -1862,11 +1971,16 @@
       }
     ],
     "previous_native_status": "scheduled_confirmed",
-    "old_native_visibility": "old_schedule_requires_replacement",
+    "old_native_visibility": "deleted_confirmed",
     "source_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-019-ticket-sans-contexte.mp4",
     "replacement_source_sha256": "6e7802ef33755a704bbd8578bb9e8b058b9aeb4c12c45c4bbdf6d3db55ab3e5b",
     "previous_upload_variant": "H264 720x1280 crf27 max900kbps faststart AAC96kbps, durée et décodage intégral contrôlés.",
-    "publication_note": "Version caméra unique prête localement. La nouvelle programmation doit être confirmée dans le réseau ; le lien natif existant désigne encore l’ancienne version."
+    "publication_note": "Ancienne réservation supprimée après confirmation explicite de Lou pour les 24 réservations. Nouvelle version prête, encore à programmer.",
+    "old_native_id": "7697961970271636758",
+    "old_native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697961970271636758",
+    "url": null,
+    "old_native_retirement_proof": "C:/github/sandbox-podcast/.local/social-network-manager/tiktok-e02-anciens-retires-v2.png",
+    "old_native_retired_at": "2026-10-18T21:12:33.076Z"
   },
   {
     "clip_id": "E02-019",
@@ -1953,7 +2067,7 @@
     "checks_pending": false,
     "native_list_verified_at": "2026-10-18T14:37:19Z",
     "replacement_revision": "camera-unique-v2",
-    "replacement_status": "ready_for_upload",
+    "replacement_status": "uploaded_draft",
     "old_native_visibility": "private_confirmed",
     "replacement_note": "Ancienne version rendue privée dans YouTube Studio le 18 octobre 2026, sans suppression. Créneau conservé dans cette file comme cible du nouveau fichier.",
     "old_private_proof": ".local/social-network-manager/youtube-e02-anciens-prives-v2.png",
@@ -1973,7 +2087,8 @@
     "previous_native_status": "replacement_pending",
     "source_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-006-menu-3d.mp4",
     "replacement_source_sha256": "6c55d541e60db9a253f30f770313addf671ed5f9537fe07ba23c9cb002feda8d",
-    "publication_note": "Version caméra unique prête localement. La nouvelle programmation doit être confirmée dans le réseau ; le lien natif existant désigne encore l’ancienne version."
+    "publication_note": "Version caméra unique importée dans YouTube Studio en brouillon. Métadonnées et programmation à terminer ; ancien Short privé.",
+    "pending_uploaded_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-006-menu-3d.mp4"
   },
   {
     "clip_id": "E02-006",
@@ -1984,7 +2099,7 @@
     "scheduled_local": "2026-10-23T16:30:00+02:00",
     "timezone": "Europe/Paris",
     "status": "replacement_pending",
-    "native_id": "7697964126332751126",
+    "native_id": null,
     "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-tiktok-e02-006-scheduled.jpg",
     "schedule_note": "Créneau stabilisé à 16:30 ; vérifier le calendrier natif après fermeture du sélecteur.",
     "automation_id": "sandbox-e02-terminer-la-programmation-tiktok",
@@ -1992,7 +2107,7 @@
     "checks_pending": false,
     "last_error": "Vérification simple : erreur native, puis Réessayer activé le 18 octobre à 13:11 Paris ; nouveau contrôle en cours. Aucune soumission.",
     "resume_tab_id": "5",
-    "native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697964126332751126",
+    "native_url": null,
     "native_evidence": "Restaurants : à quoi pourrait servir un menu en 3D ? Montrer le plat et ses informations avant la commande : on discute du menu en 3D et de l'expérience client. Extrait de SANDBOX #2. Émission complète sur youtube.com/@SandboxFR #IntelligenceArtificielle #SandboxTalkShow #Metiers\n23 oct., 16:30",
     "replacement_revision": "camera-unique-v2",
     "replacement_status": "ready_for_upload",
@@ -2010,11 +2125,16 @@
       }
     ],
     "previous_native_status": "scheduled_confirmed",
-    "old_native_visibility": "old_schedule_requires_replacement",
+    "old_native_visibility": "deleted_confirmed",
     "source_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-006-menu-3d.mp4",
     "replacement_source_sha256": "6c55d541e60db9a253f30f770313addf671ed5f9537fe07ba23c9cb002feda8d",
     "previous_upload_variant": "H264 720x1280 crf27 max900kbps faststart AAC96kbps, durée et décodage intégral contrôlés.",
-    "publication_note": "Version caméra unique prête localement. La nouvelle programmation doit être confirmée dans le réseau ; le lien natif existant désigne encore l’ancienne version."
+    "publication_note": "Ancienne réservation supprimée après confirmation explicite de Lou pour les 24 réservations. Nouvelle version prête, encore à programmer.",
+    "old_native_id": "7697964126332751126",
+    "old_native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697964126332751126",
+    "url": null,
+    "old_native_retirement_proof": "C:/github/sandbox-podcast/.local/social-network-manager/tiktok-e02-anciens-retires-v2.png",
+    "old_native_retired_at": "2026-10-18T21:12:33.076Z"
   },
   {
     "clip_id": "E02-006",
@@ -2101,7 +2221,7 @@
     "checks_pending": false,
     "native_list_verified_at": "2026-10-18T14:37:19Z",
     "replacement_revision": "camera-unique-v2",
-    "replacement_status": "ready_for_upload",
+    "replacement_status": "uploaded_draft",
     "old_native_visibility": "private_confirmed",
     "replacement_note": "Ancienne version rendue privée dans YouTube Studio le 18 octobre 2026, sans suppression. Créneau conservé dans cette file comme cible du nouveau fichier.",
     "old_private_proof": ".local/social-network-manager/youtube-e02-anciens-prives-v2.png",
@@ -2121,7 +2241,8 @@
     "previous_native_status": "replacement_pending",
     "source_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-026-experience-echecs.mp4",
     "replacement_source_sha256": "1dbc4b26cc0b3b4328764d0763c6fbf1ab92ac65dced0d666eea5c9149b6b465",
-    "publication_note": "Version caméra unique prête localement. La nouvelle programmation doit être confirmée dans le réseau ; le lien natif existant désigne encore l’ancienne version."
+    "publication_note": "Version caméra unique importée dans YouTube Studio en brouillon. Métadonnées et programmation à terminer ; ancien Short privé.",
+    "pending_uploaded_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-026-experience-echecs.mp4"
   },
   {
     "clip_id": "E02-026",
@@ -2132,10 +2253,10 @@
     "scheduled_local": "2026-10-23T20:30:00+02:00",
     "timezone": "Europe/Paris",
     "status": "replacement_pending",
-    "native_id": "7697954121839676694",
+    "native_id": null,
     "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-tiktok-e02-026-scheduled.jpg",
     "checks_pending": false,
-    "native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697954121839676694",
+    "native_url": null,
     "replacement_revision": "camera-unique-v2",
     "replacement_status": "ready_for_upload",
     "replacement_history": [
@@ -2152,10 +2273,15 @@
       }
     ],
     "previous_native_status": "scheduled_confirmed",
-    "old_native_visibility": "old_schedule_requires_replacement",
+    "old_native_visibility": "deleted_confirmed",
     "source_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-026-experience-echecs.mp4",
     "replacement_source_sha256": "1dbc4b26cc0b3b4328764d0763c6fbf1ab92ac65dced0d666eea5c9149b6b465",
-    "publication_note": "Version caméra unique prête localement. La nouvelle programmation doit être confirmée dans le réseau ; le lien natif existant désigne encore l’ancienne version."
+    "publication_note": "Ancienne réservation supprimée après confirmation explicite de Lou pour les 24 réservations. Nouvelle version prête, encore à programmer.",
+    "old_native_id": "7697954121839676694",
+    "old_native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697954121839676694",
+    "url": null,
+    "old_native_retirement_proof": "C:/github/sandbox-podcast/.local/social-network-manager/tiktok-e02-anciens-retires-v2.png",
+    "old_native_retired_at": "2026-10-18T21:12:33.076Z"
   },
   {
     "clip_id": "E02-026",
@@ -2242,7 +2368,7 @@
     "checks_pending": false,
     "native_list_verified_at": "2026-10-18T14:37:19Z",
     "replacement_revision": "camera-unique-v2",
-    "replacement_status": "ready_for_upload",
+    "replacement_status": "uploaded_draft",
     "old_native_visibility": "private_confirmed",
     "replacement_note": "Ancienne version rendue privée dans YouTube Studio le 18 octobre 2026, sans suppression. Créneau conservé dans cette file comme cible du nouveau fichier.",
     "old_private_proof": ".local/social-network-manager/youtube-e02-anciens-prives-v2.png",
@@ -2262,7 +2388,8 @@
     "previous_native_status": "replacement_pending",
     "source_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-029-skills.mp4",
     "replacement_source_sha256": "204d0053bef1d226fe7e4f88334aa147e1d6b5efdd2df059703f2c1a6a728715",
-    "publication_note": "Version caméra unique prête localement. La nouvelle programmation doit être confirmée dans le réseau ; le lien natif existant désigne encore l’ancienne version."
+    "publication_note": "Version caméra unique importée dans YouTube Studio en brouillon. Métadonnées et programmation à terminer ; ancien Short privé.",
+    "pending_uploaded_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-029-skills.mp4"
   },
   {
     "clip_id": "E02-029",
@@ -2273,12 +2400,12 @@
     "scheduled_local": "2026-10-24T11:30:00+02:00",
     "timezone": "Europe/Paris",
     "status": "replacement_pending",
-    "native_id": "7697964716118887702",
+    "native_id": null,
     "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-tiktok-e02-029-scheduled.jpg",
     "automation_id": "sandbox-e02-terminer-la-programmation-tiktok",
     "execution_note": "Pas encore programmé nativement. Reprise conditionnée à un import et un aperçu complets, des contrôles TikTok disponibles et terminés, sans erreur réseau ni passage outre un avertissement.",
     "checks_pending": false,
-    "native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697964716118887702",
+    "native_url": null,
     "native_evidence": "Des skills pour retrouver sa façon de travailler avec l'IA Lou explique comment il rassemble des instructions pour retrouver son style et ses habitudes de travail. Extrait de SANDBOX #2. Émission complète sur youtube.com/@SandboxFR #IntelligenceArtificielle #SandboxTalkShow #Tech\n24 oct., 11:30",
     "replacement_revision": "camera-unique-v2",
     "replacement_status": "ready_for_upload",
@@ -2296,11 +2423,16 @@
       }
     ],
     "previous_native_status": "scheduled_confirmed",
-    "old_native_visibility": "old_schedule_requires_replacement",
+    "old_native_visibility": "deleted_confirmed",
     "source_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-029-skills.mp4",
     "replacement_source_sha256": "204d0053bef1d226fe7e4f88334aa147e1d6b5efdd2df059703f2c1a6a728715",
     "previous_upload_variant": "H264 720x1280 crf27 max900kbps faststart AAC96kbps, durée et décodage intégral contrôlés.",
-    "publication_note": "Version caméra unique prête localement. La nouvelle programmation doit être confirmée dans le réseau ; le lien natif existant désigne encore l’ancienne version."
+    "publication_note": "Ancienne réservation supprimée après confirmation explicite de Lou pour les 24 réservations. Nouvelle version prête, encore à programmer.",
+    "old_native_id": "7697964716118887702",
+    "old_native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697964716118887702",
+    "url": null,
+    "old_native_retirement_proof": "C:/github/sandbox-podcast/.local/social-network-manager/tiktok-e02-anciens-retires-v2.png",
+    "old_native_retired_at": "2026-10-18T21:12:33.076Z"
   },
   {
     "clip_id": "E02-029",
@@ -2387,7 +2519,7 @@
     "checks_pending": false,
     "native_list_verified_at": "2026-10-18T14:37:19Z",
     "replacement_revision": "camera-unique-v2",
-    "replacement_status": "ready_for_upload",
+    "replacement_status": "uploaded_draft",
     "old_native_visibility": "private_confirmed",
     "replacement_note": "Ancienne version rendue privée dans YouTube Studio le 18 octobre 2026, sans suppression. Créneau conservé dans cette file comme cible du nouveau fichier.",
     "old_private_proof": ".local/social-network-manager/youtube-e02-anciens-prives-v2.png",
@@ -2407,7 +2539,8 @@
     "previous_native_status": "replacement_pending",
     "source_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-010-paysagiste.mp4",
     "replacement_source_sha256": "b995a4227d1120a1d6346078e0cbe30b3978e23ad9bb26813138bf21161cda84",
-    "publication_note": "Version caméra unique prête localement. La nouvelle programmation doit être confirmée dans le réseau ; le lien natif existant désigne encore l’ancienne version."
+    "publication_note": "Version caméra unique importée dans YouTube Studio en brouillon. Métadonnées et programmation à terminer ; ancien Short privé.",
+    "pending_uploaded_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-010-paysagiste.mp4"
   },
   {
     "clip_id": "E02-010",
@@ -2418,7 +2551,7 @@
     "scheduled_local": "2026-10-24T16:30:00+02:00",
     "timezone": "Europe/Paris",
     "status": "replacement_pending",
-    "native_id": "7697966781973007638",
+    "native_id": null,
     "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-tiktok-e02-010-scheduled.jpg",
     "schedule_note": "Créneau stabilisé à 16:30 ; vérifier le calendrier natif après fermeture du sélecteur.",
     "automation_id": "sandbox-e02-terminer-la-programmation-tiktok",
@@ -2426,7 +2559,7 @@
     "checks_pending": false,
     "resume_tab_id": null,
     "last_error": null,
-    "native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697966781973007638",
+    "native_url": null,
     "native_evidence": "Paysagistes : montrer un projet de jardin avec l'IA Des variantes visuelles pour expliquer un projet de jardin, avec l'expertise du paysagiste pour choisir les végétaux. Extrait de SANDBOX #2. Émission complète sur youtube.com/@SandboxFR #IntelligenceArtificielle #SandboxTalkShow #Metiers\n24 oct., 16:30",
     "replacement_revision": "camera-unique-v2",
     "replacement_status": "ready_for_upload",
@@ -2444,11 +2577,16 @@
       }
     ],
     "previous_native_status": "scheduled_confirmed",
-    "old_native_visibility": "old_schedule_requires_replacement",
+    "old_native_visibility": "deleted_confirmed",
     "source_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-010-paysagiste.mp4",
     "replacement_source_sha256": "b995a4227d1120a1d6346078e0cbe30b3978e23ad9bb26813138bf21161cda84",
     "previous_upload_variant": "H264 720x1280 crf27 max900kbps faststart AAC96kbps, durée et décodage intégral contrôlés.",
-    "publication_note": "Version caméra unique prête localement. La nouvelle programmation doit être confirmée dans le réseau ; le lien natif existant désigne encore l’ancienne version."
+    "publication_note": "Ancienne réservation supprimée après confirmation explicite de Lou pour les 24 réservations. Nouvelle version prête, encore à programmer.",
+    "old_native_id": "7697966781973007638",
+    "old_native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697966781973007638",
+    "url": null,
+    "old_native_retirement_proof": "C:/github/sandbox-podcast/.local/social-network-manager/tiktok-e02-anciens-retires-v2.png",
+    "old_native_retired_at": "2026-10-18T21:12:33.076Z"
   },
   {
     "clip_id": "E02-010",
@@ -2535,7 +2673,7 @@
     "checks_pending": false,
     "native_list_verified_at": "2026-10-18T14:37:19Z",
     "replacement_revision": "camera-unique-v2",
-    "replacement_status": "ready_for_upload",
+    "replacement_status": "uploaded_draft",
     "old_native_visibility": "private_confirmed",
     "replacement_note": "Ancienne version rendue privée dans YouTube Studio le 18 octobre 2026, sans suppression. Créneau conservé dans cette file comme cible du nouveau fichier.",
     "old_private_proof": ".local/social-network-manager/youtube-e02-anciens-prives-v2.png",
@@ -2555,7 +2693,8 @@
     "previous_native_status": "replacement_pending",
     "source_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-022-refonte.mp4",
     "replacement_source_sha256": "5fa520182a3e194ec7ab4f856574fb9c8cd5652fdc88f620a6b2f57254b4b805",
-    "publication_note": "Version caméra unique prête localement. La nouvelle programmation doit être confirmée dans le réseau ; le lien natif existant désigne encore l’ancienne version."
+    "publication_note": "Version caméra unique importée dans YouTube Studio en brouillon. Métadonnées et programmation à terminer ; ancien Short privé.",
+    "pending_uploaded_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-022-refonte.mp4"
   },
   {
     "clip_id": "E02-022",
@@ -2566,10 +2705,10 @@
     "scheduled_local": "2026-10-24T20:30:00+02:00",
     "timezone": "Europe/Paris",
     "status": "replacement_pending",
-    "native_id": "7697956242500652310",
+    "native_id": null,
     "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-tiktok-e02-022-scheduled.jpg",
     "checks_pending": false,
-    "native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697956242500652310",
+    "native_url": null,
     "replacement_revision": "camera-unique-v2",
     "replacement_status": "ready_for_upload",
     "replacement_history": [
@@ -2586,10 +2725,15 @@
       }
     ],
     "previous_native_status": "scheduled_confirmed",
-    "old_native_visibility": "old_schedule_requires_replacement",
+    "old_native_visibility": "deleted_confirmed",
     "source_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-022-refonte.mp4",
     "replacement_source_sha256": "5fa520182a3e194ec7ab4f856574fb9c8cd5652fdc88f620a6b2f57254b4b805",
-    "publication_note": "Version caméra unique prête localement. La nouvelle programmation doit être confirmée dans le réseau ; le lien natif existant désigne encore l’ancienne version."
+    "publication_note": "Ancienne réservation supprimée après confirmation explicite de Lou pour les 24 réservations. Nouvelle version prête, encore à programmer.",
+    "old_native_id": "7697956242500652310",
+    "old_native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697956242500652310",
+    "url": null,
+    "old_native_retirement_proof": "C:/github/sandbox-podcast/.local/social-network-manager/tiktok-e02-anciens-retires-v2.png",
+    "old_native_retired_at": "2026-10-18T21:12:33.076Z"
   },
   {
     "clip_id": "E02-022",
@@ -2676,7 +2820,7 @@
     "checks_pending": false,
     "native_list_verified_at": "2026-10-18T14:37:19Z",
     "replacement_revision": "camera-unique-v2",
-    "replacement_status": "ready_for_upload",
+    "replacement_status": "uploaded_draft",
     "old_native_visibility": "private_confirmed",
     "replacement_note": "Ancienne version rendue privée dans YouTube Studio le 18 octobre 2026, sans suppression. Créneau conservé dans cette file comme cible du nouveau fichier.",
     "old_private_proof": ".local/social-network-manager/youtube-e02-anciens-prives-v2.png",
@@ -2696,7 +2840,8 @@
     "previous_native_status": "replacement_pending",
     "source_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-030-regie.mp4",
     "replacement_source_sha256": "cfb7395e575c21f07c473bdda6ac239701539261d0917e4cf11b6a2a33a41a10",
-    "publication_note": "Version caméra unique prête localement. La nouvelle programmation doit être confirmée dans le réseau ; le lien natif existant désigne encore l’ancienne version."
+    "publication_note": "Version caméra unique importée dans YouTube Studio en brouillon. Métadonnées et programmation à terminer ; ancien Short privé.",
+    "pending_uploaded_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-030-regie.mp4"
   },
   {
     "clip_id": "E02-030",
@@ -2707,12 +2852,12 @@
     "scheduled_local": "2026-10-25T11:30:00+01:00",
     "timezone": "Europe/Paris",
     "status": "replacement_pending",
-    "native_id": "7697965548142923010",
+    "native_id": null,
     "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-tiktok-e02-030-scheduled.jpg",
     "automation_id": "sandbox-e02-terminer-la-programmation-tiktok",
     "execution_note": "Pas encore programmé nativement. Reprise conditionnée à un import et un aperçu complets, des contrôles TikTok disponibles et terminés, sans erreur réseau ni passage outre un avertissement.",
     "checks_pending": false,
-    "native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697965548142923010",
+    "native_url": null,
     "native_evidence": "Dans les coulisses : notre régie de podcast avec OBS Nicolas présente la régie qui sert à enregistrer l'émission : OBS, sources vidéo et commandes partagées. Extrait de SANDBOX #2. Émission complète sur youtube.com/@SandboxFR #IntelligenceArtificielle #SandboxTalkShow #Tech\n25 oct., 11:30",
     "replacement_revision": "camera-unique-v2",
     "replacement_status": "ready_for_upload",
@@ -2730,11 +2875,16 @@
       }
     ],
     "previous_native_status": "scheduled_confirmed",
-    "old_native_visibility": "old_schedule_requires_replacement",
+    "old_native_visibility": "deleted_confirmed",
     "source_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-030-regie.mp4",
     "replacement_source_sha256": "cfb7395e575c21f07c473bdda6ac239701539261d0917e4cf11b6a2a33a41a10",
     "previous_upload_variant": "H264 720x1280 crf27 max900kbps faststart AAC96kbps, durée et décodage intégral contrôlés.",
-    "publication_note": "Version caméra unique prête localement. La nouvelle programmation doit être confirmée dans le réseau ; le lien natif existant désigne encore l’ancienne version."
+    "publication_note": "Ancienne réservation supprimée après confirmation explicite de Lou pour les 24 réservations. Nouvelle version prête, encore à programmer.",
+    "old_native_id": "7697965548142923010",
+    "old_native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697965548142923010",
+    "url": null,
+    "old_native_retirement_proof": "C:/github/sandbox-podcast/.local/social-network-manager/tiktok-e02-anciens-retires-v2.png",
+    "old_native_retired_at": "2026-10-18T21:12:33.076Z"
   },
   {
     "clip_id": "E02-030",
@@ -2824,7 +2974,7 @@
     "checks_pending": false,
     "native_list_verified_at": "2026-10-18T14:37:19Z",
     "replacement_revision": "camera-unique-v2",
-    "replacement_status": "ready_for_upload",
+    "replacement_status": "uploaded_draft",
     "old_native_visibility": "private_confirmed",
     "replacement_note": "Ancienne version rendue privée dans YouTube Studio le 18 octobre 2026, sans suppression. Créneau conservé dans cette file comme cible du nouveau fichier.",
     "old_private_proof": ".local/social-network-manager/youtube-e02-anciens-prives-v2.png",
@@ -2844,7 +2994,8 @@
     "previous_native_status": "replacement_pending",
     "source_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-009-menuisier.mp4",
     "replacement_source_sha256": "c21efce759111f1a4f6e1d9bbd695524b1c0ff73f3d4d34884dfae7a46476460",
-    "publication_note": "Version caméra unique prête localement. La nouvelle programmation doit être confirmée dans le réseau ; le lien natif existant désigne encore l’ancienne version."
+    "publication_note": "Version caméra unique importée dans YouTube Studio en brouillon. Métadonnées et programmation à terminer ; ancien Short privé.",
+    "pending_uploaded_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-009-menuisier.mp4"
   },
   {
     "clip_id": "E02-009",
@@ -2855,11 +3006,11 @@
     "scheduled_local": "2026-10-25T16:30:00+01:00",
     "timezone": "Europe/Paris",
     "status": "replacement_pending",
-    "native_id": "7697958312351927554",
+    "native_id": null,
     "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-tiktok-e02-009-scheduled.jpg",
     "schedule_note": "Créneau stabilisé à 16:30 ; vérifier le calendrier natif après fermeture du sélecteur.",
     "checks_pending": false,
-    "native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697958312351927554",
+    "native_url": null,
     "replacement_revision": "camera-unique-v2",
     "replacement_status": "ready_for_upload",
     "replacement_history": [
@@ -2876,10 +3027,15 @@
       }
     ],
     "previous_native_status": "scheduled_confirmed",
-    "old_native_visibility": "old_schedule_requires_replacement",
+    "old_native_visibility": "deleted_confirmed",
     "source_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-009-menuisier.mp4",
     "replacement_source_sha256": "c21efce759111f1a4f6e1d9bbd695524b1c0ff73f3d4d34884dfae7a46476460",
-    "publication_note": "Version caméra unique prête localement. La nouvelle programmation doit être confirmée dans le réseau ; le lien natif existant désigne encore l’ancienne version."
+    "publication_note": "Ancienne réservation supprimée après confirmation explicite de Lou pour les 24 réservations. Nouvelle version prête, encore à programmer.",
+    "old_native_id": "7697958312351927554",
+    "old_native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697958312351927554",
+    "url": null,
+    "old_native_retirement_proof": "C:/github/sandbox-podcast/.local/social-network-manager/tiktok-e02-anciens-retires-v2.png",
+    "old_native_retired_at": "2026-10-18T21:12:33.076Z"
   },
   {
     "clip_id": "E02-009",
@@ -2966,7 +3122,7 @@
     "checks_pending": false,
     "native_list_verified_at": "2026-10-18T14:37:19Z",
     "replacement_revision": "camera-unique-v2",
-    "replacement_status": "ready_for_upload",
+    "replacement_status": "uploaded_draft",
     "old_native_visibility": "private_confirmed",
     "replacement_note": "Ancienne version rendue privée dans YouTube Studio le 18 octobre 2026, sans suppression. Créneau conservé dans cette file comme cible du nouveau fichier.",
     "old_private_proof": ".local/social-network-manager/youtube-e02-anciens-prives-v2.png",
@@ -2986,7 +3142,8 @@
     "previous_native_status": "replacement_pending",
     "source_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-027-metier-dev.mp4",
     "replacement_source_sha256": "40f957dcbf5c2af95cfc75d21402ffb678cec095bb33502bfe16c67a3504c545",
-    "publication_note": "Version caméra unique prête localement. La nouvelle programmation doit être confirmée dans le réseau ; le lien natif existant désigne encore l’ancienne version."
+    "publication_note": "Version caméra unique importée dans YouTube Studio en brouillon. Métadonnées et programmation à terminer ; ancien Short privé.",
+    "pending_uploaded_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-027-metier-dev.mp4"
   },
   {
     "clip_id": "E02-027",
@@ -2997,10 +3154,10 @@
     "scheduled_local": "2026-10-25T20:30:00+01:00",
     "timezone": "Europe/Paris",
     "status": "replacement_pending",
-    "native_id": "7697958980236119318",
+    "native_id": null,
     "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-tiktok-e02-027-scheduled.jpg",
     "checks_pending": false,
-    "native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697958980236119318",
+    "native_url": null,
     "native_evidence": "Développeurs : coder ou comprendre ce que l'on construit ? Comprendre, concevoir, sécuriser : le débat sur le métier de développeur dépasse l'écriture du code. Extrait de SANDBOX #2. Émission complète sur youtube.com/@SandboxFR #IntelligenceArtificielle #SandboxTalkShow #Tech\n25 oct., 20:30",
     "replacement_revision": "camera-unique-v2",
     "replacement_status": "ready_for_upload",
@@ -3018,11 +3175,16 @@
       }
     ],
     "previous_native_status": "scheduled_confirmed",
-    "old_native_visibility": "old_schedule_requires_replacement",
+    "old_native_visibility": "deleted_confirmed",
     "source_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-027-metier-dev.mp4",
     "replacement_source_sha256": "40f957dcbf5c2af95cfc75d21402ffb678cec095bb33502bfe16c67a3504c545",
     "previous_upload_variant": "H264 720x1280 crf27 max900kbps faststart AAC96kbps, durée et décodage intégral contrôlés.",
-    "publication_note": "Version caméra unique prête localement. La nouvelle programmation doit être confirmée dans le réseau ; le lien natif existant désigne encore l’ancienne version."
+    "publication_note": "Ancienne réservation supprimée après confirmation explicite de Lou pour les 24 réservations. Nouvelle version prête, encore à programmer.",
+    "old_native_id": "7697958980236119318",
+    "old_native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697958980236119318",
+    "url": null,
+    "old_native_retirement_proof": "C:/github/sandbox-podcast/.local/social-network-manager/tiktok-e02-anciens-retires-v2.png",
+    "old_native_retired_at": "2026-10-18T21:12:33.076Z"
   },
   {
     "clip_id": "E02-027",
@@ -3110,7 +3272,7 @@
     "checks_pending": false,
     "native_list_verified_at": "2026-10-18T14:37:19Z",
     "replacement_revision": "camera-unique-v2",
-    "replacement_status": "ready_for_upload",
+    "replacement_status": "uploaded_draft",
     "old_native_visibility": "private_confirmed",
     "replacement_note": "Ancienne version rendue privée dans YouTube Studio le 18 octobre 2026, sans suppression. Créneau conservé dans cette file comme cible du nouveau fichier.",
     "old_private_proof": ".local/social-network-manager/youtube-e02-anciens-prives-v2.png",
@@ -3130,7 +3292,8 @@
     "previous_native_status": "replacement_pending",
     "source_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-013-patisserie.mp4",
     "replacement_source_sha256": "77917e5f62042820d533c8b292c62a29c23920b6985128f2bac91f622a98a296",
-    "publication_note": "Version caméra unique prête localement. La nouvelle programmation doit être confirmée dans le réseau ; le lien natif existant désigne encore l’ancienne version."
+    "publication_note": "Version caméra unique importée dans YouTube Studio en brouillon. Métadonnées et programmation à terminer ; ancien Short privé.",
+    "pending_uploaded_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-013-patisserie.mp4"
   },
   {
     "clip_id": "E02-013",
@@ -3141,12 +3304,12 @@
     "scheduled_local": "2026-10-26T11:30:00+01:00",
     "timezone": "Europe/Paris",
     "status": "replacement_pending",
-    "native_id": "7697967443058216214",
+    "native_id": null,
     "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-tiktok-e02-013-scheduled.jpg",
     "automation_id": "sandbox-e02-terminer-la-programmation-tiktok",
     "execution_note": "Pas encore programmé nativement. Reprise conditionnée à un import et un aperçu complets, des contrôles TikTok disponibles et terminés, sans erreur réseau ni passage outre un avertissement.",
     "checks_pending": false,
-    "native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697967443058216214",
+    "native_url": null,
     "native_evidence": "Pâtissiers : relier commandes, devis et facturation Commandes dispersées dans les messages, devis et factures : une piste pour relier les étapes du travail. Extrait de SANDBOX #2. Émission complète sur youtube.com/@SandboxFR #IntelligenceArtificielle #SandboxTalkShow #Metiers\n26 oct., 11:30",
     "last_error": null,
     "resume_tab_id": null,
@@ -3166,11 +3329,16 @@
       }
     ],
     "previous_native_status": "scheduled_confirmed",
-    "old_native_visibility": "old_schedule_requires_replacement",
+    "old_native_visibility": "deleted_confirmed",
     "source_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-013-patisserie.mp4",
     "replacement_source_sha256": "77917e5f62042820d533c8b292c62a29c23920b6985128f2bac91f622a98a296",
     "previous_upload_variant": "H264 720x1280 crf27 max900kbps faststart AAC96kbps, durée et décodage intégral contrôlés.",
-    "publication_note": "Version caméra unique prête localement. La nouvelle programmation doit être confirmée dans le réseau ; le lien natif existant désigne encore l’ancienne version."
+    "publication_note": "Ancienne réservation supprimée après confirmation explicite de Lou pour les 24 réservations. Nouvelle version prête, encore à programmer.",
+    "old_native_id": "7697967443058216214",
+    "old_native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697967443058216214",
+    "url": null,
+    "old_native_retirement_proof": "C:/github/sandbox-podcast/.local/social-network-manager/tiktok-e02-anciens-retires-v2.png",
+    "old_native_retired_at": "2026-10-18T21:12:33.076Z"
   },
   {
     "clip_id": "E02-013",
@@ -3258,7 +3426,7 @@
     "checks_pending": false,
     "native_list_verified_at": "2026-10-18T14:37:19Z",
     "replacement_revision": "camera-unique-v2",
-    "replacement_status": "ready_for_upload",
+    "replacement_status": "uploaded_draft",
     "old_native_visibility": "private_confirmed",
     "replacement_note": "Ancienne version rendue privée dans YouTube Studio le 18 octobre 2026, sans suppression. Créneau conservé dans cette file comme cible du nouveau fichier.",
     "old_private_proof": ".local/social-network-manager/youtube-e02-anciens-prives-v2.png",
@@ -3278,7 +3446,8 @@
     "previous_native_status": "replacement_pending",
     "source_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-021-caracteriser-bug.mp4",
     "replacement_source_sha256": "392185e55dd3c828978044cecf518010cc11b0a3376d1f0e159baeb6d743bb60",
-    "publication_note": "Version caméra unique prête localement. La nouvelle programmation doit être confirmée dans le réseau ; le lien natif existant désigne encore l’ancienne version."
+    "publication_note": "Version caméra unique importée dans YouTube Studio en brouillon. Métadonnées et programmation à terminer ; ancien Short privé.",
+    "pending_uploaded_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-021-caracteriser-bug.mp4"
   },
   {
     "clip_id": "E02-021",
@@ -3289,13 +3458,13 @@
     "scheduled_local": "2026-10-26T16:30:00+01:00",
     "timezone": "Europe/Paris",
     "status": "replacement_pending",
-    "native_id": "7697968114260036886",
+    "native_id": null,
     "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-tiktok-e02-021-scheduled.jpg",
     "schedule_note": "Créneau stabilisé à 16:30 ; vérifier le calendrier natif après fermeture du sélecteur.",
     "automation_id": "sandbox-e02-terminer-la-programmation-tiktok",
     "execution_note": "Pas encore programmé nativement. Reprise conditionnée à un import et un aperçu complets, des contrôles TikTok disponibles et terminés, sans erreur réseau ni passage outre un avertissement.",
     "checks_pending": false,
-    "native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697968114260036886",
+    "native_url": null,
     "native_evidence": "Décrire un bug : une compétence que l'IA ne dispense pas de cadrer Un client dit que ça ne marche pas. Quelles questions faut-il poser pour rendre le problème compréhensible ? Extrait de SANDBOX #2. Émission complète sur youtube.com/@SandboxFR #IntelligenceArtificielle #SandboxTalkShow #Tech\n26 oct., 16:30",
     "last_error": null,
     "resume_tab_id": null,
@@ -3315,11 +3484,16 @@
       }
     ],
     "previous_native_status": "scheduled_confirmed",
-    "old_native_visibility": "old_schedule_requires_replacement",
+    "old_native_visibility": "deleted_confirmed",
     "source_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-021-caracteriser-bug.mp4",
     "replacement_source_sha256": "392185e55dd3c828978044cecf518010cc11b0a3376d1f0e159baeb6d743bb60",
     "previous_upload_variant": "H264 720x1280 crf27 max900kbps faststart AAC96kbps, durée et décodage intégral contrôlés.",
-    "publication_note": "Version caméra unique prête localement. La nouvelle programmation doit être confirmée dans le réseau ; le lien natif existant désigne encore l’ancienne version."
+    "publication_note": "Ancienne réservation supprimée après confirmation explicite de Lou pour les 24 réservations. Nouvelle version prête, encore à programmer.",
+    "old_native_id": "7697968114260036886",
+    "old_native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7697968114260036886",
+    "url": null,
+    "old_native_retirement_proof": "C:/github/sandbox-podcast/.local/social-network-manager/tiktok-e02-anciens-retires-v2.png",
+    "old_native_retired_at": "2026-10-18T21:12:33.076Z"
   },
   {
     "clip_id": "E02-021",
@@ -3407,7 +3581,7 @@
     "checks_pending": false,
     "native_list_verified_at": "2026-10-18T14:37:19Z",
     "replacement_revision": "camera-unique-v2",
-    "replacement_status": "ready_for_upload",
+    "replacement_status": "uploaded_draft",
     "old_native_visibility": "private_confirmed",
     "replacement_note": "Ancienne version rendue privée dans YouTube Studio le 18 octobre 2026, sans suppression. Créneau conservé dans cette file comme cible du nouveau fichier.",
     "old_private_proof": ".local/social-network-manager/youtube-e02-anciens-prives-v2.png",
@@ -3427,7 +3601,8 @@
     "previous_native_status": "replacement_pending",
     "source_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-002-regard-neuf.mp4",
     "replacement_source_sha256": "9fa848c65ea8d853bdaeabbbf51ab7ca5a540ee22cbac134a0b5bfcdfef08ae2",
-    "publication_note": "Version caméra unique prête localement. La nouvelle programmation doit être confirmée dans le réseau ; le lien natif existant désigne encore l’ancienne version."
+    "publication_note": "Version caméra unique importée dans YouTube Studio en brouillon. Métadonnées et programmation à terminer ; ancien Short privé.",
+    "pending_uploaded_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-002-regard-neuf.mp4"
   },
   {
     "clip_id": "E02-002",
@@ -3438,7 +3613,7 @@
     "scheduled_local": "2026-10-23T18:00:00+02:00",
     "timezone": "Europe/Paris",
     "status": "replacement_pending",
-    "native_id": "7698024094565928194",
+    "native_id": null,
     "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-tiktok-e02-002-scheduled-23-oct-18h.png",
     "automation_id": "sandbox-e02-terminer-la-programmation-tiktok",
     "execution_note": "Recréation en cours après suppression autorisée de l’ancienne réservation ; attendre la fin du contrôle natif.",
@@ -3452,7 +3627,7 @@
     "reconciliation_checked_at": "2026-10-18T13:40:08.242Z",
     "reconciled_lists_at": "2026-10-18T14:15:00Z",
     "native_submit_at": "2026-10-18T15:05:50.418Z",
-    "native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7698024094565928194",
+    "native_url": null,
     "native_evidence": "Profil natif @sandbox.talkshow : « Faire relire son projet par un autre modèle IA », ID 7698024094565928194, date affichée 2026-10-23 18:00. La légende complète correspond à la file. Contrôle TikTok relancé après une erreur native puis terminé par « Aucun problème constaté » avant programmation.",
     "cancelled_native_id": "7698005648381971734",
     "cancelled_native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7698005648381971734",
@@ -3479,11 +3654,16 @@
       }
     ],
     "previous_native_status": "scheduled_confirmed",
-    "old_native_visibility": "old_schedule_requires_replacement",
+    "old_native_visibility": "deleted_confirmed",
     "source_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-002-regard-neuf.mp4",
     "replacement_source_sha256": "9fa848c65ea8d853bdaeabbbf51ab7ca5a540ee22cbac134a0b5bfcdfef08ae2",
     "previous_upload_variant": "H264 720x1280 crf27 max900kbps faststart AAC96kbps, durée et décodage intégral contrôlés.",
-    "publication_note": "Version caméra unique prête localement. La nouvelle programmation doit être confirmée dans le réseau ; le lien natif existant désigne encore l’ancienne version."
+    "publication_note": "Ancienne réservation supprimée après confirmation explicite de Lou pour les 24 réservations. Nouvelle version prête, encore à programmer.",
+    "old_native_id": "7698024094565928194",
+    "old_native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7698024094565928194",
+    "url": null,
+    "old_native_retirement_proof": "C:/github/sandbox-podcast/.local/social-network-manager/tiktok-e02-anciens-retires-v2.png",
+    "old_native_retired_at": "2026-10-18T21:12:33.076Z"
   },
   {
     "clip_id": "E02-002",
@@ -3571,7 +3751,7 @@
     "checks_pending": false,
     "native_list_verified_at": "2026-10-18T14:37:19Z",
     "replacement_revision": "camera-unique-v2",
-    "replacement_status": "ready_for_upload",
+    "replacement_status": "uploaded_draft",
     "old_native_visibility": "private_confirmed",
     "replacement_note": "Ancienne version rendue privée dans YouTube Studio le 18 octobre 2026, sans suppression. Créneau conservé dans cette file comme cible du nouveau fichier.",
     "old_private_proof": ".local/social-network-manager/youtube-e02-anciens-prives-v2.png",
@@ -3591,7 +3771,8 @@
     "previous_native_status": "replacement_pending",
     "source_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-014-coiffeur.mp4",
     "replacement_source_sha256": "8dc3cede6f6137a193b73b0720d4f5ab5b359adf958b02b364ad5a77402ebe20",
-    "publication_note": "Version caméra unique prête localement. La nouvelle programmation doit être confirmée dans le réseau ; le lien natif existant désigne encore l’ancienne version."
+    "publication_note": "Version caméra unique importée dans YouTube Studio en brouillon. Métadonnées et programmation à terminer ; ancien Short privé.",
+    "pending_uploaded_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-014-coiffeur.mp4"
   },
   {
     "clip_id": "E02-014",
@@ -3602,7 +3783,7 @@
     "scheduled_local": "2026-10-23T20:30:00+02:00",
     "timezone": "Europe/Paris",
     "status": "replacement_pending",
-    "native_id": "7698016642806107414",
+    "native_id": null,
     "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-tiktok-e02-014-scheduled-23-oct-2030.png",
     "automation_id": "sandbox-e02-terminer-la-programmation-tiktok",
     "execution_note": "Pas encore programmé nativement. Reprise conditionnée à un import et un aperçu complets, des contrôles TikTok disponibles et terminés, sans erreur réseau ni passage outre un avertissement.",
@@ -3611,7 +3792,7 @@
     "native_import_started": true,
     "checks_pending": false,
     "last_observation": "Profil natif @sandbox.talkshow : « Coiffeurs : essayer une coupe avant de couper », ID 7698016642806107414, date affichée 2026-10-23 20:30. La description correspond à la file. Le formulaire avait affiché une vérification de contenu simple terminée sans problème avant la programmation.",
-    "native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7698016642806107414",
+    "native_url": null,
     "native_provider": "TikTok Studio",
     "native_evidence": "Profil natif @sandbox.talkshow : « Coiffeurs : essayer une coupe avant de couper », ID 7698016642806107414, date affichée 2026-10-23 20:30. La description correspond à la file. Le formulaire avait affiché une vérification de contenu simple terminée sans problème avant la programmation.",
     "native_submit_at": "2026-10-18T14:37:47.649Z",
@@ -3631,11 +3812,16 @@
       }
     ],
     "previous_native_status": "scheduled_confirmed",
-    "old_native_visibility": "old_schedule_requires_replacement",
+    "old_native_visibility": "deleted_confirmed",
     "source_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-014-coiffeur.mp4",
     "replacement_source_sha256": "8dc3cede6f6137a193b73b0720d4f5ab5b359adf958b02b364ad5a77402ebe20",
     "previous_upload_variant": "H264 720x1280 crf27 max900kbps faststart AAC96kbps, durée et décodage intégral contrôlés.",
-    "publication_note": "Version caméra unique prête localement. La nouvelle programmation doit être confirmée dans le réseau ; le lien natif existant désigne encore l’ancienne version."
+    "publication_note": "Ancienne réservation supprimée après confirmation explicite de Lou pour les 24 réservations. Nouvelle version prête, encore à programmer.",
+    "old_native_id": "7698016642806107414",
+    "old_native_url": "https://www.tiktok.com/@sandbox.talkshow/video/7698016642806107414",
+    "url": null,
+    "old_native_retirement_proof": "C:/github/sandbox-podcast/.local/social-network-manager/tiktok-e02-anciens-retires-v2.png",
+    "old_native_retired_at": "2026-10-18T21:12:33.076Z"
   },
   {
     "clip_id": "E02-014",
@@ -3723,7 +3909,7 @@
     "checks_pending": false,
     "native_list_verified_at": "2026-10-18T14:37:19Z",
     "replacement_revision": "camera-unique-v2",
-    "replacement_status": "ready_for_upload",
+    "replacement_status": "uploaded_draft",
     "old_native_visibility": "private_confirmed",
     "replacement_note": "Ancienne version rendue privée dans YouTube Studio le 18 octobre 2026, sans suppression. Créneau conservé dans cette file comme cible du nouveau fichier.",
     "old_private_proof": ".local/social-network-manager/youtube-e02-anciens-prives-v2.png",
@@ -3743,7 +3929,8 @@
     "previous_native_status": "replacement_pending",
     "source_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-025-transformation.mp4",
     "replacement_source_sha256": "10570681c6d2015dffcb03b2244aeff94a569b06a139cc0246677adc47235cf7",
-    "publication_note": "Version caméra unique prête localement. La nouvelle programmation doit être confirmée dans le réseau ; le lien natif existant désigne encore l’ancienne version."
+    "publication_note": "Version caméra unique importée dans YouTube Studio en brouillon. Métadonnées et programmation à terminer ; ancien Short privé.",
+    "pending_uploaded_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-025-transformation.mp4"
   },
   {
     "clip_id": "E02-025",
@@ -3857,7 +4044,7 @@
     "checks_pending": false,
     "native_list_verified_at": "2026-10-18T14:37:19Z",
     "replacement_revision": "camera-unique-v2",
-    "replacement_status": "ready_for_upload",
+    "replacement_status": "uploaded_draft",
     "old_native_visibility": "private_confirmed",
     "replacement_note": "Ancienne version rendue privée dans YouTube Studio le 18 octobre 2026, sans suppression. Créneau conservé dans cette file comme cible du nouveau fichier.",
     "old_private_proof": ".local/social-network-manager/youtube-e02-anciens-prives-v2.png",
@@ -3877,7 +4064,8 @@
     "previous_native_status": "replacement_pending",
     "source_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-011-fleuriste.mp4",
     "replacement_source_sha256": "f26992533e0865d38b19d7a51e45e4955ac6e26a196b1f55923a1b52058c33f6",
-    "publication_note": "Version caméra unique prête localement. La nouvelle programmation doit être confirmée dans le réseau ; le lien natif existant désigne encore l’ancienne version."
+    "publication_note": "Version caméra unique importée dans YouTube Studio en brouillon. Métadonnées et programmation à terminer ; ancien Short privé.",
+    "pending_uploaded_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-011-fleuriste.mp4"
   },
   {
     "clip_id": "E02-011",
@@ -4000,7 +4188,7 @@
     "checks_pending": false,
     "native_list_verified_at": "2026-10-18T14:37:19Z",
     "replacement_revision": "camera-unique-v2",
-    "replacement_status": "ready_for_upload",
+    "replacement_status": "uploaded_draft",
     "old_native_visibility": "private_confirmed",
     "replacement_note": "Ancienne version rendue privée dans YouTube Studio le 18 octobre 2026, sans suppression. Créneau conservé dans cette file comme cible du nouveau fichier.",
     "old_private_proof": ".local/social-network-manager/youtube-e02-anciens-prives-v2.png",
@@ -4020,7 +4208,8 @@
     "previous_native_status": "replacement_pending",
     "source_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-028-pm-maquette.mp4",
     "replacement_source_sha256": "f1f2311192647a9c3ea61fa1d448a58f47f88d362f5d07b4573e2151a192e244",
-    "publication_note": "Version caméra unique prête localement. La nouvelle programmation doit être confirmée dans le réseau ; le lien natif existant désigne encore l’ancienne version."
+    "publication_note": "Version caméra unique importée dans YouTube Studio en brouillon. Métadonnées et programmation à terminer ; ancien Short privé.",
+    "pending_uploaded_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-028-pm-maquette.mp4"
   },
   {
     "clip_id": "E02-028",
@@ -4143,7 +4332,7 @@
     "checks_pending": false,
     "native_list_verified_at": "2026-10-18T14:37:19Z",
     "replacement_revision": "camera-unique-v2",
-    "replacement_status": "ready_for_upload",
+    "replacement_status": "uploaded_draft",
     "old_native_visibility": "private_confirmed",
     "replacement_note": "Ancienne version rendue privée dans YouTube Studio le 18 octobre 2026, sans suppression. Créneau conservé dans cette file comme cible du nouveau fichier.",
     "old_private_proof": ".local/social-network-manager/youtube-e02-anciens-prives-v2.png",
@@ -4163,7 +4352,8 @@
     "previous_native_status": "replacement_pending",
     "source_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-024-relire-code.mp4",
     "replacement_source_sha256": "44bfc42b10ff33f23c007a174a72b29328db279c1f186fec4834a247a39d2c57",
-    "publication_note": "Version caméra unique prête localement. La nouvelle programmation doit être confirmée dans le réseau ; le lien natif existant désigne encore l’ancienne version."
+    "publication_note": "Version caméra unique importée dans YouTube Studio en brouillon. Métadonnées et programmation à terminer ; ancien Short privé.",
+    "pending_uploaded_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-024-relire-code.mp4"
   },
   {
     "clip_id": "E02-024",
@@ -4280,14 +4470,14 @@
     "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-001-quotas.mp4",
     "scheduled_local": "2026-10-24T20:30:00+02:00",
     "timezone": "Europe/Paris",
-    "status": "replacement_pending",
-    "native_id": "2agV4WC1zWU",
-    "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-youtube-e02-001-scheduled.jpg",
-    "native_url": "https://youtube.com/shorts/2agV4WC1zWU",
+    "status": "scheduled_confirmed",
+    "native_id": "IUY8U1PY-hI",
+    "proof": "C:/github/sandbox-podcast/.local/social-network-manager/youtube-e02-001-v2-scheduled.png",
+    "native_url": "https://youtube.com/shorts/IUY8U1PY-hI",
     "checks_pending": false,
     "native_list_verified_at": "2026-10-18T14:37:19Z",
     "replacement_revision": "camera-unique-v2",
-    "replacement_status": "ready_for_upload",
+    "replacement_status": "scheduled_verified",
     "old_native_visibility": "private_confirmed",
     "replacement_note": "Ancienne version rendue privée dans YouTube Studio le 18 octobre 2026, sans suppression. Créneau conservé dans cette file comme cible du nouveau fichier.",
     "old_private_proof": ".local/social-network-manager/youtube-e02-anciens-prives-v2.png",
@@ -4302,12 +4492,28 @@
         "uploaded_file": null,
         "upload_variant": null,
         "scheduled_local": "2026-10-24T20:30:00+02:00"
+      },
+      {
+        "status": "replacement_pending",
+        "native_id": "2agV4WC1zWU",
+        "proof": "C:/github/sandbox-podcast/.local/social-network-manager/daily/proofs/2026-10-18-youtube-e02-001-scheduled.jpg",
+        "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-001-quotas.mp4",
+        "scheduled_local": "2026-10-24T20:30:00+02:00"
       }
     ],
     "previous_native_status": "replacement_pending",
     "source_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-001-quotas.mp4",
     "replacement_source_sha256": "25fb98e94d13b37aa7d6d3d4b405f4eadefbdb2f5d99f5d0067cc0a15ed7e1e4",
-    "publication_note": "Version caméra unique prête localement. La nouvelle programmation doit être confirmée dans le réseau ; le lien natif existant désigne encore l’ancienne version."
+    "publication_note": "Nouvelle vidéo caméra unique programmée ; confirmation native et créneau vérifiés.",
+    "pending_uploaded_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-001-quotas.mp4",
+    "old_native_id": "2agV4WC1zWU",
+    "url": "https://youtube.com/shorts/IUY8U1PY-hI",
+    "uploaded_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-001-quotas.mp4",
+    "media_revision": "camera-unique-v2",
+    "replacement_verified_at": "2026-10-18T21:16:20.036Z",
+    "replacement_sha256": "25fb98e94d13b37aa7d6d3d4b405f4eadefbdb2f5d99f5d0067cc0a15ed7e1e4",
+    "last_error": null,
+    "related_video_id": "7KVqydbGow0"
   },
   {
     "clip_id": "E02-001",

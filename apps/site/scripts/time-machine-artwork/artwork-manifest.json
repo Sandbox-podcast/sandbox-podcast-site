@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generatedAt": "2026-10-16",
+  "generatedAt": "2026-10-18",
   "events": [
     {
       "id": "deep-blue-first-game",
@@ -1662,6 +1662,127 @@
       "sha256": "de6b2a2c834314939e3e75201de9bcdd03d5f6e4e60543c44ed25576c835ed1e",
       "bytes": 12833,
       "source": "https://allenai.org/blog/hiro-acev2"
+    },
+    {
+      "id": "antigravity-antimicrobial-peptides",
+      "path": "/images/time-machine/events/antigravity-antimicrobial-peptides.svg",
+      "subject": "biology",
+      "brand": "google",
+      "mode": "biology-antigravity-antimicrobial-peptides",
+      "geometryHash": "045dcd7ad16004c694d45a1cd1e749231fae74c7395df75bcdd1a1e2d8a84c43",
+      "sha256": "75c01cc90190ff6cdb98880ece755f488fd20c200d51e2c5be148282eb89254e",
+      "bytes": 13126,
+      "source": "https://deepmind.google/blog/accelerating-antimicrobial-discovery/"
+    },
+    {
+      "id": "rosalind-academic-plan",
+      "path": "/images/time-machine/events/rosalind-academic-plan.svg",
+      "subject": "biology",
+      "brand": "openai",
+      "mode": "biology-rosalind-academic-plan",
+      "geometryHash": "472b6738d4db333d629ee1a777181ba131329fbf603ec3e4ed68df5106e32257",
+      "sha256": "f601a3746ec28685cebba8ac0a972ce310ace8f6c994adeda4b0c46a096caf9c",
+      "bytes": 13580,
+      "source": "https://openai.com/index/introducing-the-rosalind-academic-plan/"
+    },
+    {
+      "id": "muse-spark-open",
+      "path": "/images/time-machine/events/muse-spark-open.svg",
+      "subject": "model",
+      "brand": "meta",
+      "mode": "meta-model",
+      "geometryHash": "57107b6764684ae2d291b030ae61c7a4a3ccc4e8874958f6e1d6120db539dad5",
+      "sha256": "933b7e522b3ae4d2cae1675f26c7a2a14d2df126e5f8203f029543d720874ced",
+      "bytes": 15750,
+      "source": "https://research.meta.ai/blog/muse-spark-open"
+    },
+    {
+      "id": "jais-3",
+      "path": "/images/time-machine/events/jais-3.svg",
+      "subject": "model",
+      "brand": null,
+      "mode": "language-model",
+      "geometryHash": "e757f147ce119ac5d817738b598224116b5308b2a8a52d18c61ac842b4ede1fa",
+      "sha256": "186eefe321425ed933fe2d6e4b4d04453e8f670ca48792d2a00fe1046f1488e9",
+      "bytes": 10056,
+      "source": "https://mbzuai.ac.ae/news-events/news/mbzuais-institute-foundation-models-inception42-launch-jais-3-arabic-native-ai"
+    },
+    {
+      "id": "genesis-agent-skills",
+      "path": "/images/time-machine/events/genesis-agent-skills.svg",
+      "subject": "agent",
+      "brand": null,
+      "mode": "agent-genesis-agent-skills",
+      "geometryHash": "50974aa218b8a1efb573d5312e2859a0f1a0efe997de38143401d5378b50b48e",
+      "sha256": "997debf84513ff523f9e6198bd97ac53a925f57775d20f3c7d55d376c05f1132",
+      "bytes": 7340,
+      "source": "https://www.energy.gov/science/articles/genesis-agent-skills-release-support-innovation-across-genesis-mission"
+    },
+    {
+      "id": "granite-switch-4-1",
+      "path": "/images/time-machine/events/granite-switch-4-1.svg",
+      "subject": "model",
+      "brand": null,
+      "mode": "language-model",
+      "geometryHash": "d46fe8099a3cbc56d1ce61aa74da781eb612491dac953996ddba01248b2331a2",
+      "sha256": "b79a857360d026d0cb5e4eb17438b7386356d328a191aeef98717fd209606188",
+      "bytes": 8982,
+      "source": "https://huggingface.co/blog/ibm-granite/granite-switch-4-1"
+    },
+    {
+      "id": "flux-3-image-klein",
+      "path": "/images/time-machine/events/flux-3-image-klein.svg",
+      "subject": "image",
+      "brand": null,
+      "mode": "image-flux-3-image-klein",
+      "geometryHash": "6c5b504397422fd1ffbf9e6d50b529c20e4fd8ca0fd9c890d26d7fb1e4c04349",
+      "sha256": "dfe55d5353f2c2baada656b86e55f31fdb71f411570af1d369a03b7f2d710910",
+      "bytes": 6233,
+      "source": "https://huggingface.co/blog/flux-3"
+    },
+    {
+      "id": "beam-open-weights",
+      "path": "/images/time-machine/events/beam-open-weights.svg",
+      "subject": "model",
+      "brand": null,
+      "mode": "language-model",
+      "geometryHash": "e980a6597161c75df50254752f5abccd8eacac36e4a673ce267e509a0b8d62ae",
+      "sha256": "6443139eea103f6070e9613812a3180698f411b9166fb1b18e0d554844a90973",
+      "bytes": 11827,
+      "source": "https://reflection.ai/blog/beam-is-available"
+    },
+    {
+      "id": "claude-quantum-circuits",
+      "path": "/images/time-machine/events/claude-quantum-circuits.svg",
+      "subject": "math",
+      "brand": "claude",
+      "mode": "math-claude-quantum-circuits",
+      "geometryHash": "16fa2c0c0d2a620b7360a41487059a159d811f31df080580e28a5e2472fe47e3",
+      "sha256": "c66aa5eba9070f1109e1b802cf784c26e914b2e9762913f328097ad8ce87ab5d",
+      "bytes": 17978,
+      "source": "https://www.anthropic.com/research/designing-efficient-quantum-circuits"
+    },
+    {
+      "id": "claude-ecdsa-curve-origins",
+      "path": "/images/time-machine/events/claude-ecdsa-curve-origins.svg",
+      "subject": "math",
+      "brand": "claude",
+      "mode": "math-claude-ecdsa-curve-origins",
+      "geometryHash": "ddd79f220b914009c3f9ab8546e7dc48dd78a3a773d0a6a3819b71938a740fa1",
+      "sha256": "92d3b2e88efb3dbf0222dd8b6f7f529ce5cad38d264f9c13fde1181a706d0b6c",
+      "bytes": 17278,
+      "source": "https://www.anthropic.com/research/ecdsa-curve-origins"
+    },
+    {
+      "id": "deepseek-v4-1-flash-1017",
+      "path": "/images/time-machine/events/deepseek-v4-1-flash-1017.svg",
+      "subject": "model",
+      "brand": "deepseek",
+      "mode": "deepseek-model",
+      "geometryHash": "7b007e80196c9b7568f7c220ccdccb301acb7a1506a84e14155992b7e91d5288",
+      "sha256": "f94e3a8d88635ab02af669c88be17b8f850e2b179a922ddde4f4697cf62336f1",
+      "bytes": 24386,
+      "source": "https://api-docs.deepseek.com/news/news261017/"
     }
   ]
 }

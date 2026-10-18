@@ -28,6 +28,8 @@ Le formatage du document qui bloque les trois CI est corrigé. ESLint exclut les
 
 ## Vérifications
 
+Cette section conserve les résultats du premier lot local. Le [regroupement des conversations](consolidation-globale-2026-10-18.md), la PR unique et son issue donnent les résultats finaux du lot étendu. La recette isolée contient 325 URL de sitemap ; les 333 URL ci-dessous incluaient le contenu éditorial du poste.
+
 Les tests ciblés couvrent les identités Models et les éditions, la recherche Postgres et son repli, les métadonnées traduites et les états News. Une traduction Argos réelle produit une fiche complète en EN/ES/DE sur le poste local.
 
 La recette navigateur News utilise une base PGlite éphémère sur loopback. Elle vérifie les quatre langues sur ordinateur et mobile, le secret d'ingestion, l'insertion idempotente, les filtres, les liens sources, les canoniques et les liens de langues. Elle simule aussi une table SQL absente. Les sept groupes de vérification passent sans erreur JavaScript. Commande reproductible : `pnpm --filter @podcast/site test:news:e2e`.
@@ -50,7 +52,7 @@ Le premier audit du sitemap a dépassé le délai de trente secondes pendant la 
 
 ## Mise en service et limites
 
-Aucun commit, push, changement de PR, déploiement, migration Neon ou article publié en production n'est effectué pendant cette tâche. Le code local et ses essais ne changent pas le site public.
+Aucun commit, push, changement de PR, déploiement, migration Neon ou article publié en production n'est effectué pendant ce premier lot. Le regroupement ultérieur crée la PR et l'issue demandées par Lou ; il ne met pas en service les données de production.
 
 L'accès Vercel connecté refuse la lecture du projet sous le scope `sandboxpodcastpro-5518` avec HTTP 403. La CLI Vercel n'est pas installée et les accès Postgres de production ne sont pas disponibles dans l'environnement local. Le plugin Neon est disponible dans le catalogue, mais il n'est pas installé ni connecté pendant cette tâche. La revue effective des 36 références Models et l'isolation Neon Preview/Production ne sont donc pas confirmées.
 

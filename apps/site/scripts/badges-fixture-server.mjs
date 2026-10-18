@@ -1,6 +1,7 @@
 // Serveur de fixtures exclusivement sur loopback, partagé par la démonstration et les tests.
 import assert from 'node:assert/strict';
 import { Buffer } from 'node:buffer';
+import { randomUUID } from 'node:crypto';
 import { once } from 'node:events';
 import { readFile, mkdir, writeFile } from 'node:fs/promises';
 import { createServer } from 'node:http';
@@ -24,6 +25,14 @@ export async function startBadgeFixture({ kind = 'e2e', port = 0 } = {}) {
   const site = fileURLToPath(new URL('..', import.meta.url));
   const require = createRequire(import.meta.url);
   const artifactName = `${kind}-${process.pid}`;
+  // Isoler aussi le contenu éditorial local avant tout import de sa persistance.
+  // Les parcours analytics/fronts peuvent fournir leur propre fichier de fixture.
+  const requestedEditorialFile = process.env.SANDBOX_FRONT_CONTENT_FILE;
+  if (requestedEditorialFile && !/^[a-z0-9-]+\.json$/.test(requestedEditorialFile))
+    throw new Error('Nom de fichier éditorial de fixture invalide.');
+  process.env.SANDBOX_FRONT_PREVIEW = '1';
+  process.env.SANDBOX_FRONT_CONTENT_FILE =
+    requestedEditorialFile || `badges-${artifactName}-${randomUUID()}.json`;
   const artifactDir = new URL(`../.local/badges-${artifactName}/`, import.meta.url);
   await mkdir(artifactDir, { recursive: true });
   const pg = new PGlite();

@@ -104,7 +104,7 @@ describe('épisodes publiés après le build', () => {
         sitemapEntries.some((entry) => /\/(episodes|topics)$|\/topics\//.test(entry.url)),
       ).toBe(false);
       expect(sitemapEntries.find((entry) => entry.url.endsWith('/time-machine'))).toMatchObject({
-        lastModified: '2026-10-15',
+        lastModified: '2026-10-18',
       });
     } finally {
       setEditorialOverride(undefined);

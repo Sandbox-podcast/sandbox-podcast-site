@@ -1,5 +1,7 @@
 # Documentation
 
+Livraison groupée du 18 octobre : [périmètre des conversations, fusions et validations](site/consolidation-globale-2026-10-18.md), avec les PR 84, 85, 86 et 89 réunies dans une branche.
+
 Correction des classements, News et recherche du 18 octobre : [diagnostic, correctifs et validations](site/remise-en-etat-2026-10-18.md). Le rapport distingue les essais locaux des actions de mise en service encore nécessaires.
 
 Import d'épisode sans clé YouTube : [DD-0058](design-decisions/dd-0058-import-youtube-sans-cle-api.md). La page publique fournit la date et la durée ; le lecteur complète la durée si nécessaire.

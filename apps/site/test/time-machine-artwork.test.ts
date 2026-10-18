@@ -18,7 +18,7 @@ const events = timeMachineData().events;
 const readArtwork = (path: string) => readFileSync(resolve('public', path.slice(1)), 'utf8');
 
 describe('affiches distinctes de la Time Machine', () => {
-  it('attribue un fichier et une composition graphique propres à chacun des 151 événements', () => {
+  it('attribue un fichier et une composition graphique propres à chaque événement du corpus', () => {
     const ids = Object.values(HISTORY_ARTWORK_GROUPS).flat();
     expect(new Set(ids)).toEqual(new Set(events.map((event) => event.id)));
     const paths = events.map(historyArtworkPath);

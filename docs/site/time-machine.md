@@ -10,6 +10,8 @@ Le serveur écoute sur 127.0.0.1:3000. Un autre port se choisit avec -- --port=3
 
 ## Corpus
 
+Mise à jour du 18 octobre 2026 : 162 événements, dont 52 en 2026. La page ouvre le dernier événement documenté, le 17 octobre. Voir [les ajouts et leur validation](time-machine-2026-10-18.md). Les relevés du 15 et du 16 octobre ci-dessous décrivent les versions précédentes.
+
 apps/site/content/ai-history.json contient 151 événements, 56 jalons et 156 références primaires distinctes. La revue du 15 octobre 2026 ajoute 53 événements. Derniers événements documentés : 14 octobre 2026. La sélection mondiale couvre 1996-2026.
 
 La reprise couvre les agents persistants (Grok Bot, Team Bots, Dots et Muse), les modèles récents (GPT-6.1 Sol, Claude 5.5, Gemini 4 Argon, Muse Wonder, Mistral Large 4, Qwen3.8-Max et GLM-5.3) et les annonces du 8 au 14 octobre. Elle porte le nombre d'événements de 2026 de 8 à 41.
