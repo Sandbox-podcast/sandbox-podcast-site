@@ -4,6 +4,7 @@ import { LocalizedLink as Link } from '@/components/localization';
 import { z } from 'zod';
 import { Breadcrumbs } from '@/components/ui';
 import { episodeResourcePath, matchesSearch, normalizeSearch } from '@/domain/discovery';
+import { loadCurrentChartSearchHits } from '@/lib/chart-search';
 import { allCharts, allEntities, allEpisodes, entityPath, getHost } from '@/lib/repository';
 import { pageMetadata } from '@/lib/seo';
 import { translateText, type TranslationDictionary } from '@/i18n/translation';
@@ -67,6 +68,9 @@ export default async function SearchPage({ searchParams, dictionary = {} }: Prop
   const charts = allCharts().filter((chart) =>
     includes(chart.title, chart.short, chart.tagline, chart.description),
   );
+  const publishedCharts = (needle ? await loadCurrentChartSearchHits() : []).filter(
+    (hit) => includes(...hit.terms) && !entities.some((entity) => entity.slug === hit.slug),
+  );
   const teamProjects = personalProjects.filter((project) =>
     includes(
       project.name,
@@ -88,6 +92,7 @@ export default async function SearchPage({ searchParams, dictionary = {} }: Prop
   const count =
     episodes.length +
     entities.length +
+    publishedCharts.length +
     charts.length +
     resources.length +
     teamProjects.length +
@@ -98,7 +103,11 @@ export default async function SearchPage({ searchParams, dictionary = {} }: Prop
     { id: 'resources', label: 'Ressources', count: resources.length },
     { id: 'personal-projects', label: 'Nos projets', count: teamProjects.length },
     { id: 'charts', label: 'Classements', count: charts.length },
-    { id: 'entities', label: 'Projets et modèles', count: entities.length },
+    {
+      id: 'entities',
+      label: 'Projets et modèles',
+      count: entities.length + publishedCharts.length,
+    },
     { id: 'history', label: "Histoire de l'IA", count: history.length },
   ];
   const shownCount = facets.find((facet) => facet.id === type)?.count ?? count;
@@ -327,15 +336,25 @@ export default async function SearchPage({ searchParams, dictionary = {} }: Prop
       </Text>
 
       <Text>
-        {entities.length > 0 && (type === 'all' || type === 'entities') ? (
+        {(entities.length > 0 || publishedCharts.length > 0) &&
+        (type === 'all' || type === 'entities') ? (
           <section className="search-results" aria-labelledby="search-entities">
             <h2 id="search-entities" className="section-title">
               <Text>{'Projets, mod\u00E8les et outils '}</Text>
               <span>
-                <Text>{entities.length}</Text>
+                <Text>{entities.length + publishedCharts.length}</Text>
               </span>
             </h2>
             <Text>
+              {publishedCharts.map((hit) => (
+                <Link key={hit.slug} className="search-result" href={hit.href}>
+                  <span className="search-result-kicker">{hit.detail}</span>
+                  <span className="search-result-title">{hit.name}</span>
+                  {hit.description ? (
+                    <span className="search-result-detail">{hit.description}</span>
+                  ) : null}
+                </Link>
+              ))}
               {entities.map((entity) => (
                 <Link key={entity.slug} className="search-result" href={entityPath(entity)}>
                   <span className="search-result-title">
