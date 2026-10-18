@@ -289,11 +289,16 @@ export function chartRows(
   const selected = period === 'week' ? history.at(-1) : aggregateSnapshots(currentWindow);
   if (!selected) return [];
   const earlier = history.at(-2);
+  const currentMethod = history.at(-1)?.publication?.scoringVersion;
+  const previousMethod = earlier?.publication?.scoringVersion;
+  const methodsDiffer = Boolean(
+    currentMethod && previousMethod && currentMethod !== previousMethod,
+  );
   const previous =
     period === 'all'
       ? undefined
       : period === 'week'
-        ? earlier && editionsFollow(earlier.week, week)
+        ? earlier && editionsFollow(earlier.week, week) && !methodsDiffer
           ? earlier
           : undefined
         : aggregateSnapshots(

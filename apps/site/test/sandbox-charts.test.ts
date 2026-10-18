@@ -168,6 +168,25 @@ describe('présentation des charts', () => {
     firstSeries.snapshots.push({ ...latest, week: '2026-10-20' });
     expect(chartRows(data, 'github', '2026-10-20').every((row) => row.baseline)).toBe(true);
   });
+  it('ne transforme pas un changement de méthode en montée ou en descente', () => {
+    const data = dataset();
+    const firstSeries = data.series[0];
+    if (!firstSeries) throw new Error('Série fixture absente');
+    const latest = firstSeries.snapshots.at(-1);
+    if (!latest) throw new Error('Fixture absente');
+    const publication = {
+      observedAt: '2026-10-10T00:00:00.000Z',
+      calculatedAt: '2026-10-10T01:00:00.000Z',
+      publishedAt: '2026-10-10T01:00:00.000Z',
+    };
+    latest.publication = { ...publication, scoringVersion: 'github-momentum-v1+stars' };
+    firstSeries.snapshots.push({
+      ...latest,
+      week: '2026-10-11',
+      publication: { ...publication, scoringVersion: 'github-momentum-observed' },
+    });
+    expect(chartRows(data, 'github', '2026-10-11').every((row) => row.baseline)).toBe(true);
+  });
   it('ne compare pas une semaine à une archive éloignée si l’édition précédente manque', () => {
     const data = dataset();
     const firstSeries = data.series[0];

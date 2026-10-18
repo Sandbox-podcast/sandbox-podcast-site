@@ -181,6 +181,70 @@ function metricPercentiles<T extends { entity: ExternalEntity }>(
   );
 }
 
+/** Un dépôt qui publie plusieurs skills ne peut occuper qu'une place : celle de sa plus forte progression. */
+export function representativeSkillInputs(
+  candidates: readonly SkillScoreInput[],
+): SkillScoreInput[] {
+  const best = new Map<string, SkillScoreInput>();
+  for (const item of candidates) {
+    const repository =
+      item.entity.sources.find((source) => source.provider === 'github')?.externalId ??
+      item.entity.slug;
+    const current = best.get(repository);
+    const growth = item.metrics.installs7d ?? Number.NEGATIVE_INFINITY;
+    const currentGrowth = current?.metrics.installs7d ?? Number.NEGATIVE_INFINITY;
+    if (
+      !current ||
+      growth > currentGrowth ||
+      (growth === currentGrowth && item.entity.slug < current.entity.slug)
+    )
+      best.set(repository, item);
+  }
+  return [...best.values()];
+}
+
+/** Classe uniquement les skills dont la variation d'installations sur sept jours a été mesurée. */
+export function rankSkillsByObservedInstalls(
+  candidates: readonly SkillScoreInput[],
+  size: number,
+): { cohort: number; entries: ScoredExternalEntity[] } {
+  if (!Number.isSafeInteger(size) || size < 1) throw new Error('Taille Skills invalide.');
+  const observed = candidates.filter(
+    (item) => item.metrics.installs7d !== null && Number.isFinite(item.metrics.installs7d),
+  );
+  const growth = metricPercentiles(observed, (item) => item.metrics.installs7d);
+  return {
+    cohort: observed.length,
+    entries: observed
+      .map((item) => {
+        const score = Math.round((growth.get(item.entity.slug) ?? 0) * 100) / 100;
+        return {
+          entity: item.entity,
+          rank: 0,
+          score,
+          dimensions: { growth: score, momentum: score },
+          metrics: measuredNumbers({
+            installs: item.metrics.installs,
+            installs7d: item.metrics.installs7d,
+            stars: item.metrics.stars,
+            stars7d: item.metrics.stars7d,
+            forks: item.metrics.forks,
+            freshness: item.metrics.freshness,
+          }),
+          sourceObservedAt: item.sourceObservedAt,
+        };
+      })
+      .toSorted(
+        (a, b) =>
+          b.score - a.score ||
+          (b.metrics['installs7d'] ?? 0) - (a.metrics['installs7d'] ?? 0) ||
+          a.entity.slug.localeCompare(b.entity.slug),
+      )
+      .slice(0, size)
+      .map((item, index) => ({ ...item, rank: index + 1 })),
+  };
+}
+
 export function scoreSkills(
   candidates: readonly SkillScoreInput[],
   size = 10,

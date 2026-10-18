@@ -30,7 +30,8 @@ import {
 import { GithubClient, GithubRateLimitError } from './github-client.ts';
 import { ScorecardClient } from './scorecard-client.ts';
 import { githubDiscoveryPlan } from '../domain/github-discovery.ts';
-import { githubReferenceInput } from '../domain/reference-adapters.ts';
+import { OBSERVED_SCORING_VERSIONS } from '../domain/chart-publication.ts';
+import { githubReferenceInput, OPEN_SOURCE_LICENSE_IDS } from '../domain/reference-adapters.ts';
 import { createReferenceArtifact, type ReferenceArtifact } from '../lib/reference-artifact.ts';
 import { rankGithubProjects as githubBaseRanking } from '../domain/github-charts.ts';
 import { refreshSlotForDate, refreshSlotId, isRefreshSlotId } from '../domain/chart-refresh.ts';
@@ -372,19 +373,36 @@ export async function calculateGithubWeek(
       };
     });
   };
-  const entries = present(referenceRanking, false);
-  const rising = present(risingReferenceRanking, true);
+  const corroborated = present(referenceRanking, false);
+  const corroboratedRising = present(risingReferenceRanking, true);
+  const observedEdition = (risingChart: boolean) => {
+    const licensed = candidates.filter(({ project }) =>
+      OPEN_SOURCE_LICENSE_IDS.has(project.license ?? ''),
+    );
+    const ranked = rankGithubProjects(licensed, config, risingChart, Math.max(1, licensed.length));
+    return ranked.length >= config.minimumCandidates ? ranked.slice(0, config.size) : [];
+  };
+  const publishReference = referenceRanking.report.publishable;
+  const openssfCovered =
+    referenceRanking.report.sourceCoverage.find((item) => item.source === 'openssf-practices')
+      ?.observed ?? 0;
+  const openssfCannotCorroborate = !publishReference && openssfCovered < config.minimumCandidates;
+  const observedGithub = openssfCannotCorroborate ? observedEdition(false) : [];
+  const observedRising = openssfCannotCorroborate ? observedEdition(true) : [];
+  const entries = corroborated;
+  const rising = corroboratedRising;
   const uncertainCandidates = referenceRanking.report.excluded.filter(
     (item) => item.canEnterTop,
   ).length;
   const risingUncertainCandidates = risingReferenceRanking.report.excluded.filter(
     (item) => item.canEnterTop,
   ).length;
-  const insufficientHistory = !referenceRanking.report.publishable;
+  const insufficientHistory = !publishReference;
   const result = {
     week,
     date,
     insufficientHistory,
+    observedFallback: observedGithub.length > 0 || observedRising.length > 0,
     eligible: entries.length,
     uncertainCandidates,
     risingUncertainCandidates,
@@ -394,21 +412,45 @@ export async function calculateGithubWeek(
     risingReferenceRanking,
     entries,
     rising,
+    observedPreview: observedGithub.slice(0, config.size).map((item) => ({
+      fullName: item.project.fullName,
+      stars7d: item.metrics.stars7d,
+      score: item.score,
+    })),
+    observedRisingCount: observedRising.length,
     written: 0,
     dryRun: options.dryRun === true,
   };
-  if (options.dryRun || insufficientHistory) return result;
+  const githubToFreeze = publishReference ? entries : observedGithub;
+  const risingToFreeze = publishReference
+    ? risingReferenceRanking.report.publishable
+      ? rising
+      : []
+    : observedRising;
+  if (options.dryRun || (githubToFreeze.length === 0 && risingToFreeze.length === 0)) return result;
   result.written = await freezeWeeklyCharts(
     week,
     date,
     config,
     [
-      { chart: 'github', entries, referenceRanking },
-      {
-        chart: 'rising',
-        entries: risingReferenceRanking.report.publishable ? rising : [],
-        referenceRanking: risingReferenceRanking,
-      },
+      publishReference
+        ? { chart: 'github', entries: githubToFreeze, referenceRanking }
+        : {
+            chart: 'github',
+            entries: githubToFreeze,
+            scoringVersion: OBSERVED_SCORING_VERSIONS.github,
+          },
+      publishReference
+        ? {
+            chart: 'rising',
+            entries: risingToFreeze,
+            referenceRanking: risingReferenceRanking,
+          }
+        : {
+            chart: 'rising',
+            entries: risingToFreeze,
+            scoringVersion: OBSERVED_SCORING_VERSIONS.rising,
+          },
     ],
     options.publish ?? true,
   );
@@ -426,9 +468,15 @@ export async function freezeGithubWeek(
     const result = await calculateGithubWeek(options);
     return {
       ...emptySummary(),
-      status: result.insufficientHistory ? 'insufficient_history' : 'success',
+      status: result.insufficientHistory
+        ? result.observedFallback
+          ? 'partial'
+          : 'insufficient_history'
+        : 'success',
       details: [
-        `${result.week} : ${result.entries.length.toString()} éligibles, ${result.uncertainCandidates.toString()} dépôts non corroborés pouvant modifier le Top 20, ${result.rising.length.toString()} Rising, aucune écriture.`,
+        result.observedFallback
+          ? `${result.week} : simulation, la progression observée serait publiée, ${result.entries.length.toString()} dépôts corroborés, ${result.uncertainCandidates.toString()} pourraient modifier un Top OpenSSF, aucune écriture.`
+          : `${result.week} : ${result.entries.length.toString()} éligibles, ${result.uncertainCandidates.toString()} dépôts non corroborés pouvant modifier le Top 20, ${result.rising.length.toString()} Rising, aucune écriture.`,
       ],
     };
   }
@@ -446,7 +494,9 @@ export async function freezeGithubWeek(
     summary.succeeded = result.eligible;
     summary.snapshotsCreated = result.written;
     summary.status = result.insufficientHistory
-      ? 'insufficient_history'
+      ? result.written
+        ? 'partial'
+        : 'insufficient_history'
       : (options.publish ?? true) && !reviewedReferenceVersion(result.scoringVersion)
         ? 'partial'
         : result.risingUncertainCandidates
@@ -454,7 +504,9 @@ export async function freezeGithubWeek(
           : 'success';
     summary.details.push(
       result.insufficientHistory
-        ? `Historique ou corroboration insuffisants : ${result.eligible.toString()}/${(await readChartsConfig()).minimumCandidates.toString()} candidats éligibles, ${result.uncertainCandidates.toString()} dépôts peuvent modifier le Top 20. Aucun classement publié.`
+        ? result.written
+          ? `${result.week} : édition observée publiée sur la progression de sept jours. Le profil corroboré reste bloqué : ${result.eligible.toString()} dépôts complets, ${result.uncertainCandidates.toString()} pourraient modifier un Top OpenSSF.`
+          : `Historique ou corroboration insuffisants : ${result.eligible.toString()}/${(await readChartsConfig()).minimumCandidates.toString()} candidats éligibles, ${result.uncertainCandidates.toString()} dépôts peuvent modifier le Top 20. Aucun classement publié.`
         : `${result.week} figée, ${result.written.toString()} classement(s) créé(s). ${result.risingUncertainCandidates.toString()} candidats Rising restent non corroborés. Une relance conserve les éditions existantes.`,
     );
     if (

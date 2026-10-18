@@ -340,7 +340,9 @@ export async function freezeExternalEdition(
     );
     const previous = published.find((row) => row.week === previousId);
     const previousRanks = new Map(
-      (previous?.payload.entries ?? []).map((entry) => [entry.entity, entry.rank]),
+      (previous?.scoringVersion === scoringVersion ? (previous.payload.entries ?? []) : []).map(
+        (entry) => [entry.entity, entry.rank],
+      ),
     );
     const entityRows = await tx
       .select({ id: chartEntities.id, slug: chartEntities.slug })
