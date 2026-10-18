@@ -17,8 +17,8 @@ Procédures : [reprise des classements](site/incident-classements-2026-10-15.md)
 ## Mesure et contenu
 
 - GA4 est activé en production après accord et recette : mesure améliorée désactivée, conservation des événements réglée à 14 mois, cinq événements du plan initial reçus dans Temps réel. La recherche reçue ne contient pas son terme et le tag reste absent après refus ou retrait puis rechargement.
-- Compléter la mesure des autres événements de découverte, l'attribution YouTube et les observations mobiles/Vercel en conditions réelles. La recette n'est pas un résultat de performance ni une mesure d'audience représentative.
-- Publier les compléments ES/DE et l'ouverture de leur indexation, puis vérifier les robots et le sitemap publics. Lou dispense de relecture native et autorise l'indexation des pages traduites.
+- Rapprocher les clics YouTube des vues dans Studio et recueillir les mesures mobiles réelles dans Speed Insights. La recette n'est pas un résultat de performance ni une mesure d'audience représentative.
+- Les compléments ES/DE et leur indexation sont déployés ; robots, canoniques et sitemap publics sont vérifiés le 17 octobre. Les trois événements de découverte sont reçus dans GA4. Les mesures mobiles et l'attribution YouTube restent à vérifier : [suivi du 17 octobre](site/suivi-issue-68-2026-10-17.md).
 
 Lou retient l'email du footer pour les signalements. La publication de la procédure proposée est abandonnée.
 

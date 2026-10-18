@@ -9,6 +9,9 @@ Le dépôt sert le site `apps/site` (podcast et classements tech et IA). Les anc
   - [Installer l'outil](#installer-loutil)
   - [Connecter la chaîne et lancer un audit](#connecter-la-chaîne-et-lancer-un-audit)
   - [Préparer des Shorts sans master vidéo](#préparer-des-shorts-sans-master-vidéo)
+- [Agent Social Network Manager](#agent-social-network-manager)
+  - [Utiliser l'agent avec Nico et Loïc](#utiliser-lagent-avec-nico-et-loïc)
+  - [Préparer et valider une publication](#préparer-et-valider-une-publication)
 - [Fonctionnement des classements](#fonctionnement-des-classements)
   - [Méthodes et profils](#méthodes-et-profils)
   - [Chaîne de calcul](#chaîne-de-calcul)
@@ -76,6 +79,31 @@ Le résultat est enregistré dans `.local/episode-1/native-pack.md` et `native-p
 Pour créer les vidéos, utilisez l'outil natif de création d'extraits ou de Shorts dans YouTube Studio lorsqu'il est disponible. Sinon, Studio peut fournir une copie de votre propre vidéo pour un rendu local. Relisez chaque cadrage et chaque sous-titre. Dans Studio, réglez ensuite la visibilité sur `Programmer`, choisissez la date et l'heure, puis vérifiez que la ligne du Short affiche `Programmée`. Une vidéo `Privée` n'est pas programmée.
 
 Pour l'audit, les modifications de métadonnées, le rendu local, le pipeline avec un fichier master et le workflow planifié, consultez le [guide d'exploitation de l'agent](tools/youtube-growth/README.md). Les opérations d'écriture demandent des droits OAuth supplémentaires et une commande explicite.
+
+## Agent Social Network Manager
+
+Le mode opératoire multi-réseaux est décrit dans [`tools/social-network-manager/README.md`](tools/social-network-manager/README.md). Il complète l'agent YouTube sans le remplacer. Le [dossier de lancement](docs/site/social-network-manager-2026-10-17.md) rassemble l'état vérifié des profils, l'identité Instagram, les limites d'accès, le calendrier de 30 jours et les brouillons. Le symbole social réutilise le [kit de marque SANDBOX](brand/social/README.md).
+
+### Utiliser l'agent avec Nico et Loïc
+
+1. Ouvrir le dépôt `Sandbox-podcast/sandbox-podcast-site` dans Codex ou un autre agent de code autorisé, sur la branche de travail de l'équipe.
+2. Lui demander de lire `AGENTS.md`, `tools/social-network-manager/README.md` et `docs/site/social-network-manager-2026-10-17.md` avant de préparer une tâche.
+3. Décrire le résultat voulu et la plateforme. Exemples : « prépare deux variantes TikTok à partir de l'extrait Codex/OpenCode » ou « relève les performances de la semaine et compare-les aux relevés précédents ».
+4. Pour une tâche YouTube technique, demander explicitement le guide [`tools/youtube-growth/README.md`](tools/youtube-growth/README.md). Le Social Network Manager ne remplace pas ses commandes ni ses contrôles.
+5. Relire les fichiers préparés, les sources, les sous-titres et les statuts réels dans les plateformes avant de proposer une diffusion.
+
+Le dépôt et ses documents donnent le contexte partagé à l'agent. Un agent ouvert sans ce dépôt ne voit pas automatiquement les brouillons, les assets ni l'historique du projet. Les agents peuvent préparer et analyser; ils ne doivent pas publier, programmer, modifier une bio ou répondre publiquement sans l'accord explicite de Lou.
+
+### Préparer et valider une publication
+
+1. Choisir un sujet sourcé et vérifier qu'il n'a pas déjà été publié sur le réseau cible. L'état de départ des comptes est dans le dossier de lancement.
+2. Donner à l'agent le lien ou l'identifiant de l'épisode, l'extrait visé, le réseau et l'objectif. Pour un extrait, préciser le fichier source et demander la vérification du contexte, de l'audio, des sous-titres et du cadrage.
+3. Demander le texte propre à la plateforme, le visuel ou média associé, la source, les éventuelles réserves éditoriales et le statut proposé (`brouillon`, `à relire` ou `prêt à valider`).
+4. Enregistrer les propositions dans le dépôt sans y mettre des jetons, mots de passe, codes de connexion ou exports de statistiques privées.
+5. Présenter le contenu final à Lou. Après accord, la personne autorisée effectue la publication dans l'interface officielle ou via une intégration explicitement configurée, puis vérifie le statut public ou programmé et ajoute le lien de preuve au suivi.
+6. Relever séparément les résultats natifs à 48 heures et à 7 jours. Toujours noter la plateforme, la période, la source et la valeur; ne pas inventer les mesures absentes.
+
+Les comptes Instagram et TikTok ne sont pas reliés à une API de publication dans ce dépôt. X reste à vérifier. La préparation des textes et du calendrier est disponible, mais aucune publication automatique multi-réseaux n'est active. Pour un audit YouTube, chaque associé doit utiliser un compte ayant le rôle de chaîne approprié et son propre jeton local. Ne pas se transmettre les mots de passe Google ni les jetons OAuth. Commencer par l'accès en lecture; les droits d'écriture ne sont requis que pour une action explicitement autorisée.
 
 ## Fonctionnement des classements
 
