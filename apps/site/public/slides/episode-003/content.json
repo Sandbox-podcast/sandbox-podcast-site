@@ -1,0 +1,507 @@
+{
+  "episode": 3,
+  "preparedAt": "2026-10-18",
+  "window": { "from": "2026-10-16", "to": "2026-10-18" },
+  "news": [
+    {
+      "id": "deepseek",
+      "title": "DeepSeek remet Flash à jour",
+      "date": "2026-10-17",
+      "publisher": "DeepSeek",
+      "image": "deepseek.png",
+      "points": [
+        "V4.1-Flash-1017 est disponible sous licence MIT.",
+        "DeepSeek annonce des progrès en code, raisonnement et tâches d'agent.",
+        "La fiche annonce aussi des réponses plus courtes et une exécution plus rapide."
+      ],
+      "hook": "DeepSeek revient. Est-ce qu'on a encore besoin d'un abonnement ?",
+      "question": "Sur notre vrai travail, quel écart justifie encore un abonnement ?",
+      "caution": "Poids sous licence MIT ne signifie pas hébergement ou API gratuits. Les gains viennent des évaluations de DeepSeek. Aucun test Sandbox réalisé.",
+      "dateEvidence": "Historique du dépôt : commit de publication du 17 octobre. Le suffixe 1017 seul ne suffit pas à dater la sortie.",
+      "sources": [
+        {
+          "title": "DeepSeek : fiche officielle",
+          "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash-1017"
+        },
+        {
+          "title": "Historique de publication du 17 octobre",
+          "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash-1017/commits/main"
+        }
+      ]
+    },
+    {
+      "id": "minecraft",
+      "title": "Quatre IA terminent Minecraft ensemble",
+      "date": "2026-10-16",
+      "publisher": "Google DeepMind",
+      "image": "minecraft.png",
+      "points": [
+        "Google rapporte une partie terminée en 27 heures.",
+        "Quatre agents Gemini 4 Argon ont écrit 2 783 programmes.",
+        "Ils se répartissent le travail et échangent des notes dans un monde isolé."
+      ],
+      "hook": "Quatre IA lancent une partie de Minecraft. Elles finissent le jeu sans joueur humain.",
+      "question": "Est-ce qu'une équipe d'agents travaille vraiment mieux qu'un seul ?",
+      "caution": "Expérience rapportée par Google, via code et texte. Pas une preuve d'autonomie générale. Coût et taux de réussite non établis ici.",
+      "dateEvidence": "Publication officielle Google DeepMind datée du 16 octobre, consultée directement dans X.",
+      "sources": [
+        {
+          "title": "Google DeepMind : compte rendu de l'expérience",
+          "url": "https://x.com/GoogleDeepMind/status/2111127991401247033"
+        }
+      ]
+    },
+    {
+      "id": "claude-latency",
+      "title": "Claude commence à répondre plus vite",
+      "date": "2026-10-16",
+      "publisher": "Anthropic / ClaudeDevs",
+      "image": "claude-latency.png",
+      "points": [
+        "Claude Code compresse la conversation envoyée à chaque tour.",
+        "Les sessions cloud démarrent dès que l'utilisateur commence à écrire.",
+        "Anthropic affiche jusqu'à trois fois moins d'attente avant la réponse."
+      ],
+      "hook": "Claude répond plus vite grâce à une technique qui existe depuis des décennies.",
+      "question": "Le plus gros progrès vient-il parfois du logiciel autour du modèle ?",
+      "caution": "Le facteur trois porte sur une mesure d'attente avant le premier token, pas sur la durée totale des tâches. Mesures internes entre août et octobre.",
+      "dateEvidence": "Annonce ClaudeDevs du 16 octobre, texte et date vérifiés directement dans X.",
+      "sources": [
+        {
+          "title": "ClaudeDevs : compression et démarrage des sessions",
+          "url": "https://x.com/ClaudeDevs/status/2111209208012210409"
+        }
+      ]
+    },
+    {
+      "id": "cursor-canvas",
+      "title": "Cursor transforme le travail d'un agent en tableau de bord",
+      "date": "2026-10-16",
+      "publisher": "Cursor",
+      "image": "cursor-canvas.png",
+      "points": [
+        "Les agents cloud peuvent construire des Canvas interactifs.",
+        "Un rapport ou un tableau de bord peut accompagner leur travail.",
+        "Le résultat se partage avec l'équipe par un lien."
+      ],
+      "hook": "Ton agent travaille. Tu lui demandes un tableau de bord pour voir ce qu'il fait.",
+      "question": "Est-ce qu'on pilotera bientôt nos agents avec leurs propres interfaces ?",
+      "caution": "Annonce de capacité par Cursor. Aucune mesure de fiabilité ou de disponibilité selon l'offre n'est déduite de la démonstration.",
+      "dateEvidence": "Annonce du compte officiel Cursor du 16 octobre, consultée directement dans X.",
+      "sources": [
+        {
+          "title": "Cursor : Canvas dans les agents cloud",
+          "url": "https://x.com/cursor_ai/status/2111193957527146711"
+        }
+      ]
+    },
+    {
+      "id": "quantum",
+      "title": "Claude redessine des circuits quantiques",
+      "date": "2026-10-16",
+      "publisher": "Anthropic",
+      "image": "quantum.png",
+      "points": [
+        "Huit problèmes de conception sont confiés à Claude avec un évaluateur.",
+        "Le modèle propose des circuits, reçoit un score et recommence.",
+        "Anthropic rapporte moins de portes et de qubits sur les compromis étudiés."
+      ],
+      "hook": "On a donné huit problèmes de circuits quantiques à Claude. Il a trouvé de nouveaux designs.",
+      "question": "Qu'est-ce qui change quand l'IA peut vérifier elle-même ses idées ?",
+      "caution": "Travail de recherche sur des circuits décrits en code. Le gain de 17 fois sur un exemple exige 12 % de qubits supplémentaires. Aucun ordinateur quantique complet construit.",
+      "dateEvidence": "Article de recherche Anthropic daté du 16 octobre 2026.",
+      "sources": [
+        {
+          "title": "Anthropic : Designing more efficient quantum circuits with Claude",
+          "url": "https://www.anthropic.com/research/designing-efficient-quantum-circuits"
+        }
+      ]
+    },
+    {
+      "id": "beam",
+      "title": "Beam ouvre ses poids aux développeurs",
+      "date": "2026-10-16",
+      "publisher": "Reflection",
+      "image": "beam.png",
+      "points": [
+        "Les poids du modèle sont publiés sous licence Apache 2.0.",
+        "501 milliards de paramètres au total, 23 milliards actifs.",
+        "Mirror CLI accompagne le modèle pour le code et le travail des agents."
+      ],
+      "hook": "Un nouveau modèle de 501 milliards de paramètres. Et tu peux télécharger les poids.",
+      "question": "L'accès aux poids suffit-il à rendre une équipe indépendante ?",
+      "caution": "La nouveauté du 16 octobre est la disponibilité des poids et des intégrations. Beam avait été présenté le 5 octobre. L'exécution exige une infrastructure adaptée.",
+      "dateEvidence": "Billet Reflection du 16 octobre, distinct de l'annonce initiale du modèle le 5 octobre.",
+      "sources": [
+        {
+          "title": "Reflection : Beam is now available",
+          "url": "https://reflection.ai/blog/beam-is-available"
+        }
+      ]
+    },
+    {
+      "id": "glimpse",
+      "title": "Glimpse suit ce qui bouge dans une vidéo",
+      "date": "2026-10-16",
+      "publisher": "Elorian",
+      "image": "glimpse.png",
+      "points": [
+        "Elorian présente un modèle spécialisé dans le raisonnement visuel.",
+        "Ses exemples suivent des objets et des changements de point de vue.",
+        "Le modèle est proposé dans une interface de chat et par API."
+      ],
+      "hook": "Demande à une IA de suivre le même animal dans une vidéo. Ça se complique vite.",
+      "question": "Peut-on comparer deux IA avec une courte vidéo et une seule question ?",
+      "caution": "Résultats et comparaisons publiés par Elorian. Pas de victoire générale sur les autres modèles, ni de robot autonome livré.",
+      "dateEvidence": "Billet de lancement Elorian daté du 16 octobre 2026.",
+      "sources": [
+        {
+          "title": "Elorian : Introducing Glimpse",
+          "url": "https://elorian.ai/blog/introducing-glimpse"
+        }
+      ]
+    },
+    {
+      "id": "wet-lab",
+      "title": "Les agents de Google passent au labo",
+      "date": "2026-10-16",
+      "publisher": "Google Research",
+      "image": "wet-lab.png",
+      "points": [
+        "Des agents préparent des expériences avec des robots.",
+        "VERID décrit le labo et vérifie les commandes.",
+        "Les résultats du labo guident les candidats moléculaires."
+      ],
+      "hook": "Cette IA ne se contente plus de lire des articles. Elle prépare des expériences au labo.",
+      "question": "Comment garder le contrôle quand un agent agit dans le monde physique ?",
+      "caution": "Recherche supervisée avec contrôles humains et de biosécurité. Des molécules qui se lient à une cible ne constituent pas un traitement démontré.",
+      "dateEvidence": "Publication Google Research du 16 octobre 2026.",
+      "sources": [
+        {
+          "title": "Google Research : Grounding AI agents in biological reality",
+          "url": "https://www.research.google/blog/grounding-ai-agents-in-biological-reality-building-blocks-for-autonomous-wet-labs/"
+        }
+      ]
+    },
+    {
+      "id": "reason",
+      "title": "Reason fait discuter des agents de plusieurs outils",
+      "date": "2026-10-16",
+      "publisher": "Reason",
+      "image": "reason.png",
+      "points": [
+        "Reason Network relie plusieurs agents et ordinateurs.",
+        "Un agent peut poser une question à un autre ou lui confier du travail.",
+        "Le moteur réseau est open source ; le CLI d'installation est distinct."
+      ],
+      "hook": "Et si tes agents pouvaient se parler au lieu de te faire copier-coller leurs réponses ?",
+      "question": "Un réseau commun réduit-il les conflits ou ajoute-t-il de la coordination ?",
+      "caution": "Annonce du compte de Reason et fonctionnalités lues sur son site. Performances et sécurité non auditées par Sandbox. Le moteur est open source, le CLI d'installation ne l'est pas.",
+      "dateEvidence": "Post de lancement officiel de Reason daté du 16 octobre 2026, ouvert directement dans X.",
+      "sources": [
+        {
+          "title": "Reason : fonctionnement et périmètre du réseau",
+          "url": "https://reasonmachines.com/network"
+        },
+        {
+          "title": "Reason : annonce de lancement du 16 octobre",
+          "url": "https://x.com/reasonmachines/status/2111135100142518430"
+        }
+      ]
+    },
+    {
+      "id": "everwind",
+      "title": "Claude réserve de la capacité au Canada",
+      "date": "2026-10-16",
+      "publisher": "EverWind / Reuters",
+      "image": "everwind.png",
+      "points": [
+        "Anthropic signe son premier accord de centre de données au Canada, selon Reuters.",
+        "EverWind annonce un projet de plus de 10 milliards de dollars canadiens avec l'éolien.",
+        "La première phase de 95 MW est visée pour fin 2027."
+      ],
+      "hook": "Derrière une réponse de Claude, il faut aussi réserver de l'électricité pour des années.",
+      "question": "L'énergie devient-elle la vraie limite des assistants IA ?",
+      "caution": "Montant prévu pour le campus et l'éolien, pas une dépense d'Anthropic annoncée à ce montant. Calendrier conditionnel. EverWind ne nomme pas son locataire ; Reuters identifie Anthropic.",
+      "dateEvidence": "Communiqué EverWind et reportage Reuters publiés le 16 octobre 2026.",
+      "sources": [
+        {
+          "title": "EverWind : annonce du campus et des projets éoliens",
+          "url": "https://everwindfuels.com/2026/10/everwind-announces-10-billion-investment-in-point-tupper-data-centre-campus-and-renewable-energy-portfolio-across-nova-scotia/"
+        },
+        {
+          "title": "Reuters via CNA : Anthropic signe le bail",
+          "url": "https://www.channelnewsasia.com/business/anthropic-signs-lease-first-canadian-data-center-6467591"
+        }
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "id": "hyperframes",
+      "title": "Un brief devient une vidéo",
+      "name": "hyperframes",
+      "owner": "heygen-com/hyperframes",
+      "rank": 8,
+      "installs": "1,0 M",
+      "hook": "Je donne un brief à mon IA. Elle me prépare une vidéo que je peux encore modifier.",
+      "demo": "Afficher le brief, le projet obtenu, puis changer une phrase et montrer le nouveau rendu.",
+      "prompt": "Prépare une vidéo verticale de 20 secondes à partir de ce brief. Montre le storyboard avant de construire, puis rends un aperçu local.",
+      "caution": "Piste de démonstration à préparer. Rendu, médias et narration peuvent nécessiter d'autres outils. Aucun temps de production promis.",
+      "priority": "À tester en premier",
+      "url": "https://www.skills.sh/heygen-com/hyperframes/hyperframes"
+    },
+    {
+      "id": "frontend-design",
+      "title": "Le même brief, deux designs",
+      "name": "frontend-design",
+      "owner": "anthropics/skills",
+      "rank": 11,
+      "installs": "1,0 M",
+      "hook": "Même IA, même brief. On ajoute un skill de design : regardez la différence.",
+      "demo": "Comparer deux captures à taille égale, avec le même contenu et le même modèle, puis montrer le code modifiable.",
+      "prompt": "Crée la page d'accueil de ce produit à partir de ce brief. Utilise le skill frontend-design et garde tous les textes fournis.",
+      "caution": "Préparer un vrai avant/après. Un exemple réussi ne démontre pas un gain systématique.",
+      "priority": "À tester en premier",
+      "url": "https://www.skills.sh/anthropics/skills/frontend-design"
+    },
+    {
+      "id": "agent-browser",
+      "title": "L'IA fait la corvée dans le navigateur",
+      "name": "agent-browser",
+      "owner": "vercel-labs/agent-browser",
+      "rank": 4,
+      "installs": "1,2 M",
+      "hook": "Cette tâche me prend vingt clics. Je vais demander à mon IA de la faire.",
+      "demo": "Sur une page locale, faire remplir un formulaire de démonstration puis vérifier chaque champ.",
+      "prompt": "Ouvre ce formulaire de démonstration local, remplis-le avec les données de test et arrête-toi avant l'envoi. Montre les champs renseignés.",
+      "caution": "Utiliser des données de test. Le skill guide un outil de navigation qui doit être disponible. Aucun compte réel nécessaire à la démo.",
+      "priority": "À tester en premier",
+      "url": "https://www.skills.sh/vercel-labs/agent-browser/agent-browser"
+    },
+    {
+      "id": "remotion",
+      "title": "Une animation qu'on corrige avec une phrase",
+      "name": "remotion-best-practices",
+      "owner": "remotion-dev/skills",
+      "rank": 67,
+      "installs": "636,4 k",
+      "hook": "Je change une phrase. L'IA refait le titre animé de la vidéo.",
+      "demo": "Montrer une courte animation, demander une correction de texte et comparer les deux exports.",
+      "prompt": "Dans ce projet Remotion, remplace le titre par ce texte, garde la durée et le cadrage, puis produis un aperçu.",
+      "caution": "Remotion doit être installé et le projet préparé. Le skill fournit des règles de production ; il ne rend pas une vidéo tout seul.",
+      "priority": "À tester en premier",
+      "url": "https://www.skills.sh/remotion-dev/skills/remotion-best-practices"
+    },
+    {
+      "id": "grill-me",
+      "title": "L'IA démonte notre idée avant qu'on la code",
+      "name": "grill-me",
+      "owner": "mattpocock/skills",
+      "rank": 2,
+      "installs": "1,4 M",
+      "hook": "J'ai demandé à mon IA d'arrêter d'être d'accord avec moi. Elle a commencé par cette question.",
+      "demo": "Lou donne une idée volontairement vague. Afficher la première question utile et montrer ce qu'elle change au brief.",
+      "prompt": "Utilise grill-me pour examiner cette idée. Pose une question à la fois et insiste sur les hypothèses qu'on n'a pas vérifiées.",
+      "caution": "Exercice de cadrage. Aucune preuve qu'un échange suffit à valider un marché ou un modèle économique.",
+      "priority": "Bon sujet de débat",
+      "url": "https://www.skills.sh/mattpocock/skills/grill-me"
+    },
+    {
+      "id": "skill-creator",
+      "title": "Apprendre une tâche une fois, la refaire ensuite",
+      "name": "skill-creator",
+      "owner": "anthropics/skills",
+      "rank": 170,
+      "installs": "408,6 k",
+      "hook": "Je montre une fois comment je travaille. On essaie d'en faire un skill réutilisable.",
+      "demo": "Partir d'une vraie tâche Sandbox, créer les instructions, puis essayer sur un deuxième exemple jamais montré.",
+      "prompt": "Transforme cette procédure en skill. Définis quand l'utiliser, les entrées, les sorties et un exemple de vérification. Essaie-le ensuite sur ce second cas.",
+      "caution": "Distinguer rédaction du skill et validation de son résultat. Une procédure mal décrite sera répétée avec ses erreurs.",
+      "priority": "À tester en premier",
+      "url": "https://www.skills.sh/anthropics/skills/skill-creator"
+    },
+    {
+      "id": "find-skills",
+      "title": "Le skill qui trouve les autres skills",
+      "name": "find-skills",
+      "owner": "vercel-labs/skills",
+      "rank": 1,
+      "installs": "3,9 M",
+      "hook": "Le skill le plus installé sert à trouver d'autres skills. On lui donne une vraie corvée.",
+      "demo": "Décrire un besoin précis, lire les résultats, ouvrir le dépôt de l'auteur et expliquer le choix.",
+      "prompt": "Cherche des skills pour cette tâche. Compare leur source, leurs installations et leurs besoins techniques avant de recommander un candidat.",
+      "caution": "Le classement mesure des installations cumulées sur skills.sh. Il ne mesure ni utilisateurs actifs, ni qualité, ni usage de tous les agents.",
+      "priority": "Introduction courte",
+      "url": "https://www.skills.sh/vercel-labs/skills/find-skills"
+    },
+    {
+      "id": "caveman",
+      "title": "Le skill qui fait parler l'IA comme un homme des cavernes",
+      "name": "caveman",
+      "owner": "juliusbrussee/caveman",
+      "rank": 75,
+      "installs": "579,2 k",
+      "hook": "J'ai installé un skill pour que mon IA parle comme un homme des cavernes.",
+      "demo": "Poser la même question avant et après, afficher les réponses, puis vérifier que l'explication reste juste.",
+      "prompt": "Explique cette erreur de code avec le skill caveman. Garde les informations nécessaires pour la corriger.",
+      "caution": "Angle humoristique. Vérifier le comportement dans le dépôt avant essai. Ne promettre ni économies de tokens ni amélioration de qualité sans mesure.",
+      "priority": "Respiration humoristique",
+      "url": "https://www.skills.sh/juliusbrussee/caveman/caveman"
+    }
+  ],
+  "leaderboard": {
+    "date": "2026-10-18",
+    "url": "https://www.skills.sh/",
+    "metric": "Installations cumulées affichées, arrondies. Ce relevé ne mesure pas l'usage actif.",
+    "top": [
+      { "name": "find-skills", "installs": "3,9 M" },
+      { "name": "grill-me", "installs": "1,4 M" },
+      { "name": "grill-with-docs", "installs": "1,2 M" },
+      { "name": "agent-browser", "installs": "1,2 M" },
+      { "name": "improve-codebase-architecture", "installs": "1,1 M" },
+      { "name": "tdd", "installs": "1,1 M" },
+      { "name": "hyperframes-cli", "installs": "1,1 M" },
+      { "name": "hyperframes", "installs": "1,0 M" },
+      { "name": "setup-matt-pocock-skills", "installs": "1,0 M" },
+      { "name": "handoff", "installs": "1,0 M" }
+    ]
+  },
+  "social": [
+    {
+      "platform": "Instagram",
+      "author": "le_raphine",
+      "url": "https://www.instagram.com/p/Dc_iVmXNLHN/",
+      "observation": "Reel du 7 septembre : entrée par quatre connecteurs et appel à commenter un mot-clé. Distinguer MCP et skill dans notre explication.",
+      "scope": "Inspiration de format, hors fenêtre d'actualité. Légende consultée, pas de mesure de portée retenue."
+    },
+    {
+      "platform": "Instagram",
+      "author": "titouan.ia",
+      "url": "https://www.instagram.com/p/Dei4k-wBCSC/",
+      "observation": "Reel affiché comme publié il y a deux jours lors du relevé : légende très courte et appel à commenter Reels. Environ 2,7 k mentions J'aime et 5,1 k commentaires affichés.",
+      "scope": "Relevé au 18 octobre. Date absolue non confirmée. Les commentaires peuvent répondre à l'appel au mot-clé ; ils ne prouvent pas l'utilité d'un skill."
+    },
+    {
+      "platform": "Instagram",
+      "author": "shuffle_developers",
+      "url": "https://www.instagram.com/p/DYvAm_iCUwE/",
+      "observation": "Publication du 24 mai : liste de skills de design, dont frontend-design et skill-creator. 68 mentions J'aime affichées au relevé.",
+      "scope": "Inspiration de sujets, hors fenêtre d'actualité. Une liste visuellement séduisante ne garantit pas une forte audience."
+    },
+    {
+      "platform": "YouTube Shorts",
+      "author": "dr_cintas",
+      "url": "https://www.youtube.com/shorts/f2HUGag91Vk",
+      "observation": "Angle du studio de motion design accessible avec un skill. Environ 65 k vues dans la recherche ; 805 mentions J'aime et six commentaires sur le Short au relevé.",
+      "scope": "Page du Short et sous-titres partiels consultés. Date de publication non vérifiée. Ne pas attribuer le skill exact sans vérifier toute la vidéo."
+    },
+    {
+      "platform": "YouTube Shorts",
+      "author": "Auteur non relevé",
+      "url": "https://www.youtube.com/shorts/lipJRiztOgM",
+      "observation": "Résultat intitulé Les 5 meilleures compétences Claude pour booster vos sessions IA par 10 : environ 384 k vues affichées.",
+      "scope": "Titre et compteur de la recherche uniquement. La promesse de gain n'a pas été vérifiée."
+    },
+    {
+      "platform": "YouTube Shorts",
+      "author": "Auteur non relevé",
+      "url": "https://www.youtube.com/shorts/jDtLcMOLjIQ",
+      "observation": "Résultat 8 Claude Skills that actually matter : environ 245 k vues affichées.",
+      "scope": "Titre et compteur de la recherche uniquement. Contenu complet et date non vérifiés."
+    }
+  ],
+  "debates": [
+    {
+      "title": "L'IA va-t-elle sacrifier les juniors ?",
+      "theme": "Emploi",
+      "date": "2026-10-13",
+      "minutes": 4,
+      "context": "13 octobre : Revelio Labs observe un recul des postes juniors dans les banques américaines, tandis que les seniors progressent.",
+      "positions": [
+        {
+          "title": "L'entrée dans le métier se ferme",
+          "argument": "Si l'IA prend les premières tâches, où les débutants vont-ils apprendre ?"
+        },
+        {
+          "title": "Le premier poste doit changer",
+          "argument": "Un junior équipé d'IA peut prendre d'autres tâches, avec un encadrement adapté."
+        }
+      ],
+      "followUp": "Tu diriges une petite boîte : ton prochain budget va à un junior ou à l'IA ?",
+      "relevance": "Le sujet touche l'embauche, la formation et le coût du travail. Il est relancé en octobre par une étude sur les banques et par les discussions du FMI sur l'emploi.",
+      "caution": "L'étude concerne les banques américaines et ne prouve pas que l'IA cause seule la baisse. Sa définition des juniors inclut des salariés en début de carrière après le premier niveau d'entrée. Ne pas généraliser à tous les jeunes, aux développeurs ou à la France. Les deux positions sont des arguments de plateau, pas des citations.",
+      "sources": [
+        {
+          "title": "Revelio Labs, 13 octobre : évolution des postes juniors dans les banques",
+          "url": "https://www.reveliolabs.com/news/ai-and-work/ai-junior-bankers-hiring-data"
+        },
+        {
+          "title": "FMI, publication du 15 octobre : IA et marché du travail en Asie-Pacifique",
+          "url": "https://mediacenter.imf.org/news/imf-asia-pacific-department-press-briefing/s/bbb3be9e-4560-44ee-9467-a437b643d42e"
+        }
+      ]
+    },
+    {
+      "title": "IA : révolution ou prochaine bulle Internet ?",
+      "theme": "Bulle financière",
+      "date": "2026-10-14",
+      "minutes": 3,
+      "context": "14 octobre : le FMI publie une alerte sur le risque de correction des marchés liés à l'IA.",
+      "positions": [
+        {
+          "title": "On construit une nouvelle industrie",
+          "argument": "Les infrastructures coûtent avant de rapporter. Les usages peuvent justifier l'investissement."
+        },
+        {
+          "title": "On paie déjà les profits de demain",
+          "argument": "Si les revenus déçoivent, les investissements massifs peuvent amplifier la chute."
+        }
+      ],
+      "followUp": "Une technologie utile peut-elle quand même devenir une bulle financière ?",
+      "relevance": "Le risque est discuté aux réunions du FMI et repris dans un fil public r/technology sur l'alerte. Le fil confirme une discussion, pas un classement mondial de popularité.",
+      "caution": "Le point presse a eu lieu le 13 octobre et sa page est publiée le 14. Le FMI décrit un risque, pas un krach certain ou daté. Une technologie peut être utile et ses valorisations excessives : ne pas enfermer le débat dans une fausse alternative. Ce sujet ne constitue pas un conseil d'investissement.",
+      "sources": [
+        {
+          "title": "FMI, 14 octobre : point presse sur la stabilité financière",
+          "url": "https://mediacenter.imf.org/news/global-financial-stability-report-press-briefing/s/17b00d8b-eb4a-458d-970d-e056c46f8431"
+        },
+        {
+          "title": "Reddit r/technology : discussion publique de l'alerte du FMI, consultée le 18 octobre",
+          "url": "https://www.reddit.com/r/technology/comments/1x7sv1u/ai_bubble_could_burst_and_take_global_economy/"
+        }
+      ]
+    },
+    {
+      "title": "Faut-il payer les créateurs pour entraîner l'IA ?",
+      "theme": "Création et droit d'auteur",
+      "date": "2026-10-14",
+      "minutes": 3,
+      "context": "14 octobre : l'Assemblée nationale débat de l'IA et de l'édition lors d'une table ronde sur le plagiat.",
+      "positions": [
+        {
+          "title": "Oui, leur travail crée de la valeur",
+          "argument": "Les auteurs doivent pouvoir choisir et négocier la rémunération de leurs contenus."
+        },
+        {
+          "title": "Pas une licence pour chaque donnée",
+          "argument": "Des autorisations au cas par cas risquent de réserver l'entraînement aux plus gros acteurs."
+        }
+      ],
+      "followUp": "Ton podcast sert à entraîner une IA : tu demandes un paiement, un droit de refus, ou rien ?",
+      "relevance": "Le désaccord arrive au Parlement français le 14 octobre. Une consultation européenne sur le droit d'auteur reste aussi ouverte en octobre, jusqu'au 3 novembre.",
+      "caution": "Les deux positions sont proposées au plateau, sans être attribuées aux invités de l'Assemblée. La consultation européenne est publiée le 29 septembre et actualisée le 1er octobre ; ce n'est pas une nouvelle annonce du 14. Distinguer entraînement, reproduction d'une oeuvre et imitation de style. Ne pas présenter toute utilisation comme un plagiat ni toute rémunération comme déjà obligatoire.",
+      "sources": [
+        {
+          "title": "Assemblée nationale, 14 octobre : table ronde IA et édition",
+          "url": "https://www.assemblee-nationale.fr/dyn/actualites-accueil-hub/table-ronde-sur-le-theme-ia-et-edition-vers-un-plagiat-2.0"
+        },
+        {
+          "title": "Commission européenne : consultation droit d'auteur et IA, ouverte jusqu'au 3 novembre",
+          "url": "https://digital-strategy.ec.europa.eu/fr/news/commission-seeks-feedback-challenges-and-way-forward-area-effect-technology-copyright"
+        }
+      ]
+    }
+  ],
+  "audience": "Quelle corvée voulez-vous qu'on essaie de transformer en skill ? Donnez-nous un exemple précis."
+}
