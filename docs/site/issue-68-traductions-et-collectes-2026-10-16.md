@@ -20,7 +20,7 @@ GA4 reçoit `youtube_open` avec `placement=home` et `experience_interaction`. Le
 
 ## Validation et mise en ligne
 
-`pnpm check` passe : format, lint, types, 675 tests du site, 7 tests de la vidéo d'introduction, 4 tests des jingles et 22 tests BIS. La recette de consentement avec Edge et services tiers simulés passe : 8 contrôles en mode bloqué et 17 en mode actif, dont les liens de découverte sur ordinateur et mobile. Les tests Models couvrent l'intégrité des sources et mesures sur Postgres. Le build webpack passe avec 203 pages générées. `git diff --check` ne signale pas d'erreur.
+`pnpm check` passe : format, lint, types, 686 tests du site, 7 tests de la vidéo d'introduction, 4 tests des jingles et 24 tests BIS. La recette de consentement avec Edge et services tiers simulés passe : 8 contrôles en mode bloqué et 17 en mode actif, dont les liens de découverte sur ordinateur et mobile. Les tests Models couvrent l'intégrité des sources et mesures sur Postgres. Le build webpack passe avec 203 pages générées. `git diff --check` ne signale pas d'erreur.
 
 Le contrôle HTTP du build final confirme les pages `/es-es/about` et `/de-de/about` indexables, leur canonique dans la langue attendue, les quatre liens de langue et l'email du footer. La recherche reste `noindex` et le sitemap exclut les routes traduites inexistantes. L'origine locale configurée est `http://localhost:3000` ; ce contrôle ne remplace pas celui du domaine public après déploiement.
 

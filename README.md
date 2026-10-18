@@ -2,6 +2,22 @@
 
 Le dépôt sert le site `apps/site` (podcast et classements tech et IA). Les anciens snapshots inclus dans Git sont des données de démonstration. Les classements réels utilisent des relevés datés dans Postgres : voir [la conception du site](docs/site/README.md).
 
+## Sommaire
+
+- [Démarrer](#démarrer)
+- [Agent YouTube SANDBOX](#agent-youtube-sandbox)
+  - [Installer l'outil](#installer-loutil)
+  - [Connecter la chaîne et lancer un audit](#connecter-la-chaîne-et-lancer-un-audit)
+  - [Préparer des Shorts sans master vidéo](#préparer-des-shorts-sans-master-vidéo)
+- [Fonctionnement des classements](#fonctionnement-des-classements)
+  - [Méthodes et profils](#méthodes-et-profils)
+  - [Chaîne de calcul](#chaîne-de-calcul)
+  - [Preuves et lecture des scores](#preuves-et-lecture-des-scores)
+  - [Publication et exploitation](#publication-et-exploitation)
+  - [Démarrage des candidats](#démarrage-des-candidats)
+- [Documentation](#documentation)
+- [Archive](#archive)
+
 ## Démarrer
 
 Prérequis : Node 24 et pnpm 12 (`corepack enable`).
@@ -13,9 +29,59 @@ corepack pnpm --filter @podcast/site build
 corepack pnpm --filter @podcast/site start
 ```
 
+## Agent YouTube SANDBOX
+
+L'outil de croissance YouTube est dans [`tools/youtube-growth`](tools/youtube-growth/README.md). C'est un programme Python local pour auditer la chaîne, préparer des changements et sélectionner ou rendre des extraits. Le workflow GitHub Actions peut aussi lancer un polling, sous réserve de sa configuration. Une proposition de publication n'est pas une programmation YouTube : vérifiez le statut `Programmée` et la date dans Studio.
+
+### Installer l'outil
+
+Prérequis : Python 3.12 ou plus. FFmpeg et ffprobe sont nécessaires pour le rendu vidéo. Dans PowerShell :
+
+```powershell
+cd tools/youtube-growth
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
+$env:PYTHONPATH = "src"
+python -m youtube_growth.cli doctor
+```
+
+Le diagnostic vérifie les dépendances locales. Il ne se connecte pas à YouTube.
+
+### Connecter la chaîne et lancer un audit
+
+Dans Google Cloud, activez YouTube Data API v3 et YouTube Analytics API, puis créez un client OAuth Desktop. Gardez le fichier JSON du client hors de Git. Depuis `tools/youtube-growth`, lancez l'autorisation en lecture :
+
+```powershell
+python -m youtube_growth.auth C:\chemin\client_secret.json
+python -m youtube_growth.cli audit --video-id GgSiPkADCz4
+```
+
+L'autorisation vérifie que le compte accède à la chaîne SANDBOX attendue. Le jeton local est écrit dans `.local/youtube-token.json`; le rapport d'audit se trouve sous `.local/growth/audits/`. Ces fichiers sont ignorés par Git. Pour voir l'état des opérations :
+
+```powershell
+python -m youtube_growth.cli status
+```
+
+### Préparer des Shorts sans master vidéo
+
+Exportez la transcription accessible de la vidéo YouTube dans un fichier local. Depuis `tools/youtube-growth`, utilisez `native-pack` pour analyser les passages et préparer un calendrier :
+
+```powershell
+python -m youtube_growth.cli --state-dir .local/episode-1 native-pack --transcript .local/transcript-youtube.txt --spec episodes/GgSiPkADCz4.json --duration 4701 --first "2026-10-20T18:30:00+02:00"
+```
+
+Le résultat est enregistré dans `.local/episode-1/native-pack.md` et `native-pack.json`. Il contient des passages candidats, leurs horodatages et des dates proposées. Cette étape ne crée ni vidéo verticale, ni Short YouTube, et ne programme aucune publication.
+
+Pour créer les vidéos, utilisez l'outil natif de création d'extraits ou de Shorts dans YouTube Studio lorsqu'il est disponible. Sinon, Studio peut fournir une copie de votre propre vidéo pour un rendu local. Relisez chaque cadrage et chaque sous-titre. Dans Studio, réglez ensuite la visibilité sur `Programmer`, choisissez la date et l'heure, puis vérifiez que la ligne du Short affiche `Programmée`. Une vidéo `Privée` n'est pas programmée.
+
+Pour l'audit, les modifications de métadonnées, le rendu local, le pipeline avec un fichier master et le workflow planifié, consultez le [guide d'exploitation de l'agent](tools/youtube-growth/README.md). Les opérations d'écriture demandent des droits OAuth supplémentaires et une commande explicite.
+
 ## Fonctionnement des classements
 
 SANDBOX CHARTS suit les projets open source sur GitHub, les skills et les modèles IA. Il conserve les mesures et leurs sources dans Postgres, puis calcule des éditions figées avec une méthode versionnée. Le classement GitHub couvre tous les domaines ; son filtre IA historique est retiré de la découverte. L'ambition est une référence internationale vérifiable. Sa couverture et sa reconnaissance restent à démontrer sur des données réelles.
+
+### Méthodes et profils
 
 | Classement | Profil v3 initial                                                                                                                               |
 | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -23,6 +89,8 @@ SANDBOX CHARTS suit les projets open source sur GitHub, les skills et les modèl
 | Rising     | 85 % de croissance et d'accélération GitHub, 15 % d'OpenSSF. Le dépôt doit avoir au plus 25 000 stars et une accélération positive.             |
 | Skills     | 70 % d'installations gagnées sur Skills.sh et 30 % de signaux GitHub. La famille dépôt combine les étoiles gagnées (60 %) et la récence (40 %). |
 | Models     | 60 % d'Artificial Analysis et 40 % d'Arena texte, avec une identité de variante conservatrice, des dates récentes et au moins 1000 votes Arena. |
+
+### Chaîne de calcul
 
 La chaîne comporte cinq étapes :
 
@@ -32,13 +100,19 @@ La chaîne comporte cinq étapes :
 4. Pondérer et contrôler. Les sources sont réparties en familles dont les budgets restent fixes pour tous les candidats. Dans une famille, leur puissance dépend de la pertinence, de la rigueur, de la reproductibilité et de la résistance à la manipulation. Un même jeu de mesures ne reçoit pas deux voix. Le score retranche une pénalité de désaccord à la moyenne pondérée. Les coefficients initiaux sont à calibrer.
 5. Figer et publier. GitHub Actions lance le rafraîchissement à 03:17 et 15:17 UTC. Le workflow collecte GitHub et les sources externes, puis calcule les quatre classements. Une édition n'est créée que si ses sources et ses contrôles sont suffisants. Son identifiant est le début du créneau, par exemple `2026-10-13T12:00Z` ; les identifiants quotidiens et semaines ISO historiques restent valides. Un créneau ne peut être écrit qu'une fois, même si le job est relancé. Le profil v3 exige par défaut vingt candidats complets. Un candidat incomplet qui pourrait atteindre le Top bloque le gel. Les nouveaux profils restent en brouillon jusqu'à leur revue et à l'activation de leurs versions exactes.
 
+### Preuves et lecture des scores
+
 Chaque édition v3 conserve une preuve JSON avec le profil, les observations normalisées et leurs liens, les contributions, la couverture, les exclusions, les rangs de sensibilité et une empreinte SHA-256. On peut la télécharger via `/api/charts/<classement>/<édition>/proof` et la rejouer avec `charts:reference`. La sensibilité varie les pondérations et retire les sources ou familles tour à tour ; ses bornes ne sont pas des intervalles de confiance. Les scores sur 100 dépendent du pool suivi et ne se comparent pas directement d'un jour à l'autre.
+
+### Publication et exploitation
 
 Une édition publiée ne peut pas être réécrite. Le mouvement compare deux publications espacées de huit jours au plus. Les avis de l'équipe restent séparés des données et ne changent pas les rangs. Sans édition réelle, le site montre l'attente sans inventer de rangs. Les archives v1 et v2 conservent leurs paramètres, y compris leurs anciens poids. OpenSSF mesure des pratiques ; les étoiles et installations mesurent l'attention ou l'adoption ; aucun de ces signaux ne prouve une supériorité dans tous les usages.
 
 La mise en service demande les accès aux sources, les migrations additives 0009 et 0010, une revue des droits et des quotas, puis une calibration. Le workflow `charts-refresh.yml` porte les cadences horaires et toutes les 12 heures. Il ne s'exécute qu'une fois présent sur la branche par défaut. GitHub Actions évite d'exiger le cron Vercel Hobby, limité à une exécution par jour, pour assurer la cadence horaire et toutes les 12 heures. Voir les [limites Vercel](https://vercel.com/docs/cron-jobs/usage-and-pricing) et les [limites des horaires GitHub Actions](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#schedule). Le responsable doit configurer la variable GitHub Actions `SANDBOX_CHARTS_ORIGIN` et le secret `SANDBOX_CHARTS_CRON_SECRET`, identique au `CRON_SECRET` serveur. Les collecteurs Trending et poussées restent désactivés tant que leurs drapeaux ne sont pas activés. GitHub Actions peut retarder ou omettre une exécution planifiée ; le guide d'exploitation décrit cette limite et la relève des jobs.
 
 Détails : [conception et audit](docs/site/reference-ranking-design.md), [configuration et reprise](docs/site/reference-ranking-operations.md), [prompt réutilisable](docs/site/prompt-classements-reference.md), [ADR-0026](docs/adr/ADR-0026-classements-de-reference-ponderes.md), [ADR-0027](docs/adr/ADR-0027-detection-precoce-github.md) et [ADR-0028](docs/adr/ADR-0028-cadence-des-classements.md). Les [méthodes historiques](docs/sandbox-charts-methodology.md) et le [guide des sources externes](docs/site/external-rankings.md) décrivent les versions précédentes.
+
+### Démarrage des candidats
 
 Les nouveaux candidats constituent d'abord leurs baselines avant admission au pool officiel : environ sept jours pour GitHub et Skills, quatorze pour Rising. Les poussées peuvent les signaler plus tôt. Après ce délai, une baseline manquante peut bloquer le Top ; elle n'est plus considérée comme une simple attente de démarrage.
 
