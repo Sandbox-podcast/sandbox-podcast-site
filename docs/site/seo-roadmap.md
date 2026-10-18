@@ -1,5 +1,9 @@
 # Feuille de route SEO et recherches cibles
 
+Actualisation du 18 octobre 2026 : [audit technique, mesure et concurrence](seo-2026-10-18/audit.md), [inventaire des URL](seo-2026-10-18/inventaire-url.csv) et [plan éditorial proposé](seo-2026-10-18/plan-editorial.md). Le crawl public valide les 301 URL du sitemap. L'indexation Google reste à contrôler après validation DNS de Search Console. Les références ci-dessous à l'ancien parcours `/episodes` et aux traductions bloquées sont historiques : `/podcast` est le hub actuel et DD-0048 autorise les traductions complètes. Le nouveau plan complète cette feuille de route sans ouvrir de page vide ni modifier l'indexation existante.
+
+Correctifs locaux après audit : [images, titres de fiches et H1 propres aux classements](seo-2026-10-18/correctifs-locaux.md). Ils attendent la revue et la publication ; ils ne changent pas l'éligibilité à l'indexation.
+
 État au 9 octobre 2026. Ce document distingue l'observation de SERP, les hypothèses d'intention et les mesures à collecter. Il ne promet pas la première position : aucun classement ne peut être garanti par un changement de code.
 
 Mise à jour du 13 octobre 2026 : [DD-0014](../design-decisions/DD-0014-indexation-selective-et-duree-youtube.md) autorise l'indexation sélective des pages françaises avec contenu publié et des classements reposant sur des éditions réelles. Les fixtures, pages vides et traductions non relues restent en `noindex`. Les résultats réels d'indexation et de visibilité devront être suivis dans Search Console après déploiement.

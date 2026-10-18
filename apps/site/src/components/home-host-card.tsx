@@ -140,7 +140,7 @@ export function HomeHostCard({ host, index }: { host: HomeHost; index: number })
                   src={portrait}
                   alt=""
                   fill
-                  quality={90}
+                  quality={75}
                   sizes="(max-width: 420px) 85vw, (max-width: 900px) 350px, 360px"
                   data-host-artwork={artwork ? host.slug : undefined}
                 />

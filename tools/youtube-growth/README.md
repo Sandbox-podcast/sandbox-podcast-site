@@ -1,6 +1,6 @@
 # SANDBOX YouTube Growth Agent
 
-Outil Python pour [Sandbox Podcast](https://www.youtube.com/@SandboxFR). Il complète le site existant sans modifier `old/`. Voir [ADR-0029](../../docs/adr/ADR-0029-growth-agent-et-extraits-youtube.md), [ADR-0032](../../docs/adr/ADR-0032-protections-et-persistance-issue-68.md) et [la livraison du 14 octobre](../../docs/site/youtube-growth-2026-10-14.md).
+Outil Python pour [Sandbox TalkShow](https://www.youtube.com/@SandboxFR). Il complète le site existant sans modifier `old/`. Voir [ADR-0029](../../docs/adr/ADR-0029-growth-agent-et-extraits-youtube.md), [ADR-0032](../../docs/adr/ADR-0032-protections-et-persistance-issue-68.md) et [la livraison du 14 octobre](../../docs/site/youtube-growth-2026-10-14.md).
 
 ## Connexion et audit
 
@@ -71,9 +71,13 @@ Le rendu refuse de remplacer un dossier dont un clip possède déjà un identifi
 
 Le pipeline historique `youtube_growth.shorts` reste disponible pour un nouveau master : transcription et sélection par OpenAI, facturées au compte API configuré. Aucun appel payant n'a été fait pour la sélection du premier épisode. Après génération et relecture, lancer `--approve`, puis `--publish` dans une commande distincte. La validation est liée aux médias et au texte. Un upload interrompu avec résultat incertain bloque la reprise au lieu de créer un doublon.
 
-## Activation permanente
+## Exécution manuelle à chaque épisode
 
-Le workflow `.github/workflows/youtube-growth.yml` prévoit un polling toutes les 30 minutes. Il exige la branche par défaut et les Secrets/Variables configurés. Le premier polling initialise un curseur sans retraiter l'historique; `audit` peut viser explicitement le premier épisode.
+Un épisode paraît chaque semaine. Lou a demandé le 18 octobre 2026 de supprimer le polling toutes les 30 minutes et de lancer le traitement manuellement à l'ajout d'un épisode. Voir [ADR-0033](../../docs/adr/ADR-0033-optimisation-des-taches-planifiees.md).
+
+Dans GitHub, ouvrir **Actions**, **YouTube SANDBOX**, puis **Run workflow** sur la branche par défaut. Le traitement est réservé à `workflow_dispatch`. Les tests Python continuent à chaque push et PR. Le premier passage initialise un curseur sans retraiter l'historique; `audit` peut viser explicitement le premier épisode. Il faut donc initialiser ce curseur avant l'épisode suivant pour que celui-ci soit détecté.
+
+Le workflow vérifie sa configuration avant le checkout et l'installation. Sans OAuth, il signale un passage sans effet. Une demande d'écriture sans OAuth, sans journal Postgres ou sans validation initiale échoue. Les dépendances Python utilisent le cache pip. Le verrou du traitement est distinct de celui des tests.
 
 Le polling refuse les écritures GitHub Actions sans `YOUTUBE_JOURNAL_DATABASE_URL` et sans `YOUTUBE_INITIAL_REVIEW_CONFIRMED=1`. Le journal Postgres conserve les intentions, résultats et curseurs entre deux runners. Le cache Actions ne sert jamais de garantie d'écriture. `YOUTUBE_POST_EPISODE_COMMENT` et `YOUTUBE_AUTO_REPLY` restent désactivés par défaut. Un commentaire de lancement doit être lié au contenu réel.
 

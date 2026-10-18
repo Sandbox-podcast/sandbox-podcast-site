@@ -16,6 +16,7 @@ describe('aperçus des liens partagés', () => {
       title: 'Tous les épisodes',
       description: metadata.description,
       locale: 'fr_FR',
+      siteName: 'Sandbox TalkShow',
       images: [
         {
           url: absoluteUrl('/api/social-image'),
@@ -57,14 +58,18 @@ describe('aperçus des liens partagés', () => {
     expect(png.readUInt32BE(20)).toBe(630);
   });
 
-  it('donne une image accessible et un titre traduit à une page localisée', async () => {
+  it.each([
+    ['en', 'AI podcast: news, tools and debate | Sandbox TalkShow'],
+    ['es-es', 'Pódcast de IA: actualidad, herramientas y debate | Sandbox TalkShow'],
+    ['de-de', 'KI-Podcast: News, Werkzeuge und Debatten | Sandbox TalkShow'],
+  ])('conserve le nom Sandbox TalkShow dans les aperçus en %s', async (locale, title) => {
     const metadata = await localizedMetadata({
-      params: Promise.resolve({ locale: 'en', path: ['podcast'] }),
+      params: Promise.resolve({ locale, path: ['podcast'] }),
     });
 
     expect(metadata.openGraph).toMatchObject({
-      title: 'The Sandbox Talk Show: replays and archive',
-      locale: 'en',
+      title,
+      siteName: 'Sandbox TalkShow',
       images: [
         {
           url: absoluteUrl('/api/social-image'),

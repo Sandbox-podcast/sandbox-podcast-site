@@ -60,7 +60,7 @@
       "type": "callout",
       "tone": "warning",
       "title": "Ce que les stars ne disent pas",
-      "text": "Une star mesure l'attention. Elle ne dit ni si l'outil fonctionne pour vous, ni s'il continuera de monter. On a vu cet été [[entity:browser-use]] passer en tête sur un pic de partages, puis retomber."
+      "text": "Une star mesure l'attention. Elle ne dit ni si l'outil répond à ton besoin, ni s'il continuera de progresser. Nous avons vu [[entity:browser-use]] passer en tête cet été pendant un pic de partages, puis reculer."
     },
     {
       "type": "entity",

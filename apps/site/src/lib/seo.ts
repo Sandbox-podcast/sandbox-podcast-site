@@ -4,7 +4,7 @@ import { hreflangAlternates, type HreflangPage } from '@/domain/ranking-catalog'
 import { sharedPageAlternates } from '@/i18n/indexing';
 
 export const absoluteUrl = (path: string): string => new URL(path, siteConfig.url).toString();
-export const SITE_SHARE_IMAGE_ALT = 'Sandbox : Talk Show et classements tech';
+export const SITE_SHARE_IMAGE_ALT = 'Sandbox TalkShow : émission et classements tech';
 
 export function siteShareImage() {
   return {

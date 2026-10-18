@@ -5,6 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "next dev",
+    "dev:news": "node scripts/news-local.mjs",
+    "news:translator:setup": "node scripts/news-translation-setup.mjs",
+    "news:translator:check": "node --experimental-strip-types scripts/news-translation-smoke.mjs",
+    "news:summarizer:setup": "node scripts/news-summary-setup.mjs",
+    "news:automation:refresh": "node --experimental-strip-types scripts/news-refresh.ts",
     "dev:time-machine": "node scripts/time-machine-local.mjs",
     "build": "next build",
     "start": "next start",

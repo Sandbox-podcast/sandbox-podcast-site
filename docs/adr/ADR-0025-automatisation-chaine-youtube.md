@@ -4,6 +4,8 @@
 - Statut : accepté pour le périmètre réalisable dans le dépôt ; activation distante en attente de configuration
 - Décision : décidée par l'agent sur délégation (PD-0003), à la demande de Lou
 
+Mise à jour du 18 octobre 2026 : Lou remplace le polling toutes les 30 minutes par un lancement manuel à l'ajout de l'épisode hebdomadaire. Le changement local et ses conditions d'activation sont décrits dans [ADR-0033](ADR-0033-optimisation-des-taches-planifiees.md). Les paragraphes ci-dessous conservent la décision initiale.
+
 ## Contexte
 
 Lou demande qu'une nouvelle vidéo déclenche la création de plusieurs miniatures, un commentaire ancré, des réponses aux commentaires et la préparation de Shorts quotidiens. Le dépôt contient déjà l'identité visuelle de la chaîne dans `brand/youtube/`.

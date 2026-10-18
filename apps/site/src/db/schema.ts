@@ -23,6 +23,7 @@ import type {
 import type { SiteContentLocalization } from '../domain/site-localization.ts';
 import type { ChartEdition, Snapshot } from '../domain/schema.ts';
 import type { GithubBurst } from '../domain/github-bursts.ts';
+import type { PublishedNewsItem } from '../domain/news-publishing.ts';
 
 /** Couche éditoriale : brouillon admin ou version servie au site. */
 export type EditorialLayer = 'draft' | 'published';
@@ -564,3 +565,37 @@ export const adminLoginAttempts = pgTable(
   },
   (table) => [index('admin_login_attempts_expiration_idx').on(table.expiresAt)],
 );
+
+/** Fiches SANDBOX News traduites et publiées par la collecte horaire. */
+export const newsItems = pgTable(
+  'news_items',
+  {
+    id: text('id').primaryKey(),
+    canonicalUrl: text('canonical_url').notNull(),
+    sourceId: text('source_id').notNull(),
+    sourceName: text('source_name').notNull(),
+    publishedAt: text('published_at').notNull(),
+    category: text('category').notNull(),
+    payload: jsonb('payload').notNull().$type<PublishedNewsItem>(),
+    sourceExcerptHash: text('source_excerpt_sha256'),
+    createdAt: timestamp('created_at', { withTimezone: true, mode: 'string' })
+      .notNull()
+      .defaultNow(),
+  },
+  (table) => [
+    uniqueIndex('news_items_canonical_url_idx').on(table.canonicalUrl),
+    index('news_items_published_at_idx').on(table.publishedAt),
+    index('news_items_source_published_idx').on(table.sourceId, table.publishedAt),
+  ],
+);
+
+/** Dernier résultat de collecte connu par média, affiché sans prétendre à une couverture totale. */
+export const newsSourceStatus = pgTable('news_source_status', {
+  sourceId: text('source_id').primaryKey(),
+  sourceName: text('source_name').notNull(),
+  sourceUrl: text('source_url').notNull(),
+  ok: boolean('ok').notNull(),
+  reason: text('reason'),
+  checkedAt: timestamp('checked_at', { withTimezone: true, mode: 'string' }).notNull(),
+  updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'string' }).notNull().defaultNow(),
+});

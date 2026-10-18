@@ -178,7 +178,7 @@ export function BadgeGenerator({
             {format === 'markdown'
               ? 'Code pour le README GitHub'
               : format === 'html'
-                ? 'Code pour votre site'
+                ? 'Code à intégrer au site'
                 : 'Adresse du badge SVG'}
           </Text>
           <textarea
@@ -187,7 +187,7 @@ export function BadgeGenerator({
               format === 'markdown'
                 ? 'Code pour le README GitHub'
                 : format === 'html'
-                  ? 'Code pour votre site'
+                  ? 'Code à intégrer au site'
                   : 'Adresse du badge SVG',
             )}
             readOnly

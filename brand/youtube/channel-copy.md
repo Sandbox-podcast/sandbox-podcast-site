@@ -1,10 +1,10 @@
 # Texte et paramètres de la chaîne
 
-Nom : Sandbox Podcast
+Nom : Sandbox TalkShow
 Identifiant public actuel : @SandboxFR
 URL publique : https://www.youtube.com/@SandboxFR
 
-L'ancien identifiant @SandboxPodcast-fr redirige vers @SandboxFR. Le nom public de la chaîne reste « Sandbox Podcast » ; le logotype visuel affiche SANDBOX comme sur le site.
+L'ancien identifiant @SandboxPodcast-fr redirige vers @SandboxFR. Le nom public de la chaîne est Sandbox TalkShow, vérifié dans YouTube Studio le 18 octobre 2026. Le logotype visuel affiche SANDBOX comme sur le site.
 
 Description :
 SANDBOX est un média indépendant sur l'IA, le développement et l'open source. Nos podcasts vidéo testent les outils, interrogent les modèles et remettent les chiffres en perspective.
@@ -22,7 +22,7 @@ La tech mérite mieux que du bruit.
 Lien du profil : https://www.sandboxpodcast.fr/
 
 Mots-clés :
-Sandbox, Sandbox Podcast, podcast tech, podcast français, intelligence artificielle, IA, développement, open source, modèles IA, outils IA, actualité tech
+Sandbox, Sandbox TalkShow, podcast tech, podcast français, intelligence artificielle, IA, développement, open source, modèles IA, outils IA, actualité tech
 
 Réglages enregistrés :
 

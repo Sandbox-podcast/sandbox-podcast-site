@@ -250,7 +250,7 @@ export default async function PersonalProjectPage({ params }: ProjectPageProps) 
               </p>
             ))}
             <h3>
-              <Text>Ce que vous pouvez faire</Text>
+              <Text>Ce que tu peux faire</Text>
             </h3>
             <ul>
               {project.features.map((feature) => (

@@ -16,6 +16,10 @@ Procédures : [reprise des classements](site/incident-classements-2026-10-15.md)
 
 ## Mesure et contenu
 
+- Suite SEO locale du 18 octobre : chargement responsive du vidéoclub, images allégées et traductions des fiches projet corrigés ; [preuves et tests](site/seo-2026-10-18/correctifs-locaux.md). Une reprise de connexion IONOS a refusé le code transmis. La validation DNS attend une session ouverte par le gestionnaire du domaine ou un nouveau code valide ; aucun DNS n'a été modifié.
+
+- Au 18 octobre, les demandes de validation Search Console sont préparées sur le compte Sandbox. La validation DNS attend le code de connexion IONOS demandé à Lou. Le sitemap public et ses 301 URL passent le contrôle HTTP, robots et canoniques ; réception du sitemap par Google, indexation effective et requêtes restent à vérifier après validation. Speed Insights Mobile et CrUX ne fournissent pas de données réelles ; le test Lighthouse mobile mesure un LCP de 3,8 s. Voir [l'audit et les preuves](site/seo-2026-10-18/audit.md).
+
 - GA4 est activé en production après accord et recette : mesure améliorée désactivée, conservation des événements réglée à 14 mois, cinq événements du plan initial reçus dans Temps réel. La recherche reçue ne contient pas son terme et le tag reste absent après refus ou retrait puis rechargement.
 - Rapprocher les clics YouTube des vues dans Studio et recueillir les mesures mobiles réelles dans Speed Insights. La recette n'est pas un résultat de performance ni une mesure d'audience représentative.
 - Les compléments ES/DE et leur indexation sont déployés ; robots, canoniques et sitemap publics sont vérifiés le 17 octobre. Les trois événements de découverte sont reçus dans GA4. Les mesures mobiles et l'attribution YouTube restent à vérifier : [suivi du 17 octobre](site/suivi-issue-68-2026-10-17.md).
@@ -26,11 +30,15 @@ Voir [plan de mesure](site/google-analytics.md), [intégration locale](site/audi
 
 ## YouTube
 
+Lou a demandé le 18 octobre de lancer le suivi manuellement à l'ajout de l'épisode hebdomadaire. Le cron de 30 minutes est retiré en local ; son arrêt distant attend la publication autorisée du workflow. Voir [ADR-0033](adr/ADR-0033-optimisation-des-taches-planifiees.md).
+
 Les quatre versions initiales de Shorts sont privées. Les quatre révisions locales passent le décodage complet et attendent leur validation d'écoute et un accord de publication. E1 est annulé ; seul E2 reste à suivre après diffusion autorisée. Le journal Postgres durable est implémenté et testé. Il reste à autoriser sa mise en service, réconcilier les opérations passées et connecter OAuth avant toute publication automatique. Le cache GitHub Actions n'est pas ce journal.
 
 Voir [protocole E2](site/experiences-e1-e2-2026-10-14.md), [rapport YouTube](site/youtube-growth-2026-10-14.md) et [agent](../tools/youtube-growth/README.md).
 
 ## Limites d'exploitation
+
+SANDBOX News a maintenant un flux automatisé dans le lot local de la PR : collecte planifiée, génération française locale, traduction EN/ES/DE, validation des citations et stockage idempotent. Le modèle ne publie pas un candidat sans trois citations présentes dans l'extrait ; il n'y a pas de validation sémantique humaine intégrée. L'accès public reste désactivé jusqu'à l'application de la migration 0016 et à la configuration des variables documentées dans [DD-0057](design-decisions/dd-0057-automatisation-production-news.md). Avant activation, vérifier le premier cycle sur GitHub Actions ; ensuite, suivre la fraîcheur du flux, les échecs par source, les requêtes et clics dans Search Console, et les Core Web Vitals. Voir aussi [le rapport News V2](site/news-v2-medias-seo-2026-10-18.md).
 
 Le limiteur Postgres partagé et le nonce CSP par requête sont déployés, après application de la migration 0015. Les contrôles HTTP sur le domaine public passent et les tentatives invalides sont persistées dans la base principale. La CSP publique conserve les scripts inline du rendu statique/ISR ; cette limite et les protections compensatoires sont documentées dans [ADR-0032](adr/ADR-0032-protections-et-persistance-issue-68.md).
 

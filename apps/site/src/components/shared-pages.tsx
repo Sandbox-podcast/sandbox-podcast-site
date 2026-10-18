@@ -7,6 +7,8 @@ import * as About from '@/app/(fr)/about/page';
 import * as Search from '@/components/search-screen';
 import * as Privacy from '@/app/(fr)/confidentialite/page';
 import * as Latest from '@/app/(fr)/latest/page';
+import * as News from '@/app/(fr)/news/page';
+import { newsPageMetadata } from '@/lib/news-metadata';
 import * as Story from '@/app/(fr)/stories/[slug]/page';
 import * as Project from '@/app/(fr)/projects/[slug]/page';
 import * as Model from '@/app/(fr)/models/[slug]/page';
@@ -31,7 +33,8 @@ import * as PersonalProjects from '@/app/(fr)/nos-projets/page';
 import * as VideoClub from '@/app/(fr)/nos-projets/video-club/page';
 import * as PersonalProject from '@/app/(fr)/nos-projets/[slug]/page';
 import type { SharedPageRoute } from '@/i18n/page-routes';
-import type { TranslationDictionary } from '@/i18n/translation';
+import { translateText, type TranslationDictionary } from '@/i18n/translation';
+import { personalProject } from '@/lib/personal-projects';
 
 export interface SharedPageOptions {
   locale?: string;
@@ -71,7 +74,16 @@ export const sharedPages: Record<SharedPageRoute, SharedPage> = {
   },
   '/nos-projets/:slug': {
     render: (o) => <PersonalProject.default params={slugParams(o)} />,
-    metadata: (o) => PersonalProject.generateMetadata({ params: slugParams(o) }),
+    metadata: async (o) => {
+      const metadata = await PersonalProject.generateMetadata({ params: slugParams(o) });
+      const project = personalProject(value(o, 'slug'));
+      return project
+        ? {
+            ...metadata,
+            title: `${project.name} : ${translateText(project.tagline, o.dictionary)}`,
+          }
+        : metadata;
+    },
   },
   '/nos-projets/video-club': {
     render: (o) => <VideoClub.default searchParams={o.searchParams} />,
@@ -82,6 +94,10 @@ export const sharedPages: Record<SharedPageRoute, SharedPage> = {
     metadata: () => Search.metadata,
   },
   '/latest': { render: () => <Latest.default />, metadata: () => Podcast.generateMetadata() },
+  '/news': {
+    render: (o) => <News.default locale={o.locale ?? 'fr-FR'} />,
+    metadata: (o) => newsPageMetadata(o.locale ?? 'fr-FR'),
+  },
   '/stories/:slug': {
     render: () => <Story.default />,
     metadata: () => Podcast.generateMetadata(),

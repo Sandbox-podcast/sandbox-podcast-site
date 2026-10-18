@@ -14,7 +14,7 @@ export function DemoContentPage({ title }: { title: string }) {
         <Text>{DEMO_CONTENT_DESCRIPTION}</Text>
       </p>
       <p className="mt-3 max-w-2xl text-ink-2">
-        <Text>Consultez les classements publiés ou les épisodes du Talk Show.</Text>
+        <Text>Retrouve les classements publiés et les épisodes du Talk Show.</Text>
       </p>
       <nav className="mt-6 flex flex-wrap gap-3">
         <Link className="btn btn-solid" href="/charts">

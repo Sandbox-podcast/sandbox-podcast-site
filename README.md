@@ -12,6 +12,7 @@ Le dépôt sert le site `apps/site` (podcast et classements tech et IA). Les anc
 - [Agent Social Network Manager](#agent-social-network-manager)
   - [Utiliser l'agent avec Nico et Loïc](#utiliser-lagent-avec-nico-et-loïc)
   - [Préparer et valider une publication](#préparer-et-valider-une-publication)
+- [SANDBOX News](#sandbox-news)
 - [Fonctionnement des classements](#fonctionnement-des-classements)
   - [Méthodes et profils](#méthodes-et-profils)
   - [Chaîne de calcul](#chaîne-de-calcul)
@@ -104,6 +105,18 @@ Le dépôt et ses documents donnent le contexte partagé à l'agent. Un agent ou
 6. Relever séparément les résultats natifs à 48 heures et à 7 jours. Toujours noter la plateforme, la période, la source et la valeur; ne pas inventer les mesures absentes.
 
 Les comptes Instagram et TikTok ne sont pas reliés à une API de publication dans ce dépôt. X reste à vérifier. La préparation des textes et du calendrier est disponible, mais aucune publication automatique multi-réseaux n'est active. Pour un audit YouTube, chaque associé doit utiliser un compte ayant le rôle de chaîne approprié et son propre jeton local. Ne pas se transmettre les mots de passe Google ni les jetons OAuth. Commencer par l'accès en lecture; les droits d'écriture ne sont requis que pour une action explicitement autorisée.
+
+## SANDBOX News
+
+SANDBOX News rassemble des actualités sur l'IA et le développement, avec un lien vers le média qui les a publiées. Son collecteur consulte les pages publiques des dix médias définis dans [`news-media.ts`](apps/site/src/domain/news-media.ts), puis examine jusqu'à trois articles récents par source. Il lit leur titre, leur date et les métadonnées ou le passage public de l'article. Une source inaccessible ou une date absente ne donne pas de fiche inventée ; son état reste visible dans le fil. La collecte dépend de la structure des sites et ne garantit pas une couverture exhaustive.
+
+Pour une nouvelle fiche, un petit modèle Qwen local produit un titre français et trois phrases à partir du passage relevé. Le traitement demande trois citations exactes de l'extrait et écarte la fiche si le texte manque ou si les citations ne correspondent pas. Argos Translate traduit ensuite le titre et les trois phrases en anglais, allemand et espagnol. Le site ne publie la fiche que si les quatre versions sont complètes. Il conserve un lien vers l'article source et indique que les résumés sont générés automatiquement ; la source reste le moyen de vérifier les faits.
+
+Le workflow [news-refresh.yml](.github/workflows/news-refresh.yml) lance cette chaîne environ une fois par heure sur GitHub Actions. Il envoie le lot, avec un secret cron, à l'API privée du site, qui vérifie les sources et les dates, écarte les doublons et enregistre les fiches dans Postgres/Neon. Les pages `/news`, `/en/news`, `/es-es/news` et `/de-de/news` affichent les mêmes entrées dans leur langue. Le sitemap n'annonce `/news` que lorsqu'une fiche récente existe. La programmation GitHub est indicative : une exécution peut être retardée ou manquer si une dépendance ou une source est indisponible.
+
+La collecte et la publication restent désactivées tant que leur configuration de production n'est pas faite. Après application de la migration `0016_sandbox_news_autopublishing.sql`, l'activation demande `SANDBOX_NEWS_PUBLIC=1` dans l'environnement du site, la variable GitHub `SANDBOX_NEWS_PUBLIC=true`, l'origine du site et le secret GitHub `SANDBOX_CHARTS_CRON_SECRET` déjà utilisé par les classements. Le premier lancement peut alors se faire depuis l'onglet Actions. La page reste fermée ou `noindex` avant cette activation. Les modèles et leurs dépendances sont installés dans le cache local du runner ; aucune API d'IA payante n'est appelée. Les runners GitHub et leurs minutes restent soumis aux quotas du compte.
+
+Guide du site : [`apps/site/README.md`](apps/site/README.md). Décision, configuration et limites : [DD-0057](docs/design-decisions/dd-0057-automatisation-production-news.md).
 
 ## Fonctionnement des classements
 

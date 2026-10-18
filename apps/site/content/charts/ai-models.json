@@ -103,7 +103,7 @@
     ],
     "frequency": "Collecte quotidienne; gel hebdomadaire le lundi après les mises à jour de sources.",
     "limits": [
-      "Un benchmark mesure une tâche, pas votre usage. Aucun score ne remplace un essai sur vos propres données.",
+      "Un benchmark mesure une tâche, pas ton usage. Aucun score ne remplace un essai avec tes propres données.",
       "Arena mesure des préférences humaines; Artificial Analysis publie un index distinct. Un percentile ne rend pas leurs protocoles identiques.",
       "Les vues Reasoning et Maths restent désactivées jusqu'à validation réelle des scores et de leurs jetons; les résultats auto-déclarés ne sont pas considérés comme vérifiés.",
       "Le débit, le contexte et le prix dépendent du catalogue OpenRouter et de ses fournisseurs; le rang de débit n'est pas un temps de réponse garanti.",

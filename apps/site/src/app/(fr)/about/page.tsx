@@ -6,8 +6,9 @@ import { publicHosts } from '@/lib/repository';
 import { pageMetadata } from '@/lib/seo';
 export const dynamic = 'force-dynamic';
 export const metadata = pageMetadata({
-  title: 'Retrouvez l’équipe Sandbox',
-  description: 'Les profils GitHub, LinkedIn et X des animateurs Sandbox.',
+  title: 'Qui anime Sandbox TalkShow ? Lou, Nicolas et Loïc',
+  description:
+    'Découvre les profils publics de Lou, Nicolas et Loïc, les animateurs de Sandbox TalkShow sur l’actualité IA et tech.',
   path: '/about',
   noindex: false,
 });

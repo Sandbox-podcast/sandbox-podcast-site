@@ -131,7 +131,7 @@ try {
         '-metadata',
         `title=${project.title} · Jingle Sandbox`,
         '-metadata',
-        'artist=Sandbox Podcast',
+        'artist=Sandbox TalkShow',
         '-metadata',
         'comment=Motion design original · 1920x1080 · 30 fps',
         outputPath,

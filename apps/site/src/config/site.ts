@@ -9,6 +9,13 @@ const OFFICIAL_YOUTUBE_CHANNEL = 'https://www.youtube.com/@SandboxFR';
 const defaultSiteSettings = siteSettingsSchema.parse(siteSettingsSource);
 let activeSiteSettings: SiteSettings = defaultSiteSettings;
 
+/** Les réglages déjà publiés peuvent encore porter le nom précédent du média. */
+export function mediaDisplayName(configured: string): string {
+  return ['sandbox', 'sandbox podcast'].includes(configured.trim().toLowerCase())
+    ? defaultSiteSettings.name
+    : configured;
+}
+
 export function setSiteSettingsOverride(settings: SiteSettings | undefined): void {
   activeSiteSettings = settings ?? defaultSiteSettings;
 }
@@ -42,7 +49,7 @@ export function spotifyChannelUrl(configured: string): string {
 /** Le contenu éditorial de la marque peut être rechargé depuis le stockage privé en ISR. */
 export const siteConfig = {
   get name(): string {
-    return activeSiteSettings.name;
+    return mediaDisplayName(activeSiteSettings.name);
   },
   get wordmark(): SiteSettings['wordmark'] {
     return activeSiteSettings.wordmark;

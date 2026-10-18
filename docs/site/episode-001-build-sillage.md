@@ -118,7 +118,7 @@ Ctrl K, et on cherche en plein texte dans toutes les conversations, de tous les 
 que soit l'agent qui les a menées. Les agents ont la même recherche par leurs outils : une
 décision prise avec Claude il y a trois semaines se retrouve depuis une session Codex.
 
-## Build 08 · Votre machine, votre liberté
+## Build 08 · Ta machine, ta liberté
 
 [Capture d'une conversation Claude Code, lien GitHub. Conclusion du film : open source,
 auto-hébergé.]
@@ -131,7 +131,7 @@ Et Sillage est construit avec l'IA, massivement. Claude Code et Codex ont écrit
 code, la plupart du temps depuis Sillage lui-même, souvent depuis mon téléphone.
 
 Il y a un script d'installation pour Linux, macOS et WSL, une image Docker et un chart Helm.
-Si vous testez, les issues sont ouvertes.
+Si tu veux essayer Sillage, les issues sont ouvertes.
 
 [Transition vers Le Clash.]
 

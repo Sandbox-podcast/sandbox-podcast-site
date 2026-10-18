@@ -77,12 +77,12 @@
       },
       {
         "label": "Vitesse et prix",
-        "detail": "Pour un modèle ouvert, la vitesse et le prix sont ceux des fournisseurs qui l'hébergent (médiane). Auto-hébergé, votre coût dépendra de votre matériel."
+        "detail": "Pour un modèle ouvert, la vitesse et le prix sont ceux des fournisseurs qui l'hébergent (médiane). Si tu l'héberges toi-même, le coût dépend de ton matériel."
       }
     ],
     "frequency": "Chaque semaine, publication le mardi vers 07 h UTC.",
     "limits": [
-      "Les licences varient beaucoup : Apache-2.0, MIT, licences maison avec restrictions. Lisez la licence avant de bâtir un produit dessus.",
+      "Les licences varient : Apache-2.0, MIT ou licences propriétaires avec restrictions. Lis la licence avant de bâtir un produit dessus.",
       "Les scores de certains modèles viennent de l'éditeur tant qu'aucune évaluation indépendante n'existe. Ils sont signalés comme tels sur la fiche.",
       "Les modèles texte seul n'ont pas de score multimodal ; ils ne sont pas pénalisés dans le Global.",
       "Le coût réel d'un modèle auto-hébergé n'est pas mesuré ici."

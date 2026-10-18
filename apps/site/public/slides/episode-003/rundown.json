@@ -1,0 +1,131 @@
+{
+  "targetMinutes": 75,
+  "minMinutes": 60,
+  "maxMinutes": 90,
+  "segments": [
+    {
+      "id": "intro",
+      "title": "Intro et transitions",
+      "minutes": 5,
+      "minMinutes": 5,
+      "maxMinutes": 5
+    },
+    { "id": "radar", "title": "Radar", "minutes": 25, "minMinutes": 10, "maxMinutes": 40 },
+    { "id": "build", "title": "Build", "minutes": 30, "minMinutes": 30, "maxMinutes": 30 },
+    { "id": "clash", "title": "Clash", "minutes": 10, "minMinutes": 10, "maxMinutes": 10 },
+    { "id": "beta", "title": "Bêta", "minutes": 5, "minMinutes": 5, "maxMinutes": 5 }
+  ],
+  "sections": {
+    "radar": {
+      "subtitle": "16 au 18 octobre. Dix actus à trier ensemble.",
+      "notes": [
+        "25 minutes visées. Vous choisissez les actus à garder, pas besoin de traiter les dix.",
+        "Pour tenir une heure : 10 minutes de Radar. Pour aller jusqu'à 1 h 30 : 40 minutes maximum. Le Build ne s'allonge pas."
+      ]
+    },
+    "build": {
+      "subtitle": "À quoi sert un skill ? Le cas du design d'une page web.",
+      "notes": [
+        "Un seul sujet : comprendre frontend-design à travers une page d'inscription à une soirée Sandbox. Définition, cas concret, vérifications et limites : 30 minutes maximum.",
+        "Préparer deux projets identiques, le même modèle, le même brief et les captures de secours avant l'émission. Aucun tutoriel d'installation en direct.",
+        "Si la génération bloque, montrer les essais enregistrés, signaler la coupe et le temps réel. À 25 minutes, passer au verdict ; à 30 minutes, au Clash."
+      ]
+    },
+    "clash": {
+      "subtitle": "Emploi, bulle financière, créateurs : les désaccords du mois.",
+      "notes": [
+        "Quatre minutes sur les juniors, trois sur la bulle et trois sur les créateurs. Dix minutes au total, sans démonstration supplémentaire.",
+        "Les positions affichées sont des arguments proposés au plateau, pas des opinions attribuées à Lou, Loïc ou Nico.",
+        "Sélection de controverses documentées du 1er au 18 octobre 2026. Aucun classement exhaustif des sujets les plus débattus n'est établi. Le Radar conserve sa fenêtre du 16 au 18 octobre."
+      ]
+    },
+    "beta": {
+      "subtitle": "Quel brief doit-on imposer au même skill la prochaine fois ?",
+      "notes": [
+        "Cinq minutes pour recueillir une contrainte concrète du public et conclure.",
+        "Le prochain test prolonge le même sujet. Aucune nouvelle démonstration dans cette émission."
+      ]
+    }
+  },
+  "build": {
+    "skillId": "frontend-design",
+    "title": "À quoi sert un skill ? Le cas du design d'une page web.",
+    "sources": [
+      {
+        "title": "Anthropic : définition et fonctionnement des Agent Skills",
+        "url": "https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview"
+      },
+      {
+        "title": "Anthropic : les instructions de frontend-design",
+        "url": "https://github.com/anthropics/skills/blob/main/skills/frontend-design/SKILL.md"
+      }
+    ],
+    "steps": [
+      {
+        "id": "build-brief",
+        "title": "Un skill, c'est quoi ?",
+        "label": "01 / Comprendre",
+        "minutes": 5,
+        "points": [
+          "Un mode d'emploi que l'IA peut réutiliser pour une tâche précise.",
+          "Ici, frontend-design lui donne des consignes de mise en page, de couleurs et de polices.",
+          "Notre exemple : créer la page d'inscription à une soirée Sandbox."
+        ],
+        "notes": [
+          "Commencer par expliquer le sujet. Le public n'a encore vu aucune page à comparer. Il n'y a donc ni vote ni révélation à ce stade.",
+          "Un skill regroupe des instructions et peut inclure des ressources ou des scripts. Ici, le fichier frontend-design décrit une méthode de conception visuelle ; il ne change pas le modèle et ne garantit pas un bon résultat.",
+          "Accroche possible : Ton IA sait coder une page. Qui lui explique comment la concevoir ?"
+        ]
+      },
+      {
+        "id": "build-compare",
+        "title": "Une page web, avec ou sans méthode",
+        "label": "02 / Le cas concret",
+        "minutes": 10,
+        "points": [
+          "La demande : une page avec date, lieu, programme et bouton d'inscription.",
+          "Sans ce skill : l'IA travaille à partir de notre demande.",
+          "Avec frontend-design : elle reçoit aussi une méthode de conception visuelle."
+        ],
+        "notes": [
+          "Les deux pages ne sont pas encore produites. Cette slide explique la comparaison à préparer, sans présenter de résultat fictif.",
+          "Dans deux projets isolés : même modèle, mêmes outils, même demande et même nombre de tentatives. Seule l'utilisation de frontend-design varie. Vérifier son chargement effectif.",
+          "Utiliser des informations de démonstration. Préparer les captures et noter le temps réel, les retouches et les interventions. Montrer les résultats seulement quand ils existent."
+        ]
+      },
+      {
+        "id": "build-test",
+        "title": "Une belle page ne suffit pas",
+        "label": "03 / Vérifier",
+        "minutes": 10,
+        "points": [
+          "Comprend-on la soirée et comment s'inscrire ?",
+          "Le bouton fonctionne-t-il sur mobile et au clavier ?",
+          "Combien de retouches faut-il avant de pouvoir utiliser la page ?"
+        ],
+        "notes": [
+          "Vérifier la même interaction sur les deux pages locales, sans inscription ni envoi réel. Le bouton doit ouvrir le formulaire de démonstration prévu.",
+          "Contrôler le petit écran, les débordements et le focus clavier. Ces vérifications ne constituent pas un audit complet d'accessibilité.",
+          "Noter ce qui marche, ce qui casse et les corrections nécessaires. Ne pas maquiller une intervention humaine en autonomie."
+        ]
+      },
+      {
+        "id": "build-verdict",
+        "title": "Le skill ne remplace pas ta demande",
+        "label": "04 / Ce qu'on en retient",
+        "minutes": 5,
+        "points": [
+          "La demande fixe le résultat attendu. Le skill apporte une méthode réutilisable.",
+          "Il faut toujours vérifier le résultat et corriger les erreurs.",
+          "Le test reste à faire : aucun gain de qualité ou de temps n'est démontré ici."
+        ],
+        "notes": [
+          "Répondre à la question de départ à partir du test réellement obtenu. Aucun gain de temps n'est annoncé avant la mesure.",
+          "Un extrait peut expliquer simplement la différence entre la demande et le skill. L'avant/après ne devient un extrait que lorsque les deux pages et leurs vérifications existent.",
+          "Pour donner envie de revenir, annoncer une contrainte précise du prochain test. Ne promettre ni résultat ni nombre d'abonnés.",
+          "Fin du Build à 30 minutes maximum. Les autres skills restent dans la réserve éditoriale."
+        ]
+      }
+    ]
+  }
+}

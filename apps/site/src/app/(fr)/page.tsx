@@ -25,9 +25,9 @@ export async function generateMetadata({
   await preparePublishedEditorialContent();
   const hasPublishedEpisode = allEpisodes().some(indexableEpisode);
   return pageMetadata({
-    title: `${siteConfig.name} : comprendre l'IA en la pratiquant`,
+    title: `${siteConfig.name} : actualité IA, tests d'outils et podcast tech`,
     description:
-      "Le Talk Show IA et tech de Lou, Loïc et Nico. Chaque semaine, leurs essais d'outils IA et les projets qu'ils construisent avec.",
+      "Un podcast vidéo sur l'actualité de l'intelligence artificielle et de la tech. Chaque semaine, Lou, Loïc et Nico testent des outils IA, débattent de leurs usages et citent leurs sources.",
     path: '/',
     noindex:
       (!hasPublishedEpisode &&

@@ -120,6 +120,11 @@ describe('textes locaux', () => {
     }
     await expect(siteDictionary('it-IT')).rejects.toThrow();
   });
+  it('ne traite pas les libellés déjà localisés de SANDBOX News comme des sources françaises', () => {
+    expect(sourceCatalog).not.toHaveProperty('AI news');
+    expect(sourceCatalog).not.toHaveProperty('Noticias sobre IA');
+    expect(sourceCatalog).not.toHaveProperty('KI-Nachrichten');
+  });
   it('conserve les paramètres et couvre le catalogue dans les trois langues', async () => {
     const placeholders = (source: string) =>
       [
@@ -237,7 +242,7 @@ describe('même site en français et en anglais', () => {
     const html = renderToStaticMarkup(
       createElement(LocalizationProvider, { locale: 'en', dictionary, children: page }),
     );
-    expect(html).toContain('The Talk Show');
+    expect(html).toContain('Sandbox TalkShow');
     expect(html).toContain('No replays yet.');
     expect(html).not.toContain('href="/en/episodes/40"');
     expect(html).not.toContain('href="/en/episodes/41"');

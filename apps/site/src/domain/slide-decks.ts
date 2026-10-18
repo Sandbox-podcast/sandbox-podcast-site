@@ -137,7 +137,7 @@ export function renderSlidesIndexHtml(decks: SlideDeck[]): string {
       <p class="eyebrow">Sandbox</p>
       <h1>Présentations</h1>
       <p class="lead">
-        Choisissez un support pour l’afficher en plein écran. Les flèches du clavier
+        Choisis un support pour l’afficher en plein écran. Les flèches du clavier
         permettent de naviguer dans chaque deck.
       </p>
       ${items}

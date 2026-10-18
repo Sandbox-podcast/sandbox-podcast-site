@@ -1,8 +1,8 @@
 {
   "slug": "heberger-un-modele-ouvert-chez-soi",
   "type": "guide",
-  "title": "Héberger un modèle ouvert chez soi : Ollama, llama.cpp ou vLLM ?",
-  "dek": "Trois outils, trois usages. Lequel prendre pour essayer, lequel pour un serveur, et à quel moment on regrette d'avoir choisi le mauvais.",
+  "title": "Faire tourner un modèle d'IA en local : Ollama, llama.cpp ou vLLM ?",
+  "dek": "Trois outils, trois usages : choisir le bon pour tester un modèle ou le servir sur un serveur.",
   "publishedAt": "2026-09-24T08:00:00.000Z",
   "author": "equipe-sandbox",
   "topics": ["infra", "open-source"],
@@ -49,7 +49,7 @@
     },
     {
       "type": "p",
-      "text": "[[entity:llama-cpp]] est le moteur dont beaucoup d'autres outils dépendent. Plus bas niveau, plus de réglages, et une compatibilité matérielle très large : c'est ce qu'on prend quand on veut comprendre ou optimiser."
+      "text": "[[entity:llama-cpp]] permet d'exécuter des modèles GGUF sur plusieurs types de matériel. Il offre plus de réglages qu'Ollama : utile si tu veux ajuster l'exécution ou comprendre ce qui se passe."
     },
     {
       "type": "code",
@@ -62,7 +62,7 @@
     },
     {
       "type": "p",
-      "text": "[[entity:vllm]] est pensé pour le débit : il sert beaucoup de requêtes en parallèle sur des GPU de serveur. Surdimensionné pour un usage perso, indispensable dès qu'une équipe s'y met."
+      "text": "[[entity:vllm]] est conçu pour traiter beaucoup de requêtes en parallèle sur les GPU d'un serveur. C'est souvent trop lourd pour un usage personnel, mais utile quand une équipe partage le modèle."
     },
     {
       "type": "code",
@@ -73,7 +73,7 @@
       "type": "callout",
       "tone": "warning",
       "title": "Avant de choisir",
-      "text": "Vérifiez la licence du modèle (elle est sur chaque fiche), la mémoire GPU nécessaire, et si la quantification dégrade les résultats pour votre usage. Nos benchmarks portent sur les modèles non quantifiés."
+      "text": "Vérifie la licence du modèle (elle figure sur chaque fiche), la mémoire GPU nécessaire et l'effet de la quantification sur ton usage. Nos benchmarks portent sur des modèles non quantifiés."
     }
   ],
   "sources": [

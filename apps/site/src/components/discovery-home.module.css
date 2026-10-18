@@ -30,6 +30,7 @@
   display: none;
 }
 .showLabel {
+  pointer-events: none;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -159,7 +160,12 @@
   background: linear-gradient(transparent, #071017d9);
   pointer-events: none;
 }
-.mobileVideoClub > img {
+.mobileVideoClub > picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.mobileVideoClub img {
   object-fit: cover;
   width: 100%;
   height: 100%;
@@ -382,6 +388,12 @@
   top: 4%;
   width: 16%;
   height: 20.4%;
+}
+.studioRadar {
+  left: 51.5%;
+  top: 1.8%;
+  width: 5.2%;
+  height: 10.2%;
 }
 .stageDoor,
 .doorPortal {

@@ -19,6 +19,10 @@ const contentSecurityPolicy = [
 ].join('; ');
 
 const config: NextConfig = {
+  distDir:
+    process.env.NODE_ENV === 'development' && process.env['SANDBOX_NEWS_PREVIEW'] === '1'
+      ? '.local/news-next'
+      : '.next',
   reactStrictMode: true,
   experimental: { cpus: 2 },
   poweredByHeader: false,

@@ -1,0 +1,343 @@
+[
+  {
+    "clip_id": "E02-001",
+    "platform": "x",
+    "old_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-001-quotas-x.mp4",
+    "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\upload-variants\\x\\e02-001-quotas-x.mp4",
+    "source": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-001-quotas.mp4",
+    "sha256": "34ef9ee606abb8765e9f2bc00b53c262c75e91f920ca3077badb307343e61609",
+    "bytes": 1006668,
+    "status": "decoded_verified",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "codec_type": "video",
+          "width": 720,
+          "height": 1280,
+          "r_frame_rate": "30/1"
+        },
+        {
+          "codec_name": "aac",
+          "codec_type": "audio",
+          "r_frame_rate": "0/0"
+        }
+      ],
+      "format": {
+        "duration": "33.800000"
+      }
+    }
+  },
+  {
+    "clip_id": "E02-002",
+    "platform": "x",
+    "old_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-002-regard-neuf-x.mp4",
+    "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\upload-variants\\x\\e02-002-regard-neuf-x.mp4",
+    "source": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-002-regard-neuf.mp4",
+    "sha256": "524cd9a85b7ecc2fcbea87fa88c61c80e3f30c42855e40d5c0f78caa1db0c669",
+    "bytes": 1819158,
+    "status": "decoded_verified",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "codec_type": "video",
+          "width": 720,
+          "height": 1280,
+          "r_frame_rate": "30/1"
+        },
+        {
+          "codec_name": "aac",
+          "codec_type": "audio",
+          "r_frame_rate": "0/0"
+        }
+      ],
+      "format": {
+        "duration": "54.400000"
+      }
+    }
+  },
+  {
+    "clip_id": "E02-011",
+    "platform": "x",
+    "old_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-011-fleuriste-x.mp4",
+    "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\upload-variants\\x\\e02-011-fleuriste-x.mp4",
+    "source": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-011-fleuriste.mp4",
+    "sha256": "40f064a9ae2bdcff14acf2a32eb007b4fbb73335cd4725c2292c308c00c91755",
+    "bytes": 418590,
+    "status": "decoded_verified",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "codec_type": "video",
+          "width": 720,
+          "height": 1280,
+          "r_frame_rate": "30/1"
+        },
+        {
+          "codec_name": "aac",
+          "codec_type": "audio",
+          "r_frame_rate": "0/0"
+        }
+      ],
+      "format": {
+        "duration": "15.600000"
+      }
+    }
+  },
+  {
+    "clip_id": "E02-013",
+    "platform": "x",
+    "old_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-013-patisserie-x.mp4",
+    "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\upload-variants\\x\\e02-013-patisserie-x.mp4",
+    "source": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-013-patisserie.mp4",
+    "sha256": "ae8559e77a421e19e0fa36184930cb8a8cf625900bd4253894d47456d844fce5",
+    "bytes": 1900555,
+    "status": "decoded_verified",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "codec_type": "video",
+          "width": 720,
+          "height": 1280,
+          "r_frame_rate": "30/1"
+        },
+        {
+          "codec_name": "aac",
+          "codec_type": "audio",
+          "r_frame_rate": "0/0"
+        }
+      ],
+      "format": {
+        "duration": "64.166667"
+      }
+    }
+  },
+  {
+    "clip_id": "E02-014",
+    "platform": "x",
+    "old_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-014-coiffeur-x.mp4",
+    "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\upload-variants\\x\\e02-014-coiffeur-x.mp4",
+    "source": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-014-coiffeur.mp4",
+    "sha256": "3a6500ccd0c2a0153a1c69b8c941b0ebf6be36fd84fb6f27d785cb1c5f0a7289",
+    "bytes": 1060311,
+    "status": "decoded_verified",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "codec_type": "video",
+          "width": 720,
+          "height": 1280,
+          "r_frame_rate": "30/1"
+        },
+        {
+          "codec_name": "aac",
+          "codec_type": "audio",
+          "r_frame_rate": "0/0"
+        }
+      ],
+      "format": {
+        "duration": "22.300000"
+      }
+    }
+  },
+  {
+    "clip_id": "E02-021",
+    "platform": "x",
+    "old_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-021-caracteriser-bug-x.mp4",
+    "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\upload-variants\\x\\e02-021-caracteriser-bug-x.mp4",
+    "source": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-021-caracteriser-bug.mp4",
+    "sha256": "87d10dba8625ece19058388c2ac14a76ccc896e83ed087a89c3d029fdae7e11d",
+    "bytes": 3677750,
+    "status": "decoded_verified",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "codec_type": "video",
+          "width": 720,
+          "height": 1280,
+          "r_frame_rate": "30/1"
+        },
+        {
+          "codec_name": "aac",
+          "codec_type": "audio",
+          "r_frame_rate": "0/0"
+        }
+      ],
+      "format": {
+        "duration": "64.900000"
+      }
+    }
+  },
+  {
+    "clip_id": "E02-024",
+    "platform": "x",
+    "old_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-024-relire-code-x.mp4",
+    "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\upload-variants\\x\\e02-024-relire-code-x.mp4",
+    "source": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-024-relire-code.mp4",
+    "sha256": "ead62108641a0318aa1236f368cb2108dbed4704ba155c7f0b75003dcbc6c303",
+    "bytes": 913526,
+    "status": "decoded_verified",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "codec_type": "video",
+          "width": 720,
+          "height": 1280,
+          "r_frame_rate": "30/1"
+        },
+        {
+          "codec_name": "aac",
+          "codec_type": "audio",
+          "r_frame_rate": "0/0"
+        }
+      ],
+      "format": {
+        "duration": "30.066667"
+      }
+    }
+  },
+  {
+    "clip_id": "E02-025",
+    "platform": "x",
+    "old_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-025-transformation-x.mp4",
+    "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\upload-variants\\x\\e02-025-transformation-x.mp4",
+    "source": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-025-transformation.mp4",
+    "sha256": "36869ef085034864738f94b61ffb313c2d5bb32305331debd06848f425cff141",
+    "bytes": 3773627,
+    "status": "decoded_verified",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "codec_type": "video",
+          "width": 720,
+          "height": 1280,
+          "r_frame_rate": "30/1"
+        },
+        {
+          "codec_name": "aac",
+          "codec_type": "audio",
+          "r_frame_rate": "0/0"
+        }
+      ],
+      "format": {
+        "duration": "85.300000"
+      }
+    }
+  },
+  {
+    "clip_id": "E02-027",
+    "platform": "x",
+    "old_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-027-metier-dev-x.mp4",
+    "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\upload-variants\\x\\e02-027-metier-dev-x.mp4",
+    "source": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-027-metier-dev.mp4",
+    "sha256": "abf248bc7ac1b9bdf687d11a53f3e2cb6a73c19c764635377fa2abd98220d74f",
+    "bytes": 2225793,
+    "status": "decoded_verified",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "codec_type": "video",
+          "width": 720,
+          "height": 1280,
+          "r_frame_rate": "30/1"
+        },
+        {
+          "codec_name": "aac",
+          "codec_type": "audio",
+          "r_frame_rate": "0/0"
+        }
+      ],
+      "format": {
+        "duration": "68.300000"
+      }
+    }
+  },
+  {
+    "clip_id": "E02-028",
+    "platform": "x",
+    "old_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-028-pm-maquette-x.mp4",
+    "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\upload-variants\\x\\e02-028-pm-maquette-x.mp4",
+    "source": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-028-pm-maquette.mp4",
+    "sha256": "a9af6acc56e707e9eed90aed823e7ee8167b40ea44aed4482520f58a635d0a1b",
+    "bytes": 3394266,
+    "status": "decoded_verified",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "codec_type": "video",
+          "width": 720,
+          "height": 1280,
+          "r_frame_rate": "30/1"
+        },
+        {
+          "codec_name": "aac",
+          "codec_type": "audio",
+          "r_frame_rate": "0/0"
+        }
+      ],
+      "format": {
+        "duration": "79.300000"
+      }
+    }
+  },
+  {
+    "clip_id": "E02-030",
+    "platform": "x",
+    "old_file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-030-regie-x.mp4",
+    "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\upload-variants\\x\\e02-030-regie-x.mp4",
+    "source": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-030-regie.mp4",
+    "sha256": "382fe972be3b73dc314ee0ec311ec49d8990769687ca52f9546d067de5b7c50b",
+    "bytes": 4596223,
+    "status": "decoded_verified",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "codec_type": "video",
+          "width": 720,
+          "height": 1280,
+          "r_frame_rate": "30/1"
+        },
+        {
+          "codec_name": "aac",
+          "codec_type": "audio",
+          "r_frame_rate": "0/0"
+        }
+      ],
+      "format": {
+        "duration": "111.000000"
+      }
+    }
+  }
+]

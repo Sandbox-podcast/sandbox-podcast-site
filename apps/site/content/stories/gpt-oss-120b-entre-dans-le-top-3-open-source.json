@@ -66,7 +66,7 @@
       "type": "callout",
       "tone": "warning",
       "title": "Poids ouverts, pas forcément libres",
-      "text": "Les licences diffèrent d'un modèle à l'autre : Apache-2.0 pour gpt-oss-120b, licences maison avec conditions d'usage pour d'autres. Elle est affichée sur chaque fiche, lisez-la avant de bâtir un produit dessus."
+      "text": "Les licences varient selon les modèles : Apache-2.0 pour gpt-oss-120b, licences propriétaires avec conditions d'usage pour d'autres. Elles figurent sur chaque fiche ; lis-les avant de bâtir un produit dessus."
     }
   ],
   "sources": [

@@ -2,10 +2,22 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import siteSettings from '../content/site.json';
-import { canonicalSiteUrl, youtubeChannelUrl, spotifyChannelUrl } from '../src/config/site.ts';
+import {
+  canonicalSiteUrl,
+  youtubeChannelUrl,
+  spotifyChannelUrl,
+  mediaDisplayName,
+} from '../src/config/site.ts';
 import { siteSettingsSchema } from '../src/domain/schema.ts';
 
 describe('réglages publics du site', () => {
+  it('utilise Sandbox TalkShow même avec les anciens noms publiés', () => {
+    expect(siteSettings.name).toBe('Sandbox TalkShow');
+    for (const previous of ['Sandbox', 'Sandbox Podcast', ' SANDBOX PODCAST '])
+      expect(mediaDisplayName(previous)).toBe('Sandbox TalkShow');
+    expect(mediaDisplayName('Sandbox TalkShow')).toBe('Sandbox TalkShow');
+    expect(mediaDisplayName('Autre émission')).toBe('Autre émission');
+  });
   it('corrige le lien Spotify générique sans remplacer une destination éditoriale précise', () => {
     for (const generic of ['https://open.spotify.com', 'https://open.spotify.com/?si=old'])
       expect(spotifyChannelUrl(generic)).toBe(siteSettings.platforms.spotify);
@@ -32,8 +44,10 @@ describe('réglages publics du site', () => {
     delete previousSettings['aboutIntro'];
     const site = siteSettingsSchema.parse(previousSettings);
     expect(site.aboutEyebrow).toBe('L’équipe');
-    expect(site.aboutTitle).toBe('Retrouvez-nous.');
-    expect(site.aboutIntro).toBe('Retrouvez les animateurs de Sandbox et leurs liens publics.');
+    expect(site.aboutTitle).toBe("L'équipe Sandbox.");
+    expect(site.aboutIntro).toBe(
+      'Lou, Nicolas et Loïc animent Sandbox. Retrouve leurs profils et leurs projets.',
+    );
   });
 
   it('emploie le domaine public pour les URL canoniques Vercel', () => {

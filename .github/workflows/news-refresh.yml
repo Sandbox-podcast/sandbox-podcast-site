@@ -1,0 +1,65 @@
+name: SANDBOX News refresh
+
+on:
+  schedule:
+    - cron: '23 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: news-refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    if: github.ref == 'refs/heads/main' && vars.SANDBOX_NEWS_PUBLIC == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.11'
+
+      - name: Restaurer les modèles locaux
+        uses: actions/cache@v4
+        with:
+          path: |
+            apps/site/.local/news-summary-model
+            apps/site/.local/news-summarizer-venv
+            apps/site/.local/news-translator-models
+            apps/site/.local/news-translator-sbd
+            apps/site/.local/news-translator-venv
+            apps/site/.local/argos-runtime
+          key: sandbox-news-v1-ubuntu-py311-argos111-qwen3-7fb011e
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Installer les modèles de traduction locaux
+        env:
+          SANDBOX_NEWS_SETUP_PYTHON: python
+        run: pnpm --filter @podcast/site news:translator:setup
+
+      - name: Installer le modèle de résumé local
+        env:
+          SANDBOX_NEWS_SUMMARY_SETUP_PYTHON: python
+        run: pnpm --filter @podcast/site news:summarizer:setup
+
+      - name: Collecter, générer, traduire et publier les nouvelles fiches
+        env:
+          SANDBOX_NEWS_ORIGIN: ${{ vars.SANDBOX_CHARTS_ORIGIN || 'https://www.sandboxpodcast.fr' }}
+          CRON_SECRET: ${{ secrets.SANDBOX_CHARTS_CRON_SECRET }}
+        run: pnpm --filter @podcast/site news:automation:refresh

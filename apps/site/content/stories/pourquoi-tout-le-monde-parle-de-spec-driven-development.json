@@ -1,8 +1,8 @@
 {
   "slug": "pourquoi-tout-le-monde-parle-de-spec-driven-development",
   "type": "analysis",
-  "title": "Pourquoi tout le monde parle de spec-driven development",
-  "dek": "Écrire la spécification avant de demander du code à un agent : méthode sérieuse ou nouvelle mode ? Ce qui est vraiment nouveau, et ce qui ne l'est pas.",
+  "title": "Spec-driven development : écrire un plan avant le code, bonne idée ?",
+  "dek": "Écrire ce que l'agent doit faire avant de lui demander du code : ce que cette méthode change, et ce qu'elle ne change pas.",
   "publishedAt": "2026-10-02T08:00:00.000Z",
   "author": "equipe-sandbox",
   "topics": ["coding", "agents"],
@@ -24,7 +24,7 @@
   "body": [
     {
       "type": "p",
-      "text": "Il y a un an, tout le monde parlait de « vibe coding » : on décrit, l'agent écrit, on regarde si ça marche. Aujourd'hui, les projets qui montent dans le [[chart:skills]] disent presque tous la même chose : écrivez d'abord une spec."
+      "text": "Avec le « vibe coding », tu décris une idée, l'agent écrit du code et tu vérifies le résultat. Une autre méthode gagne du terrain dans le [[chart:skills]] : écrire d'abord une spécification, puis demander à l'agent de suivre ce plan."
     },
     {
       "type": "h2",
@@ -32,7 +32,7 @@
     },
     {
       "type": "p",
-      "text": "Au lieu de demander une fonctionnalité en une phrase, on écrit un document qui dit ce qu'elle doit faire, ce qu'elle ne doit pas faire et comment on saura qu'elle marche. L'agent produit ensuite un plan, des tâches, puis le code. [[entity:spec-kit]] formalise cette chaîne, [[entity:superpowers]] en impose une variante sous forme de skills."
+      "text": "Au lieu de demander une fonctionnalité en une phrase, tu précises ce qu'elle doit faire, ce qu'elle ne doit pas faire et comment vérifier qu'elle fonctionne. L'agent prépare ensuite un plan, des tâches et le code. [[entity:spec-kit]] formalise cette méthode ; [[entity:superpowers]] en propose une variante sous forme de skills."
     },
     {
       "type": "h2",
@@ -41,8 +41,8 @@
     {
       "type": "list",
       "items": [
-        "La spec devient **le document de référence** : le code peut être régénéré, la spec reste.",
-        "Elle sert **d'interface avec l'agent** : on relit un texte de deux pages plutôt que mille lignes de diff.",
+        "La spécification devient **le document de référence** : le code peut changer, le plan reste consultable.",
+        "Elle sert **de point de départ avec l'agent** : tu relis un court document plutôt que mille lignes de différences de code.",
         "Les critères d'acceptation sont écrits **avant**, ce qui rend les tests plus difficiles à tricher."
       ]
     },
@@ -52,7 +52,7 @@
     },
     {
       "type": "p",
-      "text": "Écrire une spécification avant de coder, c'est le cahier des charges des années 90, avec ses défauts connus : on découvre les vrais problèmes en codant. La différence, c'est que l'itération coûte désormais quelques minutes d'agent plutôt que quelques semaines d'équipe."
+      "text": "Écrire avant de coder, ce n'est pas nouveau : les cahiers des charges ont déjà leurs défauts. Les vrais problèmes apparaissent parfois pendant le développement. La différence, c'est qu'un agent peut raccourcir certaines boucles d'essai ; il ne rend pas la spécification infaillible."
     },
     {
       "type": "quote",
@@ -63,11 +63,11 @@
       "type": "callout",
       "tone": "warning",
       "title": "Là où ça coince",
-      "text": "Sur un petit changement, la cérémonie coûte plus cher que le code. Sur un gros chantier flou, la spec peut donner une fausse impression de maîtrise. Notre règle du moment : spec courte, critères d'acceptation précis, et on jette ce qui ne sert pas."
+      "text": "Pour une petite modification, les étapes formelles peuvent coûter plus cher que le code. Pour un grand projet flou, la spécification peut donner une fausse impression de maîtrise. Notre règle : un plan court, des critères précis et rien qui ne serve pas."
     },
     {
       "type": "p",
-      "text": "On a déjà abordé le sujet dans le Talk Show, et on y revient régulièrement. Les deux projets cités ont leur fiche, avec leur historique de classement."
+      "text": "Nous avons déjà abordé le sujet dans le Talk Show et nous y revenons régulièrement. Les deux projets cités ont leur fiche et leur historique de classement."
     },
     {
       "type": "entity",

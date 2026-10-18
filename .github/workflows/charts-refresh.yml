@@ -47,6 +47,9 @@ jobs:
     if: (github.event_name == 'schedule' && github.event.schedule == '17 3,15 * * *') || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    concurrency:
+      group: charts-collect-publish
+      cancel-in-progress: false
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
@@ -83,12 +86,10 @@ jobs:
           CHARTS_ORIGIN: ${{ vars.SANDBOX_CHARTS_ORIGIN || 'https://www.sandboxpodcast.fr' }}
         run: node apps/site/scripts/charts-refresh.ts --check
 
-  bursts:
-    if: github.event_name == 'schedule' && github.event.schedule == '23 * * * *' && vars.SANDBOX_CHARTS_BURSTS_ENABLED == 'true'
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
       - name: Mesurer les poussées horaires
+        # Une édition périmée ne doit pas empêcher la collecte du signal horaire.
+        # L'échec du contrôle précédent reste un échec du job.
+        if: ${{ !cancelled() && vars.SANDBOX_CHARTS_BURSTS_ENABLED == 'true' }}
         env:
           CHARTS_ORIGIN: ${{ vars.SANDBOX_CHARTS_ORIGIN || 'https://www.sandboxpodcast.fr' }}
           CRON_SECRET: ${{ secrets.SANDBOX_CHARTS_CRON_SECRET }}

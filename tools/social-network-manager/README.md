@@ -6,7 +6,17 @@ Agent editorial pour préparer, contrôler et mesurer la distribution de SANDBOX
 
 Faire découvrir le talk-show et ses expériences réelles, puis conduire les personnes intéressées vers les émissions complètes et la communauté. Conserver les désaccords tels qu'ils ont eu lieu, vérifier les faits et adapter chaque texte au réseau. Les vues seules ne définissent pas le succès.
 
+## Priorité depuis le 18 octobre : épisode 2 et cadence intensive
+
+Lire le [plan à six mois et l'audit Silicon Carne](../../docs/site/social-growth-six-months-2026-10-18.md) avant l'ancien calendrier de lancement. Lou vise 10 000 abonnés par compte dans six mois et annonce un épisode hebdomadaire de deux heures, avec environ trente extraits possibles. L'épisode 2 est en cours d'upload; attendre son signal et vérifier la source avant de sélectionner des timecodes.
+
+Cadence éditoriale retenue pour un essai de 14 jours : **4 Shorts YouTube/jour, 4 TikTok/jour, 3 Reels Instagram/jour, 2 vidéos X et 1 texte original X/jour**. Les créneaux Europe/Paris et les critères de révision sont dans le plan. Cette consigne remplace la faible cadence initiale pour les nouveaux lots validés; elle ne constitue pas une programmation native déjà effectuée. Réconcilier les sorties existantes avant tout ajout.
+
+Préparer environ 40 candidats et retenir jusqu'à 30 extraits distincts : cas d'usage par métier, désaccords complets et actualités sourcées. Le nombre dépend du contenu réel. Utiliser les outils et le journal existants, sans nouvelle base ni deuxième ordonnanceur. Les routines doivent lire ce plan lors de leur prochaine reprise; leur restriction actuelle aux contrôles locaux reste en vigueur.
+
 ## Sources et limites actuelles
+
+- Le nom public est Sandbox TalkShow sur tous les médias, selon la demande de Lou du 18 octobre. Spotify a été renommé et sa couverture remplacée par l'avatar officiel après son accord ; YouTube, Instagram, TikTok et X affichent déjà ce nom. Vérifications et limites : [DD-0054](../../docs/design-decisions/dd-0054-nom-public-sandbox-talkshow.md).
 
 - Le positionnement et la charte existants sont dans `brand/youtube/` et `docs/design-decisions/DD-0001-direction-artistique-du-site.md`.
 - La chaîne YouTube est déjà équipée d'un agent d'audit, de métadonnées, de sélection de passages, de rendu et de suivi. Son guide est `tools/youtube-growth/README.md`.
@@ -14,8 +24,9 @@ Faire découvrir le talk-show et ses expériences réelles, puis conduire les pe
 - Les quatre exports verticaux du dossier `exports/reseaux-sociaux/shorts/` sont des fichiers locaux. Leur audio et leurs sous-titres doivent être relus avant toute nouvelle diffusion. Les exports du dossier ne sont pas à confondre avec les quatre vidéos déjà présentes dans Studio.
 - Le profil Instagram `@sandbox.talkshow` s'affiche sous le nom « Sandbox TalkShow », avec la bio renseignée et quatre Reels. L'identifiant a été modifié depuis `@sandbox.podcast.pro` le 17 octobre 2026. Le même avatar officiel `brand/social/sandbox-social-avatar.png`, dérivé de `logov2.png`, est appliqué sur Instagram, TikTok et X; les trois profils ont été vérifiés le 17 octobre 2026. Les quatre Reels Instagram reprennent déjà les exports et ne doivent pas être repostés tels quels.
 - Le profil TikTok `@sandbox.talkshow` a quatre vidéos listées dans TikTok Studio avec l'audience « Tout le monde » au contrôle du 17 octobre. Le compteur du profil public n'était pas cohérent avec Studio; vérifier l'état de chaque vidéo avant de la considérer comme effectivement publiée. Aucun résultat de performance n'est déduit.
-- Le compte X `@SandboxTalkShow` a quatre vidéos dans sa file « Scheduled » pour les 18, 20, 22 et 24 octobre 2026 à 18 h, heure affichée par X. Vérifier après chaque créneau que la publication a bien eu lieu.
+- Le 17 octobre, X indiquait quatre vidéos dans la file « Scheduled » pour les 18, 20, 22 et 24 octobre 2026 à 18 h. Au contrôle du profil le 18 octobre, seul le post de présentation du 17 octobre est visible; la file programmée n'a pas été revérifiée. Ne pas présumer que les quatre vidéos sont encore en attente ou déjà publiées.
 - Les données natives Instagram/TikTok/X et un flux d'analytique unifié ne sont pas établis par les accès examinés. Ne pas en déduire des performances.
+- Au contrôle des profils le 18 octobre, Instagram affiche quatre publications, zéro abonné et zéro suivi; TikTok affiche quatre vidéos publiques, zéro abonné et zéro j'aime. TikTok Studio, période des sept derniers jours, affiche zéro vue vidéo, visite de profil, j'aime, commentaire et partage, sans ventilation des sources faute de données suffisantes. Sur X, le profil affiche un post (9 vues, 1 j'aime, 1 repost), un abonné et trois comptes suivis. Ces compteurs sont un instantané, pas des métriques comparables par âge de publication. Le contrôle natif Instagram Insights et la file X n'ont pas été terminés.
 - Le jeton OAuth du programme YouTube et la mise en service de son journal durable restent à traiter. Le workflow GitHub existant ne prouve pas que les opérations sont connectées ni publiées.
 
 ## Règle d'exploitation
@@ -34,6 +45,15 @@ Un brouillon n'est pas une publication. Une date proposée n'est pas une program
 6. Préparer le calendrier, puis demander l'accord avant chaque écriture publique ou programmation.
 7. À 48 heures et 7 jours, relever les chiffres natifs disponibles. Comparer des périodes équivalentes; signaler les données absentes et les échantillons trop faibles.
 8. Produire un rapport qui sépare faits observés, hypothèses, décisions proposées et blocages.
+
+### Contrôle de distribution et d'acquisition
+
+Avant d'augmenter la cadence, contrôler que le contenu est effectivement visible et éligible à la recommandation, puis diagnostiquer les comptes qui n'ont aucune portée mesurable. Ne pas confondre compteur public, statistiques de Studio et données en cours de traitement.
+
+- **TikTok** : vérifier dans TikTok Studio le statut, la visibilité, la date et les statistiques de chaque vidéo; consulter l'état du compte et l'éligibilité si les vues restent à zéro. Quand les fonctions sont disponibles, utiliser Creator Search Insights, les tendances Creative Center et les thèmes des commentaires pour choisir une question réelle. Une nouvelle publication doit apporter un angle ou une réponse distincte; ne pas retéléverser les mêmes quatre exports.
+- **Instagram** : vérifier l'état du compte et l'accès aux Insights professionnels. Si la fonction est disponible, les Reels d'essai permettent de tester un angle d'abord auprès de non-abonnés; relever portée, rétention, partages, enregistrements, visites de profil et abonnements avant de décider de le partager plus largement. Les Stories servent surtout à écouter la communauté, pas à mesurer la découverte.
+- **X** : contrôler la file programmée avant d'ajouter un post. Utiliser les statistiques natives ou X Analytics pour les impressions, interactions, clics et abonnements; utiliser l'outil Inspiration comme veille, sans recopier un post. Une réponse à un autre compte doit être spécifique au propos et apporter une information ou une expérience pertinente.
+- Si les statistiques restent à zéro ou indisponibles, consigner la source, la période et les statuts vérifiés, puis investiguer l'éligibilité et la distribution. Ne pas augmenter les follows, publier en boucle ou annoncer un format gagnant sur la seule base d'un compteur nul.
 
 ## Acquisition organique et gratuite
 

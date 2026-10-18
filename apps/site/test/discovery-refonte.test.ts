@@ -194,8 +194,10 @@ describe('accueil du Talk Show', () => {
     const html = renderToStaticMarkup(createElement(DiscoveryHome, { episodes: [pilot] }));
     expect(html).not.toContain('Le podcast IA &amp; tech');
     const title = /<h1\b[^>]*>(.*?)<\/h1>/.exec(html)?.[1]?.replace(/<[^>]*>/g, '');
-    expect(title).toBe('Gardez une longueur d&#x27;avance sur la tech.');
-    expect(html).toContain('Chaque semaine, retrouvez Lou, Loïc et Nico pour décrypter');
+    expect(title).toBe('L&#x27;actualité IA, testée et mise en perspective.');
+    expect(html).toContain(
+      'Chaque semaine, Lou, Loïc et Nico décryptent l&#x27;actualité de l&#x27;IA et de la tech',
+    );
     expect(html).toContain('Regarder le dernier épisode');
     expect(html).toContain('href="/episodes/1"');
     expect(html).toContain(encodeURIComponent(HOME_STUDIO_IMAGE));
@@ -267,32 +269,30 @@ describe('accueil du Talk Show', () => {
     expect(html).not.toContain('cutout-mask');
   });
 
-  it('reprend la biographie fournie par Lou et conserve ses deux paragraphes', () => {
+  it('reprend la biographie publiée par Lou sans la reformuler', () => {
     const hosts = publicHosts();
     const lou = homeProfiles(hosts).find((host) => host.slug === 'lou');
     if (!lou) throw new Error('Le profil de Lou est requis pour ce test.');
     expect(lou.focus).toBe('Créateur de quêtes du quotidien');
     expect(lou.bio).toBe(hosts.find((host) => host.slug === 'lou')?.bio);
-    const paragraphs = lou.bio.split('\n\n');
-    expect(paragraphs).toHaveLength(2);
-    expect(paragraphs[0]).toContain('Passionné par les jeux vidéo et les nouvelles technologies');
-    expect(paragraphs[1]).toContain('Héros de la classe, Okodukai ou Not My Fault');
+    expect(lou.bio).toContain(
+      "J'aime les jeux vidéo et je cherche comment leurs mécaniques peuvent aider à apprendre.",
+    );
+    expect(lou.bio).toContain('Avec Héros de la classe, Okodukai et Not My Fault');
     const html = renderToStaticMarkup(createElement(DiscoveryHome, { episodes: [], hosts }));
     const article = html.slice(html.indexOf('<h3>Lou</h3>'), html.indexOf('<h3>Loïc</h3>'));
-    expect(article).toMatch(/<p[^>]*>Passionné par les jeux vidéo/);
-    expect(article).toMatch(/<p[^>]*>À travers des projets comme Héros de la classe/);
+    expect(article).toMatch(/<p[^>]*>J&#x27;aime les jeux vidéo/);
+    expect(article).toContain('Héros de la classe, Okodukai et Not My Fault');
     expect(article).not.toContain('Lou construit des applications');
   });
-  it('présente trois titres humoristiques et des biographies de longueur comparable', () => {
+  it('présente les titres choisis et des biographies complètes', () => {
     const team = homeProfiles(publicHosts());
     expect(team.map((host) => host.focus)).toEqual([
       'Créateur de quêtes du quotidien',
       'Inventeur, même sans Wi-Fi',
       "Chef d'orchestre des agents",
     ]);
-    expect(team.every((host) => host.bio.split('\n\n').length === 2)).toBe(true);
-    const lengths = team.map((host) => host.bio.length);
-    expect(Math.max(...lengths) / Math.min(...lengths)).toBeLessThan(1.1);
+    expect(team.every((host) => host.bio.trim().length > 0 && host.bio.length < 400)).toBe(true);
   });
   it('reste utilisable sans épisode et ne présente pas un replay fictif', () => {
     const html = renderToStaticMarkup(createElement(DiscoveryHome, { episodes: [] }));

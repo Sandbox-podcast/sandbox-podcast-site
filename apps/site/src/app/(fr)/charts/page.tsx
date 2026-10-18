@@ -28,13 +28,13 @@ export default async function ChartsPage({
   const selection = chartSelectionSchema.parse(await searchParams);
   return (
     <>
-      <ChartsExperience data={data} initialSelection={selection} />
+      <ChartsExperience data={data} initialSelection={selection} pageKind="collection" />
       <JsonLd
         data={[
           {
             '@context': 'https://schema.org',
             '@type': 'CollectionPage',
-            name: 'SANDBOX CHARTS',
+            name: 'Classements de projets open source, de skills et de modèles IA',
             url: absoluteUrl('/charts'),
             description:
               'Projets open source, skills et modèles IA, avec éditions datées et méthodes publiques.',
