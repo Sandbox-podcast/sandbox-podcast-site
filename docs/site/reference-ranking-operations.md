@@ -62,3 +62,5 @@ La liste conservatrice des licences est dans `reference-adapters.ts`. Elle ne co
 Les observations Trending conservent les présences collectées. La version livrée ne calcule pas de statistique affirmant précéder GitHub : cette mesure demande un protocole d'échantillonnage, un historique et une comparaison des premières détections. GitHub Actions vise les heures indiquées, sans garantie de démarrage exact ni de rejeu après un déclenchement omis. Les quotas réels, délais de détection, coûts et biais de couverture n'ont pas encore été mesurés en production.
 
 Un même identifiant Arena ou Artificial Analysis rattaché à plusieurs modèles actifs met ces entités en attente et peut bloquer Models. Le responsable doit relire les raccordements et retirer du pool actif les alias obsolètes. Les éditions publiées et leurs identités figées restent intactes.
+
+Un dépôt que GitHub ne résout plus sous son nom enregistré sort du suivi automatique au passage suivant, sauf statut manuel. L'échec d'Arena ou de Hugging Face n'efface pas le catalogue encore reçu des autres sources Models. Voir [ADR-0034](../adr/ADR-0034-collectes-partielles-github-et-models.md).

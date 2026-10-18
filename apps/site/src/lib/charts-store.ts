@@ -297,6 +297,14 @@ export async function setRepositoryError(id: string, message: string): Promise<v
     .set({ lastError: message.slice(0, 1000) })
     .where(eq(githubProjects.id, id));
 }
+
+/** Retire du suivi automatique un dépôt que GitHub ne résout plus, sans écraser un choix manuel. */
+export async function ignoreUnresolvedRepository(id: string, message: string): Promise<void> {
+  await getDb()
+    .update(githubProjects)
+    .set({ status: 'ignored', lastError: message.slice(0, 1000) })
+    .where(and(eq(githubProjects.id, id), isNull(githubProjects.manualStatus)));
+}
 export async function markSynced(ids: string[], at: string): Promise<void> {
   if (ids.length)
     await getDb()

@@ -32,6 +32,7 @@ import {
 } from '../src/lib/charts-public.ts';
 import { sandboxChartsData } from '../src/lib/sandbox-charts.ts';
 import { calculateGithubWeek, collectGithub } from '../src/pipeline/github-jobs.ts';
+import { collectModels } from '../src/pipeline/external-jobs.ts';
 import { GithubClient, GithubRateLimitError } from '../src/pipeline/github-client.ts';
 import { ScorecardClient } from '../src/pipeline/scorecard-client.ts';
 import { collectGithubBursts, discoverGithubTrending } from '../src/pipeline/github-bursts-jobs.ts';
@@ -827,6 +828,62 @@ describe('pipeline charts sur Postgres', () => {
       details: [],
     });
     expect(await beginChartsJob('github_daily_sync')).toBeTruthy();
+  });
+  it('retire du suivi automatique un dépôt que GitHub ne résout plus', async () => {
+    vi.stubEnv('GITHUB_TOKEN', 'test-token');
+    const projects = await seed(true, 2);
+    const missing = projects[0];
+    if (!missing) throw new Error('Dépôt fixture absent');
+    const client = new GithubClient({ token: 'test-token' });
+    vi.spyOn(client, 'batch').mockResolvedValue(
+      projects.map((project, index) => ({
+        fullName: project.fullName,
+        repository: index === 0 ? null : { ...repo(index), stargazers_count: 3000 + index },
+        commits7d: 5,
+        error:
+          index === 0
+            ? `Could not resolve to a Repository with the name '${project.fullName}'.`
+            : null,
+      })),
+    );
+    const result = await collectGithub(client, new Date('2026-10-06T02:00:00Z'));
+    expect(result.failed).toBe(1);
+    expect(result.succeeded).toBe(1);
+    const stored = (
+      await db.select().from(schema.githubProjects).where(eq(schema.githubProjects.id, missing.id))
+    )[0];
+    expect(stored?.status).toBe('ignored');
+    expect(stored?.lastError).toContain('Could not resolve');
+  });
+  it('conserve le catalogue Models reçu quand une seule source répond 503', async () => {
+    vi.stubEnv('OPENROUTER_API_KEY', '');
+    const result = await collectModels({
+      huggingFace: () =>
+        Promise.resolve([
+          {
+            id: 'fixture/model',
+            downloads: 10,
+            likes: 1,
+            tags: ['license:mit'],
+            pipeline_tag: 'text-generation',
+          },
+        ]),
+      arena: () => Promise.reject(new Error('Source indisponible (Source HTTP 503.).')),
+    });
+    expect(result.status).toBe('partial');
+    expect(result.snapshotsCreated).toBeGreaterThan(0);
+    expect(result.details.some((detail) => detail.includes('Arena indisponible'))).toBe(true);
+    expect(await db.select().from(schema.chartEntities)).toHaveLength(1);
+  });
+  it('n’enregistre aucun modèle quand Hugging Face et Arena échouent ensemble', async () => {
+    vi.stubEnv('OPENROUTER_API_KEY', '');
+    const result = await collectModels({
+      huggingFace: () => Promise.reject(new Error('Source indisponible (Source HTTP 503.).')),
+      arena: () => Promise.reject(new Error('Source indisponible (Source HTTP 503.).')),
+    });
+    expect(result.status).toBe('failed');
+    expect(result.snapshotsCreated).toBe(0);
+    expect(await db.select().from(schema.chartEntities)).toHaveLength(0);
   });
   it('continue les dépôts valides quand un dépôt est privé, sans effacer son historique', async () => {
     vi.stubEnv('GITHUB_TOKEN', 'test-token');

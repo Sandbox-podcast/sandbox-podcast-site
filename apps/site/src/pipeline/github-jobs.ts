@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import {
   dateDaysAgo,
+  isUnresolvedGithubRepository,
   qualifiesRepository,
   rankGithubProjects,
   utcDate,
@@ -13,6 +14,7 @@ import {
   finishChartsJob,
   freezeWeeklyCharts,
   markSynced,
+  ignoreUnresolvedRepository,
   promoteCandidates,
   readChartsConfig,
   recentDailySnapshots,
@@ -204,9 +206,12 @@ export async function collectGithub(
                     ? 'Chute de stars supérieure à 20 %, contrôle manuel requis.'
                     : null);
           if (reason || !repo) {
+            const message = reason ?? 'indisponible';
             summary.failed++;
-            summary.details.push(`${item.repo.fullName} : ${reason ?? 'indisponible'}`);
-            await setRepositoryError(item.repo.id, reason ?? 'indisponible');
+            summary.details.push(`${item.repo.fullName} : ${message}`);
+            await setRepositoryError(item.repo.id, message);
+            if (isUnresolvedGithubRepository(message))
+              await ignoreUnresolvedRepository(item.repo.id, message);
             continue;
           }
           daily.push({
