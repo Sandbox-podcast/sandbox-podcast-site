@@ -5,6 +5,7 @@ import { chartPublicationSchema } from '../domain/chart-publication.ts';
 import {
   compareWeeks,
   editionStart,
+  editionWeekNumber,
   isoWeekOf,
   parseWeek,
   previousComparableEdition,
@@ -181,7 +182,7 @@ export async function publicChartEdition(chart: PublicChartId, week?: string) {
   return {
     chart,
     year: isoWeek.year,
-    week: isoWeek.week,
+    week: editionWeekNumber(edition.week),
     weekId: edition.week,
     publishedAt: edition.publishedAt,
     frozenAt: edition.frozenAt,

@@ -4,6 +4,7 @@ import {
   compareWeeks,
   editionMark,
   editionStart,
+  editionWeekNumber,
   editionsFollow,
   isoWeekOf,
   nextWeek,
@@ -17,6 +18,14 @@ import {
 } from '../src/domain/weeks.ts';
 
 describe('semaines ISO', () => {
+  it('lit la semaine ISO d’une date, d’un créneau et d’un identifiant de semaine', () => {
+    expect(editionWeekNumber('2026-W41')).toBe(41);
+    expect(editionWeekNumber('2026-W01')).toBe(1);
+    expect(editionWeekNumber('2026-10-12')).toBe(42);
+    expect(editionWeekNumber('2026-10-18T00:00Z')).toBe(42);
+    expect(editionWeekNumber('2026-10-18T12:00Z')).toBe(42);
+  });
+
   it('place le 6 octobre 2026 en semaine 41, du lundi 5 au dimanche 11', () => {
     expect(isoWeekOf(new Date('2026-10-06T07:00:00Z'))).toBe('2026-W41');
     expect(weekStart('2026-W41').toISOString().slice(0, 10)).toBe('2026-10-05');
