@@ -10,7 +10,7 @@ Avec Lou et Nico, on confronte nos usages de Codex, Claude Code et OpenCode dans
 
 Qu'est-ce qui vous ferait changer de harnais ?
 
-https://youtu.be/GgSiPkADCz4?t=2237
+https://youtu.be/GgSiPkADCz4?t=2290
 
 ## Épisode 2
 

@@ -26,4 +26,4 @@ Conserver le cadre horizontal complet : les démos et les interlocuteurs doivent
 
 Montages autonomes décidés par l'agent sur délégation (PD-0003). La préparation des tournages appartient déjà à l'équipe. Les collaborations sont reportées à la demande de Lou.
 
-Les coupes longues sont encodées localement avec FFmpeg, outil déjà utilisé par le dépôt. HyperFrames conserve les compositions éditables et produit la fin commune. Les sources complètes et les chemins privés restent hors de Git.
+Les coupes longues sont encodées localement avec FFmpeg, outil déjà utilisé par le dépôt. HyperFrames produit la fin commune à partir de sa composition HTML. Les sources complètes et les chemins privés restent hors de Git.

@@ -6,7 +6,7 @@ Trois publications indépendantes, conçues pour le format standard. Une seule s
 
 ```text
 Codex, Claude Code, OpenCode : le choix du modèle ne règle pas celui du harnais. Avec Lou et Nico, on confronte nos usages dans SANDBOX #1.
-https://youtu.be/GgSiPkADCz4?t=2237
+https://youtu.be/GgSiPkADCz4?t=2290
 ```
 
 ## Proposition 2

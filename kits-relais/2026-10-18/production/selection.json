@@ -6,13 +6,13 @@
       "sourceVideoId": "GgSiPkADCz4",
       "title": "Codex, Claude Code, OpenCode : que change le harnais ?",
       "cover": ["Le modèle", "ne fait pas tout."],
-      "start": 2237,
-      "end": 2902,
+      "start": 2290,
+      "end": 2898,
       "summary": "Une discussion sur les harnais de développement, leurs différences et la place de Sillage. Les objections des trois intervenants sont conservées.",
       "chapters": [
         [0, "La question du harnais"],
-        [192, "Changer de modèle et de fournisseur"],
-        [432, "Choisir selon son usage"]
+        [139, "Changer de modèle et de fournisseur"],
+        [379, "Choisir selon son usage"]
       ]
     },
     {

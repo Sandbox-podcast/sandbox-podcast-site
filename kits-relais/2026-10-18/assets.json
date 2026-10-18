@@ -2,8 +2,8 @@
   "assets": [
     {
       "file": "archives/kit-loic.zip",
-      "bytes": 7406777,
-      "sha256": "d994c29ec0803235eda29a4f95214e4c15b138a380cc5044c859fe23f3d70968"
+      "bytes": 7406778,
+      "sha256": "b13ea0261eb8922038ec71d2df8c8beab571b3881076a8d891c4f5757ec52925"
     },
     {
       "file": "archives/kit-lou.zip",
@@ -87,8 +87,8 @@
     },
     {
       "file": "videos/apercu-montages.jpg",
-      "bytes": 386304,
-      "sha256": "f02625c9831c292d33b3f5277a83abd3eb65245b4ddaff19222f3d19bbd62b37"
+      "bytes": 386997,
+      "sha256": "8d3fa8ec236126b858c2fe0fa94c41dd7e931e24e2e346dd03cd257e1f852508"
     },
     {
       "file": "videos/e01-harnais/miniature.png",
@@ -97,8 +97,8 @@
     },
     {
       "file": "videos/e01-harnais/video.mp4",
-      "bytes": 29432518,
-      "sha256": "78ff8fff861f345d031b7e266b7e11586fa38b70abaf2c62d1d0c2f204fc219d"
+      "bytes": 26832332,
+      "sha256": "a99e80e515dc3be12b0d43e42d8f57cc554cf932fe2c5b80ef0b10dd33a0574b"
     },
     {
       "file": "videos/e01-jeux/miniature.png",

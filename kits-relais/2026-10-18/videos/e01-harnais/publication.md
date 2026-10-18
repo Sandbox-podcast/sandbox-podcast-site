@@ -1,6 +1,6 @@
 # Codex, Claude Code, OpenCode : que change le harnais ?
 
-État : exporté depuis la copie complète préparée pour Spotify. Durée : 11 min 08, fin commune comprise.
+État : exporté depuis la copie complète préparée pour Spotify. Durée : 10 min 11, fin commune comprise.
 
 ## Titre
 
@@ -12,7 +12,7 @@ Une discussion sur les harnais de développement, leurs différences et la place
 
 Extrait de SANDBOX #1, avec Lou, Loïc et Nico.
 
-Émission complète, à partir du passage : https://youtu.be/GgSiPkADCz4?t=2237
+Émission complète, à partir du passage : https://youtu.be/GgSiPkADCz4?t=2290
 
 La chaîne : https://www.youtube.com/@SandboxFR
 
