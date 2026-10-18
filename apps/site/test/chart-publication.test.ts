@@ -50,6 +50,15 @@ describe('preuve et méthode de chaque édition', () => {
     expect(chartMethodSummary('github', 'github-reference-v3').description).toContain(
       'pondérations',
     );
+    expect(chartMethodSummary('github', 'github-momentum-observed').description).toContain(
+      'OpenSSF Scorecard ne couvre pas assez',
+    );
+    expect(chartMethodSummary('skills', 'skills-installs-observed').description).toContain(
+      'Aucune installation manquante',
+    );
+    expect(chartMethodSummary('skills', 'skills-momentum-observed').description).toContain(
+      "n'est pas le profil corroboré",
+    );
     expect(chartMethodPath('skills', '2026-10-14T12:00Z')).toBe(
       '/charts/skills/methodology?edition=2026-10-14T12%3A00Z',
     );

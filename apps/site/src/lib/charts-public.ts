@@ -2,7 +2,12 @@ import { and, eq, inArray, isNotNull } from 'drizzle-orm';
 import { cache } from 'react';
 import { z } from 'zod';
 import { chartPublicationSchema } from '../domain/chart-publication.ts';
-import { compareWeeks, previousComparableEdition } from '../domain/weeks.ts';
+import {
+  compareWeeks,
+  editionStart,
+  isoWeekOf,
+  previousComparableEdition,
+} from '../domain/weeks.ts';
 import { getDb, hasDatabaseConfiguration } from '../db/client.ts';
 import {
   chartEntities,
@@ -160,7 +165,9 @@ export async function publicChartEdition(chart: PublicChartId, week?: string) {
   return {
     chart,
     year: Number(edition.week.slice(0, 4)),
-    week: Number(edition.week.slice(-2)),
+    week: Number.isInteger(Number(edition.week.slice(-2)))
+      ? Number(edition.week.slice(-2))
+      : Number(isoWeekOf(editionStart(edition.week)).slice(-2)),
     weekId: edition.week,
     publishedAt: edition.publishedAt,
     frozenAt: edition.frozenAt,

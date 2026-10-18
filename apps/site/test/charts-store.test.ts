@@ -433,6 +433,22 @@ describe('pipeline charts sur Postgres', () => {
     ).toBe(true);
     expect(result.insufficientHistory).toBe(true);
   });
+  it('publie la progression observée quand OpenSSF ne peut pas corroborer vingt dépôts', async () => {
+    await seed(true, 20, false);
+    vi.stubEnv('CHARTS_REVIEWED_PROFILE_VERSIONS', '');
+    const result = await calculateGithubWeek({ date });
+    expect(result.referenceRanking.report.publishable).toBe(false);
+    expect(result.observedFallback).toBe(true);
+    expect(result.written).toBeGreaterThan(0);
+    const edition = await publicChartEdition('github');
+    expect(edition?.scoringVersion).toBe('github-momentum-observed');
+    expect(edition?.entries).toHaveLength(20);
+    expect(edition?.entries.every((entry) => typeof entry.stars7d === 'number')).toBe(true);
+    expect(
+      edition?.entries.every((entry) => entry.dimensions['securityPractices'] === undefined),
+    ).toBe(true);
+    expect(edition?.entries.every((entry) => entry.status === 'new')).toBe(true);
+  });
   it('distingue dépôt public et dépôt open source en conservant la licence source', async () => {
     await seed();
     await upsertDiscoveredRepositories([{ ...repo(999), license: null }]);

@@ -10,8 +10,40 @@ export const chartPublicationSchema = z.object({
 export type ChartPublication = z.infer<typeof chartPublicationSchema>;
 export type PublishedSnapshot = Snapshot & { publication?: ChartPublication };
 
+/** Éditions publiées à partir des mesures présentes, sans prétendre au profil corroboré v3. */
+export const OBSERVED_SCORING_VERSIONS = {
+  github: 'github-momentum-observed',
+  rising: 'rising-momentum-observed',
+  skills: 'skills-installs-observed',
+  skillsMomentum: 'skills-momentum-observed',
+} as const;
+
 /** La description suit la version figée, jamais le profil prévu pour les prochaines éditions. */
 export function chartMethodSummary(chart: string, version?: string) {
+  if (version === OBSERVED_SCORING_VERSIONS.github)
+    return {
+      label: 'Dynamique GitHub observée',
+      description:
+        'Cette édition classe la progression mesurée sur sept jours. OpenSSF Scorecard ne couvre pas assez de dépôts pour corroborer le Top : ce signal est absent du score. Les dépôts sans historique de sept jours sont omis.',
+    };
+  if (version === OBSERVED_SCORING_VERSIONS.rising)
+    return {
+      label: 'Accélération observée',
+      description:
+        "Cette édition classe l'accélération mesurée des jeunes dépôts. OpenSSF Scorecard ne couvre pas assez de dépôts pour corroborer le Top : ce signal est absent du score. Les dépôts sans deux fenêtres de sept jours sont omis.",
+    };
+  if (version === OBSERVED_SCORING_VERSIONS.skillsMomentum)
+    return {
+      label: 'Dynamique Skills observée',
+      description:
+        "Cette édition classe les skills qui ont une progression d'installations et une progression d'étoiles sur sept jours. Les skills auxquels il manque une mesure sont omis. Ce score n'est pas le profil corroboré v3.",
+    };
+  if (version === OBSERVED_SCORING_VERSIONS.skills)
+    return {
+      label: 'Installations observées',
+      description:
+        "Cette édition classe la progression réelle des installations Skills.sh sur sept jours. La dynamique GitHub n'entre pas dans le score. Aucune installation manquante n'est estimée.",
+    };
   if (version === 'github-momentum-v1+stars')
     return {
       label: 'Popularité GitHub',

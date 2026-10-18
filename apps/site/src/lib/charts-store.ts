@@ -660,6 +660,7 @@ export async function freezeWeeklyCharts(
     chart: 'github' | 'rising';
     entries: GithubScoredEntry[];
     referenceRanking?: ReferenceArtifact;
+    scoringVersion?: string;
   }[],
   publish: boolean,
 ): Promise<number> {
@@ -741,8 +742,10 @@ export async function freezeWeeklyCharts(
           entries,
         );
       const scoringVersion =
+        ranking.scoringVersion ??
         proof?.input.profile.version ??
         (ranking.chart === 'github' ? 'github-cross-source-v2' : 'rising-cross-source-v2');
+      const comparableEntries = previous?.scoringVersion === scoringVersion ? previousEntries : [];
       const id = randomUUID();
       const inserted = await tx
         .insert(weeklyChartEditions)
@@ -755,10 +758,14 @@ export async function freezeWeeklyCharts(
             ...config,
             sourceWeights: proof
               ? ranking.entries[0]?.sourceWeights
-              : ranking.chart === 'github'
-                ? GITHUB_SOURCE_WEIGHTS
-                : RISING_SOURCE_WEIGHTS,
-            scorecardMaxAgeDays: SCORECARD_MAX_AGE_DAYS,
+              : ranking.scoringVersion
+                ? ranking.entries[0]?.weights
+                : ranking.chart === 'github'
+                  ? GITHUB_SOURCE_WEIGHTS
+                  : RISING_SOURCE_WEIGHTS,
+            ...(ranking.scoringVersion
+              ? { openssfApplied: false }
+              : { scorecardMaxAgeDays: SCORECARD_MAX_AGE_DAYS }),
             ...(proof ? { referenceRanking: proof } : {}),
           },
           payload,
@@ -775,7 +782,7 @@ export async function freezeWeeklyCharts(
           entityId: item.project.entityId,
           rank: item.rank,
           score: item.score,
-          ...weeklyGithubMovement(item.project.slug, item.rank, previousEntries),
+          ...weeklyGithubMovement(item.project.slug, item.rank, comparableEntries),
           metadata: {
             sources: [
               {

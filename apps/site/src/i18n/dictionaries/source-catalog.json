@@ -501,6 +501,10 @@
     "translation": "",
     "sources": ["src/domain/reference-profiles.ts"]
   },
+  "Accélération observée": {
+    "translation": "",
+    "sources": ["src/domain/chart-publication.ts"]
+  },
   "Accélération sur sept jours des jeunes projets suivis, avec contrôle des pratiques d'ingénierie.": {
     "translation": "",
     "sources": ["src/domain/reference-profiles.ts"]
@@ -1750,6 +1754,22 @@
     "translation": "",
     "sources": ["src/domain/chart-publication.ts"]
   },
+  "Cette édition classe l'accélération mesurée des jeunes dépôts. OpenSSF Scorecard ne couvre pas assez de dépôts pour corroborer le Top : ce signal est absent du score. Les dépôts sans deux fenêtres de sept jours sont omis.": {
+    "translation": "",
+    "sources": ["src/domain/chart-publication.ts"]
+  },
+  "Cette édition classe la progression mesurée sur sept jours. OpenSSF Scorecard ne couvre pas assez de dépôts pour corroborer le Top : ce signal est absent du score. Les dépôts sans historique de sept jours sont omis.": {
+    "translation": "",
+    "sources": ["src/domain/chart-publication.ts"]
+  },
+  "Cette édition classe les skills qui ont une progression d'installations et une progression d'étoiles sur sept jours. Les skills auxquels il manque une mesure sont omis. Ce score n'est pas le profil corroboré v3.": {
+    "translation": "",
+    "sources": ["src/domain/chart-publication.ts"]
+  },
+  "Cette édition classe la progression réelle des installations Skills.sh sur sept jours. La dynamique GitHub n'entre pas dans le score. Aucune installation manquante n'est estimée.": {
+    "translation": "",
+    "sources": ["src/domain/chart-publication.ts"]
+  },
   "Cette édition classe les stars cumulées. L'historique disponible ne permettait pas encore de mesurer leur progression sur sept jours.": {
     "translation": "",
     "sources": ["src/domain/chart-publication.ts"]
@@ -2966,6 +2986,14 @@
   "Dynamique du dépôt": {
     "translation": "",
     "sources": ["src/domain/reference-profiles.ts"]
+  },
+  "Dynamique Skills observée": {
+    "translation": "",
+    "sources": ["src/domain/chart-publication.ts"]
+  },
+  "Dynamique GitHub observée": {
+    "translation": "",
+    "sources": ["src/domain/chart-publication.ts"]
   },
   "Dynamique GitHub": {
     "translation": "",
@@ -4350,6 +4378,10 @@
   "Install reach": {
     "translation": "",
     "sources": ["content/charts/skills.json", "content/scoring/skills-momentum.json"]
+  },
+  "Installations observées": {
+    "translation": "",
+    "sources": ["src/domain/chart-publication.ts"]
   },
   "Installations cumulées": {
     "translation": "",
