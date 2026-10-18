@@ -6,19 +6,19 @@ const profiles = [
   {
     slug: 'lou',
     focus: 'Créateur de quêtes du quotidien',
-    bio: "Passionné par les jeux vidéo et les nouvelles technologies, Lou explore comment appliquer les mécaniques du jeu vidéo à l'éducation et à la pédagogie. Son ambition : transformer les programmes scolaires et les apprentissages du quotidien en expériences ludiques et interactives, pour apprendre autrement, en mêlant l'utile à l'agréable.\n\nÀ travers des projets comme Héros de la classe, Okodukai ou Not My Fault, il expérimente de nouvelles façons d'apprendre, de collaborer et de développer ses compétences en jouant.",
+    bio: "J'aime les jeux vidéo et je cherche comment leurs mécaniques peuvent aider à apprendre. Avec Héros de la classe, Okodukai et Not My Fault, je crée des projets autour de la pédagogie, de la gestion de l'argent et du jeu en équipe.",
     project: 'okodukai',
   },
   {
     slug: 'loic',
     focus: 'Inventeur, même sans Wi-Fi',
-    bio: "Loïc développe des outils pour faire fonctionner l'IA sur sa propre machine. Akasha OS rassemble conversations, modèles, mémoire et agents dans un environnement local. Avec Song Maker, il explore la création musicale : génération de chansons, édition des prises et mixage. Ses projets vont des outils techniques aux applications de création.\n\nSon terrain de jeu : le local et l'open source. Il veut comprendre ce qui tourne sous le capot, assembler ses propres outils et garder la main sur ses propres machines, au quotidien.",
+    bio: "Je développe des outils pour faire tourner l'IA sur ma machine. Akasha OS réunit conversations, modèles, mémoire et agents ; Song Maker sert à générer, éditer et mixer des morceaux. Je travaille sur des outils locaux et open source pour comprendre ce qui tourne sous le capot et garder la main sur mes machines.",
     project: 'song-maker',
   },
   {
     slug: 'nicolas',
     focus: "Chef d'orchestre des agents",
-    bio: "Nico crée des outils pour travailler avec des agents et des expériences à explorer dans le navigateur. Sillage réunit Claude Code, Codex et OpenCode dans un même espace de travail. BallCam.tv permet de revoir des matchs Rocket League en 3D, et Boostback de piloter le retour de Super Heavy. Ses réalisations relient développement, jeu et simulation.\n\nSon autre obsession : optimiser et automatiser le quotidien. Il cherche ce qu'il peut confier aux IA et aux robots, pour consacrer davantage de temps aux idées suivantes.",
+    bio: "Je crée des outils pour travailler avec des agents et des expériences à explorer dans le navigateur. Sillage réunit Claude Code, Codex et OpenCode. BallCam.tv permet de revoir des matchs Rocket League en 3D ; Boostback sert à piloter le retour de Super Heavy. Je passe du développement au jeu et à la simulation, et j'automatise ce que je peux au quotidien.",
     project: 'sillage',
   },
 ] as const;

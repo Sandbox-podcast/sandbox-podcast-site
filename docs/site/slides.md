@@ -39,6 +39,14 @@ La navigation du support fonctionne avec les flèches gauche/droite, Page préc�
 
 Voir aussi [DD-0007](../design-decisions/DD-0007-sous-domaine-des-presentations.md).
 
+## Épisode 003 en préparation
+
+Le [support du troisième épisode](episode-003-preparation.md) vise 75 minutes, entre 60 et 90 minutes maximum. Ses 21 écrans comprennent les dix candidats du Radar à trier par l'équipe, un seul Build de 30 minutes sur frontend-design, trois questions de Clash et la Bêta. Les notes donnent les sources, les limites et le minutage. Lou demande une PR V1 le 18 octobre, sans fusion ni déploiement en production.
+
+Le parcours conserve Radar, Build, Clash, Bêta, avec les quatre pages de séquence illustrées et leurs accès directs. L'[analyse croisée de cinq agents](episode-003-analyse-croisee-reseaux.md), le [corpus social](episode-003-corpus-social.md) et les autres essais restent en réserve, hors du conducteur. L'ancien lien `?view=shorts` ne masque plus les séquences. Les choix restent conservés par sujet dans le navigateur.
+
+Pour le partage d'écran, `P` active le mode live sans régie, `F` demande le plein écran du navigateur et `I` affiche l'image seule. Sans cette dernière option, les images du Radar occupent 80 % de la largeur en paysage, avec le texte compact à droite. Le support suit la taille de la fenêtre, sans cadre limité à 1920 pixels.
+
 ## Épisode 002
 
 L'aperçu reprend l'interface de l'épisode 001 et son fichier logo original. Les slides Bêta et Clash sont en HTML modifiable, sans logo recréé dans une image.

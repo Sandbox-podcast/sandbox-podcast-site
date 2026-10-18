@@ -22,3 +22,11 @@ videos/**/assets/*OFL.md
 videos/sandbox-intro/public/LeagueGothic-OFL.md
 videos/le-clash-jingle/AGENTS.md
 videos/le-clash-jingle/CLAUDE.md
+# Médias locaux E02, projets générés et bibliothèques fournies par le moteur de rendu.
+# Les plans, légendes, états et guides à la racine de ce lot restent contrôlés.
+exports/reseaux-sociaux/episode-02/source/
+exports/reseaux-sociaux/episode-02/audio/
+exports/reseaux-sociaux/episode-02/composition/
+exports/reseaux-sociaux/episode-02/shorts/
+exports/reseaux-sociaux/episode-02/revisions/
+exports/reseaux-sociaux/episode-02/render-logs/

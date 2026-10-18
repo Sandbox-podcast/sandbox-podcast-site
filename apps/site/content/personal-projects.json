@@ -4,7 +4,7 @@
     "name": "Sillage",
     "creator": "nicolas",
     "category": "ai",
-    "tagline": "Un espace de travail pour vos agents de code.",
+    "tagline": "Un espace de travail pour piloter tes agents de code.",
     "url": "https://marlburrow.github.io/sillage/",
     "repository": "https://github.com/MarlBurroW/sillage",
     "access": "self-hosted",
@@ -58,7 +58,7 @@
       }
     ],
     "description": [
-      "Sillage réunit Claude Code, Codex et OpenCode dans un espace de travail à héberger sur sa machine ou son serveur. Les agents utilisent leurs outils natifs et vos comptes. Le navigateur donne accès aux conversations, aux projets et aux demandes de permission, depuis un ordinateur comme depuis un téléphone.",
+      "Sillage réunit Claude Code, Codex et OpenCode dans un espace de travail à héberger sur ta machine ou ton serveur. Les agents utilisent leurs outils natifs et les comptes configurés. Depuis un ordinateur ou un téléphone, le navigateur donne accès aux conversations, aux projets et aux demandes de permission.",
       "Chaque projet possède un tableau de tâches, ses fichiers, ses branches Git et l'historique des échanges. Les sessions peuvent retrouver les décisions précédentes, partager des instructions et laisser du contexte aux autres agents. Les tâches planifiées démarrent de nouvelles sessions selon la cadence choisie."
     ],
     "features": [
@@ -85,7 +85,7 @@
     "name": "Boostback",
     "creator": "nicolas",
     "category": "games",
-    "tagline": "Pilotez le retour de Super Heavy.",
+    "tagline": "Pilote le retour de Super Heavy.",
     "url": "https://boostback.space/",
     "access": "website",
     "platforms": ["Navigateur"],
@@ -118,7 +118,7 @@
     ],
     "videos": [],
     "description": [
-      "Boostback est un jeu de pilotage spatial en 3D. Vous prenez les commandes du booster Super Heavy pour le ramener vers Starbase et tenter de l'attraper avec les bras de Mechazilla.",
+      "Boostback est un jeu de pilotage spatial en 3D. Prends les commandes du booster Super Heavy, ramène-le vers Starbase et tente de l'attraper avec les bras de Mechazilla.",
       "Il faut gérer la poussée et la trajectoire pendant le vol retour, puis réussir l'approche de la tour. Le jeu se lance gratuitement dans un navigateur sur ordinateur et propose un classement des pilotes."
     ],
     "features": [
@@ -140,7 +140,7 @@
     "name": "BallCam.tv",
     "creator": "nicolas",
     "category": "games",
-    "tagline": "Vos replays Rocket League, sous tous les angles.",
+    "tagline": "Tes replays Rocket League, sous tous les angles.",
     "url": "https://ballcam.tv/",
     "access": "website",
     "platforms": ["Navigateur"],
@@ -173,7 +173,7 @@
     ],
     "videos": [],
     "description": [
-      "BallCam transforme les fichiers de replay Rocket League en matchs à explorer en 3D dans le navigateur. Vous pouvez revoir une action, changer de point de vue et partager un replay avec votre équipe ou votre coach.",
+      "BallCam transforme les fichiers de replay Rocket League en matchs à explorer en 3D dans le navigateur. Tu peux revoir une action, changer de point de vue et partager un replay avec ton équipe ou ton coach.",
       "Les séances de visionnage permettent de regarder ensemble et de discuter d'une décision de jeu. Le studio de clips sert à enregistrer un mouvement de caméra ou à définir un trajet avec des images clés, puis à partager le résultat. La bibliothèque publique se consulte sans compte."
     ],
     "features": [
@@ -256,7 +256,7 @@
     "name": "Hivekeep",
     "creator": "nicolas",
     "category": "ai",
-    "tagline": "Une équipe d'agents IA, hébergée chez vous.",
+    "tagline": "Une équipe d'agents IA sur ton propre serveur.",
     "url": "https://hivekeep.app/",
     "repository": "https://github.com/MarlBurroW/hivekeep",
     "access": "self-hosted",
@@ -550,7 +550,7 @@
     "name": "Not My Fault",
     "creator": "lou",
     "category": "games",
-    "tagline": "Une crise. Des indices. Votre équipe.",
+    "tagline": "Une crise, des indices et une équipe à coordonner.",
     "url": "https://nmf.okodukai.fr/",
     "access": "website",
     "platforms": ["Navigateur"],
@@ -1362,7 +1362,7 @@
     "name": "Cloudflare DNS Swarm",
     "creator": "nicolas",
     "category": "tools",
-    "tagline": "Vos DNS suivent vos conteneurs Docker.",
+    "tagline": "Tes DNS suivent tes conteneurs Docker.",
     "url": "https://github.com/MarlBurroW/cloudflare-dns-swarm",
     "repository": "https://github.com/MarlBurroW/cloudflare-dns-swarm",
     "access": "self-hosted",
@@ -1409,7 +1409,7 @@
     ],
     "videos": [],
     "description": [
-      "Envoyez une requête HTTP pour faire lire une notification par vos appareils Google Home. Le panneau d'administration configure les appareils, les clés API et les requêtes à envoyer depuis un script ou une automatisation IFTTT.",
+      "Envoie une requête HTTP pour faire lire une notification par tes appareils Google Home. Dans le panneau d'administration, configure les appareils, les clés API et les requêtes à déclencher depuis un script ou une automatisation IFTTT.",
       "Une notification peut viser un appareil ou tous les appareils, dans la langue choisie. Ce projet ancien reste disponible en code source. Son README signale un fonctionnement sur macOS et des problèmes de dépendances sur Windows et Linux."
     ],
     "features": [
@@ -1431,7 +1431,7 @@
     "name": "Streamdeck Uptime Kuma",
     "creator": "nicolas",
     "category": "tools",
-    "tagline": "L'état de vos services sur votre Stream Deck.",
+    "tagline": "L'état de tes services sur ton Stream Deck.",
     "url": "https://github.com/MarlBurroW/Streamdeck-Uptime-Kuma",
     "repository": "https://github.com/MarlBurroW/Streamdeck-Uptime-Kuma",
     "access": "extension",
@@ -1471,7 +1471,7 @@
     ],
     "videos": [],
     "description": [
-      "Gardez l'état de vos services Uptime Kuma sous les yeux sur votre Stream Deck. Chaque touche affiche une mesure et peut changer l'information affichée ou suspendre un moniteur.",
+      "Garde l'état de tes services Uptime Kuma sous les yeux sur ton Stream Deck. Chaque touche affiche une mesure ; tu peux changer l'information affichée ou suspendre un moniteur.",
       "Le plugin suit l'état, les temps de réponse et la disponibilité sur 24 heures ou 30 jours. Les mises à jour passent par Socket.IO. Le manifeste indique Windows et macOS, avec une prise en charge du Stream Deck+."
     ],
     "features": [
@@ -1531,7 +1531,7 @@
     ],
     "videos": [],
     "description": [
-      "Consultez vos moniteurs Uptime Kuma depuis Raycast. L'extension affiche leur disponibilité, leur temps de réponse et leurs derniers heartbeats.",
+      "Consulte tes moniteurs Uptime Kuma depuis Raycast. L'extension affiche leur disponibilité, leur temps de réponse et leurs derniers heartbeats.",
       "Les actions servent à ouvrir un moniteur ou son URL, à le suspendre et à le reprendre. L'extension accepte l'authentification à deux facteurs et suit les changements avec Socket.IO."
     ],
     "features": [

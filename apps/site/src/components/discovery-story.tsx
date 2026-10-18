@@ -6,6 +6,7 @@ import { homeProfiles, homeProjects } from '@/domain/home-story';
 import styles from './discovery-chapters.module.css';
 import { HomeProjectSpotlight } from './home-project-spotlight';
 import { HomeHostCard } from './home-host-card';
+import { newsPreviewEnabled } from '@/lib/news-preview-store';
 
 export function DiscoveryStory({
   hosts,
@@ -63,7 +64,7 @@ export function DiscoveryStory({
             ))}
           </div>
           <p id="home-team-hint" className={styles['collectionHint']}>
-            <Text>Faites défiler pour découvrir l'équipe.</Text>
+            <Text>Fais défiler pour découvrir l'équipe.</Text>
             <ArrowIcon />
           </p>
         </section>
@@ -84,11 +85,11 @@ export function DiscoveryStory({
                   <Text>Du Talk Show au concret</Text>
                 </p>
                 <h2 id="home-projects-title">
-                  <Text>Ce qu'on construit.</Text>
+                  <Text>Ce que nous construisons.</Text>
                 </h2>
               </div>
               <p className={styles['chapterIntro']}>
-                <Text>Des jeux, de la musique, des outils. Voici quelques-uns de nos projets.</Text>
+                <Text>Jeux, musique et outils : voici quelques projets de l'équipe.</Text>
               </p>
             </header>
             <div data-reveal="project" data-reveal-delay="90">
@@ -127,7 +128,10 @@ export function DiscoveryStory({
             </h2>
           </div>
         </header>
-        <div className={styles['exploreGrid']}>
+        <div
+          className={styles['exploreGrid']}
+          data-news={newsPreviewEnabled() ? 'true' : undefined}
+        >
           <Link
             href="/time-machine"
             className={styles['exploreLink']}
@@ -206,6 +210,39 @@ export function DiscoveryStory({
               <ArrowIcon />
             </span>
           </Link>
+          {newsPreviewEnabled() ? (
+            <Link
+              href="/news"
+              className={`${styles['exploreLink']} ${styles['newsLink']}`}
+              aria-labelledby="home-news-title"
+              aria-describedby="home-news-description"
+              data-reveal="portal"
+              data-reveal-side="right"
+              data-reveal-delay="160"
+            >
+              <div className={styles['exploreArtwork']} aria-hidden="true">
+                <Image
+                  src="/images/home/explore/news-editorial-v1.webp"
+                  alt=""
+                  fill
+                  sizes="(max-width: 700px) calc(100vw - 48px), (max-width: 1050px) 100vw, 33vw"
+                  quality={90}
+                />
+              </div>
+              <span className={styles['panelKicker']}>Sandbox News</span>
+              <div className={styles['exploreCopy']}>
+                <h3 id="home-news-title" className={styles['exploreName']}>
+                  <Text>L'actualité</Text>
+                </h3>
+                <p id="home-news-description" className={styles['exploreDescription']}>
+                  <Text>IA, développement et open source. Une phrase, sa source et sa date.</Text>
+                </p>
+              </div>
+              <span className={styles['exploreArrow']} aria-hidden="true">
+                <ArrowIcon />
+              </span>
+            </Link>
+          ) : null}
         </div>
       </section>
     </div>

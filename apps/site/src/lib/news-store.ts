@@ -1,0 +1,176 @@
+import { desc, gte, sql } from 'drizzle-orm';
+import { NEWS_MEDIA } from '@/domain/news-media';
+import {
+  newsIngestionRequestSchema,
+  newsItemIsFresh,
+  publishedNewsItemSchema,
+  type NewsIngestionRequest,
+} from '@/domain/news-publishing';
+import type { NewsFeed } from '@/domain/news-preview';
+import { getDb, hasDatabaseConfiguration } from '@/db/client';
+import { newsItems, newsSourceStatus } from '@/db/schema';
+
+export class NewsStorageUnavailableError extends Error {
+  constructor() {
+    super('SANDBOX News attend Postgres et la migration 0016.');
+  }
+}
+
+export function newsPublicEnabled(): boolean {
+  return process.env['SANDBOX_NEWS_PUBLIC'] === '1';
+}
+
+function requireNewsDatabase(): void {
+  if (!hasDatabaseConfiguration()) throw new NewsStorageUnavailableError();
+}
+
+function publicationRequest(value: unknown): NewsIngestionRequest {
+  const parsed = newsIngestionRequestSchema.safeParse(value);
+  if (!parsed.success) throw new Error('Lot SANDBOX News invalide.');
+  const now = new Date(parsed.data.checkedAt);
+  if (!Number.isFinite(now.getTime())) throw new Error('Date de collecte SANDBOX News invalide.');
+  const ids = new Set(parsed.data.sources.map((source) => source.id));
+  for (const entry of parsed.data.items) {
+    const sourceId = entry.item.id.split(':', 1)[0] ?? '';
+    const source = NEWS_MEDIA.find((media) => media.id === sourceId);
+    const sourceMatches = (() => {
+      try {
+        const itemUrl = new URL(entry.item.url);
+        return (
+          !!source &&
+          ids.has(source.id) &&
+          itemUrl.origin === new URL(source.url).origin &&
+          itemUrl.pathname.startsWith(source.path) &&
+          !itemUrl.search &&
+          !itemUrl.hash &&
+          entry.item.id === `${source.id}:${itemUrl.pathname}`
+        );
+      } catch {
+        return false;
+      }
+    })();
+    if (!sourceMatches) throw new Error('Source de fiche SANDBOX News absente.');
+    if (!newsItemIsFresh(entry.item, now))
+      throw new Error('Une fiche SANDBOX News sort de sa fenêtre de fraîcheur.');
+  }
+  return parsed.data;
+}
+
+/** Ajoute les fiches une seule fois et conserve le dernier état observé des sources. */
+export async function publishNewsBatch(value: unknown): Promise<{ inserted: number }> {
+  requireNewsDatabase();
+  const request = publicationRequest(value);
+  const db = getDb();
+  return db.transaction(async (tx) => {
+    let inserted = 0;
+    if (request.items.length) {
+      const rows = await tx
+        .insert(newsItems)
+        .values(
+          request.items.map(({ item, sourceExcerptHash }) => ({
+            id: item.id,
+            canonicalUrl: item.url,
+            sourceId: item.id.split(':', 1)[0] ?? '',
+            sourceName: item.project,
+            publishedAt: item.publishedAt,
+            category: item.category,
+            payload: item,
+            sourceExcerptHash: sourceExcerptHash ?? null,
+          })),
+        )
+        .onConflictDoNothing({ target: newsItems.canonicalUrl })
+        .returning({ id: newsItems.id });
+      inserted = rows.length;
+    }
+
+    await tx
+      .insert(newsSourceStatus)
+      .values(
+        request.sources.map((source) => ({
+          sourceId: source.id,
+          sourceName: source.name,
+          sourceUrl: source.url,
+          ok: source.ok,
+          reason: source.reason ?? null,
+          checkedAt: request.checkedAt,
+        })),
+      )
+      .onConflictDoUpdate({
+        target: newsSourceStatus.sourceId,
+        set: {
+          sourceName: sql`excluded.source_name`,
+          sourceUrl: sql`excluded.source_url`,
+          ok: sql`excluded.ok`,
+          reason: sql`excluded.reason`,
+          checkedAt: sql`excluded.checked_at`,
+          updatedAt: sql`now()`,
+        },
+      });
+
+    return { inserted };
+  });
+}
+
+/** URLs déjà reçues, pour éviter de re-rédiger les mêmes nouvelles à chaque heure. */
+export async function knownNewsUrls(now = new Date()): Promise<string[]> {
+  requireNewsDatabase();
+  const since = new Date(now.getTime() - 14 * 86_400_000).toISOString();
+  const rows = await getDb()
+    .select({ url: newsItems.canonicalUrl })
+    .from(newsItems)
+    .where(gte(newsItems.publishedAt, since))
+    .orderBy(desc(newsItems.publishedAt))
+    .limit(1000);
+  return rows.map((row) => row.url);
+}
+
+export async function readPublishedNews(now = new Date()): Promise<NewsFeed> {
+  requireNewsDatabase();
+  const since = new Date(now.getTime() - 14 * 86_400_000).toISOString();
+  const [itemRows, sourceRows] = await Promise.all([
+    getDb()
+      .select({ payload: newsItems.payload })
+      .from(newsItems)
+      .where(gte(newsItems.publishedAt, since))
+      .orderBy(desc(newsItems.publishedAt))
+      .limit(200),
+    getDb().select().from(newsSourceStatus),
+  ]);
+  const items = itemRows.flatMap((row) => {
+    const parsed = publishedNewsItemSchema.safeParse(row.payload);
+    if (!parsed.success || !newsItemIsFresh(parsed.data, now)) {
+      console.error('SANDBOX News : une fiche stockée est invalide.');
+      return [];
+    }
+    return [parsed.data];
+  });
+  const sourcesById = new Map(sourceRows.map((source) => [source.sourceId, source]));
+  const sources = NEWS_MEDIA.flatMap((media) => {
+    const source = sourcesById.get(media.id);
+    return source
+      ? [
+          {
+            name: source.sourceName,
+            url: source.sourceUrl,
+            ok: source.ok,
+            ...(source.reason ? { reason: source.reason } : {}),
+          },
+        ]
+      : [];
+  });
+  const checkedAt = sourceRows
+    .map((source) => source.checkedAt)
+    .sort((left, right) => Date.parse(right) - Date.parse(left))[0];
+  return { checkedAt: checkedAt ?? null, sources, items };
+}
+
+export async function latestNewsPublicationTime(): Promise<string | undefined> {
+  requireNewsDatabase();
+  const row = await getDb()
+    .select({ publishedAt: newsItems.publishedAt })
+    .from(newsItems)
+    .where(gte(newsItems.publishedAt, new Date(Date.now() - 14 * 86_400_000).toISOString()))
+    .orderBy(desc(newsItems.publishedAt))
+    .limit(1);
+  return row[0]?.publishedAt;
+}

@@ -12,7 +12,7 @@ export async function generateMetadata({
   const data = await sandboxChartsData();
   return pageMetadata({
     title: 'SANDBOX CHARTS | Rising 20',
-    description: "Les projets open source dont l'accélération mesurée mérite votre attention.",
+    description: 'Les projets open source qui accélèrent le plus dans nos mesures.',
     path: '/charts/rising',
     ownImage: true,
     noindex:

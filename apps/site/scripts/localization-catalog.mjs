@@ -23,9 +23,18 @@ const implementationStrings = new Set([
   'tag tag-hl',
   'tag tag-line',
   '(hover: hover) and (pointer: fine)',
+  '(min-width: 901px) and (min-height: 541px), (min-width: 1101px)',
   '[data-active="true"] button',
   'le podcast',
   'le Talk Show',
+]);
+// Ces modules contiennent déjà leur propre copie par langue, ou des messages
+// internes qui ne passent pas par le dictionnaire public.
+const locallyLocalizedModules = new Set([
+  'src/components/news-screen.tsx',
+  'src/domain/news-media.ts',
+  'src/domain/news-preview.ts',
+  'src/domain/social-metrics.ts',
 ]);
 const add = (text, file) => {
   const key = normalize(text);
@@ -97,7 +106,8 @@ for (const file of [
     /\.tsx?$/.test(file) &&
     !/admin|episode-composer|site-settings-editor|opengraph-image|localization|localized-pages|content-translation/.test(
       file,
-    ),
+    ) &&
+    !locallyLocalizedModules.has(relative(site, file).replaceAll('\\', '/')),
 )) {
   const parsed = ts.createSourceFile(
     file,
@@ -178,10 +188,10 @@ const catalog = Object.fromEntries(
 );
 writeFileSync(join(dictionaries, 'source-catalog.json'), JSON.stringify(catalog, null, 2) + '\n');
 const imports = SITE_LOCALES.filter((target) => target.locale !== 'fr-FR')
-  .map(
-    (target) =>
-      `  '${target.locale}': () => import('./dictionaries/${localeRouteSegment(target.locale)}.json').then(module => module.default),`,
-  )
+  .map((target) => {
+    const key = target.locale === 'en' ? 'en' : `'${target.locale}'`;
+    return `  ${key}: () => import('./dictionaries/${localeRouteSegment(target.locale)}.json').then((module) => module.default),`;
+  })
   .join('\n');
 writeFileSync(
   join(site, 'src/i18n/dictionary-loaders.ts'),

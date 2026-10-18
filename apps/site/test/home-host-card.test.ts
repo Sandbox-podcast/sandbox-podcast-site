@@ -57,7 +57,7 @@ describe('cartes des voix de Sandbox', () => {
     expect(html).not.toContain('data-host-artwork=');
   });
 
-  it('conserve les deux paragraphes complets dans un volet HTML natif sans JavaScript', () => {
+  it('conserve le texte complet dans un volet HTML natif sans JavaScript', () => {
     for (const [index, host] of team.entries()) {
       const html = renderCard(host, index);
       expect(html.match(/<details\b/g)).toHaveLength(1);
@@ -65,7 +65,7 @@ describe('cartes des voix de Sandbox', () => {
       expect(html).toContain('Faire connaissance');
       expect(html).not.toMatch(/<details[^>]+\bopen=/);
       const paragraphs = host.bio.split(/\n\s*\n/);
-      expect(paragraphs).toHaveLength(2);
+      expect(paragraphs).toHaveLength(1);
       for (const paragraph of paragraphs) {
         expect(html).toContain(renderToStaticMarkup(createElement(Text, null, paragraph)));
       }

@@ -1,0 +1,572 @@
+[
+  {
+    "id": "E02-001",
+    "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-001-quotas.mp4",
+    "status": "rendered_verified",
+    "duration": 33.8,
+    "bytes": 4012678,
+    "streams": [
+      {
+        "codec_type": "video",
+        "width": 720,
+        "height": 1280,
+        "r_frame_rate": "30/1"
+      },
+      {
+        "codec_type": "audio",
+        "r_frame_rate": "0/0"
+      }
+    ]
+  },
+  {
+    "id": "E02-002",
+    "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-002-regard-neuf.mp4",
+    "status": "rendered_verified",
+    "duration": 54.4,
+    "bytes": 7754783,
+    "streams": [
+      {
+        "codec_type": "video",
+        "width": 720,
+        "height": 1280,
+        "r_frame_rate": "30/1"
+      },
+      {
+        "codec_type": "audio",
+        "r_frame_rate": "0/0"
+      }
+    ]
+  },
+  {
+    "id": "E02-003",
+    "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-003-comparer-modeles.mp4",
+    "status": "rendered_verified",
+    "duration": 78.666667,
+    "bytes": 15654686,
+    "streams": [
+      {
+        "codec_type": "video",
+        "width": 720,
+        "height": 1280,
+        "r_frame_rate": "30/1"
+      },
+      {
+        "codec_type": "audio",
+        "r_frame_rate": "0/0"
+      }
+    ]
+  },
+  {
+    "id": "E02-004",
+    "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-004-commerce.mp4",
+    "status": "rendered_verified",
+    "duration": 93.2,
+    "bytes": 19426279,
+    "streams": [
+      {
+        "codec_type": "video",
+        "width": 720,
+        "height": 1280,
+        "r_frame_rate": "30/1"
+      },
+      {
+        "codec_type": "audio",
+        "r_frame_rate": "0/0"
+      }
+    ]
+  },
+  {
+    "id": "E02-005",
+    "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-005-immobilier.mp4",
+    "status": "rendered_verified",
+    "duration": 106.266667,
+    "bytes": 22592388,
+    "streams": [
+      {
+        "codec_type": "video",
+        "width": 720,
+        "height": 1280,
+        "r_frame_rate": "30/1"
+      },
+      {
+        "codec_type": "audio",
+        "r_frame_rate": "0/0"
+      }
+    ]
+  },
+  {
+    "id": "E02-006",
+    "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-006-menu-3d.mp4",
+    "status": "rendered_verified",
+    "duration": 82.5,
+    "bytes": 11321769,
+    "streams": [
+      {
+        "codec_type": "video",
+        "width": 720,
+        "height": 1280,
+        "r_frame_rate": "30/1"
+      },
+      {
+        "codec_type": "audio",
+        "r_frame_rate": "0/0"
+      }
+    ]
+  },
+  {
+    "id": "E02-007",
+    "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-007-reservations.mp4",
+    "status": "rendered_verified",
+    "duration": 29.7,
+    "bytes": 6906667,
+    "streams": [
+      {
+        "codec_type": "video",
+        "width": 720,
+        "height": 1280,
+        "r_frame_rate": "30/1"
+      },
+      {
+        "codec_type": "audio",
+        "r_frame_rate": "0/0"
+      }
+    ]
+  },
+  {
+    "id": "E02-008",
+    "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-008-devis-whatsapp.mp4",
+    "status": "rendered_verified",
+    "duration": 41.6,
+    "bytes": 9050574,
+    "streams": [
+      {
+        "codec_type": "video",
+        "width": 720,
+        "height": 1280,
+        "r_frame_rate": "30/1"
+      },
+      {
+        "codec_type": "audio",
+        "r_frame_rate": "0/0"
+      }
+    ]
+  },
+  {
+    "id": "E02-009",
+    "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-009-menuisier.mp4",
+    "status": "rendered_verified",
+    "duration": 21.233333,
+    "bytes": 1484108,
+    "streams": [
+      {
+        "codec_type": "video",
+        "width": 720,
+        "height": 1280,
+        "r_frame_rate": "30/1"
+      },
+      {
+        "codec_type": "audio",
+        "r_frame_rate": "0/0"
+      }
+    ]
+  },
+  {
+    "id": "E02-010",
+    "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-010-paysagiste.mp4",
+    "status": "rendered_verified",
+    "duration": 72.3,
+    "bytes": 9391780,
+    "streams": [
+      {
+        "codec_type": "video",
+        "width": 720,
+        "height": 1280,
+        "r_frame_rate": "30/1"
+      },
+      {
+        "codec_type": "audio",
+        "r_frame_rate": "0/0"
+      }
+    ]
+  },
+  {
+    "id": "E02-011",
+    "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-011-fleuriste.mp4",
+    "status": "rendered_verified",
+    "duration": 15.6,
+    "bytes": 1298077,
+    "streams": [
+      {
+        "codec_type": "video",
+        "width": 720,
+        "height": 1280,
+        "r_frame_rate": "30/1"
+      },
+      {
+        "codec_type": "audio",
+        "r_frame_rate": "0/0"
+      }
+    ]
+  },
+  {
+    "id": "E02-012",
+    "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-012-boulanger.mp4",
+    "status": "rendered_verified",
+    "duration": 45.1,
+    "bytes": 6399811,
+    "streams": [
+      {
+        "codec_type": "video",
+        "width": 720,
+        "height": 1280,
+        "r_frame_rate": "30/1"
+      },
+      {
+        "codec_type": "audio",
+        "r_frame_rate": "0/0"
+      }
+    ]
+  },
+  {
+    "id": "E02-013",
+    "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-013-patisserie.mp4",
+    "status": "rendered_verified",
+    "duration": 64.166667,
+    "bytes": 6404544,
+    "streams": [
+      {
+        "codec_type": "video",
+        "width": 720,
+        "height": 1280,
+        "r_frame_rate": "30/1"
+      },
+      {
+        "codec_type": "audio",
+        "r_frame_rate": "0/0"
+      }
+    ]
+  },
+  {
+    "id": "E02-014",
+    "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-014-coiffeur.mp4",
+    "status": "rendered_verified",
+    "duration": 22.3,
+    "bytes": 4624509,
+    "streams": [
+      {
+        "codec_type": "video",
+        "width": 720,
+        "height": 1280,
+        "r_frame_rate": "30/1"
+      },
+      {
+        "codec_type": "audio",
+        "r_frame_rate": "0/0"
+      }
+    ]
+  },
+  {
+    "id": "E02-015",
+    "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-015-cadrer-besoin.mp4",
+    "status": "rendered_verified",
+    "duration": 64.3,
+    "bytes": 13378001,
+    "streams": [
+      {
+        "codec_type": "video",
+        "width": 720,
+        "height": 1280,
+        "r_frame_rate": "30/1"
+      },
+      {
+        "codec_type": "audio",
+        "r_frame_rate": "0/0"
+      }
+    ]
+  },
+  {
+    "id": "E02-016",
+    "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-016-contexte.mp4",
+    "status": "rendered_verified",
+    "duration": 72.6,
+    "bytes": 14663907,
+    "streams": [
+      {
+        "codec_type": "video",
+        "width": 720,
+        "height": 1280,
+        "r_frame_rate": "30/1"
+      },
+      {
+        "codec_type": "audio",
+        "r_frame_rate": "0/0"
+      }
+    ]
+  },
+  {
+    "id": "E02-017",
+    "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-017-lire-tickets.mp4",
+    "status": "rendered_verified",
+    "duration": 80.2,
+    "bytes": 11175843,
+    "streams": [
+      {
+        "codec_type": "video",
+        "width": 720,
+        "height": 1280,
+        "r_frame_rate": "30/1"
+      },
+      {
+        "codec_type": "audio",
+        "r_frame_rate": "0/0"
+      }
+    ]
+  },
+  {
+    "id": "E02-018",
+    "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-018-ticket-fonctionnel.mp4",
+    "status": "rendered_verified",
+    "duration": 82.3,
+    "bytes": 14792172,
+    "streams": [
+      {
+        "codec_type": "video",
+        "width": 720,
+        "height": 1280,
+        "r_frame_rate": "30/1"
+      },
+      {
+        "codec_type": "audio",
+        "r_frame_rate": "0/0"
+      }
+    ]
+  },
+  {
+    "id": "E02-019",
+    "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-019-ticket-sans-contexte.mp4",
+    "status": "rendered_verified",
+    "duration": 66.3,
+    "bytes": 12471613,
+    "streams": [
+      {
+        "codec_type": "video",
+        "width": 720,
+        "height": 1280,
+        "r_frame_rate": "30/1"
+      },
+      {
+        "codec_type": "audio",
+        "r_frame_rate": "0/0"
+      }
+    ]
+  },
+  {
+    "id": "E02-020",
+    "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-020-maquette.mp4",
+    "status": "rendered_verified",
+    "duration": 117.0,
+    "bytes": 34009144,
+    "streams": [
+      {
+        "codec_type": "video",
+        "width": 720,
+        "height": 1280,
+        "r_frame_rate": "30/1"
+      },
+      {
+        "codec_type": "audio",
+        "r_frame_rate": "0/0"
+      }
+    ]
+  },
+  {
+    "id": "E02-021",
+    "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-021-caracteriser-bug.mp4",
+    "status": "rendered_verified",
+    "duration": 64.9,
+    "bytes": 18377620,
+    "streams": [
+      {
+        "codec_type": "video",
+        "width": 720,
+        "height": 1280,
+        "r_frame_rate": "30/1"
+      },
+      {
+        "codec_type": "audio",
+        "r_frame_rate": "0/0"
+      }
+    ]
+  },
+  {
+    "id": "E02-022",
+    "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-022-refonte.mp4",
+    "status": "rendered_verified",
+    "duration": 40.3,
+    "bytes": 5775860,
+    "streams": [
+      {
+        "codec_type": "video",
+        "width": 720,
+        "height": 1280,
+        "r_frame_rate": "30/1"
+      },
+      {
+        "codec_type": "audio",
+        "r_frame_rate": "0/0"
+      }
+    ]
+  },
+  {
+    "id": "E02-023",
+    "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-023-legacy.mp4",
+    "status": "rendered_verified",
+    "duration": 70.5,
+    "bytes": 14132451,
+    "streams": [
+      {
+        "codec_type": "video",
+        "width": 720,
+        "height": 1280,
+        "r_frame_rate": "30/1"
+      },
+      {
+        "codec_type": "audio",
+        "r_frame_rate": "0/0"
+      }
+    ]
+  },
+  {
+    "id": "E02-024",
+    "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-024-relire-code.mp4",
+    "status": "rendered_verified",
+    "duration": 30.066667,
+    "bytes": 3739626,
+    "streams": [
+      {
+        "codec_type": "video",
+        "width": 720,
+        "height": 1280,
+        "r_frame_rate": "30/1"
+      },
+      {
+        "codec_type": "audio",
+        "r_frame_rate": "0/0"
+      }
+    ]
+  },
+  {
+    "id": "E02-025",
+    "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-025-transformation.mp4",
+    "status": "rendered_verified",
+    "duration": 85.3,
+    "bytes": 21347985,
+    "streams": [
+      {
+        "codec_type": "video",
+        "width": 720,
+        "height": 1280,
+        "r_frame_rate": "30/1"
+      },
+      {
+        "codec_type": "audio",
+        "r_frame_rate": "0/0"
+      }
+    ]
+  },
+  {
+    "id": "E02-026",
+    "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-026-experience-echecs.mp4",
+    "status": "rendered_verified",
+    "duration": 59.7,
+    "bytes": 9652439,
+    "streams": [
+      {
+        "codec_type": "video",
+        "width": 720,
+        "height": 1280,
+        "r_frame_rate": "30/1"
+      },
+      {
+        "codec_type": "audio",
+        "r_frame_rate": "0/0"
+      }
+    ]
+  },
+  {
+    "id": "E02-027",
+    "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-027-metier-dev.mp4",
+    "status": "rendered_verified",
+    "duration": 68.3,
+    "bytes": 8974373,
+    "streams": [
+      {
+        "codec_type": "video",
+        "width": 720,
+        "height": 1280,
+        "r_frame_rate": "30/1"
+      },
+      {
+        "codec_type": "audio",
+        "r_frame_rate": "0/0"
+      }
+    ]
+  },
+  {
+    "id": "E02-028",
+    "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-028-pm-maquette.mp4",
+    "status": "rendered_verified",
+    "duration": 79.3,
+    "bytes": 16713317,
+    "streams": [
+      {
+        "codec_type": "video",
+        "width": 720,
+        "height": 1280,
+        "r_frame_rate": "30/1"
+      },
+      {
+        "codec_type": "audio",
+        "r_frame_rate": "0/0"
+      }
+    ]
+  },
+  {
+    "id": "E02-029",
+    "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-029-skills.mp4",
+    "status": "rendered_verified",
+    "duration": 65.3,
+    "bytes": 15343301,
+    "streams": [
+      {
+        "codec_type": "video",
+        "width": 720,
+        "height": 1280,
+        "r_frame_rate": "30/1"
+      },
+      {
+        "codec_type": "audio",
+        "r_frame_rate": "0/0"
+      }
+    ]
+  },
+  {
+    "id": "E02-030",
+    "file": "C:\\github\\sandbox-podcast\\exports\\reseaux-sociaux\\episode-02\\shorts\\e02-030-regie.mp4",
+    "status": "rendered_verified",
+    "duration": 111.0,
+    "bytes": 23457791,
+    "streams": [
+      {
+        "codec_type": "video",
+        "width": 720,
+        "height": 1280,
+        "r_frame_rate": "30/1"
+      },
+      {
+        "codec_type": "audio",
+        "r_frame_rate": "0/0"
+      }
+    ]
+  }
+]

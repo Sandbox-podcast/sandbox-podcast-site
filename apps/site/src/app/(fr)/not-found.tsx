@@ -19,7 +19,7 @@ export default function NotFound() {
       <p>
         <Text>
           {
-            'Le lien a peut-\u00EAtre chang\u00E9. Retrouvez un \u00E9pisode, explorez les classements ou lancez une recherche.'
+            'Le lien a peut-\u00EAtre chang\u00E9. Retrouve un \u00E9pisode, explore les classements ou lance une recherche.'
           }
         </Text>
       </p>

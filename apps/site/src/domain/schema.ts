@@ -93,11 +93,11 @@ export const siteSettingsSchema = z.object({
   heroTitle: z.string().min(1),
   heroDek: z.string().min(1),
   aboutEyebrow: z.string().min(1).default('L’équipe'),
-  aboutTitle: z.string().min(1).default('Retrouvez-nous.'),
+  aboutTitle: z.string().min(1).default("L'équipe Sandbox."),
   aboutIntro: z
     .string()
     .min(1)
-    .default('Retrouvez les animateurs de Sandbox et leurs liens publics.'),
+    .default('Lou, Nicolas et Loïc animent Sandbox. Retrouve leurs profils et leurs projets.'),
   platforms: z.object({
     youtube: httpsUrlSchema,
     spotify: httpsUrlSchema,

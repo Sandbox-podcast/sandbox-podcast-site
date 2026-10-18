@@ -62,7 +62,7 @@
     },
     {
       "type": "p",
-      "text": "SWE-bench Verified demande à un modèle de corriger de vrais tickets issus de dépôts publics, puis vérifie que les tests passent. C'est un bon signal sur la capacité à lire du code existant. Mais le score dépend autant du modèle que de l'échafaudage autour : les outils fournis, le nombre d'essais, la façon de présenter le dépôt."
+      "text": "SWE-bench Verified demande à un modèle de corriger de vrais tickets issus de dépôts publics, puis vérifie que les tests passent. C'est un bon signal sur sa capacité à lire du code existant. Mais le score dépend aussi de la configuration : les outils fournis, le nombre d'essais et la façon de présenter le dépôt."
     },
     {
       "type": "list",
@@ -75,7 +75,7 @@
     {
       "type": "callout",
       "tone": "note",
-      "title": "Pourquoi on en utilise plusieurs",
+      "title": "Pourquoi nous en utilisons plusieurs",
       "text": "Aucun score ne suffit. Le sous-score Coding combine SWE-bench Verified et LiveCodeBench, l'axe Agents combine Terminal-Bench et τ-bench. Toutes les pondérations sont publiées dans la méthodologie du classement."
     },
     {

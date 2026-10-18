@@ -12,6 +12,7 @@ export const SHARED_PAGE_ROUTES = [
   '/nos-projets/:slug',
   '/search',
   '/latest',
+  '/news',
   '/stories/:slug',
   '/projects/:slug',
   '/models/:slug',

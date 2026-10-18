@@ -1,4 +1,5 @@
 export const HOME_STUDIO_IMAGE = '/images/home/studio-easter-eggs-v3.webp';
+export const HOME_STUDIO_NEWS_IMAGE = '/images/home/studio-news-radar-v4.webp';
 export const HOME_STUDIO_DOOR_IMAGE = HOME_STUDIO_IMAGE;
 export const HOME_STUDIO_CLEAN_WALL = '/images/home/studio-chairless-v2.webp';
 export const STUDIO_VIDEO_CLUB_HREF = '/nos-projets/video-club?from=studio';

@@ -7,9 +7,9 @@ import { pageMetadata } from '@/lib/seo';
 import styles from '@/components/project-store.module.css';
 
 export const metadata = pageMetadata({
-  title: 'Nos projets',
+  title: 'Projets IA, jeux et outils de l’équipe Sandbox',
   description:
-    "Les applications, jeux et outils créés par l'équipe Sandbox. Découvrez leurs captures, leurs vidéos et les projets open source.",
+    "Découvre les applications, outils d'IA, jeux et projets open source créés par l'équipe Sandbox, avec des descriptions, des captures et les sources de chaque fiche.",
   path: '/nos-projets',
   noindex: false,
 });
@@ -24,15 +24,18 @@ export default function PersonalProjectsPage() {
               <Text>Nos projets</Text>
             </h1>
             <p>
-              <Text>Les applications, jeux et outils de l'équipe Sandbox.</Text>
+              <Text>
+                Des outils d'IA, des applications, des jeux et des projets open source créés par
+                Lou, Nicolas et Loïc.
+              </Text>
             </p>
           </div>
         </header>
         <ProjectCatalog projects={personalProjects.map(projectSummary)} />
         <p className={styles['catalogNote']}>
           <Text>
-            Les fiches reprennent les sites, dépôts et publications publiques des créateurs. Les
-            sources et la date de vérification figurent sur chaque fiche.
+            Les fiches s'appuient sur les sites, dépôts et publications publiques des créateurs.
+            Chaque fiche indique ses sources et sa date de vérification.
           </Text>{' '}
           <Link href="/about" className="underline">
             <Text>Retrouver l'équipe</Text>

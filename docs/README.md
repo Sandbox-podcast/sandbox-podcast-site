@@ -1,8 +1,16 @@
 # Documentation
 
+Nom public Sandbox TalkShow sur les médias : [DD-0054](design-decisions/dd-0054-nom-public-sandbox-talkshow.md). Spotify renommé, couverture officielle appliquée et noms YouTube, Instagram, TikTok et X vérifiés le 18 octobre 2026.
+
 Référencement, suite locale du 18 octobre : [images allégées et traductions des fiches projet](site/seo-2026-10-18/correctifs-locaux.md), selon [DD-0054](design-decisions/dd-0054-correctifs-seo-images-et-traductions.md). Validation DNS Search Console toujours en attente.
 
 Titres descriptifs pour les classements et leurs archives : même rapport local, [DD-0055](design-decisions/dd-0055-titres-des-pages-de-classement.md).
+
+SANDBOX News, aperçu local : [V2, médias, synthèses et SEO](site/news-v2-medias-seo-2026-10-18.md), [V1, lancement et images](site/news-v1-local-2026-10-18.md), [DD-0053](design-decisions/dd-0053-news-liste-minitel-et-radar-local.md) et [traduction automatique locale, DD-0056](design-decisions/dd-0056-traduction-automatique-news.md). Liste bleu nuit, titres reformulés, volets de trois phrases et liens vers les médias demandés ; carte sur l'accueil et radar cliquable dans le décor.
+
+SANDBOX News, génération et publication automatiques : [DD-0057](design-decisions/dd-0057-automatisation-production-news.md). Collecte horaire, résumé français local, traductions EN/ES/DE, contrôles de sources et activation différée jusqu'à migration et configuration.
+
+SANDBOX News, périmètre IA et développement : [audit du site, des comptes et des tâches planifiées](site/news-audit-2026-10-18.md), [DD-0052](design-decisions/dd-0052-sandbox-news-ia-et-developpement.md) et [ADR-0033](adr/ADR-0033-optimisation-des-taches-planifiees.md). Le traitement YouTube passe en lancement manuel dans le lot local ; les poussées GitHub rejoignent le contrôle horaire des classements.
 
 Référencement : [audit du 18 octobre 2026](site/seo-2026-10-18/audit.md), [inventaire des 301 URL](site/seo-2026-10-18/inventaire-url.csv) et [plan éditorial proposé](site/seo-2026-10-18/plan-editorial.md). La validation Search Console attend l'accès DNS ; les données mobiles réelles restent absentes des tableaux consultés.
 

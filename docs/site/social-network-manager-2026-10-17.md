@@ -41,6 +41,8 @@ La bio Instagram et le nom sont déjà affichés sur le profil. Instagram et Tik
 
 ## Cadence de départ sur 30 jours
 
+**Remplacée le 18 octobre pour les nouveaux contenus par le [plan intensif à six mois](social-growth-six-months-2026-10-18.md).** Le tableau ci-dessous conserve la proposition historique; ne pas le rejouer, notamment pour les quatre extraits d'E1 déjà publiés ou programmés.
+
 Période proposée : du 19 octobre au 17 novembre 2026. Heure de test : 18 h, heure de Paris. Ce créneau est un point de départ pratique, pas une heure optimisée par des données. Viser trois sorties éditoriales par semaine au total; adapter le texte au réseau et ne pas publier mécaniquement partout. Les jours sans source fiable restent vides.
 
 | Date proposée | Contenu et réseau                                                              | Dépendance ou statut                                              |

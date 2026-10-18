@@ -98,6 +98,7 @@ export async function generateMetadata({
   if (shared) {
     const dictionary = await siteDictionary(locale);
     const metadata = await sharedPages[shared.route].metadata({
+      locale,
       params: shared.params,
       searchParams,
       dictionary,

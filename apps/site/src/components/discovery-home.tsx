@@ -10,6 +10,7 @@ import { homeProfiles } from '@/domain/home-story';
 import { siteConfig } from '@/config/site';
 import {
   HOME_STUDIO_IMAGE,
+  HOME_STUDIO_NEWS_IMAGE,
   HOME_STUDIO_DOOR_IMAGE,
   HOME_STUDIO_PEOPLE,
   STUDIO_VIDEO_CLUB_HREF,
@@ -19,6 +20,7 @@ import { latestVideoEpisode, episodeYoutubeUrl } from '@/domain/home-discovery';
 import type { Episode, Host } from '@/domain/schema';
 import type { PersonalProject } from '@/domain/personal-projects';
 import styles from './discovery-home.module.css';
+import { newsPreviewEnabled } from '@/lib/news-preview-store';
 
 export function DiscoveryHome({
   episodes,
@@ -43,7 +45,13 @@ export function DiscoveryHome({
           <figure className={styles['stage']} aria-label="Plateau de Sandbox">
             <div className={styles['stageArtwork']} data-depth-stage>
               <Image
-                src={videoClubEnabled ? HOME_STUDIO_DOOR_IMAGE : HOME_STUDIO_IMAGE}
+                src={
+                  newsPreviewEnabled()
+                    ? HOME_STUDIO_NEWS_IMAGE
+                    : videoClubEnabled
+                      ? HOME_STUDIO_DOOR_IMAGE
+                      : HOME_STUDIO_IMAGE
+                }
                 alt=""
                 fill
                 loading="eager"
@@ -93,17 +101,18 @@ export function DiscoveryHome({
               <span>Nico</span>
             </p>
             <h1 id="discovery-title">
-              <Text>Gardez une longueur</Text>{' '}
+              <Text>L'actualité IA,</Text>{' '}
               <em>
-                <Text>d'avance sur la tech.</Text>
+                <Text>testée et mise en perspective.</Text>
               </em>
             </h1>
           </div>
           <div className={styles['heroBottom']}>
             <p className={styles['description']}>
               <Text>
-                Chaque semaine, retrouvez Lou, Loïc et Nico pour décrypter l'actualité de l'IA et de
-                la tech, découvrir les outils qui valent le détour et confronter nos expériences.
+                Chaque semaine, Lou, Loïc et Nico décryptent l'actualité de l'IA et de la tech,
+                testent des outils et racontent ce qui change vraiment. Sources et classements à
+                l'appui.
               </Text>
             </p>
             <div className={styles['heroActions']}>

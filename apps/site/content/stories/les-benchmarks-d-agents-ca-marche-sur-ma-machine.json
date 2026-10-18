@@ -2,7 +2,7 @@
   "slug": "les-benchmarks-d-agents-ca-marche-sur-ma-machine",
   "type": "opinion",
   "title": "Les benchmarks d'agents sont le nouveau « ça marche sur ma machine »",
-  "dek": "Un score d'agent dépend autant de l'échafaudage que du modèle. Tant qu'on ne publie pas l'échafaudage, on compare des cuisines, pas des cuisiniers.",
+  "dek": "Un score dépend aussi des outils, des consignes et du nombre d'essais. Sans ces détails, comparer les agents relève surtout de la confiance aveugle.",
   "publishedAt": "2026-09-28T08:00:00.000Z",
   "author": "equipe-sandbox",
   "topics": ["benchmarks", "agents"],
@@ -20,11 +20,11 @@
   "body": [
     {
       "type": "p",
-      "text": "Quand un éditeur annonce 80 % sur un benchmark d'agent, personne ne demande dans quelle configuration. Le modèle ? Oui. Les outils fournis ? Le nombre d'essais ? Le prompt système ? La température ? Ce sont pourtant ces détails qui font passer un score de 60 à 80."
+      "text": "Quand un éditeur annonce 80 % sur un test d'agent, regarde aussi la configuration : quels outils, combien d'essais, quelle consigne et quels réglages ? Ces détails peuvent faire passer un score de 60 à 80."
     },
     {
       "type": "quote",
-      "text": "Un benchmark d'agent sans son échafaudage, c'est une recette sans le four.",
+      "text": "Un test d'agent sans sa configuration, c'est une recette sans le four.",
       "cite": "Équipe Sandbox"
     },
     {
@@ -34,9 +34,9 @@
     {
       "type": "list",
       "items": [
-        "Le harnais d'évaluation publié, pas seulement le score.",
-        "Le coût de chaque point : tokens, appels d'outils, temps.",
-        "La variance sur plusieurs essais : un 80 % moyen avec plus ou moins 15 points n'est pas un 80 %.",
+        "Le protocole complet, pas seulement le score.",
+        "Le coût de chaque point : tokens, appels aux outils et temps.",
+        "Les écarts entre essais : une moyenne de 80 % qui varie de 15 points ne raconte pas la même chose qu'un résultat stable.",
         "La mention de qui a mesuré : l'éditeur, un tiers, ou nous."
       ]
     },

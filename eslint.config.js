@@ -22,6 +22,9 @@ export default defineConfig(
       '**/.local/**',
       // Dépendances Python locales ; les sources de l'agent restent contrôlées.
       'tools/youtube-growth/.venv/**',
+      // Projets HyperFrames E02 générés localement, dont GSAP fourni par le moteur.
+      // Les scripts et tests du dépôt restent inclus dans les contrôles.
+      'exports/reseaux-sociaux/episode-02/composition/**',
       '**/next-env.d.ts',
       '.site-publish/**',
       // Archive du travail sur la plateforme vidéo : plus dans l'espace de travail pnpm, hors des contrôles.

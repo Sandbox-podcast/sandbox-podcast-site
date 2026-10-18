@@ -1,0 +1,630 @@
+{
+  "preparedAt": "2026-10-18",
+  "angle": {
+    "title": "Les skills viraux passent le test",
+    "series": "Proposition pour l'épisode 003",
+    "subtitle": "Une page, une vidéo, un assistant. On regarde ce que le skill change vraiment.",
+    "promise": ["Le résultat à l'écran", "Le test reproductible", "Le verdict du trio"],
+    "status": "Angle proposé. Démonstrations à préparer avant le tournage.",
+    "notes": [
+      "Le nom du skill arrive après le besoin et le résultat. L'ouverture montre une comparaison réelle avant de raconter la manipulation.",
+      "La série proposée est \"Le test Sandbox\". Chaque sujet donne une réponse dans le short ; la suite porte sur une nouvelle épreuve.",
+      "Préparer en premier frontend-design, HyperFrames et agent-browser. Les huit fiches techniques et les dix actualités restent dans le parcours Radar, Build, Clash, Bêta."
+    ]
+  },
+  "pattern": {
+    "title": "Montrer le résultat. Donner envie du prochain test.",
+    "steps": [
+      {
+        "label": "00 à 03 s",
+        "title": "Une différence visible",
+        "text": "Un avant/après ou une action surprenante. Un seul enjeu."
+      },
+      {
+        "label": "03 à 20 s",
+        "title": "La preuve",
+        "text": "Même brief, étapes utiles, essai réel. Le nom du skill vient ici."
+      },
+      {
+        "label": "20 à 35 s",
+        "title": "Le verdict",
+        "text": "Ce qui marche, ce qui bloque et la correction nécessaire."
+      },
+      {
+        "label": "35 à 45 s",
+        "title": "Le prochain cas",
+        "text": "Une suite précise qui donne une raison de suivre la série."
+      }
+    ],
+    "caution": "Déroulé proposé pour Sandbox. Ces durées ne sont pas un optimum mesuré.",
+    "notes": [
+      "Les cinq analyses croisent des comptes francophones et anglophones. Elles ne couvrent pas tous les comptes IA.",
+      "La transformation, la recette réutilisable et le rendez-vous reviennent dans les légendes et les exemples observés. L'ordre exact et les durées ci-dessus sont notre proposition de montage, pas une mesure des vidéos concurrentes.",
+      "Une ressource demandée en commentaire ne prouve pas un abonnement. Donner le verdict dans le clip et promettre une nouvelle épreuve, sans cacher la réponse derrière un abonnement."
+    ],
+    "sources": [
+      {
+        "title": "Le Raphiné : Jarvis",
+        "url": "https://www.instagram.com/le_raphine/reel/DeW7lfSOwvv/"
+      },
+      {
+        "title": "Ray Fu : motion design avec Claude",
+        "url": "https://www.instagram.com/raycfu/reel/DeZRVmkvhiR/"
+      },
+      {
+        "title": "Cintas : récapitulatif hebdomadaire",
+        "url": "https://www.instagram.com/drcintas/reel/DeW9C7sRmHM/"
+      },
+      {
+        "title": "ExplorIA : cinq skills Claude",
+        "url": "https://www.youtube.com/shorts/pbN3uZgeCYQ"
+      },
+      {
+        "title": "Matt Wolfe : neuf skills et duels",
+        "url": "https://www.youtube.com/watch?v=STH929HARLo"
+      },
+      {
+        "title": "Yyov : six alternatives",
+        "url": "https://www.tiktok.com/@yyov7/video/7695827348897156385"
+      }
+    ]
+  },
+  "comparisons": [
+    {
+      "author": "Cintas / Instagram",
+      "result": "160 k vues",
+      "winner": "Récapitulatif IA du 11 octobre",
+      "comparison": "7 291 vues",
+      "other": "Skills de design, 12 octobre",
+      "scope": "Compteurs de la grille Reels et pages directement consultés le 18/10. Deux dates proches ; audiences exposées et rétention inconnues. Ce contraste ne prouve pas la cause de l'écart.",
+      "sources": [
+        {
+          "title": "Récapitulatif",
+          "url": "https://www.instagram.com/drcintas/reel/DeW9C7sRmHM/"
+        },
+        {
+          "title": "Skills de design",
+          "url": "https://www.instagram.com/drcintas/reel/DeZhUbwSxOZ/"
+        }
+      ]
+    },
+    {
+      "author": "ExplorIA / YouTube Shorts",
+      "result": "30 147 vues",
+      "winner": "Cinq skills sélectionnés, 15 septembre",
+      "comparison": "5 290 vues",
+      "other": "Un skill de scraping, 22 septembre",
+      "scope": "Pages directement ouvertes le 18/10. Deux Shorts du même compte publiés à sept jours d'écart, avec demande de mot-clé dans les deux descriptions. La sélection peut aider ; la causalité et la conversion ne sont pas établies.",
+      "sources": [
+        {
+          "title": "Cinq skills",
+          "url": "https://www.youtube.com/shorts/pbN3uZgeCYQ"
+        },
+        {
+          "title": "Skill de scraping",
+          "url": "https://www.youtube.com/shorts/EHSwobYNXeM"
+        }
+      ]
+    },
+    {
+      "author": "Yyov / TikTok",
+      "result": "14,1 k J'aime",
+      "winner": "Six alternatives IA, affiché il y a 5 jours",
+      "comparison": "123 J'aime",
+      "other": "PDF indispensable, date affichée 1-20",
+      "scope": "Interactions TikTok primaires relevées le 18/10 ; vues non disponibles directement. Vidéo alternatives ouverte, PDF vu sur une carte de recommandation. Anciennetés et promotion différentes. Ces nombres ne sont pas des vues.",
+      "sources": [
+        {
+          "title": "Alternatives IA",
+          "url": "https://www.tiktok.com/@yyov7/video/7695827348897156385"
+        },
+        {
+          "title": "PDFElement",
+          "url": "https://www.tiktok.com/@yyov7/video/7597098455818964246"
+        }
+      ]
+    }
+  ],
+  "evidenceCaution": "Relevé du 18/10. Vues sur Instagram et YouTube, J'aime sur TikTok. Ancienneté et promotion diffèrent ; pas abonnements gagnés.",
+  "scope": [
+    "Cinq analyses et 29 entrées de comptes : Instagram FR, Instagram anglophone, TikTok FR/EN, YouTube FR et YouTube anglophone. 60 publications documentées, pas toutes visionnées.",
+    "Les références de format peuvent être anciennes. Les actualités de l'épisode restent limitées au 16-18 octobre 2026.",
+    "Langue observée et localisation attestée sont distinguées. Les audiences américaines exactes ne sont pas publiques.",
+    "Les recherches portent surtout sur les profils, titres, grilles, légendes et compteurs ; le niveau de visionnage est indiqué dans le rapport."
+  ],
+  "pitches": [
+    {
+      "id": "design",
+      "title": "Même brief, même IA : est-ce que le skill change le résultat ?",
+      "series": "Le test Sandbox",
+      "hook": "Deux pages à l’écran. Laquelle a été faite avec le skill ?",
+      "visual": "Deux rendus côte à côte, puis un clic réel sur chaque page.",
+      "follow": "Au prochain test, on lui impose une vraie charte graphique.",
+      "rationale": "L'avant/après est compréhensible sans connaître Claude. Le contraste Cintas rappelle qu'une liste de skills ne suffit pas : la comparaison doit être visible.",
+      "requirements": "Même modèle, brief, contenu, budget de tentatives et environnement. Conserver les générations ratées et noter le temps réel.",
+      "caution": "Une page plus jolie peut moins bien fonctionner. Vérifier le formulaire, la lisibilité et le mobile. Ce test ponctuel n'établit pas la supériorité générale du skill.",
+      "alternatives": [
+        "Le skill change quoi, si on garde exactement le même brief ?",
+        "Tu préfères A ou B ? On révèle celle qui utilise le skill."
+      ],
+      "sources": [
+        {
+          "title": "frontend-design",
+          "url": "https://www.skills.sh/anthropics/skills/frontend-design"
+        },
+        {
+          "title": "Cintas : skills de design",
+          "url": "https://www.instagram.com/drcintas/reel/DeZhUbwSxOZ/"
+        }
+      ],
+      "priority": "À tourner en premier",
+      "status": "Proposition de tournage. Aucun résultat d'essai annoncé.",
+      "beats": [
+        {
+          "time": "00 à 03 s",
+          "text": "Afficher les deux pages, sans révéler le skill."
+        },
+        {
+          "time": "03 à 20 s",
+          "text": "Montrer la consigne identique puis la différence d'exécution."
+        },
+        {
+          "time": "20 à 35 s",
+          "text": "Faire un clic et contrôler le mobile ; donner le verdict."
+        },
+        {
+          "time": "35 à 45 s",
+          "text": "Annoncer le test suivant avec une charte imposée."
+        }
+      ]
+    },
+    {
+      "id": "motion",
+      "title": "Une photo peut-elle devenir une pub ?",
+      "series": "Un fichier, une création",
+      "hook": "De cette photo à cette vidéo : qu'a fait l'IA, et qu'est-ce qu'il a fallu retoucher ?",
+      "visual": "Une photo autorisée, une mini-pub de 10 secondes, puis une correction visible.",
+      "follow": "La suite : adapter la même création en vertical sans tout refaire.",
+      "rationale": "Les transformations photo francophones et le motion design de Ray Fu offrent des résultats immédiatement compréhensibles. HyperFrames est un candidat local à tester, pas le skill identifié chez Ray Fu.",
+      "requirements": "Préparer photo autorisée, brief et projet HyperFrames. Chronométrer création et corrections, relever les coûts disponibles.",
+      "caution": "Ne pas annoncer une minute de travail ou zéro montage sans mesure. Distinguer le temps de génération de celui des retouches.",
+      "alternatives": [
+        "Cette photo suffit-elle pour fabriquer une mini-pub ?",
+        "On demande une pub à Claude. Puis on change un détail."
+      ],
+      "sources": [
+        {
+          "title": "HyperFrames",
+          "url": "https://www.skills.sh/heygen-com/hyperframes/hyperframes"
+        },
+        {
+          "title": "Ray Fu : motion design",
+          "url": "https://www.instagram.com/raycfu/reel/DeZRVmkvhiR/"
+        },
+        {
+          "title": "L'IActiviste : photo produit",
+          "url": "https://www.instagram.com/ia_ctiviste/reel/Dcyn0WQsShp/"
+        },
+        {
+          "title": "Matt Wolfe : chapitres Remotion et HyperFrames",
+          "url": "https://www.youtube.com/watch?v=STH929HARLo"
+        }
+      ],
+      "priority": "À tourner en premier",
+      "status": "Proposition de tournage. Aucun résultat d'essai annoncé.",
+      "beats": [
+        {
+          "time": "00 à 03 s",
+          "text": "Montrer photo et animation réelle."
+        },
+        {
+          "time": "03 à 20 s",
+          "text": "Afficher le brief et les étapes utiles de la création."
+        },
+        {
+          "time": "20 à 35 s",
+          "text": "Changer le texte, montrer la correction et le temps total."
+        },
+        {
+          "time": "35 à 45 s",
+          "text": "Annoncer l'adaptation verticale de cette même création."
+        }
+      ]
+    },
+    {
+      "id": "browser",
+      "title": "Un agent peut-il remplir ces formulaires sans inventer ?",
+      "series": "Une corvée pour un agent",
+      "hook": "Trois formulaires à remplir. On regarde ce qu'il fait seul et quand il nous demande de l'aide.",
+      "visual": "Le navigateur agit sur trois formulaires locaux, avec un champ volontairement ambigu.",
+      "follow": "Prochain obstacle : une information manque. Est-ce qu'il invente ?",
+      "rationale": "Jarvis donne un visage à une mission technique. Un obstacle précis permet un suspense et un verdict plus utiles qu'une promesse d'autonomie totale.",
+      "requirements": "Page de démonstration locale, données fictives et critère de réussite défini. Aucun compte réel ni envoi externe.",
+      "caution": "Le test concerne une tâche préparée. Montrer toute intervention humaine ; ne pas en déduire une fiabilité sur tous les sites.",
+      "alternatives": [
+        "Jusqu'où cet agent se débrouille-t-il sans nous ?",
+        "La démo est jolie. Mais que fait l'agent quand il manque une donnée ?"
+      ],
+      "sources": [
+        {
+          "title": "agent-browser",
+          "url": "https://www.skills.sh/vercel-labs/agent-browser/agent-browser"
+        },
+        {
+          "title": "Le Raphiné : Jarvis",
+          "url": "https://www.instagram.com/le_raphine/reel/DeW7lfSOwvv/"
+        }
+      ],
+      "priority": "À tourner en premier",
+      "status": "Proposition de tournage. Aucun résultat d'essai annoncé.",
+      "beats": [
+        {
+          "time": "00 à 03 s",
+          "text": "Montrer la tâche et le pointeur en action."
+        },
+        {
+          "time": "03 à 20 s",
+          "text": "Afficher la consigne, puis une étape réussie."
+        },
+        {
+          "time": "20 à 35 s",
+          "text": "Introduire l'ambiguïté et observer sa demande ou son erreur."
+        },
+        {
+          "time": "35 à 45 s",
+          "text": "Annoncer un prochain test avec donnée manquante."
+        }
+      ]
+    },
+    {
+      "id": "grill",
+      "title": "Cette IA va-t-elle démonter notre idée ?",
+      "series": "Le pitch au grill",
+      "hook": "On lui donne notre pitch. Elle doit trouver la question qu'on évite.",
+      "visual": "Un pitch court, une objection précise, puis la réponse du trio.",
+      "follow": "Au prochain épisode, on teste l'idée corrigée.",
+      "rationale": "Le désaccord produit une réaction naturelle du plateau et un enjeu qui se comprend sans tutoriel. C'est une hypothèse éditoriale, pas un format dont la conversion a été mesurée.",
+      "requirements": "Choisir une idée que l'équipe accepte de discuter. Garder le prompt et toutes les questions du skill.",
+      "caution": "Ne pas faire dire au skill qu'un projet est mauvais si sa réponse est nuancée. Une objection pertinente n'est pas une étude de marché.",
+      "alternatives": [
+        "Notre idée a un trou. Est-ce que le skill le trouve ?",
+        "On lui interdit de nous flatter. Quelle question reste ?"
+      ],
+      "sources": [
+        {
+          "title": "grill-me",
+          "url": "https://www.skills.sh/mattpocock/skills/grill-me"
+        }
+      ],
+      "priority": "Deuxième série",
+      "status": "Proposition de tournage. Aucun résultat d'essai annoncé.",
+      "beats": [
+        {
+          "time": "00 à 03 s",
+          "text": "Lire le pitch et annoncer la règle."
+        },
+        {
+          "time": "03 à 20 s",
+          "text": "Afficher la question réellement posée par grill-me."
+        },
+        {
+          "time": "20 à 35 s",
+          "text": "Laisser une réponse et une objection du trio."
+        },
+        {
+          "time": "35 à 45 s",
+          "text": "Annoncer le test de l'idée corrigée."
+        }
+      ]
+    },
+    {
+      "id": "style",
+      "title": "Écrire comme toi avec l'IA : un skill peut-il aider ?",
+      "series": "Le test Sandbox",
+      "hook": "Deux textes courts, une version guidée par un skill : lequel ressemble le plus à ta voix ?",
+      "visual": "Un vote à l'aveugle sur un texte court, puis révélation des consignes.",
+      "follow": "La prochaine fois, on lui confie un autre type de texte.",
+      "rationale": "Une recette personnelle donne une utilité durable à l'abonnement. Le test sur un deuxième cas évite de se contenter d'un exemple réussi.",
+      "requirements": "Trois exemples autorisés, données non sensibles, texte de test inédit et critères de style explicites.",
+      "caution": "Le skill guide la génération ; il ne réentraîne pas le modèle. Signaler les erreurs ou les tics qui restent.",
+      "alternatives": [
+        "Tu répètes la même consigne ? On en fait un skill.",
+        "Tu reconnais ton style dans laquelle des deux versions ?"
+      ],
+      "sources": [
+        {
+          "title": "skill-creator",
+          "url": "https://www.skills.sh/anthropics/skills/skill-creator"
+        }
+      ],
+      "priority": "Deuxième série",
+      "status": "Proposition de tournage. Aucun résultat d'essai annoncé.",
+      "beats": [
+        {
+          "time": "00 à 03 s",
+          "text": "Afficher deux textes courts anonymisés."
+        },
+        {
+          "time": "03 à 20 s",
+          "text": "Expliquer les trois exemples et la création du skill."
+        },
+        {
+          "time": "20 à 35 s",
+          "text": "Révéler les versions et un défaut restant."
+        },
+        {
+          "time": "35 à 45 s",
+          "text": "Annoncer le test sur un format différent."
+        }
+      ]
+    },
+    {
+      "id": "caveman",
+      "title": "Claude répond en mode homme des cavernes : utile ou gadget ?",
+      "series": "Utile ou gadget ?",
+      "hook": "Même question, deux réponses. Est-ce que la plus courte garde l'essentiel ?",
+      "visual": "Réponse standard et réponse Caveman ; surligner une information conservée ou perdue.",
+      "follow": "Le prochain test porte sur une consigne où chaque détail compte.",
+      "rationale": "Le contraste est lisible et peut faire réagir le trio. La bizarrerie sert une vraie question : la concision aide-t-elle ou fait-elle perdre une condition ?",
+      "requirements": "Même question, modèle et contexte. Choisir un cas simple puis un cas comportant une condition importante.",
+      "caution": "Moins de mots ne prouve pas un gain de qualité ni une économie facturée. Mesurer séparément la longueur et l'exactitude.",
+      "alternatives": [
+        "Le skill le plus absurde est-il vraiment utile ?",
+        "Une réponse deux fois plus courte vaut-elle encore quelque chose ?"
+      ],
+      "sources": [
+        {
+          "title": "Caveman",
+          "url": "https://www.skills.sh/juliusbrussee/caveman/caveman"
+        }
+      ],
+      "priority": "Deuxième série",
+      "status": "Proposition de tournage. Aucun résultat d'essai annoncé.",
+      "beats": [
+        {
+          "time": "00 à 03 s",
+          "text": "Montrer les deux réponses."
+        },
+        {
+          "time": "03 à 20 s",
+          "text": "Lire uniquement la différence utile."
+        },
+        {
+          "time": "20 à 35 s",
+          "text": "Vérifier une condition présente ou manquante."
+        },
+        {
+          "time": "35 à 45 s",
+          "text": "Annoncer un cas plus exigeant."
+        }
+      ]
+    },
+    {
+      "id": "remotion",
+      "title": "Remotion ou HyperFrames : quel résultat avec le même brief ?",
+      "series": "Un fichier, une création",
+      "hook": "Même photo, même brief. On cache les noms avant de comparer les rendus.",
+      "visual": "Deux mini-pubs sur la même photo et le même brief ; vote puis temps et retouches.",
+      "follow": "La suite : on demande la même correction aux deux.",
+      "rationale": "Matt Wolfe structure sa vidéo de skills autour de duels, dont Remotion et HyperFrames. Nous reprenons le principe de comparaison, sans présumer le gagnant.",
+      "requirements": "Deux projets prêts, même photo autorisée, même brief et budget de tentatives. Relever modèles, temps, coût et corrections.",
+      "caution": "Comparer les workflows complets, pas un prétendu score du seul fichier SKILL.md. Un duel ponctuel ne prouve pas une supériorité générale.",
+      "alternatives": [
+        "Le nom caché, lequel des deux rendus tu choisis ?",
+        "Deux façons de créer la même pub. Où passe le temps ?"
+      ],
+      "sources": [
+        {
+          "title": "remotion-best-practices",
+          "url": "https://www.skills.sh/remotion-dev/skills/remotion-best-practices"
+        },
+        {
+          "title": "HyperFrames",
+          "url": "https://www.skills.sh/heygen-com/hyperframes/hyperframes"
+        },
+        {
+          "title": "Matt Wolfe : structure de duels",
+          "url": "https://www.youtube.com/watch?v=STH929HARLo"
+        }
+      ],
+      "priority": "Deuxième série",
+      "status": "Proposition de tournage. Aucun résultat d'essai annoncé.",
+      "beats": [
+        {
+          "time": "00 à 03 s",
+          "text": "Afficher les deux rendus anonymisés."
+        },
+        {
+          "time": "03 à 20 s",
+          "text": "Montrer le brief commun et laisser voter."
+        },
+        {
+          "time": "20 à 35 s",
+          "text": "Révéler outils, tentatives, coût et retouches."
+        },
+        {
+          "time": "35 à 45 s",
+          "text": "Annoncer la même correction demandée aux deux."
+        }
+      ]
+    },
+    {
+      "id": "minecraft",
+      "title": "Quatre agents IA finissent Minecraft. À quel prix ?",
+      "series": "Le Radar en une preuve",
+      "hook": "Ils jouent ensemble pendant 27 heures. Qu’est-ce que cette expérience démontre vraiment ?",
+      "visual": "Le résultat annoncé par Google, quatre rôles et la durée de l'expérience.",
+      "follow": "La suite : notre propre tâche à plusieurs agents, avec temps et coût suivis.",
+      "rationale": "Minecraft fournit un objectif connu et une scène facile à comprendre. L'angle relie une annonce récente au futur test Sandbox.",
+      "requirements": "Utiliser l'annonce officielle du 16 octobre. Préparer une capture lisible et distinguer l'expérience Google d'un essai local.",
+      "caution": "Google rapporte 27 heures et 2 783 programmes. Coût complet et taux de réussite non établis ici. Le titre pose une question ; ne pas inventer de réponse financière.",
+      "alternatives": [
+        "Quatre agents terminent Minecraft. Peut-on leur confier notre boulot ?",
+        "27 heures pour finir Minecraft : exploit ou démo très préparée ?"
+      ],
+      "sources": [
+        {
+          "title": "Google DeepMind : annonce du 16 octobre",
+          "url": "https://x.com/GoogleDeepMind/status/2111127991401247033"
+        }
+      ],
+      "priority": "Actu du 16-18 octobre",
+      "status": "Proposition de tournage. Aucun résultat d'essai annoncé.",
+      "beats": [
+        {
+          "time": "00 à 03 s",
+          "text": "Présenter le résultat attribué à Google."
+        },
+        {
+          "time": "03 à 20 s",
+          "text": "Montrer durée, nombre d'agents et conditions annoncées."
+        },
+        {
+          "time": "20 à 35 s",
+          "text": "Expliquer ce que l'on ne sait pas du coût et de la répétabilité."
+        },
+        {
+          "time": "35 à 45 s",
+          "text": "Annoncer une tâche locale comparable dans son principe seulement."
+        }
+      ]
+    },
+    {
+      "id": "canvas",
+      "title": "Cursor Canvas : un fichier CSV peut-il devenir un tableau de bord fiable ?",
+      "series": "Une corvée pour un agent",
+      "hook": "Voilà les lignes. Voilà ce qu'on veut comprendre. Est-ce que l'agent relie les deux ?",
+      "visual": "Un petit CSV, son Canvas interactif, puis un total recalculé à la main.",
+      "follow": "Prochain test : on introduit une ligne fausse et on regarde s'il la repère.",
+      "rationale": "Un fichier banal devient un objet utile. Le résultat visuel et la vérification d'un chiffre répondent à deux attentes : découverte et confiance.",
+      "requirements": "Accès à Cursor Canvas disponible, petit CSV fictif et total de référence calculé avant la démo. Sinon garder le sujet en réserve.",
+      "caution": "Un tableau joli peut raconter une erreur. Ne pas affirmer que Cursor vérifie automatiquement les chiffres. Annonce du 16 octobre, démo Sandbox encore à réaliser.",
+      "alternatives": [
+        "Le dashboard est beau. Les chiffres sont-ils justes ?",
+        "On donne un CSV à Cursor. On garde quoi du résultat ?"
+      ],
+      "sources": [
+        {
+          "title": "Cursor : Canvas, annonce du 16 octobre",
+          "url": "https://x.com/cursor_ai/status/2111193957527146711"
+        }
+      ],
+      "priority": "Actu du 16-18 octobre",
+      "status": "Proposition de tournage. Aucun résultat d'essai annoncé.",
+      "beats": [
+        {
+          "time": "00 à 03 s",
+          "text": "Afficher le fichier et le tableau attendu."
+        },
+        {
+          "time": "03 à 20 s",
+          "text": "Montrer la création du Canvas."
+        },
+        {
+          "time": "20 à 35 s",
+          "text": "Recalculer un total et signaler tout écart."
+        },
+        {
+          "time": "35 à 45 s",
+          "text": "Annoncer l'épreuve avec donnée incorrecte."
+        }
+      ]
+    },
+    {
+      "id": "deepseek",
+      "title": "DeepSeek ou Claude : quel modèle choisir pour cette tâche ?",
+      "series": "Le test Sandbox",
+      "hook": "On cache le nom des modèles. Tu choisis le résultat, puis on révèle le coût.",
+      "visual": "Deux réponses à la même tâche, un vote, puis modèles et coûts réellement relevés.",
+      "follow": "Au prochain test, on reprend les deux avec une tâche choisie par le public.",
+      "rationale": "L'alternative à un outil payé associe curiosité et décision concrète. L'angle évite de traiter des poids ouverts comme un service gratuit.",
+      "requirements": "Accès aux versions comparées, même tâche, consignes et budget de tentatives. Coût disponible et modalités d'hébergement précisés.",
+      "caution": "DeepSeek V4.1-Flash-1017 publie des poids le 17 octobre. Cela ne signifie pas API ou hébergement gratuits. Un duel sur une tâche n'est pas un classement général.",
+      "alternatives": [
+        "Le nom caché, est-ce qu'on choisit encore le même modèle ?",
+        "Ce modèle ouvert peut-il faire cette tâche aussi bien ?"
+      ],
+      "sources": [
+        {
+          "title": "DeepSeek V4.1-Flash-1017",
+          "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash-1017"
+        },
+        {
+          "title": "Historique de publication",
+          "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash-1017/commits/main"
+        },
+        {
+          "title": "Yyov : angle des alternatives",
+          "url": "https://www.tiktok.com/@yyov7/video/7695827348897156385"
+        }
+      ],
+      "priority": "Actu du 16-18 octobre",
+      "status": "Proposition de tournage. Aucun résultat d'essai annoncé.",
+      "beats": [
+        {
+          "time": "00 à 03 s",
+          "text": "Montrer deux réponses anonymisées."
+        },
+        {
+          "time": "03 à 20 s",
+          "text": "Voter selon des critères annoncés."
+        },
+        {
+          "time": "20 à 35 s",
+          "text": "Révéler versions, erreurs et coûts mesurés."
+        },
+        {
+          "time": "35 à 45 s",
+          "text": "Annoncer le prochain duel sur une autre tâche."
+        }
+      ]
+    }
+  ],
+  "measurement": {
+    "title": "Le prochain test doit donner envie de revenir",
+    "steps": [
+      {
+        "label": "Découverte",
+        "title": "Arrêt et portée",
+        "text": "Observer les vues et la rétention disponibles sur chaque réseau."
+      },
+      {
+        "label": "Utilité",
+        "title": "Garder ou partager",
+        "text": "Relever sauvegardes et partages, sans les confondre avec les abonnements."
+      },
+      {
+        "label": "Abonnement",
+        "title": "Une suite concrète",
+        "text": "Annoncer la prochaine épreuve de la série, après avoir donné le verdict."
+      },
+      {
+        "label": "À 48 h et J7",
+        "title": "Comparer à âge égal",
+        "text": "Abonnements attribués et vues engagées. Même réseau, même fenêtre."
+      }
+    ],
+    "caution": "Aucun volume de vues ou d'abonnés garanti. Mesurer dans les statistiques natives de Sandbox.",
+    "notes": [
+      "Conserver les règles de diffusion existantes ; ce support ne programme ni ne publie de contenus.",
+      "Comparer les clips Sandbox par réseau et à âge égal. YouTube distingue les vues de démarrage/relecture des vues engagées. Utiliser un dénominateur constant pour chaque comparaison.",
+      "Sur YouTube : abonnements attribués au clip pour 1 000 vues engagées, avec le volume absolu. Sur Instagram : abonnements attribués pour 1 000 comptes touchés si les deux valeurs sont disponibles. Sur TikTok : utiliser l'attribution native lorsqu'elle existe, sinon marquer indisponible et suivre séparément les abonnés nets du compte.",
+      "Commencer par trois essais. Préparer deux accroches par sujet et choisir au montage celle qui tient sa promesse. Une différence entre publications n'est pas à elle seule un test causal.",
+      "Publier les ressources seulement quand elles existent et après accord. Aucune promesse de guide envoyé automatiquement n'est ajoutée."
+    ],
+    "sources": [
+      {
+        "title": "YouTube : vues et vues engagées des Shorts",
+        "url": "https://support.google.com/youtube/answer/10059070"
+      },
+      {
+        "title": "YouTube : métriques et attribution des abonnements",
+        "url": "https://developers.google.com/youtube/analytics/metrics"
+      },
+      {
+        "title": "Instagram : temps de visionnage et nouveaux abonnés des Reels",
+        "url": "https://about.fb.com/news/2023/04/instagram-reels-trending-audio-and-gifts-updates/"
+      }
+    ]
+  }
+}

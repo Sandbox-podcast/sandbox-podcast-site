@@ -7,6 +7,8 @@ import * as About from '@/app/(fr)/about/page';
 import * as Search from '@/components/search-screen';
 import * as Privacy from '@/app/(fr)/confidentialite/page';
 import * as Latest from '@/app/(fr)/latest/page';
+import * as News from '@/app/(fr)/news/page';
+import { newsPageMetadata } from '@/lib/news-metadata';
 import * as Story from '@/app/(fr)/stories/[slug]/page';
 import * as Project from '@/app/(fr)/projects/[slug]/page';
 import * as Model from '@/app/(fr)/models/[slug]/page';
@@ -92,6 +94,10 @@ export const sharedPages: Record<SharedPageRoute, SharedPage> = {
     metadata: () => Search.metadata,
   },
   '/latest': { render: () => <Latest.default />, metadata: () => Podcast.generateMetadata() },
+  '/news': {
+    render: (o) => <News.default locale={o.locale ?? 'fr-FR'} />,
+    metadata: (o) => newsPageMetadata(o.locale ?? 'fr-FR'),
+  },
   '/stories/:slug': {
     render: () => <Story.default />,
     metadata: () => Podcast.generateMetadata(),

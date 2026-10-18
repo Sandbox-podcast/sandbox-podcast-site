@@ -12,9 +12,9 @@ export const dynamic = 'force-dynamic';
 export async function generateMetadata() {
   await preparePublishedEditorialContent();
   return pageMetadata({
-    title: 'Le Talk Show Sandbox : replays et historique',
+    title: 'Podcast IA : actualité, outils et débats | Sandbox TalkShow',
     description:
-      "Un épisode par semaine sur la tech et l'IA. Retrouvez le dernier replay Sandbox et les épisodes précédents.",
+      "Le podcast vidéo de Sandbox sur l'actualité IA et la tech : essais d'outils, débats et retours d'expérience. Regarde les derniers épisodes et retrouve leurs sources.",
     path: '/podcast',
     noindex: !allEpisodes().some(indexableEpisode),
   });
@@ -27,10 +27,13 @@ export default async function PodcastPage() {
       <header className="podcast-heading">
         <div>
           <h1 className="display">
-            <Text>Le Talk Show</Text>
+            <Text>Sandbox TalkShow</Text>
           </h1>
           <p>
-            <Text>Lou, Loïc et Nico. Un rendez-vous hebdomadaire pour parler d'IA et de tech.</Text>
+            <Text>
+              Lou, Loïc et Nico décryptent l'actualité de l'IA et de la tech, testent des outils et
+              confrontent leurs expériences.
+            </Text>
           </p>
         </div>
         <a

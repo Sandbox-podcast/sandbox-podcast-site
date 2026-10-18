@@ -14,6 +14,7 @@ const PUBLIC_ROOTS = new Set([
   'confidentialite',
   'nos-projets',
   'search',
+  'news',
 ]);
 
 /** Même ressource et mêmes paramètres, seule la langue du chemin change. */

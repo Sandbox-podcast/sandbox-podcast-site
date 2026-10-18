@@ -51,7 +51,7 @@ export function VideoClubDossier({ project }: { project: PersonalProject }) {
           {project.description.map((paragraph) => (
             <p key={paragraph}>{paragraph}</p>
           ))}
-          <h3>Ce que vous pouvez faire</h3>
+          <h3>Ce que tu peux faire</h3>
           <ul>
             {project.features.map((feature) => (
               <li key={feature}>{feature}</li>

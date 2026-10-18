@@ -1,7 +1,7 @@
 {
   "slug": "pourquoi-les-stars-github-mentent-a-moitie",
   "type": "analysis",
-  "title": "Pourquoi les stars GitHub mentent à moitié, et ce qu'on en fait",
+  "title": "Pourquoi les stars GitHub mentent à moitié, et comment nous les lisons",
   "dek": "Une star est un signal d'attention, pas de qualité. Comment on le corrige dans nos classements : croissance, activité, échelle logarithmique.",
   "publishedAt": "2026-09-18T08:00:00.000Z",
   "author": "equipe-sandbox",
@@ -24,7 +24,7 @@
   "body": [
     {
       "type": "p",
-      "text": "Un classement de projets par nombre de stars donne toujours les mêmes noms, ceux d'il y a cinq ans. Ce n'est pas ce qui nous intéresse : on veut savoir ce qui monte maintenant. Voici comment on s'y prend dans le [[chart:github]] et le [[chart:skills]]."
+      "text": "Un classement par nombre total de stars remet souvent en tête les projets populaires depuis des années. Nous voulons aussi voir ce qui progresse maintenant. Voici comment nous l'observons dans le [[chart:github]] et le [[chart:skills]]."
     },
     {
       "type": "h2",
@@ -45,7 +45,7 @@
     },
     {
       "type": "p",
-      "text": "Les stars peuvent être gonflées, et un pic de partages ne fait pas un projet. C'est ce qui est arrivé à [[entity:browser-use]] : en tête une partie de l'été sur un pic d'attention, puis retombé. Notre avis (OUR TAKE) sert justement à le dire, et la page de chaque projet garde la trace du pic."
+      "text": "Les stars peuvent être gonflées, et un pic de partages ne suffit pas à juger un projet. [[entity:browser-use]] a pris la tête une partie de l'été pendant un pic d'attention, puis a reculé. Notre avis est séparé des chiffres ; la fiche du projet garde la trace de cette évolution."
     },
     {
       "type": "callout",

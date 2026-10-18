@@ -235,11 +235,11 @@ export function ChartsExperience({
             <p>
               <Text>
                 {id === 'github'
-                  ? 'Explorez les projets open source du classement GitHub.'
+                  ? 'Explore les projets open source du classement GitHub.'
                   : id === 'skills'
-                    ? 'Des instructions et outils pour vos agents IA.'
+                    ? 'Des instructions et outils pour tes agents IA.'
                     : id === 'models'
-                      ? 'Comparez les modèles selon la capacité qui vous intéresse.'
+                      ? 'Compare les modèles selon la capacité qui t’intéresse.'
                       : 'Les projets repérés par le classement Rising.'}
               </Text>
             </p>

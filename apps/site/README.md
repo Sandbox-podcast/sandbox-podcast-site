@@ -4,6 +4,8 @@ Site média : un podcast tech et ses classements hebdomadaires (GitHub, skills e
 
 Les épisodes et archives fournis avec le dépôt sont encore simulés. SANDBOX CHARTS utilise les collectes GitHub en production et un aperçu identifié en développement sans base. Les pages restent exclues de l’indexation tant que les contenus du site ne sont pas vérifiés. Voir [le guide des charts](../../docs/site/sandbox-charts.md). Les profils d’animation sont Lou, Nicolas et Loïc.
 
+SANDBOX News collecte des liens d'actualité depuis dix médias publics, génère un résumé français localement, puis le traduit en anglais, allemand et espagnol. Le collecteur vérifie ses citations, garde la source d'origine et refuse de publier une fiche incomplète. La tâche GitHub Actions est prévue toutes les heures ; sa mise en service attend la migration `0016` et les variables documentées dans le [README du dépôt](../../README.md#sandbox-news). Le guide décrit aussi les limites de couverture et de fréquence.
+
 ## Démarrer
 
 Prérequis du dépôt : Node 24, pnpm 12.
@@ -17,16 +19,19 @@ pnpm --filter @podcast/site start
 
 ## Commandes
 
-| Commande             | Rôle                                                                   |
-| -------------------- | ---------------------------------------------------------------------- |
-| `pnpm test`          | tests de logique pure, de contenu et de squelettes (Vitest)            |
-| `pnpm typecheck`     | `next typegen` puis `tsc --noEmit`                                     |
-| `pnpm content:check` | valide le contenu : schémas, références, continuité des snapshots      |
-| `pnpm content:new …` | crée un épisode, un article, une entité, un avis ou un classement      |
-| `pnpm week:run -- …` | relève, calcule et écrit les snapshots d'une semaine (connecteur mock) |
-| `pnpm db:migrate`    | applique les migrations éditoriales à Postgres                         |
-| `pnpm db:seed`       | importe la publication initiale si la base est encore vide             |
-| `pnpm db:generate`   | génère une migration après une modification du schéma                  |
+| Commande                       | Rôle                                                                          |
+| ------------------------------ | ----------------------------------------------------------------------------- |
+| `pnpm test`                    | tests de logique pure, de contenu et de squelettes (Vitest)                   |
+| `pnpm typecheck`               | `next typegen` puis `tsc --noEmit`                                            |
+| `pnpm content:check`           | valide le contenu : schémas, références, continuité des snapshots             |
+| `pnpm content:new …`           | crée un épisode, un article, une entité, un avis ou un classement             |
+| `pnpm week:run -- …`           | relève, calcule et écrit les snapshots d'une semaine (connecteur mock)        |
+| `pnpm news:translator:setup`   | installe Argos Translate et ses modèles hors ligne pour SANDBOX News          |
+| `pnpm news:summarizer:setup`   | installe le modèle local de résumé SANDBOX News                               |
+| `pnpm news:automation:refresh` | lance la collecte, la rédaction, les traductions et la publication configurée |
+| `pnpm db:migrate`              | applique les migrations éditoriales à Postgres                                |
+| `pnpm db:seed`                 | importe la publication initiale si la base est encore vide                    |
+| `pnpm db:generate`             | génère une migration après une modification du schéma                         |
 
 Guide complet : [docs/site/editorial-workflow.md](../../docs/site/editorial-workflow.md).
 

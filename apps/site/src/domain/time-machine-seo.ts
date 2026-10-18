@@ -3,7 +3,7 @@ import { historyEventAnchor, sortHistory, type TimeMachineData } from './time-ma
 export function timeMachineSeo(data: TimeMachineData) {
   return {
     title: `Histoire de l'IA : chronologie ${data.fromYear}-${data.toYear}`,
-    description: `${data.events.length} grandes dates de l'intelligence artificielle, de ${data.fromYear} à ${data.toYear}. Explorez les modèles et les annonces sur une chronologie sourcée.`,
+    description: `${data.events.length} dates clés de l'intelligence artificielle, de ${data.fromYear} à ${data.toYear}. Parcours les modèles et les annonces dans une chronologie sourcée.`,
     path: '/time-machine',
     noindex: data.events.length === 0,
     ownImage: true,

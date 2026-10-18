@@ -21,7 +21,7 @@ export const dynamic = 'force-dynamic';
 export const metadata = pageMetadata({
   title: 'Sandbox Badges & Awards',
   description:
-    'Votre rang GitHub AI et les récompenses Sandbox : catégories, progression, Rising, Skills, modèles et palmarès annuels.',
+    'Ton rang GitHub AI et les récompenses Sandbox : catégories, progression, Rising, Skills, modèles et palmarès annuels.',
   path: '/charts/awards',
   noindex: false,
 });
@@ -84,7 +84,7 @@ export default async function Page({
         <p className="sc-label">SANDBOX CHARTS</p>
         <h1>Badges &amp; Awards</h1>
         <p>
-          <Text>{'Votre place dans les classements, prête à afficher dans votre README.'}</Text>
+          <Text>{'Ta place dans les classements, prête à afficher dans ton README.'}</Text>
         </p>
         <Link className="btn btn-solid" href="/charts/github">
           <Text>{'Trouver mon projet'}</Text>
@@ -223,7 +223,7 @@ export default async function Page({
       </section>
       <section id="installation" className={styles['method']}>
         <h2>
-          <Text>{'Installer votre badge'}</Text>
+          <Text>{'Installer ton badge'}</Text>
         </h2>
         <ol>
           <li>
@@ -241,7 +241,7 @@ export default async function Page({
           <li>
             <Text>
               {
-                "Collez ce code dans votre README.md, puis enregistrez la modification sur GitHub. Le badge renvoie vers la fiche Sandbox. Le format HTML et l'URL SVG sont aussi disponibles."
+                "Colle ce code dans ton README.md, puis enregistre la modification sur GitHub. Le badge renvoie vers la fiche Sandbox. Tu peux aussi utiliser le format HTML ou l'URL SVG."
               }
             </Text>
           </li>

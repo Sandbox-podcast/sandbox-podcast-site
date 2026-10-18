@@ -36,7 +36,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const metadata = pageMetadata({
       title,
       description: award.withdrawnAt
-        ? 'Consultez le retrait de cette attribution et sa source historique.'
+        ? 'Voir le retrait de cette attribution et sa source historique.'
         : 'La récompense hebdomadaire, son classement source et son badge GitHub AI.',
       path: awardPath(week),
       noindex: Boolean(award.withdrawnAt),
