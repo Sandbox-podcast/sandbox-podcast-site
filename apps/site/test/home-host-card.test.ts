@@ -42,7 +42,7 @@ describe('cartes des voix de Sandbox', () => {
         1_000,
       );
       expect(statSync(new URL(`../public${artwork}`, import.meta.url)).size).toBeLessThan(450_000);
-      expect(html).toContain('q=90');
+      expect(html).toContain('q=75');
       expect(html).not.toContain('body-no-mic');
       expect(html).not.toContain('<canvas');
       expect(html).not.toContain('<iframe');

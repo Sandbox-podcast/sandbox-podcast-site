@@ -37,9 +37,21 @@ const periodLabels: Record<ChartPeriod, string> = {
   all: "Tout l'historique",
 };
 
+const chartHeadings: Record<ChartId, string> = {
+  github: 'Classement de projets open source sur GitHub',
+  skills: 'Classement des skills, agents et MCP',
+  models: "Classement de modèles d'IA",
+  rising: 'Projets GitHub en progression',
+};
+
+const collectionHeading = 'Classements de projets open source, de skills et de modèles IA';
+const archiveHeading =
+  'Archives des classements de projets open source, de skills et de modèles IA';
+
 export function ChartsExperience({
   data,
   initialChart = 'github',
+  pageKind = 'ranking',
   initialView,
   initialPeriod = 'week',
   initialSelection,
@@ -47,6 +59,7 @@ export function ChartsExperience({
 }: {
   data: ChartsData;
   initialChart?: ChartId;
+  pageKind?: 'collection' | 'archive' | 'ranking';
   initialView?: string | undefined;
   initialPeriod?: ChartPeriod;
   initialSelection?: ChartSelection;
@@ -92,6 +105,12 @@ export function ChartsExperience({
     [series],
   );
   const meta = CHART_LABELS[id];
+  const heading =
+    pageKind === 'collection'
+      ? collectionHeading
+      : pageKind === 'archive'
+        ? archiveHeading
+        : chartHeadings[id];
   const snapshot = series?.snapshots.find((item) => item.week === week);
   const method = chartMethodSummary(id, snapshot?.publication?.scoringVersion);
   const measureAvailable = id !== 'models' || hasModelMeasure(snapshot, view);
@@ -161,7 +180,9 @@ export function ChartsExperience({
     <div className={`wrap sc-page ${styles['page']}`}>
       <header className={styles['header']}>
         <div>
-          <h1>Sandbox Charts</h1>
+          <h1>
+            <Text>{heading}</Text>
+          </h1>
           <p className={styles['intro']}>
             <Text>Des outils à découvrir. Des données pour les comparer.</Text>
           </p>

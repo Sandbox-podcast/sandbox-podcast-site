@@ -9874,5 +9874,557 @@
   "τ-bench": {
     "translation": "",
     "sources": ["content/scoring/models.json", "content/sources.json"]
+  },
+  "Adapter les prénoms et les règles.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Administrer les groupes et permissions.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Afficher l'état et le ping des moniteurs.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Afficher un avatar sur l'écran.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Ajuster la poussée et la trajectoire.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Archives des classements de projets open source, de skills et de modèles IA": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Authentifier les connexions.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Changer la mesure affichée depuis une touche.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Choisir des récompenses dans la boutique.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Choisir la suite de l'histoire.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Choisir les appareils et la langue.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Choisir un lieu sur Terre.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Choisir un thème clair ou sombre.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Classement de modèles d'IA": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Classement de projets open source sur GitHub": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Classement des skills, agents et MCP": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Classements de projets open source, de skills et de modèles IA": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx", "src/app/(fr)/charts/page.tsx"]
+  },
+  "Comparer différentes puissances.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Comparer et éditer les prises.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Comparer les deux géométries.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Comparer les points de vue des joueurs.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Comparer les positions des candidats.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Comparer les scores politiques par axe.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Comparer son résultat au classement.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Configurer les clés API dans l'administration.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Configurer plusieurs fournisseurs et des replis.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Configurer plusieurs serveurs et des plugins.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Conserver les souvenirs dans SQLite.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Conserver une mémoire et des notes.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Consulter la présentation historique.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Consulter le prompt et la méthode.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Consulter les engagements et leurs sources.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Consulter les estimations illustratives.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Consulter les utilisateurs et canaux.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Consulter les états et temps de réponse.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Contrôler les appels d'outils avant exécution.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Créer des agents avec une mémoire persistante.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Créer des clips avec une caméra libre ou des images clés.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Créer des espaces de travail.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Créer et mettre à jour les entrées DNS depuis les labels.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Créer et valider des quêtes familiales.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Demander des modifications aux agents.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Dialoguer avec Akasha sur le réseau local.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Dialoguer dans l'application ou le terminal.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Diffuser les messages et suivre la présence.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Découvrir les dix mondes annoncés.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Découvrir les placements simulés.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Découvrir leurs expériences et leur infrastructure.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Déplacer les trois observateurs.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Envoyer des messages et des pokes.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Envoyer une notification vocale par HTTP.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Explorer des villages et leurs missions.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Explorer le graphe de connaissances.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Explorer les démonstrations du dépôt.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Explorer les lois, votes et thèmes.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Explorer les zones d'impact sur la carte 3D.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Exporter en WAV, FLAC ou MP3.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Exposer une API HTTP compatible avec OpenAI.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Exécuter les modèles GGUF pris en charge.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Faire collaborer les agents.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Flasher et configurer le firmware documenté.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Gagner des cartes à collectionner.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Générer une chanson à partir d'un style et de paroles.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Gérer les agents et les modèles.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Gérer les entrées A, AAAA, CNAME, MX et TXT.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Importer un fichier .replay et revoir le match en 3D.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Inspecter les appels d'outils et le contexte.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Jouer des rôles aux informations différentes.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Lire les articles de Marlbot et Pelouse.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Lire les diagnostics et journaux.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Lire les labels Traefik en option.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Lire les logs et envoyer des commandes.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Lire les réponses brutes des modèles.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Observer le ciel ou passer à la première personne.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Opposer deux équipes en mode PvP.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Organiser les notes et les tâches.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Organiser les projets et les tâches.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Ouvrir les aperçus et inspecter les branches Git.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Ouvrir, suspendre ou reprendre un moniteur.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Parcourir la chronologie et le graphe.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Partager les instructions, la mémoire et les outils MCP.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Personnaliser le prénom du héros.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Piloter le booster pendant son vol retour.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Planifier des tâches.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Programmer des tâches.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Projets GitHub en progression": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Préparer les requêtes pour les automatisations.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Préparer les tâches familiales.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Recevoir des alertes sur mots-clés.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Rechercher dans les souvenirs.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Rechercher et exporter les conversations.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Rechercher les faits et sessions.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Regarder et analyser une action en équipe.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Rejoindre la liste d'attente de la bêta.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Rejoindre une salle depuis son lien.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Relier OpenClaw, MCP ou la ligne de commande.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Relier des messageries et ajouter des plugins.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Relier le chat du jeu à Slack ou Discord.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Relier plusieurs agents à des salons.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Relire les fichiers et les différences Git.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Retourner des scores ou probabilités.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Retrouver des conversations persistantes.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Retrouver l'historique des conversations.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Retrouver la connexion après une interruption.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Retrouver les fonctionnalités et captures publiées par l'auteur.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Retrouver sa progression et ses cartes.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Retrouver une session depuis un autre appareil.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Répartir les requêtes selon la tâche.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Répondre aux quiz sur les votes et programmes.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Résoudre des missions coopératives chronométrées.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Réviser des notions du CP au CM2.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Suivre l'avancement du projet.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Suivre la consommation de tokens.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Suivre la disponibilité sur 24 heures et 30 jours.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Suivre les coûts et la latence.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Suivre les nouvelles publications par RSS.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Suivre les points et récompenses.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Suivre les réponses en streaming.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Suivre les sessions et tâches planifiées.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Suspendre ou reprendre un moniteur.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Synchroniser l'orientation des vues.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Séparer le morceau en pistes.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Tenter la capture par Mechazilla.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Travailler la partition et le mix.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Utiliser Docker autonome ou Swarm.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Utiliser l'authentification à deux facteurs.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Utiliser la vue scindée et les thèmes.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Utiliser les espaces de création.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Utiliser les fichiers et les mini-apps.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Utiliser un moteur local depuis Akasha.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Valider les tâches de la semaine.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Voir les derniers heartbeats.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Voir les utilisateurs connectés.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Écarter temporairement un modèle en échec.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Échanger des messages en temps réel.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Éditer les fichiers et suivre les tâches.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Épargner dans le Coffre magique.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
+  },
+  "Évaluer plusieurs options.": {
+    "translation": "",
+    "sources": ["content/personal-projects.json"]
   }
 }

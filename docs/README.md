@@ -1,5 +1,11 @@
 # Documentation
 
+Référencement, suite locale du 18 octobre : [images allégées et traductions des fiches projet](site/seo-2026-10-18/correctifs-locaux.md), selon [DD-0054](design-decisions/dd-0054-correctifs-seo-images-et-traductions.md). Validation DNS Search Console toujours en attente.
+
+Titres descriptifs pour les classements et leurs archives : même rapport local, [DD-0055](design-decisions/dd-0055-titres-des-pages-de-classement.md).
+
+Référencement : [audit du 18 octobre 2026](site/seo-2026-10-18/audit.md), [inventaire des 301 URL](site/seo-2026-10-18/inventaire-url.csv) et [plan éditorial proposé](site/seo-2026-10-18/plan-editorial.md). La validation Search Console attend l'accès DNS ; les données mobiles réelles restent absentes des tableaux consultés.
+
 Regroupement des conversations du 16 octobre : [périmètre, vérifications et captures](site/livraison-conversations-2026-10-16.md).
 
 Indexation ES/DE, collecte Models et mesures : [DD-0048](design-decisions/dd-0048-indexation-traductions-et-suivi-des-classements.md) et [validation du lot](site/issue-68-traductions-et-collectes-2026-10-16.md).

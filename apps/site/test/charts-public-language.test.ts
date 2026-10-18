@@ -34,8 +34,10 @@ const pending: ChartsData = {
 
 describe('classements publics en français', () => {
   it('affiche un état d’attente exact et les commandes en français', () => {
-    const html = renderToStaticMarkup(createElement(ChartsExperience, { data: pending }));
-    expect(html).toContain('Sandbox Charts');
+    const html = renderToStaticMarkup(
+      createElement(ChartsExperience, { data: pending, pageKind: 'collection' }),
+    );
+    expect(html).toContain('Classements de projets open source, de skills et de modèles IA');
     expect(html).toContain('Éditions datées et sourcées');
     expect(html).toContain('Période');
     expect(html).toContain('Cette édition');
@@ -73,6 +75,84 @@ describe('classements publics en français', () => {
   });
 });
 
+it('traduit les titres du hub, des archives et de chaque classement dans les quatre langues', async () => {
+  const locales = [
+    {
+      locale: 'fr-FR',
+      headings: {
+        collection: 'Classements de projets open source, de skills et de modèles IA',
+        archive: 'Archives des classements de projets open source, de skills et de modèles IA',
+        github: 'Classement de projets open source sur GitHub',
+        skills: 'Classement des skills, agents et MCP',
+        models: "Classement de modèles d'IA",
+        rising: 'Projets GitHub en progression',
+      },
+    },
+    {
+      locale: 'en',
+      headings: {
+        collection: 'Rankings of open-source projects, skills and AI models',
+        archive: 'Archives of open-source project, skill and AI model rankings',
+        github: 'Open-source project rankings on GitHub',
+        skills: 'Rankings of skills, agents and MCP tools',
+        models: 'AI model rankings',
+        rising: 'GitHub projects on the rise',
+      },
+    },
+    {
+      locale: 'es-ES',
+      headings: {
+        collection: 'Clasificaciones de proyectos de código abierto, skills y modelos de IA',
+        archive:
+          'Archivos de clasificaciones de proyectos de código abierto, skills y modelos de IA',
+        github: 'Clasificación de proyectos de código abierto en GitHub',
+        skills: 'Clasificación de skills, agentes y herramientas MCP',
+        models: 'Clasificación de modelos de IA',
+        rising: 'Proyectos de GitHub en crecimiento',
+      },
+    },
+    {
+      locale: 'de-DE',
+      headings: {
+        collection: 'Ranglisten für Open-Source-Projekte, Skills und KI-Modelle',
+        archive: 'Archive der Ranglisten für Open-Source-Projekte, Skills und KI-Modelle',
+        github: 'Rangliste der Open-Source-Projekte auf GitHub',
+        skills: 'Rangliste der Skills, Agenten und MCP-Tools',
+        models: 'Rangliste der KI-Modelle',
+        rising: 'GitHub-Projekte im Aufschwung',
+      },
+    },
+  ] as const;
+
+  const pages = [
+    { pageKind: 'collection', chart: 'github', key: 'collection' },
+    { pageKind: 'archive', chart: 'github', key: 'archive' },
+    { pageKind: 'ranking', chart: 'github', key: 'github' },
+    { pageKind: 'ranking', chart: 'skills', key: 'skills' },
+    { pageKind: 'ranking', chart: 'models', key: 'models' },
+    { pageKind: 'ranking', chart: 'rising', key: 'rising' },
+  ] as const;
+
+  for (const { locale, headings } of locales) {
+    const dictionary = locale === 'fr-FR' ? {} : await siteDictionary(locale);
+    for (const { pageKind, chart, key } of pages) {
+      const html = renderToStaticMarkup(
+        createElement(LocalizationProvider, {
+          locale,
+          dictionary,
+          children: createElement(ChartsExperience, {
+            data: pending,
+            initialChart: chart,
+            pageKind,
+          }),
+        }),
+      );
+      const expectedHeading = headings[key].replaceAll("'", '&#x27;');
+      expect(html).toContain(`<h1>${expectedHeading}</h1>`);
+    }
+  }
+});
+
 describe('classements publics en anglais', () => {
   it('traduit les titres et l’état vide sans mélanger les deux langues', async () => {
     const dictionary = await siteDictionary('en');
@@ -80,10 +160,10 @@ describe('classements publics en anglais', () => {
       createElement(LocalizationProvider, {
         locale: 'en',
         dictionary,
-        children: createElement(ChartsExperience, { data: pending }),
+        children: createElement(ChartsExperience, { data: pending, pageKind: 'collection' }),
       }),
     );
-    expect(html).toContain('Sandbox Charts');
+    expect(html).toContain('Rankings of open-source projects, skills and AI models');
     expect(html).toContain('Dated, sourced editions');
     expect(html).toContain('Period');
     expect(html).toContain('This edition');

@@ -31,7 +31,8 @@ import * as PersonalProjects from '@/app/(fr)/nos-projets/page';
 import * as VideoClub from '@/app/(fr)/nos-projets/video-club/page';
 import * as PersonalProject from '@/app/(fr)/nos-projets/[slug]/page';
 import type { SharedPageRoute } from '@/i18n/page-routes';
-import type { TranslationDictionary } from '@/i18n/translation';
+import { translateText, type TranslationDictionary } from '@/i18n/translation';
+import { personalProject } from '@/lib/personal-projects';
 
 export interface SharedPageOptions {
   locale?: string;
@@ -71,7 +72,16 @@ export const sharedPages: Record<SharedPageRoute, SharedPage> = {
   },
   '/nos-projets/:slug': {
     render: (o) => <PersonalProject.default params={slugParams(o)} />,
-    metadata: (o) => PersonalProject.generateMetadata({ params: slugParams(o) }),
+    metadata: async (o) => {
+      const metadata = await PersonalProject.generateMetadata({ params: slugParams(o) });
+      const project = personalProject(value(o, 'slug'));
+      return project
+        ? {
+            ...metadata,
+            title: `${project.name} : ${translateText(project.tagline, o.dictionary)}`,
+          }
+        : metadata;
+    },
   },
   '/nos-projets/video-club': {
     render: (o) => <VideoClub.default searchParams={o.searchParams} />,

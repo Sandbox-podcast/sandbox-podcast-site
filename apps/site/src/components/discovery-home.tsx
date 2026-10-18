@@ -179,14 +179,22 @@ export function DiscoveryHome({
                   data-analytics-destination="projects"
                   data-analytics-placement="home"
                 >
-                  <Image
-                    src="/video-club/entrance-cinematic-v2.webp"
-                    alt=""
-                    width={1672}
-                    height={941}
-                    sizes="(max-width: 600px) 92vw, 560px"
-                    quality={90}
-                  />
+                  <picture>
+                    <source
+                      media="(min-width: 901px) and (min-height: 541px), (min-width: 1101px)"
+                      srcSet="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="
+                    />
+                    <Image
+                      src="/video-club/entrance-cinematic-v2.webp"
+                      alt=""
+                      width={1672}
+                      height={941}
+                      loading="eager"
+                      fetchPriority="high"
+                      sizes="(max-width: 600px) 92vw, 560px"
+                      quality={75}
+                    />
+                  </picture>
                   <span className={styles['mobileVideoClubLabel']}>
                     <Text>Le vidéoclub</Text>
                     <span aria-hidden="true">↗</span>

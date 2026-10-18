@@ -39,5 +39,12 @@ export default async function Page({
   const data = await sandboxChartsData(week);
   if (data.mode !== 'unavailable' && !data.weeks.includes(week)) notFound();
   const selection = chartSelectionSchema.parse(await searchParams);
-  return <ChartsExperience data={data} initialWeek={week} initialSelection={selection} />;
+  return (
+    <ChartsExperience
+      data={data}
+      initialWeek={week}
+      initialSelection={selection}
+      pageKind="archive"
+    />
+  );
 }

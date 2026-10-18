@@ -16,6 +16,7 @@ export function Wordmark({ className }: { className?: string }) {
           alt={siteConfig.name}
           width={2172}
           height={724}
+          sizes="252px"
         />
       </span>
     </span>

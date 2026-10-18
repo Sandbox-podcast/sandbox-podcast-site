@@ -105,7 +105,7 @@ export function HomeProjectSpotlight({ projects }: { projects: readonly Personal
                   alt=""
                   fill
                   sizes="(max-width: 700px) 85vw, 720px"
-                  quality={90}
+                  quality={75}
                   draggable={false}
                 />
               ) : null}
