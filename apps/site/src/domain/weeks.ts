@@ -75,6 +75,13 @@ export function editionStart(id: string): Date {
   return weekStart(id);
 }
 
+/** Numéro ISO. Le jour d'une date ne doit pas être lu comme une semaine. */
+export function editionWeekNumber(id: string): number {
+  const iso = /^(\d{4})-W(\d{2})$/.exec(id);
+  if (iso?.[2]) return Number(iso[2]);
+  return Number(isoWeekOf(editionStart(id)).slice(-2));
+}
+
 /** Fin affichée : le même jour, ou le dimanche d'une semaine ISO. */
 export function editionEnd(id: string): Date {
   const start = editionStart(id);
