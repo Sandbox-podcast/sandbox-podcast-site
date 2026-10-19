@@ -153,8 +153,9 @@ afterAll(async () => {
   await pg.close();
 });
 
-async function seedModels(includeUnpaired = false) {
-  const entities = Array.from({ length: includeUnpaired ? 21 : 20 }, (_, index) =>
+async function seedModels(includeUnpaired = false, singleSourceCount = 0) {
+  const length = singleSourceCount > 0 ? singleSourceCount : includeUnpaired ? 21 : 20;
+  const entities = Array.from({ length }, (_, index) =>
     externalEntitySchema.parse({
       slug: `fixture-model-${index}`,
       type: 'model',
@@ -173,16 +174,16 @@ async function seedModels(includeUnpaired = false) {
           url: 'https://example.com/arena',
           label: 'Arena',
         },
-        ...(index < 20
-          ? [
+        ...(singleSourceCount > 0 || index >= 20
+          ? []
+          : [
               {
                 provider: 'artificial-analysis',
                 externalId: `model-${index}`,
                 url: 'https://example.com/analysis',
                 label: 'Artificial Analysis',
               },
-            ]
-          : []),
+            ]),
       ],
     }),
   );
@@ -539,9 +540,24 @@ describe('pipeline charts sur Postgres', () => {
     expect(proof.input.observations.every((row) => row.observedOn === date)).toBe(true);
     expect(proof.report.rows[0]?.contributions.map((row) => row.weight)).toEqual([0.6, 0.4]);
   });
-  it('refuse un gel Models si un candidat à une seule évaluation peut changer le Top', async () => {
+  it('publie les évaluations observées quand un candidat incomplet bloque le profil v3', async () => {
+    vi.stubEnv('CHARTS_REVIEWED_PROFILE_VERSIONS', '');
     await seedModels(true);
     const result = await freezeExternalCharts({ date });
+    expect(result.status).toBe('partial');
+    expect(result.snapshotsCreated).toBe(1);
+    expect(await publicReferenceArtifact('models')).toBeNull();
+    const edition = await publicChartEdition('models');
+    expect(edition?.scoringVersion).toBe('models-quality-observed');
+    expect(edition?.entries).toHaveLength(20);
+    const solo = edition?.entries.find((entry) => entry.slug === 'fixture-model-20');
+    expect(solo?.metrics['arenaQuality']).toBe(1020);
+    expect(solo?.metrics['artificialAnalysisIntelligence']).toBeUndefined();
+    expect(edition?.entries.every((entry) => entry.dimensions['value'] === undefined)).toBe(true);
+  });
+  it('ne publie pas une édition Models observée sous vingt évaluations', async () => {
+    await seedModels(false, 10);
+    const result = await freezeExternalCharts({ date, chart: 'models' });
     expect(result.status).toBe('insufficient_history');
     expect(result.snapshotsCreated).toBe(0);
     expect(await db.select().from(schema.weeklyChartEditions)).toHaveLength(0);

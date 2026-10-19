@@ -22,7 +22,7 @@ Models n'a pas de relevé du 18 octobre : la collecte du jour s'est arrêtée av
   - Skills : `skills-installs-observed`, progression réelle des installations. Les étoiles GitHub restent affichées comme contexte. Elles ne votent pas dans le score. Un même dépôt ne contribue qu'une fois, avec le skill dont la progression d'installations est la plus forte.
 - Omettre les candidats sans cette mesure. Ne pas leur attribuer une note, ni une borne de 100, ni une valeur reconstituée.
 - Ne pas comparer les rangs d'une édition à ceux d'une édition précédente qui utilise une autre version de score. L'ancienne édition de popularité cumulée ne devient pas une montée ou une descente.
-- Laisser le job en résultat partiel : l'édition observée est publique, le profil corroboré ne l'est pas. Models reste bloqué tant qu'une collecte du jour et des identités distinctes ne permettent pas un calcul honnête.
+- Laisser le job en résultat partiel : l'édition observée est publique, le profil corroboré ne l'est pas. Le 18 octobre, Models restait bloqué : la collecte du jour n'avait rien écrit. [ADR-0037](ADR-0037-evaluations-models-observees.md) précise ensuite l'édition observée quand une collecte aboutit mais que vingt fiches n'ont pas les deux évaluations.
 
 ## Conséquences
 

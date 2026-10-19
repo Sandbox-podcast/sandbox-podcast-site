@@ -7,6 +7,7 @@ import {
   modelVariantSignature,
   scoreModels,
   scoreSkills,
+  rankModelsByObservedQuality,
   rankSkillsByObservedInstalls,
   representativeSkillInputs,
   slugifyExternalId,
@@ -42,6 +43,7 @@ import {
   modelsReferenceInput,
   externalReferenceEntries,
   conflictingModelIdentities,
+  withAdmissibleModelEvaluations,
 } from '../domain/reference-adapters.ts';
 import { createReferenceArtifact } from '../lib/reference-artifact.ts';
 import { refreshSlotForDate, refreshSlotId, isRefreshSlotId } from '../domain/chart-refresh.ts';
@@ -1100,11 +1102,29 @@ async function calculateExternalWeek(
           detail: `${observedInstalls.cohort.toString()} dépôts ont une progression d'installations mesurée. Un dépôt ne contribue qu'une fois. Les étoiles GitHub restent un contexte. ${skillsWithBoth.length.toString()} skills avaient aussi une progression d'étoiles.`,
         }
       : null;
+  const modelsSize = modelsProof.input.profile.size;
+  const modelsMinimum = modelsProof.input.profile.minimumCandidates;
+  const observedModels = rankModelsByObservedQuality(
+    modelInputs.map((item) => withAdmissibleModelEvaluations(item, date)),
+    modelsSize,
+  );
+  const modelsObserved =
+    ready.models &&
+    !modelsProof.report.publishable &&
+    observedModels.cohort >= modelsMinimum &&
+    observedModels.entries.length >= modelsSize
+      ? {
+          version: OBSERVED_SCORING_VERSIONS.models,
+          entries: observedModels.entries,
+          detail: `${observedModels.cohort.toString()} modèles ont au moins une évaluation admissible. ${observedModels.paired.toString()} en ont deux. L'évaluation absente n'est pas estimée.`,
+        }
+      : null;
   if (options.dryRun) {
     const skillsShort = ready.skills && !skillsProof.report.publishable && !skillsObserved;
-    const modelsShort = ready.models && !modelsProof.report.publishable;
+    const modelsShort = ready.models && !modelsProof.report.publishable && !modelsObserved;
     summary.status = skillsShort || modelsShort ? 'insufficient_history' : 'success';
     if (skillsObserved) summary.details.push(`Simulation Skills : ${skillsObserved.detail}`);
+    if (modelsObserved) summary.details.push(`Simulation Models : ${modelsObserved.detail}`);
     summary.details.push('Simulation : aucune édition ni journal de job écrit.');
     return;
   }
@@ -1149,7 +1169,24 @@ async function calculateExternalWeek(
   } else if (ready.skills) summary.failed++;
   if (!ready.models && options.chart !== 'skills')
     summary.details.push('Collecte Models absente ou en échec : aucune édition Models.');
-  else if (ready.models && modelsProof.report.publishable)
+  else if (modelsObserved) {
+    written += await freezeExternalEdition(
+      'models',
+      week,
+      date,
+      modelsObserved.version,
+      {
+        size: modelsSize,
+        basis: modelsObserved.version,
+        cohort: observedModels.cohort,
+        paired: observedModels.paired,
+        minimumCandidates: modelsMinimum,
+      },
+      editionEntries(modelsObserved.entries),
+      options.publish ?? true,
+    );
+    summary.details.push(modelsObserved.detail);
+  } else if (ready.models && modelsProof.report.publishable)
     referenceWritten += await freezeExternalEdition(
       'models',
       week,
