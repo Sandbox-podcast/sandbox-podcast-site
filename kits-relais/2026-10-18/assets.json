@@ -2,18 +2,18 @@
   "assets": [
     {
       "file": "archives/kit-loic.zip",
-      "bytes": 7406778,
-      "sha256": "b13ea0261eb8922038ec71d2df8c8beab571b3881076a8d891c4f5757ec52925"
+      "bytes": 7404856,
+      "sha256": "ccdd6b53f679f0e7a07069a35c2bb5f23819e4fb3921b668552c73df861a7872"
     },
     {
       "file": "archives/kit-lou.zip",
-      "bytes": 6668457,
-      "sha256": "38d3f91721a3899c8a8c91e487bd7c6e2f4fcd5a77164a936d5dbd0331a9f98b"
+      "bytes": 6666218,
+      "sha256": "2b3a2a0e4109eb8aa29cdfff63d2b9e45e79427ce1fa8314613b60c0f0b5ed73"
     },
     {
       "file": "archives/kit-nico.zip",
-      "bytes": 8307392,
-      "sha256": "1176d9f72e02e346ac3a1f77b19a20bdfe1ae1eef99b09d9d85679da64aa5cf4"
+      "bytes": 8305045,
+      "sha256": "4c60c62dffd6174dcaeaedfc60146a6c34a82751dcec6d87757d5f8f5bc3b7ec"
     },
     {
       "file": "loic/assets/carte-carree.png",

@@ -53,7 +53,7 @@ import { compareWeeks, previousComparableEdition } from '../domain/weeks.ts';
 import { reviewedReferenceVersion, validateReferenceEdition } from './reference-publication.ts';
 import type { ReferenceArtifact } from './reference-artifact.ts';
 import { OPEN_SOURCE_LICENSE_IDS } from '../domain/reference-adapters.ts';
-import { refreshSlotId } from '../domain/chart-refresh.ts';
+import { isRefreshSlotId, refreshSlotId } from '../domain/chart-refresh.ts';
 
 export class ChartsUnavailableError extends Error {
   constructor() {
@@ -544,8 +544,12 @@ export async function saveScorecardBatch(
 export async function scorecardsForProjects(
   projects: readonly { entityId: string; fullName: string }[],
   date: string,
+  slotId = `${date}T12:00Z`,
 ): Promise<Map<string, ScorecardEvidence>> {
   if (!projects.length) return new Map();
+  if (!isRefreshSlotId(slotId) || slotId.slice(0, 10) !== date)
+    throw new Error('Le créneau OpenSSF doit appartenir à la date calculée.');
+  const slotEnd = new Date(Date.parse(slotId) + 12 * 60 * 60 * 1000).toISOString();
   const names = new Map(
     projects.map((project) => [project.entityId, project.fullName.toLowerCase()]),
   );
@@ -565,7 +569,8 @@ export async function scorecardsForProjects(
         eq(chartEntitySources.provider, scorecardProvider),
         gte(chartSourceSnapshots.observedOn, dateDaysAgo(date, SCORECARD_MAX_AGE_DAYS)),
         lte(chartSourceSnapshots.observedOn, date),
-        lte(chartSourceSnapshots.collectedAt, `${date}T23:59:59.999Z`),
+        // La date réelle borne aussi les observations historiques dont le créneau est « legacy ».
+        lt(chartSourceSnapshots.collectedAt, slotEnd),
       ),
     )
     .orderBy(desc(chartSourceSnapshots.observedOn), desc(chartSourceSnapshots.collectedAt));

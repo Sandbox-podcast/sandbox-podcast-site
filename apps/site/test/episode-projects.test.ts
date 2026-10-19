@@ -17,7 +17,7 @@ import { siteDictionary } from '../src/i18n/dictionaries.ts';
 
 vi.mock('../src/lib/admin-persistence.ts', async (importOriginal) => ({
   ...(await importOriginal<typeof import('../src/lib/admin-persistence.ts')>()),
-  preparePublishedEditorialContent: vi.fn(async () => undefined),
+  preparePublicEditorialContent: vi.fn(async () => undefined),
 }));
 
 const episode = episodeSchema.parse(fixture.episode);

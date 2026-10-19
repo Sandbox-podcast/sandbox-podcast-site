@@ -1,5 +1,11 @@
 # Documentation
 
+Livraison groupée du 18 octobre : [périmètre des conversations, fusions et validations](site/consolidation-globale-2026-10-18.md), avec les PR 84, 85, 86 et 89 réunies dans une branche.
+
+Correction des classements, News et recherche du 18 octobre : [diagnostic, correctifs et validations](site/remise-en-etat-2026-10-18.md). Le rapport distingue les essais locaux des actions de mise en service encore nécessaires.
+
+Import d'épisode sans clé YouTube : [DD-0058](design-decisions/dd-0058-import-youtube-sans-cle-api.md). La page publique fournit la date et la durée ; le lecteur complète la durée si nécessaire.
+
 PR unique du 18 octobre : [regroupement des PR 77 et 78 et résultats des tests complets](site/consolidation-pr77-78-2026-10-18.md). News, SEO, contenus de relais et épisode 003 sont réunis dans la PR 77.
 
 Nom public Sandbox TalkShow sur les médias : [DD-0054](design-decisions/dd-0054-nom-public-sandbox-talkshow.md). Spotify renommé, couverture officielle appliquée et noms YouTube, Instagram, TikTok et X vérifiés le 18 octobre 2026.

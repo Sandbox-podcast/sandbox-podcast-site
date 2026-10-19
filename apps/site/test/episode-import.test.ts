@@ -57,7 +57,20 @@ describe('création simplifiée d’un épisode', () => {
     expect(episode.status).toBe('draft');
   });
 
-  it('ne fabrique pas de durée quand la clé YouTube manque', () => {
+  it('accepte la date et la durée de la page publique sans clé API', () => {
+    const episode = createEpisodeFromYouTube({
+      number: 43,
+      metadata: { ...metadata, source: 'youtube-page' },
+      description,
+      hosts: ['lou'],
+      status: 'published',
+    });
+    expect(episode.durationSec).toBe(1800);
+    expect(episode.publishedAt).toBe(metadata.publishedAt);
+    expect(episode.status).toBe('published');
+  });
+
+  it('ne fabrique pas de durée quand YouTube ne la fournit pas', () => {
     expect(() =>
       createEpisodeFromYouTube({
         number: 43,
@@ -66,7 +79,19 @@ describe('création simplifiée d’un épisode', () => {
         hosts: ['lou'],
         status: 'published',
       }),
-    ).toThrow('Configurez YOUTUBE_API_KEY');
+    ).toThrow('YouTube n’a pas fourni la date ou la durée');
+  });
+
+  it('ne remplace pas une date manquante par la date du jour', () => {
+    expect(() =>
+      createEpisodeFromYouTube({
+        number: 43,
+        metadata: { ...metadata, source: 'youtube-page', publishedAt: undefined },
+        description,
+        hosts: ['lou'],
+        status: 'published',
+      }),
+    ).toThrow('YouTube n’a pas fourni la date ou la durée');
   });
 
   it('demande une description et un animateur réels', () => {

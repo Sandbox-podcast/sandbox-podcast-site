@@ -20,6 +20,23 @@ const summary = (status = 'success', remaining = 0) => ({
 });
 
 describe('chaîne de mise à jour et contrôle de publication', () => {
+  it('refuse une publication future, une date impossible ou des positions incohérentes sans lever', () => {
+    expect(
+      verifyPublishedEdition(
+        { ...edition('models'), publishedAt: '2026-10-16T03:30:00Z' },
+        'models',
+        now,
+      ).ok,
+    ).toBe(false);
+    expect(verifyPublishedEdition(edition('models', '2026-02-31'), 'models', now)).toMatchObject({
+      ok: false,
+      reason: 'Date d’édition invalide.',
+    });
+    for (const entries of [[{ rank: 1 }, { rank: 1 }], [{ rank: 1 }, { rank: 3 }], [{ rank: 2 }]])
+      expect(verifyPublishedEdition({ ...edition('models'), entries }, 'models', now).ok).toBe(
+        false,
+      );
+  });
   it('refuse un classement ancien, même republié aujourd’hui, et une édition future', () => {
     expect(verifyPublishedEdition(edition('github', '2026-10-10'), 'github', now).ok).toBe(false);
     expect(verifyPublishedEdition(edition('github', '2026-10-16T00:00Z'), 'github', now).ok).toBe(

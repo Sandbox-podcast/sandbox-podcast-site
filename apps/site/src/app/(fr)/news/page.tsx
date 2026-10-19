@@ -1,29 +1,21 @@
 import { notFound } from 'next/navigation';
 import { NewsScreen } from '@/components/news-screen';
-import { newsPreviewEnabled, readNewsPreview } from '@/lib/news-preview-store';
 import { absoluteUrl } from '@/lib/seo';
-import { newsPageMetadata } from '@/lib/news-metadata';
-import { newsPublicEnabled, readPublishedNews } from '@/lib/news-store';
+import { publicNewsPageMetadata } from '@/lib/news-metadata';
+import { readNewsPageData } from '@/lib/news-page-data';
 
 export const dynamic = 'force-dynamic';
-export const generateMetadata = () => newsPageMetadata();
+export const generateMetadata = () => publicNewsPageMetadata();
 export default async function NewsPage({ locale = 'fr-FR' }: { locale?: string }) {
-  if (newsPreviewEnabled()) {
-    return (
-      <NewsScreen
-        initialFeed={await readNewsPreview()}
-        locale={locale}
-        isPreview
-        canonicalUrl={absoluteUrl(locale === 'fr-FR' ? '/news' : `/${locale.toLowerCase()}/news`)}
-      />
-    );
-  }
-  if (!newsPublicEnabled()) notFound();
-  const feed = await readPublishedNews();
-  if (!feed.items.length) notFound();
+  const data = await readNewsPageData();
+  if (data.status === 'disabled') notFound();
   return (
     <NewsScreen
-      initialFeed={feed}
+      initialFeed={
+        data.status === 'unavailable' ? { checkedAt: null, sources: [], items: [] } : data.feed
+      }
+      isPreview={data.status === 'preview'}
+      isUnavailable={data.status === 'unavailable'}
       locale={locale}
       canonicalUrl={absoluteUrl(locale === 'fr-FR' ? '/news' : `/${locale.toLowerCase()}/news`)}
     />

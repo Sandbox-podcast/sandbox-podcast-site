@@ -7,6 +7,7 @@ import styles from './discovery-chapters.module.css';
 import { HomeProjectSpotlight } from './home-project-spotlight';
 import { HomeHostCard } from './home-host-card';
 import { newsPreviewEnabled } from '@/lib/news-preview-store';
+import { newsPublicEnabled } from '@/lib/news-store';
 
 export function DiscoveryStory({
   hosts,
@@ -130,7 +131,7 @@ export function DiscoveryStory({
         </header>
         <div
           className={styles['exploreGrid']}
-          data-news={newsPreviewEnabled() ? 'true' : undefined}
+          data-news={newsPreviewEnabled() || newsPublicEnabled() ? 'true' : undefined}
         >
           <Link
             href="/time-machine"
@@ -210,7 +211,7 @@ export function DiscoveryStory({
               <ArrowIcon />
             </span>
           </Link>
-          {newsPreviewEnabled() ? (
+          {newsPreviewEnabled() || newsPublicEnabled() ? (
             <Link
               href="/news"
               className={`${styles['exploreLink']} ${styles['newsLink']}`}

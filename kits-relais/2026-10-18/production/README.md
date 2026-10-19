@@ -8,6 +8,8 @@ Début directement sur le sujet, ordre des échanges conservé, cadre horizontal
 
 `selection.json` donne les bornes dans chaque source. Les fichiers `montage.json` conservent les empreintes, les bornes, la durée et le contrôle de décodage. Les sources complètes restent hors de Git. Les sous-titres viennent des transcriptions automatiques locales ; les noms et les formulations doivent être relus à l'écoute avant diffusion.
 
+Les extraits courts des kits personnels contiennent déjà leurs sous-titres dans l'image. Leurs fichiers SRT restent dans `production/captions/`, en dehors des dossiers personnels et des ZIP. Placer un SRT à côté du MP4 peut déclencher son chargement automatique par le lecteur et afficher les sous-titres deux fois. Les montages longs gardent leur SRT séparé, car leur vidéo ne contient pas de sous-titres incrustés.
+
 ## Reproduire
 
 Prérequis : Python 3.12 ou plus, FFmpeg et ffprobe. Depuis ce dossier :

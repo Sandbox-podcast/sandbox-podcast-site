@@ -1,5 +1,5 @@
 {
-  "reviewedAt": "2026-10-15",
+  "reviewedAt": "2026-10-18",
   "fromYear": 1996,
   "toYear": 2026,
   "events": [
@@ -2905,6 +2905,227 @@
         {
           "label": "Publication et rapport technique HiRO-ACEv2",
           "url": "https://allenai.org/blog/hiro-acev2"
+        }
+      ]
+    },
+    {
+      "id": "antigravity-antimicrobial-peptides",
+      "date": "2026-10-15",
+      "dateKind": "publication",
+      "title": "Google utilise Antigravity pour chercher des peptides antimicrobiens",
+      "shortTitle": "Antigravity et les peptides",
+      "organization": "Google DeepMind",
+      "category": "research",
+      "summary": "Des biologistes utilisent Antigravity et ProtNLM pour repérer et analyser un candidat antimicrobien dans les bases de protéines.",
+      "context": "L'activité du candidat est prédite par calcul. La validation en laboratoire est encore en cours dans la publication ; aucune efficacité clinique n'est établie.",
+      "landmark": false,
+      "tags": ["biologie", "antibiotiques", "agents", "ProtNLM"],
+      "sources": [
+        {
+          "label": "Publication de Google DeepMind",
+          "url": "https://deepmind.google/blog/accelerating-antimicrobial-discovery/"
+        }
+      ]
+    },
+    {
+      "id": "rosalind-academic-plan",
+      "date": "2026-10-15",
+      "dateKind": "announcement",
+      "title": "OpenAI ouvre les candidatures au Rosalind Academic Plan",
+      "shortTitle": "Rosalind pour les laboratoires",
+      "organization": "OpenAI",
+      "category": "product",
+      "summary": "OpenAI propose aux laboratoires universitaires américains éligibles un accès financé à GPT-Rosalind et à ses outils pour les sciences du vivant.",
+      "context": "Le programme prévoit jusqu'à 30 places pendant 12 mois. L'accès à GPT-Rosalind demande une approbation ; l'API est exclue de cette offre à son lancement.",
+      "landmark": false,
+      "tags": ["science", "biologie", "GPT-Rosalind", "universités"],
+      "sources": [
+        {
+          "label": "Annonce du Rosalind Academic Plan",
+          "url": "https://openai.com/index/introducing-the-rosalind-academic-plan/"
+        }
+      ]
+    },
+    {
+      "id": "muse-spark-open",
+      "date": "2026-10-15",
+      "dateKind": "release",
+      "title": "Meta publie les poids de Muse Spark Open",
+      "shortTitle": "Muse Spark Open",
+      "organization": "Meta",
+      "category": "model",
+      "summary": "Meta publie un modèle multimodal pour le code et les agents, avec 816 milliards de paramètres, dont 42 milliards actifs par token.",
+      "context": "Le modèle accepte texte, image, audio et vidéo en entrée, et produit du texte. Les poids sont distribués sous Muse Model License, avec des conditions commerciales spécifiques.",
+      "landmark": true,
+      "tags": ["poids ouverts", "multimodal", "agents", "code"],
+      "sources": [
+        {
+          "label": "Annonce de Meta",
+          "url": "https://research.meta.ai/blog/muse-spark-open"
+        },
+        {
+          "label": "Architecture et licence de Muse Spark Open",
+          "url": "https://dev.meta.ai/docs/muse-spark-open"
+        }
+      ]
+    },
+    {
+      "id": "jais-3",
+      "date": "2026-10-15",
+      "dateKind": "release",
+      "title": "Jais 3 publie six modèles pour l'arabe et ses dialectes",
+      "shortTitle": "Jais 3",
+      "organization": "MBZUAI / Inception42",
+      "category": "model",
+      "summary": "MBZUAI et Inception42 publient six modèles de langage pour l'arabe, de 900 millions à 375 milliards de paramètres, accompagnés de Jais Speech.",
+      "context": "La famille adapte K2 Horizon et couvre l'arabe standard ainsi que plusieurs dialectes. Les résultats comparatifs sont ceux des évaluations publiées par les équipes.",
+      "landmark": false,
+      "tags": ["arabe", "dialectes", "voix", "poids ouverts"],
+      "sources": [
+        {
+          "label": "Annonce de MBZUAI",
+          "url": "https://mbzuai.ac.ae/news-events/news/mbzuais-institute-foundation-models-inception42-launch-jais-3-arabic-native-ai"
+        }
+      ]
+    },
+    {
+      "id": "genesis-agent-skills",
+      "date": "2026-10-15",
+      "dateKind": "release",
+      "title": "Le DOE publie Genesis Agent Skills pour la recherche",
+      "shortTitle": "Genesis Agent Skills",
+      "organization": "U.S. Department of Energy",
+      "category": "product",
+      "summary": "Le département américain de l'Énergie publie des instructions et des outils réutilisables pour les agents de code employés en recherche scientifique.",
+      "context": "Le catalogue public couvre notamment les données, l'évaluation des agents et les workflows scientifiques. Sa publication ne démontre pas à elle seule une découverte scientifique.",
+      "landmark": false,
+      "tags": ["science", "agents", "skills", "données"],
+      "sources": [
+        {
+          "label": "Annonce officielle du DOE",
+          "url": "https://www.energy.gov/science/articles/genesis-agent-skills-release-support-innovation-across-genesis-mission"
+        }
+      ]
+    },
+    {
+      "id": "granite-switch-4-1",
+      "date": "2026-10-15",
+      "dateKind": "release",
+      "title": "IBM réunit conversation, décisions et transcription dans Granite Switch 4.1",
+      "shortTitle": "Granite Switch 4.1",
+      "organization": "IBM",
+      "category": "model",
+      "summary": "IBM publie Granite Switch 4.1 en versions 8B et 30B, qui combinent un modèle de langage, des adaptateurs de décision et un modèle de transcription.",
+      "context": "Les adaptateurs partagent le cache du modèle de base. Les gains de vitesse et les comparaisons de classification dépendent des tâches et configurations testées par IBM.",
+      "landmark": false,
+      "tags": ["décisions", "transcription", "adaptateurs", "aLoRA"],
+      "sources": [
+        {
+          "label": "Publication de l'équipe IBM Granite",
+          "url": "https://huggingface.co/blog/ibm-granite/granite-switch-4-1"
+        }
+      ]
+    },
+    {
+      "id": "flux-3-image-klein",
+      "date": "2026-10-15",
+      "dateKind": "release",
+      "title": "FLUX.3 Image Klein arrive dans Diffusers",
+      "shortTitle": "FLUX.3 Image Klein",
+      "organization": "Black Forest Labs / Hugging Face",
+      "category": "model",
+      "summary": "FLUX.3 Image Klein combine génération et modification d'images avec plusieurs références, et contrôle du placement par zones dans le prompt.",
+      "context": "Diffusers prend en charge les versions de base et distillée dès cette publication. Les temps de génération annoncés dépendent du matériel et des réglages utilisés.",
+      "landmark": false,
+      "tags": ["image", "diffusion", "édition", "Diffusers"],
+      "sources": [
+        {
+          "label": "Publication de l'équipe Diffusers",
+          "url": "https://huggingface.co/blog/flux-3"
+        }
+      ]
+    },
+    {
+      "id": "beam-open-weights",
+      "date": "2026-10-16",
+      "dateKind": "release",
+      "title": "Reflection publie les poids de Beam sous Apache 2.0",
+      "shortTitle": "Beam, poids publics",
+      "organization": "Reflection",
+      "category": "model",
+      "summary": "Reflection publie Beam, un modèle de 501 milliards de paramètres, dont 23 milliards actifs, pour le développement et les agents.",
+      "context": "Cette date correspond à la publication des poids, après l'annonce du 5 octobre. Les versions BF16, FP8 et NVFP4 sont disponibles sous Apache 2.0.",
+      "landmark": true,
+      "tags": ["poids ouverts", "code", "agents", "Apache 2.0"],
+      "sources": [
+        {
+          "label": "Publication des poids de Beam",
+          "url": "https://reflection.ai/blog/beam-is-available"
+        },
+        {
+          "label": "Fiche du modèle publiée par Reflection",
+          "url": "https://huggingface.co/reflection/Beam-1.0-501B-A23B"
+        }
+      ]
+    },
+    {
+      "id": "claude-quantum-circuits",
+      "date": "2026-10-16",
+      "dateKind": "publication",
+      "title": "Claude conçoit des circuits quantiques moins coûteux",
+      "shortTitle": "Claude et les circuits quantiques",
+      "organization": "Anthropic / Harvard / QuEra",
+      "category": "research",
+      "summary": "Une équipe utilise Claude Mythos 5 et un évaluateur automatique pour réduire les ressources nécessaires à huit primitives de calcul quantique.",
+      "context": "Les améliorations portent sur des conceptions de circuits, évaluées en nombre de portes et de qubits. Elles ne démontrent pas une exécution sur un ordinateur quantique pratique.",
+      "landmark": false,
+      "tags": ["science", "quantique", "algorithmes", "mathématiques"],
+      "sources": [
+        {
+          "label": "Publication scientifique d'Anthropic",
+          "url": "https://www.anthropic.com/research/designing-efficient-quantum-circuits"
+        }
+      ]
+    },
+    {
+      "id": "claude-ecdsa-curve-origins",
+      "date": "2026-10-16",
+      "dateKind": "publication",
+      "title": "Claude retrouve l'origine des paramètres de courbes ECDSA",
+      "shortTitle": "Les origines des courbes ECDSA",
+      "organization": "Anthropic",
+      "category": "research",
+      "summary": "Anthropic rapporte qu'un modèle de recherche Claude a retrouvé comment les graines de plusieurs courbes NIST avaient été générées à partir d'horodatages.",
+      "context": "La publication fournit du code de reproduction. Le résultat éclaire l'origine des paramètres ; il ne constitue pas une attaque ni une faiblesse nouvelle d'ECDSA.",
+      "landmark": false,
+      "tags": ["cryptographie", "ECDSA", "NIST", "mathématiques"],
+      "sources": [
+        {
+          "label": "Analyse et code de reproduction d'Anthropic",
+          "url": "https://www.anthropic.com/research/ecdsa-curve-origins"
+        }
+      ]
+    },
+    {
+      "id": "deepseek-v4-1-flash-1017",
+      "date": "2026-10-17",
+      "dateKind": "release",
+      "title": "DeepSeek met à jour V4.1 Flash et ouvre Search et Fetch",
+      "shortTitle": "DeepSeek V4.1 Flash 1017",
+      "organization": "DeepSeek",
+      "category": "model",
+      "summary": "DeepSeek déploie V4.1-Flash-1017 sur son site, son application et son API, publie les poids et ouvre ses interfaces de recherche et de lecture du Web.",
+      "context": "Le fournisseur rapporte des gains en code et en raisonnement, avec des réponses plus courtes. Ces comparaisons dépendent de ses évaluations et des outils employés.",
+      "landmark": false,
+      "tags": ["code", "agents", "recherche web", "poids ouverts"],
+      "sources": [
+        {
+          "label": "Annonce officielle du 17 octobre",
+          "url": "https://api-docs.deepseek.com/news/news261017/"
+        },
+        {
+          "label": "Poids et licence du modèle",
+          "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash-1017"
         }
       ]
     }

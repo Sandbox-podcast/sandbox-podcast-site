@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next';
 import { isMock } from '@/config/site';
 import { absoluteUrl } from '@/lib/seo';
-import { preparePublishedEditorialContent } from '@/lib/admin-persistence';
+import { preparePublicEditorialContent } from '@/lib/admin-persistence';
 import {
   publishedChartSitemapPaths,
   type PublishedChartEditionForSitemap,
@@ -27,7 +27,7 @@ export const dynamic = 'force-dynamic';
 
 /** Chaque URL annoncée correspond à un contenu réellement publié et indexable. */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  await preparePublishedEditorialContent();
+  await preparePublicEditorialContent();
   const entry = (
     path: string,
     lastModified?: string,

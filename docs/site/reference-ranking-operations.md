@@ -57,11 +57,19 @@ L'API des preuves est `/api/charts/<github|rising|skills|models>/<édition|curre
 
 Les relevés et les signaux sont append-only. Deux collectes et éditions quotidiennes doublent le volume de mesures par rapport au rythme précédent. Fixer un budget de stockage et un plan d'archivage avant d'augmenter la taille du pool. Aucune suppression automatique n'est livrée. Un jeton rate-limited, une identité changée, une page Trending différente ou une base non migrée doit produire une erreur visible dans les journaux de jobs. Les relances n'ajoutent pas deux fois une mesure au même créneau.
 
+Un rejeu du créneau GitHub du matin exclut aussi les rapports OpenSSF collectés après 12 h UTC, y compris les relevés historiques marqués `legacy`. L'API publique restitue les références GitHub et OpenSSF avec leur date conservée lorsqu'une observation existe ; elle n'ajoute aucune preuve OpenSSF à une édition observée qui en est dépourvue.
+
 La liste conservatrice des licences est dans `reference-adapters.ts`. Elle ne couvre pas toutes les licences reconnues par l'OSI. Une revue peut l'étendre en versionnant la méthode ; une licence inconnue n'est pas déclarée propriétaire ou dangereuse pour autant.
 
 Les observations Trending conservent les présences collectées. La version livrée ne calcule pas de statistique affirmant précéder GitHub : cette mesure demande un protocole d'échantillonnage, un historique et une comparaison des premières détections. GitHub Actions vise les heures indiquées, sans garantie de démarrage exact ni de rejeu après un déclenchement omis. Les quotas réels, délais de détection, coûts et biais de couverture n'ont pas encore été mesurés en production.
 
 Un même identifiant Arena ou Artificial Analysis rattaché à plusieurs modèles actifs met ces entités en attente et peut bloquer Models. Le responsable doit relire les raccordements et retirer du pool actif les alias obsolètes. Les éditions publiées et leurs identités figées restent intactes.
+
+La collecte met désormais les seuls candidats contradictoires en attente et conserve les mesures des autres modèles. Le journal détaille les références et les fiches concernées. L'exclusion manuelle d'une fiche ne résout pas une référence partagée : la résolution consulte aussi les fiches exclues. Voir [ADR-0036](../adr/ADR-0036-isolement-des-identites-models-en-conflit.md).
+
+Pour préparer la revue canonique en lecture seule, utiliser `pnpm --filter @podcast/site charts:identities --output=diagnostic-models.json` avec une connexion Postgres autorisée. La commande retourne les sources exactes, les statuts actifs/exclus, les dates et volumes de relevés, ainsi que le nombre de positions déjà publiées de chaque fiche. Le code de sortie vaut 2 si des conflits restent présents, 1 en cas d'erreur et 0 si aucun doublon n'est détecté. Un fichier existant n'est jamais écrasé. Le rapport propose une fiche seulement lorsque toutes les sources concordent et qu'une seule possède un historique public ; une proposition reste à valider.
+
+Un export brut de la requête `modelIdentityAuditQuery` peut aussi être relu hors base avec `pnpm --filter @podcast/site charts:identities --file=export-models.json --output=diagnostic-models.json`. Aucune connexion n'est nécessaire dans ce mode. Après revue, préparer une correspondance explicite par fournisseur et identifiant externe, préserver les anciennes éditions et les mesures, puis valider la réparation sur une copie de base. Le diagnostic n'applique aucune fusion ni désactivation.
 
 Un dépôt que GitHub ne résout plus sous son nom enregistré sort du suivi automatique au passage suivant, sauf statut manuel. L'échec d'Arena ou de Hugging Face n'efface pas le catalogue encore reçu des autres sources Models. Voir [ADR-0034](../adr/ADR-0034-collectes-partielles-github-et-models.md).
 

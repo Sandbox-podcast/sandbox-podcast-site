@@ -1,4 +1,6 @@
 import { createElement } from 'react';
+import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { NEWS_MEDIA } from '../src/domain/news-media';
@@ -7,6 +9,7 @@ import { applyNewsEditorial, NEWS_EDITORIAL } from '../src/pipeline/news-editori
 import { NEWS_EDITORIAL_TRANSLATIONS } from '../src/pipeline/news-translations';
 import {
   newsEditorialTranslationsComplete,
+  newsTranslatorPython,
   translateNewsEditorialItems,
 } from '../src/pipeline/news-translation';
 import { newsCollectionLd } from '../src/domain/news-seo';
@@ -47,6 +50,29 @@ describe('médias News demandés par Lou', () => {
     const article = parseNewsArticle(page, url, media);
     expect(article?.sourceExcerpt).toBe(excerpt.trim());
     expect(article?.sourceExcerpt).not.toContain('<meta');
+  });
+  it('utilise le corps de l’article quand la description est trop courte pour générer une synthèse', () => {
+    const description = 'A short description without enough supporting details. '.repeat(4);
+    const body =
+      'The lab released a model with four billion parameters. It accepts images and text. The weights use the Apache 2.0 licence. '.repeat(
+        3,
+      );
+    const article = parseNewsArticle(
+      `${html}<meta property="og:description" content="${description}"><article><nav>Menu</nav><p>${body}</p></article>`,
+      url,
+      media,
+    );
+    expect(article?.sourceExcerpt).toBe(body.trim());
+    expect(article?.sourceExcerpt).not.toContain('Menu');
+  });
+  it('trouve le Python du moteur sous Linux comme sous Windows, depuis le dossier de l’application', () => {
+    const root = fileURLToPath(new URL('../', import.meta.url));
+    expect(newsTranslatorPython('linux')).toBe(
+      join(root, '.local', 'news-translator-venv', 'bin', 'python'),
+    );
+    expect(newsTranslatorPython('win32')).toBe(
+      join(root, '.local', 'news-translator-venv', 'Scripts', 'python.exe'),
+    );
   });
   it('exige trois phrases pour chaque synthèse éditoriale, sans publier un titre brut non relu', () => {
     const segmenter = new Intl.Segmenter('fr', { granularity: 'sentence' });

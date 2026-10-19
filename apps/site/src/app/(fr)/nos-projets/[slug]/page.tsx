@@ -19,7 +19,7 @@ import {
 } from '@/domain/personal-projects';
 import { personalProject, personalProjects } from '@/lib/personal-projects';
 import { allEpisodes } from '@/lib/repository';
-import { preparePublishedEditorialContent } from '@/lib/admin-persistence';
+import { preparePublicEditorialContent } from '@/lib/admin-persistence';
 import { episodeProjects } from '@/domain/episode-projects';
 import { formatTimestamp } from '@/domain/format';
 import { absoluteUrl, breadcrumbLd, pageMetadata } from '@/lib/seo';
@@ -54,7 +54,7 @@ export async function generateMetadata({ params }: ProjectPageProps) {
 }
 
 export default async function PersonalProjectPage({ params }: ProjectPageProps) {
-  await preparePublishedEditorialContent();
+  await preparePublicEditorialContent();
   const { slug } = await params;
   const project = personalProject(slug);
   if (!project) notFound();

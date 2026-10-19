@@ -11,7 +11,11 @@ import {
 } from '../src/domain/github-charts.ts';
 import { chartEditionSchema } from '../src/domain/schema.ts';
 import { ContentConflictError } from '../src/lib/admin-content-conflict.ts';
-import { freezeExternalEdition, saveExternalBatch } from '../src/lib/external-charts-store.ts';
+import {
+  freezeExternalEdition,
+  saveExternalBatch,
+  saveExternalBatchReport,
+} from '../src/lib/external-charts-store.ts';
 import {
   beginChartsJob,
   collectionBatch,
@@ -40,6 +44,8 @@ import { saveBurstBatch, publicGithubBursts } from '../src/lib/github-bursts-sto
 import { verifyReferenceArtifact } from '../src/lib/reference-artifact.ts';
 import { externalEntitySchema, externalObservationSchema } from '../src/domain/external-charts.ts';
 import { freezeExternalCharts } from '../src/pipeline/external-jobs.ts';
+import { modelIdentityAuditQuery } from '../src/lib/model-identity-audit.ts';
+import { modelIdentityAudit } from '../src/domain/model-identity-audit.ts';
 
 const pg = new PGlite();
 const db = drizzle(pg, { schema });
@@ -211,6 +217,136 @@ async function seedModels(includeUnpaired = false) {
 }
 
 describe('pipeline charts sur Postgres', () => {
+  it('enregistre les modèles distincts sans modifier les sources et mesures en conflit', async () => {
+    await seedModels();
+    const original = (await db.select().from(schema.chartEntities)).find(
+      (entity) => entity.slug === 'fixture-model-0',
+    );
+    if (!original) throw new Error('Modèle fixture absent');
+    const originalSources = await db
+      .select()
+      .from(schema.chartEntitySources)
+      .where(eq(schema.chartEntitySources.entityId, original.id));
+    const snapshots = await db.select().from(schema.chartSourceSnapshots);
+    const duplicate = { ...original, id: 'duplicate-id', slug: 'duplicate-model', active: false };
+    await db.insert(schema.chartEntities).values(duplicate);
+    await db.insert(schema.chartEntitySources).values(
+      originalSources.map((source, index) => ({
+        ...source,
+        id: `duplicate-source-${index}`,
+        entityId: duplicate.id,
+      })),
+    );
+    const audit = modelIdentityAudit((await pg.query(modelIdentityAuditQuery)).rows);
+    expect(audit).toHaveLength(2);
+    expect(audit[0]).toMatchObject({
+      classification: 'same_source_sets',
+      proposedCanonicalSlug: null,
+      approved: false,
+    });
+    expect(audit[0]?.identities.find((identity) => identity.id === original.id)).toMatchObject({
+      snapshots: 2,
+      firstObservedOn: date,
+      lastObservedOn: date,
+      publishedRanks: 0,
+    });
+    expect(audit[0]?.identities.find((identity) => identity.id === duplicate.id)?.active).toBe(
+      false,
+    );
+    const entities = [
+      externalEntitySchema.parse({
+        ...original,
+        sources: originalSources.map((source) => ({
+          provider: source.provider,
+          externalId: source.externalId,
+          url: source.url,
+          label: source.label,
+        })),
+      }),
+      externalEntitySchema.parse({
+        ...original,
+        slug: 'distinct-model',
+        sources: [
+          {
+            provider: 'huggingface',
+            externalId: 'publisher/distinct',
+            url: 'https://huggingface.co/publisher/distinct',
+            label: 'Hugging Face',
+          },
+        ],
+      }),
+    ];
+    const observations = entities.flatMap((entity) =>
+      entity.sources.map((source) => ({
+        entitySlug: entity.slug,
+        source,
+        observedOn: date,
+        collectedAt: `${date}T15:00:00.000Z`,
+        metrics: { downloads: 42 },
+      })),
+    );
+    await expect(saveExternalBatch(entities, observations)).rejects.toThrow('contradictoire');
+    const result = await saveExternalBatchReport(entities, observations, {
+      skipConflictingModels: true,
+    });
+    expect(result).toMatchObject({
+      snapshotsCreated: 1,
+      entitiesSaved: 1,
+      identityConflicts: [{ slug: original.slug, knownSlugs: ['duplicate-model', original.slug] }],
+    });
+    expect(
+      await db
+        .select()
+        .from(schema.chartEntitySources)
+        .where(eq(schema.chartEntitySources.entityId, original.id)),
+    ).toEqual(originalSources);
+    const afterSnapshots = await db.select().from(schema.chartSourceSnapshots);
+    expect(afterSnapshots).toHaveLength(snapshots.length + 1);
+    expect(afterSnapshots).toEqual(expect.arrayContaining(snapshots));
+    expect(
+      (await db.select().from(schema.chartEntities)).find((entity) => entity.id === duplicate.id),
+    ).toEqual(duplicate);
+    expect(
+      (await saveExternalBatchReport(entities, observations, { skipConflictingModels: true }))
+        .snapshotsCreated,
+    ).toBe(0);
+    const allConflicted = await saveExternalBatchReport(
+      entities.slice(0, 1),
+      observations.filter((observation) => observation.entitySlug === original.slug),
+      { skipConflictingModels: true },
+    );
+    expect(allConflicted.entitiesSaved).toBe(0);
+    expect(allConflicted.snapshotsCreated).toBe(0);
+  });
+
+  it.each([
+    ['2026-W42', 2026, 42],
+    ['2026-10-12', 2026, 42],
+    ['2026-10-18T00:00Z', 2026, 42],
+    ['2026-10-18T12:00Z', 2026, 42],
+    ['2027-01-01', 2026, 53],
+    ['2025-12-29T12:00Z', 2026, 1],
+  ])('expose la semaine ISO de %s dans l’API', async (weekId, year, week) => {
+    await db.insert(schema.weeklyChartEditions).values({
+      id: `fixture-${weekId}`,
+      chart: 'models',
+      week: weekId,
+      scoringVersion: 'fixture',
+      config: {},
+      frozenAt: '2026-10-18T18:00:00.000Z',
+      publishedAt: '2026-10-18T18:00:00.000Z',
+      payload: {
+        chart: 'models',
+        week: weekId,
+        publishedAt: '2026-10-18T18:00:00.000Z',
+        retrievedAt: '2026-10-18T17:00:00.000Z',
+        provenance: 'auto',
+        entries: [{ entity: 'fixture-model', rank: 1, score: 50, dimensions: {}, metrics: {} }],
+      },
+    });
+    expect(await publicChartEdition('models')).toMatchObject({ weekId, year, week });
+  });
+
   it('réutilise les sources connues malgré un changement de slug et conserve les exclusions', async () => {
     await seedModels();
     const old = (
@@ -448,6 +584,13 @@ describe('pipeline charts sur Postgres', () => {
       edition?.entries.every((entry) => entry.dimensions['securityPractices'] === undefined),
     ).toBe(true);
     expect(edition?.entries.every((entry) => entry.status === 'new')).toBe(true);
+    expect(edition?.entries[0]?.sources).toEqual([
+      expect.objectContaining({
+        provider: 'github',
+        label: 'GitHub',
+        observedAt: `${date}T02:00:00.000Z`,
+      }),
+    ]);
   });
   it('distingue dépôt public et dépôt open source en conservant la licence source', async () => {
     await seed();
@@ -712,6 +855,52 @@ describe('pipeline charts sur Postgres', () => {
     expect(await scorecardsForProjects(projects, date)).toEqual(new Map());
     expect((await calculateGithubWeek({ date, dryRun: true })).entries).toHaveLength(0);
   });
+  it('isole les rapports OpenSSF du créneau simulé, y compris les relevés legacy', async () => {
+    const projects = await seed(true, 20, false);
+    await saveScorecardBatch(
+      projects.map((project) => ({
+        entityId: project.entityId,
+        fullName: project.fullName,
+        ...scorecardData(8),
+        assessedOn: '2026-10-04',
+        collectedAt: `${date}T14:00:00Z`,
+      })),
+    );
+    expect(await scorecardsForProjects(projects, date, `${date}T00:00Z`)).toEqual(new Map());
+    expect((await calculateGithubWeek({ date, dryRun: true })).entries).toHaveLength(0);
+    expect((await scorecardsForProjects(projects, date, `${date}T12:00Z`)).size).toBe(20);
+    await saveDailyBatch(
+      projects.map((project, index) => ({
+        projectId: project.id,
+        date,
+        stars: 1000 + 300 * (index + 1),
+        forks: 70,
+        watchers: null,
+        openIssues: 10,
+        contributors: null,
+        commits: 5,
+        releases: null,
+        pushedAt: `${date}T00:00:00Z`,
+        collectedAt: `${date}T14:00:00Z`,
+      })),
+    );
+    const afternoon = await calculateGithubWeek({ date, slotId: `${date}T12:00Z`, dryRun: true });
+    expect(afternoon.entries).toHaveLength(20);
+    const source = (await db.select().from(schema.chartEntitySources))[0];
+    if (!source) throw new Error('Référence OpenSSF absente');
+    await db.insert(schema.chartSourceSnapshots).values({
+      id: 'legacy-scorecard',
+      entitySourceId: source.id,
+      observedOn: '2026-10-04',
+      refreshSlotId: 'legacy:fixture',
+      collectedAt: `${date}T15:00:00Z`,
+      payload: scorecardData(9),
+    });
+    expect(await scorecardsForProjects(projects, date, `${date}T00:00Z`)).toEqual(new Map());
+    expect(
+      (await scorecardsForProjects(projects, date, `${date}T12:00Z`)).get(source.entityId)?.score,
+    ).toBe(9);
+  });
   it('refuse de stocker un relevé OpenSSF sans six contrôles vérifiables', async () => {
     const [project] = await seed(true, 1, false);
     if (!project) throw new Error('Fixture absente.');
@@ -777,6 +966,18 @@ describe('pipeline charts sur Postgres', () => {
       { checksUsed?: unknown; checkScores?: Record<string, unknown> } | undefined;
     expect(sourceEvidence?.checksUsed).toBe(6);
     expect(typeof sourceEvidence?.checkScores?.['Code-Review']).toBe('number');
+    expect(api?.entries[0]?.sources).toEqual([
+      expect.objectContaining({
+        provider: 'github',
+        label: 'GitHub',
+        observedAt: `${date}T02:00:00.000Z`,
+      }),
+      expect.objectContaining({
+        provider: 'openssf-scorecard',
+        label: 'OpenSSF Scorecard',
+        observedAt: '2026-10-04',
+      }),
+    ]);
     const publicData = await sandboxChartsData();
     expect(publicData.mode).toBe('live');
     expect(
@@ -844,6 +1045,65 @@ describe('pipeline charts sur Postgres', () => {
       details: [],
     });
     expect(await beginChartsJob('github_daily_sync')).toBeTruthy();
+  });
+  it('conserve l’identité et l’historique d’un dépôt renommé résolu par GitHub', async () => {
+    vi.stubEnv('GITHUB_TOKEN', 'test-token');
+    const projects = await seed(true, 1);
+    const project = projects[0];
+    if (!project) throw new Error('Dépôt fixture absent');
+    const client = new GithubClient({ token: 'test-token' });
+    vi.spyOn(client, 'batch').mockResolvedValue([
+      {
+        fullName: project.fullName,
+        repository: {
+          ...repo(0),
+          name: 'renamed',
+          full_name: 'new-owner/renamed',
+          owner: { login: 'new-owner' },
+          html_url: 'https://github.com/new-owner/renamed',
+          stargazers_count: 3000,
+        },
+        commits7d: 5,
+        error: null,
+      },
+    ]);
+    const result = await collectGithub(client, new Date('2026-10-06T02:00:00Z'));
+    expect(result.failed).toBe(0);
+    const stored = (await db.select().from(schema.githubProjects))[0];
+    expect(stored).toMatchObject({
+      id: project.id,
+      entityId: project.entityId,
+      githubId: project.githubId,
+      fullName: 'new-owner/renamed',
+      status: 'tracked',
+    });
+    expect(await db.select().from(schema.githubDailySnapshots)).toHaveLength(4);
+  });
+  it('conserve un statut manuel malgré une erreur de résolution GitHub', async () => {
+    vi.stubEnv('GITHUB_TOKEN', 'test-token');
+    const projects = await seed(true, 1);
+    const project = projects[0];
+    if (!project) throw new Error('Dépôt fixture absent');
+    await db
+      .update(schema.githubProjects)
+      .set({ manualStatus: 'tracked' })
+      .where(eq(schema.githubProjects.id, project.id));
+    const client = new GithubClient({ token: 'test-token' });
+    vi.spyOn(client, 'batch').mockResolvedValue([
+      {
+        fullName: project.fullName,
+        repository: null,
+        commits7d: null,
+        error: `Could not resolve to a Repository with the name '${project.fullName}'.`,
+      },
+    ]);
+    const result = await collectGithub(client, new Date('2026-10-06T02:00:00Z'));
+    expect(result.failed).toBe(1);
+    expect((await db.select().from(schema.githubProjects))[0]).toMatchObject({
+      status: 'tracked',
+      manualStatus: 'tracked',
+    });
+    expect(await db.select().from(schema.githubDailySnapshots)).toHaveLength(3);
   });
   it('retire du suivi automatique un dépôt que GitHub ne résout plus', async () => {
     vi.stubEnv('GITHUB_TOKEN', 'test-token');

@@ -11,15 +11,16 @@ describe('interface historique Time Machine', () => {
     const html = renderToStaticMarkup(createElement(TimeMachine, { data }));
     const inspector = /<aside\b[^>]*>[\s\S]*?<\/aside>/.exec(html)?.[0];
     expect(inspector).toBeDefined();
-    expect(inspector).toContain('L&#x27;ouverture de ChatGPT');
+    expect(inspector).toContain('DeepSeek V4.1 Flash 1017');
+    expect(inspector).toMatch(/data-expanded-event="deepseek-v4-1-flash-1017" data-active="true"/);
     expect(inspector?.match(/data-expanded-event=/g)).toHaveLength(5);
     expect(inspector?.match(/data-active="true"/g)).toHaveLength(1);
     expect(inspector).toContain('data-mobile-count="3"');
     expect(inspector).toContain(
-      'data-history-date="prominent"><strong>2022</strong><span>30 novembre</span>',
+      'data-history-date="prominent"><strong>2026</strong><span>17 octobre</span>',
     );
     expect(inspector).toMatch(
-      /<time\b[^>]*datetime="2022-11-30"[^>]*aria-label="30 novembre 2022"/i,
+      /<time\b[^>]*datetime="2026-10-17"[^>]*aria-label="17 octobre 2026"/i,
     );
     expect(inspector).toMatch(/<details\b[^>]*>\s*<summary>Détails et sources/);
     expect(inspector).not.toMatch(/<details\b[^>]*\sopen(?:=|\s|>)/);
@@ -39,7 +40,7 @@ describe('interface historique Time Machine', () => {
     const html = renderToStaticMarkup(createElement(TimeMachine, { data: timeMachineData() }));
     expect(html).toContain('Histoire de l&#x27;intelligence artificielle');
     expect(html).toContain('sources primaires');
-    expect(html).toContain('Vérifié le <time dateTime="2026-10-15">15 octobre 2026</time>');
+    expect(html).toContain('Vérifié le <time dateTime="2026-10-18">18 octobre 2026</time>');
     const hero = /<header\b[^>]*>[\s\S]*?<\/header>/.exec(html)?.[0];
     expect(hero).not.toContain('événements');
     expect(hero).not.toContain('sources primaires');
@@ -48,7 +49,7 @@ describe('interface historique Time Machine', () => {
     expect(html).toContain('OpenAI lance Dots');
     expect(html).toContain('Navier-Stokes');
     expect(html).toContain('Grok Bot');
-    expect(html).toContain('30 novembre 2022');
+    expect(html).toContain('dateTime="2022-11-30"');
     expect(html).toContain('https://openai.com/index/chatgpt/');
     expect(html).toContain('Toutes les annonces');
     expect(html).toContain('Année en cours, recherche vérifiée le');
@@ -61,7 +62,7 @@ describe('interface historique Time Machine', () => {
   it('donne un parcours clavier, les types de dates et une liste équivalente au graphique', () => {
     const html = renderToStaticMarkup(createElement(TimeMachine, { data: timeMachineData() }));
     expect(html).toContain('type="range"');
-    expect(html).toContain('aria-valuetext="30 novembre 2022, L&#x27;ouverture de ChatGPT"');
+    expect(html).toContain('aria-valuetext="17 octobre 2026, DeepSeek V4.1 Flash 1017"');
     expect(html).toContain('Flèches pour parcourir les événements');
     expect(html).toContain('Publication scientifique');
     expect(html).toContain('Ouverture / sortie');
@@ -73,6 +74,21 @@ describe('interface historique Time Machine', () => {
     expect(html).toContain('aria-label="Année de début"');
     expect(html).toContain('aria-label="Année de fin"');
     expect(html).toContain('Toutes les années');
+  });
+  it('suit le dernier événement disponible et accepte un corpus vide', () => {
+    const source = timeMachineData();
+    const earlier = source.events.filter((event) => event.date < '2026');
+    const latest = earlier.at(-1);
+    if (!latest) throw new Error('Corpus historique absent');
+    const html = renderToStaticMarkup(
+      createElement(TimeMachine, { data: { ...source, events: earlier } }),
+    );
+    expect(html).toContain(`data-expanded-event="${latest.id}" data-active="true"`);
+    const empty = renderToStaticMarkup(
+      createElement(TimeMachine, { data: { ...source, events: [] } }),
+    );
+    expect(empty).toContain('Aucun événement');
+    expect(empty).not.toContain('data-active="true"');
   });
   it('affiche des mois sur une année isolée et des graduations sans doublon', () => {
     const source = timeMachineData();

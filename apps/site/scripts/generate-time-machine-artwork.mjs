@@ -1122,7 +1122,7 @@ if (new Set(manifest.map((x) => x.geometryHash)).size !== data.events.length) {
 }
 const manifestPath = resolve(root, 'scripts/time-machine-artwork/artwork-manifest.json');
 const manifestJson =
-  JSON.stringify({ version: 2, generatedAt: '2026-10-16', events: manifest }, null, 2) + '\n';
+  JSON.stringify({ version: 2, generatedAt: data.reviewedAt, events: manifest }, null, 2) + '\n';
 if (checkOnly) {
   if ((await readFile(manifestPath, 'utf8')) !== manifestJson) throw new Error('Manifeste p�rim�');
 } else await writeFile(manifestPath, manifestJson);

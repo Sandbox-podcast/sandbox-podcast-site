@@ -9365,6 +9365,14 @@
     "translation": "",
     "sources": ["content/entities/models.json"]
   },
+  "Sandbox TalkShow : actualité IA, tests d'outils et podcast tech": {
+    "translation": "",
+    "sources": ["src/app/(fr)/page.tsx"]
+  },
+  "{name} : actualité IA, tests d'outils et podcast tech": {
+    "translation": "",
+    "sources": ["src/app/(fr)/page.tsx"]
+  },
   "Un podcast vidéo sur l'actualité de l'intelligence artificielle et de la tech. Chaque semaine, Lou, Loïc et Nico testent des outils IA, débattent de leurs usages et citent leurs sources.": {
     "translation": "",
     "sources": ["src/app/(fr)/page.tsx"]

@@ -142,7 +142,10 @@ def main():
         promos=[('lou',3369.95,3399.6),('loic',5182.3,5195.8),('nico',4591.0,4622.1)]
         for name,start,end in promos:
             folder=KIT/name/'assets'
-            sidecar=folder/'extrait.srt'
+            # Le MP4 est déjà sous-titré : un SRT voisin peut être chargé
+            # automatiquement par le lecteur et afficher le texte en double.
+            sidecar=HERE/'captions'/f'{name}.srt'
+            sidecar.parent.mkdir(parents=True,exist_ok=True)
             captions(rows,start,end,sidecar)
             encode(source,start,end,folder/'extrait.mp4',srt=sidecar)
             report=verify(folder/'extrait.mp4',end-start)

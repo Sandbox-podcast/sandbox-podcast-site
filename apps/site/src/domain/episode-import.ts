@@ -9,7 +9,7 @@ export interface YouTubeEpisodeMetadata {
   thumbnailUrl: string;
   publishedAt?: string | undefined;
   durationSec?: number | undefined;
-  source: 'youtube-data-api' | 'oembed';
+  source: 'youtube-data-api' | 'youtube-page' | 'oembed';
 }
 
 /** Construit un épisode à partir de la vidéo et du texte réellement fourni par l'équipe. */
@@ -22,13 +22,10 @@ export function createEpisodeFromYouTube(input: {
 }): Episode {
   const { metadata } = input;
   const durationSec = metadata.durationSec;
-  if (metadata.source !== 'youtube-data-api') {
-    throw new Error(
-      'La date et la durée doivent venir de YouTube. Configurez YOUTUBE_API_KEY sur le serveur.',
-    );
-  }
   if (!metadata.publishedAt || !durationSec) {
-    throw new Error('YouTube n’a pas fourni la date ou la durée de cette vidéo.');
+    throw new Error(
+      'YouTube n’a pas fourni la date ou la durée de cette vidéo. Actualisez l’import.',
+    );
   }
   if (durationSec < 60) {
     throw new Error('La vidéo doit durer au moins une minute.');

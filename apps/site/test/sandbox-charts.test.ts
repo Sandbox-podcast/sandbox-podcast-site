@@ -221,6 +221,21 @@ describe('présentation des charts', () => {
   });
 });
 describe('édition et exports', () => {
+  it.each(['2026-10-18', '2026-10-18T00:00Z', '2026-10-18T12:00Z'])(
+    'conserve les commentaires de l’édition datée %s lors d’une mise à jour Markdown',
+    (week) => {
+      const original = chartEditionSchema.parse({ week: '2026-W41', headline: 'Archive' });
+      const current = chartEditionSchema.parse({ week, headline: 'Édition courante' });
+      const document = `${editionMarkdown(original)}\n## Entrées et avis\nFiches conservées\n`;
+      const once = updateEditionMarkdown(document, current);
+      expect(editionsFromMarkdown(once)).toEqual([original, current]);
+      const updated = { ...current, headline: 'Commentaire corrigé' };
+      const twice = updateEditionMarkdown(once, updated);
+      expect(editionsFromMarkdown(twice)).toEqual([original, updated]);
+      expect(twice).toContain('Fiches conservées');
+    },
+  );
+
   it('le Markdown conserve les retours à la ligne, guillemets et usages contenant un séparateur', () => {
     const edition = chartEditionSchema.parse({
       week: '2026-W41',

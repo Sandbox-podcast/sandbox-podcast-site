@@ -53,6 +53,7 @@ function editableFromContent(content: Content): EditableContent {
 let publishedCache: EditableContent | undefined;
 let publishedLoadedAt = 0;
 let publishedLoad: Promise<EditableContent | undefined> | undefined;
+let publicRetryAt = 0;
 
 export type AdminStorageMode = 'local' | 'postgres' | 'unavailable';
 
@@ -133,6 +134,25 @@ export async function preparePublishedEditorialContent(): Promise<void> {
       publishedLoad = undefined;
     });
   await publishedLoad;
+}
+
+/** Le site public conserve la dernière publication chargée, ou les fichiers Git, pendant une panne. */
+export async function preparePublicEditorialContent(): Promise<void> {
+  if (Date.now() < publicRetryAt) {
+    setEditorialOverride(publishedCache);
+    return;
+  }
+  try {
+    await preparePublishedEditorialContent();
+    publicRetryAt = 0;
+  } catch (error) {
+    setEditorialOverride(publishedCache);
+    publicRetryAt = Date.now() + CACHE_TTL_MS;
+    console.error(
+      'Public editorial content unavailable:',
+      error instanceof Error ? error.name : 'unknown',
+    );
+  }
 }
 
 /** Lecture fraîche pour vérifier les sources d’un import du harnais, sans prendre le brouillon. */

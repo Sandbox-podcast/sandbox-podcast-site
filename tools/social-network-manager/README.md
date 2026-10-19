@@ -2,6 +2,8 @@
 
 Agent editorial pour préparer, contrôler et mesurer la distribution de SANDBOX sur YouTube, Instagram, TikTok et X. Le dossier complète l'outil YouTube existant. Il ne remplace pas ses contrôles et ne publie rien par défaut.
 
+Les [sources des trente Shorts E02 caméra unique](episode-02/camera-unique-v2/README.md) conservent les compositions, timecodes et outils locaux de reproduction. Le pipeline reste séparé de la file de publication et des comptes des réseaux.
+
 ## Mission
 
 Faire découvrir le talk-show et ses expériences réelles, puis conduire les personnes intéressées vers les émissions complètes et la communauté. Conserver les désaccords tels qu'ils ont eu lieu, vérifier les faits et adapter chaque texte au réseau. Les vues seules ne définissent pas le succès.

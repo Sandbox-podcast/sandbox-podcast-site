@@ -71,7 +71,8 @@ describe('liste News locale', () => {
     const html = renderToStaticMarkup(
       createElement(NewsScreen, { initialFeed: { checkedAt: null, sources: [], items: [] } }),
     );
-    expect(html).toContain('Aucune actualité');
+    expect(html).toContain('Aucune actualité récente disponible');
+    expect(html).not.toContain('Effacer les filtres');
     expect(html).not.toContain('<li>');
   });
 });
@@ -159,6 +160,7 @@ describe('isolation de la prévisualisation', () => {
     ).toBe(403);
   });
   it('ajoute la carte et le radar seulement quand la page locale est disponible', () => {
+    vi.stubEnv('SANDBOX_NEWS_PUBLIC', '');
     vi.stubEnv('NODE_ENV', 'development');
     vi.stubEnv('SANDBOX_NEWS_PREVIEW', '1');
     expect(renderToStaticMarkup(createElement(StudioEasterEggs))).toContain('href="/news"');
@@ -170,5 +172,14 @@ describe('isolation de la prévisualisation', () => {
     expect(
       renderToStaticMarkup(createElement(DiscoveryStory, { hosts: [], projects: [] })),
     ).not.toContain('home-news-title');
+  });
+  it('ajoute la carte et le radar quand News est activé en production', () => {
+    vi.stubEnv('NODE_ENV', 'production');
+    vi.stubEnv('SANDBOX_NEWS_PREVIEW', '');
+    vi.stubEnv('SANDBOX_NEWS_PUBLIC', '1');
+    expect(renderToStaticMarkup(createElement(StudioEasterEggs))).toContain('href="/news"');
+    expect(
+      renderToStaticMarkup(createElement(DiscoveryStory, { hosts: [], projects: [] })),
+    ).toContain('home-news-title');
   });
 });

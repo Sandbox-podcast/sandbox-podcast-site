@@ -5,7 +5,7 @@ import { matchSharedPage } from '@/i18n/page-routes';
 import { sourcePath, localizedHref } from '@/i18n/routing';
 import { siteDictionary } from '@/i18n/dictionaries';
 import { translateText } from '@/i18n/translation';
-import { preparePublishedEditorialContent } from '@/lib/admin-persistence';
+import { preparePublicEditorialContent } from '@/lib/admin-persistence';
 import {
   LocalizedRankingHub,
   LocalizedRankingPage,
@@ -214,8 +214,9 @@ export default async function LocalizedPage({
   const locale = localeTagFromRouteSegment(routeLocale);
   if (!locale) notFound();
   const pathName = routePath(routeLocale, path);
-  await preparePublishedEditorialContent();
   const shared = matchSharedPage(sourcePath(pathName));
+  if (shared?.route !== '/search' && shared?.route !== '/news')
+    await preparePublicEditorialContent();
   if (shared) {
     if (shared.route === '/latest' || shared.route === '/stories/:slug')
       redirect(localizedHref('/podcast', locale));

@@ -315,9 +315,7 @@ export function TimeMachine({ data }: { data: TimeMachineData }) {
   const [category, setCategory] = useState<HistoryCategory | 'all'>('all');
   const [query, setQuery] = useState('');
   const [landmarksOnly, setLandmarksOnly] = useState(false);
-  const [selectedId, setSelectedId] = useState(
-    () => data.events.find((event) => event.id === 'chatgpt')?.id ?? data.events[0]?.id ?? '',
-  );
+  const [selectedId, setSelectedId] = useState(() => data.events.at(-1)?.id ?? '');
   const [playing, setPlaying] = useState(false);
   const [speed, setSpeed] = useState(1);
   const [motionPaused, setMotionPaused] = useState(false);

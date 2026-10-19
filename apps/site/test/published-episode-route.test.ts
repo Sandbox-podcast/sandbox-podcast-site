@@ -5,7 +5,7 @@ vi.mock('../src/lib/admin-persistence', async (importOriginal) => {
   const actual = await importOriginal<typeof import('../src/lib/admin-persistence')>();
   return {
     ...actual,
-    preparePublishedEditorialContent: vi.fn(async () => undefined),
+    preparePublicEditorialContent: vi.fn(async () => undefined),
   };
 });
 import HomePage, { dynamic as homeDynamic } from '../src/app/(fr)/page';
@@ -104,7 +104,7 @@ describe('épisodes publiés après le build', () => {
         sitemapEntries.some((entry) => /\/(episodes|topics)$|\/topics\//.test(entry.url)),
       ).toBe(false);
       expect(sitemapEntries.find((entry) => entry.url.endsWith('/time-machine'))).toMatchObject({
-        lastModified: '2026-10-15',
+        lastModified: '2026-10-18',
       });
     } finally {
       setEditorialOverride(undefined);

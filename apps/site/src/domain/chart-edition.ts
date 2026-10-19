@@ -1,6 +1,7 @@
 import { chartEditionSchema, type ChartEdition } from './schema.ts';
 
-const sectionPattern = /^## Édition (\d{4}-W\d{2})\n([\s\S]*?)(?=^## |$(?![\s\S]))/gm;
+const sectionPattern =
+  /^## Édition (\d{4}-(?:W\d{2}|\d{2}-\d{2}(?:T(?:00|12):00Z)?))\n([\s\S]*?)(?=^## |$(?![\s\S]))/gm;
 const encode = (value: string): string =>
   /[\r\n]/.test(value) || value.startsWith('"') ? JSON.stringify(value) : value;
 function decode(value: string): string {

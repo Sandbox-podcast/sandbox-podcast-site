@@ -25,6 +25,8 @@ export default defineConfig(
       // Projets HyperFrames E02 générés localement, dont GSAP fourni par le moteur.
       // Les scripts et tests du dépôt restent inclus dans les contrôles.
       'exports/reseaux-sociaux/episode-02/composition/**',
+      // Copies du même moteur tiers dans les rendus de révision, sans sources du site.
+      'exports/reseaux-sociaux/episode-02/revisions/**/projects/**/assets/gsap.min.js',
       '**/next-env.d.ts',
       '.site-publish/**',
       // Archive du travail sur la plateforme vidéo : plus dans l'espace de travail pnpm, hors des contrôles.

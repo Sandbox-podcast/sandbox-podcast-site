@@ -255,6 +255,7 @@ export async function collectGithub(
         const existing = await scorecardsForProjects(
           leading.map((item) => item.project),
           date,
+          slotId,
         );
         const pending = leading.filter((item) => !existing.has(item.project.entityId));
         const observations: {
@@ -335,6 +336,7 @@ export async function calculateGithubWeek(
   const scorecards = await scorecardsForProjects(
     candidates.map(({ project }) => project),
     date,
+    slotId,
   );
   const [unobserved, risingUnobserved] = await Promise.all([
     unobservedGithubCandidates(date, config),

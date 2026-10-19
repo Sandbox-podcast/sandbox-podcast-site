@@ -4,6 +4,7 @@ import { LocalizedLink as Link } from '@/components/localization';
 import { z } from 'zod';
 import { Breadcrumbs } from '@/components/ui';
 import { episodeResourcePath, matchesSearch, normalizeSearch } from '@/domain/discovery';
+import { loadCurrentChartSearchHits } from '@/lib/chart-search';
 import { allCharts, allEntities, allEpisodes, entityPath, getHost } from '@/lib/repository';
 import { pageMetadata } from '@/lib/seo';
 import { translateText, type TranslationDictionary } from '@/i18n/translation';
@@ -12,6 +13,7 @@ import { PROJECT_CREATORS, personalProjectPath } from '@/domain/personal-project
 import { isDemoEntity } from '@/lib/demo-content';
 import { timeMachineData } from '@/lib/time-machine';
 import { historyEventAnchor } from '@/domain/time-machine';
+import { preparePublicEditorialContent } from '@/lib/admin-persistence';
 export const dynamic = 'force-dynamic';
 export const metadata = pageMetadata({
   title: 'Rechercher dans le Talk Show et les classements',
@@ -34,6 +36,14 @@ export default async function SearchPage({ searchParams, dictionary = {} }: Prop
   const query = (Array.isArray(params.q) ? (params.q[0] ?? '') : (params.q ?? '')).slice(0, 200);
   const type = searchTypeSchema.parse(Array.isArray(params.type) ? params.type[0] : params.type);
   const needle = normalizeSearch(query);
+  try {
+    await preparePublicEditorialContent();
+  } catch (error) {
+    console.error(
+      'Search editorial content unavailable:',
+      error instanceof Error ? error.name : 'unknown',
+    );
+  }
   const includes = (...values: (string | undefined)[]): boolean =>
     needle.length > 0 &&
     matchesSearch(
@@ -53,7 +63,16 @@ export default async function SearchPage({ searchParams, dictionary = {} }: Prop
   const entities = allEntities().filter(
     (entity) =>
       !isDemoEntity(entity.slug) &&
-      includes(entity.name, entity.org, entity.category, entity.tagline, entity.description),
+      includes(
+        entity.name,
+        entity.slug,
+        entity.org,
+        entity.category,
+        entity.tagline,
+        entity.description,
+        entity.github?.repo,
+        entity.huggingface?.id,
+      ),
   );
   const history = timeMachineData().events.filter((event) =>
     includes(
@@ -66,6 +85,9 @@ export default async function SearchPage({ searchParams, dictionary = {} }: Prop
   );
   const charts = allCharts().filter((chart) =>
     includes(chart.title, chart.short, chart.tagline, chart.description),
+  );
+  const publishedCharts = (needle ? await loadCurrentChartSearchHits() : []).filter(
+    (hit) => includes(...hit.terms) && !entities.some((entity) => entityPath(entity) === hit.href),
   );
   const teamProjects = personalProjects.filter((project) =>
     includes(
@@ -88,6 +110,7 @@ export default async function SearchPage({ searchParams, dictionary = {} }: Prop
   const count =
     episodes.length +
     entities.length +
+    publishedCharts.length +
     charts.length +
     resources.length +
     teamProjects.length +
@@ -98,7 +121,11 @@ export default async function SearchPage({ searchParams, dictionary = {} }: Prop
     { id: 'resources', label: 'Ressources', count: resources.length },
     { id: 'personal-projects', label: 'Nos projets', count: teamProjects.length },
     { id: 'charts', label: 'Classements', count: charts.length },
-    { id: 'entities', label: 'Projets et modèles', count: entities.length },
+    {
+      id: 'entities',
+      label: 'Projets et modèles',
+      count: entities.length + publishedCharts.length,
+    },
     { id: 'history', label: "Histoire de l'IA", count: history.length },
   ];
   const shownCount = facets.find((facet) => facet.id === type)?.count ?? count;
@@ -327,15 +354,29 @@ export default async function SearchPage({ searchParams, dictionary = {} }: Prop
       </Text>
 
       <Text>
-        {entities.length > 0 && (type === 'all' || type === 'entities') ? (
+        {(entities.length > 0 || publishedCharts.length > 0) &&
+        (type === 'all' || type === 'entities') ? (
           <section className="search-results" aria-labelledby="search-entities">
             <h2 id="search-entities" className="section-title">
               <Text>{'Projets, mod\u00E8les et outils '}</Text>
               <span>
-                <Text>{entities.length}</Text>
+                <Text>{entities.length + publishedCharts.length}</Text>
               </span>
             </h2>
             <Text>
+              {publishedCharts.map((hit) => (
+                <Link key={hit.href} className="search-result" href={hit.href}>
+                  <span className="search-result-kicker">{hit.detail}</span>
+                  <span className="search-result-title">
+                    <Text>{hit.name}</Text>
+                  </span>
+                  {hit.description ? (
+                    <span className="search-result-detail">
+                      <Text>{hit.description}</Text>
+                    </span>
+                  ) : null}
+                </Link>
+              ))}
               {entities.map((entity) => (
                 <Link key={entity.slug} className="search-result" href={entityPath(entity)}>
                   <span className="search-result-title">

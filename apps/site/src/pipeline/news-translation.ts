@@ -1,5 +1,6 @@
 import { spawn } from 'node:child_process';
-import { join } from 'node:path';
+import { dirname, join, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { z } from 'zod';
 import type { NewsItem } from '../domain/news-preview.ts';
 import {
@@ -17,17 +18,18 @@ import {
 } from './news-translations.ts';
 
 const locales: readonly NewsLocale[] = ['en', 'es-ES', 'de-DE'];
-const applicationRoot = process.cwd();
+const applicationRoot = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const localDirectory = join(applicationRoot, '.local');
 const workerPath = join(applicationRoot, 'scripts', 'news-argos-translate.py');
 const packageDirectory = join(localDirectory, 'news-translator-models');
-const bundledPython = join(
-  applicationRoot,
-  '.local',
-  'news-translator-venv',
-  'Scripts',
-  'python.exe',
-);
+export function newsTranslatorPython(platform: NodeJS.Platform = process.platform): string {
+  return join(
+    localDirectory,
+    'news-translator-venv',
+    platform === 'win32' ? 'Scripts' : 'bin',
+    platform === 'win32' ? 'python.exe' : 'python',
+  );
+}
 const translationResponseSchema = z.object({
   translations: z.array(z.string().trim().min(1).max(600)).max(400),
 });
@@ -97,7 +99,7 @@ function editorialTranslation(
 
 function argosPython(): string {
   const override = process.env['SANDBOX_NEWS_ARGOS_PYTHON'];
-  return override ?? bundledPython;
+  return override ?? newsTranslatorPython();
 }
 
 function translatorWorkerEnvironment(): NodeJS.ProcessEnv {

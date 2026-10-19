@@ -3,14 +3,14 @@ import { PodcastReplays } from '@/components/podcast-replays';
 import { siteConfig } from '@/config/site';
 import { indexableEpisode } from '@/domain/episode-seo';
 import { allEpisodes } from '@/lib/repository';
-import { preparePublishedEditorialContent } from '@/lib/admin-persistence';
+import { preparePublicEditorialContent } from '@/lib/admin-persistence';
 import { pageMetadata } from '@/lib/seo';
 import './podcast.css';
 
 export const dynamic = 'force-dynamic';
 
 export async function generateMetadata() {
-  await preparePublishedEditorialContent();
+  await preparePublicEditorialContent();
   return pageMetadata({
     title: 'Podcast IA : actualité, outils et débats | Sandbox TalkShow',
     description:
@@ -21,7 +21,7 @@ export async function generateMetadata() {
 }
 
 export default async function PodcastPage() {
-  await preparePublishedEditorialContent();
+  await preparePublicEditorialContent();
   return (
     <div className="wrap podcast-page">
       <header className="podcast-heading">

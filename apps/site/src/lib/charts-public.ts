@@ -5,7 +5,9 @@ import { chartPublicationSchema } from '../domain/chart-publication.ts';
 import {
   compareWeeks,
   editionStart,
+  editionWeekNumber,
   isoWeekOf,
+  parseWeek,
   previousComparableEdition,
 } from '../domain/weeks.ts';
 import { getDb, hasDatabaseConfiguration } from '../db/client.ts';
@@ -26,6 +28,20 @@ const publishedExternalIdentitySchema = z.object({
   license: z.string().nullable(),
   openWeights: z.boolean().nullable(),
 });
+
+const publishedChartSourceSchema = z.union([
+  externalSourceRefSchema,
+  z
+    .object({
+      provider: z.enum(['github', 'openssf-scorecard']),
+      url: z.url().refine((value) => value.startsWith('https://')),
+      observedAt: z.union([z.iso.datetime(), z.iso.date()]),
+    })
+    .transform((source) => ({
+      ...source,
+      label: source.provider === 'github' ? 'GitHub' : 'OpenSSF Scorecard',
+    })),
+]);
 
 export const githubProjectDetail = cache(async function githubProjectDetail(slug: string) {
   if (!hasDatabaseConfiguration()) return null;
@@ -162,12 +178,11 @@ export async function publicChartEdition(chart: PublicChartId, week?: string) {
         )
     : [];
   const entitiesById = new Map(entities.map((entity) => [entity.id, entity]));
+  const isoWeek = parseWeek(isoWeekOf(editionStart(edition.week)));
   return {
     chart,
-    year: Number(edition.week.slice(0, 4)),
-    week: Number.isInteger(Number(edition.week.slice(-2)))
-      ? Number(edition.week.slice(-2))
-      : Number(isoWeekOf(editionStart(edition.week)).slice(-2)),
+    year: isoWeek.year,
+    week: editionWeekNumber(edition.week),
     weekId: edition.week,
     publishedAt: edition.publishedAt,
     frozenAt: edition.frozenAt,
@@ -184,7 +199,12 @@ export async function publicChartEdition(chart: PublicChartId, week?: string) {
       const metadata = z.record(z.string(), z.unknown()).parse(ranking?.metadata ?? {});
       const entity = ranking ? entitiesById.get(ranking.entityId) : undefined;
       const frozenIdentity = publishedExternalIdentitySchema.safeParse(metadata['identity']);
-      const frozenSources = z.array(externalSourceRefSchema).safeParse(metadata['sources']);
+      const frozenSources = Array.isArray(metadata['sources'])
+        ? metadata['sources'].flatMap((source: unknown) => {
+            const parsed = publishedChartSourceSchema.safeParse(source);
+            return parsed.success ? [parsed.data] : [];
+          })
+        : [];
       const frozen = metadata['project'];
       const project = frozen && typeof frozen === 'object' ? frozen : {};
       const name =
@@ -207,7 +227,7 @@ export async function publicChartEdition(chart: PublicChartId, week?: string) {
         openWeights: frozenIdentity.success
           ? frozenIdentity.data.openWeights
           : (entity?.openWeights ?? null),
-        sources: frozenSources.success ? frozenSources.data : [],
+        sources: frozenSources,
         slug: entry.entity,
         githubUrl: fullName
           ? `https://github.com/${fullName}`

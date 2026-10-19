@@ -32,6 +32,7 @@ import {
   externalCandidates,
   freezeExternalEdition,
   saveExternalBatch,
+  saveExternalBatchReport,
   type CompetitiveEditionEntry,
   type ExternalCandidate,
 } from '../lib/external-charts-store.ts';
@@ -659,10 +660,26 @@ export async function collectModels(
         `${merged.ambiguousMatches.toString()} identités ambiguës sont restées séparées; aucun rapprochement approximatif n’a été fait.`,
       );
     summary.processed = records.length;
-    summary.succeeded = merged.entities.length;
-    summary.snapshotsCreated = await saveExternalBatch(merged.entities, merged.observations);
+    const saved = await saveExternalBatchReport(merged.entities, merged.observations, {
+      skipConflictingModels: true,
+    });
+    summary.succeeded = saved.entitiesSaved;
+    summary.snapshotsCreated = saved.snapshotsCreated;
+    summary.failed += saved.identityConflicts.length;
+    if (saved.identityConflicts.length) {
+      if (!saved.entitiesSaved) summary.status = 'failed';
+      summary.details.push(
+        `${saved.identityConflicts.length.toString()} identités Models en attente de revue ; leurs références et historiques sont conservés.`,
+      );
+      summary.details.push(
+        ...saved.identityConflicts.map(
+          (conflict) =>
+            `${conflict.slug} : ${conflict.reason} Fiches connues : ${conflict.knownSlugs.join(', ') || 'aucune'}. Sources : ${conflict.sources.map(({ provider, externalId }) => `${provider}/${externalId}`).join(', ')}.`,
+        ),
+      );
+    }
     summary.details.push(
-      `${merged.entities.length.toString()} entités modèles enregistrées avec leurs références de source.`,
+      `${saved.entitiesSaved.toString()} entités modèles enregistrées avec leurs références de source.`,
     );
   });
 }
