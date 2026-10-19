@@ -134,7 +134,7 @@ export function Footer({ newsAvailable = false }: { newsAvailable?: boolean } = 
             {newsAvailable ? (
               <li>
                 <Link href="/news">
-                  <Text>Actualité</Text>
+                  <Text>Actualités</Text>
                 </Link>
               </li>
             ) : null}

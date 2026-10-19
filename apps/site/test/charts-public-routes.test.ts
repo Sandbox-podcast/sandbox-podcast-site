@@ -23,6 +23,17 @@ beforeEach(() => {
 });
 
 describe('statuts des routes publiques de classement', () => {
+  it('sert immédiatement la nouvelle édition courante tout en gardant le cache des archives', async () => {
+    mocks.edition.mockResolvedValue({ chart: 'github', weekId: '2026-10-19T00:00Z', entries: [] });
+    const current = await getEdition(new Request('https://example.com'), {
+      params: Promise.resolve({ chart: 'github', edition: 'current' }),
+    });
+    const archive = await getEdition(new Request('https://example.com'), {
+      params: Promise.resolve({ chart: 'github', edition: '2026-W41' }),
+    });
+    expect(current.headers.get('Cache-Control')).toBe('no-store');
+    expect(archive.headers.get('Cache-Control')).toContain('s-maxage=300');
+  });
   it('signale une édition courante absente comme temporairement en attente', async () => {
     const response = await getEdition(new Request('https://example.com'), {
       params: Promise.resolve({ chart: 'github', edition: 'current' }),

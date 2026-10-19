@@ -1,5 +1,7 @@
 # Épisodes admin et fil News, 19 octobre 2026
 
+Mise à jour de suivi : la PR 94 est fusionnée et son déploiement Vercel est déclaré réussi. Le contrôle CI News était en échec sur un sélecteur masqué ; la correction et les vérifications complémentaires figurent dans l'audit de stabilisation du même jour. La file est absente du schéma de production consulté. Voir [le rapport](audit-stabilisation-2026-10-19.md).
+
 Lot préparé pour la PR demandée par Lou dans un checkout isolé de main. Les autres travaux du répertoire d'origine restent hors du lot. Aucune migration distante, variable de production ni description YouTube n'est modifiée par cette livraison.
 
 ## Épisodes

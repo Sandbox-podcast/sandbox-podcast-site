@@ -193,6 +193,7 @@ export const NEWS_MEDIA = [
   },
   {
     id: 'perplexity',
+    articlePaths: ['/en-GB/hub/blog/', '/hub/blog/'],
     name: 'Perplexity',
     url: 'https://www.perplexity.ai/en-GB/hub/blog',
     path: '/hub/',

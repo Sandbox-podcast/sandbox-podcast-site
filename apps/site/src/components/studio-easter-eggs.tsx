@@ -10,7 +10,7 @@ export function StudioEasterEggs({ newsAvailable = false }: { newsAvailable?: bo
           as="a"
           href="/news"
           className={`${styles['studioObject']} ${styles['studioRadar']}`}
-          aria-label="L'actualité"
+          aria-label="Actualités"
           title="L'actualité IA et développement"
         />
       ) : null}

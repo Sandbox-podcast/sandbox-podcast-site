@@ -19,6 +19,7 @@ old/**/.local/
 # Application Next.js (apps/site)
 .next/
 *.tsbuildinfo
+__pycache__/
 apps/site/next-env.d.ts
 apps/site/.site-content.local.json
 .site-publish/

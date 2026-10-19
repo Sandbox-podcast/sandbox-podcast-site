@@ -1,7 +1,12 @@
 /** Vide plusieurs lots sans dépasser la durée réservée au traitement horaire. */
 export async function drainNewsQueue(
   processBatch: () => Promise<{ candidates: number; published: number; skipped: number }>,
-  options: { budgetMs?: number; maxBatches?: number; now?: () => number } = {},
+  options: {
+    budgetMs?: number;
+    maxBatches?: number;
+    now?: () => number;
+    onError?: (error: unknown) => void;
+  } = {},
 ) {
   const now = options.now ?? Date.now;
   const deadline = now() + (options.budgetMs ?? 22 * 60_000);
@@ -25,14 +30,15 @@ export async function drainNewsQueue(
       report.candidates += batch.candidates;
       report.published += batch.published;
       report.skipped += batch.skipped;
-    } catch {
+    } catch (error) {
+      options.onError?.(error);
       report.failures++;
       consecutiveFailures++;
     }
     report.batches++;
     if (consecutiveFailures >= 3) break;
-    // Une génération a huit minutes, sa traduction deux : garder cette marge avant un autre lot.
-    if (deadline - now() < 10 * 60_000) break;
+    // Huit minutes pour la génération et deux pour chacune des trois langues.
+    if (deadline - now() < 14 * 60_000) break;
   }
   return report;
 }

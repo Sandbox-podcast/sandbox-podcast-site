@@ -41,7 +41,7 @@ function summaryFor(item: NewsSummaryInput) {
     summary: {
       title: `Un nouveau modèle ouvert chez ${item.project}`,
       sentences: [
-        'Le laboratoire publie un modèle de quatre milliards de paramètres.',
+        `${item.project} présente un modèle de quatre milliards de paramètres.`,
         'Le système accepte des images et des vidéos.',
         'Les poids sont publiés sous licence Apache 2.0.',
       ],
@@ -52,6 +52,56 @@ function summaryFor(item: NewsSummaryInput) {
 }
 
 describe('génération et traduction des nouvelles fiches', () => {
+  it('arrête le lot à son échéance avant de lancer les traductions', async () => {
+    const translate = vi.fn();
+    await expect(
+      generateAndTranslateNews([article(1)], {
+        budgetMs: 1,
+        summarize: async (inputs) => {
+          await new Promise((resolve) => setTimeout(resolve, 20));
+          return inputs.map(summaryFor);
+        },
+        translate,
+      }),
+    ).rejects.toThrow();
+    expect(translate).not.toHaveBeenCalled();
+  });
+  it('ne reprend pas la première personne d’un éditeur au nom de Sandbox', async () => {
+    const input = article(1);
+    const summarize = async (items: readonly NewsSummaryInput[]) =>
+      items.map((item) => {
+        const result = summaryFor(item);
+        return {
+          ...result,
+          summary: {
+            ...result.summary,
+            sentences: [
+              'Nous publions un modèle de quatre milliards de paramètres.',
+              ...result.summary.sentences.slice(1),
+            ],
+          },
+        };
+      });
+    const translate = vi.fn();
+    expect(await generateAndTranslateNews([input], { summarize, translate })).toMatchObject({
+      items: [],
+      skipped: 1,
+    });
+    expect(translate).not.toHaveBeenCalled();
+  });
+  it('publie les fiches valides quand une autre traduction du lot est rejetée', async () => {
+    const items = [article(1), article(5)];
+    const summarize = async (inputs: readonly NewsSummaryInput[]) => inputs.map(summaryFor);
+    const translate = async (texts: readonly string[], locale: string) => {
+      if (texts.some((text) => text.includes('The Deep View')))
+        throw new Error('Traduction refusée');
+      return texts.map((text) => `${locale}: ${text}`);
+    };
+    const report = await generateAndTranslateNews(items, { summarize, translate });
+    expect(report.items).toHaveLength(1);
+    expect(report.items[0]?.project).toBe('The Rundown AI');
+    expect(report.skipped).toBe(1);
+  });
   it('publie uniquement des résumés sourcés, traduits dans les quatre langues et séparés par URL', async () => {
     const items = [article(1), article(5)];
     const summarize = vi.fn(async (inputs: readonly NewsSummaryInput[]) => inputs.map(summaryFor));
@@ -66,8 +116,8 @@ describe('génération et traduction des nouvelles fiches', () => {
     expect(result.items).toHaveLength(2);
     expect(new Set(result.items.map((item) => item.url)).size).toBe(2);
     expect(result.items.map((item) => item.titles?.['fr-FR'])).toEqual([
-      'Un nouveau modèle ouvert chez The Rundown AI',
-      'Un nouveau modèle ouvert chez The Deep View',
+      'The Rundown AI présente un modèle de quatre milliards de paramètres',
+      'The Deep View présente un modèle de quatre milliards de paramètres',
     ]);
     for (const item of result.items) {
       expect(item.titles?.['en']).toContain('en:');
@@ -80,6 +130,34 @@ describe('génération et traduction des nouvelles fiches', () => {
       expect(item).not.toHaveProperty('sourceExcerpt');
     }
     expect(translate).toHaveBeenCalledTimes(3);
+  });
+
+  it('reprend le premier fait dans le titre et retire un aujourd’hui devenu ambigu', async () => {
+    const summarize = async (inputs: readonly NewsSummaryInput[]) =>
+      inputs.map((item) => {
+        const result = summaryFor(item);
+        return {
+          ...result,
+          summary: {
+            ...result.summary,
+            title: 'Ce modèle est le meilleur du monde sans aucune preuve',
+            sentences: [
+              'Un modèle ouvert est disponible aujourd’hui avec quatre milliards de paramètres.',
+              ...result.summary.sentences.slice(1),
+            ],
+          },
+        };
+      });
+    const result = await generateAndTranslateNews([article(1)], {
+      summarize,
+      translate: async (texts, locale) => texts.map((text) => `${locale}: ${text}`),
+    });
+    expect(result.items[0]?.titles?.['fr-FR']).toBe(
+      'Un modèle ouvert est disponible avec quatre milliards de paramètres',
+    );
+    expect(result.items[0]?.synopses?.['fr-FR']?.[0]).toBe(
+      'Un modèle ouvert est disponible avec quatre milliards de paramètres.',
+    );
   });
 
   it('écarte les citations fausses ou répétées et ne tente pas un article sans extrait', async () => {

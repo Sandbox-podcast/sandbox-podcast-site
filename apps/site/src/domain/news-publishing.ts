@@ -61,7 +61,8 @@ export const newsPublicationEntrySchema = z
 export const newsIngestionRequestSchema = z
   .object({
     checkedAt: z.iso.datetime(),
-    sources: z.array(newsSourceStatusSchema).length(NEWS_MEDIA.length),
+    // Accepte le registre précédent pendant le déploiement du nouveau collecteur.
+    sources: z.array(newsSourceStatusSchema).min(1).max(NEWS_MEDIA.length),
     items: z.array(newsPublicationEntrySchema).max(20),
   })
   .strict()
@@ -70,7 +71,7 @@ export const newsIngestionRequestSchema = z
     const allowedSources = new Map<string, (typeof NEWS_MEDIA)[number]>(
       NEWS_MEDIA.map((source) => [source.id, source]),
     );
-    if (sourceIdsSeen.size !== NEWS_MEDIA.length)
+    if (sourceIdsSeen.size !== value.sources.length)
       context.addIssue({ code: 'custom', message: 'Chaque source doit apparaître une fois.' });
     for (const [index, source] of value.sources.entries()) {
       const expected = allowedSources.get(source.id);

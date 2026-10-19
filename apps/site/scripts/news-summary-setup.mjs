@@ -12,10 +12,10 @@ const appRoot = fileURLToPath(new URL('../', import.meta.url));
 const localDirectory = join(appRoot, '.local');
 const environmentDirectory = join(localDirectory, 'news-summarizer-venv');
 const modelDirectory = join(localDirectory, 'news-summary-model');
-const modelPath = join(modelDirectory, 'Qwen3-1.7B-Q4_K_M.gguf');
+const modelPath = join(modelDirectory, 'Qwen3-4B-Instruct-2507-Q4_K_M.gguf');
 const modelUrl =
-  'https://huggingface.co/Qwen/Qwen3-1.7B-GGUF/resolve/7fb011e9aee6e4dc7adf8430df9ea8de6a466aa3/Qwen3-1.7B-Q4_K_M.gguf';
-const modelSha256 = '228fb5627f7510b8b3516cdb6435e4b0d2a2bf330fe5b0ab19284a3570a8bb1f';
+  'https://huggingface.co/unsloth/Qwen3-4B-Instruct-2507-GGUF/resolve/a06e946bb6b655725eafa393f4a9745d460374c9/Qwen3-4B-Instruct-2507-Q4_K_M.gguf';
+const modelSha256 = '3605803b982cb64aead44f6c1b2ae36e3acdb41d8e46c8a94c6533bc4c67e597';
 const pythonBase = process.env['SANDBOX_NEWS_SUMMARY_SETUP_PYTHON'] ?? 'python';
 const python = join(
   environmentDirectory,
@@ -38,7 +38,7 @@ function run(command, args) {
 async function downloadModel() {
   try {
     const existing = await stat(modelPath);
-    if (existing.size > 1_000_000_000 && (await fileSha256(modelPath)) === modelSha256) return;
+    if (existing.size > 2_000_000_000 && (await fileSha256(modelPath)) === modelSha256) return;
     await rm(modelPath, { force: true });
   } catch {
     // Le modèle n'a pas encore été téléchargé.
@@ -56,7 +56,7 @@ async function downloadModel() {
   const counter = new Transform({
     transform(chunk, _encoding, callback) {
       bytes += chunk.length;
-      if (bytes > 1_500_000_000) {
+      if (bytes > 3_000_000_000) {
         callback(new Error('Le fichier du modèle dépasse la taille maximale prévue.'));
         return;
       }
@@ -68,7 +68,7 @@ async function downloadModel() {
     await pipeline(response.body, counter, createWriteStream(temporary));
     if (hash.digest('hex') !== modelSha256)
       throw new Error('La somme SHA-256 du modèle Qwen ne correspond pas.');
-    if (bytes < 1_000_000_000) throw new Error('Le fichier du modèle Qwen est incomplet.');
+    if (bytes < 2_000_000_000) throw new Error('Le fichier du modèle Qwen est incomplet.');
     await rename(temporary, modelPath);
   } catch (error) {
     await rm(temporary, { force: true });

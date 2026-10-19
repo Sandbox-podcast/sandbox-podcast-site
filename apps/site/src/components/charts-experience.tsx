@@ -449,9 +449,21 @@ export function ChartsExperience({
                 <Text>{'Historique : '}</Text>
                 <Text>{data.progress.distinctSnapshotDays}</Text>
                 {' / '}
-                <Text>{data.progress.requiredHistoryDays}</Text>
+                <Text>{id === 'rising' ? 14 : data.progress.requiredHistoryDays}</Text>
                 <Text>{' jours'}</Text>
                 {'.'}
+              </p>
+            ) : null}
+            {id === 'rising' && !isUnavailable && !snapshot ? (
+              <p>
+                <Text>
+                  {
+                    'Rising attend au moins 20 projets éligibles avec deux périodes de sept jours mesurées pour calculer leur accélération. Les nouvelles entrées du Top GitHub ne sont pas un classement Rising.'
+                  }
+                </Text>{' '}
+                <Link href="/charts/github">
+                  <Text>Consulter le classement GitHub</Text>
+                </Link>
               </p>
             ) : null}
           </div>

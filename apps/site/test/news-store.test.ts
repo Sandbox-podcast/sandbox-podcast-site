@@ -7,6 +7,7 @@ import * as schema from '../src/db/schema.ts';
 import { NEWS_MEDIA } from '../src/domain/news-media.ts';
 import { newsFeedSchema } from '../src/domain/news-preview.ts';
 import type { NewsIngestionRequest } from '../src/domain/news-publishing.ts';
+import { newsIngestionRequestSchema } from '../src/domain/news-publishing.ts';
 import {
   knownNewsUrls,
   latestNewsPublicationTime,
@@ -102,6 +103,19 @@ afterAll(async () => {
 });
 
 describe('publication automatique SANDBOX News', () => {
+  it('accepte le registre précédent pendant le déploiement et refuse une source répétée', () => {
+    const request = ingestion();
+    expect(
+      newsIngestionRequestSchema.safeParse({ ...request, sources: request.sources.slice(0, 10) })
+        .success,
+    ).toBe(true);
+    expect(
+      newsIngestionRequestSchema.safeParse({
+        ...request,
+        sources: [...request.sources.slice(0, 10), request.sources[0]],
+      }).success,
+    ).toBe(false);
+  });
   it('conserve les articles au-delà de quatorze jours pour le fil historique', async () => {
     await publishNewsBatch(ingestion());
     const later = new Date(Date.now() + 45 * 86_400_000);

@@ -4,6 +4,11 @@ import { fileURLToPath } from 'node:url';
 import { z } from 'zod';
 import type { NewsItem } from '../domain/news-preview.ts';
 import {
+  prepareNewsTranslation,
+  restoreNewsTranslation,
+  newsTranslationKeepsNumbers,
+} from '../domain/news-translation-terms.ts';
+import {
   applyNewsEditorial,
   newsEditorialForItem,
   NEWS_EDITORIAL,
@@ -70,6 +75,8 @@ function validateTranslatedText(
   if (!text || text.length > maxLength || /[<>\uFFFD]/u.test(text) || containsControl)
     throw new Error(`Traduction News invalide en ${locale}.`);
   if (text === source.trim()) throw new Error(`Traduction News inchangée en ${locale}.`);
+  if (!newsTranslationKeepsNumbers(source, text))
+    throw new Error(`Valeur numérique News perdue en ${locale}.`);
   return text;
 }
 
@@ -123,8 +130,13 @@ function translatorWorkerEnvironment(): NodeJS.ProcessEnv {
 function runArgosBatch(
   texts: readonly string[],
   targetLocale: NewsLocale,
+  signal?: AbortSignal,
 ): Promise<readonly string[]> {
   return new Promise((resolve, reject) => {
+    if (signal?.aborted) {
+      reject(new Error('Le budget du lot News est épuisé.'));
+      return;
+    }
     const child = spawn(/* turbopackIgnore: true */ argosPython(), [workerPath], {
       cwd: applicationRoot,
       env: translatorWorkerEnvironment(),
@@ -140,6 +152,7 @@ function runArgosBatch(
       if (settled) return;
       settled = true;
       clearTimeout(timer);
+      signal?.removeEventListener('abort', abort);
       if (error) reject(error);
       else resolve(value ?? []);
     };
@@ -147,6 +160,11 @@ function runArgosBatch(
       child.kill();
       finish(new Error('La traduction locale News a dépassé deux minutes.'));
     }, 120_000);
+    const abort = () => {
+      child.kill();
+      finish(new Error('Le budget du lot News est épuisé.'));
+    };
+    signal?.addEventListener('abort', abort, { once: true });
     child.stdout.on('data', (chunk: Buffer) => {
       outputSize += chunk.length;
       if (outputSize > 500_000) {
@@ -181,22 +199,35 @@ function runArgosBatch(
         );
         if (parsed.translations.length !== texts.length)
           throw new Error('Argos n’a pas renvoyé toutes les phrases.');
-        finish(undefined, parsed.translations);
+        finish(
+          undefined,
+          parsed.translations.map((text, index) =>
+            restoreNewsTranslation(texts[index] ?? '', text, targetLocale),
+          ),
+        );
       } catch (error) {
         finish(error instanceof Error ? error : new Error('Réponse Argos invalide.'));
       }
     });
-    child.stdin.end(JSON.stringify({ sourceLocale: 'fr-FR', targetLocale, texts }));
+    child.stdin.end(
+      JSON.stringify({
+        sourceLocale: 'fr-FR',
+        targetLocale,
+        texts: texts.map(prepareNewsTranslation),
+      }),
+    );
   });
 }
 
 /** Traduit une entrée éditoriale française si elle ne possède pas encore les trois langues. */
 export async function translateNewsEditorialItems(
   items: readonly NewsItem[],
-  translate: NewsTranslationBatch = runArgosBatch,
+  translate?: NewsTranslationBatch,
   editorial: Record<string, NewsEditorialRecord> = NEWS_EDITORIAL,
   knownTranslations: Partial<Record<string, LocalizedEditorial>> = NEWS_EDITORIAL_TRANSLATIONS,
+  signal?: AbortSignal,
 ): Promise<NewsItem[]> {
+  const translateBatch = translate ?? ((texts, locale) => runArgosBatch(texts, locale, signal));
   const prepared = items.map((item) => applyNewsEditorial(item, editorial, knownTranslations));
   const pendingByLocale = new Map<NewsLocale, { index: number; source: NewsEditorialRecord }[]>();
 
@@ -211,8 +242,9 @@ export async function translateNewsEditorialItems(
   }
 
   for (const [locale, pending] of pendingByLocale) {
+    signal?.throwIfAborted();
     const input = pending.flatMap(({ source }) => [source.title, ...source.sentences]);
-    const output = await translate(input, locale);
+    const output = await translateBatch(input, locale);
     if (output.length !== input.length)
       throw new Error(`Le moteur n’a pas traduit tous les textes News en ${locale}.`);
     const generated = new Map<number, EditorialTranslation>();
