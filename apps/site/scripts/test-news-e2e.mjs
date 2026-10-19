@@ -128,8 +128,17 @@ try {
     assert.equal((await page.goto(fixture.origin + path)).status(), 404);
   }
   await page.goto(fixture.origin);
-  assert.equal(await page.locator('a[href="/news"]').count(), 0);
-  report.checks.push('Le flux vide reste en 404 sans liens News sur l’accueil.');
+  assert.equal(
+    await page
+      .locator(
+        'a[href="/news"][title="L’actualité IA et développement"], a[href="/news"][title="L\'actualité IA et développement"]',
+      )
+      .count(),
+    0,
+  );
+  report.checks.push(
+    'Le flux vide reste en 404 sans radar ; les accès s’ouvrent dès le premier article publié.',
+  );
 
   const now = new Date().toISOString();
   const source = NEWS_MEDIA[1];
@@ -168,15 +177,15 @@ try {
   assert.equal(queued.status, 200, await queued.clone().text());
   assert.equal((await queued.json()).inserted, 1);
   assert.equal((await (await fetch(queueEndpoint, { headers })).json()).items.length, 1);
-  const claim = await fetch(queueEndpoint, {
+  const claimResponse = await fetch(queueEndpoint, {
     method: 'POST',
     headers: { ...headers, 'content-type': 'application/json' },
     body: JSON.stringify({ action: 'claim' }),
   });
-  assert.equal(claim.status, 200, await claim.clone().text());
-  const claimed = await claim.json();
-  assert.equal(claimed.items.length, 1);
-  assert.ok(claimed.leaseId);
+  assert.equal(claimResponse.status, 200);
+  const claimedBatch = await claimResponse.json();
+  assert.equal(claimedBatch.items.length, 1);
+  assert.ok(claimedBatch.leaseId);
   const post = () =>
     fetch(endpoint, {
       method: 'POST',
@@ -198,7 +207,7 @@ try {
         headers: { ...headers, 'content-type': 'application/json' },
         body: JSON.stringify({
           action: 'complete',
-          leaseId: claimed.leaseId,
+          leaseId: claimedBatch.leaseId,
           published: [item.url],
           skipped: [],
         }),
@@ -241,12 +250,12 @@ try {
     'Les huit pages desktop/mobile rendent titre, trois phrases, source, canonique et hreflang.',
   );
   await page.goto(fixture.origin + '/news', { waitUntil: 'domcontentloaded' });
-  await page.getByRole('button', { name: 'Filtres', exact: true }).click();
-  await page.locator('select').first().waitFor({ state: 'visible' });
+  await page.locator('[data-news-hydrated="true"]').waitFor();
   await page.locator('input[type="search"]').fill('no-fixture-matches-this');
   await page.waitForFunction(() => document.querySelectorAll('ol details').length === 0);
   await page.getByRole('button', { name: 'Effacer les filtres' }).click();
   await page.waitForFunction(() => document.querySelectorAll('ol details').length === 1);
+  await page.getByRole('button', { name: 'Filtres', exact: true }).click();
   await page.locator('select').first().selectOption(NEWS_MEDIA[0].name);
   await page.waitForFunction(() => document.querySelectorAll('ol details').length === 0);
   await page.getByRole('button', { name: 'Effacer les filtres' }).click();
@@ -293,7 +302,7 @@ try {
   assert.equal((await fetch(endpoint, { headers })).status, 503);
   await page.screenshot({ path: fileURLToPath(new URL('unavailable.png', output)) });
   await page.goto(fixture.origin);
-  assert.equal(await page.locator('a[href="/news"]').count(), 0);
+  assert.equal(await page.locator('img[src*="studio-news-radar-v4"]').count(), 0);
   report.checks.push('Une panne SQL masque la rubrique publique et conserve l’API en 503.');
   assert.deepEqual(report.browserErrors, []);
   log(`PASS News: ${report.checks.length} groupes de vérification, aucune erreur JavaScript.`);

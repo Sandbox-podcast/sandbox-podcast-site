@@ -169,8 +169,16 @@ try {
       const targetId = await target.getAttribute('data-expanded-event');
       if (width < 768) await target.locator('button').tap();
       else {
-        // La flèche du carrousel occupe le centre des lamelles étroites sur tablette.
+        const activeId = await inspector
+          .locator('[data-active="true"]')
+          .getAttribute('data-expanded-event');
         await target.locator('button').hover({ position: { x: 20, y: 100 } });
+        assert.equal(
+          await inspector.locator('[data-active="true"]').getAttribute('data-expanded-event'),
+          activeId,
+          'Le survol ne change pas la fiche',
+        );
+        await target.locator('button').click({ position: { x: 20, y: 100 } });
       }
       await inspector.locator(`[data-expanded-event="${targetId}"][data-active="true"]`).waitFor();
       assert.equal(await inspector.getByRole('heading', { level: 3 }).count(), 1);
@@ -189,6 +197,9 @@ try {
     });
 
     await check('navigation-clavier', async () => {
+      // Garder deux étapes disponibles : le bouton suivant est désactivé au dernier événement.
+      await page.getByRole('button', { name: 'Événement précédent', exact: true }).click();
+      await page.getByRole('button', { name: 'Événement précédent', exact: true }).click();
       await page.locator('body').click({ position: { x: 3, y: 3 } });
       const initialIndex = Number(await range.inputValue());
       await page.keyboard.press('ArrowRight');
@@ -270,6 +281,20 @@ try {
       await chart.press('ArrowRight');
       assert.equal(await range.inputValue(), '1');
       await curveSummary.click();
+    });
+
+    await check('annee-visible', async () => {
+      const yearSelect = page.getByRole('combobox', { name: 'Explorer une année', exact: true });
+      await yearSelect.selectOption('2024');
+      await page.waitForFunction(() =>
+        document
+          .querySelector('[data-active="true"] time')
+          ?.getAttribute('datetime')
+          ?.startsWith('2024'),
+      );
+      assert.equal(await yearSelect.inputValue(), '2024');
+      await yearSelect.selectOption('all');
+      return { yearSelected: 2024 };
     });
 
     await check('filtres-et-empty', async () => {
@@ -530,6 +555,11 @@ try {
           const plain = await noScript.newPage();
           assert.equal((await plain.goto(origin + '/time-machine')).status(), 200);
           assert.equal(await plain.locator('article[id^="ia-"]').count(), corpus.events.length);
+          const yearGroup = plain
+            .locator('details')
+            .filter({ has: plain.locator('#ia-chatgpt') })
+            .first();
+          if (await yearGroup.count()) await yearGroup.locator(':scope > summary').click();
           const sourceDetails = plain.locator('#ia-chatgpt details');
           await sourceDetails.locator('summary').click();
           assert.equal(await sourceDetails.getAttribute('open'), '');

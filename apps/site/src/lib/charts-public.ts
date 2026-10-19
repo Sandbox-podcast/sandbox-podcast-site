@@ -285,14 +285,17 @@ export async function publicReferenceArtifact(
 export type ChartsApiResult<T> =
   { ok: true; response: Response; data: T } | { ok: false; response: Response };
 
-export async function chartsApiResponse<T>(read: () => Promise<T>): Promise<ChartsApiResult<T>> {
+export async function chartsApiResponse<T>(
+  read: () => Promise<T>,
+  current = false,
+): Promise<ChartsApiResult<T>> {
   try {
     const data = await read();
     return {
       ok: true,
       data,
       response: Response.json(data, {
-        headers: { 'Cache-Control': 'public, max-age=60, s-maxage=300' },
+        headers: { 'Cache-Control': current ? 'no-store' : 'public, max-age=60, s-maxage=300' },
       }),
     };
   } catch (error) {

@@ -60,7 +60,7 @@ export interface RefreshTransport {
 /** Les trois collecteurs restent indépendants ; leurs échecs sont tous rapportés. */
 export async function refreshCharts(transport: RefreshTransport, now = new Date()) {
   const slot = refreshSlotId(now);
-  const results = await Promise.all(
+  const grouped = await Promise.all(
     [
       ['github', 'github-daily', 'github-freeze'],
       ['skills', 'skills-daily', 'skills-freeze'],
@@ -86,27 +86,32 @@ export async function refreshCharts(transport: RefreshTransport, now = new Date(
       } catch {
         statuses.push('failed');
       }
-      try {
-        return {
-          chart,
-          statuses,
-          ...verifyPublishedEdition(
-            await transport.current(chart),
-            chart,
-            new Date(Math.max(now.getTime(), Date.now())),
-            slot,
-          ),
-        };
-      } catch {
-        return {
-          chart,
-          statuses,
-          ok: false,
-          edition: null,
-          reason: 'Vérification publique indisponible.',
-        };
-      }
+      return Promise.all(
+        (chart === 'github' ? ['github', 'rising'] : [chart]).map(async (publicChart) => {
+          try {
+            return {
+              chart: publicChart,
+              statuses,
+              ...verifyPublishedEdition(
+                await transport.current(publicChart),
+                publicChart,
+                new Date(Math.max(now.getTime(), Date.now())),
+                slot,
+              ),
+            };
+          } catch {
+            return {
+              chart: publicChart,
+              statuses,
+              ok: false,
+              edition: null,
+              reason: 'Vérification publique indisponible.',
+            };
+          }
+        }),
+      );
     }),
   );
+  const results = grouped.flat();
   return { ok: results.every((result) => result.ok), slot, results };
 }

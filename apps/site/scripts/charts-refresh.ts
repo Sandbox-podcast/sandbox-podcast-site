@@ -37,7 +37,7 @@ if (!checkOnly && (!secret || secret.length < 16)) {
   try {
     const report = checkOnly
       ? await Promise.all(
-          ['github', 'skills', 'models'].map(async (chart) => ({
+          ['github', 'rising', 'skills', 'models'].map(async (chart) => ({
             chart,
             ...verifyPublishedEdition(await current(chart), chart, new Date()),
           })),

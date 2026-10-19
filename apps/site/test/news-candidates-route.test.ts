@@ -15,6 +15,7 @@ vi.mock('../src/lib/news-store', () => ({
 vi.mock('../src/lib/news-candidates-store', () => ({
   readPendingNewsCandidates: state.read,
   claimNewsCandidates: state.claim,
+  readNewsBacklog: async () => ({ pending: 0, oldestPendingAt: null }),
   enqueueNewsCandidates: state.enqueue,
   completeNewsCandidates: state.complete,
 }));

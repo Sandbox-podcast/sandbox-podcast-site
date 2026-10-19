@@ -162,7 +162,7 @@ export async function readPublishedNews(now = new Date(), cursor?: NewsCursor): 
     items,
     nextCursor:
       itemRows.length > NEWS_PAGE_SIZE && last
-        ? { publishedAt: last.publishedAt, id: last.id }
+        ? { publishedAt: new Date(last.publishedAt).toISOString(), id: last.id }
         : null,
   };
 }

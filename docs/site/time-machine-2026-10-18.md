@@ -24,9 +24,9 @@ Chaque ajout reçoit une affiche distincte, générée par le script du projet. 
 
 - `pnpm test` passe : 125 fichiers et 883 tests du site, 7 tests de l'introduction, 4 tests des jingles et 24 tests du lecteur BIS.
 - `pnpm lint` et `pnpm typecheck` passent. Le formatage des fichiers de ce lot passe.
-- Le `pnpm check` de la conversation initiale s’arrêtait au formatage de `exports/reseaux-sociaux/episode-02/remplacements-tiktok-v2.md`. Ce fichier a été formaté dans la consolidation : ce blocage ne s’applique plus au lot regroupé. Les résultats finaux figurent dans le [rapport de consolidation](consolidation-globale-2026-10-18.md).
+- `pnpm check` a été lancé. Il s'arrête au formatage de `exports/reseaux-sociaux/episode-02/remplacements-tiktok-v2.md`, extérieur à ce lot. Le lint, le typage et les tests ont donc été exécutés séparément.
 - Le générateur vérifie 162 compositions distinctes, pour 1 665 140 octets de SVG. Les tests contrôlent les sources, les dates, la recherche, le récapitulatif, les exports et le sitemap actualisé au 18 octobre.
 - Dans le navigateur, la page locale ouvre DeepSeek V4.1 Flash 1017 au 17 octobre 2026, y compris après rechargement. Le lien `#ia-chatgpt` ouvre la fiche du 30 novembre 2022. Le lien `#wrapped-2026` affiche 52 événements et la revue au 18 octobre. Aucune erreur de console relevée sur ce parcours.
 - Le vérificateur Human Quality et `git diff --check` passent.
 
-Les vérifications ci-dessus décrivent la livraison initiale de cette conversation. Le lot rejoint la PR unique décrite dans le [rapport de consolidation](consolidation-globale-2026-10-18.md).
+Le lot reste local dans `C:/github/sandbox-podcast`. Aperçu : [Time Machine](http://127.0.0.1:3038/time-machine). La publication reste à faire sur demande de Lou.

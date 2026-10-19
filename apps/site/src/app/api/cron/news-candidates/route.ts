@@ -7,6 +7,7 @@ import {
   readPendingNewsCandidates,
   completeNewsCandidates,
   claimNewsCandidates,
+  readNewsBacklog,
 } from '@/lib/news-candidates-store';
 import { readLimitedRequestText, RequestBodyTooLargeError } from '@/lib/request-body';
 
@@ -30,11 +31,12 @@ export async function GET(request: Request): Promise<Response> {
 }
 async function pendingResponse(claim: boolean): Promise<Response> {
   try {
-    const [batch, feed] = await Promise.all([
+    const [batch, feed, backlog] = await Promise.all([
       claim
         ? claimNewsCandidates()
         : readPendingNewsCandidates().then((items) => ({ items, leaseId: null })),
       readPublishedNews(),
+      readNewsBacklog(),
     ]);
     const statuses = new Map(feed.sources.map((source) => [source.url, source]));
     const sources = NEWS_MEDIA.map((source) => {
@@ -54,6 +56,7 @@ async function pendingResponse(claim: boolean): Promise<Response> {
     return Response.json(
       newsPendingSchema.parse({
         protocolVersion: 2,
+        backlog,
         items: batch.items,
         leaseId: batch.leaseId,
         sources,

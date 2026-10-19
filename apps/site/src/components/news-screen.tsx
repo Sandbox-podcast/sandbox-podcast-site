@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import {
   newsFeedSchema,
@@ -230,6 +230,10 @@ export function NewsScreen({
 }) {
   const copy = Object.hasOwn(COPY, locale) ? COPY[locale as keyof typeof COPY] : COPY['fr-FR'];
   const [feed, setFeed] = useState(initialFeed);
+  const [hydrated, setHydrated] = useState(false);
+  useEffect(() => {
+    setHydrated(true);
+  }, []);
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState('all');
   const [source, setSource] = useState('all');
@@ -310,7 +314,7 @@ export function NewsScreen({
     setLimit(NEWS_PAGE_SIZE);
   }
   return (
-    <div className={styles['page']}>
+    <div className={styles['page']} data-news-hydrated={hydrated}>
       {canonicalUrl && feed.items.length > 0 ? (
         <JsonLd data={newsCollectionLd(selected.items, canonicalUrl, copy.title, locale)} />
       ) : null}

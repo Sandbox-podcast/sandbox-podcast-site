@@ -1,6 +1,10 @@
 import { z } from 'zod';
 import { NEWS_MEDIA } from '../src/domain/news-media.ts';
-import { newsPendingSchema, newsRequestBatches } from '../src/domain/news-queue.ts';
+import {
+  newsPendingSchema,
+  newsRequestBatches,
+  newsPublicationFromQueue,
+} from '../src/domain/news-queue.ts';
 import { drainNewsQueue } from '../src/domain/news-worker.ts';
 import { collectMediaNewsPreview } from '../src/pipeline/news-media-preview.ts';
 import {
@@ -81,6 +85,7 @@ async function processPending(): Promise<{
   const pending = newsPendingSchema.parse(
     await request('/api/cron/news-candidates', 'POST', { action: 'claim' }),
   );
+  console.log(JSON.stringify({ phase: 'queue', ...pending.backlog }));
   if (!pending.items.length) {
     console.log(JSON.stringify({ phase: 'process', pending: 0 }));
     return { candidates: 0, published: 0, skipped: 0 };
@@ -94,14 +99,13 @@ async function processPending(): Promise<{
   const generated = await generateAndTranslateNews(pending.items);
   let inserted = 0;
   for (const items of newsRequestBatches(generated.items)) {
-    const payload = {
-      checkedAt: new Date().toISOString(),
-      sources: pending.sources,
-      items: items.map((item) => ({
+    const payload = newsPublicationFromQueue(
+      pending,
+      items.map((item) => ({
         item,
         ...(hashes.has(item.url) ? { sourceExcerptHash: hashes.get(item.url) } : {}),
       })),
-    };
+    );
     inserted += responseSchema.parse(
       await request('/api/cron/news-ingest', 'POST', payload),
     ).inserted;
@@ -121,11 +125,11 @@ async function processPending(): Promise<{
       phase: 'process',
       candidates: pending.items.length,
       generated: generated.generated,
-      skipped: generated.skipped,
+      skipped: skipped.length,
       published: inserted,
     }),
   );
-  return { candidates: pending.items.length, published: inserted, skipped: generated.skipped };
+  return { candidates: pending.items.length, published: inserted, skipped: skipped.length };
 }
 async function main() {
   if (secret.length < 16) throw new Error('CRON_SECRET SANDBOX News absent ou trop court.');
@@ -133,7 +137,11 @@ async function main() {
   newsPendingSchema.parse(await request('/api/cron/news-candidates', 'GET'));
   if (!process.argv.includes('--process-only')) await collect();
   if (!process.argv.includes('--collect-only')) {
-    const report = await drainNewsQueue(processPending);
+    const report = await drainNewsQueue(processPending, {
+      onError: (error) => {
+        console.error(error instanceof Error ? error.message : 'Échec du traitement News.');
+      },
+    });
     console.log(JSON.stringify({ phase: 'drain', ...report }));
     if (
       report.failures ||

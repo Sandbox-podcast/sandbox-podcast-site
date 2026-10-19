@@ -1,5 +1,7 @@
 # Documentation
 
+Audit de stabilisation du 19 octobre : [causes, corrections locales, recettes et préparation de la production](site/audit-stabilisation-2026-10-19.md), selon [DD-0063](design-decisions/dd-0063-stabilisation-des-classements-news-et-time-machine.md). Les quatre classements sont contrôlés ; la file News possède des réservations et un modèle CPU vérifié sur des articles réels. Les migrations et la livraison restent à autoriser ; la cadence horaire distante n'est pas démontrée.
+
 Épisodes sans durée obligatoire : [DD-0060](design-decisions/dd-0060-publication-episode-sans-duree.md). Fil News cumulatif et accès conditionnel : [DD-0061](design-decisions/dd-0061-news-fil-cumulatif-et-ouverture.md). Liste de 105 sources et file durable : [DD-0062](design-decisions/dd-0062-sources-news-et-file-de-traitement.md), [relevé des sources](site/news-sources-2026-10-19.csv).
 
 Livraison groupée du 18 octobre : [périmètre des conversations, fusions et validations](site/consolidation-globale-2026-10-18.md), avec les PR 84, 85, 86 et 89 réunies dans une branche.

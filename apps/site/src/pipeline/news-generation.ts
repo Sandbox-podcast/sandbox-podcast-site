@@ -20,7 +20,7 @@ import {
 const applicationRoot = fileURLToPath(new URL('../../', import.meta.url));
 const workerPath = join(applicationRoot, 'scripts', 'news-summarize.py');
 const localDirectory = join(applicationRoot, '.local');
-const modelPath = join(localDirectory, 'news-summary-model', 'Qwen3-1.7B-Q4_K_M.gguf');
+const modelPath = join(localDirectory, 'news-summary-model', 'Qwen3-4B-Instruct-2507-Q4_K_M.gguf');
 const bundledPython = join(
   localDirectory,
   'news-summarizer-venv',
@@ -75,8 +75,13 @@ function safeWorkerEnvironment(): NodeJS.ProcessEnv {
 
 function runLocalSummaryBatch(
   items: readonly NewsSummaryInput[],
+  signal?: AbortSignal,
 ): Promise<readonly { url: string; summary: unknown }[]> {
   return new Promise((resolve, reject) => {
+    if (signal?.aborted) {
+      reject(new Error('Le budget du lot News est épuisé.'));
+      return;
+    }
     if (!existsSync(modelPath)) {
       reject(new Error('Le modèle local de rédaction SANDBOX News est absent.'));
       return;
@@ -96,6 +101,7 @@ function runLocalSummaryBatch(
       if (settled) return;
       settled = true;
       clearTimeout(timer);
+      signal?.removeEventListener('abort', abort);
       if (error) reject(error);
       else resolve(value ?? []);
     };
@@ -103,6 +109,11 @@ function runLocalSummaryBatch(
       child.kill();
       finish(new Error('La génération locale News a dépassé huit minutes.'));
     }, 8 * 60_000);
+    const abort = () => {
+      child.kill();
+      finish(new Error('Le budget du lot News est épuisé.'));
+    };
+    signal?.addEventListener('abort', abort, { once: true });
     child.stdout.on('data', (chunk: Buffer) => {
       outputSize += chunk.length;
       if (outputSize > 500_000) {
@@ -156,9 +167,18 @@ function checkedSummary(value: unknown, sourceExcerpt: string): NewsEditorialRec
     return true;
   };
   const segmenter = new Intl.Segmenter('fr-FR', { granularity: 'sentence' });
-  if (!clean(result.data.title) || result.data.title.length < 8) return undefined;
+  const withoutRelativeToday = (sentence: string) =>
+    sentence
+      .replace(/\baujourd['’]hui,?\s*/giu, '')
+      .replace(/ +/gu, ' ')
+      .trim();
+  const sentences: [string, string, string] = [
+    withoutRelativeToday(result.data.sentences[0]),
+    withoutRelativeToday(result.data.sentences[1]),
+    withoutRelativeToday(result.data.sentences[2]),
+  ];
   if (
-    result.data.sentences.some(
+    sentences.some(
       (sentence) =>
         !clean(sentence) ||
         [...segmenter.segment(sentence)].length !== 1 ||
@@ -166,14 +186,23 @@ function checkedSummary(value: unknown, sourceExcerpt: string): NewsEditorialRec
     )
   )
     return undefined;
-  if (new Set(result.data.sentences.map(normalizeEvidence)).size !== 3) return undefined;
+  if (new Set(sentences.map(normalizeEvidence)).size !== 3) return undefined;
+  if (
+    sentences.some((sentence) =>
+      /\b(?:je|nous|notre|nos|mon|mes|we|our|my)\b|\bj['’]/iu.test(sentence),
+    )
+  )
+    return undefined;
   const excerpt = normalizeEvidence(sourceExcerpt);
   const evidence = result.data.evidence.map(normalizeEvidence);
   if (new Set(evidence).size !== 3) return undefined;
   if (evidence.some((quote) => quote.length < 20 || !excerpt.includes(quote))) return undefined;
+  // Le titre reprend un fait du résumé : le modèle ne peut y ajouter une autre affirmation.
+  const title = sentences[0].replace(/[.!?]$/u, '');
+  if (title.length < 8 || title.length > 200) return undefined;
   return {
-    title: result.data.title,
-    sentences: result.data.sentences,
+    title,
+    sentences,
     category: result.data.category,
   };
 }
@@ -189,8 +218,12 @@ export async function generateAndTranslateNews(
     summarize?: NewsSummaryBatch;
     translate?: NewsTranslationBatch;
     editorial?: Record<string, NewsEditorialRecord>;
+    budgetMs?: number;
   } = {},
 ): Promise<{ items: NewsItem[]; generated: number; skipped: number }> {
+  const budgetMs = options.budgetMs ?? 14 * 60_000;
+  const deadline = Date.now() + budgetMs;
+  const signal = AbortSignal.timeout(budgetMs);
   const editorial = options.editorial ?? NEWS_EDITORIAL;
   const unpublished = items.filter(
     (item) => item.kind === 'article' && !newsEditorialForItem(item, editorial),
@@ -200,7 +233,7 @@ export async function generateAndTranslateNews(
       typeof item.sourceExcerpt === 'string' && item.sourceExcerpt.trim().length >= 240,
   );
   const summaries = eligible.length
-    ? await (options.summarize ?? runLocalSummaryBatch)(
+    ? await (options.summarize ?? ((inputs) => runLocalSummaryBatch(inputs, signal)))(
         eligible.map((item) => ({
           url: item.url,
           headline: item.headline ?? '',
@@ -210,6 +243,7 @@ export async function generateAndTranslateNews(
         })),
       )
     : [];
+  signal.throwIfAborted();
   const summariesByUrl = new Map(summaries.map((summary) => [summary.url, summary.summary]));
   const generatedEditorial: Record<string, NewsEditorialRecord> = {};
   for (const item of eligible) {
@@ -220,11 +254,37 @@ export async function generateAndTranslateNews(
   const translatable = items
     .filter((item) => item.kind === 'article' && newsEditorialForItem(item, combinedEditorial))
     .map((item) => ({ ...item, sourceExcerpt: undefined }));
-  const translated = await translateNewsEditorialItems(
-    translatable,
-    options.translate,
-    combinedEditorial,
-  );
+  let translated: NewsItem[];
+  try {
+    translated = await translateNewsEditorialItems(
+      translatable,
+      options.translate,
+      combinedEditorial,
+      undefined,
+      signal,
+    );
+  } catch (error) {
+    if (signal.aborted) throw error;
+    if (translatable.length <= 1) throw error;
+    console.warn('SANDBOX News : traduction du lot rejetée, reprise article par article.');
+    translated = [];
+    for (const item of translatable) {
+      if (Date.now() >= deadline) break;
+      try {
+        translated.push(
+          ...(await translateNewsEditorialItems(
+            [item],
+            options.translate,
+            combinedEditorial,
+            undefined,
+            signal,
+          )),
+        );
+      } catch {
+        console.warn('SANDBOX News : traduction rejetée pour', item.url);
+      }
+    }
+  }
   const complete = translated
     .filter((item) => newsEditorialTranslationsComplete([item], combinedEditorial))
     .map((item) => {

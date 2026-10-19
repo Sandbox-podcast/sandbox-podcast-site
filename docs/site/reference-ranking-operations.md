@@ -1,5 +1,11 @@
 # Mise en service et reprise des classements v3
 
+## Contrôle de stabilisation du 19 octobre
+
+Le pilote vérifie maintenant GitHub, Rising, Skills et Models. Après le gel GitHub, il contrôle aussi Rising sans refaire la collecte. La commande publique, sans secret, est `node apps/site/scripts/charts-refresh.ts --check` depuis la racine. Elle sort avec le code 1 lorsqu'une des quatre éditions est absente ou ancienne. Les réponses `current` sont `no-store` ; les archives gardent leur cache.
+
+Rising demande vingt projets admissibles, deux fenêtres réelles de sept jours et une accélération positive. Un compteur de nouveautés n'est pas une édition. L'interface explicite cette attente. Les seuils ne doivent pas être réduits pour masquer un historique insuffisant. Son repli vers une édition observée est décidé indépendamment du profil GitHub. Voir [l'audit](audit-stabilisation-2026-10-19.md) et [DD-0063](../design-decisions/dd-0063-stabilisation-des-classements-news-et-time-machine.md).
+
 **Incident du 15 octobre :** lire le [constat et la procédure de reprise](incident-classements-2026-10-15.md) et l'[ADR-0030](../adr/ADR-0030-reprise-et-controle-des-classements.md). Le nouveau pilote sépare les trois collecteurs, reprend les lots incomplets et contrôle les éditions publiques. L'origine de production a une valeur par défaut ; le secret reste obligatoire. Le contrôle horaire de fraîcheur est actif indépendamment des poussées, qui demandent `SANDBOX_CHARTS_BURSTS_ENABLED=true` dans GitHub Actions.
 
 Lire [le README](../../README.md), [la conception](reference-ranking-design.md) et [le prompt de reprise](prompt-classements-reference.md). Les développements sont livrés pour revue. Aucun accès réel, migration de production ou profil public n'est activé par ce travail.
@@ -73,4 +79,4 @@ Un export brut de la requête `modelIdentityAuditQuery` peut aussi être relu ho
 
 Un dépôt que GitHub ne résout plus sous son nom enregistré sort du suivi automatique au passage suivant, sauf statut manuel. L'échec d'Arena ou de Hugging Face n'efface pas le catalogue encore reçu des autres sources Models. Voir [ADR-0034](../adr/ADR-0034-collectes-partielles-github-et-models.md).
 
-Quand OpenSSF couvre moins de vingt dépôts, le gel publie la progression GitHub réellement mesurée sous `github-momentum-observed` ou `rising-momentum-observed`. Skills publie `skills-installs-observed` : le score suit les installations gagnées sur sept jours, et les étoiles du dépôt restent un contexte. Models publie `models-quality-observed` quand moins de vingt fiches ont les deux évaluations admissibles : le score suit Arena, Artificial Analysis, ou les deux lorsqu'ils existent. Une évaluation absente n'est pas estimée. Ces éditions n'utilisent pas les poids v3 et ne demandent pas `CHARTS_REVIEWED_PROFILE_VERSIONS`. Les absences restent des absences. Voir [ADR-0035](../adr/ADR-0035-edition-observee-quand-la-corroboration-manque.md) et [ADR-0037](../adr/ADR-0037-evaluations-models-observees.md).
+Quand OpenSSF couvre moins de vingt dépôts, le gel publie la progression GitHub réellement mesurée sous `github-momentum-observed` ou `rising-momentum-observed`. Skills publie `skills-installs-observed` : le score suit les installations gagnées sur sept jours, et les étoiles du dépôt restent un contexte. Ces éditions n'utilisent pas les poids v3 et ne demandent pas `CHARTS_REVIEWED_PROFILE_VERSIONS`. Les absences restent des absences. Voir [ADR-0035](../adr/ADR-0035-edition-observee-quand-la-corroboration-manque.md).

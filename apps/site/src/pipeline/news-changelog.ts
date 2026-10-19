@@ -82,7 +82,11 @@ export function parseNewsChangelog(html: string, source: NewsMedia): NewsItem[] 
       });
   }
   const ordered = [...anchors.values()].sort((left, right) => left.start - right.start);
-  return ordered.slice(0, 20).flatMap((section, index) => {
+  const latest = ordered
+    .toSorted((left, right) => right.date.localeCompare(left.date))
+    .slice(0, 20);
+  return latest.flatMap((section) => {
+    const index = ordered.indexOf(section);
     const base = new URL(source.fetchUrl ?? source.url);
     base.search = '';
     base.hash = section.anchor;

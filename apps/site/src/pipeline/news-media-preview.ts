@@ -22,10 +22,7 @@ export function discoverNewsArticles(
   const results = new Map<string, { url: string; date?: string | undefined }>();
   const main = /<main\b[^>]*>([\s\S]*?)<\/main>/i.exec(html)?.[1];
   for (const region of main ? [main, html] : [html]) {
-    const content = region.replace(
-      /<(script|style|header|nav|footer|aside)\b[^>]*>[\s\S]*?<\/\1>/gi,
-      ' ',
-    );
+    const content = region.replace(/<(script|style|nav|footer)\b[^>]*>[\s\S]*?<\/\1>/gi, ' ');
     for (const match of content.matchAll(/<a\b([^>]*?)>([\s\S]*?)<\/a>/gi)) {
       const href = attributes(match[1] ?? '')['href'];
       if (!href) continue;
@@ -46,7 +43,12 @@ export function discoverNewsArticles(
     }
     if (results.size) break;
   }
-  return [...results.values()].slice(0, 6);
+  return [...results.values()]
+    .toSorted((left, right) => {
+      if (left.date && right.date) return right.date.localeCompare(left.date);
+      return Number(!!right.date) - Number(!!left.date);
+    })
+    .slice(0, 12);
 }
 const articleMetadata = z.object({
   '@type': z.union([z.string(), z.array(z.string())]),
@@ -80,6 +82,23 @@ function findArticleMetadata(
         const found = findArticleMetadata(object.data[key], depth + 1);
         if (found) return found;
       }
+  }
+  return undefined;
+}
+
+function visiblePublisherDate(html: string, source: NewsMedia): string | undefined {
+  if (!['meta-ai', 'alibaba-cloud', 'ai2'].includes(source.id)) return undefined;
+  const visible = html.replace(/<(script|style|nav|footer)\b[^>]*>[\s\S]*?<\/\1>/gi, ' ');
+  for (const match of visible.matchAll(/<(p|span|div)\b[^>]*>([^<]{5,100})<\/\1>/gi)) {
+    const text = newsPlainText(match[2] ?? '');
+    if (
+      !/^(?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?) \d{1,2}, \d{4}(?:\s*[•·]\s*\d+ minute read)?$/iu.test(
+        text,
+      )
+    )
+      continue;
+    const date = newsPublicationDate(text);
+    if (date) return date;
   }
   return undefined;
 }
@@ -126,12 +145,15 @@ export function parseNewsArticle(
     /<article\b[^>]*>([\s\S]{0,500000}?)<\/article>/i.exec(html)?.[1] ??
     /<main\b[^>]*>([\s\S]{0,500000}?)<\/main>/i.exec(html)?.[1] ??
     '';
-  const articleExcerpt = newsPlainText(
-    articleHtml.replace(
-      /<(?:script|style|nav|header|footer|aside)\b[^>]*>[\s\S]*?<\/(?:script|style|nav|header|footer|aside)>/gi,
-      ' ',
-    ),
+  const cleanArticleHtml = articleHtml.replace(
+    /<(?:script|style|nav|header|footer|aside)\b[^>]*>[\s\S]*?<\/(?:script|style|nav|header|footer|aside)>/gi,
+    ' ',
   );
+  const paragraphs = [...cleanArticleHtml.matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/gi)]
+    .map((match) => newsPlainText(match[1] ?? ''))
+    .filter((text) => text.length >= 40 && /[.!?]$/.test(text))
+    .join(' ');
+  const articleExcerpt = paragraphs.length >= 240 ? paragraphs : newsPlainText(cleanArticleHtml);
   const sourceExcerpt = (articleExcerpt.length >= 240 ? articleExcerpt : metaExcerpt).slice(
     0,
     8000,
@@ -154,7 +176,8 @@ export function parseNewsArticle(
     (source.id === 'tldr'
       ? /<h1[^>]*>TLDR AI (\d{4}-\d{2}-\d{2})<\/h1>/i.exec(html)?.[1]
       : undefined) ??
-    hintedDate;
+    hintedDate ??
+    visiblePublisherDate(html, source);
   if (!headline || !rawDate) return undefined;
   const publishedAt = newsPublicationDate(newsPlainText(rawDate));
   if (!publishedAt) return undefined;
@@ -196,7 +219,9 @@ export async function collectMediaNewsPreview(
   previous: NewsFeed,
   transport: typeof fetch = fetch,
   now = new Date(),
+  options: { budgetMs?: number } = {},
 ): Promise<NewsFeed> {
+  const signal = AbortSignal.timeout(options.budgetMs ?? 8 * 60_000);
   let active = 0;
   const queue: (() => void)[] = [];
   async function get(url: string, source: NewsMedia): Promise<string> {
@@ -206,10 +231,11 @@ export async function collectMediaNewsPreview(
       });
     active += 1;
     try {
+      signal.throwIfAborted();
       let response: Response | undefined;
       for (let attempt = 0; attempt < 2; attempt += 1) {
         try {
-          response = await requestNewsPage(url, source, transport);
+          response = await requestNewsPage(url, source, transport, signal);
         } catch (error) {
           if (
             attempt === 0 &&
@@ -262,6 +288,14 @@ export async function collectMediaNewsPreview(
   const sources = results.map((result, index) => {
     const source = NEWS_MEDIA[index];
     if (result.status === 'fulfilled') items.push(...result.value.items);
+    const freshItems =
+      result.status === 'fulfilled'
+        ? result.value.items.filter(
+            (item) =>
+              Date.parse(item.publishedAt) <= now.getTime() &&
+              Date.parse(item.publishedAt) >= now.getTime() - 14 * 86_400_000,
+          ).length
+        : 0;
     return {
       name: source?.name ?? 'Média',
       url: source?.url,
@@ -273,7 +307,9 @@ export async function collectMediaNewsPreview(
             : 'Source indisponible'
           : result.value.partial
             ? 'Lecture partielle'
-            : undefined,
+            : freshItems === 0
+              ? 'Aucune publication récente sur quatorze jours'
+              : undefined,
     };
   });
   return {

@@ -2,7 +2,11 @@ import { z } from 'zod';
 import { newsItemSchema } from './news-preview.ts';
 import { NEWS_MEDIA } from './news-media.ts';
 import { newsSourceMatches } from './news-source.ts';
-import { newsSourceStatusSchema } from './news-publishing.ts';
+import {
+  newsSourceStatusSchema,
+  newsIngestionRequestSchema,
+  type NewsIngestionRequest,
+} from './news-publishing.ts';
 
 export const NEWS_PROCESSING_BATCH_SIZE = 20;
 export const NEWS_GENERATION_BATCH_SIZE = 5;
@@ -41,10 +45,28 @@ export const newsPendingSchema = z
     protocolVersion: z.literal(2),
     items: z.array(newsCandidateSchema).max(NEWS_PROCESSING_BATCH_SIZE),
     leaseId: z.uuid().nullable().default(null),
+    backlog: z
+      .object({
+        pending: z.number().int().nonnegative(),
+        oldestPendingAt: z.iso.datetime().nullable(),
+      })
+      .optional(),
     checkedAt: z.iso.datetime(),
     sources: z.array(newsSourceStatusSchema).length(NEWS_MEDIA.length),
   })
   .strict();
+
+/** Publier la file ne doit pas faire passer une ancienne collecte pour un nouveau relevé. */
+export function newsPublicationFromQueue(
+  pending: Pick<z.infer<typeof newsPendingSchema>, 'checkedAt' | 'sources'>,
+  items: readonly unknown[],
+): NewsIngestionRequest {
+  return newsIngestionRequestSchema.parse({
+    checkedAt: pending.checkedAt,
+    sources: pending.sources,
+    items,
+  });
+}
 
 /** Borne aussi les octets UTF-8, pas seulement le nombre d'articles. */
 export function newsRequestBatches<T>(items: readonly T[]): T[][] {

@@ -5,6 +5,7 @@ export async function requestNewsPage(
   url: string,
   source: NewsMedia,
   transport: typeof fetch,
+  signal?: AbortSignal,
 ): Promise<Response> {
   const origins = new Set([new URL(source.url).origin, ...(source.articleOrigins ?? [])]);
   if (source.fetchUrl) origins.add(new URL(source.fetchUrl).origin);
@@ -22,7 +23,9 @@ export async function requestNewsPage(
       headers: { Accept: 'text/html', 'User-Agent': 'SANDBOX-News-Local/1.0' },
       redirect: 'manual',
       cache: 'no-store',
-      signal: AbortSignal.timeout(12_000),
+      signal: signal
+        ? AbortSignal.any([signal, AbortSignal.timeout(12_000)])
+        : AbortSignal.timeout(12_000),
     });
     if (response.status < 300 || response.status >= 400) return response;
     const location = response.headers.get('location');

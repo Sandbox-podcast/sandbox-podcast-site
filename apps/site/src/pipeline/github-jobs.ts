@@ -390,7 +390,13 @@ export async function calculateGithubWeek(
       ?.observed ?? 0;
   const openssfCannotCorroborate = !publishReference && openssfCovered < config.minimumCandidates;
   const observedGithub = openssfCannotCorroborate ? observedEdition(false) : [];
-  const observedRising = openssfCannotCorroborate ? observedEdition(true) : [];
+  const risingOpenssfCovered =
+    risingReferenceRanking.report.sourceCoverage.find((item) => item.source === 'openssf-practices')
+      ?.observed ?? 0;
+  const observedRising =
+    !risingReferenceRanking.report.publishable && risingOpenssfCovered < config.minimumCandidates
+      ? observedEdition(true)
+      : [];
   const entries = corroborated;
   const rising = corroboratedRising;
   const uncertainCandidates = referenceRanking.report.excluded.filter(
@@ -424,11 +430,8 @@ export async function calculateGithubWeek(
     dryRun: options.dryRun === true,
   };
   const githubToFreeze = publishReference ? entries : observedGithub;
-  const risingToFreeze = publishReference
-    ? risingReferenceRanking.report.publishable
-      ? rising
-      : []
-    : observedRising;
+  const publishRisingReference = risingReferenceRanking.report.publishable;
+  const risingToFreeze = publishRisingReference ? rising : observedRising;
   if (options.dryRun || (githubToFreeze.length === 0 && risingToFreeze.length === 0)) return result;
   result.written = await freezeWeeklyCharts(
     week,
@@ -442,7 +445,7 @@ export async function calculateGithubWeek(
             entries: githubToFreeze,
             scoringVersion: OBSERVED_SCORING_VERSIONS.github,
           },
-      publishReference
+      publishRisingReference
         ? {
             chart: 'rising',
             entries: risingToFreeze,

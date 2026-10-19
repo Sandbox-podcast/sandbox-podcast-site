@@ -2066,7 +2066,7 @@
   },
   "Classements de projets open source, de skills et de modèles IA": {
     "translation": "",
-    "sources": ["src/app/(fr)/charts/page.tsx", "src/components/charts-experience.tsx"]
+    "sources": ["src/components/charts-experience.tsx", "src/app/(fr)/charts/page.tsx"]
   },
   "Classements GitHub de projets open source, skills et modèles IA. Popularité, progression, qualité et méthodes publiques.": {
     "translation": "",
@@ -9997,10 +9997,6 @@
     "translation": "",
     "sources": ["content/personal-projects.json"]
   },
-  "Archives des classements de projets open source, de skills et de modèles IA": {
-    "translation": "",
-    "sources": ["src/components/charts-experience.tsx"]
-  },
   "Authentifier les connexions.": {
     "translation": "",
     "sources": ["content/personal-projects.json"]
@@ -10028,22 +10024,6 @@
   "Choisir un thème clair ou sombre.": {
     "translation": "",
     "sources": ["content/personal-projects.json"]
-  },
-  "Classement de modèles d'IA": {
-    "translation": "",
-    "sources": ["src/components/charts-experience.tsx"]
-  },
-  "Classement de projets open source sur GitHub": {
-    "translation": "",
-    "sources": ["src/components/charts-experience.tsx"]
-  },
-  "Classement des skills, agents et MCP": {
-    "translation": "",
-    "sources": ["src/components/charts-experience.tsx"]
-  },
-  "Classements de projets open source, de skills et de modèles IA": {
-    "translation": "",
-    "sources": ["src/components/charts-experience.tsx", "src/app/(fr)/charts/page.tsx"]
   },
   "Comparer différentes puissances.": {
     "translation": "",
@@ -10316,10 +10296,6 @@
   "Programmer des tâches.": {
     "translation": "",
     "sources": ["content/personal-projects.json"]
-  },
-  "Projets GitHub en progression": {
-    "translation": "",
-    "sources": ["src/components/charts-experience.tsx"]
   },
   "Préparer les requêtes pour les automatisations.": {
     "translation": "",

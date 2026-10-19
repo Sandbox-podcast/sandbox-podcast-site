@@ -115,6 +115,33 @@
   margin-bottom: 16px;
   border-bottom: 1px solid var(--tm-line);
 }
+.quickNavigation {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  margin: 0 0 16px;
+}
+.quickNavigation label {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 12px;
+}
+.quickNavigation select {
+  min-height: 44px;
+  border: 1px solid var(--tm-line);
+  border-radius: 8px;
+  background: #0b141e;
+  color: #f3f4ef;
+  padding: 8px 12px;
+}
+.quickNavigation p {
+  flex: 1 1 240px;
+  color: var(--tm-muted);
+  font-size: 12px;
+}
 .advancedFilters > summary,
 .curveDisclosure > summary,
 .eventDetails > summary,

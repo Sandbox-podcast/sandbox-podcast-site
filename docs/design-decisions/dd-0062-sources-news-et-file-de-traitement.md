@@ -2,6 +2,8 @@
 
 Date : 2026-10-19. Liste fournie par Lou ; mise en œuvre décidée par l'agent sur délégation (PD-0003).
 
+Complément du même jour : [DD-0063](dd-0063-stabilisation-des-classements-news-et-time-machine.md) décrit le modèle réellement exécuté, les corrections des sources et les durées bornées de collecte, génération et traduction. Le [rapport de stabilisation](../site/audit-stabilisation-2026-10-19.md) contient le dernier relevé et distingue la PR 94 fusionnée des correctifs complémentaires locaux.
+
 Le registre contient les dix adresses précédentes et les 95 nouvelles adresses uniques de la liste. MiniMax et MiniMax Audio partagent leur source ; The Rundown AI était déjà présent. Les URL de référence ne gardent aucun paramètre UTM. Un blog et un changelog du même éditeur restent deux points de collecte distincts.
 
 Chaque passage horaire consulte le registre complet, avec quatre requêtes simultanées au maximum. Le collecteur lit les articles, les publications de recherche et les entrées de changelog identifiables par une date et une véritable ancre publique. Il accepte les attributs HTML cités ou non cités, les types Article, BlogPosting, TechArticle et ScholarlyArticle, et plusieurs formats de date. Il ne remplace jamais une date absente par la date de collecte. Les URL externes ne sont suivies que si leur origine est explicitement inscrite pour cet éditeur. Aucun refus d'accès n'est contourné.

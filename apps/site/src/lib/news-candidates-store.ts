@@ -73,12 +73,36 @@ export async function readPendingNewsCandidates(): Promise<NewsCandidate[]> {
   return rows.map((row) => newsCandidateSchema.parse(row.payload));
 }
 
+export async function readNewsBacklog() {
+  if (!hasDatabaseConfiguration()) throw new Error('Stockage News absent.');
+  const [row] = await getDb()
+    .select({
+      pending: sql<number>`count(*)::int`,
+      oldestPendingAt: sql<string | null>`min(${newsCandidates.createdAt})`,
+    })
+    .from(newsCandidates)
+    .where(and(eq(newsCandidates.status, 'pending'), lt(newsCandidates.attempts, 3)));
+  return {
+    pending: row?.pending ?? 0,
+    oldestPendingAt: row?.oldestPendingAt ? new Date(row.oldestPendingAt).toISOString() : null,
+  };
+}
+
 /** La réservation et le compteur survivent à l'arrêt brutal d'un runner. */
 export async function claimNewsCandidates(): Promise<{ leaseId: string; items: NewsCandidate[] }> {
   if (!hasDatabaseConfiguration()) throw new Error('Stockage News absent.');
   const leaseId = randomUUID();
   const now = new Date().toISOString();
   const items = await getDb().transaction(async (tx) => {
+    await tx
+      .update(newsCandidates)
+      .set({ status: 'published', leaseId: null, leaseExpiresAt: null, updatedAt: now })
+      .where(
+        and(
+          eq(newsCandidates.status, 'pending'),
+          sql`exists (select 1 from ${newsItems} where ${newsItems.canonicalUrl} = ${newsCandidates.canonicalUrl})`,
+        ),
+      );
     await tx
       .update(newsCandidates)
       .set({ status: 'rejected', leaseId: null, leaseExpiresAt: null, updatedAt: now })

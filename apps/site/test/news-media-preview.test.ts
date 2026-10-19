@@ -29,6 +29,17 @@ const html = `<meta content="Why enterprise AI ROI goes beyond efficiency" prope
 afterEach(() => vi.unstubAllEnvs());
 
 describe('médias News demandés par Lou', () => {
+  it('privilégie les liens datés récents lorsque des articles anciens sont épinglés', () => {
+    const source = NEWS_MEDIA.find((entry) => entry.id === 'rundown');
+    if (!source) throw new Error('Source absente');
+    const html = Array.from(
+      { length: 20 },
+      (_, index) => `<a href="/articles/article-${index}">October ${index + 1}, 2026</a>`,
+    ).join('');
+    const links = discoverNewsArticles(html, source);
+    expect(links).toHaveLength(12);
+    expect(links[0]?.url).toContain('article-19');
+  });
   it('enregistre les dix médias, sans substituer GitHub à la demande', () => {
     expect(NEWS_MEDIA).toHaveLength(105);
     expect(new Set(NEWS_MEDIA.map((source) => source.name)).size).toBe(105);
@@ -378,8 +389,8 @@ describe('médias News demandés par Lou', () => {
       '<a href="/newsletter/story"><h2>Story</h2><div>October 16, 2026</div></a><a href="/newsletter/other"><div>October 18, 2026</div></a>',
       aiReport,
     );
-    expect(links[0]?.date).toBe('2026-10-16');
-    expect(links[1]?.date).toBe('2026-10-18');
+    expect(links.find((link) => link.url.endsWith('/story'))?.date).toBe('2026-10-16');
+    expect(links.find((link) => link.url.endsWith('/other'))?.date).toBe('2026-10-18');
   });
   it('ne visite ni domaine tiers, ni lien authentifié, ni archive hors du chemin prévu', () => {
     const links = discoverNewsArticles(

@@ -38,13 +38,13 @@ jobs:
         uses: actions/cache@v4
         with:
           path: |
-            apps/site/.local/news-summary-model
+            apps/site/.local/news-summary-model/Qwen3-4B-Instruct-2507-Q4_K_M.gguf
             apps/site/.local/news-summarizer-venv
             apps/site/.local/news-translator-models
             apps/site/.local/news-translator-sbd
             apps/site/.local/news-translator-venv
             apps/site/.local/argos-runtime
-          key: sandbox-news-v1-ubuntu-py311-argos111-qwen3-7fb011e
+          key: sandbox-news-v3-ubuntu-py311-argos111-qwen3instruct-a06e946
 
       - run: pnpm install --frozen-lockfile
 

@@ -106,7 +106,6 @@ function EventInspector({
   total: number;
   onSelect: (index: number) => void;
 }) {
-  const pointer = useRef<{ x: number; y: number } | null>(null);
   const [windowCenter, setWindowCenter] = useState(index);
   const currentWindow = historyCardWindow(events.length, windowCenter);
   const visible = currentWindow.includes(index)
@@ -133,29 +132,6 @@ function EventInspector({
           }
           aria-label="Inventions voisines dans la chronologie"
           data-mobile-count={mobileVisible.length}
-          onPointerMove={(pointerEvent) => {
-            if (
-              pointerEvent.pointerType !== 'mouse' ||
-              !window.matchMedia('(hover: hover) and (pointer: fine)').matches
-            )
-              return;
-            const previous = pointer.current;
-            pointer.current = { x: pointerEvent.clientX, y: pointerEvent.clientY };
-            if (
-              previous &&
-              Math.hypot(pointerEvent.clientX - previous.x, pointerEvent.clientY - previous.y) < 3
-            )
-              return;
-            const target = pointerEvent.target;
-            if (!(target instanceof Element)) return;
-            const card = target.closest<HTMLElement>('[data-expanded-index]');
-            if (!card) return;
-            const next = Number(card.dataset['expandedIndex']);
-            if (Number.isInteger(next) && next !== index) onSelect(next);
-          }}
-          onPointerLeave={() => {
-            pointer.current = null;
-          }}
         >
           {visible.map((cardIndex) => {
             const item = events[cardIndex];
@@ -238,7 +214,8 @@ function EventInspector({
         >
           <button
             type="button"
-            onClick={() => {
+            onClick={(event) => {
+              event.currentTarget.focus({ preventScroll: true });
               onSelect(index - 1);
             }}
             disabled={index === 0}
@@ -248,7 +225,8 @@ function EventInspector({
           </button>
           <button
             type="button"
-            onClick={() => {
+            onClick={(event) => {
+              event.currentTarget.focus({ preventScroll: true });
               onSelect(index + 1);
             }}
             disabled={index >= total - 1}
@@ -319,7 +297,7 @@ export function TimeMachine({ data }: { data: TimeMachineData }) {
   const [playing, setPlaying] = useState(false);
   const [speed, setSpeed] = useState(1);
   const [motionPaused, setMotionPaused] = useState(false);
-  const [newestFirst, setNewestFirst] = useState(false);
+  const [newestFirst, setNewestFirst] = useState(true);
   const [year, setYear] = useState(() => historyYears(data.events)[0] ?? data.toYear);
   const [exportMessage, setExportMessage] = useState('');
   const board = useRef<HTMLElement>(null);
@@ -606,6 +584,33 @@ export function TimeMachine({ data }: { data: TimeMachineData }) {
             ? historyDate(selected.date) + ', ' + selected.title
             : 'Aucun événement sélectionné.'}
         </p>
+        <div className={styles['quickNavigation']}>
+          <label>
+            <span>Explorer une année</span>
+            <select
+              aria-label="Explorer une année"
+              value={fromYear === toYear ? fromYear : 'all'}
+              onChange={(event) => {
+                const value = event.target.value;
+                setPeriod(
+                  value === 'all'
+                    ? { fromYear: data.fromYear, toYear: data.toYear }
+                    : { fromYear: Number(value), toYear: Number(value) },
+                );
+                setPlaying(false);
+                setSelectedId('');
+              }}
+            >
+              <option value="all">Toutes les années</option>
+              {[...availableYears].reverse().map((value) => (
+                <option key={value} value={value}>
+                  {value}
+                </option>
+              ))}
+            </select>
+          </label>
+          <p>Choisis une date, puis ouvre sa fiche pour lire les détails et les sources.</p>
+        </div>
         <details className={styles['advancedFilters']}>
           <summary>
             Affiner la chronologie

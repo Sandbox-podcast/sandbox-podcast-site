@@ -1,5 +1,7 @@
 # Sandbox Time Machine
 
+Parcours simplifié le 19 octobre : choix d'année près de la chronologie, sélection explicite par clic, tactile ou clavier, archives récentes en premier. Le survol ne change plus l'événement ouvert. Les filtres avancés et le Wrapped sont conservés. Voir [DD-0063](../design-decisions/dd-0063-stabilisation-des-classements-news-et-time-machine.md) et le [rapport d'audit](audit-stabilisation-2026-10-19.md) pour les sources et les recettes.
+
 Route locale : [Time Machine](http://127.0.0.1:3000/time-machine). Décision : [DD-0027](../design-decisions/DD-0027-time-machine-histoire-mondiale-ia.md).
 
 ## Lancement
