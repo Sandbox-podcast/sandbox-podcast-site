@@ -11,9 +11,7 @@ import { mergeDescriptionResources } from '@/domain/episode-resources';
 import { episodeChapters } from '@/domain/episode-presentation';
 import { createEpisodeFromYouTube } from '@/domain/episode-import';
 import { parseYouTubeDescription } from '@/domain/youtube';
-import { formatDuration, formatDurationExact } from '@/domain/format';
 import { EpisodeDescription } from './episode-description';
-import { YouTubeDurationProbe } from './youtube-duration-probe';
 
 const youtubeMetadataSchema = z.object({
   videoId: z.string().regex(/^[A-Za-z0-9_-]{11}$/),
@@ -87,6 +85,7 @@ export function EpisodeComposer({
       ? `https://www.youtube.com/watch?v=${episode.platforms.youtubeId}`
       : '');
   const [youtubeUrl, setYoutubeUrl] = useState(initialYoutubeUrl);
+  const addedAt = useRef<string | undefined>(undefined);
   const latestVideoId = useRef(parseYouTubeVideoId(initialYoutubeUrl));
   const lastImportedVideoId = useRef(
     episode?.platforms.youtubeId ?? parseYouTubeVideoId(initialYoutubeUrl),
@@ -140,10 +139,6 @@ export function EpisodeComposer({
   const [thumbnailMessage, setThumbnailMessage] = useState('');
   const [error, setError] = useState('');
   const currentVideoId = parseYouTubeVideoId(youtubeUrl);
-  const needsDurationProbe =
-    currentVideoId &&
-    ((metadata?.videoId === currentVideoId && !metadata.durationSec) ||
-      (episode?.platforms.youtubeId === currentVideoId && metadata?.videoId !== currentVideoId));
   const previewArtwork = episodeArtwork({
     cover: {
       ...(episode?.cover ?? { tone: 1, kicker: `Épisode ${String(initialNumber)}` }),
@@ -170,13 +165,6 @@ export function EpisodeComposer({
   );
   const missingFields = [
     !title.trim() && 'titre',
-    !dek.trim() && 'résumé',
-    !description.trim() && 'description',
-    !publishedAt && 'date',
-    (!durationSec || Number(durationSec) < 60) && 'durée',
-    [...chapters, ...parseYouTubeDescription(description).chapters].some(
-      (chapter) => chapter.at >= Number(durationSec),
-    ) && 'durée YouTube incohérente avec les chapitres',
     selectedHosts.length === 0 && 'animateur',
   ].filter((value): value is string => typeof value === 'string');
 
@@ -184,6 +172,7 @@ export function EpisodeComposer({
     setYoutubeUrl(value);
     const videoId = parseYouTubeVideoId(value);
     if (videoId !== latestVideoId.current) {
+      addedAt.current = videoId ? new Date().toISOString() : undefined;
       setUploadedArtworkPath(undefined);
       setThumbnailMessage('');
     }
@@ -309,28 +298,22 @@ export function EpisodeComposer({
       setError('Ajoutez le lien YouTube avant de publier ce nouvel épisode.');
       return;
     }
-    if (
-      [...chapters, ...parseYouTubeDescription(description).chapters].some(
-        (chapter) => chapter.at >= Number(durationSec),
-      )
-    ) {
-      setError(
-        'La durée enregistrée est plus courte que les chapitres. Actualisez la vidéo YouTube.',
-      );
-      return;
-    }
     if (!episode) {
-      if (!metadata || metadata.videoId !== videoId) {
-        setError('Importez la vidéo YouTube avant d’enregistrer.');
+      if (!videoId || !title.trim()) {
+        setError('Ajoute un lien YouTube et un titre.');
         return;
       }
       try {
         const created = createEpisodeFromYouTube({
           number: initialNumber,
-          metadata,
+          metadata: {
+            ...(metadata?.videoId === videoId ? metadata : { videoId, source: 'oembed' as const }),
+            title: title.trim(),
+          },
           description,
           hosts: selectedHosts,
           status: action === 'publish' ? 'published' : 'draft',
+          addedAt: addedAt.current ?? new Date().toISOString(),
         });
         await onSave(created, action);
       } catch (reason) {
@@ -340,7 +323,7 @@ export function EpisodeComposer({
     }
     let date: string;
     try {
-      date = new Date(publishedAt).toISOString();
+      date = publishedAt ? new Date(publishedAt).toISOString() : episode.publishedAt;
     } catch {
       setError('Saisissez une date de publication valide.');
       return;
@@ -362,9 +345,15 @@ export function EpisodeComposer({
     const parsed = episodeSchema.safeParse({
       number: initialNumber,
       title,
-      dek,
+      dek: dek.trim() || title.trim(),
       publishedAt: date,
-      durationSec: Number(durationSec),
+      durationSec:
+        Number(durationSec) >= 60 &&
+        ![...chapters, ...parseYouTubeDescription(description).chapters].some(
+          (chapter) => chapter.at >= Number(durationSec),
+        )
+          ? Number(durationSec)
+          : undefined,
       description,
       hosts: selectedHosts,
       guests: episode.guests,
@@ -413,7 +402,7 @@ export function EpisodeComposer({
         className="youtube-import"
       >
         <label className="admin-field">
-          <span>1. Collez le lien YouTube</span>
+          <span>Lien YouTube</span>
           <input
             type="url"
             inputMode="url"
@@ -467,32 +456,38 @@ export function EpisodeComposer({
         ) : null}
         {metadata ? (
           <p className="admin-help" role="status">
-            {metadata.publishedAt && metadata.durationSec
-              ? `Vidéo importée · ${metadata.channel}. La date et la durée viennent de YouTube.`
-              : metadata.publishedAt
-                ? `Vidéo importée · ${metadata.channel}. La date vient de YouTube ; le lecteur récupère la durée.`
-                : episode
-                  ? `Vidéo importée · ${metadata.channel}. La date enregistrée est conservée ; le lecteur vérifie la durée si nécessaire.`
-                  : `Vidéo importée · ${metadata.channel}. YouTube n’a pas fourni la date de publication. Actualisez l’import.`}
+            {`Vidéo importée : ${metadata.channel}.`}
           </p>
-        ) : null}
-        {needsDurationProbe && currentVideoId ? (
-          <YouTubeDurationProbe
-            videoId={currentVideoId}
-            onDuration={(value) => {
-              setDurationSec(String(value));
-              setMetadata((current) =>
-                current?.videoId === currentVideoId ? { ...current, durationSec: value } : current,
-              );
-            }}
-          />
         ) : null}
       </form>
 
       {!episode ? (
         <div className="episode-composer-form">
+          {previewArtwork ? (
+            <div className="admin-span-2">
+              <Image
+                src={previewArtwork}
+                alt="Miniature de la vidéo YouTube"
+                width={480}
+                height={270}
+                sizes="(max-width: 48rem) 100vw, 20rem"
+                className="admin-thumbnail-preview"
+                style={{ maxWidth: '20rem', height: 'auto' }}
+              />
+            </div>
+          ) : null}
           <label className="admin-field admin-span-2">
-            <span>Description · Markdown</span>
+            <span>Titre de l'épisode</span>
+            <input
+              value={title}
+              onChange={(event) => {
+                setTitle(event.target.value);
+              }}
+              required
+            />
+          </label>
+          <label className="admin-field admin-span-2">
+            <span>Description et chapitres (facultatif)</span>
             <textarea
               rows={10}
               value={description}
@@ -502,23 +497,12 @@ export function EpisodeComposer({
               placeholder={
                 'Présentez l’épisode, puis collez les liens des sources et les chapitres horodatés.\n\n00:00 Introduction\nSource : https://…'
               }
-              required
             />
             <small>
-              Si YouTube fournit une description, elle est recopiée ici. Vous pouvez la compléter
-              avant de publier ; les liens et les horodatages seront extraits automatiquement.
+              La description YouTube est importée si elle est disponible. Tu peux la modifier ici.
+              Les horodatages et les liens alimentent les chapitres et les ressources du site.
             </small>
           </label>
-          <div className="episode-markdown-preview admin-span-2">
-            <h3>Aperçu de la description</h3>
-            {description.trim() ? (
-              <EpisodeDescription markdown={description} />
-            ) : (
-              <p className="admin-help">
-                L’aperçu apparaît dès que vous saisissez une description.
-              </p>
-            )}
-          </div>
           {requiresHostSelection ? (
             <fieldset className="admin-field admin-span-2">
               <legend>Animateur de l’épisode</legend>
@@ -540,22 +524,13 @@ export function EpisodeComposer({
               </div>
             </fieldset>
           ) : null}
-          <div className="episode-readiness admin-span-2" role="status">
-            <strong>Épisode {String(initialNumber)}</strong>
-            <span>
-              {metadata?.durationSec && metadata.publishedAt
-                ? `${metadata.title} · ${formatDuration(metadata.durationSec)} · ${new Date(metadata.publishedAt).toLocaleDateString('fr-FR')}`
-                : 'Collez l’URL pour récupérer le titre, la date et la durée depuis YouTube.'}
-            </span>
-          </div>
           {error ? (
             <p className="admin-error admin-span-2" role="alert">
               {error}
             </p>
           ) : null}
           <p className="admin-help admin-span-2">
-            Le résumé, les chapitres et les ressources proviennent de cette description. Le
-            brouillon reste invisible sur le site jusqu’à sa publication.
+            Si YouTube ne fournit pas de date, le site utilise la date d'ajout de la vidéo.
           </p>
           <div className="admin-save-row admin-span-2">
             <button
@@ -579,7 +554,7 @@ export function EpisodeComposer({
       ) : (
         <>
           <div className="episode-readiness" role="status">
-            <strong>2. Vérifiez et publiez</strong>
+            <strong>Publication</strong>
             <span>
               {missingFields.length === 0
                 ? 'Les champs essentiels sont prêts.'
@@ -654,18 +629,17 @@ export function EpisodeComposer({
               />
             </label>
             <label className="admin-field admin-span-2">
-              <span>Résumé court</span>
+              <span>Résumé court (facultatif)</span>
               <textarea
                 rows={2}
                 value={dek}
                 onChange={(event) => {
                   setDek(event.target.value);
                 }}
-                required
               />
             </label>
             <label className="admin-field admin-span-2">
-              <span>Description · Markdown</span>
+              <span>Description · Markdown (facultatif)</span>
               <textarea
                 rows={8}
                 value={description}
@@ -678,7 +652,6 @@ export function EpisodeComposer({
                     mergeDescriptionResources(current, markdown, currentVideoId),
                   );
                 }}
-                required
               />
               <small>
                 Les liens HTTPS du Markdown sont ajoutés automatiquement aux ressources quand vous
@@ -696,24 +669,15 @@ export function EpisodeComposer({
               )}
             </div>
             <label className="admin-field">
-              <span>Date de publication</span>
+              <span>Date de publication (facultatif)</span>
               <input
                 type="datetime-local"
                 value={publishedAt}
                 onChange={(event) => {
                   setPublishedAt(event.target.value);
                 }}
-                required
               />
             </label>
-            <div className="admin-field">
-              <span>Durée YouTube</span>
-              <span className="admin-help">
-                {Number(durationSec) >= 60
-                  ? formatDurationExact(Number(durationSec))
-                  : 'Actualisez la vidéo depuis YouTube pour récupérer sa durée.'}
-              </span>
-            </div>
             <fieldset className="admin-field admin-span-2">
               <legend>Animateurs</legend>
               <div className="admin-check-list">

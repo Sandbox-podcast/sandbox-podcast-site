@@ -35,7 +35,7 @@ describe('ressources de l’éditeur d’épisode', () => {
     expect(html).toContain('value="Dify"');
     expect(html).toContain('value="https://github.com/langgenius/dify"');
     expect(html).toContain('Chapitres');
-    expect(html).toContain('durée YouTube incohérente avec les chapitres');
-    expect(html).toContain('Lecture de la durée depuis le lecteur YouTube');
+    expect(html).not.toContain('durée YouTube incohérente avec les chapitres');
+    expect(html).not.toContain('Lecture de la durée depuis le lecteur YouTube');
   });
 });

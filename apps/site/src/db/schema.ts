@@ -1,4 +1,5 @@
 import { sql } from 'drizzle-orm';
+import type { NewsCandidate } from '../domain/news-queue.ts';
 import {
   integer,
   boolean,
@@ -599,3 +600,29 @@ export const newsSourceStatus = pgTable('news_source_status', {
   checkedAt: timestamp('checked_at', { withTimezone: true, mode: 'string' }).notNull(),
   updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'string' }).notNull().defaultNow(),
 });
+
+/** Nouveautés détectées, conservées avant la rédaction et jusqu'à leur traitement. */
+export const newsCandidates = pgTable(
+  'news_candidates',
+  {
+    canonicalUrl: text('canonical_url').primaryKey(),
+    sourceId: text('source_id').notNull(),
+    payload: jsonb('payload').notNull().$type<NewsCandidate>(),
+    status: text('status').notNull().default('pending'),
+    attempts: integer('attempts').notNull().default(0),
+    leaseId: text('lease_id'),
+    leaseExpiresAt: timestamp('lease_expires_at', { withTimezone: true, mode: 'string' }),
+    nextAttemptAt: timestamp('next_attempt_at', { withTimezone: true, mode: 'string' })
+      .notNull()
+      .defaultNow(),
+    createdAt: timestamp('created_at', { withTimezone: true, mode: 'string' })
+      .notNull()
+      .defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'string' })
+      .notNull()
+      .defaultNow(),
+  },
+  (table) => [
+    index('news_candidates_pending_idx').on(table.status, table.nextAttemptAt, table.createdAt),
+  ],
+);

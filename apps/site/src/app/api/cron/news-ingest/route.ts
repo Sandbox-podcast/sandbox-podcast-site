@@ -49,6 +49,7 @@ export async function POST(request: Request): Promise<Response> {
   try {
     const result = await publishNewsBatch(value);
     for (const path of ['/news', '/en/news', '/es-es/news', '/de-de/news']) revalidatePath(path);
+    if (result.inserted > 0) revalidatePath('/', 'layout');
     return Response.json({ ok: true, ...result }, { headers: { 'Cache-Control': 'no-store' } });
   } catch (error) {
     console.error('SANDBOX News publish failed:', error instanceof Error ? error.name : 'unknown');

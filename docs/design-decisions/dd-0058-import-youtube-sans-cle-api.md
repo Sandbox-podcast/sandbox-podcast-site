@@ -1,5 +1,7 @@
 # DD-0058 : importer un épisode YouTube sans clé API
 
+Mise à jour du 19 octobre 2026 : [DD-0060](dd-0060-publication-episode-sans-duree.md) rend la durée et la description facultatives et utilise la date d'ajout quand YouTube ne fournit pas de date.
+
 Date : 2026-10-18.
 
 Lou signale que la création d'un épisode exige `YOUTUBE_API_KEY`, alors qu'aucune clé n'a été configurée. Il demande de récupérer la date et la durée directement depuis YouTube. La mise en œuvre est décidée par l'agent sur délégation (PD-0003).
@@ -20,10 +22,8 @@ Les 29 tests ciblés passent. Ils couvrent la création depuis la page publique,
 
 La recette Chrome importe cette vidéo par la route authentifiée, sans clé, puis publie l'épisode dans un fichier de test isolé sous `.local`. Le serveur conserve la date, la durée et les 17 chapitres, sans erreur JavaScript. Le compte admin et sa base sont éphémères. Le rapport et les captures sont dans `apps/site/.local/youtube-metadata/`, ignoré par Git.
 
-La branche de PR est testée dans une copie isolée de la dernière version de main. `pnpm check` passe : formatage, lint, TypeScript, 822 tests du site et 35 tests vidéo/présentation. Le build de production du site réussit aussi. `pnpm audit --audit-level=high` ne signale aucune vulnérabilité connue. Les journaux sont conservés dans `.local/pr-validation/` de cette copie.
-
-Deux défauts déjà présents dans main bloquaient les contrôles : le tableau Markdown de `docs/site/issue-68-2026-10-18.md` n’était pas formaté et `external-charts-store.ts` comportait un repli `?? []` sur un tableau obligatoire. La PR corrige leur formatage et cette condition redondante, sans changer les règles de classement ni désactiver de contrôle.
+Le premier contrôle global rencontre des problèmes hors de ce correctif : trois fichiers News/accueil non formatés, une erreur de lint dans `external-charts-store.ts` et des bibliothèques vidéo exportées, une erreur TypeScript dans `charts-store.test.ts`, puis deux tests en échec (`discovery-ui.test.ts` et `search-page.test.ts`). La suite du site compte 857 tests réussis sur 859 lors de ce passage. Le dernier `pnpm check` s'arrête sur le formatage de `external-charts-store.ts` et `docs/site/issue-68-2026-10-18.md` ; son journal est dans `.local/youtube-metadata/check.log`. Ces résultats portent sur un répertoire partagé contenant d'autres modifications en cours ; ils ne valent pas validation globale. Les fichiers concernés et les règles de contrôle ne sont pas modifiés par ce lot.
 
 Fichiers de ce lot : le parseur `src/domain/youtube-page.ts`, la lecture HTTP `src/lib/youtube-page.ts`, la route `api/admin/youtube-metadata`, `episode-import.ts`, `episode-composer.tsx`, trois suites de tests et leur fixture, `.env.example`, le guide éditorial, les notes de remplacement dans ADR-0016/DD-0014 et l'index de documentation.
 
-La structure de la page YouTube peut changer ou son accès peut être bloqué depuis un hébergeur. La lecture réelle depuis cette machine ne prouve pas l'accès depuis Vercel. Le premier import sur Vercel devra être vérifié après déploiement.
+La structure de la page YouTube peut changer ou son accès peut être bloqué depuis un hébergeur. La lecture réelle depuis cette machine ne prouve pas l'accès depuis Vercel. Le changement reste local jusqu'à autorisation de livraison ; le premier import sur le déploiement devra être vérifié.

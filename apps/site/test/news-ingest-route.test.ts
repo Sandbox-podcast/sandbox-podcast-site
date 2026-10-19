@@ -67,5 +67,6 @@ describe('API du collecteur automatique SANDBOX News', () => {
     expect(state.revalidatePath).toHaveBeenNthCalledWith(2, '/en/news');
     expect(state.revalidatePath).toHaveBeenNthCalledWith(3, '/es-es/news');
     expect(state.revalidatePath).toHaveBeenNthCalledWith(4, '/de-de/news');
+    expect(state.revalidatePath).toHaveBeenNthCalledWith(5, '/', 'layout');
   });
 });

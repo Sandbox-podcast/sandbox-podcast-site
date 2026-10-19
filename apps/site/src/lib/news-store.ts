@@ -1,12 +1,13 @@
-import { desc, gte, sql } from 'drizzle-orm';
+import { and, desc, eq, gte, lt, or, sql } from 'drizzle-orm';
 import { NEWS_MEDIA } from '@/domain/news-media';
+import { newsSourceMatches } from '@/domain/news-source';
 import {
   newsIngestionRequestSchema,
   newsItemIsFresh,
   publishedNewsItemSchema,
   type NewsIngestionRequest,
 } from '@/domain/news-publishing';
-import type { NewsFeed } from '@/domain/news-preview';
+import { NEWS_PAGE_SIZE, type NewsCursor, type NewsFeed } from '@/domain/news-preview';
 import { getDb, hasDatabaseConfiguration } from '@/db/client';
 import { newsItems, newsSourceStatus } from '@/db/schema';
 
@@ -33,22 +34,8 @@ function publicationRequest(value: unknown): NewsIngestionRequest {
   for (const entry of parsed.data.items) {
     const sourceId = entry.item.id.split(':', 1)[0] ?? '';
     const source = NEWS_MEDIA.find((media) => media.id === sourceId);
-    const sourceMatches = (() => {
-      try {
-        const itemUrl = new URL(entry.item.url);
-        return (
-          !!source &&
-          ids.has(source.id) &&
-          itemUrl.origin === new URL(source.url).origin &&
-          itemUrl.pathname.startsWith(source.path) &&
-          !itemUrl.search &&
-          !itemUrl.hash &&
-          entry.item.id === `${source.id}:${itemUrl.pathname}`
-        );
-      } catch {
-        return false;
-      }
-    })();
+    const sourceMatches =
+      !!source && ids.has(source.id) && newsSourceMatches(source, entry.item.id, entry.item.url);
     if (!sourceMatches) throw new Error('Source de fiche SANDBOX News absente.');
     if (!newsItemIsFresh(entry.item, now))
       throw new Error('Une fiche SANDBOX News sort de sa fenêtre de fraîcheur.');
@@ -124,21 +111,29 @@ export async function knownNewsUrls(now = new Date()): Promise<string[]> {
   return rows.map((row) => row.url);
 }
 
-export async function readPublishedNews(now = new Date()): Promise<NewsFeed> {
+export async function readPublishedNews(now = new Date(), cursor?: NewsCursor): Promise<NewsFeed> {
   requireNewsDatabase();
-  const since = new Date(now.getTime() - 14 * 86_400_000).toISOString();
   const [itemRows, sourceRows] = await Promise.all([
     getDb()
-      .select({ payload: newsItems.payload })
+      .select({ payload: newsItems.payload, publishedAt: newsItems.publishedAt, id: newsItems.id })
       .from(newsItems)
-      .where(gte(newsItems.publishedAt, since))
-      .orderBy(desc(newsItems.publishedAt))
-      .limit(200),
+      .where(
+        cursor
+          ? or(
+              lt(newsItems.publishedAt, cursor.publishedAt),
+              and(eq(newsItems.publishedAt, cursor.publishedAt), lt(newsItems.id, cursor.id)),
+            )
+          : undefined,
+      )
+      .orderBy(desc(newsItems.publishedAt), desc(newsItems.id))
+      .limit(NEWS_PAGE_SIZE + 1),
     getDb().select().from(newsSourceStatus),
   ]);
-  const items = itemRows.flatMap((row) => {
+  const page = itemRows.slice(0, NEWS_PAGE_SIZE);
+  const last = page.at(-1);
+  const items = page.flatMap((row) => {
     const parsed = publishedNewsItemSchema.safeParse(row.payload);
-    if (!parsed.success || !newsItemIsFresh(parsed.data, now)) {
+    if (!parsed.success || Date.parse(parsed.data.publishedAt) > now.getTime()) {
       console.error('SANDBOX News : une fiche stockée est invalide.');
       return [];
     }
@@ -161,7 +156,15 @@ export async function readPublishedNews(now = new Date()): Promise<NewsFeed> {
   const checkedAt = sourceRows
     .map((source) => source.checkedAt)
     .sort((left, right) => Date.parse(right) - Date.parse(left))[0];
-  return { checkedAt: checkedAt ?? null, sources, items };
+  return {
+    checkedAt: checkedAt ? new Date(checkedAt).toISOString() : null,
+    sources,
+    items,
+    nextCursor:
+      itemRows.length > NEWS_PAGE_SIZE && last
+        ? { publishedAt: last.publishedAt, id: last.id }
+        : null,
+  };
 }
 
 export async function latestNewsPublicationTime(): Promise<string | undefined> {
@@ -169,7 +172,6 @@ export async function latestNewsPublicationTime(): Promise<string | undefined> {
   const row = await getDb()
     .select({ publishedAt: newsItems.publishedAt })
     .from(newsItems)
-    .where(gte(newsItems.publishedAt, new Date(Date.now() - 14 * 86_400_000).toISOString()))
     .orderBy(desc(newsItems.publishedAt))
     .limit(1);
   return row[0]?.publishedAt;

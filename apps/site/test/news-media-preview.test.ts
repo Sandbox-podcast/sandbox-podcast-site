@@ -30,8 +30,8 @@ afterEach(() => vi.unstubAllEnvs());
 
 describe('médias News demandés par Lou', () => {
   it('enregistre les dix médias, sans substituer GitHub à la demande', () => {
-    expect(NEWS_MEDIA).toHaveLength(10);
-    expect(new Set(NEWS_MEDIA.map((source) => source.name)).size).toBe(10);
+    expect(NEWS_MEDIA).toHaveLength(105);
+    expect(new Set(NEWS_MEDIA.map((source) => source.name)).size).toBe(105);
     expect(NEWS_MEDIA.some((source) => source.url.includes('github.com'))).toBe(false);
   });
   it('récupère un article structuré, sa date précise et sa reformulation française', () => {
@@ -434,7 +434,7 @@ describe('médias News demandés par Lou', () => {
     let inFlight = 0;
     let peak = 0;
     const transport = vi.fn<typeof fetch>().mockImplementation(async (_input, options) => {
-      expect(options?.redirect).toBe('error');
+      expect(options?.redirect).toBe('manual');
       inFlight += 1;
       peak = Math.max(peak, inFlight);
       await Promise.resolve();
@@ -459,10 +459,10 @@ describe('médias News demandés par Lou', () => {
       new Date('2026-10-18T12:00:00Z'),
     );
     expect(peak).toBeLessThanOrEqual(4);
-    expect(transport).toHaveBeenCalledTimes(9);
+    expect(transport).toHaveBeenCalledTimes(NEWS_MEDIA.length);
     expect(feed.sources.every((source) => !source.ok)).toBe(true);
     expect(feed.sources.find((source) => source.name === NEWS_MEDIA[0].name)?.reason).toBe(
-      'Accès indisponible',
+      'HTTP 403',
     );
     expect(feed.items).toEqual([applyNewsEditorial(article)]);
   });
@@ -500,6 +500,28 @@ describe('médias News demandés par Lou', () => {
       new Date('2026-10-15T12:00:00Z'),
     );
     expect(future.items).toHaveLength(0);
+  });
+  it('retente une erreur serveur temporaire sans conserver le média en échec', async () => {
+    let attempts = 0;
+    const transport = vi.fn<typeof fetch>().mockImplementation(async (input) => {
+      const requested = input instanceof Request ? input.url : input.toString();
+      if (requested === media.url) {
+        attempts += 1;
+        return attempts === 1
+          ? new Response(null, { status: 503 })
+          : new Response(`<a href="${url}">Article</a>`);
+      }
+      return requested === url ? new Response(html) : new Response(null, { status: 403 });
+    });
+    const feed = await collectMediaNewsPreview(
+      { checkedAt: null, sources: [], items: [] },
+      transport,
+      new Date('2026-10-18T12:00:00Z'),
+    );
+    expect(attempts).toBe(2);
+    expect(feed.sources.find((source) => source.name === media.name)?.ok).toBe(true);
+    expect(feed.items).toHaveLength(1);
+    expect(transport.mock.calls.filter(([input]) => input === NEWS_MEDIA[0].url)).toHaveLength(1);
   });
   it('affiche des libellés de formulaire visibles et les dix sources pour filtrer', () => {
     const markup = renderToStaticMarkup(

@@ -1,10 +1,12 @@
 # Documentation
 
+Épisodes sans durée obligatoire : [DD-0060](design-decisions/dd-0060-publication-episode-sans-duree.md). Fil News cumulatif et accès conditionnel : [DD-0061](design-decisions/dd-0061-news-fil-cumulatif-et-ouverture.md). Liste de 105 sources et file durable : [DD-0062](design-decisions/dd-0062-sources-news-et-file-de-traitement.md), [relevé des sources](site/news-sources-2026-10-19.csv).
+
 Livraison groupée du 18 octobre : [périmètre des conversations, fusions et validations](site/consolidation-globale-2026-10-18.md), avec les PR 84, 85, 86 et 89 réunies dans une branche.
 
 Correction des classements, News et recherche du 18 octobre : [diagnostic, correctifs et validations](site/remise-en-etat-2026-10-18.md). Le rapport distingue les essais locaux des actions de mise en service encore nécessaires.
 
-Import d'épisode sans clé YouTube : [DD-0058](design-decisions/dd-0058-import-youtube-sans-cle-api.md). La page publique fournit la date et la durée ; le lecteur complète la durée si nécessaire.
+Import d'épisode sans clé YouTube : [DD-0058](design-decisions/dd-0058-import-youtube-sans-cle-api.md). La page publique fournit les métadonnées disponibles ; leur absence ne bloque plus la publication, selon DD-0060.
 
 PR unique du 18 octobre : [regroupement des PR 77 et 78 et résultats des tests complets](site/consolidation-pr77-78-2026-10-18.md). News, SEO, contenus de relais et épisode 003 sont réunis dans la PR 77.
 

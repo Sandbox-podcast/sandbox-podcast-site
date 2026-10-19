@@ -59,6 +59,18 @@ try {
   );
   for (const sql of migration.split('--> statement-breakpoint'))
     if (sql.trim()) await fixture.pg.exec(sql);
+  const queueMigration = await readFile(
+    new URL('../drizzle/0017_news_candidates.sql', import.meta.url),
+    'utf8',
+  );
+  for (const sql of queueMigration.split('--> statement-breakpoint'))
+    if (sql.trim()) await fixture.pg.exec(sql);
+  const leaseMigration = await readFile(
+    new URL('../drizzle/0018_news_candidate_leases.sql', import.meta.url),
+    'utf8',
+  );
+  for (const sql of leaseMigration.split('--> statement-breakpoint'))
+    if (sql.trim()) await fixture.pg.exec(sql);
   process.env.CRON_SECRET = randomBytes(32).toString('hex');
   process.env.SANDBOX_NEWS_PREVIEW = '0';
   process.env.SANDBOX_NEWS_PUBLIC = '0';
@@ -68,7 +80,7 @@ try {
     assert.equal((await fetch(fixture.origin + path)).status, 404);
   }
   assert.equal((await fetch(endpoint, { headers })).status, 404);
-  report.checks.push('Le drapeau fermé protège les quatre pages et l’API.');
+  report.checks.push('Le drapeau fermé protège les pages et l’API.');
 
   process.env.SANDBOX_NEWS_PUBLIC = '1';
   assert.equal((await fetch(endpoint)).status, 401);
@@ -97,7 +109,7 @@ try {
   const page = await context.newPage();
   page.on('pageerror', (error) => report.browserErrors.push(error.message));
   async function visit(path, indexable) {
-    const response = await page.goto(fixture.origin + path, { waitUntil: 'networkidle' });
+    const response = await page.goto(fixture.origin + path, { waitUntil: 'domcontentloaded' });
     assert.equal(response.status(), 200, path);
     assert.equal(
       new URL(await page.locator('link[rel="canonical"]').getAttribute('href')).pathname,
@@ -113,15 +125,11 @@ try {
   }
 
   for (const [, path] of paths) {
-    await visit(path, false);
-    const consent = page.getByRole('button', { name: 'Refuser', exact: true });
-    if (await consent.count()) await consent.click();
-    assert.equal(await page.locator('ol details').count(), 0);
-    assert.equal(await page.locator('p[role="status"]').count(), 0);
-    const linkedData = await page.locator('script[type="application/ld+json"]').allTextContents();
-    assert.ok(linkedData.every((value) => !value.includes('CollectionPage')));
+    assert.equal((await page.goto(fixture.origin + path)).status(), 404);
   }
-  report.checks.push('Les quatre flux vides répondent 200 avec attente et noindex.');
+  await page.goto(fixture.origin);
+  assert.equal(await page.locator('a[href="/news"]').count(), 0);
+  report.checks.push('Le flux vide reste en 404 sans liens News sur l’accueil.');
 
   const now = new Date().toISOString();
   const source = NEWS_MEDIA[1];
@@ -150,6 +158,25 @@ try {
     })),
     items: [{ item, sourceExcerptHash: 'b'.repeat(64) }],
   };
+  const queueEndpoint = `${fixture.origin}/api/cron/news-candidates`;
+  assert.equal((await fetch(queueEndpoint)).status, 401);
+  const queued = await fetch(queueEndpoint, {
+    method: 'POST',
+    headers: { ...headers, 'content-type': 'application/json' },
+    body: JSON.stringify({ action: 'collect', items: [item] }),
+  });
+  assert.equal(queued.status, 200, await queued.clone().text());
+  assert.equal((await queued.json()).inserted, 1);
+  assert.equal((await (await fetch(queueEndpoint, { headers })).json()).items.length, 1);
+  const claim = await fetch(queueEndpoint, {
+    method: 'POST',
+    headers: { ...headers, 'content-type': 'application/json' },
+    body: JSON.stringify({ action: 'claim' }),
+  });
+  assert.equal(claim.status, 200, await claim.clone().text());
+  const claimed = await claim.json();
+  assert.equal(claimed.items.length, 1);
+  assert.ok(claimed.leaseId);
   const post = () =>
     fetch(endpoint, {
       method: 'POST',
@@ -163,7 +190,30 @@ try {
   assert.equal(duplicate.status, 200);
   assert.equal((await duplicate.json()).inserted, 0);
   assert.deepEqual((await (await fetch(endpoint, { headers })).json()).urls, [item.url]);
+  assert.equal((await (await fetch(queueEndpoint, { headers })).json()).items.length, 0);
+  assert.equal(
+    (
+      await fetch(queueEndpoint, {
+        method: 'POST',
+        headers: { ...headers, 'content-type': 'application/json' },
+        body: JSON.stringify({
+          action: 'complete',
+          leaseId: claimed.leaseId,
+          published: [item.url],
+          skipped: [],
+        }),
+      })
+    ).status,
+    200,
+  );
+  report.checks.push(
+    'La file privée conserve le candidat et ne le retraite pas après publication, même avant accusé.',
+  );
   report.checks.push('L’API persiste la fiche dans Postgres et évite un second enregistrement.');
+  await page.goto(fixture.origin);
+  assert.ok((await page.locator('a[href="/news"]').count()) >= 2);
+  assert.ok((await page.locator('img[src*="studio-news-radar-v4"]').count()) > 0);
+  report.checks.push('Le premier article ouvre les accès News et le décor radar.');
 
   for (const viewport of [
     { width: 1440, height: 900 },
@@ -190,12 +240,13 @@ try {
   report.checks.push(
     'Les huit pages desktop/mobile rendent titre, trois phrases, source, canonique et hreflang.',
   );
-  await page.goto(fixture.origin + '/news', { waitUntil: 'networkidle' });
+  await page.goto(fixture.origin + '/news', { waitUntil: 'domcontentloaded' });
+  await page.getByRole('button', { name: 'Filtres', exact: true }).click();
+  await page.locator('select').first().waitFor({ state: 'visible' });
   await page.locator('input[type="search"]').fill('no-fixture-matches-this');
   await page.waitForFunction(() => document.querySelectorAll('ol details').length === 0);
   await page.getByRole('button', { name: 'Effacer les filtres' }).click();
   await page.waitForFunction(() => document.querySelectorAll('ol details').length === 1);
-  await page.getByRole('button', { name: 'Filtres', exact: true }).click();
   await page.locator('select').first().selectOption(NEWS_MEDIA[0].name);
   await page.waitForFunction(() => document.querySelectorAll('ol details').length === 0);
   await page.getByRole('button', { name: 'Effacer les filtres' }).click();
@@ -204,16 +255,46 @@ try {
     'La recherche, le filtre média et leur réinitialisation fonctionnent dans le navigateur.',
   );
 
+  // Historique déjà publié : conservé en base au-delà de la fenêtre de collecte.
+  for (let index = 0; index < 35; index += 1) {
+    const id = `${source.id}:/articles/local-news-history-${index}`;
+    const url = new URL(`/articles/local-news-history-${index}`, source.url).href;
+    const publishedAt = new Date(Date.now() - 30 * 86_400_000).toISOString();
+    const historical = {
+      ...item,
+      id,
+      url,
+      publishedAt,
+      titles: Object.fromEntries(
+        Object.entries(titles).map(([locale, title]) => [locale, `${title} ${index}`]),
+      ),
+    };
+    await fixture.pg.query(
+      'INSERT INTO news_items (id, canonical_url, source_id, source_name, published_at, category, payload) VALUES ($1, $2, $3, $4, $5, $6, $7)',
+      [id, url, source.id, source.name, publishedAt, item.category, JSON.stringify(historical)],
+    );
+  }
+  await page.goto(fixture.origin + '/news', { waitUntil: 'domcontentloaded' });
+  assert.equal(await page.locator('ol details').count(), 30);
+  const nextPage = page.waitForResponse((response) => response.url().includes('/api/news?'));
+  await page.getByRole('button', { name: /Afficher la suite/ }).click();
+  assert.equal((await nextPage).status(), 200);
+  await page.waitForFunction(() => document.querySelectorAll('ol details').length === 36);
+  assert.equal(await page.getByRole('button', { name: /Afficher la suite/ }).count(), 0);
+  report.checks.push(
+    'La pagination HTTP ajoute l’historique de plus de quatorze jours : 30 puis 36 articles.',
+  );
+
   // Simulation de panne réservée à la base de test créée par ce processus.
   await fixture.pg.exec('DROP TABLE news_items');
   for (const [, path] of paths) {
-    await visit(path, false);
-    assert.equal(await page.locator('ol details').count(), 0);
-    assert.equal(await page.locator('p[role="status"]').count(), 1);
+    assert.equal((await page.goto(fixture.origin + path)).status(), 404);
   }
   assert.equal((await fetch(endpoint, { headers })).status, 503);
   await page.screenshot({ path: fileURLToPath(new URL('unavailable.png', output)) });
-  report.checks.push('Une panne SQL affiche une indisponibilité distincte, noindex et API 503.');
+  await page.goto(fixture.origin);
+  assert.equal(await page.locator('a[href="/news"]').count(), 0);
+  report.checks.push('Une panne SQL masque la rubrique publique et conserve l’API en 503.');
   assert.deepEqual(report.browserErrors, []);
   log(`PASS News: ${report.checks.length} groupes de vérification, aucune erreur JavaScript.`);
 } catch (error) {

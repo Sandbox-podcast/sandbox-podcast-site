@@ -70,40 +70,41 @@ describe('création simplifiée d’un épisode', () => {
     expect(episode.status).toBe('published');
   });
 
-  it('ne fabrique pas de durée quand YouTube ne la fournit pas', () => {
-    expect(() =>
-      createEpisodeFromYouTube({
-        number: 43,
-        metadata: { ...metadata, source: 'oembed', durationSec: undefined },
-        description,
-        hosts: ['lou'],
-        status: 'published',
-      }),
-    ).toThrow('YouTube n’a pas fourni la date ou la durée');
+  it('publie sans durée et conserve tous les chapitres disponibles', () => {
+    const episode = createEpisodeFromYouTube({
+      number: 43,
+      metadata: { ...metadata, source: 'oembed', durationSec: undefined },
+      description,
+      hosts: ['lou'],
+      status: 'published',
+    });
+    expect(episode.durationSec).toBeUndefined();
+    expect(episode.chapters).toHaveLength(3);
+    expect(episode.status).toBe('published');
   });
 
-  it('ne remplace pas une date manquante par la date du jour', () => {
-    expect(() =>
-      createEpisodeFromYouTube({
-        number: 43,
-        metadata: { ...metadata, source: 'youtube-page', publishedAt: undefined },
-        description,
-        hosts: ['lou'],
-        status: 'published',
-      }),
-    ).toThrow('YouTube n’a pas fourni la date ou la durée');
+  it("utilise la date d'ajout quand YouTube ne fournit pas de date", () => {
+    const episode = createEpisodeFromYouTube({
+      number: 43,
+      metadata: { ...metadata, source: 'youtube-page', publishedAt: undefined },
+      description,
+      hosts: ['lou'],
+      status: 'published',
+      addedAt: '2026-10-19T08:15:00.000Z',
+    });
+    expect(episode.publishedAt).toBe('2026-10-19T08:15:00.000Z');
   });
 
-  it('demande une description et un animateur réels', () => {
-    expect(() =>
-      createEpisodeFromYouTube({
-        number: 43,
-        metadata,
-        description: ' ',
-        hosts: ['lou'],
-        status: 'draft',
-      }),
-    ).toThrow('Collez la description');
+  it('accepte une description vide et demande un animateur réel', () => {
+    const episode = createEpisodeFromYouTube({
+      number: 43,
+      metadata,
+      description: ' ',
+      hosts: ['lou'],
+      status: 'draft',
+    });
+    expect(episode.description).toBe('');
+    expect(episode.dek).toBe(metadata.title);
     expect(() =>
       createEpisodeFromYouTube({
         number: 43,

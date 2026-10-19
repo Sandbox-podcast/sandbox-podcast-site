@@ -8,6 +8,7 @@ import {
   newsSynopsis,
   selectNews,
   NEWS_PAGE_SIZE,
+  uniqueNews,
   type NewsFeed,
 } from '@/domain/news-preview';
 import { newsCollectionLd } from '@/domain/news-seo';
@@ -276,6 +277,31 @@ export function NewsScreen({
       setPending(false);
     }
   }
+  async function loadMore() {
+    if (pending) return;
+    if (selected.total > limit) {
+      setLimit((value) => value + NEWS_PAGE_SIZE);
+      return;
+    }
+    if (!feed.nextCursor) return;
+    setPending(true);
+    setError('');
+    try {
+      const params = new URLSearchParams({ cursor: JSON.stringify(feed.nextCursor) });
+      const response = await fetch(`/api/news?${params.toString()}`, {
+        signal: AbortSignal.timeout(30_000),
+      });
+      if (!response.ok) throw new Error('Fil indisponible');
+      const next = newsFeedSchema.parse(await response.json());
+      setFeed((current) => ({ ...next, items: uniqueNews([...current.items, ...next.items]) }));
+      setLimit((value) => value + NEWS_PAGE_SIZE);
+      if (next.sources.some((entry) => !entry.ok)) setError(copy.failed);
+    } catch {
+      setError(copy.unavailable);
+    } finally {
+      setPending(false);
+    }
+  }
   function reset() {
     setQuery('');
     setCategory('all');
@@ -466,13 +492,8 @@ export function NewsScreen({
               feed.sources.length,
             )}
           </span>
-          {selected.total > limit ? (
-            <button
-              type="button"
-              onClick={() => {
-                setLimit((value) => value + NEWS_PAGE_SIZE);
-              }}
-            >
+          {selected.total > limit || feed.nextCursor ? (
+            <button type="button" onClick={() => void loadMore()} disabled={pending}>
               {copy.more} +
             </button>
           ) : null}

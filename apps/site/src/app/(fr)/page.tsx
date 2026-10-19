@@ -14,6 +14,7 @@ import { timeMachineData } from '@/lib/time-machine';
 import { personalProjects } from '@/lib/personal-projects';
 import { localizedHref } from '@/i18n/routing';
 import { interpolateText } from '@/i18n/translation';
+import { newsPageAvailable } from '@/lib/news-page-data';
 
 // Le build ne lit pas Postgres : l'accueil doit charger la publication à chaque requête.
 export const dynamic = 'force-dynamic';
@@ -59,6 +60,7 @@ export default async function HomePage({
       hosts={publicHosts()}
       projects={personalProjects}
       videoClubEnabled
+      newsAvailable={await newsPageAvailable()}
     />
   );
 }

@@ -155,11 +155,11 @@ describe('lecture publique pendant une panne Postgres', () => {
   );
 
   it.each(['fr-FR', 'en', 'es-ES', 'de-DE'])(
-    'rend les News et la recherche dans leur layout en %s malgré la panne totale',
+    'masque News et rend la recherche dans son layout en %s pendant une panne totale',
     async (locale) => {
       const dictionary = await siteDictionary(locale);
+      await expect(NewsPage({ locale })).rejects.toThrow('NEXT_HTTP_ERROR_FALLBACK;404');
       const pages = [
-        await NewsPage({ locale }),
         await SearchPage({ dictionary, searchParams: Promise.resolve({ q: 'Sandbox' }) }),
       ];
       for (const page of pages) {

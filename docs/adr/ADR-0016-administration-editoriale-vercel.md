@@ -1,5 +1,7 @@
 # ADR-0016 — Backoffice éditorial et publication sur Vercel
 
+Mise à jour du 19 octobre 2026 : [DD-0060](../design-decisions/dd-0060-publication-episode-sans-duree.md) rend la durée et la description facultatives et utilise la date d'ajout quand YouTube ne fournit pas de date.
+
 - Statut : acceptée pour le backoffice ; stockage Blob remplacé par [ADR-0017](ADR-0017-persistance-editoriale-postgres.md)
 - Date : 2026-10-06
 - Décision prise à la suite des demandes explicites de backoffice et de mise en ligne sur Vercel

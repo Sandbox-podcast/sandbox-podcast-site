@@ -2,6 +2,7 @@ import { mkdir, readFile, writeFile, rename } from 'node:fs/promises';
 import { randomUUID } from 'node:crypto';
 import { join } from 'node:path';
 import { newsFeedSchema, type NewsFeed } from '../domain/news-preview.ts';
+import { NEWS_MEDIA } from '../domain/news-media.ts';
 import { collectMediaNewsPreview } from '../pipeline/news-media-preview.ts';
 import { applyNewsEditorial } from '../pipeline/news-editorial.ts';
 import {
@@ -30,7 +31,7 @@ export async function refreshNewsPreview(): Promise<NewsFeed> {
     const previous = await readNewsPreview();
     if (
       previous.checkedAt &&
-      previous.sources.length === 10 &&
+      previous.sources.length === NEWS_MEDIA.length &&
       newsEditorialTranslationsComplete(previous.items) &&
       Date.now() - Date.parse(previous.checkedAt) < 60_000
     )

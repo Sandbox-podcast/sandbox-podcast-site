@@ -11,7 +11,6 @@ import { siteConfig } from '@/config/site';
 import {
   HOME_STUDIO_IMAGE,
   HOME_STUDIO_NEWS_IMAGE,
-  HOME_STUDIO_DOOR_IMAGE,
   HOME_STUDIO_PEOPLE,
   STUDIO_VIDEO_CLUB_HREF,
 } from '@/domain/home-studio';
@@ -20,18 +19,19 @@ import { latestVideoEpisode, episodeYoutubeUrl } from '@/domain/home-discovery';
 import type { Episode, Host } from '@/domain/schema';
 import type { PersonalProject } from '@/domain/personal-projects';
 import styles from './discovery-home.module.css';
-import { newsPreviewEnabled } from '@/lib/news-preview-store';
 
 export function DiscoveryHome({
   episodes,
   hosts = [],
   projects = [],
   videoClubEnabled = false,
+  newsAvailable = false,
 }: {
   episodes: readonly Episode[];
   hosts?: readonly Host[];
   projects?: readonly PersonalProject[];
   videoClubEnabled?: boolean;
+  newsAvailable?: boolean;
 }) {
   const latest = latestVideoEpisode(episodes);
   const artwork = latest ? episodeArtwork(latest) : undefined;
@@ -45,13 +45,7 @@ export function DiscoveryHome({
           <figure className={styles['stage']} aria-label="Plateau de Sandbox">
             <div className={styles['stageArtwork']} data-depth-stage>
               <Image
-                src={
-                  newsPreviewEnabled()
-                    ? HOME_STUDIO_NEWS_IMAGE
-                    : videoClubEnabled
-                      ? HOME_STUDIO_DOOR_IMAGE
-                      : HOME_STUDIO_IMAGE
-                }
+                src={newsAvailable ? HOME_STUDIO_NEWS_IMAGE : HOME_STUDIO_IMAGE}
                 alt=""
                 fill
                 loading="eager"
@@ -85,7 +79,7 @@ export function DiscoveryHome({
                   ) : null;
                 })}
               </div>
-              <StudioEasterEggs />
+              <StudioEasterEggs newsAvailable={newsAvailable} />
               {videoClubEnabled ? <StudioDoor /> : null}
             </div>
           </figure>
@@ -228,7 +222,7 @@ export function DiscoveryHome({
             </svg>
           </a>
         </CinematicStage>
-        <DiscoveryStory hosts={hosts} projects={projects} />
+        <DiscoveryStory hosts={hosts} projects={projects} newsAvailable={newsAvailable} />
         {latest ? (
           <article
             className={`wrap ${styles['episode']}`}

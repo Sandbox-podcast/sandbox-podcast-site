@@ -48,7 +48,16 @@ export const newsItemSchema = z.object({
     .optional(),
 });
 export type NewsItem = z.infer<typeof newsItemSchema>;
+export const newsCursorSchema = z
+  .object({
+    publishedAt: z.union([z.iso.date(), z.iso.datetime()]),
+    id: z.string().min(1).max(500),
+  })
+  .strict();
+export type NewsCursor = z.infer<typeof newsCursorSchema>;
+
 export const newsFeedSchema = z.object({
+  nextCursor: newsCursorSchema.nullable().optional(),
   checkedAt: z.iso.datetime().nullable(),
   sources: z.array(
     z.object({

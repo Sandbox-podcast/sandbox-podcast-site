@@ -8,84 +8,50 @@ import {
 } from '../domain/news-preview.ts';
 import { readLimitedBody } from '../lib/limited-body.ts';
 import { applyNewsEditorial, NEWS_EDITORIAL } from './news-editorial.ts';
+import { newsPlainText, newsHtmlAttributes as attributes } from '../domain/news-html.ts';
+import { newsPublicationDate } from '../domain/news-dates.ts';
+import { newsArticleUrl, newsArticleIdentity } from '../domain/news-source.ts';
+export { newsPlainText } from '../domain/news-html.ts';
+import { parseNewsChangelog } from './news-changelog.ts';
+import { requestNewsPage } from '../lib/news-http.ts';
 
-export function newsPlainText(value: string): string {
-  const entities: Record<string, string> = {
-    amp: '&',
-    quot: '"',
-    apos: "'",
-    lt: '<',
-    gt: '>',
-    nbsp: ' ',
-    rsquo: "'",
-    lsquo: "'",
-    ndash: '-',
-    mdash: '-',
-    hellip: '...',
-  };
-  return value
-    .replace(/<[^>]*>/g, ' ')
-    .replace(/&(#x[0-9a-f]+|#\d+|[a-z]+);/gi, (_, entity: string) => {
-      if (!entity.startsWith('#')) return entities[entity.toLowerCase()] ?? '';
-      const code = entity.startsWith('#x')
-        ? Number.parseInt(entity.slice(2), 16)
-        : Number.parseInt(entity.slice(1), 10);
-      return code > 0 && code <= 0x10ffff ? String.fromCodePoint(code) : '';
-    })
-    .replace(/[\p{Extended_Pictographic}\uFE0F\u200D]/gu, '')
-    .replace(/\s+/g, ' ')
-    .trim();
-}
-function attributes(tag: string): Record<string, string> {
-  return Object.fromEntries(
-    [...tag.matchAll(/([\w:-]+)\s*=\s*(?:"([^"]*)"|'([^']*)')/g)].map((match) => [
-      match[1]?.toLowerCase() ?? '',
-      newsPlainText(match[2] ?? match[3] ?? ''),
-    ]),
-  );
-}
 export function discoverNewsArticles(
   html: string,
   source: NewsMedia,
 ): { url: string; date?: string | undefined }[] {
   const results = new Map<string, { url: string; date?: string | undefined }>();
-  for (const match of html.matchAll(/<a\b([^>]*?)>([\s\S]*?)<\/a>/gi)) {
-    const href = attributes(match[1] ?? '')['href'];
-    if (!href) continue;
-    let url: URL;
-    try {
-      url = new URL(href, source.url);
-    } catch {
-      continue;
+  const main = /<main\b[^>]*>([\s\S]*?)<\/main>/i.exec(html)?.[1];
+  for (const region of main ? [main, html] : [html]) {
+    const content = region.replace(
+      /<(script|style|header|nav|footer|aside)\b[^>]*>[\s\S]*?<\/\1>/gi,
+      ' ',
+    );
+    for (const match of content.matchAll(/<a\b([^>]*?)>([\s\S]*?)<\/a>/gi)) {
+      const href = attributes(match[1] ?? '')['href'];
+      if (!href) continue;
+      const url = newsArticleUrl(source, href);
+      if (!url) continue;
+      if (source.id === 'tldr' && !/^\/ai\/\d{4}-\d{2}-\d{2}$/.test(url.pathname)) continue;
+      if (['/news/about', '/articles/about'].includes(url.pathname)) continue;
+      url.search = '';
+      url.hash = '';
+      const text = newsPlainText(match[2] ?? '');
+      const day =
+        /\b(?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?) \d{1,2},? \d{4}\b/.exec(
+          text,
+        )?.[0];
+      const date = newsPublicationDate(day ?? text);
+      const previous = results.get(url.href);
+      results.set(url.href, { url: url.href, date: date ?? previous?.date });
     }
-    if (
-      url.origin !== new URL(source.url).origin ||
-      !url.pathname.startsWith(source.path) ||
-      url.username ||
-      url.password
-    )
-      continue;
-    if (source.id === 'tldr' && !/^\/ai\/\d{4}-\d{2}-\d{2}$/.test(url.pathname)) continue;
-    if (['/news/about', '/articles/about'].includes(url.pathname)) continue;
-    url.search = '';
-    url.hash = '';
-    const text = newsPlainText(match[2] ?? '');
-    const day =
-      /\b(?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?) \d{1,2},? \d{4}\b/.exec(
-        text,
-      )?.[0];
-    const timestamp = day ? Date.parse(`${day} GMT`) : Number.NaN;
-    const date = Number.isFinite(timestamp)
-      ? new Date(timestamp).toISOString().slice(0, 10)
-      : undefined;
-    const previous = results.get(url.href);
-    results.set(url.href, { url: url.href, date: date ?? previous?.date });
+    if (results.size) break;
   }
-  return [...results.values()].slice(0, 3);
+  return [...results.values()].slice(0, 6);
 }
 const articleMetadata = z.object({
   '@type': z.union([z.string(), z.array(z.string())]),
-  headline: z.string(),
+  headline: z.string().optional(),
+  name: z.string().optional(),
   datePublished: z.string(),
   description: z.string().optional(),
 });
@@ -97,7 +63,9 @@ function findArticleMetadata(
   const article = articleMetadata.safeParse(value);
   if (
     article.success &&
-    ['Article', 'NewsArticle', 'BlogPosting'].some((type) => article.data['@type'].includes(type))
+    ['Article', 'NewsArticle', 'BlogPosting', 'ScholarlyArticle', 'TechArticle'].some((type) =>
+      article.data['@type'].includes(type),
+    )
   )
     return article.data;
   if (Array.isArray(value)) {
@@ -121,13 +89,12 @@ export function parseNewsArticle(
   source: NewsMedia,
   hintedDate?: string,
 ): NewsItem | undefined {
-  const location = new URL(url);
-  if (location.origin !== new URL(source.url).origin || !location.pathname.startsWith(source.path))
-    return undefined;
+  const location = newsArticleUrl(source, url);
+  if (!location) return undefined;
   const meta = new Map<string, string>();
   for (const match of html.matchAll(/<meta\b[^>]*>/gi)) {
     const attrs = attributes(match[0]);
-    meta.set(attrs['property'] ?? attrs['name'] ?? '', attrs['content'] ?? '');
+    meta.set(attrs['property'] ?? attrs['name'] ?? attrs['itemprop'] ?? '', attrs['content'] ?? '');
   }
   let structured: z.infer<typeof articleMetadata> | undefined;
   for (const match of html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)) {
@@ -138,7 +105,14 @@ export function parseNewsArticle(
       /* Un bloc JSON-LD invalide ne remplace pas les métadonnées Open Graph. */
     }
   }
-  const headline = newsPlainText(structured?.headline ?? meta.get('og:title') ?? '')
+  const headline = newsPlainText(
+    structured?.headline ??
+      structured?.name ??
+      meta.get('citation_title') ??
+      meta.get('og:title') ??
+      /<h1\b[^>]*>([\s\S]*?)<\/h1>/i.exec(html)?.[1] ??
+      '',
+  )
     .split(' | ')[0]
     ?.trim();
   const metaExcerpt = newsPlainText(
@@ -164,17 +138,26 @@ export function parseNewsArticle(
   );
   const rawDate =
     meta.get('article:published_time') ??
+    meta.get('datePublished') ??
+    meta.get('date') ??
+    meta.get('pubdate') ??
+    meta.get('publish-date') ??
     structured?.datePublished ??
+    meta.get('citation_publication_date') ??
+    /<time\b[^>]*datetime=["']([^"']+)["']/i.exec(articleHtml || html)?.[1] ??
+    /<time\b[^>]*datetime=["']([^"']+)["']/i.exec(html)?.[1] ??
+    /<time\b[^>]*>([\s\S]{0,200}?)<\/time>/i.exec(articleHtml || html)?.[1] ??
+    /"publish_date"\s*:\s*"(\d{4}-\d{2}-\d{2})[|"]/.exec(html)?.[1] ??
+    (source.id === 'apple-ml'
+      ? /"published"\s*:\s*"(\d{4}-\d{2}-\d{2})"/.exec(html)?.[1]
+      : undefined) ??
     (source.id === 'tldr'
       ? /<h1[^>]*>TLDR AI (\d{4}-\d{2}-\d{2})<\/h1>/i.exec(html)?.[1]
       : undefined) ??
     hintedDate;
   if (!headline || !rawDate) return undefined;
-  const isDay = z.iso.date().safeParse(rawDate).success;
-  if (!isDay && !z.iso.datetime({ offset: true }).safeParse(rawDate).success) return undefined;
-  const timestamp = Date.parse(rawDate);
-  if (!Number.isFinite(timestamp)) return undefined;
-  const publishedAt = isDay ? rawDate : new Date(timestamp).toISOString();
+  const publishedAt = newsPublicationDate(newsPlainText(rawDate));
+  if (!publishedAt) return undefined;
   const editorial = Object.hasOwn(NEWS_EDITORIAL, location.pathname)
     ? NEWS_EDITORIAL[location.pathname]
     : undefined;
@@ -192,7 +175,7 @@ export function parseNewsArticle(
               ? 'models'
               : 'uses');
   return newsItemSchema.parse({
-    id: `${source.id}:${location.pathname}`,
+    id: newsArticleIdentity(source, location),
     project: source.name,
     repository: location.hostname,
     version: 'article',
@@ -216,19 +199,33 @@ export async function collectMediaNewsPreview(
 ): Promise<NewsFeed> {
   let active = 0;
   const queue: (() => void)[] = [];
-  async function get(url: string): Promise<string> {
+  async function get(url: string, source: NewsMedia): Promise<string> {
     if (active >= 4)
       await new Promise<void>((resolve) => {
         queue.push(resolve);
       });
     active += 1;
     try {
-      const response = await transport(url, {
-        headers: { Accept: 'text/html', 'User-Agent': 'SANDBOX-News-Local/1.0' },
-        redirect: 'error',
-        cache: 'no-store',
-        signal: AbortSignal.timeout(12_000),
-      });
+      let response: Response | undefined;
+      for (let attempt = 0; attempt < 2; attempt += 1) {
+        try {
+          response = await requestNewsPage(url, source, transport);
+        } catch (error) {
+          if (
+            attempt === 0 &&
+            error instanceof Error &&
+            (error.name === 'TimeoutError' || error instanceof TypeError)
+          )
+            continue;
+          throw error;
+        }
+        if (attempt === 0 && response.status >= 500) {
+          await response.body?.cancel();
+          continue;
+        }
+        break;
+      }
+      if (!response) throw new Error('Réponse absente');
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       const body = await readLimitedBody(response.body, 6_000_000);
       if (!body) throw new Error('Réponse absente ou trop grande');
@@ -239,15 +236,19 @@ export async function collectMediaNewsPreview(
     }
   }
   const results = await Promise.allSettled(
-    NEWS_MEDIA.map(async (source) => {
-      // Accès refusé lors de la vérification navigateur ; aucun contournement.
-      if (source.id === 'taaft') throw new Error('Accès indisponible');
-      const home = await get(source.url);
+    NEWS_MEDIA.map(async (definition) => {
+      const source: NewsMedia = definition;
+      const home = await get(source.fetchUrl ?? source.url, source);
+      if (source.mode === 'changelog') {
+        const items = parseNewsChangelog(home, source);
+        if (!items.length) throw new Error('Aucune entrée datée avec ancre publique détectée');
+        return { items, partial: false };
+      }
       const links = discoverNewsArticles(home, source);
       if (links.length === 0) throw new Error('Aucun article public détecté');
       const pages = await Promise.allSettled(
         links.map(async (link) =>
-          parseNewsArticle(await get(link.url), link.url, source, link.date),
+          parseNewsArticle(await get(link.url, source), link.url, source, link.date),
         ),
       );
       const items = pages.flatMap((page) =>
@@ -285,6 +286,6 @@ export async function collectMediaNewsPreview(
           Date.parse(item.publishedAt) <= now.getTime() &&
           Date.parse(item.publishedAt) >= now.getTime() - 14 * 86_400_000,
       )
-      .slice(0, 200),
+      .slice(0, NEWS_MEDIA.length * 20),
   };
 }

@@ -11,6 +11,7 @@ import { LocalizationProvider, Text } from '@/components/localization';
 import { siteDictionary } from '@/i18n/dictionaries';
 import { translateText } from '@/i18n/translation';
 import { preparePublicEditorialContent } from '@/lib/admin-persistence';
+import { newsPageAvailable } from '@/lib/news-page-data';
 import { JsonLd } from '@/components/json-ld';
 import { isMock, siteConfig } from '@/config/site';
 import { localeTagFromRouteSegment } from '@/i18n/locales';
@@ -66,6 +67,7 @@ export default async function LocalizedRootLayout({
   const locale = localeTagFromRouteSegment(routeLocale);
   if (!locale) notFound();
   await preparePublicEditorialContent();
+  const newsAvailable = await newsPageAvailable();
   const dictionary = await siteDictionary(locale);
   const messages = siteMessages('fr-FR');
   return (
@@ -75,11 +77,11 @@ export default async function LocalizedRootLayout({
           <a className="skip" href="#main">
             <Text>{messages.skipToContent}</Text>
           </a>
-          <Masthead locale={locale} />
+          <Masthead locale={locale} newsAvailable={newsAvailable} />
           <main id="main" tabIndex={-1}>
             {children}
           </main>
-          <Footer />
+          <Footer newsAvailable={newsAvailable} />
         </LocalizationProvider>
         <JsonLd
           data={[

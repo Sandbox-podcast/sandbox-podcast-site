@@ -11,7 +11,7 @@ import { episodeSchema, siteSettingsSchema } from '../src/domain/schema';
 import { setSiteSettingsOverride } from '../src/config/site';
 import {
   HOME_STUDIO_IMAGE,
-  HOME_STUDIO_DOOR_IMAGE,
+  HOME_STUDIO_NEWS_IMAGE,
   HOME_STUDIO_CLEAN_WALL,
   HOME_STUDIO_PEOPLE,
 } from '../src/domain/home-studio';
@@ -212,9 +212,13 @@ describe('accueil du Talk Show', () => {
   });
   it('conserve la porte cachée du plateau et un accès séparé pour le mobile', () => {
     const html = renderToStaticMarkup(
-      createElement(DiscoveryHome, { episodes: [pilot], videoClubEnabled: true }),
+      createElement(DiscoveryHome, {
+        episodes: [pilot],
+        videoClubEnabled: true,
+        newsAvailable: true,
+      }),
     );
-    expect(html).toContain(encodeURIComponent(HOME_STUDIO_DOOR_IMAGE));
+    expect(html).toContain(encodeURIComponent(HOME_STUDIO_NEWS_IMAGE));
     expect(html).toContain('href="/nos-projets/video-club?from=studio"');
     expect(html).toContain('aria-label="Découvrir le vidéoclub des projets"');
     expect(html).toContain('aria-label="Entrer dans le vidéoclub"');
