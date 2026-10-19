@@ -541,6 +541,10 @@
     "translation": "",
     "sources": ["src/i18n/messages.ts"]
   },
+  "Actualité": {
+    "translation": "",
+    "sources": ["src/components/nav.tsx", "src/components/shell.tsx"]
+  },
   "Aceptar": {
     "translation": "",
     "sources": ["src/components/analytics-consent.tsx"]
