@@ -31,4 +31,8 @@ describe('repères de navigation', () => {
     expect(isNavigationActive('/about', '/charts')).toBe(false);
     expect(isNavigationActive('/charts-other', '/charts')).toBe(false);
   });
+  it('garde la rubrique Actualité active sur le fil', () => {
+    expect(isNavigationActive('/news', '/news')).toBe(true);
+    expect(isNavigationActive('/about', '/news')).toBe(false);
+  });
 });

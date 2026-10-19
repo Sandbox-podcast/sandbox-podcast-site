@@ -126,6 +126,11 @@ export function Footer() {
           </h2>
           <ul>
             <li>
+              <Link href="/news">
+                <Text>Actualité</Text>
+              </Link>
+            </li>
+            <li>
               <Link href="/charts">
                 <Text>Classements</Text>
               </Link>
