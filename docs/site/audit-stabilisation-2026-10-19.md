@@ -108,7 +108,7 @@ Les rapports et captures de recette sont conservés dans apps/site/.local/news-e
 
 - La PR 95 et les migrations 0017/0018 sont livrées après sauvegarde. Un premier cycle distant réussit avec quatre nouvelles fiches générées ; les passages planifiés consécutifs et le suivi sur vingt-quatre heures restent à confirmer.
 - Rising sans édition réelle : le diagnostic SQL est terminé, mais aucun projet mesuré le 19 ne possède encore ses deux baselines. La constitution des vingt projets admissibles dépend des prochains relevés réels.
-- Couverture News incomplète pour les 25 sources en erreur ou en lecture partielle ; compléter les adaptateurs ou obtenir un accès public utilisable lorsqu'il existe.
+- Couverture News incomplète pour les 26 sources en erreur ou en lecture partielle sur le passage distant ; compléter les adaptateurs ou obtenir un accès public utilisable lorsqu'il existe.
 - Garantie horaire non démontrée par GitHub Actions. Le contrôle de fraîcheur signale un retard lorsqu'il s'exécute ; il ne réveille pas lui-même un planificateur défaillant.
 - Résumés et traductions automatiques : les contrôles structurels et les citations ne garantissent pas l'exactitude sémantique de tous les articles. La recette porte sur un échantillon ; mesurer les rejets et relire les premières sorties réelles après livraison.
 - Budget CPU/minutes, capacité et rétention de la file à suivre avec le volume des 105 sources. Les données publiées ne sont pas supprimées par ce lot.
@@ -152,7 +152,7 @@ La Time Machine passe 41 contrôles sur la production. La première exécution m
 
 La recette prolongée a identifié une régression du lot : normaliser published_at dans le curseur modifie la clé lexicographique de cette colonne texte. Une date sans heure peut faire rejouer des lignes ; un horodatage sans millisecondes peut en faire sauter. Le curseur conserve désormais exactement la valeur stockée. Le schéma accepte déjà les deux formes de date.
 
-Deux tests échouent avant correction (date seule et horodatage sans millisecondes). Le test parcourt 215 lignes à date identique pour chacun des trois formats, avec une borne contre les boucles ; la recette HTTP pagine aussi des dates sans heure. Ce complément appartient au même lot de stabilisation. Aucune nouvelle PR n'est créée ; le commit correctif est contrôlé sur la branche du lot avant sa livraison.
+Deux tests échouent avant correction (date seule et horodatage sans millisecondes). Le test parcourt 215 lignes à date identique pour chacun des trois formats, avec une borne contre les boucles ; la recette HTTP pagine aussi des dates sans heure. Ce complément appartient au même lot de stabilisation. Le 19 octobre au soir, Lou autorise une PR corrective supplémentaire, sa fusion et son déploiement après les contrôles. Le correctif est contrôlé sur la branche du lot avant sa livraison.
 
 ### Bilan du premier run terminé et validation du complément
 
@@ -161,3 +161,13 @@ Le run News `39266494010` est réussi à 14:25:22 UTC. Il a détecté 422 candid
 Le run classements `39266500369` termine à 14:19:34 UTC. Il confirme les vingt entrées publiées pour GitHub, Skills et Models au créneau `2026-10-19T12:00Z`. Il sort en échec uniquement parce que Rising n'a aucune édition valide, conformément au diagnostic des baselines. Les trois autres publications ont bien été réalisées malgré cet état.
 
 Après correction du curseur texte, `pnpm check` passe avec 983 tests, dont 948 pour le site. Le build génère 204 pages. La recette News réussit ses dix groupes, y compris la pagination de 30 à 36 articles avec des dates sans heure. Les deux cas nouvellement couverts échouaient avant correction. Les tests et gates n'ont pas été désactivés.
+
+### Déclenchements horaires : contrôle à 19:05 UTC
+
+Aucun run News planifié n'a été créé depuis celui de 13:30 UTC. Le lancement manuel de 14:10 réussit, mais la date de collecte publique dépasse ensuite cinq heures. Le workflow reste actif, présent sur main avec un cron horaire, et son drapeau est activé. Les autres workflows planifiés montrent aussi des trous de plusieurs heures. Le contrôle planifié des classements de 15:42 échoue uniquement sur Rising ; les trois autres éditions sont valides.
+
+GitHub a déclaré un [incident Actions/Pages/Webhooks](https://www.githubstatus.com/incidents/8tzbpcnl75jp) de 15:49 à 16:56 UTC. Cet incident peut expliquer une partie des retards ; il ne prouve pas la cause de tous les créneaux absents. La [documentation GitHub](https://docs.github.com/en/actions/how-tos/troubleshoot-workflows#scheduled-workflow-stopped-running) décrit le changement du cron comme moyen de relancer un planning arrêté. Le cron News passe de la minute 23 à la minute 37, avec un contrat de test qui conserve la fréquence horaire, le drapeau public, main et l'absence d'annulation d'un passage en cours. Ce réenregistrement doit encore être validé par un événement schedule réel ; un lancement manuel ne le remplace pas.
+
+Le plan Hobby Vercel ne permet pas de cron horaire. Aucun compte externe ni forfait payant n'est ouvert. Si les créneaux GitHub restent absents après cette reprise, le choix d'un autre planificateur et les accès de compte devront être validés par Lou.
+
+Le complément de reprise passe pnpm check avec 984 tests (949 site, 35 autres). La recette HTTP et le build du correctif de curseur avaient déjà réussi avant le changement de minute du cron. Un run de rattrapage manuel, 39308199122, est lancé à 19:06 UTC ; il ne compte pas comme preuve de déclenchement automatique.

@@ -2,7 +2,8 @@ name: SANDBOX News refresh
 
 on:
   schedule:
-    - cron: '23 * * * *'
+    # Réenregistrement du planning après des déclenchements absents le 19 octobre 2026.
+    - cron: '37 * * * *'
   workflow_dispatch:
 
 permissions:
