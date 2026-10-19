@@ -6,6 +6,23 @@ import {
 } from '../src/domain/news-translation-terms';
 
 describe('unités et valeurs des traductions News', () => {
+  it.each([
+    ['en', 'AI policy'],
+    ['es-ES', 'política sobre la IA'],
+    ['de-DE', 'KI-Politik'],
+  ] as const)(
+    'ne transforme pas une politique face à l’IA en opposition à l’IA (%s)',
+    (locale, expected) => {
+      const source = "Ils devraient définir leur politique face à l'IA.";
+      expect(prepareNewsTranslation(source)).toBe('Ils devraient définir leur SBXAIPOLICY.');
+      expect(restoreNewsTranslation(source, 'SBXAIPOLICY', locale)).toBe(expected);
+    },
+  );
+  it('conserve une opposition explicite lorsqu’elle figure dans le texte français', () => {
+    const source = "Le groupe annonce une politique contre l'IA.";
+    expect(prepareNewsTranslation(source)).toBe(source);
+  });
+
   const source =
     'Le prix est de 2 $ par million de tokens d’entrée et de 10 $ par million de tokens de sortie.';
   it('conserve la distinction entre entrée et sortie dans les trois langues', () => {
