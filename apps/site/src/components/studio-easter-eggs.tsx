@@ -1,13 +1,11 @@
 import { LocalizedElement } from './localization';
 import styles from './discovery-home.module.css';
-import { newsPreviewEnabled } from '@/lib/news-preview-store';
-import { newsPublicEnabled } from '@/lib/news-store';
 
 /** Les objets sont peints dans le décor ; seuls leurs liens sont superposés. */
-export function StudioEasterEggs() {
+export function StudioEasterEggs({ newsAvailable = false }: { newsAvailable?: boolean }) {
   return (
     <div className={styles['studioEasterEggs']}>
-      {newsPreviewEnabled() || newsPublicEnabled() ? (
+      {newsAvailable ? (
         <LocalizedElement
           as="a"
           href="/news"

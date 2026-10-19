@@ -1,4 +1,3 @@
-import { renderToStaticMarkup } from 'react-dom/server';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { NewsFeed } from '../src/domain/news-preview';
 
@@ -27,7 +26,7 @@ vi.mock('@/lib/admin-persistence', async (importOriginal) => ({
 
 import NewsPage from '../src/app/(fr)/news/page';
 import { publicNewsPageMetadata } from '../src/lib/news-metadata';
-import { readNewsPageData } from '../src/lib/news-page-data';
+import { readNewsPageData, newsPageAvailable } from '../src/lib/news-page-data';
 import LocalizedPage from '../src/app/[locale]/[[...path]]/page';
 
 const emptyFeed: NewsFeed = { checkedAt: null, sources: [], items: [] };
@@ -42,18 +41,18 @@ beforeEach(() => {
 afterEach(() => vi.restoreAllMocks());
 
 describe('accès et disponibilité des pages News', () => {
-  it('conserve la fermeture explicite, sans accès à la base', async () => {
+  it('ferme la page avant activation, sans accès à la base', async () => {
     expect(await readNewsPageData()).toEqual({ status: 'disabled' });
     await expect(NewsPage({})).rejects.toThrow('NEXT_HTTP_ERROR_FALLBACK;404');
+    expect(await newsPageAvailable()).toBe(false);
     expect(state.read).not.toHaveBeenCalled();
     expect((await publicNewsPageMetadata()).robots).toMatchObject({ index: false });
   });
 
-  it('sert une attente explicite sans 404 ni indexation quand le flux activé est vide', async () => {
+  it('masque une rubrique vide même si le collecteur est activé', async () => {
     state.enabled = true;
-    const markup = renderToStaticMarkup(await NewsPage({}));
-    expect(markup).toContain('Aucune actualité récente disponible');
-    expect(markup).not.toContain('application/ld+json');
+    await expect(NewsPage({})).rejects.toThrow('NEXT_HTTP_ERROR_FALLBACK;404');
+    expect(await newsPageAvailable()).toBe(false);
     expect((await publicNewsPageMetadata()).robots).toMatchObject({ index: false });
   });
 
@@ -64,11 +63,8 @@ describe('accès et disponibilité des pages News', () => {
       state.read.mockRejectedValue(new Error('Database unavailable'));
       const log = vi.spyOn(console, 'error').mockImplementation(() => undefined);
       expect(await readNewsPageData()).toEqual({ status: 'unavailable' });
-      const markup = renderToStaticMarkup(await NewsPage({ locale }));
-      expect(markup).toContain('role="status"');
-      expect(markup).not.toContain('Database unavailable');
-      expect(markup).not.toContain('application/ld+json');
-      expect(markup).not.toContain('Effacer les filtres');
+      await expect(NewsPage({ locale })).rejects.toThrow('NEXT_HTTP_ERROR_FALLBACK;404');
+      expect(await newsPageAvailable()).toBe(false);
       expect((await publicNewsPageMetadata(locale)).robots).toMatchObject({ index: false });
       expect(log).toHaveBeenCalled();
     },
@@ -86,6 +82,7 @@ describe('accès et disponibilité des pages News', () => {
     'sert /%s/news sans dépendre de la base éditoriale avant le rendu News',
     async (locale) => {
       state.enabled = true;
+      state.preview = true;
       const page = await LocalizedPage({
         params: Promise.resolve({ locale, path: ['news'] }),
       });

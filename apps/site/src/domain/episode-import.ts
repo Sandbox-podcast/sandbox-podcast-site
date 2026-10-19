@@ -5,8 +5,8 @@ import { parseYouTubeDescription } from './youtube.ts';
 export interface YouTubeEpisodeMetadata {
   videoId: string;
   title: string;
-  channel: string;
-  thumbnailUrl: string;
+  channel?: string | undefined;
+  thumbnailUrl?: string | undefined;
   publishedAt?: string | undefined;
   durationSec?: number | undefined;
   source: 'youtube-data-api' | 'youtube-page' | 'oembed';
@@ -19,21 +19,11 @@ export function createEpisodeFromYouTube(input: {
   description: string;
   hosts: string[];
   status: 'draft' | 'published';
+  addedAt?: string;
 }): Episode {
   const { metadata } = input;
   const durationSec = metadata.durationSec;
-  if (!metadata.publishedAt || !durationSec) {
-    throw new Error(
-      'YouTube n’a pas fourni la date ou la durée de cette vidéo. Actualisez l’import.',
-    );
-  }
-  if (durationSec < 60) {
-    throw new Error('La vidéo doit durer au moins une minute.');
-  }
   const description = input.description.trim();
-  if (!description) {
-    throw new Error('Collez la description de l’épisode avec ses sources.');
-  }
   if (input.hosts.length === 0) {
     throw new Error('Aucun animateur n’est associé à votre compte.');
   }
@@ -44,11 +34,11 @@ export function createEpisodeFromYouTube(input: {
     number: input.number,
     title: metadata.title,
     dek: details.summary || metadata.title,
-    publishedAt: metadata.publishedAt,
-    durationSec,
+    publishedAt: metadata.publishedAt ?? input.addedAt ?? new Date().toISOString(),
+    durationSec: durationSec && durationSec >= 60 ? durationSec : undefined,
     description,
     hosts: input.hosts,
-    chapters: details.chapters.filter((chapter) => chapter.at < durationSec),
+    chapters: details.chapters.filter((chapter) => !durationSec || chapter.at < durationSec),
     mentions: mergeDescriptionResources([], description, metadata.videoId).filter((resource) => {
       const host = new URL(resource.url ?? '').hostname;
       return host !== 'open.spotify.com' && host !== 'podcasts.apple.com';

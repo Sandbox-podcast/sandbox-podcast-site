@@ -16,6 +16,16 @@ afterEach(() => {
 });
 
 describe('navigation publique', () => {
+  it('annonce News dans les menus et le footer seulement quand le fil est disponible', () => {
+    for (const component of [MainNav, MobileNav, Masthead, Footer]) {
+      expect(
+        renderToStaticMarkup(createElement(component, { newsAvailable: false })),
+      ).not.toContain('href="/news"');
+      expect(renderToStaticMarkup(createElement(component, { newsAvailable: true }))).toContain(
+        'href="/news"',
+      );
+    }
+  });
   it('présente le podcast en premier et garde les contenus accessibles dans le menu mobile', () => {
     const html = renderToStaticMarkup(createElement(MobileNav));
     expect(html).toContain('<summary class="mobile-menu-trigger">Menu');

@@ -112,15 +112,16 @@ describe('import YouTube authentifié', () => {
     expect(response.status).toBe(200);
     expect(metadata.source).toBe('oembed');
     expect(metadata.publishedAt).toBeUndefined();
-    expect(() =>
-      createEpisodeFromYouTube({
-        number: 2,
-        metadata,
-        description: 'Un épisode.',
-        hosts: ['lou'],
-        status: 'published',
-      }),
-    ).toThrow('YouTube n’a pas fourni');
+    const episode = createEpisodeFromYouTube({
+      number: 2,
+      metadata,
+      description: 'Un épisode.',
+      hosts: ['lou'],
+      status: 'published',
+      addedAt: '2026-10-19T08:15:00.000Z',
+    });
+    expect(episode.publishedAt).toBe('2026-10-19T08:15:00.000Z');
+    expect(episode.durationSec).toBeUndefined();
   });
 
   it('signale une panne sans exposer de détails techniques', async () => {

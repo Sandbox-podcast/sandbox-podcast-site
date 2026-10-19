@@ -1,5 +1,7 @@
 # DD-0014 — Indexation sélective et durée YouTube fiable
 
+Mise à jour du 19 octobre 2026 : [DD-0060](dd-0060-publication-episode-sans-duree.md) rend la durée et la description facultatives et utilise la date d'ajout quand YouTube ne fournit pas de date.
+
 - Date : 2026-10-13
 - Statut : accepté pour l'implémentation locale
 - Décision : décidée par l'agent sur délégation (PD-0003), après l'autorisation explicite de Lou d'ouvrir l'indexation.

@@ -38,6 +38,13 @@ afterEach(() => {
 });
 
 describe("fiche publique d'un épisode", () => {
+  it('affiche la vidéo et les chapitres sans fabriquer de durée', async () => {
+    const { html, visible } = await renderEpisode({ durationSec: undefined });
+    expect(visible).toContain('Introduction');
+    expect(visible).toContain('href="/episodes/999?t=150#episode-video"');
+    expect(html).not.toContain('"duration":');
+    expect(visible).not.toMatch(/NaN|undefined|0 min/);
+  });
   it('affiche les chapitres et les ressources extraits sans répéter la description', async () => {
     const { html, visible } = await renderEpisode();
 

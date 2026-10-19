@@ -4,9 +4,7 @@ import { newsPublicEnabled, readPublishedNews } from './news-store';
 import type { NewsFeed } from '@/domain/news-preview';
 
 type NewsPageData =
-  | { status: 'disabled' }
-  | { status: 'preview' | 'published'; feed: NewsFeed }
-  | { status: 'unavailable' };
+  { status: 'disabled' | 'unavailable' } | { status: 'preview' | 'published'; feed: NewsFeed };
 
 /** Partage un même relevé entre le rendu et ses métadonnées pendant la requête. */
 export const readNewsPageData = cache(async (): Promise<NewsPageData> => {
@@ -19,3 +17,9 @@ export const readNewsPageData = cache(async (): Promise<NewsPageData> => {
     return { status: 'unavailable' };
   }
 });
+
+/** Le drapeau de collecte seul ne suffit pas à annoncer une rubrique publique. */
+export async function newsPageAvailable(): Promise<boolean> {
+  const data = await readNewsPageData();
+  return data.status === 'preview' || (data.status === 'published' && data.feed.items.length > 0);
+}

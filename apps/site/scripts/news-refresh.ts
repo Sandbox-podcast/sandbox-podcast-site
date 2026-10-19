@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { NEWS_MEDIA } from '../src/domain/news-media.ts';
-import { knownNewsUrlsSchema } from '../src/domain/news-publishing.ts';
+import { newsPendingSchema, newsRequestBatches } from '../src/domain/news-queue.ts';
+import { drainNewsQueue } from '../src/domain/news-worker.ts';
 import { collectMediaNewsPreview } from '../src/pipeline/news-media-preview.ts';
 import {
   generateAndTranslateNews,
@@ -10,22 +11,27 @@ import {
 const originValue = process.env['SANDBOX_NEWS_ORIGIN'] ?? 'https://www.sandboxpodcast.fr';
 const secret = process.env['CRON_SECRET'] ?? '';
 const responseSchema = z.object({ inserted: z.number().int().nonnegative() });
-
-function endpoint(): string {
+function endpoint(path: string): string {
   const origin = new URL(originValue);
-  if (origin.protocol !== 'https:' || origin.username || origin.password)
+  if (
+    origin.protocol !== 'https:' ||
+    origin.username ||
+    origin.password ||
+    origin.pathname !== '/' ||
+    origin.search ||
+    origin.hash
+  )
     throw new Error('SANDBOX_NEWS_ORIGIN doit être une origine HTTPS sans identifiant.');
-  return new URL('/api/cron/news-ingest', origin).href;
+  return new URL(path, origin).href;
 }
-
-async function request(url: string, method: 'GET' | 'POST', body?: string): Promise<unknown> {
-  const response = await fetch(url, {
+async function request(path: string, method: 'GET' | 'POST', payload?: unknown): Promise<unknown> {
+  const response = await fetch(endpoint(path), {
     method,
     headers: {
       Authorization: `Bearer ${secret}`,
-      ...(body ? { 'Content-Type': 'application/json' } : {}),
+      ...(payload ? { 'Content-Type': 'application/json' } : {}),
     },
-    ...(body ? { body } : {}),
+    ...(payload ? { body: JSON.stringify(payload) } : {}),
     redirect: 'error',
     cache: 'no-store',
     signal: AbortSignal.timeout(method === 'GET' ? 30_000 : 60_000),
@@ -33,56 +39,109 @@ async function request(url: string, method: 'GET' | 'POST', body?: string): Prom
   if (!response.ok) throw new Error(`API SANDBOX News : HTTP ${response.status}.`);
   return response.json() as Promise<unknown>;
 }
-
-async function main(): Promise<void> {
-  if (secret.length < 16) throw new Error('CRON_SECRET SANDBOX News absent ou trop court.');
-  const api = endpoint();
-  const known = knownNewsUrlsSchema.parse(await request(api, 'GET'));
-  const knownUrls = new Set(known.urls);
-  const collected = await collectMediaNewsPreview({ checkedAt: null, sources: [], items: [] });
-  const candidates = collected.items.filter((item) => !knownUrls.has(item.url)).slice(0, 20);
-  const excerptHashes = new Map(
-    candidates.flatMap((item) =>
+async function collect(): Promise<void> {
+  const feed = await collectMediaNewsPreview({ checkedAt: null, sources: [], items: [] });
+  const sources = feed.sources.map((status, index) => {
+    const source = NEWS_MEDIA[index];
+    if (!source) throw new Error('Source hors registre.');
+    return {
+      id: source.id,
+      name: source.name,
+      url: source.url,
+      ok: status.ok,
+      ...(status.reason ? { reason: status.reason } : {}),
+    };
+  });
+  await request('/api/cron/news-ingest', 'POST', { checkedAt: feed.checkedAt, sources, items: [] });
+  let queued = 0;
+  for (const items of newsRequestBatches(feed.items)) {
+    queued += responseSchema.parse(
+      await request('/api/cron/news-candidates', 'POST', { action: 'collect', items }),
+    ).inserted;
+  }
+  console.log(
+    JSON.stringify({
+      phase: 'collect',
+      sources: `${sources.filter((source) => source.ok).length}/${sources.length}`,
+      detected: feed.items.length,
+      queued,
+      sourceFailures: sources
+        .filter((source) => !source.ok)
+        .map(({ id, reason }) => ({ id, reason })),
+    }),
+  );
+  if (!sources.some((source) => source.ok))
+    throw new Error('Aucune source SANDBOX News accessible.');
+}
+async function processPending(): Promise<{
+  candidates: number;
+  published: number;
+  skipped: number;
+}> {
+  const pending = newsPendingSchema.parse(
+    await request('/api/cron/news-candidates', 'POST', { action: 'claim' }),
+  );
+  if (!pending.items.length) {
+    console.log(JSON.stringify({ phase: 'process', pending: 0 }));
+    return { candidates: 0, published: 0, skipped: 0 };
+  }
+  if (!pending.leaseId) throw new Error('Réservation News absente.');
+  const hashes = new Map(
+    pending.items.flatMap((item) =>
       item.sourceExcerpt ? [[item.url, newsSourceExcerptHash(item.sourceExcerpt)] as const] : [],
     ),
   );
-  const generated = await generateAndTranslateNews(candidates);
-  const sourceByUrl = new Map<string, (typeof NEWS_MEDIA)[number]>(
-    NEWS_MEDIA.map((source) => [source.url, source]),
-  );
-  const sources = collected.sources.map((source) => {
-    const definition = sourceByUrl.get(source.url ?? '');
-    if (!definition) throw new Error('Le collecteur News a renvoyé une source inconnue.');
-    return {
-      id: definition.id,
-      name: source.name,
-      url: source.url ?? definition.url,
-      ok: source.ok,
-      ...(source.reason ? { reason: source.reason } : {}),
+  const generated = await generateAndTranslateNews(pending.items);
+  let inserted = 0;
+  for (const items of newsRequestBatches(generated.items)) {
+    const payload = {
+      checkedAt: new Date().toISOString(),
+      sources: pending.sources,
+      items: items.map((item) => ({
+        item,
+        ...(hashes.has(item.url) ? { sourceExcerptHash: hashes.get(item.url) } : {}),
+      })),
     };
+    inserted += responseSchema.parse(
+      await request('/api/cron/news-ingest', 'POST', payload),
+    ).inserted;
+  }
+  const published = generated.items.map((item) => item.url);
+  const skipped = pending.items
+    .filter((item) => !published.includes(item.url))
+    .map((item) => item.url);
+  await request('/api/cron/news-candidates', 'POST', {
+    action: 'complete',
+    leaseId: pending.leaseId,
+    published,
+    skipped,
   });
-  const payload = {
-    checkedAt: collected.checkedAt,
-    sources,
-    items: generated.items.map((item) => ({
-      item,
-      ...(excerptHashes.has(item.url) ? { sourceExcerptHash: excerptHashes.get(item.url) } : {}),
-    })),
-  };
-  const published = responseSchema.parse(await request(api, 'POST', JSON.stringify(payload)));
-  const availableSources = sources.filter((source) => source.ok).length;
   console.log(
     JSON.stringify({
-      sources: `${availableSources}/${sources.length}`,
-      candidates: candidates.length,
+      phase: 'process',
+      candidates: pending.items.length,
       generated: generated.generated,
       skipped: generated.skipped,
-      published: published.inserted,
+      published: inserted,
     }),
   );
-  if (availableSources === 0) throw new Error('Aucune source SANDBOX News accessible.');
+  return { candidates: pending.items.length, published: inserted, skipped: generated.skipped };
 }
-
+async function main() {
+  if (secret.length < 16) throw new Error('CRON_SECRET SANDBOX News absent ou trop court.');
+  // Refuse de lancer le collecteur à 105 sources contre une API de génération précédente.
+  newsPendingSchema.parse(await request('/api/cron/news-candidates', 'GET'));
+  if (!process.argv.includes('--process-only')) await collect();
+  if (!process.argv.includes('--collect-only')) {
+    const report = await drainNewsQueue(processPending);
+    console.log(JSON.stringify({ phase: 'drain', ...report }));
+    if (
+      report.failures ||
+      (report.candidates > 0 && report.published === 0 && report.skipped === report.candidates)
+    )
+      throw new Error('Le traitement News comporte des échecs ou aucun candidat accepté.');
+  }
+}
 main().catch((error: unknown) => {
   console.error(error instanceof Error ? error.message : 'Échec du rafraîchissement SANDBOX News.');
   process.exitCode = 1;

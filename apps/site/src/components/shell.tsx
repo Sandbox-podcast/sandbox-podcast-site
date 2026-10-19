@@ -22,7 +22,13 @@ export function Wordmark({ className }: { className?: string }) {
     </span>
   );
 }
-export function Masthead({ locale = 'fr-FR' }: { locale?: string }) {
+export function Masthead({
+  locale = 'fr-FR',
+  newsAvailable = false,
+}: {
+  locale?: string;
+  newsAvailable?: boolean;
+}) {
   const messages = siteMessages('fr-FR');
   return (
     <>
@@ -37,7 +43,7 @@ export function Masthead({ locale = 'fr-FR' }: { locale?: string }) {
             <Wordmark />
           </Link>
           <div className="desktop-navigation">
-            <MainNav locale={locale} />
+            <MainNav locale={locale} newsAvailable={newsAvailable} />
           </div>
           <div className="masthead-tools">
             <Link href="/search" className="site-search-action" aria-label={messages.searchLabel}>
@@ -59,13 +65,13 @@ export function Masthead({ locale = 'fr-FR' }: { locale?: string }) {
             </Link>
             <LocaleSwitcher locale={locale} />
           </div>
-          <MobileNav locale={locale} />
+          <MobileNav locale={locale} newsAvailable={newsAvailable} />
         </div>
       </header>
     </>
   );
 }
-export function Footer() {
+export function Footer({ newsAvailable = false }: { newsAvailable?: boolean } = {}) {
   return (
     <footer className="site-footer discovery-footer">
       <div className="wrap discovery-footer-grid">
@@ -125,11 +131,13 @@ export function Footer() {
             <Text>Explorer</Text>
           </h2>
           <ul>
-            <li>
-              <Link href="/news">
-                <Text>Actualité</Text>
-              </Link>
-            </li>
+            {newsAvailable ? (
+              <li>
+                <Link href="/news">
+                  <Text>Actualité</Text>
+                </Link>
+              </li>
+            ) : null}
             <li>
               <Link href="/charts">
                 <Text>Classements</Text>

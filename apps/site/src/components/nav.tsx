@@ -16,7 +16,13 @@ const ITEMS = [
   { href: '/nos-projets', label: 'Nos projets' },
 ];
 
-export function MobileNav({ locale = DEFAULT_SITE_LOCALE }: { locale?: string }) {
+export function MobileNav({
+  locale = DEFAULT_SITE_LOCALE,
+  newsAvailable = false,
+}: {
+  locale?: string;
+  newsAvailable?: boolean;
+}) {
   const pathname = usePathname();
   const menu = useRef<HTMLDetailsElement>(null);
   const { t } = useLocalization();
@@ -42,7 +48,7 @@ export function MobileNav({ locale = DEFAULT_SITE_LOCALE }: { locale?: string })
         Menu <span aria-hidden="true">☰</span>
       </summary>
       <div className="mobile-menu-panel">
-        <MainNav locale={locale} />
+        <MainNav locale={locale} newsAvailable={newsAvailable} />
         <LocalizedLink href="/search" className="mobile-search-link">
           {t('Rechercher')}
         </LocalizedLink>
@@ -51,14 +57,22 @@ export function MobileNav({ locale = DEFAULT_SITE_LOCALE }: { locale?: string })
   );
 }
 
-export function MainNav({ locale = DEFAULT_SITE_LOCALE }: { locale?: string }) {
+export function MainNav({
+  locale = DEFAULT_SITE_LOCALE,
+  newsAvailable = false,
+}: {
+  locale?: string;
+  newsAvailable?: boolean;
+}) {
   const pathname = usePathname();
   const { t } = useLocalization();
   return (
     <nav aria-label={t('Navigation principale')} lang={locale}>
       <ul className="main-nav-list">
         {ITEMS.filter(
-          (item) => locale === DEFAULT_SITE_LOCALE || item.href !== '/time-machine',
+          (item) =>
+            (newsAvailable || item.href !== '/news') &&
+            (locale === DEFAULT_SITE_LOCALE || item.href !== '/time-machine'),
         ).map((item) => {
           const active = isNavigationActive(sourcePath(pathname), item.href);
           return (

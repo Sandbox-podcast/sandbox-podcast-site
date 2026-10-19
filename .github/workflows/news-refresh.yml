@@ -48,6 +48,12 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
+      - name: Collecter toutes les sources et conserver les candidats en base
+        env:
+          SANDBOX_NEWS_ORIGIN: ${{ vars.SANDBOX_CHARTS_ORIGIN || 'https://www.sandboxpodcast.fr' }}
+          CRON_SECRET: ${{ secrets.SANDBOX_CHARTS_CRON_SECRET }}
+        run: pnpm --filter @podcast/site news:automation:refresh --collect-only
+
       - name: Installer les modèles de traduction locaux
         env:
           SANDBOX_NEWS_SETUP_PYTHON: python
@@ -58,8 +64,14 @@ jobs:
           SANDBOX_NEWS_SUMMARY_SETUP_PYTHON: python
         run: pnpm --filter @podcast/site news:summarizer:setup
 
-      - name: Collecter, générer, traduire et publier les nouvelles fiches
+      - name: Générer, traduire et publier le prochain lot de la file
         env:
           SANDBOX_NEWS_ORIGIN: ${{ vars.SANDBOX_CHARTS_ORIGIN || 'https://www.sandboxpodcast.fr' }}
           CRON_SECRET: ${{ secrets.SANDBOX_CHARTS_CRON_SECRET }}
-        run: pnpm --filter @podcast/site news:automation:refresh
+        run: pnpm --filter @podcast/site news:automation:refresh --process-only
+
+      - name: Vérifier la fraîcheur du fil public
+        if: ${{ !cancelled() }}
+        env:
+          SANDBOX_NEWS_ORIGIN: ${{ vars.SANDBOX_CHARTS_ORIGIN || 'https://www.sandboxpodcast.fr' }}
+        run: node apps/site/scripts/news-health.ts

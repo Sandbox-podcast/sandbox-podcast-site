@@ -10,10 +10,10 @@ export function episodeChapters(episode: Episode): Episode['chapters'] {
 
 /** Ne présente pas une durée contredite par les horodatages publiés. */
 export function verifiedEpisodeDuration(episode: Episode): number | undefined {
+  if (episode.durationSec === undefined) return undefined;
+  const durationSec = episode.durationSec;
   const observed = [...episode.chapters, ...parseYouTubeDescription(episode.description).chapters];
-  return observed.some((chapter) => chapter.at >= episode.durationSec)
-    ? undefined
-    : episode.durationSec;
+  return observed.some((chapter) => chapter.at >= durationSec) ? undefined : durationSec;
 }
 
 /** Segments horodatés pour les moments clés du balisage vidéo. */

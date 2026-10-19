@@ -6,15 +6,15 @@ import { homeProfiles, homeProjects } from '@/domain/home-story';
 import styles from './discovery-chapters.module.css';
 import { HomeProjectSpotlight } from './home-project-spotlight';
 import { HomeHostCard } from './home-host-card';
-import { newsPreviewEnabled } from '@/lib/news-preview-store';
-import { newsPublicEnabled } from '@/lib/news-store';
 
 export function DiscoveryStory({
   hosts,
   projects,
+  newsAvailable = false,
 }: {
   hosts: readonly Host[];
   projects: readonly PersonalProject[];
+  newsAvailable?: boolean;
 }) {
   const team = homeProfiles(hosts);
   const selection = homeProjects(projects);
@@ -129,10 +129,7 @@ export function DiscoveryStory({
             </h2>
           </div>
         </header>
-        <div
-          className={styles['exploreGrid']}
-          data-news={newsPreviewEnabled() || newsPublicEnabled() ? 'true' : undefined}
-        >
+        <div className={styles['exploreGrid']} data-news={newsAvailable ? 'true' : undefined}>
           <Link
             href="/time-machine"
             className={styles['exploreLink']}
@@ -211,7 +208,7 @@ export function DiscoveryStory({
               <ArrowIcon />
             </span>
           </Link>
-          {newsPreviewEnabled() || newsPublicEnabled() ? (
+          {newsAvailable ? (
             <Link
               href="/news"
               className={`${styles['exploreLink']} ${styles['newsLink']}`}

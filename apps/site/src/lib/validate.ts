@@ -233,11 +233,12 @@ export function validateContent(content: Content, options: ValidateOptions = {})
     for (const m of episode.mentions) {
       if (m.entity) entityRef(where, m.entity);
       if (!m.url) warn(where, `lien à compléter : ${m.label}`);
-      if (m.at !== undefined && m.at > episode.durationSec)
+      if (m.at !== undefined && episode.durationSec !== undefined && m.at > episode.durationSec)
         error(where, `horodatage hors durée : ${m.label}`);
     }
     for (const c of episode.chapters) {
-      if (c.at > episode.durationSec) error(where, `chapitre hors durée : ${c.title}`);
+      if (episode.durationSec !== undefined && c.at > episode.durationSec)
+        error(where, `chapitre hors durée : ${c.title}`);
     }
     for (const c of episode.charts) {
       if (!charts.has(c.chart)) error(where, `classement inconnu : ${c.chart}`);

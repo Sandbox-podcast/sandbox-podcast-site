@@ -5,6 +5,7 @@ import { drizzle } from 'drizzle-orm/pglite';
 import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import * as schema from '../src/db/schema.ts';
 import { NEWS_MEDIA } from '../src/domain/news-media.ts';
+import { newsFeedSchema } from '../src/domain/news-preview.ts';
 import type { NewsIngestionRequest } from '../src/domain/news-publishing.ts';
 import {
   knownNewsUrls,
@@ -101,6 +102,41 @@ afterAll(async () => {
 });
 
 describe('publication automatique SANDBOX News', () => {
+  it('conserve les articles au-delà de quatorze jours pour le fil historique', async () => {
+    await publishNewsBatch(ingestion());
+    const later = new Date(Date.now() + 45 * 86_400_000);
+    expect((await readPublishedNews(later)).items).toHaveLength(1);
+  });
+
+  it('parcourt plus de 200 articles sans doublon avec des dates identiques', async () => {
+    const base = ingestion().items[0]?.item;
+    if (!base) throw new Error('Fixture absente');
+    await db.insert(schema.newsItems).values(
+      Array.from({ length: 215 }, (_, index) => {
+        const id = `rundown:/articles/page-${String(index).padStart(3, '0')}`;
+        const url = `https://www.therundown.ai/articles/page-${String(index).padStart(3, '0')}`;
+        return {
+          id,
+          canonicalUrl: url,
+          sourceId: 'rundown',
+          sourceName: base.project,
+          publishedAt: base.publishedAt,
+          category: base.category,
+          payload: { ...base, id, url },
+        };
+      }),
+    );
+    const seen: string[] = [];
+    let page = await readPublishedNews();
+    while (page.items.length > 0) {
+      seen.push(...page.items.map((item) => item.id));
+      if (!page.nextCursor) break;
+      page = await readPublishedNews(new Date(), page.nextCursor);
+    }
+    expect(seen).toHaveLength(215);
+    expect(new Set(seen).size).toBe(215);
+    expect(page.nextCursor).toBeNull();
+  });
   it('enregistre une fiche traduite, évite les doublons et expose le flux complet', async () => {
     const payload = ingestion();
     expect(await publishNewsBatch(payload)).toEqual({ inserted: 1 });
@@ -110,6 +146,7 @@ describe('publication automatique SANDBOX News', () => {
     if (!itemUrl) throw new Error('URL de test absente.');
     expect(await knownNewsUrls()).toContain(itemUrl);
     const feed = await readPublishedNews();
+    expect(newsFeedSchema.safeParse(feed).success).toBe(true);
     expect(feed.items).toHaveLength(1);
     expect(feed.items[0]?.titles?.['es-ES']).toBe('Ya está disponible un nuevo modelo abierto.');
     expect(feed.items[0]?.synopses?.['de-DE']).toHaveLength(3);
