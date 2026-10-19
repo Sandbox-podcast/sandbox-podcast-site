@@ -122,35 +122,39 @@ describe('publication automatique SANDBOX News', () => {
     expect((await readPublishedNews(later)).items).toHaveLength(1);
   });
 
-  it('parcourt plus de 200 articles sans doublon avec des dates identiques', async () => {
-    const base = ingestion().items[0]?.item;
-    if (!base) throw new Error('Fixture absente');
-    await db.insert(schema.newsItems).values(
-      Array.from({ length: 215 }, (_, index) => {
-        const id = `rundown:/articles/page-${String(index).padStart(3, '0')}`;
-        const url = `https://www.therundown.ai/articles/page-${String(index).padStart(3, '0')}`;
-        return {
-          id,
-          canonicalUrl: url,
-          sourceId: 'rundown',
-          sourceName: base.project,
-          publishedAt: base.publishedAt,
-          category: base.category,
-          payload: { ...base, id, url },
-        };
-      }),
-    );
-    const seen: string[] = [];
-    let page = await readPublishedNews();
-    while (page.items.length > 0) {
-      seen.push(...page.items.map((item) => item.id));
-      if (!page.nextCursor) break;
-      page = await readPublishedNews(new Date(), page.nextCursor);
-    }
-    expect(seen).toHaveLength(215);
-    expect(new Set(seen).size).toBe(215);
-    expect(page.nextCursor).toBeNull();
-  });
+  it.each(['2026-10-18', '2026-10-18T10:00:00Z', '2026-10-18T10:00:00.000Z'])(
+    'parcourt plus de 200 articles sans doublon avec des dates identiques (%s)',
+    async (publishedAt) => {
+      const base = ingestion().items[0]?.item;
+      if (!base) throw new Error('Fixture absente');
+      await db.insert(schema.newsItems).values(
+        Array.from({ length: 215 }, (_, index) => {
+          const id = `rundown:/articles/page-${String(index).padStart(3, '0')}`;
+          const url = `https://www.therundown.ai/articles/page-${String(index).padStart(3, '0')}`;
+          return {
+            id,
+            canonicalUrl: url,
+            sourceId: 'rundown',
+            sourceName: base.project,
+            publishedAt,
+            category: base.category,
+            payload: { ...base, id, url, publishedAt },
+          };
+        }),
+      );
+      const seen: string[] = [];
+      let page = await readPublishedNews();
+      expect(page.nextCursor?.publishedAt).toBe(publishedAt);
+      for (let pageNumber = 0; pageNumber < 10 && page.items.length > 0; pageNumber += 1) {
+        seen.push(...page.items.map((item) => item.id));
+        if (!page.nextCursor) break;
+        page = await readPublishedNews(new Date(), page.nextCursor);
+      }
+      expect(seen).toHaveLength(215);
+      expect(new Set(seen).size).toBe(215);
+      expect(page.nextCursor).toBeNull();
+    },
+  );
   it('enregistre une fiche traduite, évite les doublons et expose le flux complet', async () => {
     const payload = ingestion();
     expect(await publishNewsBatch(payload)).toEqual({ inserted: 1 });

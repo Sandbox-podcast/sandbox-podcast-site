@@ -52,7 +52,7 @@ La variable GitHub `SANDBOX_NEWS_PUBLIC=true`, l'origine publique et le nom du s
 | Accès News incomplets                            | Réintégration locale incomplète et disponibilité dissociée                     | « Actualités » dans navigation et footer partagés, quatre langues, radar existant activé avec du contenu publié  |
 | Time Machine difficile à piloter                 | Sélection au survol, années éloignées, archives anciennes en tête              | Choix explicite au clic/clavier, années près de la chronologie, archives récentes en premier                     |
 
-La recette navigateur en production à 13:33 UTC reproduit le message : « 1350 dépôts suivis. Historique : 9 / 7 jours », avec zéro entrée dans Rising. Le chiffre neuf compte les jours de relevés distincts. L'interface utilisait le seuil de sept jours de GitHub pour Rising, alors que son accélération demande deux périodes de sept jours. Le correctif affiche neuf sur quatorze et explique les vingt projets requis ; un test de rendu couvre les deux seuils. L'agrégat public annonce une première date théorique GitHub au 17 octobre, calculée depuis le premier relevé du 10 octobre : la fenêtre Rising de quatorze jours ne peut donc pas être complète au 19 octobre. Le 24 octobre serait une première borne théorique si les baselines nécessaires sont présentes ; ce calcul ne garantit pas que vingt projets seront alors admissibles.
+La recette navigateur en production à 13:33 UTC reproduit le message : « 1350 dépôts suivis. Historique : 9 / 7 jours », avec zéro entrée dans Rising. Le chiffre neuf compte les jours de relevés distincts. L'interface utilisait le seuil de sept jours de GitHub pour Rising, alors que son accélération demande deux périodes de sept jours. Le correctif affiche neuf sur quatorze et explique les vingt projets requis ; un test de rendu couvre les deux seuils. L'agrégat public annonce une première date théorique GitHub au 17 octobre, calculée depuis le premier relevé du 10 octobre : la fenêtre Rising de quatorze jours ne peut donc pas être complète au 19 octobre. Quatorze jours après le premier relevé donnent le 24 octobre comme repère ; la tolérance des baselines peut faire varier la date effective. Ce repère ne garantit pas que vingt projets seront alors admissibles.
 
 La même recette vérifie les six rubriques publiques (accueil, News, classements, Time Machine, podcast et projets), sans erreur JavaScript. Le lien News y porte encore « Actualité » en production. L'image radar est présente et son clic ouvre bien `/news` ; ce point a été livré par la PR 94. Le complément local harmonise le libellé en « Actualités » et ajoute les autres corrections de cet audit.
 
@@ -106,9 +106,9 @@ Les rapports et captures de recette sont conservés dans apps/site/.local/news-e
 
 ## Points encore ouverts
 
-- Livraison et migrations autorisées par Lou le 19 octobre, après sauvegarde. La PR 94 est déjà déployée ; les migrations 0017/0018 sont absentes du schéma consulté. Leur application et le contrôle du cycle distant restent à effectuer.
-- Rising sans édition réelle ; diagnostic des baselines et constitution des vingt projets admissibles à terminer sur la base cible.
-- Couverture News incomplète pour les 25 sources en erreur ou en lecture partielle ; compléter les adaptateurs ou obtenir un accès public utilisable lorsqu'il existe.
+- La PR 95 et les migrations 0017/0018 sont livrées après sauvegarde. Un premier cycle distant réussit avec quatre nouvelles fiches générées ; les passages planifiés consécutifs et le suivi sur vingt-quatre heures restent à confirmer.
+- Rising sans édition réelle : le diagnostic SQL est terminé, mais aucun projet mesuré le 19 ne possède encore ses deux baselines. La constitution des vingt projets admissibles dépend des prochains relevés réels.
+- Couverture News incomplète pour les 26 sources en erreur ou en lecture partielle sur le passage distant ; compléter les adaptateurs ou obtenir un accès public utilisable lorsqu'il existe.
 - Garantie horaire non démontrée par GitHub Actions. Le contrôle de fraîcheur signale un retard lorsqu'il s'exécute ; il ne réveille pas lui-même un planificateur défaillant.
 - Résumés et traductions automatiques : les contrôles structurels et les citations ne garantissent pas l'exactitude sémantique de tous les articles. La recette porte sur un échantillon ; mesurer les rejets et relire les premières sorties réelles après livraison.
 - Budget CPU/minutes, capacité et rétention de la file à suivre avec le volume des 105 sources. Les données publiées ne sont pas supprimées par ce lot.
@@ -123,3 +123,51 @@ La sauvegarde `backup-main-2026-10-19-stabilisation` (`br-withered-sound-b1bzhj8
 Les migrations 0017/0018 ont réussi sur cette copie dans une transaction avec vérification du journal et délai de verrouillage. Le résultat comporte 19 migrations, une file vide et les 20 actualités existantes. La sauvegarde reste intacte. L'application sur la branche de production attend la livraison du worker corrigé ; aucun schéma de production n'a encore été modifié à ce stade.
 
 La validation du worktree isolé passe : `pnpm check` (981 tests), build (204 pages), trois tests Python et audit des dépendances sans vulnérabilité connue. Un ajout en doublon du script `test:episode:e2e`, déjà présent dans main, a été retiré avant commit.
+
+## Contrôles après livraison en production
+
+La PR 95 a été fusionnée le 19 octobre à 14:07:06 UTC après réussite de tous les contrôles, y compris CI quality, source-pipelines, secret-scan et Vercel Preview. Commit du lot : `e041eae29ac7c3efe8f2421724e27ae839d67069`. Fusion : `488bf767a59f8d59667032f74a888af55b76666a`.
+
+Le déploiement Vercel Production `5sSwo6e2NHzGnD3sdVMaR4vbbqnM` est prêt à 14:08:38 UTC pour cette fusion. L'API GitHub confirme le succès du déploiement `7176017213`. Les variables DATABASE_URL/POSTGRES_URL et SANDBOX_NEWS_PUBLIC existent en Production et Preview ; CRON_SECRET est présent en Production. Les secrets sont restés masqués.
+
+Les migrations 0017/0018 ont ensuite été appliquées sur main avec la même transaction testée sur copie. Le contrôle confirme 19 migrations, dix colonnes dans news_candidates, zéro candidat initial et les 20 actualités conservées. Preuve locale : `apps/site/.local/audit-2026-10-19/neon-production-migrations.png`.
+
+À 14:10 UTC, les six pages publiques répondent 200 sans erreur JavaScript : accueil, News, classements, Time Machine, podcast et projets. Le menu porte Actualités ; le radar ouvre /news. Rising affiche neuf jours sur quatorze. Les quatre API courantes répondent sans cache ; les deux routes News privées refusent les requêtes non authentifiées (401).
+
+Le diagnostic SQL effectué sur la copie de sauvegarde porte sur 15 702 relevés, 3 032 projets observés et neuf dates distinctes du 10 au 19 octobre (le 14 manque). Parmi 1 428 projets mesurés le 19, 175 ont une première baseline à sept jours avec la tolérance du code ; aucun n'a les deux baselines nécessaires. Les dernières collectes GitHub sont partielles à cause d'OpenSSF, mais les relevés GitHub sont bien persistés. Le dernier lot a traité 268 projets sur 268 avec deux erreurs de scorecard. Cela explique aussi pourquoi lastSuccessfulCollectAt peut être plus ancien que les mesures réelles.
+
+Deux cycles manuels distants ont été lancés après migration : News `39266494010` et classements `39266500369`. Leur résultat, les nouveaux articles et les passages planifiés restent à relever.
+
+### Première collecte et publication distantes
+
+Le runner News a terminé sa collecte en 1 min 47 s et stocké 403 candidats. L'API publique affiche désormais 105 sources, dont 79 entièrement lisibles sur ce passage, et le relevé `2026-10-19T14:10:46.757Z`. L'installation froide a pris 1 min 37 s pour les traductions et 18 s pour le modèle de résumé. Le contrôle de fraîcheur public passe. Cela valide la collecte, sans encore prouver à lui seul la génération.
+
+La première publication générée par le runner est enregistrée à 14:18:07 UTC : l'article AlphaSignal sur RoboParty RP1, daté du 19 octobre. Il est absent de NEWS_EDITORIAL. La base conserve son empreinte de source ; le candidat est `published`, avec une tentative et sa réservation libérée. Ses quatre titres et quatre synthèses de trois phrases sont présents. Le premier lot a publié une fiche sur cinq, les quatre autres ayant été écartées par les contrôles et reportées.
+
+Les huit pages FR/EN/ES/DE à 390 et 1440 pixels affichent cette nouvelle fiche, les trois phrases et le lien source exact, sans erreur JavaScript ni débordement horizontal. Preuve : `apps/site/.local/audit-2026-10-19/production-generated-news/report.json`.
+
+La Time Machine passe 41 contrôles sur la production. La première exécution mesurait une image différée avant son décodage ; la recette de production attend désormais `image.decode()` avant cette mesure, sans ignorer les échecs de chargement. Le second passage réussit aux quatre largeurs et sans JavaScript pour les sources. Rapport : `apps/site/.local/time-machine-production/report.json`.
+
+### Complément de recette : curseurs News
+
+La recette prolongée a identifié une régression du lot : normaliser published_at dans le curseur modifie la clé lexicographique de cette colonne texte. Une date sans heure peut faire rejouer des lignes ; un horodatage sans millisecondes peut en faire sauter. Le curseur conserve désormais exactement la valeur stockée. Le schéma accepte déjà les deux formes de date.
+
+Deux tests échouent avant correction (date seule et horodatage sans millisecondes). Le test parcourt 215 lignes à date identique pour chacun des trois formats, avec une borne contre les boucles ; la recette HTTP pagine aussi des dates sans heure. Ce complément appartient au même lot de stabilisation. Le 19 octobre au soir, Lou autorise une PR corrective supplémentaire, sa fusion et son déploiement après les contrôles. Le correctif est contrôlé sur la branche du lot avant sa livraison.
+
+### Bilan du premier run terminé et validation du complément
+
+Le run News `39266494010` est réussi à 14:25:22 UTC. Il a détecté 422 candidats, en a ajouté 403 à la file, puis traité dix candidats en deux lots : quatre nouvelles fiches générées, traduites et publiées, six écartées, zéro erreur de traitement. La file n'est pas vidée. Les modèles sont sauvegardés dans le cache distant pour les prochains passages. Le fil contient 24 fiches après ce run.
+
+Le run classements `39266500369` termine à 14:19:34 UTC. Il confirme les vingt entrées publiées pour GitHub, Skills et Models au créneau `2026-10-19T12:00Z`. Il sort en échec uniquement parce que Rising n'a aucune édition valide, conformément au diagnostic des baselines. Les trois autres publications ont bien été réalisées malgré cet état.
+
+Après correction du curseur texte, `pnpm check` passe avec 983 tests, dont 948 pour le site. Le build génère 204 pages. La recette News réussit ses dix groupes, y compris la pagination de 30 à 36 articles avec des dates sans heure. Les deux cas nouvellement couverts échouaient avant correction. Les tests et gates n'ont pas été désactivés.
+
+### Déclenchements horaires : contrôle à 19:05 UTC
+
+Aucun run News planifié n'a été créé depuis celui de 13:30 UTC. Le lancement manuel de 14:10 réussit, mais la date de collecte publique dépasse ensuite cinq heures. Le workflow reste actif, présent sur main avec un cron horaire, et son drapeau est activé. Les autres workflows planifiés montrent aussi des trous de plusieurs heures. Le contrôle planifié des classements de 15:42 échoue uniquement sur Rising ; les trois autres éditions sont valides.
+
+GitHub a déclaré un [incident Actions/Pages/Webhooks](https://www.githubstatus.com/incidents/8tzbpcnl75jp) de 15:49 à 16:56 UTC. Cet incident peut expliquer une partie des retards ; il ne prouve pas la cause de tous les créneaux absents. La [documentation GitHub](https://docs.github.com/en/actions/how-tos/troubleshoot-workflows#scheduled-workflow-stopped-running) décrit le changement du cron comme moyen de relancer un planning arrêté. Le cron News passe de la minute 23 à la minute 37, avec un contrat de test qui conserve la fréquence horaire, le drapeau public, main et l'absence d'annulation d'un passage en cours. Ce réenregistrement doit encore être validé par un événement schedule réel ; un lancement manuel ne le remplace pas.
+
+Le plan Hobby Vercel ne permet pas de cron horaire. Aucun compte externe ni forfait payant n'est ouvert. Si les créneaux GitHub restent absents après cette reprise, le choix d'un autre planificateur et les accès de compte devront être validés par Lou.
+
+Le complément de reprise passe pnpm check avec 984 tests (949 site, 35 autres). La recette HTTP et le build du correctif de curseur avaient déjà réussi avant le changement de minute du cron. Un run de rattrapage manuel, 39308199122, est lancé à 19:06 UTC ; il ne compte pas comme preuve de déclenchement automatique.
