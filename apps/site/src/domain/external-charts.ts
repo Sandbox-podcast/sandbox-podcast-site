@@ -487,6 +487,69 @@ export function scoreModels(
     .map((item, index) => ({ ...item, rank: index + 1 }));
 }
 
+/** Classe les évaluations présentes. Une source manquante ne reçoit aucune note. */
+export function rankModelsByObservedQuality(
+  rawCandidates: readonly ModelScoreInput[],
+  size = 20,
+): { entries: ScoredExternalEntity[]; cohort: number; paired: number } {
+  if (!Number.isSafeInteger(size) || size < 1) throw new Error('Taille Models invalide.');
+  const candidates = rawCandidates.filter(
+    (item) =>
+      (item.metrics.arenaQuality !== null && Number.isFinite(item.metrics.arenaQuality)) ||
+      (item.metrics.artificialAnalysisIntelligence !== null &&
+        Number.isFinite(item.metrics.artificialAnalysisIntelligence)),
+  );
+  const arenaQuality = metricPercentiles(candidates, (item) => item.metrics.arenaQuality);
+  const analysisQuality = metricPercentiles(
+    candidates,
+    (item) => item.metrics.artificialAnalysisIntelligence,
+  );
+  const rows = candidates.flatMap((item) => {
+    const slug = item.entity.slug;
+    const arena = arenaQuality.get(slug) ?? null;
+    const analysis = analysisQuality.get(slug) ?? null;
+    const paired = consensus([arena, analysis], [0.5, 0.5]);
+    const score = paired?.score ?? arena ?? analysis;
+    if (score === null) return [];
+    const measured = (arena === null ? 0 : 1) + (analysis === null ? 0 : 1);
+    return [
+      {
+        entity: item.entity,
+        rank: 0,
+        score,
+        measured,
+        dimensions: { quality: score },
+        metrics: measuredNumbers({
+          arenaQuality: item.metrics.arenaQuality,
+          artificialAnalysisIntelligence: item.metrics.artificialAnalysisIntelligence,
+          sourceDisagreement: paired?.disagreement ?? null,
+        }),
+        sourceObservedAt: item.sourceObservedAt,
+      },
+    ];
+  });
+  return {
+    cohort: candidates.length,
+    paired: rows.filter((item) => item.measured === 2).length,
+    entries: rows
+      .toSorted(
+        (a, b) =>
+          b.score - a.score ||
+          b.measured - a.measured ||
+          a.entity.slug.localeCompare(b.entity.slug),
+      )
+      .slice(0, size)
+      .map((item, index) => ({
+        entity: item.entity,
+        rank: index + 1,
+        score: item.score,
+        dimensions: item.dimensions,
+        metrics: item.metrics,
+        sourceObservedAt: item.sourceObservedAt,
+      })),
+  };
+}
+
 export function normalizeModelAlias(value: string): string {
   const withoutNamespace = value.trim().split('/').at(-1) ?? value;
   return withoutNamespace.toLowerCase().replace(/[^a-z0-9]+/g, '');

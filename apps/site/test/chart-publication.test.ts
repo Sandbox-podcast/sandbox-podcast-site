@@ -59,6 +59,9 @@ describe('preuve et méthode de chaque édition', () => {
     expect(chartMethodSummary('skills', 'skills-momentum-observed').description).toContain(
       "n'est pas le profil corroboré",
     );
+    expect(chartMethodSummary('models', 'models-quality-observed').description).toContain(
+      'ne vaut pas 100',
+    );
     expect(chartMethodPath('skills', '2026-10-14T12:00Z')).toBe(
       '/charts/skills/methodology?edition=2026-10-14T12%3A00Z',
     );

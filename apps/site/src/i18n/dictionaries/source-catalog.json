@@ -4383,6 +4383,14 @@
     "translation": "",
     "sources": ["src/domain/chart-publication.ts"]
   },
+  "Évaluations observées": {
+    "translation": "",
+    "sources": ["src/domain/chart-publication.ts"]
+  },
+  "Cette édition classe les modèles qui ont une évaluation Arena admissible, un indice Artificial Analysis admissible, ou les deux. Une évaluation absente n'est pas estimée et ne vaut pas 100. Deux modèles à 100 peuvent avoir été les meilleurs de deux épreuves différentes. Ce score n'est pas le profil corroboré v3.": {
+    "translation": "",
+    "sources": ["src/domain/chart-publication.ts"]
+  },
   "Installations cumulées": {
     "translation": "",
     "sources": ["content/scoring/skills-momentum.json"]

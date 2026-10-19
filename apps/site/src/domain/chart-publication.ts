@@ -16,6 +16,7 @@ export const OBSERVED_SCORING_VERSIONS = {
   rising: 'rising-momentum-observed',
   skills: 'skills-installs-observed',
   skillsMomentum: 'skills-momentum-observed',
+  models: 'models-quality-observed',
 } as const;
 
 /** La description suit la version figée, jamais le profil prévu pour les prochaines éditions. */
@@ -55,6 +56,12 @@ export function chartMethodSummary(chart: string, version?: string) {
       label: 'Popularité Skills.sh',
       description:
         'Cette édition classe les installations cumulées de Skills.sh. Les étoiles GitHub sont un contexte, pas une seconde mesure du score.',
+    };
+  if (version === OBSERVED_SCORING_VERSIONS.models)
+    return {
+      label: 'Évaluations observées',
+      description:
+        "Cette édition classe les modèles qui ont une évaluation Arena admissible, un indice Artificial Analysis admissible, ou les deux. Une évaluation absente n'est pas estimée et ne vaut pas 100. Deux modèles à 100 peuvent avoir été les meilleurs de deux épreuves différentes. Ce score n'est pas le profil corroboré v3.",
     };
   if (version === 'models-cross-source-v1')
     return {

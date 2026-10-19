@@ -88,6 +88,29 @@ function observed(
     },
   ];
 }
+/** Retire une évaluation trop ancienne, trop peu votée ou sans date de preuve. */
+export function withAdmissibleModelEvaluations(
+  item: ModelScoreInput,
+  date: string,
+): ModelScoreInput {
+  const profile = REFERENCE_PROFILES.models;
+  const arena = admissibleEvidence(item, 'arena-text', profile, date)
+    ? item.metrics.arenaQuality
+    : null;
+  const analysis = admissibleEvidence(item, 'artificial-analysis', profile, date)
+    ? item.metrics.artificialAnalysisIntelligence
+    : null;
+  if (
+    arena === item.metrics.arenaQuality &&
+    analysis === item.metrics.artificialAnalysisIntelligence
+  )
+    return item;
+  return {
+    ...item,
+    metrics: { ...item.metrics, arenaQuality: arena, artificialAnalysisIntelligence: analysis },
+  };
+}
+
 function admissibleEvidence(
   item: { referenceEvidence?: Record<string, SourceEvidence> },
   source: string,

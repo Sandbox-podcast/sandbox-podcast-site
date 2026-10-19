@@ -1,6 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 import {
   externalEntitySchema,
+  rankModelsByObservedQuality,
   rankSkillsByObservedInstalls,
   representativeSkillInputs,
   scoreModels,
@@ -211,6 +212,55 @@ describe('classements externes', () => {
     expect(ranked.find((row) => row.entity.slug === 'model-unrated')).toBeUndefined();
     expect(ranked.find((row) => row.entity.slug === 'model-single-source')).toBeUndefined();
     expect(ranked[0]?.metrics['sourceDisagreement']).toBeGreaterThanOrEqual(0);
+  });
+  it('classe une évaluation présente sans estimer celle qui manque', () => {
+    const common = {
+      arenaCoding: null,
+      artificialAnalysisCoding: null,
+      arenaAgent: null,
+      artificialAnalysisAgentic: null,
+      arenaVision: null,
+      arenaSearch: null,
+      verifiedReasoning: {},
+      verifiedMaths: {},
+      downloads30d: null,
+      likes: null,
+      openRouterWeeklyRank: null,
+      openRouterThroughputRank: null,
+      contextLength: null,
+      promptPricePerMillion: null,
+      completionPricePerMillion: null,
+    };
+    const ranked = rankModelsByObservedQuality(
+      [
+        model('model-arena', {
+          ...common,
+          arenaQuality: 1200,
+          artificialAnalysisIntelligence: null,
+        }),
+        model('model-analysis', {
+          ...common,
+          arenaQuality: null,
+          artificialAnalysisIntelligence: 90,
+        }),
+        model('model-both', { ...common, arenaQuality: 1100, artificialAnalysisIntelligence: 70 }),
+        model('model-empty', {
+          ...common,
+          arenaQuality: null,
+          artificialAnalysisIntelligence: null,
+        }),
+      ],
+      20,
+    );
+    expect(ranked.cohort).toBe(3);
+    expect(ranked.paired).toBe(1);
+    expect(ranked.entries.map((entry) => entry.entity.slug)).toContain('model-arena');
+    expect(ranked.entries.map((entry) => entry.entity.slug)).toContain('model-analysis');
+    const arena = ranked.entries.find((entry) => entry.entity.slug === 'model-arena');
+    expect(arena?.metrics['artificialAnalysisIntelligence']).toBeUndefined();
+    expect(arena?.dimensions['quality']).toBe(arena?.score);
+    expect(arena?.dimensions['value']).toBeUndefined();
+    expect(ranked.entries.find((entry) => entry.entity.slug === 'model-empty')).toBeUndefined();
   });
   it('ne présente pas de vue Value sans mesure de prix', () => {
     const noPrice = model('model-no-price', {
