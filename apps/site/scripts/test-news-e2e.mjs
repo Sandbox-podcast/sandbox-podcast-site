@@ -268,7 +268,7 @@ try {
   for (let index = 0; index < 35; index += 1) {
     const id = `${source.id}:/articles/local-news-history-${index}`;
     const url = new URL(`/articles/local-news-history-${index}`, source.url).href;
-    const publishedAt = new Date(Date.now() - 30 * 86_400_000).toISOString();
+    const publishedAt = new Date(Date.now() - 30 * 86_400_000).toISOString().slice(0, 10);
     const historical = {
       ...item,
       id,
