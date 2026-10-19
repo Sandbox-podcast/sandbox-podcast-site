@@ -2,13 +2,22 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { PGlite } from '@electric-sql/pglite';
 import { drizzle } from 'drizzle-orm/pglite';
-import { describe, expect, it, vi } from 'vitest';
+import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest';
 import sharp from 'sharp';
 import { episodeThumbnails } from '../src/db/schema.ts';
 import { episodeThumbnailPath, prepareEpisodeThumbnail } from '../src/lib/episode-thumbnails.ts';
 import { bestYouTubeThumbnail } from '../src/lib/youtube-thumbnail.ts';
 
 describe('import d’une miniature haute définition', () => {
+  const database = new PGlite();
+  // Le chargement WASM est une préparation d'intégration ; les assertions gardent 5 s.
+  beforeAll(async () => {
+    await database.waitReady;
+  }, 30_000);
+  afterAll(async () => {
+    await database.close();
+  }, 30_000);
+
   it('vérifie les pixels et produit une image WebP immuable', async () => {
     const input = await sharp({
       create: { width: 1280, height: 720, channels: 3, background: '#02c9df' },
@@ -36,28 +45,23 @@ describe('import d’une miniature haute définition', () => {
   });
 
   it('enregistre le WebP dans la migration Postgres additive', async () => {
-    const database = new PGlite();
-    try {
-      await database.exec(
-        readFileSync(join(process.cwd(), 'drizzle/0008_episode_thumbnails.sql'), 'utf8'),
-      );
-      const db = drizzle(database);
-      const image = await prepareEpisodeThumbnail(
-        await sharp({
-          create: { width: 1280, height: 720, channels: 3, background: '#02c9df' },
-        })
-          .png()
-          .toBuffer(),
-      );
-      await db.insert(episodeThumbnails).values(image);
-      const rows = await db.select().from(episodeThumbnails);
-      expect(rows).toHaveLength(1);
-      const stored = rows[0];
-      if (!stored) throw new Error('Image non enregistrée.');
-      expect(Buffer.from(stored.image)).toEqual(image.image);
-    } finally {
-      await database.close();
-    }
+    await database.exec(
+      readFileSync(join(process.cwd(), 'drizzle/0008_episode_thumbnails.sql'), 'utf8'),
+    );
+    const db = drizzle(database);
+    const image = await prepareEpisodeThumbnail(
+      await sharp({
+        create: { width: 1280, height: 720, channels: 3, background: '#02c9df' },
+      })
+        .png()
+        .toBuffer(),
+    );
+    await db.insert(episodeThumbnails).values(image);
+    const rows = await db.select().from(episodeThumbnails);
+    expect(rows).toHaveLength(1);
+    const stored = rows[0];
+    if (!stored) throw new Error('Image non enregistrée.');
+    expect(Buffer.from(stored.image)).toEqual(image.image);
   });
 });
 

@@ -2,6 +2,11 @@ type TranslationLocale = 'en' | 'es-ES' | 'de-DE';
 
 const terms = [
   {
+    source: /\bpolitique face à l['’]IA\b/giu,
+    marker: 'SBXAIPOLICY',
+    translations: { en: 'AI policy', 'es-ES': 'política sobre la IA', 'de-DE': 'KI-Politik' },
+  },
+  {
     source: /\btokens? d['’]entrée\b/giu,
     marker: 'SBXINPUTTOKENS',
     translations: { en: 'input tokens', 'es-ES': 'tokens de entrada', 'de-DE': 'Eingabetokens' },

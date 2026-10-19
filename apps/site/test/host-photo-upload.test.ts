@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { PGlite } from '@electric-sql/pglite';
 import { drizzle } from 'drizzle-orm/pglite';
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterAll, afterEach, beforeAll, describe, expect, it } from 'vitest';
 import sharp from 'sharp';
 import { hostPhotos } from '../src/db/schema.ts';
 import { hostPhotoPath, prepareHostPhoto } from '../src/lib/host-photos.ts';
@@ -15,6 +15,15 @@ function solid(width: number, height: number): Promise<Buffer> {
 }
 
 describe('import d’une photo d’animateur', () => {
+  const database = new PGlite();
+  // Le chargement WASM est une préparation d'intégration ; les assertions gardent 5 s.
+  beforeAll(async () => {
+    await database.waitReady;
+  }, 30_000);
+  afterAll(async () => {
+    await database.close();
+  }, 30_000);
+
   it('recadre en carré WebP sans agrandir et donne un chemin stable', async () => {
     const input = await solid(1200, 1600);
     const result = await prepareHostPhoto(input);
@@ -46,20 +55,13 @@ describe('import d’une photo d’animateur', () => {
   });
 
   it('enregistre le WebP dans la migration Postgres additive', async () => {
-    const database = new PGlite();
-    try {
-      await database.exec(
-        readFileSync(join(process.cwd(), 'drizzle/0011_host_photos.sql'), 'utf8'),
-      );
-      const db = drizzle(database);
-      const photo = await prepareHostPhoto(await solid(640, 640));
-      await db.insert(hostPhotos).values(photo);
-      const rows = await db.select().from(hostPhotos);
-      expect(rows).toHaveLength(1);
-      expect(Buffer.from(rows[0]?.image ?? [])).toEqual(photo.image);
-    } finally {
-      await database.close();
-    }
+    await database.exec(readFileSync(join(process.cwd(), 'drizzle/0011_host_photos.sql'), 'utf8'));
+    const db = drizzle(database);
+    const photo = await prepareHostPhoto(await solid(640, 640));
+    await db.insert(hostPhotos).values(photo);
+    const rows = await db.select().from(hostPhotos);
+    expect(rows).toHaveLength(1);
+    expect(Buffer.from(rows[0]?.image ?? [])).toEqual(photo.image);
   });
 });
 

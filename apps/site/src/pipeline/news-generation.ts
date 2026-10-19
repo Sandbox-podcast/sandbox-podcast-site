@@ -197,6 +197,16 @@ function checkedSummary(value: unknown, sourceExcerpt: string): NewsEditorialRec
   const evidence = result.data.evidence.map(normalizeEvidence);
   if (new Set(evidence).size !== 3) return undefined;
   if (evidence.some((quote) => quote.length < 20 || !excerpt.includes(quote))) return undefined;
+  // Une modalité (texte, image, audio) ne désigne pas un modèle distinct.
+  if (
+    evidence.some(
+      (quote, index) =>
+        /\bdifferent modalities\b/iu.test(quote) &&
+        !/\bmodels\b/iu.test(quote) &&
+        /\b(?:modèles différents|différents modèles)\b/iu.test(sentences[index] ?? ''),
+    )
+  )
+    return undefined;
   // Le titre reprend un fait du résumé : le modèle ne peut y ajouter une autre affirmation.
   const title = sentences[0].replace(/[.!?]$/u, '');
   if (title.length < 8 || title.length > 200) return undefined;

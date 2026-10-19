@@ -52,6 +52,67 @@ function summaryFor(item: NewsSummaryInput) {
 }
 
 describe('génération et traduction des nouvelles fiches', () => {
+  it.each([
+    {
+      sentence:
+        'Les données de modèles différents sont comparables par leur similarité sémantique.',
+      quote:
+        'Despite coming from different modalities, these embeddings occupy the same space and can be compared on their semantic similarity.',
+      accepted: false,
+    },
+    {
+      sentence: 'Différents modèles partagent le même espace de représentation sémantique.',
+      quote:
+        'Despite coming from different modalities, these embeddings occupy the same space and can be compared on their semantic similarity.',
+      accepted: false,
+    },
+    {
+      sentence:
+        'Les représentations de différentes modalités sont comparables par leur similarité sémantique.',
+      quote:
+        'Despite coming from different modalities, these embeddings occupy the same space and can be compared on their semantic similarity.',
+      accepted: true,
+    },
+    {
+      sentence:
+        'Les données de modèles différents sont comparables par leur similarité sémantique.',
+      quote:
+        'Different models generate compatible embeddings in this shared representation space, across different modalities.',
+      accepted: true,
+    },
+  ])(
+    'préserve la distinction entre modalités et modèles ($accepted, $sentence)',
+    async ({ sentence, quote, accepted }) => {
+      const passages = [evidence[0], evidence[1], quote];
+      const input = {
+        ...article(1),
+        sourceExcerpt:
+          passages.join(' ') +
+          ' The publication also provides technical documentation and download links for developers.',
+      };
+      const translate = vi.fn(async (texts: readonly string[], locale: string) =>
+        texts.map((text) => `${locale}: ${text}`),
+      );
+      const report = await generateAndTranslateNews([input], {
+        summarize: async (inputs) =>
+          inputs.map((item) => {
+            const result = summaryFor(item);
+            return {
+              ...result,
+              summary: {
+                ...result.summary,
+                evidence: passages,
+                sentences: [...result.summary.sentences.slice(0, 2), sentence],
+              },
+            };
+          }),
+        translate,
+      });
+      expect(report.items).toHaveLength(accepted ? 1 : 0);
+      if (!accepted) expect(translate).not.toHaveBeenCalled();
+    },
+  );
+
   it('arrête le lot à son échéance avant de lancer les traductions', async () => {
     const translate = vi.fn();
     await expect(
