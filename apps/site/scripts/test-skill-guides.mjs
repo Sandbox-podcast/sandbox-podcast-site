@@ -61,13 +61,25 @@ try {
       await page.getByRole('link', { name: guide.heading, exact: false }).click();
       assert.equal(await page.locator('h1').textContent(), guide.heading);
       assert.equal(await page.locator('#choix > ul > li').count(), guide.options.length);
-      const dimensions = await page.evaluate(() => ({
-        scroll: globalThis.document.documentElement.scrollWidth,
-        viewport: globalThis.window.innerWidth,
-      }));
+      const dimensions = await page.evaluate(async () => {
+        await globalThis.document.fonts.ready;
+        const viewport = globalThis.window.innerWidth;
+        return {
+          scroll: globalThis.document.documentElement.scrollWidth,
+          viewport,
+          overflowing: [...globalThis.document.querySelectorAll('body *')]
+            .filter((element) => element.getBoundingClientRect().right > viewport + 1)
+            .map((element) => ({
+              tag: element.tagName,
+              className: element.className,
+              right: element.getBoundingClientRect().right,
+              text: element.textContent?.slice(0, 100),
+            })),
+        };
+      });
       assert.ok(
         dimensions.scroll <= dimensions.viewport + 1,
-        `Pas de débordement : ${guide.slug} à ${width}px`,
+        `Pas de débordement : ${guide.slug} à ${width}px : ${JSON.stringify(dimensions)}`,
       );
       await page.getByRole('link', { name: 'Installation', exact: true }).click();
       assert.equal(new URL(page.url()).hash, '#installation');
