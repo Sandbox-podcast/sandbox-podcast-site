@@ -1,5 +1,7 @@
 # Documentation
 
+Jaquettes du vidéoclub et retrait de MindOdyssey : [catalogue des projets](site/nos-projets.md#jaquettes-illustrées-du-20-octobre-2026), avec les [33 prompts et fichiers générés](site/vhs-project-artwork-2026-10-20.json).
+
 Référencement de l’ensemble du site, 20 octobre : [audit des 569 URL publiques et correctifs globaux](site/seo-global-2026-10-20.md), avec les [guides de choix des skills](site/seo-skills-2026-10-20.md).
 
 Travail local restant après la PR 101 : [périmètre et vérifications](site/livraison-restant-local-2026-10-20.md).

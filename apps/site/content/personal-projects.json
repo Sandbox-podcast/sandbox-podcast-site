@@ -826,66 +826,6 @@
     "verifiedAt": "2026-10-13"
   },
   {
-    "slug": "mindodyssey",
-    "name": "MindOdyssey",
-    "creator": "lou",
-    "category": "education",
-    "tagline": "Grandir à travers les époques de l'Histoire.",
-    "url": "https://loukan42.github.io/MindOdyssey-public/",
-    "repository": "https://github.com/loukan42/MindOdyssey-public",
-    "access": "preview",
-    "platforms": ["Navigateur"],
-    "color": "#4d814c",
-    "icon": {
-      "src": "/nos-projets/mindodyssey/icon.webp",
-      "alt": "Icône de MindOdyssey",
-      "sourceUrl": "https://loukan42.github.io/MindOdyssey-public/favicon.png",
-      "kind": "logo"
-    },
-    "cover": {
-      "src": "/nos-projets/mindodyssey/cover.webp",
-      "alt": "Présentation de MindOdyssey",
-      "sourceUrl": "https://loukan42.github.io/MindOdyssey-public/theme/partage.jpg",
-      "kind": "artwork"
-    },
-    "images": [
-      {
-        "src": "/nos-projets/mindodyssey/village.webp",
-        "alt": "Le village préhistorique",
-        "sourceUrl": "https://loukan42.github.io/MindOdyssey-public/theme/village.webp",
-        "kind": "artwork"
-      },
-      {
-        "src": "/nos-projets/mindodyssey/cover.webp",
-        "alt": "L'univers de MindOdyssey",
-        "sourceUrl": "https://loukan42.github.io/MindOdyssey-public/theme/partage.jpg",
-        "kind": "artwork"
-      }
-    ],
-    "videos": [],
-    "description": [
-      "MindOdyssey prépare un jeu d'aventure éducatif pour les enfants de 7 à 12 ans. L'enfant commence dans un village préhistorique. Les personnages lui confient des missions pour progresser et débloquer de nouveaux villages jusqu'à l'époque contemporaine.",
-      "Chaque monde correspond à une période de l'Histoire. Les missions mobilisent lecture, calcul, logique et connaissances historiques. La page publique présente le projet, construit par deux pères de famille, et permet de rejoindre la liste des familles intéressées par la bêta."
-    ],
-    "features": [
-      "Découvrir les dix mondes annoncés.",
-      "Explorer des villages et leurs missions.",
-      "Suivre l'avancement du projet.",
-      "Rejoindre la liste d'attente de la bêta."
-    ],
-    "sources": [
-      {
-        "label": "Présentation du projet",
-        "url": "https://loukan42.github.io/MindOdyssey-public/"
-      },
-      {
-        "label": "Dépôt et documentation",
-        "url": "https://github.com/loukan42/MindOdyssey-public"
-      }
-    ],
-    "verifiedAt": "2026-10-13"
-  },
-  {
     "slug": "pinchchat",
     "name": "PinchChat",
     "creator": "nicolas",

@@ -32,7 +32,7 @@ describe('catalogue des projets personnels', () => {
     ])
       expect(personalProject(slug)?.sources.length).toBeGreaterThan(0);
     expect(personalProject('song-maker')?.creator).toBe('loic');
-    expect(personalProject('mindodyssey')?.access).toBe('preview');
+    expect(personalProject('mindodyssey')).toBeUndefined();
     expect(personalProject('aigora')?.url).toBe('https://github.com/MarlBurroW/aigora');
     expect(personalProject('kinbot')).toBeUndefined();
     expect(personalProject('hivekeep')?.description.join(' ')).toContain('KinBot');
@@ -68,7 +68,7 @@ describe('catalogue des projets personnels', () => {
       filterPersonalProjects(personalProjects, { creator: 'lou', category: 'education' }).map(
         (project) => project.slug,
       ),
-    ).toEqual(['okodukai', 'heros-de-la-classe', 'mindodyssey']);
+    ).toEqual(['okodukai', 'heros-de-la-classe']);
     expect(
       filterPersonalProjects(personalProjects, { query: '  SUPER heavy  ' }).map(
         (project) => project.slug,

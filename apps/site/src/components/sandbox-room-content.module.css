@@ -281,6 +281,8 @@
 }
 
 .tape {
+  position: relative;
+  isolation: isolate;
   display: flex;
   flex-direction: column;
   width: clamp(82px, 8.4vw, 130px);
@@ -304,6 +306,8 @@
 }
 
 .tapeTop {
+  position: relative;
+  z-index: 1;
   display: flex;
   justify-content: space-between;
   gap: 0.25rem;
@@ -311,6 +315,7 @@
   border-bottom: 2px solid var(--tape-accent, #ffbd79);
   font-size: 0.38rem;
   letter-spacing: 0.05em;
+  background: #0b141be8;
 }
 
 .tapeTop span {
@@ -318,7 +323,8 @@
 }
 
 .tapeArt {
-  position: relative;
+  position: absolute;
+  inset: 0;
   display: grid;
   flex: 1;
   min-height: 0;
@@ -331,6 +337,13 @@
   object-fit: cover;
 }
 
+.tapeArt::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(transparent 50%, #080e18c9 75%, #080e18 100%);
+}
+
 .initial {
   color: var(--tape-accent, #ffbd79);
   font-size: 2rem;
@@ -338,12 +351,21 @@
 }
 
 .tapeTitle {
-  padding: 0.45rem 0.4rem 0.15rem;
+  position: relative;
+  z-index: 1;
+  margin-top: auto;
+  padding: 1.1rem 0.4rem 0.2rem;
+  color: #fff0cc;
+  font-weight: 800;
   font-size: clamp(0.55rem, 0.85vw, 0.75rem);
-  line-height: 1.15;
+  line-height: 1.08;
+  text-wrap: balance;
+  text-shadow: 0 1px 3px #000;
 }
 
 .tapeCreator {
+  position: relative;
+  z-index: 1;
   padding: 0 0.4rem 0.45rem;
   color: #bfb6a9;
   font-size: 0.5rem;
@@ -953,12 +975,13 @@
     border-left-width: 3px;
   }
   .tapeTop {
-    padding: 2px;
-    font-size: 5px;
+    padding: calc(2px * var(--room-scale, 1));
+    font-size: clamp(4px, calc(4px * var(--room-scale, 1)), 7px);
   }
   .tapeTitle {
-    font-size: 7px;
-    padding: 3px;
+    font-size: clamp(7px, calc(8px * var(--room-scale, 1)), 15px);
+    padding: calc(10px * var(--room-scale, 1)) calc(4px * var(--room-scale, 1))
+      calc(5px * var(--room-scale, 1));
   }
   .tapeCreator {
     display: none;
