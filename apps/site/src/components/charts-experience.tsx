@@ -518,9 +518,11 @@ export function ChartsExperience({
             <Text>{' entrées'}</Text>
           </span>
           <nav className={styles['footerLinks']}>
-            <Link href={chartMethodPath(meta.slug, snapshot?.week)}>
-              <Text>{'Méthodologie et sources'}</Text>
-            </Link>
+            {pageKind !== 'collection' ? (
+              <Link href={chartMethodPath(meta.slug, snapshot?.week)}>
+                <Text>{'Méthodologie et sources'}</Text>
+              </Link>
+            ) : null}
             <Link href="/charts/history">
               <Text>{'Archives'}</Text>
             </Link>
