@@ -26,6 +26,8 @@ Le nettoyage du renderer libère ses ressources sans forcer la perte du contexte
 - Audit des dépendances : aucune vulnérabilité connue signalée.
 - Gitleaks sur les fichiers préparés : aucune fuite détectée.
 - Routes publiques : recette HTTP réussie, dont archives et méthodologies absentes en 404.
+- News : 11 groupes de vérification réussis, dont publication locale, langues, pagination, clic du terminal radar et panne SQL ; aucune erreur JavaScript. Le test utilise désormais le sélecteur des salles et le mode mouvement réduit pour isoler le parcours éditorial.
+- Analytics : consentement bloqué puis prêt vérifié. Publication d’épisode : parcours admin, lecteur et chapitre vérifiés sur des fixtures locales, sans écriture distante.
 - OpenGraph : les 13 routes contrôlées incluent leurs cinq polices. Sécurité admin HTTP : contrôle réussi sans accès à une base distante.
 - Playwright responsive : 128 contrôles réussis, de 320 à 3440 pixels, six salles, texte agrandi à 200 %, interaction tactile et navigation sans JavaScript ; aucun problème relevé.
 - Playwright sur la copie consolidée : six salles, ouverture globale, traversées, clavier, Escape, retour navigateur, hash direct et redimensionnements WebGL de 901 à 3440 pixels ; repli portrait puis restauration du moteur vérifiés sans erreur JavaScript.
