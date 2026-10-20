@@ -1,0 +1,26 @@
+.loading {
+  min-height: 65svh;
+  padding-block: clamp(3rem, 6vw, 6rem);
+  color: var(--ink-2);
+}
+
+.brand {
+  margin-bottom: 1rem;
+  color: var(--ink);
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+
+.rows {
+  display: grid;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.rows div {
+  height: 4rem;
+  border: 1px solid #ffffff10;
+  border-radius: 0.5rem;
+  background: linear-gradient(90deg, #ffffff09, #ffffff03);
+}

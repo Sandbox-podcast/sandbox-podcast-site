@@ -587,6 +587,18 @@ export function SandboxRoomContent({
               <Text>{hero.description}</Text>
             </p>
           </div>
+          <a
+            href={siteConfig.platforms.youtube}
+            className={`${styles['primary']} ${styles['studioVideos']}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-studio-videos
+            data-analytics-event="youtube_open"
+            data-analytics-location="home_studio"
+          >
+            <Text>Nos vidéos</Text>
+            <span aria-hidden="true">↗</span>
+          </a>
           <p className={styles['studioHint']} data-studio-navigation>
             <Text>Explore les six salles via le portail ou le bouton en haut à droite.</Text>
           </p>

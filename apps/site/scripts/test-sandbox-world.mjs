@@ -21,7 +21,9 @@ try {
   await refuse.click();
   await page.mouse.move(-10, -10);
   await page.screenshot({ path: out + '/studio.png' });
-  assert.equal(await page.locator('[data-room-content="studio"] a').count(), 0);
+  const videos = page.getByRole('link', { name: 'Nos vidéos', exact: true });
+  assert.equal(await videos.isVisible(), true);
+  assert.equal(await videos.getAttribute('href'), 'https://www.youtube.com/@SandboxFR');
   assert.equal(await page.locator('[data-room-door]').count(), 0);
   assert.equal(await page.locator('[data-room-link]').count(), 0);
   assert.equal(await page.locator('[data-world-controls]').isVisible(), false);

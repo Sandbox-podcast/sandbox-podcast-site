@@ -282,7 +282,8 @@ describe('accueil du Talk Show', () => {
       /<section\b[^>]*data-minimal-studio[^>]*>([\s\S]*?)<\/section>/.exec(html)?.[1] ?? '';
     expect(minimal).toContain('<h1');
     expect(minimal).not.toContain('<button');
-    expect(minimal).not.toContain('<a ');
+    expect(minimal).toContain('data-studio-videos="true"');
+    expect(minimal).toContain('href="https://www.youtube.com/@SandboxFR"');
     expect(minimal).toContain('data-studio-navigation="true"');
     expect(minimal.match(/<p\b/g)).toHaveLength(2);
     expect(html).toMatch(/<canvas\b[^>]*aria-hidden="true"/);
