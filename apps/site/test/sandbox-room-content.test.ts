@@ -54,8 +54,32 @@ describe('contenus des six salles', () => {
     expect(html).toContain('id="room-title-studio" tabindex="-1"');
     expect(html).not.toContain('Repère absent');
     expect(html).toContain('Notre présentation');
-    expect(html).not.toContain('<a ');
+    expect(html).toMatch(
+      /<a[^>]*href="https:\/\/www.youtube.com\/@SandboxFR"[^>]*target="_blank"[^>]*rel="noopener noreferrer"[^>]*data-studio-videos[^>]*>Nos vidéos/,
+    );
+    expect(html).toContain('data-analytics-event="youtube_open"');
     expect(html).not.toContain('<button');
+  });
+
+  it.each([
+    ['en', english, 'Our videos'],
+    ['es-es', spanish, 'Nuestros vídeos'],
+    ['de-de', german, 'Unsere Videos'],
+  ] as const)('traduit le bouton YouTube en %s même sans épisode', (locale, dictionary, label) => {
+    const html = renderToStaticMarkup(
+      createElement(LocalizationProvider, {
+        locale,
+        dictionary,
+        children: createElement(SandboxRoomContent, {
+          roomId: 'studio',
+          episodes: [],
+          projects: [],
+          minimalStudio: true,
+        }),
+      }),
+    );
+    expect(html).toContain(`>${label}<`);
+    expect(html).toContain('href="https://www.youtube.com/@SandboxFR"');
   });
 
   it('présente les deux replays disponibles sans compléter le mur avec de fausses affiches', () => {

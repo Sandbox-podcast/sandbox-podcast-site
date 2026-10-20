@@ -58,6 +58,11 @@
   text-shadow: 0 1px 4px #120e08;
 }
 
+.studioVideos {
+  width: fit-content;
+  margin: 1rem auto 0;
+}
+
 .studioHint {
   margin: clamp(12px, calc(16px * var(--room-scale, 1)), 24px) auto 0;
   color: #cfbea6;
