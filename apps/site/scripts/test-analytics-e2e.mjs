@@ -67,6 +67,8 @@ let browser;
 const checks = [];
 const requests = [];
 const errors = [];
+const releaseImage = Promise.withResolvers();
+let imageFinished = false;
 try {
   // Le contenu est réservé à la base éphémère de ce processus.
   const { readFile } = await import('node:fs/promises');
@@ -94,6 +96,15 @@ try {
   await context.route('**/*', async (route) => {
     const request = route.request();
     const url = new URL(request.url());
+    if (url.origin === fixture.origin && url.pathname === '/__qa-pending-analytics-image.svg') {
+      await releaseImage.promise;
+      await route.fulfill({
+        contentType: 'image/svg+xml',
+        body: '<svg xmlns="http://www.w3.org/2000/svg" width="1" height="1"/>',
+      });
+      imageFinished = true;
+      return;
+    }
     if (url.hostname === 'www.googletagmanager.com') {
       requests.push({ type: 'google-tag' });
       return route.fulfill({ contentType: 'text/javascript', body: googleStub });
@@ -215,7 +226,22 @@ try {
       ['/charts', 'experience_interaction', 320],
     ]) {
       await page.setViewportSize({ width, height: 900 });
-      await page.goto(`${fixture.origin}${path}`, { waitUntil: 'networkidle' });
+      await page.goto(`${fixture.origin}${path}`, { waitUntil: 'domcontentloaded' });
+      const delayedImage = path === '/' && width === 1280;
+      if (delayedImage) {
+        const imageRequest = page.waitForRequest('**/__qa-pending-analytics-image.svg');
+        await page.evaluate(() => {
+          const image = document.createElement('img');
+          image.hidden = true;
+          image.alt = '';
+          image.src = '/__qa-pending-analytics-image.svg';
+          document.body.appendChild(image);
+        });
+        await imageRequest;
+      }
+      await page.waitForFunction(() =>
+        window.__qaGoogleEvents?.some((event) => event.name === 'page_view'),
+      );
       const action = page
         .locator(`[data-analytics-event="${name}"]`)
         .filter({ visible: true })
@@ -233,6 +259,17 @@ try {
         name,
       );
       checks.push(`${name} ${width}px`);
+      if (delayedImage) {
+        assert.equal(
+          imageFinished,
+          false,
+          "Le clic est mesuré pendant que l'image reste en attente",
+        );
+        checks.push('action mesurée sans attendre une image sans rapport avec le suivi');
+        const imageResponse = page.waitForResponse('**/__qa-pending-analytics-image.svg');
+        releaseImage.resolve();
+        await imageResponse;
+      }
     }
     await page.goto(`${fixture.origin}/episodes/1`, { waitUntil: 'networkidle' });
     for (const name of ['episode_play_requested', 'episode_source_open', 'episode_project_open']) {
@@ -372,6 +409,7 @@ try {
   log(error);
   process.exitCode = 1;
 } finally {
+  releaseImage.resolve();
   await browser?.close();
   await fixture.close();
 }
