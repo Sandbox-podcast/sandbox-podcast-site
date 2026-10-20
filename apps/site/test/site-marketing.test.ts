@@ -65,6 +65,8 @@ describe('compatibilité des textes de marque déjà publiés', () => {
     const result = resolvePublishedSiteSettings(
       {
         ...legacySiteSettings,
+        heroTitle: 'Un podcast pour y voir plus clair.',
+        heroEyebrow: 'Podcast indépendant · IA · développement · open source',
         description:
           'Explorez les podcasts vidéo Sandbox sur l’IA, le développement et l’open source. Retrouvez les sources de chaque épisode et nos classements tech hebdomadaires.',
         aboutIntro: 'Lou, Nicolas et Loïc. Les liens de l’équipe Sandbox, réunis ici.',
@@ -72,6 +74,8 @@ describe('compatibilité des textes de marque déjà publiés', () => {
       siteSettingsSchema.parse(siteSettings),
     );
     expect(result.description).toBe(siteSettings.description);
+    expect(result.heroTitle).toBe(siteSettings.heroTitle);
+    expect(result.heroEyebrow).toBe(siteSettings.heroEyebrow);
     expect(result.aboutIntro).toBe(siteSettings.aboutIntro);
   });
   it('reprend les nouveaux textes À propos lorsque les champs manquaient dans une ancienne publication', () => {

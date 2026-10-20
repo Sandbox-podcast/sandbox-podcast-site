@@ -28,6 +28,10 @@ Les tests couvrent les anciennes valeurs, les variantes publiques attestées, le
 
 La recette HTTP locale utilise aussi une publication ancienne réelle, conservée dans le fichier local de contenu. La recette navigateur contrôle les titres, les traductions, les boutons et les mises en page de 320 à 1440 pixels. Le repère du hero et son titre sont regroupés dans le flux pour éviter le chevauchement observé avec le nouveau titre sur ordinateur.
 
+## Variantes constatées après livraison
+
+La recette publique du 20 octobre, après le déploiement du commit `1f4ead0`, a relevé deux variantes enregistrées en production : "Un podcast pour y voir plus clair." et "Podcast indépendant · IA · développement · open source". Les dictionnaires Git attestaient déjà ces deux textes historiques. Leur ajout à la liste fermée corrige le titre et le sur-titre dans les quatre langues sans connexion admin ni modification du stockage. Les tests vérifient ces valeurs exactes et conservent les contrôles des textes personnalisés.
+
 ## Livraison
 
 Le changement reste local jusqu'à autorisation de publication. Les profils sociaux disposent de textes préparés séparément ; ce travail ne les modifie pas à distance.

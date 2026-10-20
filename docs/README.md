@@ -1,10 +1,12 @@
 # Documentation
 
+Livraison PR 99 et recette publique du 20 octobre : [déploiement, mobile, trois passages Cloudflare et publication News](site/verification-production-2026-10-20.md). Le relevé distingue les résultats distants des corrections complémentaires de découverte ([DD-0072](design-decisions/dd-0072-reprise-persistante-decouverte-github.md)) et des anciens textes de l'accueil.
+
 Direction des six slides de l'épisode 003 : [DD-0071](design-decisions/dd-0071-direction-artistique-slides-episode-003.md).
 
-Mobile et langues, 20 octobre : [logo, menu tactile et footer compact](site/responsive-mobile-2026-10-20.md), [textes et miniatures vidéo localisés](site/mobile-i18n-video-2026-10-20.md), selon [DD-0067](design-decisions/dd-0067-miniatures-video-et-textes-localises.md). Corrections vérifiées localement avant livraison.
+Mobile et langues, 20 octobre : [logo, menu tactile et footer compact](site/responsive-mobile-2026-10-20.md), [textes et miniatures vidéo localisés](site/mobile-i18n-video-2026-10-20.md), selon [DD-0067](design-decisions/dd-0067-miniatures-video-et-textes-localises.md). Corrections livrées dans la PR 99 puis contrôlées en production, selon le relevé ci-dessus.
 
-Automatisation News et classements, 20 octobre : [fonctionnement, horaires et reprise des créneaux manqués](site/automatisation-news-charts-2026-10-20.md), [audit backend et preuves distantes](site/audit-automatisation-2026-10-20.md) et [ADR-0038](adr/ADR-0038-reprise-horaire-des-classements.md). Les vues distinguent désormais collecte et publication ; les correctifs restent locaux avant livraison autorisée.
+Automatisation News et classements, 20 octobre : [fonctionnement, horaires et reprise des créneaux manqués](site/automatisation-news-charts-2026-10-20.md), [audit backend et preuves distantes](site/audit-automatisation-2026-10-20.md) et [ADR-0038](adr/ADR-0038-reprise-horaire-des-classements.md). Les vues distinguent collecte et publication depuis la PR 99. Le contrôle Cloudflare est actif ; les écarts révélés par la recette distante sont consignés dans le relevé de production.
 
 Accueil recentré sur l'impact de l'IA dans les entreprises, plateau au scroll, portraits simples et LinkedIn dans le footer : [DD-0064](design-decisions/dd-0064-accueil-impact-ia-et-plateau-au-scroll.md) et [recette locale du 20 octobre](site/accueil-impact-ia-2026-10-20.md).
 

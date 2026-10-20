@@ -6,13 +6,13 @@ Le compte cible est celui renseigné dans `wrangler.jsonc`. La configuration loc
 
 ## État déployé au 20 octobre 2026
 
-Le Worker est déployé à [sandbox-automation-watchdog.sandbox-podcast-pro.workers.dev](https://sandbox-automation-watchdog.sandbox-podcast-pro.workers.dev), version `9783b910-61f5-4b09-a37a-f42fafc6d663`. Le cron `*/5 * * * *` est configuré avec `ENABLED=true` et `DRY_RUN=true` : les contrôles s'exécutent en observation, sans dispatch GitHub ni réservation de tentative.
+Le Worker est déployé à [sandbox-automation-watchdog.sandbox-podcast-pro.workers.dev](https://sandbox-automation-watchdog.sandbox-podcast-pro.workers.dev), version `ec966bd7-56b2-4ea3-a6da-052165f5c772`. Après fusion de la PR 99, CI main verte et déploiement confirmé, le cron toutes les cinq minutes est activé avec ENABLED=true et DRY_RUN=false à 10:28 UTC.
 
 Le premier passage planifié observé porte `checkedAt=2026-10-20T09:05:12.647Z`. La santé renvoie HTTP 202, `schedulerOk=true` et `dataFresh=null`. Ce résultat confirme un premier contrôle distant ; il ne confirme ni la fraîcheur des données ni une cadence durable.
 
 Un jeton GitHub fin de quatre-vingt-dix jours a été créé pour le seul dépôt `Sandbox-podcast/sandbox-podcast-site`, avec Actions en lecture/écriture. Il est stocké chiffré dans le secret Cloudflare `GITHUB_ACTIONS_TOKEN` et expire le **18 janvier 2027**. Sa valeur n'est pas nécessaire aux vérifications documentaires et ne doit jamais être affichée.
 
-Les nouveaux modes de workflows ne sont pas encore livrés sur `main`. Conserver `DRY_RUN=true` jusqu'à l'autorisation Git et à cette livraison.
+Les nouveaux modes sont livrés sur main dans le commit 1f4ead0. Trois contrôles actifs à 10:30, 10:35 et 10:40 UTC sont constatés ; le premier déclenche News et la découverte Charts. News collecte et publie ensuite. La découverte expose encore deux défauts métier relevés après livraison ; leur correction locale et les preuves sont décrites dans [la recette de production](../../docs/site/verification-production-2026-10-20.md). Un dispatch réussi ne prouve pas à lui seul la fin du travail.
 
 ## Vérifier localement
 

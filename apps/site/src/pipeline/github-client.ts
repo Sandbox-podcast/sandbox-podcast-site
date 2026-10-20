@@ -169,7 +169,13 @@ export class GithubClient {
   async searchQuery(
     search: string,
     page = 1,
-  ): Promise<{ repositories: GithubRepository[]; next: boolean; incomplete: boolean }> {
+  ): Promise<{
+    repositories: GithubRepository[];
+    next: boolean;
+    incomplete: boolean;
+    incompleteResults: boolean;
+    truncated: boolean;
+  }> {
     if (!search || search.length > 256 || !Number.isInteger(page) || page < 1 || page > 10)
       throw new Error('Recherche GitHub invalide.');
     const query = new URLSearchParams({
@@ -190,6 +196,8 @@ export class GithubClient {
       repositories: parsed.items,
       next: page * 100 < Math.min(parsed.total_count, 1000),
       incomplete: parsed.incomplete_results || parsed.total_count > 1000,
+      incompleteResults: parsed.incomplete_results,
+      truncated: parsed.total_count > 1000,
     };
   }
   /** Vingt dépôts par appel, sans pagination des commits ou N+1 réseau. */

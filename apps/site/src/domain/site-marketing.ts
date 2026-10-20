@@ -28,10 +28,12 @@ const previousCopy: Record<MarketingField, readonly string[]> = {
   heroEyebrow: [
     'Actualité IA · outils · développement · open source',
     'Talk Show indépendant · IA · développement · open source',
+    'Podcast indépendant · IA · développement · open source',
   ],
   heroTitle: [
     "L'actualité de l'IA, testée et mise en perspective.",
     'Un Talk Show pour y voir plus clair.',
+    'Un podcast pour y voir plus clair.',
   ],
   heroDek: [
     "Chaque semaine, nous testons des outils d'IA, confrontons nos expériences et vérifions ce que les annonces changent vraiment. Retrouve les épisodes, leurs sources et nos classements commentés.",

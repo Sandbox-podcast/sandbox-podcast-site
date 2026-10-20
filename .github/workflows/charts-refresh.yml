@@ -30,7 +30,7 @@ jobs:
   discovery:
     if: (github.event_name == 'schedule' && github.event.schedule == '17 1 * * *') || (github.event_name == 'workflow_dispatch' && inputs.mode == 'discovery')
     runs-on: ubuntu-latest
-    # Deux appels de six minutes, au plus 150 s de précontrôle et la préparation du runner.
+    # Runner borné à quinze minutes, précontrôle borné à 150 s, puis préparation du runner.
     timeout-minutes: 20
     concurrency:
       group: charts-discovery-publish
@@ -55,26 +55,7 @@ jobs:
         env:
           CHARTS_ORIGIN: ${{ vars.SANDBOX_CHARTS_ORIGIN || 'https://www.sandboxpodcast.fr' }}
           CRON_SECRET: ${{ secrets.SANDBOX_CHARTS_CRON_SECRET }}
-        run: |
-          set -euo pipefail
-          test -n "$CHARTS_ORIGIN"
-          if [ "${#CRON_SECRET}" -lt 16 ]; then
-            echo '::error::Configurer SANDBOX_CHARTS_CRON_SECRET avec le secret CRON_SECRET de Vercel.'
-            exit 1
-          fi
-          case "$CHARTS_ORIGIN" in https://*) ;; *) echo "SANDBOX_CHARTS_ORIGIN doit utiliser HTTPS." >&2; exit 1 ;; esac
-          CHARTS_ORIGIN="${CHARTS_ORIGIN%/}"
-          call_job() {
-            # Un 503 applicatif peut suivre une collecte partielle déjà persistée.
-            # Ne pas rejouer trois fois ce travail dans la même fenêtre.
-            curl --silent --show-error --fail-with-body --retry 0 --max-time 360 \
-              --header "Authorization: Bearer $CRON_SECRET" \
-              "$CHARTS_ORIGIN/api/cron/$1"
-          }
-          result=0
-          call_job github-trending || result=1
-          call_job github-discovery || result=1
-          exit "$result"
+        run: node apps/site/scripts/charts-discovery.ts
 
   refresh:
     if: (github.event_name == 'schedule' && github.event.schedule == '17 3,15 * * *') || (github.event_name == 'workflow_dispatch' && inputs.mode != 'discovery')

@@ -362,7 +362,7 @@ export async function beginChartsJob(kind: string): Promise<string | null> {
     .set({
       status: 'failed',
       finishedAt: new Date().toISOString(),
-      details: ['Exécution interrompue ou bail expiré.'],
+      details: sql`(CASE WHEN jsonb_typeof(${chartsJobRuns.details}) = 'array' THEN ${chartsJobRuns.details} ELSE '[]'::jsonb END) || ${JSON.stringify(['Exécution interrompue ou bail expiré.'])}::jsonb`,
     })
     .where(
       and(

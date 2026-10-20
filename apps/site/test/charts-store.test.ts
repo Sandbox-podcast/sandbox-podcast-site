@@ -35,7 +35,15 @@ import {
   githubProjectDetail,
 } from '../src/lib/charts-public.ts';
 import { sandboxChartsData } from '../src/lib/sandbox-charts.ts';
-import { calculateGithubWeek, collectGithub } from '../src/pipeline/github-jobs.ts';
+import { calculateGithubWeek, collectGithub, discoverGithub } from '../src/pipeline/github-jobs.ts';
+import * as chartsStore from '../src/lib/charts-store.ts';
+import { loadGithubDiscoveryCursor } from '../src/pipeline/github-discovery-progress.ts';
+import {
+  initialGithubDiscoveryCursor,
+  githubDiscoveryCursorDetails,
+  readGithubDiscoveryCursor,
+} from '../src/domain/github-discovery-progress.ts';
+import { chartsJobHttpStatus } from '../src/domain/charts-job-status.ts';
 import { collectModels } from '../src/pipeline/external-jobs.ts';
 import { GithubClient, GithubRateLimitError } from '../src/pipeline/github-client.ts';
 import { ScorecardClient } from '../src/pipeline/scorecard-client.ts';
@@ -662,7 +670,10 @@ describe('pipeline charts sur Postgres', () => {
     vi.stubEnv('GITHUB_TRENDING_DISCOVERY_ENABLED', 'false');
     expect((await collectGithubBursts()).status).toBe('skipped');
     const fetcher = vi.fn<typeof fetch>();
-    expect((await discoverGithubTrending(new GithubClient(), fetcher)).status).toBe('skipped');
+    expect(await discoverGithubTrending(new GithubClient(), fetcher)).toMatchObject({
+      status: 'skipped',
+      skipReason: 'disabled',
+    });
     expect(fetcher).not.toHaveBeenCalled();
   });
   it('collecte Trending comme découverte datée, sans lui attribuer de rang officiel', async () => {
@@ -1234,5 +1245,327 @@ describe('pipeline charts sur Postgres', () => {
     expect(result.status).toBe('partial');
     expect(result.remaining).toBe(3);
     expect(await db.select().from(schema.githubDailySnapshots)).toHaveLength(9);
+  });
+});
+
+describe('découverte bornée avec checkpoint durable', () => {
+  const discoveryDate = '2026-10-20';
+  const queries = ['partition-a', 'partition-b'];
+  const pageResult = (index = 0, next = true) => ({
+    repositories: [repo(index)],
+    next,
+    incomplete: true,
+    incompleteResults: false,
+    truncated: true,
+  });
+  it('persiste après chaque upsert et reprend à la page suivante après le budget', async () => {
+    vi.stubEnv('GITHUB_TOKEN', 'fixture-token');
+    let now = 0;
+    const first = new GithubClient();
+    vi.spyOn(first, 'searchQuery').mockImplementation(async () => {
+      now = 220001;
+      return pageResult(0);
+    });
+    const partial = await discoverGithub(first, { date: discoveryDate, queries, now: () => now });
+    expect(partial.status).toBe('partial');
+    expect(chartsJobHttpStatus(partial.status)).toBe(503);
+    expect(await loadGithubDiscoveryCursor(discoveryDate, queries)).toMatchObject({
+      queryIndex: 0,
+      page: 2,
+    });
+    expect(await db.select().from(schema.githubProjects)).toHaveLength(1);
+    const second = new GithubClient();
+    const calls: [string, number | undefined][] = [];
+    vi.spyOn(second, 'searchQuery').mockImplementation(async (query, page) => {
+      calls.push([query, page]);
+      if (query === 'partition-b') {
+        // La page précédente et son checkpoint doivent être persistés avant la suivante.
+        expect(await loadGithubDiscoveryCursor(discoveryDate, queries)).toMatchObject({
+          queryIndex: 1,
+          page: 1,
+        });
+        expect(await db.select().from(schema.githubProjects)).toHaveLength(2);
+      }
+      return pageResult(calls.length, query === 'partition-a');
+    });
+    const completed = await discoverGithub(second, { date: discoveryDate, queries, now: () => 0 });
+    expect(calls).toEqual([
+      ['partition-a', 2],
+      ['partition-b', 1],
+    ]);
+    expect(completed).toMatchObject({ status: 'success', failed: 0, coverage: 'bounded-sample' });
+    expect(chartsJobHttpStatus(completed.status)).toBe(200);
+    expect(await loadGithubDiscoveryCursor(discoveryDate, queries)).toMatchObject({
+      queryIndex: 2,
+      page: 1,
+    });
+    const third = new GithubClient();
+    const search = vi.spyOn(third, 'searchQuery');
+    await discoverGithub(third, { date: discoveryDate, queries, now: () => 0 });
+    expect(search).not.toHaveBeenCalled();
+  });
+  it('ne déplace pas le checkpoint si l’écriture des dépôts échoue', async () => {
+    vi.stubEnv('GITHUB_TOKEN', 'fixture-token');
+    vi.spyOn(chartsStore, 'upsertDiscoveredRepositories').mockRejectedValueOnce(
+      new Error('fixture storage unavailable'),
+    );
+    const client = new GithubClient();
+    vi.spyOn(client, 'searchQuery').mockResolvedValue(pageResult());
+    const result = await discoverGithub(client, { date: discoveryDate, queries, now: () => 0 });
+    expect(result).toMatchObject({ status: 'partial', failed: 1, succeeded: 0 });
+    expect(await loadGithubDiscoveryCursor(discoveryDate, queries)).toMatchObject({
+      queryIndex: 0,
+      page: 1,
+    });
+    expect(await db.select().from(schema.githubProjects)).toHaveLength(0);
+  });
+  it.each(['incomplete', 'rate-limit', 'network'])(
+    'conserve la page à reprendre après %s',
+    async (failure) => {
+      vi.stubEnv('GITHUB_TOKEN', 'fixture-token');
+      const client = new GithubClient();
+      const search = vi.spyOn(client, 'searchQuery');
+      if (failure === 'incomplete')
+        search.mockResolvedValue({ ...pageResult(), incompleteResults: true });
+      else
+        search.mockRejectedValue(
+          failure === 'rate-limit'
+            ? new GithubRateLimitError('2026-10-20T11:00:00Z')
+            : new Error('fixture network failure'),
+        );
+      const result = await discoverGithub(client, { date: discoveryDate, queries, now: () => 0 });
+      expect(result.status).toBe('partial');
+      expect(result.failed).toBe(1);
+      expect(chartsJobHttpStatus(result.status)).toBe(503);
+      expect(await loadGithubDiscoveryCursor(discoveryDate, queries)).toMatchObject({
+        queryIndex: 0,
+        page: 1,
+      });
+    },
+  );
+  it('reprend le checkpoint conservé après expiration du bail interrompu', async () => {
+    vi.stubEnv('GITHUB_TOKEN', 'fixture-token');
+    const cursor = { ...initialGithubDiscoveryCursor(discoveryDate, queries), page: 2 };
+    await db.insert(schema.chartsJobRuns).values({
+      id: 'interrupted-discovery',
+      kind: 'github_discovery',
+      status: 'running',
+      startedAt: '2026-10-19T00:00:00Z',
+      details: githubDiscoveryCursorDetails([], cursor),
+    });
+    const client = new GithubClient();
+    const search = vi.spyOn(client, 'searchQuery').mockResolvedValue(pageResult(0, false));
+    await discoverGithub(client, { date: discoveryDate, queries, now: () => 0 });
+    expect(search.mock.calls[0]).toEqual(['partition-a', 2]);
+    expect(await loadGithubDiscoveryCursor(discoveryDate, queries)).toMatchObject({
+      queryIndex: 2,
+    });
+  });
+
+  it('lit sous verrou le checkpoint le plus récent disponible à l’acquisition', async () => {
+    vi.stubEnv('GITHUB_TOKEN', 'fixture-token');
+    const initial = initialGithubDiscoveryCursor(discoveryDate, queries);
+    await db.insert(schema.chartsJobRuns).values({
+      id: 'older-checkpoint',
+      kind: 'github_discovery',
+      status: 'partial',
+      startedAt: '2026-10-19T00:00:00Z',
+      details: githubDiscoveryCursorDetails([], initial),
+    });
+    const begin = chartsStore.beginChartsJob;
+    vi.spyOn(chartsStore, 'beginChartsJob').mockImplementationOnce(async (kind) => {
+      await db.insert(schema.chartsJobRuns).values({
+        id: 'finished-between-load-and-lock',
+        kind: 'github_discovery',
+        status: 'success',
+        startedAt: '2026-10-20T00:00:00Z',
+        finishedAt: '2026-10-20T00:01:00Z',
+        details: githubDiscoveryCursorDetails([], { ...initial, page: 2 }),
+      });
+      return begin(kind);
+    });
+    const client = new GithubClient();
+    const search = vi.spyOn(client, 'searchQuery').mockResolvedValue(pageResult(0, false));
+    await discoverGithub(client, { date: discoveryDate, queries, now: () => 0 });
+    expect(search.mock.calls[0]).toEqual(['partition-a', 2]);
+    expect(await loadGithubDiscoveryCursor(discoveryDate, queries)).toMatchObject({
+      queryIndex: 2,
+    });
+  });
+
+  it('retrouve le dernier marker après une coupure du nouveau job avant son premier checkpoint', async () => {
+    vi.stubEnv('GITHUB_TOKEN', 'fixture-token');
+    const initial = initialGithubDiscoveryCursor(discoveryDate, queries);
+    const marker = githubDiscoveryCursorDetails(['older warning'], { ...initial, page: 2 });
+    await db.insert(schema.chartsJobRuns).values([
+      {
+        id: 'previous-progress',
+        kind: 'github_discovery',
+        status: 'partial',
+        startedAt: '2026-10-19T00:00:00Z',
+        details: marker,
+      },
+      {
+        id: 'crashed-before-first-checkpoint',
+        kind: 'github_discovery',
+        status: 'running',
+        startedAt: '2026-10-19T00:01:00Z',
+        details: [],
+      },
+    ]);
+    const client = new GithubClient();
+    const search = vi.spyOn(client, 'searchQuery').mockImplementation(async () => {
+      // Le nouveau job a déjà hérité durablement du checkpoint avant le premier réseau.
+      const active = (await db.select().from(schema.chartsJobRuns)).find(
+        (row) => row.status === 'running',
+      );
+      expect(active).toBeDefined();
+      expect(readGithubDiscoveryCursor(active?.details, discoveryDate, queries)).toMatchObject({
+        page: 2,
+      });
+      return pageResult(0, false);
+    });
+    await discoverGithub(client, { date: discoveryDate, queries, now: () => 0 });
+    expect(search.mock.calls[0]).toEqual(['partition-a', 2]);
+  });
+  it('conserve les détails et le marker quand beginChartsJob expire un bail', async () => {
+    const marker = githubDiscoveryCursorDetails(['warning'], {
+      ...initialGithubDiscoveryCursor(discoveryDate, queries),
+      page: 2,
+    });
+    await db.insert(schema.chartsJobRuns).values({
+      id: 'expired-with-marker',
+      kind: 'github_discovery',
+      status: 'running',
+      startedAt: '2026-10-19T00:00:00Z',
+      details: marker,
+    });
+    expect(await beginChartsJob('github_discovery')).toBeTruthy();
+    const [expired] = await db
+      .select()
+      .from(schema.chartsJobRuns)
+      .where(eq(schema.chartsJobRuns.id, 'expired-with-marker'));
+    expect(expired?.status).toBe('failed');
+    expect(expired?.finishedAt).toBeTruthy();
+    expect(expired?.details).toEqual([...marker, 'Exécution interrompue ou bail expiré.']);
+  });
+
+  it('termine les huit pages restantes après un premier passage de cinquante pages sur vingt-neuf partitions', async () => {
+    vi.stubEnv('GITHUB_TOKEN', 'fixture-token');
+    vi.spyOn(chartsStore, 'upsertDiscoveredRepositories').mockImplementation(async () => 0);
+    const plan = Array.from({ length: 29 }, (_, index) => `partition-${index}`);
+    let now = 0;
+    const client = new GithubClient();
+    const search = vi.spyOn(client, 'searchQuery').mockImplementation(async () => {
+      now += 4400;
+      return {
+        ...pageResult(),
+        repositories: Array.from({ length: 100 }, (_, index) => repo(index)),
+      };
+    });
+    const first = await discoverGithub(client, {
+      date: discoveryDate,
+      queries: plan,
+      now: () => now,
+    });
+    expect(first).toMatchObject({ status: 'partial', processed: 5000, failed: 0, remaining: 8 });
+    expect(first.continuation).toMatchObject({
+      reason: 'budget',
+      from: { queryIndex: 0, page: 1 },
+      next: { queryIndex: 25, page: 1 },
+    });
+    expect(search).toHaveBeenCalledTimes(50);
+    search.mockClear();
+    const second = await discoverGithub(client, {
+      date: discoveryDate,
+      queries: plan,
+      now: () => 0,
+    });
+    expect(second).toMatchObject({ status: 'success', processed: 800, failed: 0 });
+    expect(search).toHaveBeenCalledTimes(8);
+    expect(await loadGithubDiscoveryCursor(discoveryDate, plan)).toMatchObject({
+      queryIndex: 29,
+      page: 1,
+    });
+  });
+  it('distingue le plafond de recherche de véritables résultats GitHub incomplets', async () => {
+    const fetcher = vi
+      .fn<typeof fetch>()
+      .mockResolvedValue(
+        new Response(
+          JSON.stringify({ total_count: 2000, incomplete_results: false, items: [repo(0)] }),
+          { status: 200 },
+        ),
+      );
+    const result = await new GithubClient({ fetch: fetcher }).searchQuery('partition-a');
+    expect(result).toMatchObject({ incomplete: true, incompleteResults: false, truncated: true });
+    fetcher.mockResolvedValue(
+      new Response(JSON.stringify({ total_count: 1, incomplete_results: true, items: [repo(0)] }), {
+        status: 200,
+      }),
+    );
+    expect(await new GithubClient({ fetch: fetcher }).searchQuery('partition-a')).toMatchObject({
+      incompleteResults: true,
+      truncated: false,
+    });
+  });
+});
+
+describe('Trending : exclusions et erreurs distinctes', () => {
+  const html = '<article><h2><a href="/sandbox-fixture/project-0">Fixture</a></h2></article>';
+  const fetcher = () =>
+    Promise.resolve(new Response(html, { headers: { 'Content-Type': 'text/html' } }));
+  it('exclut les dépôts hors critères sans annoncer une panne', async () => {
+    vi.stubEnv('GITHUB_TRENDING_DISCOVERY_ENABLED', 'true');
+    const client = new GithubClient();
+    vi.spyOn(client, 'batch').mockResolvedValue([
+      { fullName: 'sandbox-fixture/project-0', repository: repo(0), error: null, commits7d: null },
+      {
+        fullName: 'sandbox-fixture/project-1',
+        repository: { ...repo(1), archived: true },
+        error: null,
+        commits7d: null,
+      },
+      {
+        fullName: 'sandbox-fixture/project-2',
+        repository: { ...repo(2), license: { spdx_id: 'Proprietary' } },
+        error: null,
+        commits7d: null,
+      },
+    ]);
+    const result = await discoverGithubTrending(client, fetcher, new Date('2026-10-20T01:17:00Z'));
+    expect(result).toMatchObject({
+      processed: 3,
+      succeeded: 1,
+      filtered: 2,
+      failed: 0,
+      status: 'success',
+    });
+    expect(chartsJobHttpStatus(result.status)).toBe(200);
+    expect(await db.select().from(schema.githubProjects)).toHaveLength(1);
+  });
+  it('garde les métadonnées absentes ou en erreur en échec', async () => {
+    vi.stubEnv('GITHUB_TRENDING_DISCOVERY_ENABLED', 'true');
+    const client = new GithubClient();
+    vi.spyOn(client, 'batch').mockResolvedValue([
+      { fullName: 'sandbox-fixture/project-0', repository: null, error: null, commits7d: null },
+      {
+        fullName: 'sandbox-fixture/project-1',
+        repository: repo(1),
+        error: 'GraphQL failure',
+        commits7d: null,
+      },
+    ]);
+    const result = await discoverGithubTrending(client, fetcher, new Date('2026-10-20T01:17:00Z'));
+    expect(result).toMatchObject({ failed: 2, succeeded: 0, status: 'partial' });
+    expect(chartsJobHttpStatus(result.status)).toBe(503);
+  });
+  it('garde une panne réseau Trending en échec', async () => {
+    vi.stubEnv('GITHUB_TRENDING_DISCOVERY_ENABLED', 'true');
+    const result = await discoverGithubTrending(new GithubClient(), async () => {
+      throw new Error('fixture network failure');
+    });
+    expect(result).toMatchObject({ status: 'failed', failed: 1 });
+    expect(chartsJobHttpStatus(result.status)).toBe(503);
   });
 });
