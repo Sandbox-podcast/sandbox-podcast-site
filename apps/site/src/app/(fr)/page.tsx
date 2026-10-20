@@ -27,11 +27,10 @@ export async function generateMetadata({
   await preparePublicEditorialContent();
   const hasPublishedEpisode = allEpisodes().some(indexableEpisode);
   return pageMetadata({
-    title: interpolateText("{name} : actualité IA, tests d'outils et podcast tech", {
+    title: interpolateText("{name} : ce que l'IA change pour les produits et les équipes tech", {
       name: siteConfig.name,
     }),
-    description:
-      "Un podcast vidéo sur l'actualité de l'intelligence artificielle et de la tech. Chaque semaine, Lou, Loïc et Nico testent des outils IA, débattent de leurs usages et citent leurs sources.",
+    description: siteConfig.description,
     path: '/',
     noindex:
       (!hasPublishedEpisode &&

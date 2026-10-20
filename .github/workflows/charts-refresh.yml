@@ -1,4 +1,5 @@
 name: SANDBOX CHARTS refresh
+run-name: SANDBOX CHARTS ${{ inputs.mode || github.event.schedule || 'refresh' }}
 
 on:
   schedule:
@@ -6,9 +7,20 @@ on:
     - cron: '17 3,15 * * *'
     - cron: '23 * * * *'
   workflow_dispatch:
+    inputs:
+      mode:
+        description: Action à effectuer
+        type: choice
+        required: true
+        default: refresh
+        options:
+          - refresh
+          - recover
+          - discovery
 
 permissions:
   contents: read
+  actions: read
 
 concurrency:
   group: charts-${{ github.event.schedule || 'manual-refresh' }}
@@ -16,12 +28,30 @@ concurrency:
 
 jobs:
   discovery:
-    if: github.event_name == 'schedule' && github.event.schedule == '17 1 * * *'
+    if: (github.event_name == 'schedule' && github.event.schedule == '17 1 * * *') || (github.event_name == 'workflow_dispatch' && inputs.mode == 'discovery')
     runs-on: ubuntu-latest
-    # Deux appels de six minutes au maximum, avec une marge pour le runner.
-    timeout-minutes: 15
+    # Deux appels de six minutes, au plus 150 s de précontrôle et la préparation du runner.
+    timeout-minutes: 20
+    concurrency:
+      group: charts-discovery-publish
+      cancel-in-progress: false
     steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Relire la découverte du jour sous le verrou partagé
+        id: preflight
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node apps/site/scripts/automation-workflow-preflight.ts discovery
       - name: Collecter Trending et découvrir les candidats
+        if: steps.preflight.outputs.run-needed == 'true'
         env:
           CHARTS_ORIGIN: ${{ vars.SANDBOX_CHARTS_ORIGIN || 'https://www.sandboxpodcast.fr' }}
           CRON_SECRET: ${{ secrets.SANDBOX_CHARTS_CRON_SECRET }}
@@ -47,7 +77,7 @@ jobs:
           exit "$result"
 
   refresh:
-    if: (github.event_name == 'schedule' && github.event.schedule == '17 3,15 * * *') || github.event_name == 'workflow_dispatch'
+    if: (github.event_name == 'schedule' && github.event.schedule == '17 3,15 * * *') || (github.event_name == 'workflow_dispatch' && inputs.mode != 'discovery')
     runs-on: ubuntu-latest
     timeout-minutes: 30
     concurrency:
@@ -67,13 +97,22 @@ jobs:
         env:
           CHARTS_ORIGIN: ${{ vars.SANDBOX_CHARTS_ORIGIN || 'https://www.sandboxpodcast.fr' }}
           CRON_SECRET: ${{ secrets.SANDBOX_CHARTS_CRON_SECRET }}
-        run: node apps/site/scripts/charts-refresh.ts
+          AUTOMATION_MODE: ${{ github.event_name == 'workflow_dispatch' && (inputs.mode || 'refresh') == 'refresh' && 'refresh' || 'recover' }}
+        run: |
+          set -euo pipefail
+          if [ "$AUTOMATION_MODE" = 'refresh' ]; then
+            node apps/site/scripts/charts-refresh.ts
+          else
+            node apps/site/scripts/charts-refresh.ts --recover
+          fi
 
   freshness:
     # Ce contrôle public reste possible même sans secret de collecte.
     if: github.event_name == 'schedule' && github.event.schedule == '23 * * * *'
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    outputs:
+      recovery-needed: ${{ steps.public-check.outputs.recovery-needed }}
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
@@ -85,6 +124,7 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - name: Contrôler les éditions servies aux lecteurs
+        id: public-check
         env:
           CHARTS_ORIGIN: ${{ vars.SANDBOX_CHARTS_ORIGIN || 'https://www.sandboxpodcast.fr' }}
         run: node apps/site/scripts/charts-refresh.ts --check
@@ -102,6 +142,31 @@ jobs:
           test -n "$CRON_SECRET"
           case "$CHARTS_ORIGIN" in https://*) ;; *) echo "SANDBOX_CHARTS_ORIGIN doit utiliser HTTPS." >&2; exit 1 ;; esac
           CHARTS_ORIGIN="${CHARTS_ORIGIN%/}"
-          curl --silent --show-error --fail-with-body --retry 2 --retry-all-errors --max-time 360 \
+          curl --silent --show-error --fail-with-body --retry 0 --max-time 360 \
             --header "Authorization: Bearer $CRON_SECRET" \
             "$CHARTS_ORIGIN/api/cron/github-bursts"
+
+  recovery:
+    needs: freshness
+    # Le contrôle peut échouer sur Rising sans nécessiter de nouvelle collecte.
+    if: ${{ !cancelled() && needs.freshness.outputs.recovery-needed == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    concurrency:
+      group: charts-collect-publish
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Reprendre le créneau dû absent après une nouvelle vérification
+        env:
+          CHARTS_ORIGIN: ${{ vars.SANDBOX_CHARTS_ORIGIN || 'https://www.sandboxpodcast.fr' }}
+          CRON_SECRET: ${{ secrets.SANDBOX_CHARTS_CRON_SECRET }}
+        run: node apps/site/scripts/charts-refresh.ts --recover

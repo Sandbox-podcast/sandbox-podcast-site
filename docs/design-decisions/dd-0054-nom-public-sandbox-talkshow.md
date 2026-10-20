@@ -2,6 +2,8 @@
 
 Date : 2026-10-18. Décision demandée par Lou : utiliser "Sandbox TalkShow" sur tous les médias à la place de "Sandbox Podcast".
 
+Statut : remplacée pour les profils publics par [DD-0065](dd-0065-nom-public-sandbox-podcast.md), demandée le 20 octobre 2026. Le présent document conserve l'historique et les vérifications du 18 octobre.
+
 Le nom propre garde cette orthographe dans les quatre langues. Le site reprend ce nom dans ses réglages, le titre de la page des replays, les aperçus de partage et la page de confidentialité. Les anciens réglages publiés portant Sandbox ou Sandbox Podcast affichent aussi le nouveau nom ; un autre nom personnalisé reste respecté. Le kit YouTube et les métadonnées des prochains rendus de jingles sont alignés. Les URL, identifiants techniques, adresses de contact et contenus historiques restent stables. Cette décision précise DD-0042 et remplace le maintien de l'ancien nom prévu dans DD-0011.
 
 ## Contrôles des médias

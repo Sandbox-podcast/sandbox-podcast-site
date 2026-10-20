@@ -1,0 +1,82 @@
+.localized {
+  position: absolute;
+  inset: 0;
+  display: block;
+  overflow: hidden;
+  container-type: inline-size;
+  color: #f5ead6;
+  background: linear-gradient(130deg, #183f47, #07121a 70%);
+}
+.portraits {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 62%;
+  overflow: hidden;
+}
+.portraits img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.copy {
+  position: absolute;
+  inset: 0 0 0 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.55em;
+  padding: 6%;
+  background: linear-gradient(90deg, #09151af2, #09151a);
+}
+.brand {
+  color: #d9bd84;
+  font: 600 clamp(8px, 2cqw, 15px)/1.3 var(--font-sans);
+  letter-spacing: 0.12em;
+}
+.number {
+  color: #a8cdd1;
+  font: 500 clamp(8px, 1.8cqw, 13px)/1.3 var(--font-mono);
+  overflow-wrap: anywhere;
+}
+.title {
+  overflow-wrap: anywhere;
+  font: 600 clamp(11px, 3.2cqw, 30px)/1.16 var(--font-sans);
+  letter-spacing: -0.025em;
+  text-wrap: pretty;
+}
+.localized[data-with-portraits='false'] .copy {
+  left: 0;
+  background: transparent;
+}
+.localized[data-layout='portrait'] .portraits {
+  width: 100%;
+  height: 62%;
+}
+.localized[data-layout='portrait'] .copy {
+  inset: 62% 0 0;
+  padding: 7%;
+  justify-content: flex-start;
+  gap: 0.45em;
+  background: #09151a;
+}
+.localized[data-layout='portrait'] .title {
+  font-size: clamp(11px, 6cqw, 22px);
+}
+.localized[data-layout='portrait'] .brand,
+.localized[data-layout='portrait'] .number {
+  font-size: clamp(8px, 3.8cqw, 13px);
+}
+.localized[data-layout='portrait'][data-with-portraits='false'] .copy {
+  top: 0;
+  justify-content: center;
+}
+
+@container (max-width: 179px) {
+  .brand,
+  .title {
+    display: none;
+  }
+  .copy {
+    padding: 5%;
+  }
+}

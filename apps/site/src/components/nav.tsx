@@ -1,7 +1,7 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { isNavigationActive } from '@/domain/site-navigation';
 import { DEFAULT_SITE_LOCALE, SITE_LOCALES, localeLabel } from '@/i18n/locales';
 import { localizedHref, sourcePath } from '@/i18n/routing';
@@ -16,6 +16,31 @@ const ITEMS = [
   { href: '/nos-projets', label: 'Nos projets' },
 ];
 
+export function HomeLink({ children, className }: { children: ReactNode; className?: string }) {
+  const pathname = usePathname();
+  return (
+    <LocalizedLink
+      href="/"
+      aria-label="Accueil Sandbox"
+      className={className}
+      onClick={(event) => {
+        if (
+          sourcePath(pathname) === '/' &&
+          !event.metaKey &&
+          !event.ctrlKey &&
+          !event.shiftKey &&
+          !event.altKey
+        ) {
+          event.preventDefault();
+          window.scrollTo({ top: 0, behavior: 'instant' });
+        }
+      }}
+    >
+      {children}
+    </LocalizedLink>
+  );
+}
+
 export function MobileNav({
   locale = DEFAULT_SITE_LOCALE,
   newsAvailable = false,
@@ -25,13 +50,26 @@ export function MobileNav({
 }) {
   const pathname = usePathname();
   const menu = useRef<HTMLDetailsElement>(null);
+  const [hydrated, setHydrated] = useState(false);
   const { t } = useLocalization();
   useEffect(() => {
     if (menu.current) menu.current.open = false;
   }, [pathname]);
+  useEffect(() => {
+    setHydrated(true);
+    const dismiss = (event: PointerEvent) => {
+      if (event.target instanceof Node && menu.current && !menu.current.contains(event.target))
+        menu.current.open = false;
+    };
+    document.addEventListener('pointerdown', dismiss);
+    return () => {
+      document.removeEventListener('pointerdown', dismiss);
+    };
+  }, []);
   return (
     <details
       className="mobile-navigation"
+      data-hydrated={hydrated}
       ref={menu}
       onClick={(event) => {
         if (event.target instanceof Element && event.target.closest('a') && menu.current)
@@ -45,7 +83,7 @@ export function MobileNav({
       }}
     >
       <summary className="mobile-menu-trigger">
-        Menu <span aria-hidden="true">☰</span>
+        {t('Menu')} <span aria-hidden="true">☰</span>
       </summary>
       <div className="mobile-menu-panel">
         <MainNav locale={locale} newsAvailable={newsAvailable} />

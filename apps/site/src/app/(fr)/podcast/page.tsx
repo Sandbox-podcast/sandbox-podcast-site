@@ -12,9 +12,9 @@ export const dynamic = 'force-dynamic';
 export async function generateMetadata() {
   await preparePublicEditorialContent();
   return pageMetadata({
-    title: 'Podcast IA : actualité, outils et débats | Sandbox TalkShow',
+    title: 'Podcast IA : engineering, produit et équipes tech | SANDBOX',
     description:
-      "Le podcast vidéo de Sandbox sur l'actualité IA et la tech : essais d'outils, débats et retours d'expérience. Regarde les derniers épisodes et retrouve leurs sources.",
+      "Regarde SANDBOX : deux développeurs et un Product Manager confrontent leurs essais et leurs points de vue sur l'IA dans les produits et les équipes tech.",
     path: '/podcast',
     noindex: !allEpisodes().some(indexableEpisode),
   });
@@ -27,13 +27,18 @@ export default async function PodcastPage() {
       <header className="podcast-heading">
         <div>
           <h1 className="display">
-            <Text>Sandbox TalkShow</Text>
+            <Text>L'IA dans notre travail, en discussion.</Text>
           </h1>
           <p>
             <Text>
-              Lou, Loïc et Nico décryptent l'actualité de l'IA et de la tech, testent des outils et
-              confrontent leurs expériences.
+              Dans SANDBOX, nous discutons de l'IA dans les produits et les équipes tech. Lou,
+              Nicolas et Loïc y confrontent leurs expériences, leurs essais et leurs désaccords.
+              Regarde les replays et retrouve les ressources citées pour poursuivre tes propres
+              recherches.
             </Text>
+          </p>
+          <p className="label mt-3">
+            <Text>Vidéos en français.</Text>
           </p>
         </div>
         <a
@@ -59,25 +64,25 @@ export default async function PodcastPage() {
           <div>
             <dt>Le Radar</dt>
             <dd>
-              <Text>L'actualité IA et tech.</Text>
+              <Text>Les annonces et leurs conséquences pour notre travail.</Text>
             </dd>
           </div>
           <div>
             <dt>Le Build</dt>
             <dd>
-              <Text>Nos projets et retours d'expérience.</Text>
+              <Text>Nos projets, nos essais et ce que nous en apprenons.</Text>
             </dd>
           </div>
           <div>
             <dt>Le Clash</dt>
             <dd>
-              <Text>Nos débats et nos désaccords.</Text>
+              <Text>Les points sur lesquels nos expériences et nos convictions divergent.</Text>
             </dd>
           </div>
           <div>
             <dt>La Bêta</dt>
             <dd>
-              <Text>Ce qu'on essaie en ce moment.</Text>
+              <Text>Les technologies et les usages que nous voulons explorer.</Text>
             </dd>
           </div>
         </dl>

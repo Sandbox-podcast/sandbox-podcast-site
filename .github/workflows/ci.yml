@@ -43,6 +43,12 @@ jobs:
       - run: pnpm lint
       - run: pnpm typecheck
       - run: pnpm test
+      - name: Installer l'outil officiel de recette Cloudflare
+        run: npm install --prefix apps/site/.local/watchdog-tools --no-audit --no-fund --package-lock=false wrangler@4.151.2
+      - name: Compiler le contrôleur sans déploiement
+        run: node apps/site/scripts/build-automation-watchdog-worker.mjs
+      - name: Vérifier le Worker et son stockage SQLite sans appel distant
+        run: pnpm --filter @podcast/site test:automation:worker
       # Le build du site génère toutes les pages statiques et les images OpenGraph : il échoue si un contenu ou une route est cassé.
       - run: pnpm --filter @podcast/site build
       - run: pnpm --filter @podcast/site test:og:tracing

@@ -51,66 +51,96 @@ export function verifyPublishedEdition(
   return { ok: true, edition, reason: 'Édition publique vérifiée.' };
 }
 
+/** Reprend seulement le créneau courant après son horaire prévu, sans attendre Rising. */
+export function planChartsRecovery(
+  editions: readonly { chart: string; value: unknown }[],
+  now: Date,
+): { needed: boolean; slot: string; missing: string[] } {
+  const slot = refreshSlotId(now);
+  const minutesInHalfDay = (now.getUTCHours() % 12) * 60 + now.getUTCMinutes();
+  if (minutesInHalfDay < 3 * 60 + 17) return { needed: false, slot, missing: [] };
+  const missing = ['github', 'skills', 'models'].filter((chart) => {
+    const edition = editions.find((candidate) => candidate.chart === chart);
+    return !verifyPublishedEdition(edition?.value, chart, now, slot).ok;
+  });
+  return { needed: missing.length > 0, slot, missing };
+}
+
 export interface RefreshTransport {
   job: (name: string) => Promise<unknown>;
   current: (chart: string) => Promise<unknown>;
   wait: () => Promise<void>;
+  mayRunJob?: () => boolean;
 }
 
 /** Les trois collecteurs restent indépendants ; leurs échecs sont tous rapportés. */
-export async function refreshCharts(transport: RefreshTransport, now = new Date()) {
+export async function refreshCharts(
+  transport: RefreshTransport,
+  now = new Date(),
+  charts: readonly string[] = ['github', 'skills', 'models'],
+) {
   const slot = refreshSlotId(now);
   const grouped = await Promise.all(
     [
       ['github', 'github-daily', 'github-freeze'],
       ['skills', 'skills-daily', 'skills-freeze'],
       ['models', 'models-daily', 'models-freeze'],
-    ].map(async ([chart, collect, freeze]) => {
-      if (!chart || !collect || !freeze) throw new Error('Chaîne de collecte invalide.');
-      const statuses: string[] = [];
-      for (let attempt = 0; attempt < 3; attempt++) {
-        try {
-          const summary = refreshSummarySchema.parse(await transport.job(collect));
-          statuses.push(summary.status);
-          if (summary.status === 'success' && !summary.remaining) break;
-          if (['insufficient_history', 'awaiting_review'].includes(summary.status)) break;
-        } catch {
-          statuses.push('failed');
-        }
-        if (attempt < 2) await transport.wait();
-      }
-      // Même après un timeout, le serveur peut avoir persisté une collecte exploitable.
-      try {
-        const summary = refreshSummarySchema.parse(await transport.job(freeze));
-        statuses.push(summary.status);
-      } catch {
-        statuses.push('failed');
-      }
-      return Promise.all(
-        (chart === 'github' ? ['github', 'rising'] : [chart]).map(async (publicChart) => {
-          try {
-            return {
-              chart: publicChart,
-              statuses,
-              ...verifyPublishedEdition(
-                await transport.current(publicChart),
-                publicChart,
-                new Date(Math.max(now.getTime(), Date.now())),
-                slot,
-              ),
-            };
-          } catch {
-            return {
-              chart: publicChart,
-              statuses,
-              ok: false,
-              edition: null,
-              reason: 'Vérification publique indisponible.',
-            };
+    ]
+      .filter(([chart]) => chart && charts.includes(chart))
+      .map(async ([chart, collect, freeze]) => {
+        if (!chart || !collect || !freeze) throw new Error('Chaîne de collecte invalide.');
+        const statuses: string[] = [];
+        for (let attempt = 0; attempt < 3; attempt++) {
+          if (transport.mayRunJob && !transport.mayRunJob()) {
+            statuses.push('skipped');
+            break;
           }
-        }),
-      );
-    }),
+          try {
+            const summary = refreshSummarySchema.parse(await transport.job(collect));
+            statuses.push(summary.status);
+            if (summary.status === 'success' && !summary.remaining) break;
+            if (['insufficient_history', 'awaiting_review'].includes(summary.status)) break;
+          } catch {
+            statuses.push('failed');
+          }
+          if (attempt < 2) await transport.wait();
+        }
+        // Même après un timeout, le serveur peut avoir persisté une collecte exploitable.
+        if (!transport.mayRunJob || transport.mayRunJob()) {
+          try {
+            const summary = refreshSummarySchema.parse(await transport.job(freeze));
+            statuses.push(summary.status);
+          } catch {
+            statuses.push('failed');
+          }
+        } else {
+          statuses.push('skipped');
+        }
+        return Promise.all(
+          (chart === 'github' ? ['github', 'rising'] : [chart]).map(async (publicChart) => {
+            try {
+              return {
+                chart: publicChart,
+                statuses,
+                ...verifyPublishedEdition(
+                  await transport.current(publicChart),
+                  publicChart,
+                  new Date(Math.max(now.getTime(), Date.now())),
+                  slot,
+                ),
+              };
+            } catch {
+              return {
+                chart: publicChart,
+                statuses,
+                ok: false,
+                edition: null,
+                reason: 'Vérification publique indisponible.',
+              };
+            }
+          }),
+        );
+      }),
   );
   const results = grouped.flat();
   return { ok: results.every((result) => result.ok), slot, results };

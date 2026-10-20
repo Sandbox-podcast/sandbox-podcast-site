@@ -41,11 +41,13 @@ Voir aussi [DD-0007](../design-decisions/DD-0007-sous-domaine-des-presentations.
 
 ## Épisode 003 en préparation
 
-Le [support du troisième épisode](episode-003-preparation.md) vise 75 minutes, entre 60 et 90 minutes maximum. Ses 21 écrans comprennent les dix candidats du Radar à trier par l'équipe, un seul Build de 30 minutes sur frontend-design, trois questions de Clash et la Bêta. Les notes donnent les sources, les limites et le minutage. Lou demande une PR V1 le 18 octobre, sans fusion ni déploiement en production.
+Le [support du troisième épisode](episode-003-preparation.md) compte six écrans : un lobby pour chacune des séquences Introduction, Radar, Talk et Clash, une slide de cas d’usage dans le Talk et une question dans le Clash. Le Radar ne contient aucune actualité pour l’instant ; l’équipe ajoutera les trois sujets plus tard.
 
-Le parcours conserve Radar, Build, Clash, Bêta, avec les quatre pages de séquence illustrées et leurs accès directs. L'[analyse croisée de cinq agents](episode-003-analyse-croisee-reseaux.md), le [corpus social](episode-003-corpus-social.md) et les autres essais restent en réserve, hors du conducteur. L'ancien lien `?view=shorts` ne masque plus les séquences. Les choix restent conservés par sujet dans le navigateur.
+La slide du Talk présente le catalogue produits intégré dans un agent et demande ce que cela permet aux équipes. Celle du Clash pose la question de la mise en production en entreprise d’un produit développé en vibe coding. Les anciennes données de préparation restent sur disque, mais ne sont pas chargées par le support.
 
-Pour le partage d'écran, `P` active le mode live sans régie, `F` demande le plein écran du navigateur et `I` affiche l'image seule. Sans cette dernière option, les images du Radar occupent 80 % de la largeur en paysage, avec le texte compact à droite. Le support suit la taille de la fenêtre, sans cadre limité à 1920 pixels.
+Les six écrans utilisent des illustrations photoréalistes inspirées du plateau de podcast, du vidéoclub et du rétrofuturisme du site. Voir [la direction artistique de l’épisode 003](episode-003-direction-artistique.md).
+
+Pour le partage d’écran, `P` active le mode live sans régie et `F` demande le plein écran du navigateur. Le support suit la taille de la fenêtre.
 
 ## Épisode 002
 

@@ -14,6 +14,8 @@ export {
 } from './content-translation-schema.ts';
 export type { TranslationSourcePack, TranslatedBundle } from './content-translation-schema.ts';
 import { normalizeTranslationKey, type TranslationDictionary } from '../i18n/translation.ts';
+import { episodeChapters } from './episode-presentation.ts';
+import { episodeResources } from './episode-resources.ts';
 
 export interface TranslationSource {
   source: string;
@@ -110,8 +112,8 @@ export function editorialTranslationSources(content: EditableContent): Translati
       prose(episode[field], `${context}.${field}`);
     add(episode.cover.kicker, `${context}.cover`);
     for (const guest of episode.guests) add(guest.role, `${context}.guests`);
-    for (const chapter of episode.chapters) add(chapter.title, `${context}.chapters`);
-    for (const mention of episode.mentions) {
+    for (const chapter of episodeChapters(episode)) add(chapter.title, `${context}.chapters`);
+    for (const mention of episodeResources(episode)) {
       add(mention.label, `${context}.mentions`);
       prose(mention.note, `${context}.mentions`);
     }

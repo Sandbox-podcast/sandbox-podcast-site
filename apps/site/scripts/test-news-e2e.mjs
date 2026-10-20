@@ -8,6 +8,7 @@ import { log } from 'node:console';
 import { chromium } from 'playwright';
 import { startBadgeFixture } from './badges-fixture-server.mjs';
 import { NEWS_MEDIA } from '../src/domain/news-media.ts';
+import { HOME_STUDIO_WIDE_IMAGE } from '../src/domain/home-studio.ts';
 
 const { fetch } = globalThis;
 
@@ -219,10 +220,17 @@ try {
     'La file privée conserve le candidat et ne le retraite pas après publication, même avant accusé.',
   );
   report.checks.push('L’API persiste la fiche dans Postgres et évite un second enregistrement.');
+  const publishedFeed = await (await fetch(`${fixture.origin}/api/news`)).json();
+  assert.ok(publishedFeed.lastPublishedAt);
+  assert.ok(Date.parse(publishedFeed.lastPublishedAt) >= Date.parse(now));
+  assert.equal(publishedFeed.checkedAt, now);
   await page.goto(fixture.origin);
   assert.ok((await page.locator('a[href="/news"]').count()) >= 2);
-  assert.ok((await page.locator('img[src*="studio-news-radar-v4"]').count()) > 0);
-  report.checks.push('Le premier article ouvre les accès News et le décor radar.');
+  assert.equal(await page.locator('[data-object="news"][href="/news"]').count(), 1);
+  assert.ok(
+    (await page.locator(`img[src*="${HOME_STUDIO_WIDE_IMAGE.split('/').at(-1)}"]`).count()) > 0,
+  );
+  report.checks.push('Le premier article ouvre les accès News et le radar cliquable du plateau.');
 
   for (const viewport of [
     { width: 1440, height: 900 },
@@ -231,6 +239,17 @@ try {
     await page.setViewportSize(viewport);
     for (const [locale, path] of paths) {
       await visit(path, true);
+      const updateTimes = page.locator('dl time');
+      assert.equal(await updateTimes.count(), 2);
+      assert.equal(
+        await updateTimes.nth(0).getAttribute('datetime'),
+        publishedFeed.lastPublishedAt,
+      );
+      assert.equal(await updateTimes.nth(1).getAttribute('datetime'), now);
+      for (const time of await updateTimes.all()) {
+        assert.ok(await time.isVisible());
+        assert.match(await time.innerText(), /Europe\/Paris/);
+      }
       const row = page.locator('ol details').filter({ hasText: titles[locale] });
       assert.equal(await row.count(), 1);
       await row.locator('summary').click();
@@ -248,6 +267,9 @@ try {
   }
   report.checks.push(
     'Les huit pages desktop/mobile rendent titre, trois phrases, source, canonique et hreflang.',
+  );
+  report.checks.push(
+    'Les huit pages affichent séparément les dates réelles de publication et de collecte, en heure de Paris.',
   );
   await page.goto(fixture.origin + '/news', { waitUntil: 'domcontentloaded' });
   await page.locator('[data-news-hydrated="true"]').waitFor();
@@ -302,7 +324,7 @@ try {
   assert.equal((await fetch(endpoint, { headers })).status, 503);
   await page.screenshot({ path: fileURLToPath(new URL('unavailable.png', output)) });
   await page.goto(fixture.origin);
-  assert.equal(await page.locator('img[src*="studio-news-radar-v4"]').count(), 0);
+  assert.equal(await page.locator('[data-object="news"]').count(), 0);
   report.checks.push('Une panne SQL masque la rubrique publique et conserve l’API en 503.');
   assert.deepEqual(report.browserErrors, []);
   log(`PASS News: ${report.checks.length} groupes de vérification, aucune erreur JavaScript.`);

@@ -16,6 +16,7 @@ import {
 import { isNavigationActive } from '../src/domain/site-navigation';
 import { localizedHref } from '../src/i18n/routing';
 import { matchSharedPage } from '../src/i18n/page-routes';
+import { siteDictionary } from '../src/i18n/dictionaries';
 import { personalProject, personalProjects } from '../src/lib/personal-projects';
 
 describe('catalogue des projets personnels', () => {
@@ -121,20 +122,29 @@ describe('catalogue des projets personnels', () => {
     expect(metadata.alternates?.canonical).toBe('/nos-projets/sillage');
   });
 
-  it('rend le catalogue et les liens de fiches dans les autres langues', () => {
-    const html = renderToStaticMarkup(
-      createElement(LocalizationProvider, {
-        locale: 'en',
-        dictionary: { 'Nos projets': 'Our projects' },
-        children: createElement(PersonalProjectsPage),
-      }),
-    );
-    expect(html).toContain('Our projects');
-    expect(html).toContain('href="/en/nos-projets/sillage"');
-    expect(html).toContain('placeholder="Rechercher un projet"');
-    for (const project of personalProjects)
-      expect(html).toContain(personalProjectPath(project.slug));
-  });
+  it.each([
+    ['en', 'en', 'What we build.', 'Search projects'],
+    ['es-ES', 'es-es', 'Lo que construimos.', 'Buscar un proyecto'],
+    ['de-DE', 'de-de', 'Was wir entwickeln.', 'Projekt suchen'],
+  ] as const)(
+    'rend le catalogue et les liens de fiches en %s avec le dictionnaire public',
+    async (locale, prefix, title, searchLabel) => {
+      const html = renderToStaticMarkup(
+        createElement(LocalizationProvider, {
+          locale,
+          dictionary: await siteDictionary(locale),
+          children: createElement(PersonalProjectsPage),
+        }),
+      );
+      expect(html).toContain(title);
+      expect(html).not.toContain('Ce que nous construisons.');
+      expect(html).not.toContain('Découvre les projets de Lou');
+      expect(html).toContain(`href="/${prefix}/nos-projets/sillage"`);
+      expect(html).toContain(`placeholder="${searchLabel}"`);
+      for (const project of personalProjects)
+        expect(html).toContain(`href="/${prefix}${personalProjectPath(project.slug)}"`);
+    },
+  );
 
   it('retrouve les applications dans la recherche globale', async () => {
     const html = renderToStaticMarkup(

@@ -1,0 +1,23 @@
+{
+  "name": "sandbox-automation-watchdog",
+  "account_id": "b33e8dae1bd82bf0ba1f31e98fb90933",
+  "main": "worker.mjs",
+  "compatibility_date": "2026-10-20",
+  "workers_dev": true,
+  "preview_urls": false,
+  "vars": {
+    "ENABLED": "false",
+    "DRY_RUN": "true",
+  },
+  "triggers": {
+    "crons": ["*/5 * * * *"],
+  },
+  "durable_objects": {
+    "bindings": [{ "name": "WATCHDOG", "class_name": "SandboxAutomationWatchdog" }],
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["SandboxAutomationWatchdog"] }],
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1,
+  },
+}

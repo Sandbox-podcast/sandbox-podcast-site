@@ -512,6 +512,10 @@ export function TimeMachine({ data }: { data: TimeMachineData }) {
             Time Machine<span>.</span>
             <span className={styles['heroSubtitle']}>Histoire de l'intelligence artificielle</span>
           </h1>
+          <p className={styles['heroIntro']}>
+            Comprendre d'où vient l'IA d'aujourd'hui. Retrouve les dates, les travaux et les
+            lancements qui ont jalonné l'histoire de l'IA, avec leurs sources.
+          </p>
         </div>
       </header>
       <div className={styles['tabsBar']}>

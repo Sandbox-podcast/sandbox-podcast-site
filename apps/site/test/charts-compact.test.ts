@@ -61,6 +61,50 @@ function summaries(html: string): string[] {
 }
 
 describe('classement compact', () => {
+  it('date la dernière publication réelle et conserve cette date en consultant une archive', () => {
+    const data = dataset();
+    const series = data.series[0];
+    const first = series?.snapshots[0];
+    if (!series || !first) throw new Error('Édition requise.');
+    data.checkedAt = '2026-10-20T10:00:00Z';
+    data.weeks.push('2026-10-14');
+    series.snapshots.push({
+      ...first,
+      week: '2026-10-14',
+      publication: {
+        scoringVersion: 'test',
+        observedAt: '2026-10-14T02:00:00Z',
+        calculatedAt: '2026-10-14T03:00:00Z',
+        publishedAt: '2026-10-14T03:17:00Z',
+      },
+    });
+    const html = renderToStaticMarkup(
+      createElement(ChartsExperience, { data, initialWeek: '2026-10-13' }),
+    );
+    const header = html.split('</header>')[0] ?? '';
+    expect(header).toContain('Dernière mise à jour :');
+    expect(header).toContain('dateTime="2026-10-14T03:17:00Z"');
+    expect(header).toContain('05:17 (Europe/Paris)');
+    expect(header).not.toContain(data.checkedAt);
+    expect(header).toContain('03:17 et 15:17 UTC');
+  });
+
+  it('ne date pas une publication absente à partir du contrôle ou des autres classements', () => {
+    const data = dataset();
+    data.checkedAt = '2026-10-20T10:00:00Z';
+    for (const mode of ['live', 'unavailable'] as const) {
+      data.mode = mode;
+      const html = renderToStaticMarkup(
+        createElement(ChartsExperience, { data, initialChart: 'rising' }),
+      );
+      const header = html.split('</header>')[0] ?? '';
+      expect(header).not.toContain('<time');
+      expect(header).toContain(
+        mode === 'live' ? 'Aucune édition publiée pour ce classement.' : 'Indisponible',
+      );
+    }
+  });
+
   it('signale une édition périmée sans présenter une collecte comme une publication', () => {
     const data = dataset();
     data.checkedAt = '2026-10-15T10:00:00Z';
@@ -229,5 +273,8 @@ describe('classement compact', () => {
     expect(html).toContain(category);
     expect(html).not.toContain('Actualisé toutes les 12 h');
     expect(html).not.toContain('Cette édition');
+    expect(html).not.toContain('Dernière mise à jour');
+    expect(html).not.toContain('Comment les mises à jour fonctionnent');
+    expect(html).not.toContain('Collecte prévue');
   });
 });

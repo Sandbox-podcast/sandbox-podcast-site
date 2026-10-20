@@ -100,6 +100,9 @@ export default async function EpisodePage({ params, searchParams }: Props) {
         <p className="episode-dek">
           <Text>{episode.dek}</Text>
         </p>
+        <p className="label mt-3">
+          <Text>Vidéo en français.</Text>
+        </p>
         <div className="mt-5 flex flex-wrap gap-2">
           <a
             className="btn btn-solid"

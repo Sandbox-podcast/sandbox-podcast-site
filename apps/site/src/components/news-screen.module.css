@@ -63,6 +63,29 @@
 }
 .statusText {
   font-family: var(--news-mono);
+  margin: 0;
+}
+.collectionStatus {
+  min-width: 0;
+}
+.collectionNote {
+  margin: 4px 0 0;
+  font-size: 0.8125rem;
+}
+.updateDates {
+  margin: 8px 0;
+}
+.updateDates > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+}
+.updateDates dt::after {
+  content: ' :';
+}
+.updateDates dd {
+  margin: 0;
+  color: var(--news-ink);
 }
 .statusText::before {
   content: '';

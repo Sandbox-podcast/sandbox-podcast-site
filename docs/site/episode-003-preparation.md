@@ -1,10 +1,33 @@
-# Épisode 003 : actualités et skills
+# Épisode 003 : support actuel
 
-Préparation du 18 octobre 2026, recentrée après la correction de Lou : une émission de 60 à 90 minutes, un seul sujet de Build en 30 minutes maximum et trois questions de Clash. Les dix actualités restent à trier par l'équipe. La démonstration reste à préparer avant l'enregistrement.
+Le support contient six écrans : les lobbies Introduction, Radar, Talk et Clash, une slide de cas d’usage dans le Talk et une question dans le Clash.
 
-Le [parcours de l'épisode](http://127.0.0.1:4334/slides/episode-003/index.html#radar) compte 21 écrans. Les pages illustrées Radar, Build, Clash et Bêta restent présentes dans cet ordre. L'[analyse croisée de cinq agents](episode-003-analyse-croisee-reseaux.md) et le [corpus](episode-003-corpus-social.md) restent des documents de préparation, pas des séquences supplémentaires.
+- **Introduction** : lobby de séquence.
+- **Radar** : lobby uniquement. Les trois actualités seront ajoutées plus tard par l’équipe.
+- **Talk** : lobby, puis « J’ai intégré l’ensemble de notre catalogue produits dans un agent. Qu’est-ce que ça permet aux équipes ? »
+- **Clash** : lobby, puis « En entreprise, peut-on vraiment mettre en production un produit développé en vibe coding ? »
 
-## Conducteur de 75 minutes
+Les anciens fichiers de préparation restent présents, mais le support ne les charge pas et n’affiche aucun de leurs sujets.
+
+La direction et les illustrations des six écrans sont décrites dans [la note de direction artistique](episode-003-direction-artistique.md).
+
+## Ouvrir le support actuel
+
+Depuis la racine du dépôt :
+
+```powershell
+python -m http.server 4334 --bind 127.0.0.1 --directory apps/site/public
+```
+
+Ouvrir <http://127.0.0.1:4334/slides/episode-003/index.html>.
+
+Les flèches, Espace, Page précédente et Page suivante parcourent les six écrans. Le menu Diapositive donne un accès direct à chaque écran. `P` active le mode live et `F` demande le plein écran.
+
+## Préparation antérieure du 18 octobre — archive éditoriale
+
+Les sections ci-dessous conservent la préparation antérieure. Elles ne décrivent pas le support actuel et aucun de leurs sujets n’est prévu dans cette version.
+
+### Conducteur initial de 75 minutes
 
 | Séquence             | Budget         | Contenu                                                         |
 | -------------------- | -------------- | --------------------------------------------------------------- |
@@ -36,7 +59,7 @@ python -m http.server 4334 --bind 127.0.0.1 --directory apps/site/public
 
 Ouvrir <http://127.0.0.1:4334/slides/episode-003/index.html>.
 
-Les flèches, Espace, Page précédente et Page suivante changent de sujet. N ouvre les notes et sources. F active le plein écran. Début et Fin vont aux extrémités. Le menu Sujets donne un accès direct aux 21 écrans. Les liens Radar, Build, Clash et Bêta ouvrent leurs pages illustrées. Le choix "À trier", "Garder", "En réserve" ou "Écarter" concerne les dix actualités ; "Exporter nos choix" les télécharge dans un JSON. Les anciens choix de skills et de shorts sont conservés dans le navigateur, sans réintroduire ces sujets dans le conducteur. Il n'y a pas de partage des choix entre ordinateurs.
+Les flèches, Espace, Page précédente et Page suivante changent de sujet. N ouvre les notes et sources. F active le plein écran. Début et Fin vont aux extrémités. Le menu Sujets donne un accès direct aux 21 écrans. Les liens Introduction, Radar, Talk et Clash ouvrent leurs pages lobby. Le choix "À trier", "Garder", "En réserve" ou "Écarter" concerne les dix actualités ; "Exporter nos choix" les télécharge dans un JSON. Les anciens choix de skills et de shorts sont conservés dans le navigateur, sans réintroduire ces sujets dans le conducteur. Il n'y a pas de partage des choix entre ordinateurs.
 
 ## Les dix actualités
 

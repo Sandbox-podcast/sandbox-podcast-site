@@ -13,23 +13,17 @@ function imageFor(html: string, path: string): string {
 }
 
 describe('images livrées au navigateur', () => {
-  it('charge le visuel LCP mobile en priorité et sélectionne un pixel local quand il est masqué', () => {
+  it('charge un seul décor responsive prioritaire sur ordinateur et sur mobile', () => {
     const html = renderToStaticMarkup(
       createElement(DiscoveryHome, { episodes: [], videoClubEnabled: true }),
     );
-    const image = imageFor(html, '/video-club/entrance-cinematic-v2.webp');
+    const image = imageFor(html, '/images/home/studio-wide-lit-v6.webp');
     expect(image).toContain('loading="eager"');
     expect(image).toContain('fetchPriority="high"');
-    expect(html).toContain(
-      '<picture><source media="(min-width: 901px) and (min-height: 541px), (min-width: 1101px)" srcSet="data:image/gif;base64,',
-    );
-    expect(
-      [...html.matchAll(/<link\b[^>]*>/g)].some((match) =>
-        match[0].includes(encodeURIComponent('/video-club/entrance-cinematic-v2.webp')),
-      ),
-    ).toBe(false);
     expect(image).toContain('q=75');
-    expect(image).not.toContain('loading="lazy"');
+    expect(image).toContain('min(100vw, 178vh)');
+    expect(html).not.toContain('entrance-cinematic-v2.webp');
+    expect(html).not.toContain('body-no-mic');
   });
 
   it("n'ajoute pas le vidéoclub quand il est désactivé", () => {

@@ -77,10 +77,11 @@ export const sharedPages: Record<SharedPageRoute, SharedPage> = {
     metadata: async (o) => {
       const metadata = await PersonalProject.generateMetadata({ params: slugParams(o) });
       const project = personalProject(value(o, 'slug'));
+      const separator = o.locale && !o.locale.startsWith('fr') ? ': ' : ' : ';
       return project
         ? {
             ...metadata,
-            title: `${project.name} : ${translateText(project.tagline, o.dictionary)}`,
+            title: `${project.name}${separator}${translateText(project.tagline, o.dictionary, o.locale)}`,
           }
         : metadata;
     },

@@ -1,6 +1,14 @@
 # Documentation
 
-Audit de stabilisation du 19 octobre : [causes, corrections locales, recettes et préparation de la production](site/audit-stabilisation-2026-10-19.md), selon [DD-0063](design-decisions/dd-0063-stabilisation-des-classements-news-et-time-machine.md). Les quatre classements sont contrôlés ; la file News possède des réservations et un modèle CPU vérifié sur des articles réels. Les migrations et la livraison restent à autoriser ; la cadence horaire distante n'est pas démontrée.
+Direction des six slides de l'épisode 003 : [DD-0071](design-decisions/dd-0071-direction-artistique-slides-episode-003.md).
+
+Mobile et langues, 20 octobre : [logo, menu tactile et footer compact](site/responsive-mobile-2026-10-20.md), [textes et miniatures vidéo localisés](site/mobile-i18n-video-2026-10-20.md), selon [DD-0067](design-decisions/dd-0067-miniatures-video-et-textes-localises.md). Corrections vérifiées localement avant livraison.
+
+Automatisation News et classements, 20 octobre : [fonctionnement, horaires et reprise des créneaux manqués](site/automatisation-news-charts-2026-10-20.md), [audit backend et preuves distantes](site/audit-automatisation-2026-10-20.md) et [ADR-0038](adr/ADR-0038-reprise-horaire-des-classements.md). Les vues distinguent désormais collecte et publication ; les correctifs restent locaux avant livraison autorisée.
+
+Accueil recentré sur l'impact de l'IA dans les entreprises, plateau au scroll, portraits simples et LinkedIn dans le footer : [DD-0064](design-decisions/dd-0064-accueil-impact-ia-et-plateau-au-scroll.md) et [recette locale du 20 octobre](site/accueil-impact-ia-2026-10-20.md).
+
+Audit de stabilisation du 19 octobre : [causes, corrections, mise en service et recettes](site/audit-stabilisation-2026-10-19.md), selon [DD-0063](design-decisions/dd-0063-stabilisation-des-classements-news-et-time-machine.md). Le rapport consigne l'application des migrations 0017/0018 et une première génération distante. La file fonctionne en production ; la cadence horaire reste irrégulière au contrôle du 20 octobre.
 
 Épisodes sans durée obligatoire : [DD-0060](design-decisions/dd-0060-publication-episode-sans-duree.md). Fil News cumulatif et accès conditionnel : [DD-0061](design-decisions/dd-0061-news-fil-cumulatif-et-ouverture.md). Liste de 105 sources et file durable : [DD-0062](design-decisions/dd-0062-sources-news-et-file-de-traitement.md), [relevé des sources](site/news-sources-2026-10-19.csv).
 
@@ -12,7 +20,7 @@ Import d'épisode sans clé YouTube : [DD-0058](design-decisions/dd-0058-import-
 
 PR unique du 18 octobre : [regroupement des PR 77 et 78 et résultats des tests complets](site/consolidation-pr77-78-2026-10-18.md). News, SEO, contenus de relais et épisode 003 sont réunis dans la PR 77.
 
-Nom public Sandbox TalkShow sur les médias : [DD-0054](design-decisions/dd-0054-nom-public-sandbox-talkshow.md). Spotify renommé, couverture officielle appliquée et noms YouTube, Instagram, TikTok et X vérifiés le 18 octobre 2026.
+Nom public `Sandbox Podcast` demandé pour YouTube, Instagram, TikTok, X, LinkedIn et Spotify : [DD-0065](design-decisions/dd-0065-nom-public-sandbox-podcast.md) et [textes préparés](site/social-profile-copy-2026-10-20.md). TikTok bloque le changement de nom jusqu'au 24 octobre.
 
 Référencement, suite locale du 18 octobre : [images allégées et traductions des fiches projet](site/seo-2026-10-18/correctifs-locaux.md), selon [DD-0054](design-decisions/dd-0054-correctifs-seo-images-et-traductions.md). Validation DNS Search Console toujours en attente.
 

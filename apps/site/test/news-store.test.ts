@@ -122,6 +122,52 @@ describe('publication automatique SANDBOX News', () => {
     expect((await readPublishedNews(later)).items).toHaveLength(1);
   });
 
+  it('conserve la collecte la plus récente quand un ancien lot termine après elle', async () => {
+    const earlier = ingestion();
+    earlier.checkedAt = new Date(Date.now() - 3_600_000).toISOString();
+    const item = earlier.items[0]?.item;
+    if (!item) throw new Error('Fiche de test absente.');
+    item.publishedAt = earlier.checkedAt;
+    const latest = ingestion();
+    latest.items = [];
+    latest.sources = latest.sources.map((source) => ({
+      ...source,
+      ok: false,
+      reason: 'HTTP 503',
+    }));
+    await publishNewsBatch(latest);
+    expect(await publishNewsBatch(earlier)).toEqual({ inserted: 1 });
+    const feed = await readPublishedNews();
+    expect(feed.checkedAt).toBe(latest.checkedAt);
+    expect(feed.sources.every((source) => !source.ok && source.reason === 'HTTP 503')).toBe(true);
+    expect(feed.items).toHaveLength(1);
+  });
+
+  it('date la publication sur le site indépendamment du média, de la collecte et de la page', async () => {
+    expect((await readPublishedNews()).lastPublishedAt).toBeNull();
+    const payload = ingestion();
+    const item = payload.items[0]?.item;
+    if (!item) throw new Error('Fiche de test absente.');
+    item.publishedAt = new Date(Date.now() - 2 * 86_400_000).toISOString();
+    await publishNewsBatch(payload);
+    const before = await readPublishedNews();
+    const insertedAt = before.lastPublishedAt;
+    expect(insertedAt).toBeTruthy();
+    expect(Date.parse(insertedAt ?? '')).toBeGreaterThan(Date.parse(item.publishedAt));
+
+    const laterCollection = { ...payload, checkedAt: new Date().toISOString(), items: [] };
+    await publishNewsBatch(laterCollection);
+    await publishNewsBatch(payload);
+    const page = await readPublishedNews(new Date(), {
+      publishedAt: '2000-01-01',
+      id: 'before-all-items',
+    });
+    expect(page.items).toEqual([]);
+    expect(page.lastPublishedAt).toBe(insertedAt);
+    expect(page.checkedAt).toBe(laterCollection.checkedAt);
+    expect(newsFeedSchema.safeParse(page).success).toBe(true);
+  });
+
   it.each(['2026-10-18', '2026-10-18T10:00:00Z', '2026-10-18T10:00:00.000Z'])(
     'parcourt plus de 200 articles sans doublon avec des dates identiques (%s)',
     async (publishedAt) => {

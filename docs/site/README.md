@@ -1,5 +1,15 @@
 # Site média : conception
 
+Cadence News et Charts : [diagnostic et contrôle Cloudflare indépendant](fiabilisation-planification-2026-10-20.md), selon [ADR-0039](../adr/ADR-0039-controle-externe-des-traitements-planifies.md), avec [la procédure d'activation](../../tools/automation-watchdog/README.md).
+
+Reprise des travaux interrompus : [lot local et résultats de validation du 20 octobre](reprise-locale-2026-10-20.md).
+
+Mobile et langues : [navigation, logos et footer compact](responsive-mobile-2026-10-20.md), [textes et miniatures vidéo localisés](mobile-i18n-video-2026-10-20.md), selon [DD-0067](../design-decisions/dd-0067-miniatures-video-et-textes-localises.md).
+
+News et classements : [fonctionnement automatique et horaires](automatisation-news-charts-2026-10-20.md), [audit du 20 octobre](audit-automatisation-2026-10-20.md) et [reprise des créneaux manqués, ADR-0038](../adr/ADR-0038-reprise-horaire-des-classements.md). La date de collecte News, l'insertion d'une nouvelle fiche et la publication d'une édition sont distinguées dans les vues.
+
+Accueil orienté vers l'impact de l'IA dans les entreprises, plateau au scroll et équipe sans cartes à collectionner : [DD-0064](../design-decisions/dd-0064-accueil-impact-ia-et-plateau-au-scroll.md) et [recette locale du 20 octobre](accueil-impact-ia-2026-10-20.md). Les replays suivent l'allumage du plateau, avant la présentation de l'équipe.
+
 Rythme et espacements des pages publiques : [DD-0046](../design-decisions/dd-0046-rythme-et-espacements-publics.md). La passe réduit les marges cumulées de l'accueil et harmonise les pages éditoriales.
 
 Accueil mobile éditorial, sans montage du trio, et plateau conservé sur ordinateur : [DD-0039](../design-decisions/dd-0039-accueil-mobile-editorial-et-plateau-desktop.md) et [validation V11](refonte-2026-10-15/refonte-editoriale-mobile-v11.md).

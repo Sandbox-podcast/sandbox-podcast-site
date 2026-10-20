@@ -34,6 +34,8 @@ const locallyLocalizedModules = new Set([
   'src/components/news-screen.tsx',
   'src/domain/news-media.ts',
   'src/domain/news-preview.ts',
+  'src/domain/site-marketing.ts',
+  'src/domain/automation-watchdog.ts',
   'src/domain/social-metrics.ts',
 ]);
 const add = (text, file) => {
@@ -42,7 +44,7 @@ const add = (text, file) => {
     !key ||
     implementationStrings.has(key) ||
     !/\p{L}/u.test(key) ||
-    /^https?:|^\/|^@|^--|^var\(|^rgb\(|^clamp\(|^rotate\(|^cubic-bezier\(|^\(max-width|^\(prefers-reduced|^\d+px/.test(
+    /^https?:|^\/|^@|^--|^var\(|^rgb\(|^clamp\(|^rotate\(|^cubic-bezier\(|^\(max-width|^\(hover:|^\(prefers-reduced|^\d+px/.test(
       key,
     ) ||
     /(?:^|\s)(?:bg-|text-|font-|border-|items-|leading-|md:|xl:|gap-|max-|min-|py-|p-)/.test(key)
@@ -74,6 +76,9 @@ const fields = new Set([
   'heroTitle',
   'heroDek',
   'heroEyebrow',
+  'aboutEyebrow',
+  'aboutTitle',
+  'aboutIntro',
   'category',
   'alt',
   'cite',

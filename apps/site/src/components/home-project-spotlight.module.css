@@ -67,7 +67,7 @@
   letter-spacing: 0.15em;
 }
 .caption h3 {
-  font: 400 clamp(44px, 5vw, 72px)/1.05 var(--font-newsreader);
+  font: 600 clamp(38px, 4.3vw, 62px)/1.08 var(--font-sans);
   letter-spacing: -0.04em;
   margin-top: 10px;
   color: #f4f7fa;

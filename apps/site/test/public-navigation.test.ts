@@ -81,6 +81,34 @@ describe('navigation publique', () => {
 });
 
 describe('identité et contrôles communs', () => {
+  it.each([
+    ['fr-FR', '/', 'Accueil Sandbox', 'Menu'],
+    ['en', '/en', 'Sandbox home', 'Menu'],
+    ['es-ES', '/es-es', 'Inicio de Sandbox', 'Menú'],
+    ['de-DE', '/de-de', 'Sandbox-Startseite', 'Menü'],
+  ])('rend les deux logos et le menu dans la langue %s', async (locale, href, name, menu) => {
+    const dictionary = await siteDictionary(locale);
+    const renderLocalized = (component: typeof Masthead | typeof Footer) =>
+      renderToStaticMarkup(
+        createElement(LocalizationProvider, {
+          locale,
+          dictionary,
+          children: createElement(component, { locale, newsAvailable: true }),
+        }),
+      );
+    for (const component of [Masthead, Footer]) {
+      const html = renderLocalized(component);
+      const home = /<a\b[^>]*class="site-home-link[^>]*>/.exec(html)?.[0];
+      expect(home).toContain(`href="${href}"`);
+      expect(home).toContain(`aria-label="${name}"`);
+      expect(html).toContain('sandbox-logo.png');
+    }
+    expect(renderLocalized(Masthead)).toContain(`<summary class="mobile-menu-trigger">${menu}`);
+    const footer = renderLocalized(Footer);
+    expect(footer.match(/<details class="footer-navigation-mobile">/g)).toHaveLength(2);
+    expect(footer).toContain(`href="${href === '/' ? '' : href}/confidentialite"`);
+  });
+
   it('sert exactement le logotype fourni dans les deux zones', async () => {
     const logo = await readFile(new URL('../public/sandbox-logo.png', import.meta.url));
     expect(createHash('sha256').update(logo).digest('hex')).toBe(

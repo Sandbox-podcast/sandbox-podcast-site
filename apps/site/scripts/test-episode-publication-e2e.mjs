@@ -142,7 +142,7 @@ try {
   }
   await page.goto(fixture.origin);
   assert.equal(await page.locator('a[href="/news"]').count(), 0);
-  assert.equal(await page.locator('img[src*="studio-news-radar-v4"]').count(), 0);
+  assert.equal(await page.locator('[data-object="news"]').count(), 0);
   await page.screenshot({
     path: fileURLToPath(new URL('accueil-radar.png', output)),
     fullPage: true,

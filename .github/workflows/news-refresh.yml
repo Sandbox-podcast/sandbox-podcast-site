@@ -1,13 +1,24 @@
 name: SANDBOX News refresh
+run-name: SANDBOX News ${{ inputs.mode || github.event.schedule || 'refresh' }}
 
 on:
   schedule:
     # Réenregistrement du planning après des déclenchements absents le 19 octobre 2026.
     - cron: '37 * * * *'
   workflow_dispatch:
+    inputs:
+      mode:
+        description: Action à effectuer
+        type: choice
+        required: true
+        default: refresh
+        options:
+          - refresh
+          - due
 
 permissions:
   contents: read
+  actions: read
 
 concurrency:
   group: news-refresh
@@ -31,11 +42,23 @@ jobs:
           cache: pnpm
           cache-dependency-path: pnpm-lock.yaml
 
+      - run: pnpm install --frozen-lockfile
+
+      - name: Relire le cycle News sous le verrou partagé
+        id: preflight
+        env:
+          SANDBOX_NEWS_ORIGIN: ${{ vars.SANDBOX_CHARTS_ORIGIN || 'https://www.sandboxpodcast.fr' }}
+          GITHUB_TOKEN: ${{ github.token }}
+          AUTOMATION_MODE: ${{ github.event_name == 'workflow_dispatch' && (inputs.mode || 'refresh') || 'due' }}
+        run: node apps/site/scripts/automation-workflow-preflight.ts news
+
       - uses: actions/setup-python@v7
+        if: steps.preflight.outputs.process-needed == 'true'
         with:
           python-version: '3.11'
 
       - name: Restaurer les modèles locaux
+        if: steps.preflight.outputs.process-needed == 'true'
         uses: actions/cache@v4
         with:
           path: |
@@ -47,25 +70,27 @@ jobs:
             apps/site/.local/argos-runtime
           key: sandbox-news-v3-ubuntu-py311-argos111-qwen3instruct-a06e946
 
-      - run: pnpm install --frozen-lockfile
-
       - name: Collecter toutes les sources et conserver les candidats en base
+        if: steps.preflight.outputs.collect-needed == 'true'
         env:
           SANDBOX_NEWS_ORIGIN: ${{ vars.SANDBOX_CHARTS_ORIGIN || 'https://www.sandboxpodcast.fr' }}
           CRON_SECRET: ${{ secrets.SANDBOX_CHARTS_CRON_SECRET }}
         run: pnpm --filter @podcast/site news:automation:refresh --collect-only
 
       - name: Installer les modèles de traduction locaux
+        if: steps.preflight.outputs.process-needed == 'true'
         env:
           SANDBOX_NEWS_SETUP_PYTHON: python
         run: pnpm --filter @podcast/site news:translator:setup
 
       - name: Installer le modèle de résumé local
+        if: steps.preflight.outputs.process-needed == 'true'
         env:
           SANDBOX_NEWS_SUMMARY_SETUP_PYTHON: python
         run: pnpm --filter @podcast/site news:summarizer:setup
 
       - name: Générer, traduire et publier le prochain lot de la file
+        if: steps.preflight.outputs.process-needed == 'true'
         env:
           SANDBOX_NEWS_ORIGIN: ${{ vars.SANDBOX_CHARTS_ORIGIN || 'https://www.sandboxpodcast.fr' }}
           CRON_SECRET: ${{ secrets.SANDBOX_CHARTS_CRON_SECRET }}

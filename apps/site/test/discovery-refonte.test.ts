@@ -10,8 +10,8 @@ import { guideSchema, validateGuides } from '../src/domain/guides';
 import { episodeSchema, siteSettingsSchema } from '../src/domain/schema';
 import { setSiteSettingsOverride } from '../src/config/site';
 import {
-  HOME_STUDIO_IMAGE,
-  HOME_STUDIO_NEWS_IMAGE,
+  HOME_STUDIO_WIDE_IMAGE,
+  HOME_STUDIO_REVERSE_IMAGE,
   HOME_STUDIO_CLEAN_WALL,
   HOME_STUDIO_PEOPLE,
 } from '../src/domain/home-studio';
@@ -29,7 +29,6 @@ import { publicHosts } from '../src/lib/repository';
 import { personalProjects } from '../src/lib/personal-projects';
 import { HomeProjectSpotlight } from '../src/components/home-project-spotlight';
 import { HOME_PROJECT_ARTWORK } from '../src/domain/home-project-artwork';
-import { HOME_HOST_ARTWORK } from '../src/domain/home-host-artwork';
 import { Footer } from '../src/components/shell';
 import { LocalizationProvider } from '../src/components/localization';
 
@@ -51,7 +50,7 @@ afterEach(() => {
 });
 
 describe('accueil du Talk Show', () => {
-  it('conserve les détourages du plateau quand les photos des profils viennent de l’administration', () => {
+  it('retire les portraits du plateau et utilise les photos publiées dans la présentation de l’équipe', () => {
     const hosts = publicHosts().map((host) => ({
       ...host,
       photo: `/api/host-photos/${host.slug}-published.webp`,
@@ -59,9 +58,10 @@ describe('accueil du Talk Show', () => {
     const html = renderToStaticMarkup(createElement(DiscoveryHome, { episodes: [], hosts }));
     const stage = html.slice(html.indexOf('<figure'), html.indexOf('</figure>'));
     for (const person of Object.values(HOME_STUDIO_PEOPLE)) {
-      expect(stage).toContain(encodeURIComponent(person.photo));
+      expect(stage).not.toContain(encodeURIComponent(person.photo));
     }
     expect(stage).not.toContain(encodeURIComponent('/api/host-photos/'));
+    expect(html).toContain(encodeURIComponent('/api/host-photos/lou-published.webp'));
   });
   it('utilise les couvertures éditoriales à l’accueil et conserve les captures dans le catalogue', async () => {
     const html = renderToStaticMarkup(
@@ -98,14 +98,17 @@ describe('accueil du Talk Show', () => {
     expect(objects).toContain('aria-label="Time Machine"');
     const home = renderToStaticMarkup(createElement(DiscoveryHome, { episodes: [] }));
     const stage = home.slice(home.indexOf('<figure'), home.indexOf('</figure>'));
-    expect(stage).toContain(objects);
+    expect(stage).toContain('aria-label="Classements"');
+    expect(stage).toContain('aria-label="Time Machine"');
+    expect(stage).toContain('href="/charts"');
+    expect(stage).toContain('href="/time-machine"');
     expect(stage).not.toContain('Entrer dans le vidéoclub');
     expect(stage).not.toContain('<iframe');
     expect(stage).not.toContain('<video');
   });
   it('sert le nouveau décor intégré dans un budget de 300 Ko', async () => {
     expect(
-      (await stat(new URL(`../public${HOME_STUDIO_IMAGE}`, import.meta.url))).size,
+      (await stat(new URL(`../public${HOME_STUDIO_WIDE_IMAGE}`, import.meta.url))).size,
     ).toBeLessThan(300_000);
   });
   it('ouvre le replay disponible ou le catalogue depuis le bouton principal', () => {
@@ -113,9 +116,7 @@ describe('accueil du Talk Show', () => {
       const html = renderToStaticMarkup(createElement(DiscoveryHome, { episodes }));
       const hero = html.slice(html.indexOf('<section'), html.indexOf('</section>'));
       expect(hero).toContain(episodes.length ? 'href="/episodes/1"' : 'href="/podcast"');
-      expect(hero).toContain(
-        episodes.length ? 'Regarder le dernier épisode' : 'Découvrir l&#x27;émission',
-      );
+      expect(hero).toContain('Voir l&#x27;émission');
       expect(hero).not.toContain('<canvas');
     }
   });
@@ -145,7 +146,7 @@ describe('accueil du Talk Show', () => {
     }
     expect(html).not.toContain('title="Lien Spotify à venir"');
   });
-  it('présente les animateurs puis leurs projets avant les rubriques et le replay', () => {
+  it('présente les replays sur le plateau puis l’équipe, les projets et les rubriques', () => {
     const html = renderToStaticMarkup(
       createElement(DiscoveryHome, {
         episodes: [pilot],
@@ -155,10 +156,10 @@ describe('accueil du Talk Show', () => {
     );
     const sections = [
       'id="discovery-title"',
+      'id="home-replays-title"',
       'id="home-team-title"',
       'id="home-projects-title"',
       'id="home-explore-title"',
-      'id="home-episode-title"',
     ];
     const positions = sections.map((section) => html.indexOf(section));
     expect(positions.every((position) => position >= 0)).toBe(true);
@@ -194,13 +195,13 @@ describe('accueil du Talk Show', () => {
     const html = renderToStaticMarkup(createElement(DiscoveryHome, { episodes: [pilot] }));
     expect(html).not.toContain('Le podcast IA &amp; tech');
     const title = /<h1\b[^>]*>(.*?)<\/h1>/.exec(html)?.[1]?.replace(/<[^>]*>/g, '');
-    expect(title).toBe('L&#x27;actualité IA, testée et mise en perspective.');
-    expect(html).toContain(
-      'Chaque semaine, Lou, Loïc et Nico décryptent l&#x27;actualité de l&#x27;IA et de la tech',
-    );
-    expect(html).toContain('Regarder le dernier épisode');
+    expect(title).toBe('Ce que l&#x27;IA change pour ceux qui construisent.');
+    expect(html).toContain('Deux développeurs et un Product Manager');
+    expect(html).toContain('Voir l&#x27;émission');
+    expect(html).toContain('Découvrir nos projets');
     expect(html).toContain('href="/episodes/1"');
-    expect(html).toContain(encodeURIComponent(HOME_STUDIO_IMAGE));
+    expect(html).toContain(encodeURIComponent(HOME_STUDIO_WIDE_IMAGE));
+    expect(html).toContain(encodeURIComponent(HOME_STUDIO_REVERSE_IMAGE));
     expect(html).not.toContain('/nos-projets/video-club');
     expect(html).not.toContain('studio-warm-video-club-v1.webp');
     expect(html).not.toContain('Décor provisoire');
@@ -210,7 +211,7 @@ describe('accueil du Talk Show', () => {
     expect(html).not.toContain('<canvas');
     expect(html).not.toContain('sc-chart-tabs');
   });
-  it('conserve la porte cachée du plateau et un accès séparé pour le mobile', () => {
+  it('rend les destinations du décor explicites et conserve le radar conditionnel', () => {
     const html = renderToStaticMarkup(
       createElement(DiscoveryHome, {
         episodes: [pilot],
@@ -218,10 +219,13 @@ describe('accueil du Talk Show', () => {
         newsAvailable: true,
       }),
     );
-    expect(html).toContain(encodeURIComponent(HOME_STUDIO_NEWS_IMAGE));
+    expect(html).toContain(encodeURIComponent(HOME_STUDIO_WIDE_IMAGE));
     expect(html).toContain('href="/nos-projets/video-club?from=studio"');
     expect(html).toContain('aria-label="Découvrir le vidéoclub des projets"');
-    expect(html).toContain('aria-label="Entrer dans le vidéoclub"');
+    expect(html).toContain('aria-label="Actualités"');
+    const stage = html.slice(html.indexOf('<figure'), html.indexOf('</figure>'));
+    expect(stage).not.toContain('Nos projets');
+    expect(stage).not.toContain('↗');
     expect(html).not.toContain('Décor provisoire');
   });
   it('garde la porte comme lien natif sans charger le magasin avant le clic', () => {
@@ -243,34 +247,27 @@ describe('accueil du Talk Show', () => {
     );
     expect(html).toContain('href="/en/nos-projets/video-club?from=studio"');
   });
-  it('place la vignette mobile du vidéoclub après les plateformes uniquement lorsque le club est activé', () => {
+  it('affiche le lien vers les projets uniquement lorsque le vidéoclub est activé', () => {
     const enabled = renderToStaticMarkup(
       createElement(DiscoveryHome, { episodes: [], videoClubEnabled: true }),
     );
     const disabled = renderToStaticMarkup(createElement(DiscoveryHome, { episodes: [] }));
-    const label = 'aria-label="Découvrir le vidéoclub des projets"';
-    const spotifyPosition = enabled.indexOf('href="https://open.spotify.com/');
-    expect(spotifyPosition).toBeGreaterThan(0);
-    expect(enabled.indexOf(label)).toBeGreaterThan(spotifyPosition);
-    const cardLink = enabled.match(/<a\b[^>]*>/g)?.find((tag) => tag.includes(label));
-    expect(cardLink).toContain('href="/nos-projets/video-club?from=studio"');
-    expect(disabled).not.toContain(label);
-    expect(enabled).toContain(encodeURIComponent('/video-club/entrance-cinematic-v2.webp'));
-    expect(disabled).not.toContain('entrance-cinematic-v2.webp');
-    expect(enabled).not.toContain('room-photoreal-v1.webp');
+    expect(enabled).toContain('aria-label="Découvrir le vidéoclub des projets"');
+    expect(disabled).not.toContain('aria-label="Découvrir le vidéoclub des projets"');
+    expect(enabled).not.toContain('entrance-cinematic-v2.webp');
   });
-  it('réserve les illustrations fantastiques aux cartes de l’accueil sans réutiliser les bustes du plateau', () => {
+  it('reprend les vrais portraits du À propos et retire les illustrations de collection', () => {
     const hosts = publicHosts();
     const page = renderToStaticMarkup(createElement(DiscoveryHome, { episodes: [], hosts }));
     const html = page.slice(page.indexOf('id="home-story"'));
     for (const host of hosts) {
-      const illustration = HOME_HOST_ARTWORK[host.slug] ?? host.photo;
-      if (!host.placeholder && illustration)
-        expect(html).toContain(encodeURIComponent(illustration));
+      if (!host.placeholder && host.photo) expect(html).toContain(encodeURIComponent(host.photo));
     }
     expect(html).not.toContain('body-no-mic');
     expect(html).not.toContain(encodeURIComponent(HOME_STUDIO_CLEAN_WALL));
-    expect(html).not.toContain('cutout-mask');
+    expect(html).not.toContain('/images/home/hosts/');
+    expect(html).not.toContain('data-host-card');
+    expect(html).toContain('href="/about"');
   });
 
   it('reprend la biographie publiée par Lou sans la reformuler', () => {
@@ -301,7 +298,7 @@ describe('accueil du Talk Show', () => {
   it('reste utilisable sans épisode et ne présente pas un replay fictif', () => {
     const html = renderToStaticMarkup(createElement(DiscoveryHome, { episodes: [] }));
     expect(html).toContain('href="/podcast"');
-    expect(html).toContain('Découvrir l&#x27;émission');
+    expect(html).toContain('Voir l&#x27;émission');
     expect(html).not.toContain('<article');
     expect(html).not.toContain('Dernier épisode');
     expect(html).not.toContain('youtube.com/watch');
@@ -319,9 +316,20 @@ describe('accueil du Talk Show', () => {
     expect(latestVideoEpisode(episodes)?.number).toBe(1);
     expect(episodeYoutubeUrl(pilot)).toBe('https://www.youtube.com/watch?v=GgSiPkADCz4');
     const html = renderToStaticMarkup(createElement(DiscoveryHome, { episodes }));
-    expect([...html.matchAll(/<article\b/g)]).toHaveLength(1);
+    expect([...html.matchAll(/data-analytics-episode="1"/g)]).toHaveLength(1);
     expect(html).not.toContain('href="/episodes/2"');
     expect(html).not.toContain('href="/episodes/3"');
+  });
+  it('limite le mur aux huit dernières émissions sans répéter les affiches', () => {
+    const episodes = Array.from({ length: 10 }, (_, index) => ({ ...pilot, number: index + 1 }));
+    const html = renderToStaticMarkup(createElement(DiscoveryHome, { episodes }));
+    const wall = html.slice(html.indexOf('data-studio-wall="true"'));
+    const posters = [...wall.matchAll(/data-analytics-episode="(\d+)"/g)].map((match) =>
+      Number(match[1]),
+    );
+    expect(posters).toEqual([10, 9, 8, 7, 6, 5, 4, 3]);
+    expect(html).not.toContain('href="/episodes/1"');
+    expect(html).not.toContain('href="/episodes/2"');
   });
 });
 

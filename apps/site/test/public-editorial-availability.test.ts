@@ -49,6 +49,10 @@ import SearchPage from '../src/components/search-screen';
 import { loadContent, setEditorialOverride } from '../src/lib/load';
 import { editableContentSchema } from '../src/domain/admin-content';
 import { siteDictionary } from '../src/i18n/dictionaries';
+import AboutPage from '../src/app/(fr)/about/page';
+import { StudioLanding } from '../src/components/studio-landing';
+import siteSettings from '../content/site.json';
+import { legacySiteSettings } from './fixtures/site-marketing';
 
 let time = Date.parse('2026-10-18T12:00:00Z');
 beforeEach(async () => {
@@ -91,6 +95,31 @@ function publishedFixture(name: string): EditableContent {
 }
 
 describe('lecture publique pendant une panne Postgres', () => {
+  it('rend la nouvelle promesse avec une ancienne publication Postgres sans écrire de contenu', async () => {
+    storage.save.mockClear();
+    const publication = publishedFixture('Sandbox');
+    publication.site = { ...legacySiteSettings };
+    const stored = JSON.stringify(publication);
+    storage.read.mockResolvedValue(publication);
+    await preparePublishedEditorialContent();
+    expect((await generateMetadata()).description).toBe(siteSettings.description);
+    const about = renderToStaticMarkup(await AboutPage());
+    expect(about).toContain(siteSettings.aboutTitle);
+    expect(about).not.toContain('Retrouvez-nous.');
+    const home = renderToStaticMarkup(
+      createElement(StudioLanding, {
+        episodes: [],
+        newsAvailable: false,
+        videoClubEnabled: false,
+      }),
+    );
+    expect(home).toContain('Ce que l&#x27;IA change');
+    expect(home).toContain('pour ceux qui construisent.');
+    expect(home).not.toContain('Un Talk Show pour y voir plus clair.');
+    expect(JSON.stringify(publication)).toBe(stored);
+    expect(loadContent().site).toEqual(legacySiteSettings);
+    expect(storage.save).not.toHaveBeenCalled();
+  });
   it('garde Git sans changer les snapshots et laisse les accès admin échouer', async () => {
     const before = loadContent();
     await expect(preparePublicEditorialContent()).resolves.toBeUndefined();

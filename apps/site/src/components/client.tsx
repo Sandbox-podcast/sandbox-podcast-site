@@ -2,7 +2,7 @@
 import { Text, LocalizedElement, LocalizedDate, useLocalization } from '@/components/localization';
 import { localizedHref } from '@/i18n/routing';
 import { intlLocale } from '@/i18n/translation';
-import Image from 'next/image';
+import { EpisodeArtwork } from './episode-artwork';
 import { useEffect, useRef, useState } from 'react';
 import { formatTimeUtc } from '@/domain/format';
 /**
@@ -154,10 +154,11 @@ export function YouTubeFacade({
     >
       <Text>
         {thumbnailUrl ? (
-          <Image
-            src={thumbnailUrl}
-            alt=""
-            fill
+          <EpisodeArtwork
+            artwork={thumbnailUrl}
+            videoId={id}
+            number={episodeNumber}
+            title={title}
             sizes="(max-width: 56rem) 100vw, 65vw"
             className="youtube-facade-image"
           />

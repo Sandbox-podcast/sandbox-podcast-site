@@ -1,22 +1,12 @@
-import type episode from './content.json';
-import type shorts from './shorts.json';
-import type rundown from './rundown.json';
-
-export interface Scene {
+export interface Slide {
   id: string;
-  kind: string;
+  kind: 'lobby' | 'talk-case' | 'clash-question';
   chapter: string;
   title: string;
-  image?: string;
-  durationMinutes?: number;
-  topicId?: string;
+  sequence?: number;
+  question?: string;
+  illustration: string;
 }
 
-export type Decision = 'pending' | 'keep' | 'reserve' | 'drop';
-export const decisions: Decision[];
-export function isSelectable(scene: Scene): boolean;
-export function buildShortScenes(content: typeof shorts): Scene[];
-export function buildScenes(content: typeof episode): Scene[];
-export function buildEpisodeScenes(content: typeof episode, timing: typeof rundown): Scene[];
-export function sceneIndex(hash: string, scenes: Scene[]): number;
-export function restoreChoices(value: unknown, scenes: Scene[]): Record<string, Decision>;
+export const scenes: Slide[];
+export function sceneIndex(hash: string, slides?: Slide[]): number;

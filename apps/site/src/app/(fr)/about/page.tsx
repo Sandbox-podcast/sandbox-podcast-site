@@ -6,9 +6,9 @@ import { publicHosts } from '@/lib/repository';
 import { pageMetadata } from '@/lib/seo';
 export const dynamic = 'force-dynamic';
 export const metadata = pageMetadata({
-  title: 'Qui anime Sandbox TalkShow ? Lou, Nicolas et Loïc',
+  title: 'Qui anime SANDBOX ? Deux développeurs et un Product Manager',
   description:
-    'Découvre les profils publics de Lou, Nicolas et Loïc, les animateurs de Sandbox TalkShow sur l’actualité IA et tech.',
+    "Lou, Nicolas et Loïc animent SANDBOX. Deux développeurs expérimentés et un Product Manager explorent les effets de l'IA sur les produits et les équipes tech.",
   path: '/about',
   noindex: false,
 });
@@ -29,7 +29,7 @@ export default async function AboutPage() {
         <h1 className="display">
           <Text>{siteConfig.aboutTitle}</Text>
         </h1>
-        <p className="library-description">
+        <p className="library-description whitespace-pre-line">
           <Text>{siteConfig.aboutIntro}</Text>
         </p>
       </header>

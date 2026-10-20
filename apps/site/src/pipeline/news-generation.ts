@@ -279,7 +279,9 @@ export async function generateAndTranslateNews(
     console.warn('SANDBOX News : traduction du lot rejetée, reprise article par article.');
     translated = [];
     for (const item of translatable) {
-      if (Date.now() >= deadline) break;
+      signal.throwIfAborted();
+      if (Date.now() >= deadline)
+        throw new Error('Le budget du lot News est épuisé.', { cause: error });
       try {
         translated.push(
           ...(await translateNewsEditorialItems(
@@ -290,11 +292,15 @@ export async function generateAndTranslateNews(
             signal,
           )),
         );
-      } catch {
+      } catch (error) {
+        if (Date.now() >= deadline) throw error;
+        signal.throwIfAborted();
         console.warn('SANDBOX News : traduction rejetée pour', item.url);
       }
     }
   }
+  signal.throwIfAborted();
+  if (Date.now() >= deadline) throw new Error('Le budget du lot News est épuisé.');
   const complete = translated
     .filter((item) => newsEditorialTranslationsComplete([item], combinedEditorial))
     .map((item) => {
