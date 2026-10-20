@@ -248,6 +248,77 @@ header > img {
   background: #070d12;
 }
 
+#screen.radar-story {
+  padding: 2vh 4vw;
+  overflow-y: auto;
+}
+
+.radar-copy {
+  align-self: center;
+  width: min(100%, 1500px);
+  margin: auto;
+}
+
+.radar-visual {
+  margin: 1.5rem 0 0;
+}
+
+.radar-visual img {
+  display: block;
+  width: 100%;
+  max-height: 65dvh;
+  object-fit: contain;
+}
+
+.radar-visual figcaption {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.7rem;
+  color: var(--cyan);
+  font-size: clamp(0.85rem, 1.2vw, 1.3rem);
+}
+
+.radar-visual figcaption span {
+  color: var(--muted);
+}
+
+.radar-copy .eyebrow {
+  margin-bottom: 1rem;
+}
+
+.radar-copy h1 {
+  margin: 0;
+  font-size: clamp(2rem, 3.2vw, 3.5rem);
+  letter-spacing: -0.055em;
+  line-height: 1.05;
+}
+
+.radar-sources {
+  margin-top: 0.7rem;
+  color: #b7c5cd;
+  font-size: clamp(0.75rem, 1vw, 1rem);
+}
+
+.radar-sources {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem 2rem;
+  margin-top: 1rem;
+}
+
+.radar-sources a {
+  color: inherit;
+  text-underline-offset: 0.2em;
+}
+
+@media (max-width: 780px) {
+  .radar-visual figcaption {
+    flex-direction: column;
+  }
+}
+
 .slide-picker {
   display: flex;
   align-items: center;

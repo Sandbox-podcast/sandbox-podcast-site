@@ -39,6 +39,18 @@ function render() {
         <p class="sequence-index">SÉQUENCE ${sequence} <span>/ 04</span></p>
         <h1>${escapeText(slide.title)}</h1>
       </div>`;
+  } else if (slide.kind === 'radar-story') {
+    screen.innerHTML = `
+      ${illustration}
+      <article class="radar-copy">
+        <p class="eyebrow">LE RADAR <span>·</span> ${escapeText(slide.date)}</p>
+        <h1>${escapeText(slide.title)}</h1>
+          <figure class="radar-visual">
+            <img src="${escapeText(slide.sourceImage)}" alt="${escapeText(slide.sourceImageAlt)}" />
+            <figcaption>Compte propre · Mémoire · Déclencheurs <span>Frontier · expérimental</span></figcaption>
+          </figure>
+        <nav class="radar-sources" aria-label="Sources de l’actualité">${slide.sources.map(({ label, url }) => `<a href="${escapeText(url)}" target="_blank" rel="noopener noreferrer">${escapeText(label)} ↗</a>`).join('')}</nav>
+      </article>`;
   } else if (slide.kind === 'talk-case') {
     screen.innerHTML = `
       ${illustration}
