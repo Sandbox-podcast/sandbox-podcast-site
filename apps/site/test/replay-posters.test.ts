@@ -1,5 +1,18 @@
 import { describe, expect, it } from 'vitest';
-import { replayPosterArtwork } from '../src/domain/replay-posters';
+import { cinemaPosterArtwork, replayPosterArtwork } from '../src/domain/replay-posters';
+
+describe('affiches de la salle cinéma', () => {
+  it('associe chaque nouveau décor à sa vidéo sans modifier les affiches des autres pages', () => {
+    expect(cinemaPosterArtwork('GgSiPkADCz4')).toBe(
+      '/images/home/replays/episode-001-cinema-v2.webp',
+    );
+    expect(cinemaPosterArtwork('7KVqydbGow0')).toBe(
+      '/images/home/replays/episode-002-cinema-v2.webp',
+    );
+    expect(cinemaPosterArtwork('abcdefghijk')).toBeUndefined();
+    expect(cinemaPosterArtwork()).toBeUndefined();
+  });
+});
 
 describe('affiches vintage des replays', () => {
   it('associe le pilote à sa miniature officielle transformée en affiche', () => {

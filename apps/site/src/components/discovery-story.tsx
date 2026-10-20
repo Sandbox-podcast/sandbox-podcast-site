@@ -37,18 +37,7 @@ export function DiscoveryStory({
                 <Text>Le code et le produit, en discussion.</Text>
               </h2>
             </div>
-            <p className={styles['teamNames']} aria-hidden="true">
-              {team.map((host) => (
-                <span key={host.slug}>{host.name}</span>
-              ))}
-            </p>
           </header>
-          <p className={styles['teamIntro']}>
-            <Text>
-              Deux développeurs et un Product Manager. Nous confrontons nos essais et nos points de
-              vue sur ce que l'IA change pour les produits et les équipes tech.
-            </Text>
-          </p>
           <ul className={styles['teamProfiles']}>
             {team.map((host) => (
               <li key={host.slug}>
@@ -112,9 +101,6 @@ export function DiscoveryStory({
                   <Text>Ce que nous construisons.</Text>
                 </h2>
               </div>
-              <p className={styles['chapterIntro']}>
-                <Text>Les projets qui nourrissent nos essais et nos discussions.</Text>
-              </p>
             </header>
             <div data-reveal="project" data-reveal-delay="90">
               <HomeProjectSpotlight projects={selection} />
@@ -167,11 +153,11 @@ export function DiscoveryStory({
           >
             <div className={styles['exploreArtwork']} aria-hidden="true">
               <Image
-                src="/images/home/explore/time-machine-photographs-v2.webp"
+                src="/images/rooms/time-machine-room-v1.webp"
+                unoptimized
                 alt=""
                 fill
                 sizes="(max-width: 700px) calc(100vw - 48px), (max-width: 1280px) 50vw, 610px"
-                quality={90}
               />
             </div>
             <span className={styles['panelKicker']}>
@@ -203,16 +189,13 @@ export function DiscoveryStory({
             data-reveal-side="right"
             data-reveal-delay="80"
           >
-            <div
-              className={`${styles['exploreArtwork']} ${styles['rankingArtwork']}`}
-              aria-hidden="true"
-            >
+            <div className={styles['exploreArtwork']} aria-hidden="true">
               <Image
-                src="/images/home/explore/charts-editorial-v2.webp"
+                src="/images/rooms/rankings-room-v1.webp"
+                unoptimized
                 alt=""
                 fill
                 sizes="(max-width: 700px) calc(100vw - 48px), (max-width: 1280px) 50vw, 610px"
-                quality={90}
               />
             </div>
             <span className={styles['panelKicker']}>Sandbox Charts</span>
@@ -243,11 +226,11 @@ export function DiscoveryStory({
             >
               <div className={styles['exploreArtwork']} aria-hidden="true">
                 <Image
-                  src="/images/home/explore/news-editorial-v1.webp"
+                  src="/images/rooms/radar-room-v1.webp"
+                  unoptimized
                   alt=""
                   fill
                   sizes="(max-width: 700px) calc(100vw - 48px), (max-width: 1050px) 100vw, 33vw"
-                  quality={90}
                 />
               </div>
               <span className={styles['panelKicker']}>Sandbox News</span>

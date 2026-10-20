@@ -1,6 +1,8 @@
 # Remplacement des anciennes programmations TikTok E02
 
-Cette liste conserve les 24 anciennes réservations à reprendre au lancement du remplacement. Leur suppression et leur recréation avancent dans la conversation de diffusion ; consulter les états actuels dans `publication-queue.json` et `publication-events.jsonl`. Leurs fichiers corrigés sont prêts dans shorts/. Chaque identité sera vérifiée dans TikTok avant suppression de la réservation et recréation. Le post E02-025 déjà public est exclu. Les fichiers locaux et les légendes sont archivés.
+Les 24 anciennes réservations ci-dessous ont été supprimées après la confirmation explicite de Lou : « Confirmer le remplacement des 24 programmations TikTok ». La liste native ne contenait ensuite plus que les publications publiques. Le post E02-025 déjà public a été conservé. Les fichiers locaux et les légendes sont archivés.
+
+Les nouveaux identifiants, créneaux et preuves des vidéos `camera-unique-v2` sont enregistrés dans `publication-queue.json`. Le tableau ci-dessous conserve l’historique des anciennes réservations.
 
 | Extrait | Titre                                                              | Ancien identifiant TikTok | Date native connue  |
 | ------- | ------------------------------------------------------------------ | ------------------------- | ------------------- |

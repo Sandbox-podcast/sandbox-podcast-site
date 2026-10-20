@@ -21,7 +21,7 @@ describe('images livrées au navigateur', () => {
     expect(image).toContain('loading="eager"');
     expect(image).toContain('fetchPriority="high"');
     expect(image).toContain('q=75');
-    expect(image).toContain('min(100vw, 178vh)');
+    expect(image).toContain('max(100vw, 178vh)');
     expect(html).not.toContain('entrance-cinematic-v2.webp');
     expect(html).not.toContain('body-no-mic');
   });

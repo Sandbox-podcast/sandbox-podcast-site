@@ -1,5 +1,9 @@
 # Site média : conception
 
+Lot local complet du 20 octobre : [périmètre et recette d’intégration](livraison-lot-local-2026-10-20.md).
+
+Portail du plateau vers le vidéoclub au survol de la porte : [DD-0069](../design-decisions/dd-0069-portail-vers-le-videoclub.md) et [recette locale du 20 octobre](portail-videoclub-2026-10-20.md).
+
 Cadence News et Charts : [diagnostic et contrôle Cloudflare indépendant](fiabilisation-planification-2026-10-20.md), selon [ADR-0039](../adr/ADR-0039-controle-externe-des-traitements-planifies.md), avec [la procédure d'activation](../../tools/automation-watchdog/README.md).
 
 Reprise des travaux interrompus : [lot local et résultats de validation du 20 octobre](reprise-locale-2026-10-20.md).

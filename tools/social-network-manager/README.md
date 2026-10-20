@@ -18,7 +18,7 @@ Préparer environ 40 candidats et retenir jusqu'à 30 extraits distincts : cas d
 
 ## Sources et limites actuelles
 
-- Le nom public est Sandbox TalkShow sur tous les médias, selon la demande de Lou du 18 octobre. Spotify a été renommé et sa couverture remplacée par l'avatar officiel après son accord ; YouTube, Instagram, TikTok et X affichent déjà ce nom. Vérifications et limites : [DD-0054](../../docs/design-decisions/dd-0054-nom-public-sandbox-talkshow.md).
+- Le 20 octobre, Lou demande le nom d'affichage `Sandbox Podcast` sur YouTube, Instagram, TikTok, X, LinkedIn et Spotify, avec le mot-clé `Talkshow` dans les descriptions. Les profils observés et les textes préparés sont dans [DD-0065](../../docs/design-decisions/dd-0065-nom-public-sandbox-podcast.md) et [ce relevé](../../docs/site/social-profile-copy-2026-10-20.md). TikTok bloque le changement de nom jusqu'au 24 octobre; sa bio de 80 caractères est déjà occupée par trois liens.
 
 - Le positionnement et la charte existants sont dans `brand/youtube/` et `docs/design-decisions/DD-0001-direction-artistique-du-site.md`.
 - La chaîne YouTube est déjà équipée d'un agent d'audit, de métadonnées, de sélection de passages, de rendu et de suivi. Son guide est `tools/youtube-growth/README.md`.

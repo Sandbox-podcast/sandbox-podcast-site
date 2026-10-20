@@ -97,4 +97,6 @@ Critères d'acceptation vérifiés, permissions testées, erreurs et états load
 
 ## Rapport de fin de tâche
 
+Appliquer le skill [codex-quota](.agents/skills/codex-quota/SKILL.md) à chaque tour, y compris sans modification de code : relever le quota au début du suivi et avant chaque réponse finale, puis afficher le pourcentage restant et la consommation observée depuis le premier relevé de ce chat et depuis la réponse précédente. Préciser que la mesure concerne le compte et peut inclure les autres conversations ; elle ne donne pas le coût exact de ce chat. Si les relevés sont absents ou incomparables, le signaler sans estimation ; afficher le restant si le relevé actuel est disponible.
+
 Résumé des changements, décisions prises, questions restantes, fichiers modifiés, tests exécutés et résultats, critères d'acceptation validés, risques et limites, étape suivante.

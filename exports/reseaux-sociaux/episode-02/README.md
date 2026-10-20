@@ -1,6 +1,6 @@
 # SANDBOX #2 : Shorts corrigés
 
-Instantané de livraison du 2026-10-18T21:17:26.980317+00:00. La révision `camera-unique-v2` remplace le montage qui affichait deux fois la même caméra. Les programmations continuent d'évoluer ; relire la file avant une action.
+Mise à jour du 19 octobre 2026. La révision `camera-unique-v2` remplace le montage qui affichait deux fois la même caméra.
 
 ## Fichiers à utiliser
 
@@ -29,14 +29,16 @@ Un fichier corrigé sur le disque ne remplace pas à lui seul la vidéo sur un r
 
 | Réseau    | Publications existantes conservées | Nouvelles versions programmées et vérifiées | Remplacements restant à confirmer |
 | --------- | ---------------------------------- | ------------------------------------------- | --------------------------------- |
-| youtube   | 3                                  | 1                                           | 26                                |
-| instagram | 1                                  | 0                                           | 29                                |
-| x         | 1                                  | 9                                           | 20                                |
-| tiktok    | 1                                  | 0                                           | 29                                |
+| youtube   | 3                                  | 27                                          | 0                                 |
+| instagram | 1                                  | 29                                          | 0                                 |
+| x         | 1                                  | 29                                          | 0                                 |
+| tiktok    | 1                                  | 29                                          | 0                                 |
 
-Les 27 anciens Shorts YouTube programmés ont été rendus privés. Les neuf Reels Instagram réellement programmés ont été déplacés en brouillons ; la liste Meta des programmations a ensuite été vérifiée vide. Les anciennes réservations X et TikTok peuvent rester actives tant que leur remplacement n’est pas confirmé. Les routines de publication Meta et TikTok restent suspendues pendant cette reprise.
+Les 27 anciens Shorts YouTube programmés ont été rendus privés. Les anciens Reels Instagram programmés ont été déplacés en brouillons avant le remplacement. Les 24 anciennes réservations TikTok ont été supprimées après confirmation explicite de Lou. Sur X, chaque ancien média est remplacé dans sa réservation existante. Les routines locales Meta et TikTok restent en pause ; les réservations natives assurent la diffusion.
 
-Les heures de `publication-queue.json` sont en Europe/Paris. Le plan approuvé du 19 au 24 octobre reste dans `replanification-proposee.json` ; certaines anciennes réservations TikTok dépassaient encore cette fenêtre. La file conserve la date native connue et le plan conserve la cible : ne pas déclarer un déplacement terminé avant vérification dans la plateforme.
+Les heures de `publication-queue.json` sont en Europe/Paris et les réservations se répartissent du 19 au 24 octobre. Les neuf derniers Reels Instagram ont été réconciliés avec leurs identifiants natifs et les créneaux approuvés des 23 et 24 octobre. La file compte 114 réservations corrigées et six publications existantes conservées, sans remplacement en attente.
+
+Meta conserve une tentative supplémentaire « Pâtissiers » (`1067034329496463`) marquée « Failed to publish ». Elle n'est pas comptée comme une réservation valide. La réservation retenue est `1726874871716795`, le 23 octobre à 13 h. Ne pas renvoyer cet extrait ; conserver le constat et les captures du 19 octobre dans `.local/social-network-manager/2026-10-19/`.
 
 ## Vérifications
 
