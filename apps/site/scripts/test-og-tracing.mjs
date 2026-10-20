@@ -19,7 +19,7 @@ for (const path of traces) {
   const file = resolve(root, path);
   const trace = JSON.parse(await readFile(file, 'utf8'));
   for (const name of expected) {
-    const entry = trace.files.find((value) => value.endsWith('/' + name));
+    const entry = trace.files.find((value) => value.replaceAll('\\', '/').endsWith('/' + name));
     assert.ok(entry, `${path} : police absente du déploiement ${name}`);
     await access(resolve(dirname(file), entry));
   }

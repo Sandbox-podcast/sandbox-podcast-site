@@ -2778,6 +2778,10 @@
       "src/components/video-club-dossier.tsx"
     ]
   },
+  "Découvrir le vidéoclub des projets": {
+    "translation": "",
+    "sources": ["src/components/studio-landing.tsx"]
+  },
   "Découvrir nos projets": {
     "translation": "",
     "sources": ["src/components/studio-landing.tsx"]
@@ -7842,10 +7846,6 @@
   "Projet suivant": {
     "translation": "",
     "sources": ["src/components/home-project-spotlight.tsx"]
-  },
-  "Projets": {
-    "translation": "",
-    "sources": ["src/components/studio-landing.tsx"]
   },
   "Projets de l'équipe": {
     "translation": "",
