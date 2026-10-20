@@ -5,7 +5,7 @@ import { episodeArtwork } from '@/domain/episode-artwork';
 import { verifiedEpisodeDuration } from '@/domain/episode-presentation';
 import { formatDateShort, formatDuration } from '@/domain/format';
 import type { Episode } from '@/domain/schema';
-import { absoluteUrl, siteShareImage } from '@/lib/seo';
+import { absoluteUrl, siteShareImage, publisherLd } from '@/lib/seo';
 import { siteConfig } from '@/config/site';
 
 function ReplayArtwork({ episode, latest = false }: { episode: Episode; latest?: boolean }) {
@@ -124,11 +124,13 @@ export function PodcastReplays({ episodes }: { episodes: readonly Episode[] }) {
           {
             '@context': 'https://schema.org',
             '@type': 'PodcastSeries',
+            '@id': absoluteUrl('/podcast#series'),
             name: siteConfig.name,
             description: siteConfig.description,
             url: absoluteUrl('/podcast'),
             image: siteShareImage().url,
             inLanguage: siteConfig.language,
+            publisher: publisherLd,
           },
           {
             '@context': 'https://schema.org',

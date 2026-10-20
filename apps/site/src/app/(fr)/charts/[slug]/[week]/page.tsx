@@ -4,7 +4,8 @@ import { ChartsExperience } from '@/components/charts-experience';
 import { sandboxChartsData } from '@/lib/sandbox-charts';
 import { findChart, weeksOf } from '@/lib/repository';
 import { pageMetadata } from '@/lib/seo';
-import { CHART_LABELS, hasChartEdition } from '@/domain/sandbox-charts';
+import { hasChartEdition } from '@/domain/sandbox-charts';
+import { chartMetadataCopy } from '@/domain/chart-seo-copy';
 import { chartSelectionSchema, hasChartSelectionQuery } from '@/domain/chart-selection';
 import { chartIdForSlug, hasIndexableChartContent } from '@/domain/chart-seo';
 import { editionFromRoute } from '@/domain/edition-route';
@@ -16,19 +17,17 @@ interface Props {
     week: string;
   }>;
   searchParams: Promise<Record<string, string | string[] | undefined>>;
+  locale?: string;
 }
-export async function generateMetadata({ params, searchParams }: Props) {
+export async function generateMetadata({ params, searchParams, locale = 'fr-FR' }: Props) {
   const { slug, week: rawWeek } = await params;
   const week = editionFromRoute(rawWeek);
   const chart = findChart(slug);
   if (!chart || !week) return {};
-  const title =
-    Object.values(CHART_LABELS).find((item) => item.slug === slug)?.title ?? 'MODELS TOP 20';
   const chartId = chartIdForSlug(slug);
   const data = chartId ? await sandboxChartsData(week) : undefined;
   return pageMetadata({
-    title: `${title} · ${week} · SANDBOX CHARTS`,
-    description: `L’édition ${week} de ${title}, avec ses positions et mouvements figés.`,
+    ...chartMetadataCopy(chartId ?? 'models', locale, week),
     path: `/charts/${chart.slug}/${week}`,
     ...(chartId && data
       ? {

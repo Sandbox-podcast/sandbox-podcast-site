@@ -6,21 +6,23 @@ import { hasChartEdition } from '@/domain/sandbox-charts';
 import { hasIndexableChartContent } from '@/domain/chart-seo';
 import { editionFromRoute } from '@/domain/edition-route';
 import { pageMetadata } from '@/lib/seo';
+import { chartMetadataCopy } from '@/domain/chart-seo-copy';
 export async function generateMetadata({
   params,
   searchParams = Promise.resolve({}),
+  locale = 'fr-FR',
 }: {
   params: Promise<{
     week: string;
   }>;
   searchParams?: Promise<Record<string, string | string[] | undefined>>;
+  locale?: string;
 }) {
   const week = editionFromRoute((await params).week);
   if (!week) return {};
   const data = await sandboxChartsData(week);
   return pageMetadata({
-    title: `RISING 20 · ${week} · SANDBOX CHARTS`,
-    description: `L’édition ${week} des projets IA en accélération sur GitHub.`,
+    ...chartMetadataCopy('rising', locale, week),
     path: `/charts/rising/${week}`,
     noindex:
       !hasIndexableChartContent(data, 'rising', week) || hasChartSelectionQuery(await searchParams),

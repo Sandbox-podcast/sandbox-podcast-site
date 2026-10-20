@@ -120,7 +120,7 @@ export async function generateMetadata({
       title,
       description,
       alternates: { canonical: absoluteUrl(pathName), ...(languages ? { languages } : {}) },
-      robots: indexable ? robotsMetadata(false) : (metadata.robots ?? robotsMetadata(true)),
+      robots: robotsMetadata(!indexable),
       openGraph: {
         ...metadata.openGraph,
         ...(typeof title === 'string' ? { title } : {}),

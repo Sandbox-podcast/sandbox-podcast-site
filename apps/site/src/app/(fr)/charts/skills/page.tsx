@@ -1,4 +1,5 @@
 import ChartPage, { generateMetadata as chartMetadata } from '../[slug]/page';
+import { SkillGuideLinks } from '@/components/skill-guide';
 
 export const dynamic = 'force-dynamic';
 
@@ -12,5 +13,12 @@ export function generateMetadata({ searchParams }: Props) {
 
 // Une page statique de routage associe l'image Skills à sa véritable URL.
 export default function SkillsPage({ searchParams }: Props) {
-  return <ChartPage params={Promise.resolve({ slug: 'skills' })} searchParams={searchParams} />;
+  return (
+    <>
+      <ChartPage params={Promise.resolve({ slug: 'skills' })} searchParams={searchParams} />
+      <div className="wrap">
+        <SkillGuideLinks />
+      </div>
+    </>
+  );
 }

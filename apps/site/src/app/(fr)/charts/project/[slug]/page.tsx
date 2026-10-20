@@ -12,13 +12,16 @@ import { readChartsEditorial } from '@/lib/charts-editorial';
 import { absoluteUrl, pageMetadata } from '@/lib/seo';
 import { Suspense } from 'react';
 import { ProjectBadges } from '@/components/project-badges';
+import { rankedProjectMetadataCopy } from '@/domain/chart-seo-copy';
 export const dynamic = 'force-dynamic';
 export async function generateMetadata({
   params,
+  locale = 'fr-FR',
 }: {
   params: Promise<{
     slug: string;
   }>;
+  locale?: string;
 }): Promise<Metadata> {
   const { slug } = await params;
   if (!slugSchema.safeParse(slug).success) return {};
@@ -33,18 +36,8 @@ export async function generateMetadata({
   }
   const ranked = result?.weekly.some((item) => item.chart === 'github') ?? false;
   const projectName = result?.project.name ?? slug;
-  const projectDescription = result?.project.description?.trim();
-  const description = [
-    projectDescription,
-    `Rangs des éditions et mesures GitHub observées pour ${result?.project.fullName ?? slug}.`,
-  ]
-    .filter(Boolean)
-    .join(' ')
-    .slice(0, 160)
-    .trimEnd();
   return pageMetadata({
-    title: `${projectName} · GitHub Top 20 · SANDBOX CHARTS`,
-    description,
+    ...rankedProjectMetadataCopy(projectName, result?.project.fullName ?? slug, locale),
     path: `/charts/project/${slug}`,
     noindex: !ranked,
     ownImage: true,

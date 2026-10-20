@@ -66,14 +66,17 @@ export const sharedPages: Record<SharedPageRoute, SharedPage> = {
     metadata: (o) =>
       Episode.generateMetadata({ params: Promise.resolve({ number: value(o, 'number') }) }),
   },
-  '/about': { render: () => <About.default />, metadata: () => About.metadata },
+  '/about': {
+    render: (o) => <About.default locale={o.locale ?? 'fr-FR'} />,
+    metadata: () => About.metadata,
+  },
   '/confidentialite': { render: () => <Privacy.default />, metadata: () => Privacy.metadata },
   '/nos-projets': {
     render: () => <PersonalProjects.default />,
     metadata: () => PersonalProjects.metadata,
   },
   '/nos-projets/:slug': {
-    render: (o) => <PersonalProject.default params={slugParams(o)} />,
+    render: (o) => <PersonalProject.default params={slugParams(o)} locale={o.locale ?? 'fr-FR'} />,
     metadata: async (o) => {
       const metadata = await PersonalProject.generateMetadata({ params: slugParams(o) });
       const project = personalProject(value(o, 'slug'));
@@ -160,11 +163,16 @@ export const sharedPages: Record<SharedPageRoute, SharedPage> = {
   '/charts/history/:week': {
     render: (o) => <HistoryWeek.default params={weekParams(o)} searchParams={o.searchParams} />,
     metadata: (o) =>
-      HistoryWeek.generateMetadata({ params: weekParams(o), searchParams: o.searchParams }),
+      HistoryWeek.generateMetadata({
+        params: weekParams(o),
+        searchParams: o.searchParams,
+        locale: o.locale ?? 'fr-FR',
+      }),
   },
   '/charts/project/:slug': {
     render: (o) => <ChartProject.default params={slugParams(o)} />,
-    metadata: (o) => ChartProject.generateMetadata({ params: slugParams(o) }),
+    metadata: (o) =>
+      ChartProject.generateMetadata({ params: slugParams(o), locale: o.locale ?? 'fr-FR' }),
   },
   '/charts/skills/:platform': {
     render: (o) => (
@@ -186,7 +194,8 @@ export const sharedPages: Record<SharedPageRoute, SharedPage> = {
   },
   '/charts/rising': {
     render: (o) => <Rising.default searchParams={o.searchParams} />,
-    metadata: (o) => Rising.generateMetadata({ searchParams: o.searchParams }),
+    metadata: (o) =>
+      Rising.generateMetadata({ searchParams: o.searchParams, locale: o.locale ?? 'fr-FR' }),
   },
   '/charts/rising/methodology': {
     render: (o) => <RisingMethod.default searchParams={o.searchParams} />,
@@ -195,7 +204,11 @@ export const sharedPages: Record<SharedPageRoute, SharedPage> = {
   '/charts/rising/:week': {
     render: (o) => <RisingWeek.default params={weekParams(o)} searchParams={o.searchParams} />,
     metadata: (o) =>
-      RisingWeek.generateMetadata({ params: weekParams(o), searchParams: o.searchParams }),
+      RisingWeek.generateMetadata({
+        params: weekParams(o),
+        searchParams: o.searchParams,
+        locale: o.locale ?? 'fr-FR',
+      }),
   },
   '/charts/:slug/methodology': {
     render: (o) => <ChartMethod.default params={slugParams(o)} searchParams={o.searchParams} />,
@@ -205,11 +218,19 @@ export const sharedPages: Record<SharedPageRoute, SharedPage> = {
   '/charts/:slug/:week': {
     render: (o) => <ChartWeek.default params={chartWeekParams(o)} searchParams={o.searchParams} />,
     metadata: (o) =>
-      ChartWeek.generateMetadata({ params: chartWeekParams(o), searchParams: o.searchParams }),
+      ChartWeek.generateMetadata({
+        params: chartWeekParams(o),
+        searchParams: o.searchParams,
+        locale: o.locale ?? 'fr-FR',
+      }),
   },
   '/charts/:slug': {
     render: (o) => <Chart.default params={slugParams(o)} searchParams={o.searchParams} />,
     metadata: (o) =>
-      Chart.generateMetadata({ params: slugParams(o), searchParams: o.searchParams }),
+      Chart.generateMetadata({
+        params: slugParams(o),
+        searchParams: o.searchParams,
+        locale: o.locale ?? 'fr-FR',
+      }),
   },
 };

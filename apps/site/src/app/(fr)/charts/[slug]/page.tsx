@@ -4,7 +4,7 @@ import { ChartsExperience } from '@/components/charts-experience';
 import { sandboxChartsData } from '@/lib/sandbox-charts';
 import { allCharts, findChart } from '@/lib/repository';
 import { pageMetadata } from '@/lib/seo';
-import { CHART_LABELS } from '@/domain/sandbox-charts';
+import { chartMetadataCopy } from '@/domain/chart-seo-copy';
 import { chartSelectionSchema, hasChartSelectionQuery } from '@/domain/chart-selection';
 import { chartIdForSlug, hasIndexableChartContent } from '@/domain/chart-seo';
 export const dynamicParams = true;
@@ -14,11 +14,13 @@ export function generateStaticParams() {
 export async function generateMetadata({
   params,
   searchParams = Promise.resolve({}),
+  locale = 'fr-FR',
 }: {
   params: Promise<{
     slug: string;
   }>;
   searchParams?: Promise<Record<string, string | string[] | undefined>>;
+  locale?: string;
 }) {
   const { slug } = await params;
   const chart = findChart(slug);
@@ -26,10 +28,7 @@ export async function generateMetadata({
   const chartId = chartIdForSlug(slug);
   const data = chartId ? await sandboxChartsData() : undefined;
   return pageMetadata({
-    title: `${Object.values(CHART_LABELS).find((item) => item.slug === slug)?.title ?? 'MODELS TOP 20'} · SANDBOX CHARTS`,
-    description:
-      Object.values(CHART_LABELS).find((item) => item.slug === slug)?.subtitle ??
-      chart.seo.description,
+    ...chartMetadataCopy(chartId ?? 'models', locale),
     path: `/charts/${chart.slug}`,
     keywords: chart.seo.keywords,
     ...(chartId && data

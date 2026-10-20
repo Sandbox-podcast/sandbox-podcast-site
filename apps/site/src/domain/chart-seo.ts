@@ -5,6 +5,36 @@ export interface PublishedChartEditionForSitemap {
   chart: ChartId;
   week: string;
   entries: number;
+  publishedAt?: string | null;
+}
+
+/** Date d’une publication réelle, limitée aux données effectivement rendues par cette URL. */
+export function publishedChartSitemapLastModified(
+  path: string,
+  editions: readonly PublishedChartEditionForSitemap[],
+): string | undefined {
+  const eligible = editions.filter(
+    (edition) =>
+      edition.entries > 0 &&
+      editionIdSchema.safeParse(edition.week).success &&
+      edition.publishedAt &&
+      Number.isFinite(Date.parse(edition.publishedAt)),
+  );
+  let matching: typeof eligible;
+  if (path === '/charts' || path === '/charts/history') matching = eligible;
+  else if (path.startsWith('/charts/history/'))
+    matching = eligible.filter((edition) => edition.week === path.slice('/charts/history/'.length));
+  else {
+    const [, slug, week] = /^\/charts\/([^/]+)(?:\/([^/]+))?$/.exec(path) ?? [];
+    const chart = slug ? chartIdForSlug(slug) : undefined;
+    if (!chart || week === 'methodology') return undefined;
+    matching = eligible.filter(
+      (edition) => edition.chart === chart && (!week || edition.week === week),
+    );
+  }
+  return matching
+    .flatMap((edition) => (edition.publishedAt ? [edition.publishedAt] : []))
+    .toSorted((left, right) => Date.parse(right) - Date.parse(left))[0];
 }
 
 export function chartIdForSlug(slug: string): ChartId | undefined {

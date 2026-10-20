@@ -5,6 +5,7 @@ import {
   hasIndexableChartCollection,
   hasIndexableChartContent,
   publishedChartSitemapPaths,
+  publishedChartSitemapLastModified,
 } from '../src/domain/chart-seo.ts';
 import type { ChartsData } from '../src/domain/sandbox-charts.ts';
 import { snapshotSchema } from '../src/domain/schema.ts';
@@ -45,6 +46,52 @@ function liveData(): ChartsData {
 }
 
 describe('SEO des classements publiés', () => {
+  it('date chaque URL à partir de sa propre publication, sans rajeunir les archives ni les méthodes', () => {
+    const editions = [
+      {
+        chart: 'github' as const,
+        week: '2026-W41',
+        entries: 20,
+        publishedAt: '2026-10-12T10:00:00Z',
+      },
+      {
+        chart: 'github' as const,
+        week: '2026-W42',
+        entries: 20,
+        publishedAt: '2026-10-19T10:00:00Z',
+      },
+      {
+        chart: 'skills' as const,
+        week: '2026-W42',
+        entries: 20,
+        publishedAt: '2026-10-20T10:00:00Z',
+      },
+      {
+        chart: 'skills' as const,
+        week: '2026-W43',
+        entries: 0,
+        publishedAt: '2026-10-21T10:00:00Z',
+      },
+      { chart: 'models' as const, week: '2026-W42', entries: 20, publishedAt: 'invalid' },
+    ];
+    expect(publishedChartSitemapLastModified('/charts', editions)).toBe('2026-10-20T10:00:00Z');
+    expect(publishedChartSitemapLastModified('/charts/github', editions)).toBe(
+      '2026-10-19T10:00:00Z',
+    );
+    expect(publishedChartSitemapLastModified('/charts/github/2026-W41', editions)).toBe(
+      '2026-10-12T10:00:00Z',
+    );
+    expect(publishedChartSitemapLastModified('/charts/history/2026-W42', editions)).toBe(
+      '2026-10-20T10:00:00Z',
+    );
+    for (const path of [
+      '/charts/skills/methodology',
+      '/charts/ai-models',
+      '/charts/skills/2026-W43',
+      '/charts/project/test',
+    ])
+      expect(publishedChartSitemapLastModified(path, editions)).toBeUndefined();
+  });
   it('indexe uniquement une édition réelle avec des entrées', () => {
     const data = liveData();
 

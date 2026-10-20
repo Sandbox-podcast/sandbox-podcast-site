@@ -4,7 +4,7 @@ import { hreflangAlternates, type HreflangPage } from '@/domain/ranking-catalog'
 import { sharedPageAlternates } from '@/i18n/indexing';
 
 export const absoluteUrl = (path: string): string => new URL(path, siteConfig.url).toString();
-export const SITE_SHARE_IMAGE_ALT = 'Sandbox TalkShow : émission et classements tech';
+export const SITE_SHARE_IMAGE_ALT = 'Sandbox Podcast : émission et classements tech et IA';
 
 export function siteShareImage() {
   return {
@@ -108,6 +108,9 @@ export const breadcrumbLd = (items: { name: string; path: string }[]): Record<st
 
 export const publisherLd = {
   '@type': 'Organization',
-  name: siteConfig.name,
+  '@id': absoluteUrl('/#organization'),
+  get name() {
+    return siteConfig.name;
+  },
   url: siteConfig.url,
 } as const;

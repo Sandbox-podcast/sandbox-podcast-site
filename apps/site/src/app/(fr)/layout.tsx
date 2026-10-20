@@ -9,7 +9,8 @@ import { JsonLd } from '@/components/json-ld';
 import { isMock, siteConfig } from '@/config/site';
 import { preparePublicEditorialContent } from '@/lib/admin-persistence';
 import { newsPageAvailable } from '@/lib/news-page-data';
-import { absoluteUrl, openGraphLocaleForTag, robotsMetadata } from '@/lib/seo';
+import { openGraphLocaleForTag, robotsMetadata } from '@/lib/seo';
+import { siteIdentityLd } from '@/lib/site-identity';
 
 export async function generateMetadata(): Promise<Metadata> {
   await preparePublicEditorialContent();
@@ -56,25 +57,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
           {children}
         </main>
         <Footer newsAvailable={newsAvailable} />
-        <JsonLd
-          data={[
-            {
-              '@context': 'https://schema.org',
-              '@type': 'WebSite',
-              name: siteConfig.name,
-              url: siteConfig.url,
-              description: siteConfig.description,
-              inLanguage: siteConfig.language,
-            },
-            {
-              '@context': 'https://schema.org',
-              '@type': 'Organization',
-              name: siteConfig.name,
-              url: siteConfig.url,
-              logo: absoluteUrl('/sandbox-logo.png'),
-            },
-          ]}
-        />
+        <JsonLd data={siteIdentityLd(siteConfig.description, siteConfig.language)} />
         <AnalyticsConsent language={siteConfig.language} />
       </body>
     </html>

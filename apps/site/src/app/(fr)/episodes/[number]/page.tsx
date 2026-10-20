@@ -23,7 +23,7 @@ import { formatDate, formatDurationExact, formatTimestamp, isoDuration } from '@
 import type { Episode } from '@/domain/schema';
 import { allEpisodes, getEpisode, getHost } from '@/lib/repository';
 import { preparePublicEditorialContent } from '@/lib/admin-persistence';
-import { absoluteUrl, breadcrumbLd, pageMetadata } from '@/lib/seo';
+import { absoluteUrl, breadcrumbLd, pageMetadata, publisherLd } from '@/lib/seo';
 // Les épisodes publiés dans l'admin après le build doivent aussi être accessibles.
 export const dynamic = 'force-dynamic';
 export const dynamicParams = true;
@@ -433,8 +433,15 @@ export default async function EpisodePage({ params, searchParams }: Props) {
             ...(durationSec !== undefined ? { timeRequired: isoDuration(durationSec) } : {}),
             url: absoluteUrl(path),
             inLanguage: siteConfig.language,
+            publisher: publisherLd,
+            author: episode.hosts.map((slug) => ({
+              '@type': 'Person',
+              '@id': absoluteUrl(`/about#${slug}`),
+              name: getHost(slug).name,
+            })),
             partOfSeries: {
               '@type': 'PodcastSeries',
+              '@id': absoluteUrl('/podcast#series'),
               name: siteConfig.name,
               url: absoluteUrl('/podcast'),
             },
@@ -455,6 +462,7 @@ export default async function EpisodePage({ params, searchParams }: Props) {
                   ...(durationSec !== undefined ? { duration: isoDuration(durationSec) } : {}),
                   embedUrl: `https://www.youtube-nocookie.com/embed/${youtubeId}`,
                   mainEntityOfPage: absoluteUrl(path),
+                  publisher: publisherLd,
                   hasPart: episodeVideoClips(chapters, durationSec, absoluteUrl(path)),
                 },
               ]

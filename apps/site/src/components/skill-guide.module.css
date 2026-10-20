@@ -1,0 +1,122 @@
+.guide {
+  max-width: 76rem;
+  padding-block: clamp(2rem, 5vw, 5rem);
+  overflow-wrap: anywhere;
+}
+
+.breadcrumbs,
+.contents {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.5rem;
+}
+
+.breadcrumbs,
+.byline {
+  font-size: 0.875rem;
+}
+.heading {
+  max-width: 62rem;
+  margin-block: 2rem;
+}
+.heading h1 {
+  max-width: 22ch;
+  font-size: clamp(2.4rem, 6vw, 5.5rem);
+  line-height: 1.05;
+}
+.heading > p:not(.byline) {
+  max-width: 68ch;
+  margin-block: 1.5rem;
+  font-size: 1.2rem;
+  line-height: 1.65;
+}
+.contents {
+  padding-block: 1rem;
+  border-block: 1px solid var(--hair);
+}
+.guide a {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+.scope,
+.section,
+.related {
+  margin-block: 2.5rem;
+  scroll-margin-top: 7rem;
+}
+.scope,
+.section > p,
+.section > div {
+  max-width: 72ch;
+}
+.guide p,
+.guide dd,
+.steps {
+  line-height: 1.75;
+}
+.guide p + p {
+  margin-top: 1rem;
+}
+.section h2,
+.related h2 {
+  margin-bottom: 1.25rem;
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  line-height: 1.2;
+}
+.section h3 {
+  margin-block: 1.5rem 0.5rem;
+  font-size: 1.25rem;
+}
+.options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  list-style: none;
+  padding: 0;
+}
+.options > li {
+  min-width: 0;
+  padding: clamp(1rem, 2vw, 1.75rem);
+  border: 1px solid var(--hair);
+}
+.options h3 {
+  margin-top: 0;
+}
+.options .use {
+  font-weight: 650;
+  margin-bottom: 1rem;
+}
+.options dl {
+  margin-block: 1rem;
+}
+.options dt {
+  margin-top: 1rem;
+  font-weight: 650;
+}
+.options dd {
+  margin: 0.25rem 0 0;
+}
+.steps {
+  max-width: 72ch;
+  padding-left: 1.5rem;
+}
+.steps li + li {
+  margin-top: 1rem;
+}
+.section pre {
+  max-width: 100%;
+  overflow-x: auto;
+  padding: 1rem;
+  border: 1px solid var(--hair);
+  margin-block: 1.25rem;
+}
+.related ul {
+  display: grid;
+  gap: 0.75rem;
+  padding-left: 1.25rem;
+}
+@media (max-width: 640px) {
+  .options {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
