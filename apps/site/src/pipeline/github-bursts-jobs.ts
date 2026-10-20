@@ -145,7 +145,12 @@ export async function discoverGithubTrending(
     details: [],
   };
   if (process.env['GITHUB_TRENDING_DISCOVERY_ENABLED'] !== 'true')
-    return { ...summary, status: 'skipped', details: ['Découverte GitHub Trending désactivée.'] };
+    return {
+      ...summary,
+      status: 'skipped',
+      skipReason: 'disabled',
+      details: ['Découverte GitHub Trending désactivée.'],
+    };
   requireChartsDatabase();
   const id = await beginChartsJob('github_trending_discovery');
   if (!id)
@@ -184,19 +189,26 @@ export async function discoverGithubTrending(
         names.slice(start, start + 20),
         new Date(now.getTime() - 86400000).toISOString(),
       );
-      const valid = fetched.flatMap(({ repository }) =>
-        repository &&
-        !repository.private &&
-        !repository.archived &&
-        !repository.fork &&
-        !repository.disabled &&
-        OPEN_SOURCE_LICENSE_IDS.has(repository.license?.spdx_id ?? '')
-          ? [repository]
-          : [],
-      );
-      summary.processed += fetched.length;
-      summary.succeeded += valid.length;
-      summary.failed += fetched.length - valid.length;
+      const valid = [];
+      for (const item of fetched) {
+        summary.processed++;
+        const repository = item.repository;
+        if (item.error || !repository) {
+          summary.failed++;
+          summary.details.push(`${item.fullName} : métadonnées GitHub indisponibles.`);
+        } else if (
+          repository.private ||
+          repository.archived ||
+          repository.fork ||
+          repository.disabled ||
+          !OPEN_SOURCE_LICENSE_IDS.has(repository.license?.spdx_id ?? '')
+        ) {
+          summary.filtered = (summary.filtered ?? 0) + 1;
+        } else {
+          valid.push(repository);
+          summary.succeeded++;
+        }
+      }
       await upsertDiscoveredRepositories(valid);
     }
     summary.details.push(

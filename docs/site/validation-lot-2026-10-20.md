@@ -1,5 +1,7 @@
 # Validation du lot local et des descriptions publiques
 
+Ce document conserve le contrôle local effectué avant la livraison. Le lot a ensuite été fusionné dans la PR 99 ; [le relevé de production](verification-production-2026-10-20.md) consigne le déploiement et les résultats réellement observés.
+
 20 octobre 2026. Ce relevé complète les rapports détaillés de reprise, de responsive, d'automatisation et de wording. Il distingue les changements locaux des opérations distantes réellement vérifiées.
 
 ## Textes et affichage

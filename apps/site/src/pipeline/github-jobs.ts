@@ -30,6 +30,16 @@ import {
 import { GithubClient, GithubRateLimitError } from './github-client.ts';
 import { ScorecardClient } from './scorecard-client.ts';
 import { githubDiscoveryPlan } from '../domain/github-discovery.ts';
+import {
+  advanceGithubDiscoveryCursor,
+  githubDiscoveryCursorDetails,
+  type GithubDiscoveryContinuation,
+  type GithubDiscoveryProgress,
+} from '../domain/github-discovery-progress.ts';
+import {
+  loadGithubDiscoveryCursor,
+  saveGithubDiscoveryCheckpoint,
+} from './github-discovery-progress.ts';
 import { OBSERVED_SCORING_VERSIONS } from '../domain/chart-publication.ts';
 import { githubReferenceInput, OPEN_SOURCE_LICENSE_IDS } from '../domain/reference-adapters.ts';
 import { createReferenceArtifact, type ReferenceArtifact } from '../lib/reference-artifact.ts';
@@ -63,6 +73,11 @@ export interface ChartsJobSummary {
   status: string;
   details: string[];
   remaining?: number;
+  filtered?: number;
+  skipReason?: 'disabled';
+  coverage?: 'bounded-sample';
+  continuation?: GithubDiscoveryContinuation;
+  discoveryProgress?: GithubDiscoveryProgress;
 }
 const emptySummary = (): ChartsJobSummary => ({
   processed: 0,
@@ -79,14 +94,14 @@ function pipelineReady(): void {
 }
 async function runLogged(
   kind: string,
-  operation: (summary: ChartsJobSummary) => Promise<void>,
+  operation: (summary: ChartsJobSummary, jobId: string) => Promise<void>,
 ): Promise<ChartsJobSummary> {
   pipelineReady();
   const id = await beginChartsJob(kind);
   if (!id) return { ...emptySummary(), status: 'skipped', details: ['Ce job est déjà en cours.'] };
   const summary = emptySummary();
   try {
-    await operation(summary);
+    await operation(summary, id);
     if (summary.failed && summary.status === 'success') summary.status = 'partial';
   } catch (error) {
     summary.status = 'failed';
@@ -96,39 +111,71 @@ async function runLogged(
   await finishChartsJob(id, summary);
   return summary;
 }
-export async function discoverGithub(client = new GithubClient()): Promise<ChartsJobSummary> {
-  return runLogged('github_discovery', async (summary) => {
-    const deadline = Date.now() + 220000;
-    for (const query of githubDiscoveryPlan(utcDate())) {
-      if (Date.now() > deadline) {
+export async function discoverGithub(
+  client = new GithubClient(),
+  options: { now?: () => number; date?: string; queries?: readonly string[] } = {},
+): Promise<ChartsJobSummary> {
+  pipelineReady();
+  const clock = options.now ?? Date.now;
+  const date = options.date ?? utcDate(new Date(clock()));
+  const queries = options.queries ?? githubDiscoveryPlan(date);
+  return runLogged('github_discovery', async (summary, jobId) => {
+    let cursor = await loadGithubDiscoveryCursor(date, queries, { excludeJobId: jobId });
+    const startedFrom = cursor;
+    const deadline = clock() + 220000;
+    summary.coverage = 'bounded-sample';
+    summary.discoveryProgress = {
+      from: startedFrom,
+      next: cursor,
+      partitions: queries.length,
+      complete: cursor.queryIndex === queries.length,
+    };
+    summary.details = githubDiscoveryCursorDetails(summary.details, cursor);
+    await saveGithubDiscoveryCheckpoint(jobId, summary.details);
+    summary.details.push(
+      'Découverte bornée à deux pages par partition ; aucune exhaustivité globale annoncée.',
+    );
+    while (cursor.queryIndex < queries.length) {
+      if (clock() >= deadline) {
+        summary.status = 'partial';
+        summary.continuation = { reason: 'budget', from: startedFrom, next: cursor };
+        summary.remaining = (queries.length - cursor.queryIndex) * 2 - (cursor.page - 1);
+        summary.details.push('Budget de durée atteint ; reprise au checkpoint persistant.');
+        return;
+      }
+      const query = queries[cursor.queryIndex];
+      if (!query) throw new Error('Partition de découverte absente.');
+      try {
+        const result = await client.searchQuery(query, cursor.page);
+        summary.processed += result.repositories.length;
+        await upsertDiscoveredRepositories(result.repositories);
+        summary.succeeded += result.repositories.length;
+        if (result.incompleteResults) {
+          summary.failed++;
+          summary.status = 'partial';
+          summary.details.push(
+            'GitHub a retourné incomplete_results ; cette page reste à reprendre.',
+          );
+          return;
+        }
+        if (result.truncated || (cursor.page === 2 && result.next))
+          summary.details.push(`Échantillon borné de la partition : ${query}`);
+        cursor = advanceGithubDiscoveryCursor(cursor, result.next);
+        summary.discoveryProgress = {
+          from: startedFrom,
+          next: cursor,
+          partitions: queries.length,
+          complete: cursor.queryIndex === queries.length,
+        };
+        summary.details = githubDiscoveryCursorDetails(summary.details, cursor);
+        await saveGithubDiscoveryCheckpoint(jobId, summary.details);
+      } catch (error) {
+        summary.failed++;
         summary.status = 'partial';
         summary.details.push(
-          'Budget de durée atteint, les prochains appels reprendront la découverte.',
+          `${query} : ${error instanceof Error ? error.message : 'recherche indisponible'}`,
         );
-        break;
-      }
-      for (let page = 1; page <= 2; page++) {
-        try {
-          const result = await client.searchQuery(query, page);
-          summary.processed += result.repositories.length;
-          await upsertDiscoveredRepositories(result.repositories);
-          summary.succeeded += result.repositories.length;
-          if (result.incomplete || (page === 2 && result.next)) {
-            summary.status = 'partial';
-            summary.details.push(`Partition non exhaustive : ${query}`);
-          }
-          if (!result.next) break;
-        } catch (error) {
-          summary.failed++;
-          summary.details.push(
-            `${query} : ${error instanceof Error ? error.message : 'recherche indisponible'}`,
-          );
-          if (error instanceof GithubRateLimitError) {
-            summary.status = 'partial';
-            return;
-          }
-          break;
-        }
+        return;
       }
     }
   });

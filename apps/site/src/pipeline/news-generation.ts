@@ -130,11 +130,12 @@ function runLocalSummaryBatch(
     child.once('error', (error) => {
       finish(new Error(`Modèle News indisponible : ${error.message}`));
     });
-    child.once('close', (code) => {
+    child.once('close', (code, signal) => {
       if (settled) return;
       if (code !== 0) {
         const detail = Buffer.concat(stderr).toString('utf8').trim();
-        finish(new Error(detail || 'Le modèle local News a échoué.'));
+        const identity = `Le modèle local News a échoué (code=${String(code)}, signal=${signal ?? 'null'}).`;
+        finish(new Error(detail ? `${identity} ${detail}` : identity));
         return;
       }
       try {

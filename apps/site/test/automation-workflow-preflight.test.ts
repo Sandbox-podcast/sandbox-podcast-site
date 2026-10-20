@@ -9,6 +9,7 @@ import {
   WORKFLOW_PREFLIGHT_HISTORY_PAGE_LIMIT,
   WORKFLOW_PREFLIGHT_READ_TIMEOUT_MS,
 } from '../scripts/automation-workflow-preflight.ts';
+import { CHARTS_DISCOVERY_RUNNER_BUDGET_MS } from '../src/pipeline/charts-discovery-runner.ts';
 import {
   AUTOMATION_REPOSITORY,
   type AutomationWorkflowRun,
@@ -264,12 +265,10 @@ describe('sorties du précontrôle et sélection des workflows', () => {
     ).replaceAll('\r\n', '\n');
     const discovery = workflow.split('\n  discovery:\n')[1]?.split('\n  refresh:\n')[0] ?? '';
     const timeoutSeconds = Number(/timeout-minutes: (\d+)/u.exec(discovery)?.[1]) * 60;
-    const callSeconds = Number(/--max-time (\d+)/u.exec(discovery)?.[1]);
-    const calls = discovery.match(/call_job github-(?:trending|discovery)/gu)?.length ?? 0;
-    expect(calls).toBe(2);
+    expect(discovery).toContain('run: node apps/site/scripts/charts-discovery.ts');
     expect(
       (WORKFLOW_PREFLIGHT_HISTORY_PAGE_LIMIT * WORKFLOW_PREFLIGHT_READ_TIMEOUT_MS) / 1000 +
-        callSeconds * calls +
+        CHARTS_DISCOVERY_RUNNER_BUDGET_MS / 1000 +
         120,
     ).toBeLessThan(timeoutSeconds);
   });
