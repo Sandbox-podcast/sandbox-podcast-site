@@ -4,13 +4,13 @@ Catalogue : `/nos-projets`. Fiches : `/nos-projets/[slug]`. Décision : [DD-0019
 
 Depuis la correction du 15 octobre 2026, la rubrique reprend les couleurs et la police du site. Le fond utilise `--paper`, les surfaces `--paper-2` et `--paper-3`, les bordures `--hair`, et les actions le cyan commun. La correction concerne aussi les fiches, les filtres et les aperçus agrandis, dans les quatre langues.
 
-Les 34 fiches proviennent des sites publics, des dépôts et des annonces des créateurs, vérifiés le 13 octobre 2026. Les descriptions sont reformulées en français. Les sources précises de chaque fiche et de chaque image sont conservées dans [le catalogue JSON](../../apps/site/content/personal-projects.json).
+Les 33 fiches proviennent des sites publics, des dépôts et des annonces des créateurs, vérifiés le 13 octobre 2026. Les descriptions sont reformulées en français. Les sources précises de chaque fiche et de chaque image sont conservées dans [le catalogue JSON](../../apps/site/content/personal-projects.json).
 
 ## Inventaire
 
 | Créateur             | Projets                                                                                                                                                                                                                                                                       |
 | -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Lou / loukan42       | Okodukai, Héros de la classe, Politiquizz, MindOdyssey, Not My Fault                                                                                                                                                                                                          |
+| Lou / loukan42       | Okodukai, Héros de la classe, Politiquizz, Not My Fault                                                                                                                                                                                                                       |
 | Loïc / azerothl      | Song Maker, Akasha, Akasha OS, Mission Maison, Akasha Code Studio, Rbitnet, Akasha Model, Akasha Companion                                                                                                                                                                    |
 | Loïc / AkashaBot     | OpenClaw Offline Memory, LLM Router, ClawScope                                                                                                                                                                                                                                |
 | Nicolas / MarlBurroW | Sillage, Boostback, BallCam.tv, Point Zero, Hivekeep, PinchChat, Three Observers, Aigora, Cloudflare DNS Swarm, Google Home Notification Gateway, Streamdeck Uptime Kuma, Raycast Uptime Kuma, TeamSpeak MCP, Bot Hub, Bot Chronicles, Cursor Chat, Rust Commander, ChromeHue |
@@ -43,7 +43,7 @@ Les forks, dépôts vides, starters et travaux professionnels sont exclus. Les e
 
 Les projets suivants demandent une source produit ou une confirmation supplémentaire avant une fiche : Blind Piano, Warzone Challenge, Huetron/ChromeHue v3, ObsMania, SC2 LiveCenter, `personal_manager` et `customControls`. Les maquettes Song Maker et la capture ClawScope absente du dépôt n'ont pas été utilisées. Les anciens produits arrêtés de Lou ne sont pas présentés comme des applications actives.
 
-Le site Aigora renvoie 404 ; sa fiche utilise GitHub. Akasha Code Studio ne dispose pas d'un package npm confirmé. Google Home Notification Gateway et Rust Commander sont des projets anciens : leur compatibilité actuelle n'est pas garantie. ChromeHue est explicitement archivé. MindOdyssey présente une bêta en préparation.
+Le site Aigora renvoie 404 ; sa fiche utilise GitHub. Akasha Code Studio ne dispose pas d'un package npm confirmé. Google Home Notification Gateway et Rust Commander sont des projets anciens : leur compatibilité actuelle n'est pas garantie. ChromeHue est explicitement archivé.
 
 ## Validation
 
@@ -56,3 +56,17 @@ Les commandes et résultats de la livraison sont consignés dans la PR. Le premi
 Correction locale du 15 octobre 2026 : le script `apps/site/scripts/test-time-machine-update.mjs` contrôle le catalogue et une fiche dans les quatre langues, à 320, 390 et 1440 pixels. Il compare leur fond et leur police avec ceux du site, vérifie les surfaces des cartes et de la galerie, les couleurs du bouton de remise à zéro, le menu mobile et la fermeture par Échap. Les 24 combinaisons de routes et largeurs passent sans débordement. Les 18 recherches de la Time Machine passent dans le même parcours, sans erreur JavaScript. Captures et rapport : `apps/site/.local/time-machine-update/`, hors Git.
 
 Le menu commun débordait à 320 pixels : les espacements ont été réduits sur petit écran et le raccourci de recherche redondant retiré du bandeau. La recherche reste accessible dans le menu. Les tests du dépôt passent ; les limites du contrôle global et du build sont consignées dans [la validation Time Machine](time-machine.md#vérification-de-lenrichissement-du-15-octobre).
+
+## Jaquettes illustrées du 20 octobre 2026
+
+À la demande de Lou, MindOdyssey est retiré du catalogue public. Les quatre projets de Lou sont Not My Fault, Okodukai, Héros de la classe et Politiquizz. Les fichiers médias existants restent conservés.
+
+Les 33 cassettes utilisent des illustrations éditoriales verticales créées avec ImageGen intégré : peinture rétro, ombres bleu nuit, lumières ambre et contours cyan. Chaque projet reçoit un sujet distinct lié à sa description. Ces images servent aux jaquettes du vidéoclub et de la salle immersive ; les captures, logos, sources et vidéos des fiches produit restent distincts. Les noms restent en HTML.
+
+Les images livrées sont des WebP de 480 × 720 pixels, dans `apps/site/public/images/vhs-projects/`. Le catalogue des jaquettes est `src/domain/vhs-project-artwork.ts` ; les prompts et la provenance sont dans [le manifeste](vhs-project-artwork-2026-10-20.json).
+
+Validation locale : 48 tests ciblés réussis ; `pnpm check` réussi avec 1 255 tests du site et 35 tests vidéo/BIS ; build de production réussi avec 207 pages générées. Le budget mesuré des 33 WebP est de 2 096 024 octets au total, avec un maximum de 87 740 octets par image. La qualité WebP retenue est 74.
+
+Le script `scripts/test-vhs-project-artwork.mjs` parcourt les 33 projets à 1 440 et 390 pixels, vérifie les illustrations, la pagination, l'ouverture d'une fiche et l'absence de débordement horizontal. Aucune erreur JavaScript ni image manquante n'a été relevée. Les anciennes fiches MindOdyssey renvoient 404 dans les quatre langues. La cassette sélectionnée dans le vidéoclub autonome a aussi été contrôlée au clavier sur le build de production. Les captures, rapports et journaux sont dans `apps/site/.local/vhs-projects/`. Le premier essai autonome en développement avait expiré avant l'ouverture de la boîte ; la recette sur build stable a réussi. Ces contrôles utilisent Edge ; ils ne remplacent pas un essai sur téléphone physique.
+
+Lou autorise le commit, le push et la création de la PR pour ce lot le 20 octobre 2026. La mise en production reste soumise à sa fusion.

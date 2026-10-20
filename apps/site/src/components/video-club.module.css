@@ -480,21 +480,20 @@
 }
 .coverVisual {
   display: block;
-  height: 45%;
-  flex-shrink: 0;
+  flex: 1;
+  min-height: 0;
   position: relative;
   overflow: hidden;
   background: #101019;
 }
 .coverVisual img {
   object-fit: cover;
-  opacity: 0.9;
 }
 .coverVisual::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(transparent 50%, var(--tape-color));
+  background: linear-gradient(transparent 65%, #101019);
 }
 .coverInitial {
   display: grid;
@@ -525,10 +524,10 @@
     3px var(--font-mono),
     monospace;
   color: #fff4d8;
-  margin-top: auto;
+  margin-top: 0;
 }
 .tapeBottom {
-  margin-top: auto;
+  margin-top: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;

@@ -16,6 +16,8 @@ Le défilement conserve son usage habituel et ne pilote plus l'allumage, le reto
 
 Les blocs situés plus bas dans l'accueil reprennent les décors des salles correspondantes : Time Machine, classements et Radar. Les cartes de projets gardent les visuels de chaque projet.
 
+Le 20 octobre, Lou demande de retirer MindOdyssey de ses projets et d'illustrer les cassettes. Le catalogue public passe à 33 projets, dont quatre pour Lou. Les 33 jaquettes reçoivent chacune une illustration verticale, dans une collection de peintures rétro bleu nuit, ambre et cyan. Les titres restent en HTML et les images ne remplacent pas les captures des fiches produit. Cette réalisation est décidée par l'agent sur délégation (PD-0003). Les deux vues du vidéoclub partagent le même catalogue de jaquettes ; les prompts et la provenance figurent dans [le manifeste](../site/vhs-project-artwork-2026-10-20.json). Les fichiers existants de MindOdyssey restent conservés.
+
 | Pièce        | Contenu intégré                                                                                                                      | Suite du parcours                                                                       |
 | ------------ | ------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------- |
 | Plateau      | Accroche seule dans la scène.                                                                                                        | Visite des autres pièces ; émission et présentation de l'équipe après le premier écran. |

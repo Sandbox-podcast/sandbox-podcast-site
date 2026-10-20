@@ -7,6 +7,7 @@ import { localizedHref } from '@/i18n/routing';
 import { siteConfig } from '@/config/site';
 import { latestVideoEpisode } from '@/domain/home-discovery';
 import { HOME_PROJECT_ARTWORK } from '@/domain/home-project-artwork';
+import { VHS_PROJECT_ARTWORK } from '@/domain/vhs-project-artwork';
 import {
   PROJECT_CREATORS,
   type PersonalProject,
@@ -332,6 +333,7 @@ function ProjectBay({
       <ul id={listId}>
         {page.items.map((project, slot) => {
           const artwork =
+            VHS_PROJECT_ARTWORK[project.slug] ??
             HOME_PROJECT_ARTWORK[project.slug] ??
             project.cover?.src ??
             project.images[0]?.src ??
@@ -354,6 +356,7 @@ function ProjectBay({
                 data-analytics-event="discovery_open"
                 data-analytics-destination="projects"
                 data-analytics-placement="home"
+                data-vhs-project={project.slug}
               >
                 <span className={styles['tapeTop']} aria-hidden="true">
                   SANDBOX <span>VHS</span>
