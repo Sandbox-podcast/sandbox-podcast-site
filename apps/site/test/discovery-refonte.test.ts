@@ -180,7 +180,7 @@ describe('accueil du Talk Show', () => {
     expect(html).not.toContain(`href="${siteSettings.platforms.spotify}"`);
     expect(html).not.toContain('title="Lien Spotify à venir"');
   });
-  it('présente le plateau puis les repères, l’équipe et les expérimentations', () => {
+  it('présente le plateau, les repères et l’équipe sans carrousel d’expérimentations', () => {
     const html = renderToStaticMarkup(
       createElement(DiscoveryHome, {
         episodes: [pilot],
@@ -193,17 +193,21 @@ describe('accueil du Talk Show', () => {
       '<option value="cinema">',
       'id="home-explore-title"',
       'id="home-team-title"',
-      'id="home-projects-title"',
     ];
     const positions = sections.map((section) => html.indexOf(section));
     expect(positions.every((position) => position >= 0)).toBe(true);
     expect(positions).toEqual([...positions].sort((left, right) => left - right));
     expect(new Set(positions).size).toBe(sections.length);
     expect(html).toContain('id="home-story"');
-    expect(html).toContain('href="/nos-projets/okodukai"');
+    expect(html).not.toContain('id="home-projects-title"');
+    expect(html).not.toContain('data-home-section="projects"');
+    expect(html).not.toContain('Ce que nous construisons.');
+    expect(html).toContain('aria-labelledby="home-project-room-title"');
+    expect(html).toContain('href="/nos-projets"');
+    expect(html).not.toContain('href="/nos-projets/okodukai"');
     expect(html).not.toContain('href="/nos-projets/not-my-fault"');
-    expect(html).toContain('href="/nos-projets/song-maker"');
-    expect(html).toContain('href="/nos-projets/sillage"');
+    expect(html).not.toContain('href="/nos-projets/song-maker"');
+    expect(html).not.toContain('href="/nos-projets/sillage"');
     expect(html).toContain('href="/time-machine"');
     expect(html).toContain('href="/charts"');
     expect(html).not.toContain('Présentation à compléter');

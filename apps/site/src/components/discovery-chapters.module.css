@@ -123,47 +123,6 @@
   display: none;
 }
 
-.projectsChapter {
-  position: relative;
-  background: #0b1018;
-  border-block: 1px solid #ffffff0c;
-}
-
-.projectsChapter::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background-image:
-    radial-gradient(ellipse at 50% 0, #4d9fac0d, transparent 56%),
-    linear-gradient(90deg, #ffffff03 1px, transparent 1px);
-  background-size:
-    100% 100%,
-    80px 100%;
-}
-
-.projectsChapter::after {
-  content: '';
-  position: absolute;
-  top: -1px;
-  left: 50%;
-  width: min(58%, 680px);
-  height: 1px;
-  translate: -50% 0;
-  pointer-events: none;
-  background: linear-gradient(90deg, transparent, #8ce9ed80, transparent);
-  box-shadow: 0 0 18px #75e6f41f;
-}
-
-.projectsChapter .chapter {
-  position: relative;
-  padding-bottom: clamp(40px, 4.2vw, 60px);
-}
-
-.projectsChapter .chapterHeading {
-  margin-bottom: 24px;
-}
-
 .chapterFooter {
   display: flex;
   justify-content: center;

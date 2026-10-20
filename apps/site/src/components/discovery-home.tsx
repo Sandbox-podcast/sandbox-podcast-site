@@ -31,7 +31,7 @@ export function DiscoveryHome({
           newsAvailable={newsAvailable}
           historyData={historyData}
         />
-        <DiscoveryStory hosts={hosts} projects={projects} newsAvailable={newsAvailable} />
+        <DiscoveryStory hosts={hosts} newsAvailable={newsAvailable} />
       </div>
     </HomeMotion>
   );

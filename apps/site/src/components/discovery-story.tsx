@@ -2,9 +2,7 @@ import Image from 'next/image';
 import type { CSSProperties } from 'react';
 import { Text, LocalizedLink as Link } from './localization';
 import type { Host } from '@/domain/schema';
-import { homeProfiles, homeProjects } from '@/domain/home-story';
-import type { PersonalProject } from '@/domain/personal-projects';
-import { HomeProjectSpotlight } from './home-project-spotlight';
+import { homeProfiles } from '@/domain/home-story';
 import styles from './discovery-chapters.module.css';
 
 const explorationCards = [
@@ -56,15 +54,12 @@ const explorationCards = [
 
 export function DiscoveryStory({
   hosts,
-  projects,
   newsAvailable = false,
 }: {
   hosts: readonly Host[];
-  projects: readonly PersonalProject[];
   newsAvailable?: boolean;
 }) {
   const team = homeProfiles(hosts);
-  const selection = homeProjects(projects);
   return (
     <div id="home-story" className={styles['story']}>
       <section
@@ -203,44 +198,6 @@ export function DiscoveryStory({
             <Text>À propos de Sandbox</Text>
             <ArrowIcon />
           </Link>
-        </section>
-      ) : null}
-      {selection.length > 0 ? (
-        <section
-          className={styles['projectsChapter']}
-          aria-labelledby="home-projects-title"
-          data-home-section="projects"
-        >
-          <div className={styles['chapter']}>
-            <header className={styles['chapterHeading']} data-reveal="title">
-              <div>
-                <p className={styles['eyebrow']} data-signal-contact>
-                  <span className={styles['chapterNumber']} aria-hidden="true">
-                    03
-                  </span>
-                  <Text>Nos expérimentations</Text>
-                </p>
-                <h2 id="home-projects-title">
-                  <Text>Ce que nous construisons.</Text>
-                </h2>
-              </div>
-            </header>
-            <div data-reveal="project" data-reveal-delay="90">
-              <HomeProjectSpotlight projects={selection} />
-            </div>
-            <div className={styles['chapterFooter']}>
-              <Link
-                href="/nos-projets"
-                className={styles['chapterAction']}
-                data-analytics-event="discovery_open"
-                data-analytics-destination="projects"
-                data-analytics-placement="home"
-              >
-                <Text>Voir tous nos projets</Text>
-                <ArrowIcon />
-              </Link>
-            </div>
-          </div>
         </section>
       ) : null}
     </div>
