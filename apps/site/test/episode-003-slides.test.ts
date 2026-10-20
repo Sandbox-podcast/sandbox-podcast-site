@@ -6,10 +6,11 @@ import { scenes, sceneIndex } from '../public/slides/episode-003/model.js';
 const root = resolve(process.cwd(), 'public/slides/episode-003');
 
 describe('support de l’épisode 003', () => {
-  it('contient quatre lobbies et deux slides de contenu, dans l’ordre prévu', () => {
+  it('contient quatre lobbies et trois slides de contenu, dans l’ordre prévu', () => {
     expect(scenes.map(({ id, chapter, kind }) => ({ id, chapter, kind }))).toEqual([
       { id: 'intro', chapter: 'Introduction', kind: 'lobby' },
       { id: 'radar', chapter: 'Radar', kind: 'lobby' },
+      { id: 'copilot-studio-frontier', chapter: 'Radar', kind: 'radar-story' },
       { id: 'talk', chapter: 'Talk', kind: 'lobby' },
       { id: 'talk-case', chapter: 'Talk', kind: 'talk-case' },
       { id: 'clash', chapter: 'Clash', kind: 'lobby' },
@@ -29,13 +30,27 @@ describe('support de l’épisode 003', () => {
   });
 
   it('reprend le cas d’usage du Talk et la question du Clash', () => {
-    expect(scenes[3]).toMatchObject({
+    expect(scenes[4]).toMatchObject({
       title: 'J’ai intégré l’ensemble de notre catalogue produits dans un agent.',
       question: 'Qu’est-ce que ça permet aux équipes ?',
     });
-    expect(scenes[5]?.title).toBe(
+    expect(scenes[6]?.title).toBe(
       'En entreprise, peut-on vraiment mettre en production un produit développé en vibe coding ?',
     );
+  });
+
+  it('ajoute une actualité Microsoft sourcée et distingue le déploiement des annonces à venir', () => {
+    const slide = scenes.find(({ id }) => id === 'copilot-studio-frontier');
+    expect(slide?.chapter).toBe('Radar');
+    expect(slide?.points).toHaveLength(3);
+    expect(slide?.availability).toContain('expérimentales');
+    expect(slide?.upcoming).toContain('À venir');
+    expect(slide?.sources).toHaveLength(2);
+    for (const source of slide?.sources ?? []) {
+      expect(new URL(source.url).hostname).toBe('www.microsoft.com');
+    }
+    expect(existsSync(resolve(root, slide?.sourceImage ?? 'absent'))).toBe(true);
+    expect(sceneIndex('#copilot-studio-frontier')).toBe(2);
   });
 
   it('ne charge aucun des anciens sujets ou contenus de préparation', () => {
@@ -68,11 +83,11 @@ describe('support de l’épisode 003', () => {
     expect(html).toContain("object-src 'none'");
   });
 
-  it('résout les ancres des six écrans et revient à l’introduction si elle est inconnue', () => {
+  it('résout les ancres des sept écrans et revient à l’introduction si elle est inconnue', () => {
     expect(sceneIndex('#intro')).toBe(0);
     expect(sceneIndex('#radar')).toBe(1);
-    expect(sceneIndex('#talk-case')).toBe(3);
-    expect(sceneIndex('#clash-question')).toBe(5);
+    expect(sceneIndex('#talk-case')).toBe(4);
+    expect(sceneIndex('#clash-question')).toBe(6);
     expect(sceneIndex('#6')).toBe(5);
     expect(sceneIndex('#sujet-retiré')).toBe(0);
   });
