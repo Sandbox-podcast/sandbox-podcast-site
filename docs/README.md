@@ -1,5 +1,9 @@
 # Documentation
 
+Lot local complet du 20 octobre : [périmètre et recette d’intégration](site/livraison-lot-local-2026-10-20.md).
+
+Portail du plateau vers le vidéoclub au survol de la porte : [DD-0069](design-decisions/dd-0069-portail-vers-le-videoclub.md) et [recette locale du 20 octobre](site/portail-videoclub-2026-10-20.md).
+
 Livraison PR 99 et recette publique du 20 octobre : [déploiement, mobile, trois passages Cloudflare et publication News](site/verification-production-2026-10-20.md). Le relevé distingue les résultats distants des corrections complémentaires de découverte ([DD-0072](design-decisions/dd-0072-reprise-persistante-decouverte-github.md)) et des anciens textes de l'accueil.
 
 Direction des six slides de l'épisode 003 : [DD-0071](design-decisions/dd-0071-direction-artistique-slides-episode-003.md).

@@ -1,5 +1,7 @@
 'use client';
 
+import { manualLocaleCookie } from '@/domain/browser-locale';
+
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { isNavigationActive } from '@/domain/site-navigation';
@@ -213,6 +215,12 @@ export function LocaleSwitcher({ locale = DEFAULT_SITE_LOCALE }: { locale?: stri
                   lang={item.locale}
                   hrefLang={item.locale}
                   aria-current={item.locale === locale ? 'true' : undefined}
+                  onClick={() => {
+                    document.cookie = manualLocaleCookie(
+                      item.locale,
+                      window.location.protocol === 'https:',
+                    );
+                  }}
                 >
                   <LocaleFlag locale={item.locale} />
                   <span>{item.name}</span>

@@ -153,6 +153,11 @@ a.chip {
   align-items: center;
   line-height: 1.5;
 }
+@media (pointer: coarse) {
+  .site-footer nav a {
+    min-height: 44px;
+  }
+}
 .footer-utilities {
   display: flex;
   flex-wrap: wrap;
@@ -267,6 +272,10 @@ a.chip {
   margin-top: 0.9rem;
   font-size: 1rem;
   line-height: 1.65;
+}
+
+.about-social-heading .library-description {
+  max-width: none;
 }
 .page-actions {
   display: flex;

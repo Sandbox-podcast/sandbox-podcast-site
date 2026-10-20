@@ -60,6 +60,7 @@ export default async function HomePage({
       projects={personalProjects}
       videoClubEnabled
       newsAvailable={await newsPageAvailable()}
+      historyData={timeMachineData()}
     />
   );
 }

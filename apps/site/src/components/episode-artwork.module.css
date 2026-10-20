@@ -80,3 +80,59 @@
     padding: 5%;
   }
 }
+
+.cinema {
+  position: absolute;
+  inset: 0;
+  display: block;
+  overflow: hidden;
+  container-type: inline-size;
+  background: #030b13;
+  color: #e1f4ff;
+}
+
+.cinema[data-mood='amber'] {
+  color: #ffebc5;
+}
+
+.cinema > img {
+  object-fit: cover;
+}
+
+.cinemaCopy {
+  position: absolute;
+  inset: 58% 7% 5%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2.8cqw;
+  text-align: center;
+  text-shadow: 0 1px 3px #000;
+}
+
+.cinemaBrand {
+  font: 500 clamp(5px, 5.2cqw, 24px)/1.2 var(--font-sans);
+  letter-spacing: 0.28em;
+  padding-left: 0.28em;
+}
+
+.cinemaTitle {
+  font: 900 clamp(10px, 12.4cqw, 80px)/0.94 var(--font-display);
+  letter-spacing: -0.045em;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+.cinemaRule {
+  width: 22%;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.6;
+}
+
+.cinemaNumber {
+  font: 500 clamp(5px, 4.5cqw, 18px)/1.2 var(--font-mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}

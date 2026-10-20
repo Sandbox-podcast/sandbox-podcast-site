@@ -94,23 +94,6 @@
   background: linear-gradient(90deg, transparent, #75e6f44a, transparent);
 }
 
-.teamNames {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 9px;
-  margin: 0 0 9px;
-  color: #9baebb;
-  font: 400 10px/1.5 var(--font-mono);
-  letter-spacing: 0.02em;
-}
-
-.teamNames span + span::before {
-  content: '/';
-  margin-right: 9px;
-  color: #536374;
-}
-
 .teamGrid {
   position: relative;
   isolation: isolate;
@@ -390,9 +373,6 @@
   .chapterHeading h2 {
     font-size: clamp(40px, 5.5vw, 60px);
   }
-  .teamNames {
-    display: none;
-  }
   .exploreLink {
     padding: 28px;
   }
@@ -574,12 +554,6 @@
 }
 
 /* Profils issus du À propos : portraits réels, biographies et liens publiés. */
-.teamIntro {
-  max-width: 650px;
-  margin: -10px 0 36px;
-  color: #b4bdc5;
-  font: 400 15px/1.8 var(--font-sans);
-}
 .teamProfiles {
   display: flex;
   flex-direction: column;
@@ -633,6 +607,7 @@
 .teamProfileCopy nav a {
   display: inline-flex;
   align-items: center;
+  min-width: 44px;
   min-height: 44px;
   color: #dec7a4;
   border-bottom: 1px solid #dec7a444;
@@ -649,7 +624,7 @@
     font-size: 12px;
   }
   .teamProfileCopy nav {
-    gap: 16px;
+    gap: 12px;
     flex-wrap: wrap;
   }
 }

@@ -103,7 +103,11 @@ try {
       process.env.SANDBOX_NEWS_BROWSER_CHANNEL ??
       (process.platform === 'win32' ? 'msedge' : undefined),
   });
-  const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+  const context = await browser.newContext({
+    viewport: { width: 1440, height: 900 },
+    locale: 'fr-FR',
+    reducedMotion: 'reduce',
+  });
   await context.route('**/*', (route) =>
     new URL(route.request().url()).origin === fixture.origin ? route.continue() : route.abort(),
   );
@@ -226,11 +230,18 @@ try {
   assert.equal(publishedFeed.checkedAt, now);
   await page.goto(fixture.origin);
   assert.ok((await page.locator('a[href="/news"]').count()) >= 2);
-  assert.equal(await page.locator('[data-object="news"][href="/news"]').count(), 1);
   assert.ok(
     (await page.locator(`img[src*="${HOME_STUDIO_WIDE_IMAGE.split('/').at(-1)}"]`).count()) > 0,
   );
-  report.checks.push('Le premier article ouvre les accès News et le radar cliquable du plateau.');
+  await page.locator('[data-world-explorer] summary').click();
+  await page.getByRole('combobox', { name: 'Les pièces', exact: true }).selectOption('news');
+  const radarLink = page.locator('[data-room-content="news"] a[href="/news"]').first();
+  await radarLink.waitFor({ state: 'visible' });
+  await radarLink.click();
+  await page.waitForURL(`${fixture.origin}/news`);
+  report.checks.push(
+    'Le premier article ouvre les accès News et le terminal cliquable de la salle radar.',
+  );
 
   for (const viewport of [
     { width: 1440, height: 900 },
@@ -324,7 +335,10 @@ try {
   assert.equal((await fetch(endpoint, { headers })).status, 503);
   await page.screenshot({ path: fileURLToPath(new URL('unavailable.png', output)) });
   await page.goto(fixture.origin);
-  assert.equal(await page.locator('[data-object="news"]').count(), 0);
+  await page.locator('[data-world-explorer] summary').click();
+  await page.getByRole('combobox', { name: 'Les pièces', exact: true }).selectOption('news');
+  await page.locator('[data-room-content="news"]').waitFor();
+  assert.equal(await page.locator('[data-room-content="news"] a[href="/news"]').count(), 0);
   report.checks.push('Une panne SQL masque la rubrique publique et conserve l’API en 503.');
   assert.deepEqual(report.browserErrors, []);
   log(`PASS News: ${report.checks.length} groupes de vérification, aucune erreur JavaScript.`);

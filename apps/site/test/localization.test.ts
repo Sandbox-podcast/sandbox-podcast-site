@@ -256,7 +256,8 @@ describe('même site en français et en anglais', () => {
     expect(english).not.toContain('Derniers épisodes');
     expect(english).not.toContain('Quatre classements');
     for (const html of [french, english]) {
-      expect(html).toContain('id="discovery-title"');
+      expect(html).toContain('id="room-title-studio"');
+      expect(html).toContain('<option value="cinema">');
       expect(html).not.toContain('class="sc-chart-tabs"');
       expect(html).not.toContain('empty-library-title');
       expect([...html.matchAll(/<h1\b/g)]).toHaveLength(1);

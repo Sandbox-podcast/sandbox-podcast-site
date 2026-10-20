@@ -1,7 +1,7 @@
 import { PROJECT_CREATORS, type PersonalProject, type ProjectCreator } from './personal-projects';
 
 export const VIDEO_CLUB_BAYS = ['lou', 'loic', 'nicolas'] as const;
-export const VIDEO_CLUB_ROOM_IMAGE = '/video-club/room-photoreal-v1.webp';
+export const VIDEO_CLUB_ROOM_IMAGE = '/images/rooms/video-club-room-v2.webp';
 export const VIDEO_CLUB_VHS_CLOSED_IMAGE = '/video-club/vhs-case-closed-v1.webp';
 export const VIDEO_CLUB_VHS_OPEN_IMAGE = '/video-club/vhs-case-open-v1.webp';
 

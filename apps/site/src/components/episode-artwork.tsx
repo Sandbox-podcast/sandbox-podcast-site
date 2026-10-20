@@ -2,7 +2,11 @@
 
 import Image from 'next/image';
 import { useLocalization } from './localization';
-import { replayPortraitArtwork, replayPosterCaption } from '@/domain/replay-posters';
+import {
+  cinemaPosterArtwork,
+  replayPortraitArtwork,
+  replayPosterCaption,
+} from '@/domain/replay-posters';
 import styles from './episode-artwork.module.css';
 
 /** Les titres traduits restent du texte HTML ; aucun texte français n'est repris des pixels. */
@@ -12,6 +16,7 @@ export function EpisodeArtwork({
   title,
   number,
   portrait = false,
+  cinema = false,
   sizes,
   className,
   loading = 'lazy',
@@ -21,11 +26,34 @@ export function EpisodeArtwork({
   title: string;
   number?: number | undefined;
   portrait?: boolean;
+  cinema?: boolean;
   sizes: string;
   className?: string;
   loading?: 'eager' | 'lazy';
 }) {
   const { locale, t } = useLocalization();
+  const cinemaArtwork = cinema ? (cinemaPosterArtwork(videoId) ?? artwork) : undefined;
+  if (cinema)
+    return (
+      <span
+        className={styles['cinema']}
+        data-cinema-episode-artwork={locale}
+        data-mood={videoId === '7KVqydbGow0' ? 'amber' : 'cyan'}
+        aria-hidden="true"
+      >
+        {cinemaArtwork ? (
+          <Image src={cinemaArtwork} alt="" fill sizes={sizes} loading={loading} />
+        ) : null}
+        <span className={styles['cinemaCopy']}>
+          <span className={styles['cinemaBrand']}>SANDBOX</span>
+          <span className={styles['cinemaTitle']}>{t(replayPosterCaption(videoId) ?? title)}</span>
+          <span className={styles['cinemaRule']} />
+          {number !== undefined ? (
+            <span className={styles['cinemaNumber']}>{t(`Épisode ${String(number)}`)}</span>
+          ) : null}
+        </span>
+      </span>
+    );
   if (locale === 'fr-FR')
     return artwork ? (
       <Image src={artwork} alt="" fill sizes={sizes} className={className} loading={loading} />

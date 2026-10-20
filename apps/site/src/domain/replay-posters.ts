@@ -7,6 +7,16 @@ const posters: Readonly<Record<string, string>> = {
   '7KVqydbGow0': '/images/home/replays/episode-002-vintage-v1.webp',
 };
 
+/** Décors d'affiches sans texte, réservés à la salle cinéma et titrés en HTML. */
+const cinemaPosters: Readonly<Record<string, string>> = {
+  GgSiPkADCz4: '/images/home/replays/episode-001-cinema-v2.webp',
+  '7KVqydbGow0': '/images/home/replays/episode-002-cinema-v2.webp',
+};
+
+export function cinemaPosterArtwork(videoId?: string): string | undefined {
+  return videoId ? cinemaPosters[videoId] : undefined;
+}
+
 /** Visuel connu dont la partie haute ne contient que la marque et les portraits. */
 export function replayPortraitArtwork(videoId?: string): string | undefined {
   return videoId ? posters[videoId] : undefined;

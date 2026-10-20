@@ -20,6 +20,7 @@ import EpisodePage, {
 import { editableContentSchema } from '../src/domain/admin-content';
 import { episodeSchema } from '../src/domain/schema';
 import { loadContent, setEditorialOverride } from '../src/lib/load';
+import { SandboxRoomContent } from '../src/components/sandbox-room-content';
 
 describe('épisodes publiés après le build', () => {
   it('rend les vues éditoriales à la requête pour lire la publication Postgres', () => {
@@ -68,13 +69,20 @@ describe('épisodes publiés après le build', () => {
     setEditorialOverride(published);
     try {
       const home = renderToStaticMarkup(await HomePage({}));
-      expect(home).toContain('href="/episodes/1"');
-      expect(home).toContain('Épisode publié après le build');
+      expect(home).toContain('Explorer les pièces');
+      const cinema = renderToStaticMarkup(
+        createElement(SandboxRoomContent, {
+          roomId: 'cinema',
+          episodes: loadContent().episodes,
+          projects: [],
+        }),
+      );
+      expect(cinema).toContain('Épisode publié après le build');
+      expect(cinema).toContain('href="/episodes/1"');
       expect(home).toContain('href="/podcast"');
-      expect(home).toContain('id="discovery-title"');
-      expect([
-        ...home.matchAll(/<section\b[^>]*aria-labelledby="home-replays-title"/g),
-      ]).toHaveLength(1);
+      expect(home).toContain('id="room-title-studio"');
+      expect([...home.matchAll(/<option value="cinema"/g)]).toHaveLength(1);
+      expect(home).not.toContain('data-room-content="cinema"');
       expect([...home.matchAll(/<h1\b/g)]).toHaveLength(1);
       const podcast = renderToStaticMarkup(await PodcastPage());
       expect(podcast).toContain('href="/episodes/1"');

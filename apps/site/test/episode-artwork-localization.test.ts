@@ -25,6 +25,51 @@ const episode = episodeSchema.parse({
 });
 
 describe('textes et miniatures des vidéos localisées', () => {
+  it('garde le format et le titre cinéma pour les futurs épisodes sans visuel dédié', () => {
+    const html = renderToStaticMarkup(
+      createElement(EpisodeArtwork, {
+        videoId: 'abcdefghijk',
+        artwork: '/images/custom.webp',
+        title: 'Notre prochain épisode',
+        number: 30,
+        cinema: true,
+        portrait: true,
+        sizes: '160px',
+      }),
+    );
+    expect(html).toContain('data-cinema-episode-artwork="fr-FR"');
+    expect(html).toContain('Notre prochain épisode');
+    expect(html).toContain('Épisode 30');
+    expect(html).toContain(encodeURIComponent('/images/custom.webp'));
+    expect(html).not.toContain('episode-001-cinema-v2.webp');
+  });
+
+  it.each(['fr-FR', 'en', 'es-ES', 'de-DE'])(
+    'titre les nouveaux visuels cinéma en HTML en %s',
+    async (locale) => {
+      const dictionary = await siteDictionary(locale);
+      const html = renderToStaticMarkup(
+        createElement(LocalizationProvider, {
+          locale,
+          dictionary,
+          children: createElement(EpisodeArtwork, {
+            videoId: episode.platforms.youtubeId,
+            title: episode.title,
+            number: episode.number,
+            cinema: true,
+            portrait: true,
+            sizes: '160px',
+          }),
+        }),
+      );
+      expect(html).toContain(`data-cinema-episode-artwork="${locale}"`);
+      expect(html).toContain('episode-002-cinema-v2.webp');
+      expect(html).not.toContain('vintage-v1.webp');
+      expect(html).toContain(translateText('L’IA dans votre métier', dictionary, locale));
+      if (locale !== 'fr-FR') expect(html).not.toContain('L’IA dans votre métier');
+    },
+  );
+
   it.each(['en', 'es-ES', 'de-DE'])(
     'traduit le titre et le résumé publiés dans les replays en %s',
     async (locale) => {

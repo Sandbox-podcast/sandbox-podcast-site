@@ -98,7 +98,7 @@ describe('compatibilité des textes de marque déjà publiés', () => {
     setSiteSettingsOverride({ ...legacySiteSettings, heroTitle: 'Titre personnalisé' });
     expect(siteConfig.heroTitle).toBe('Titre personnalisé');
   });
-  it('rend intégralement un titre et une introduction personnalisés dans le plateau', () => {
+  it('rend le titre personnalisé dans le plateau minimal sans ajouter une introduction', () => {
     setSiteSettingsOverride({
       ...legacySiteSettings,
       heroTitle: 'Un titre personnel pour le prochain direct.',
@@ -112,7 +112,9 @@ describe('compatibilité des textes de marque déjà publiés', () => {
       }),
     );
     expect(html).toContain('Un titre personnel pour le prochain direct.');
-    expect(html).toContain('Une introduction choisie pour ce rendez-vous.');
+    expect(html).toContain('data-minimal-studio');
+    expect(html).not.toContain('Une introduction choisie pour ce rendez-vous.');
+    expect(siteConfig.heroDek).toBe('Une introduction choisie pour ce rendez-vous.');
     expect(html).not.toContain('pour ceux qui construisent.');
   });
 });

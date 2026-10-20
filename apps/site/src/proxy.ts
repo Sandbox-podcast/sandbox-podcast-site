@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import { randomBytes } from 'node:crypto';
 import { adminContentSecurityPolicy } from './domain/admin-csp';
+import { browserLocaleRedirect, SITE_LOCALE_COOKIE } from './domain/browser-locale';
 import {
   isSlidesHost,
   slidesBrowserRedirect,
@@ -9,6 +10,20 @@ import {
 
 export function proxy(request: NextRequest) {
   if (!isSlidesHost(request.headers.get('host'))) {
+    const localeDestination = browserLocaleRedirect({
+      pathname: request.nextUrl.pathname,
+      method: request.method,
+      acceptLanguage: request.headers.get('accept-language'),
+      savedLocale: request.cookies.get(SITE_LOCALE_COOKIE)?.value,
+    });
+    if (localeDestination) {
+      const url = request.nextUrl.clone();
+      url.pathname = localeDestination;
+      const response = NextResponse.redirect(url, 307);
+      response.headers.set('Cache-Control', 'private, no-store, max-age=0');
+      response.headers.set('Vary', 'Accept-Language, Cookie');
+      return response;
+    }
     if (
       process.env.NODE_ENV === 'production' &&
       /^\/admin(?:\/|$)/.test(request.nextUrl.pathname)
