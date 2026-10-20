@@ -7,69 +7,47 @@
     <meta name="theme-color" content="#05090d" />
     <meta
       name="description"
-      content="Préparation de l'épisode 003 de Sandbox. Actualités du 16 au 18 octobre 2026 et skills IA à essayer."
+      content="Support de l’épisode 003 de SANDBOX : Introduction, Radar, Talk et Clash."
     />
     <meta
       http-equiv="Content-Security-Policy"
       content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'"
     />
-    <title>SANDBOX | Épisode 003, préparation</title>
+    <title>SANDBOX | Épisode 003</title>
     <link rel="stylesheet" href="./show.css" />
     <script type="module" src="./show.js"></script>
   </head>
   <body>
     <header>
       <img src="../episode-002-bis/assets/logo.png" alt="SANDBOX" />
-      <span>ÉPISODE 003 <small>Préparation</small></span>
-      <div class="chapters" role="navigation" aria-label="Séquences">
+      <span class="episode-label">ÉPISODE 003</span>
+      <nav class="chapters" aria-label="Séquences">
+        <a href="#intro" data-chapter="Introduction">Introduction</a>
         <a href="#radar" data-chapter="Radar">Radar</a>
-        <a href="#build" data-chapter="Build">Build</a>
+        <a href="#talk" data-chapter="Talk">Talk</a>
         <a href="#clash" data-chapter="Clash">Clash</a>
-        <a href="#beta" data-chapter="Bêta">Bêta</a>
-      </div>
-      <button id="notes-toggle" type="button" aria-expanded="false" aria-controls="notes">
-        Notes et sources
-      </button>
+      </nav>
     </header>
     <main id="screen" tabindex="-1" aria-label="Diapositive">
-      <p role="status">Chargement de l'épisode...</p>
+      <p role="status">Chargement du support…</p>
     </main>
-    <aside id="notes" hidden aria-label="Notes et sources"></aside>
-    <nav aria-label="Navigation de l'épisode">
-      <button id="previous" type="button">Précédent</button>
-      <label class="topic-label"
-        >Sujets
-        <select id="topics" aria-label="Choisir un sujet"></select
+    <nav class="deck-controls" aria-label="Navigation du support">
+      <button id="previous" type="button" aria-label="Diapositive précédente">Précédent</button>
+      <label class="slide-picker"
+        >Diapositive
+        <select id="topics" aria-label="Choisir une diapositive"></select
       ></label>
       <output id="counter" aria-live="polite"></output>
-      <button id="next" type="button">Suivant</button>
+      <button id="next" type="button" aria-label="Diapositive suivante">Suivant</button>
       <button id="present" type="button" aria-pressed="false" title="Mode live (P)">
         Mode live
       </button>
-      <button id="image-only" type="button" aria-pressed="false" title="Image seule (I)" disabled>
-        Image seule
-      </button>
-      <button id="fullscreen" type="button">Plein écran</button>
+      <button id="fullscreen" type="button" title="Plein écran (F)">Plein écran</button>
     </nav>
-    <footer>
-      <label
-        >Notre choix
-        <select id="decision" aria-label="Décision pour ce sujet">
-          <option value="pending">À trier</option>
-          <option value="keep">Garder</option>
-          <option value="reserve">En réserve</option>
-          <option value="drop">Écarter</option>
-        </select></label
-      >
-      <button id="export" type="button">Exporter nos choix</button>
-      <span id="storage-status" role="status">Les choix restent dans ce navigateur.</span>
-    </footer>
+    <p id="status" class="status" role="status"></p>
     <div id="live-controls" hidden>
       <button id="leave-live" type="button">Régie (P)</button>
     </div>
-    <noscript
-      >Activez JavaScript pour parcourir le support. Les sujets et leurs sources sont aussi
-      disponibles dans content.json.</noscript
-    >
+    <noscript>Activez JavaScript pour parcourir le support.</noscript>
   </body>
 </html>

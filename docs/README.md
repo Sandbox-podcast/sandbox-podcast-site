@@ -1,5 +1,7 @@
 # Documentation
 
+Direction des six slides de l'épisode 003 : [DD-0071](design-decisions/dd-0071-direction-artistique-slides-episode-003.md).
+
 Mobile et langues, 20 octobre : [logo, menu tactile et footer compact](site/responsive-mobile-2026-10-20.md), [textes et miniatures vidéo localisés](site/mobile-i18n-video-2026-10-20.md), selon [DD-0067](design-decisions/dd-0067-miniatures-video-et-textes-localises.md). Corrections vérifiées localement avant livraison.
 
 Automatisation News et classements, 20 octobre : [fonctionnement, horaires et reprise des créneaux manqués](site/automatisation-news-charts-2026-10-20.md), [audit backend et preuves distantes](site/audit-automatisation-2026-10-20.md) et [ADR-0038](adr/ADR-0038-reprise-horaire-des-classements.md). Les vues distinguent désormais collecte et publication ; les correctifs restent locaux avant livraison autorisée.
