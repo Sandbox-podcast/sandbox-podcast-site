@@ -109,9 +109,6 @@ export default async function Page({
             }
           </Text>
         </p>
-        <Link href="/charts/github/methodology">
-          <Text>{'Méthode GitHub et sources'}</Text>
-        </Link>
         {awardTypeSchema.options.map((type) => (
           <div key={type} className={styles['criterion']}>
             <h3>{AWARD_DEFINITIONS[type].name}</h3>
