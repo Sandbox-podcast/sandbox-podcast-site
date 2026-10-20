@@ -18,7 +18,8 @@ jobs:
   discovery:
     if: github.event_name == 'schedule' && github.event.schedule == '17 1 * * *'
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    # Deux appels de six minutes au maximum, avec une marge pour le runner.
+    timeout-minutes: 15
     steps:
       - name: Collecter Trending et découvrir les candidats
         env:
@@ -34,7 +35,9 @@ jobs:
           case "$CHARTS_ORIGIN" in https://*) ;; *) echo "SANDBOX_CHARTS_ORIGIN doit utiliser HTTPS." >&2; exit 1 ;; esac
           CHARTS_ORIGIN="${CHARTS_ORIGIN%/}"
           call_job() {
-            curl --silent --show-error --fail-with-body --retry 2 --retry-all-errors --max-time 360 \
+            # Un 503 applicatif peut suivre une collecte partielle déjà persistée.
+            # Ne pas rejouer trois fois ce travail dans la même fenêtre.
+            curl --silent --show-error --fail-with-body --retry 0 --max-time 360 \
               --header "Authorization: Bearer $CRON_SECRET" \
               "$CHARTS_ORIGIN/api/cron/$1"
           }

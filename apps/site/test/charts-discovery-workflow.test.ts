@@ -15,7 +15,7 @@ const bash =
     ? join(process.env['ProgramFiles'] ?? 'C:/Program Files', 'Git/bin/bash.exe')
     : 'bash';
 
-function run(failures: string, secret = 'fixture-secret-not-real') {
+function run(failures: string, secret = 'fixture-secret-not-real', exitCode = 22) {
   // Exécute le vrai bloc du workflow sans réseau ni authentification réelle.
   return spawnSync(bash, ['--noprofile', '--norc', '-s'], {
     encoding: 'utf8',
@@ -24,12 +24,14 @@ function run(failures: string, secret = 'fixture-secret-not-real') {
       CHARTS_ORIGIN: 'https://example.test',
       CRON_SECRET: secret,
       FAILED_JOBS: failures,
+      FAILURE_CODE: String(exitCode),
     },
     input: `curl() {
       local job="\${!#}"
       job="\${job##*/}"
       echo "called:$job"
-      if [[ ",$FAILED_JOBS," == *",$job,"* ]]; then return 22; fi
+      printf 'args:%s\\n' "$*"
+      if [[ ",$FAILED_JOBS," == *",$job,"* ]]; then return "$FAILURE_CODE"; fi
       return 0
     }
 ${script}`,
@@ -37,6 +39,30 @@ ${script}`,
 }
 
 describe('découverte programmée indépendante de Trending', () => {
+  it.each([7, 28])('tente la découverte après une erreur réseau curl %s de Trending', (code) => {
+    const result = run('github-trending', 'fixture-secret-not-real', code);
+    expect(result.status).toBe(1);
+    expect(result.stdout.match(/called:[^\n]+/g)).toEqual([
+      'called:github-trending',
+      'called:github-discovery',
+    ]);
+  });
+  it('termine les deux appels avant la limite globale, même à leur durée maximale', () => {
+    const result = run('github-trending,github-discovery');
+    const calls = result.stdout.match(/args:[^\n]+/g) ?? [];
+    expect(calls).toHaveLength(2);
+    const timeoutMinutes = Number(discovery?.match(/timeout-minutes: (\d+)/)?.[1]);
+    let maximumSeconds = 0;
+    for (const call of calls) {
+      const retries = Number(/--retry (\d+)/.exec(call)?.[1]);
+      const maxTime = Number(/--max-time (\d+)/.exec(call)?.[1]);
+      expect(retries).toBe(0);
+      expect(maxTime).toBeGreaterThan(0);
+      maximumSeconds += maxTime * (retries + 1);
+    }
+    expect(maximumSeconds + 60).toBeLessThan(timeoutMinutes * 60);
+    expect(result.status).toBe(1);
+  });
   it.each(['github-trending', 'github-discovery', 'github-trending,github-discovery'])(
     'tente les deux sources et conserve un échec lorsque %s échoue',
     (failures) => {
