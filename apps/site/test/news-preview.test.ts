@@ -164,14 +164,14 @@ describe('isolation de la prévisualisation', () => {
     vi.stubEnv('NODE_ENV', 'development');
     vi.stubEnv('SANDBOX_NEWS_PREVIEW', '1');
     expect(renderToStaticMarkup(createElement(StudioEasterEggs))).not.toContain('href="/news"');
-    expect(
-      renderToStaticMarkup(createElement(DiscoveryStory, { hosts: [], projects: [] })),
-    ).not.toContain('home-news-title');
+    expect(renderToStaticMarkup(createElement(DiscoveryStory, { hosts: [] }))).not.toContain(
+      'home-news-title',
+    );
     vi.stubEnv('NODE_ENV', 'production');
     expect(renderToStaticMarkup(createElement(StudioEasterEggs))).not.toContain('href="/news"');
-    expect(
-      renderToStaticMarkup(createElement(DiscoveryStory, { hosts: [], projects: [] })),
-    ).not.toContain('home-news-title');
+    expect(renderToStaticMarkup(createElement(DiscoveryStory, { hosts: [] }))).not.toContain(
+      'home-news-title',
+    );
   });
   it('ajoute la carte et le radar quand News est activé en production', () => {
     vi.stubEnv('NODE_ENV', 'production');
@@ -181,9 +181,7 @@ describe('isolation de la prévisualisation', () => {
       renderToStaticMarkup(createElement(StudioEasterEggs, { newsAvailable: true })),
     ).toContain('href="/news"');
     expect(
-      renderToStaticMarkup(
-        createElement(DiscoveryStory, { hosts: [], projects: [], newsAvailable: true }),
-      ),
+      renderToStaticMarkup(createElement(DiscoveryStory, { hosts: [], newsAvailable: true })),
     ).toContain('home-news-title');
   });
 });
