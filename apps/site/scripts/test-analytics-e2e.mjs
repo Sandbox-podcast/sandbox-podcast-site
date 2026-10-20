@@ -168,7 +168,8 @@ try {
   );
   await page.getByRole('button', { name: 'Préférences de mesure', exact: true }).first().click();
   await page.getByRole('button', { name: 'Accepter', exact: true }).click();
-  await page.locator('footer a[href="/about"]').click();
+  await page.locator('footer details').filter({ hasText: 'À propos' }).locator('summary').click();
+  await page.locator('footer a[href="/about"]:visible').click();
   await page.waitForURL(`${fixture.origin}/about`);
   await page.waitForLoadState('networkidle');
   assert.equal(await page.evaluate(() => window.__qaSpeedLifecycle), 'same-document');

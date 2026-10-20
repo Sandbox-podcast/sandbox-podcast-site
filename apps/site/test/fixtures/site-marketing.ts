@@ -1,0 +1,19 @@
+import siteSettings from '../../content/site.json';
+import { siteSettingsSchema } from '../../src/domain/schema';
+
+/** Valeurs du snapshot local publié avant la réécriture de marque du 20 octobre. */
+export const legacySiteSettings = siteSettingsSchema.parse({
+  ...siteSettings,
+  name: 'Sandbox',
+  tagline: 'La tech mérite mieux que du bruit.',
+  strapline: 'Le Talk Show qui teste, débat et remet les chiffres en perspective.',
+  description:
+    "Sandbox, le Talk Show sur l'IA et la tech. Retrouvez les épisodes, leurs sources et les classements commentés.",
+  heroEyebrow: 'Talk Show indépendant · IA · développement · open source',
+  heroTitle: 'Un Talk Show pour y voir plus clair.',
+  heroDek:
+    'Chaque semaine, nos épisodes vidéo explorent les outils, les modèles et les idées qui changent le travail. Retrouvez aussi les sources citées et les classements commentés.',
+  aboutEyebrow: 'L’équipe',
+  aboutTitle: 'Retrouvez-nous.',
+  aboutIntro: "Lou, Nicolas et Loïc. Les liens de l'équipe Sandbox, réunis ici.",
+});

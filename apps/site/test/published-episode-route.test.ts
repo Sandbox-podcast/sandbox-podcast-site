@@ -70,10 +70,10 @@ describe('épisodes publiés après le build', () => {
       const home = renderToStaticMarkup(await HomePage({}));
       expect(home).toContain('href="/episodes/1"');
       expect(home).toContain('Épisode publié après le build');
-      expect(home).toContain('href="https://www.youtube.com/watch?v=GgSiPkADCz4"');
+      expect(home).toContain('href="/podcast"');
       expect(home).toContain('id="discovery-title"');
       expect([
-        ...home.matchAll(/<article\b[^>]*aria-labelledby="home-episode-title"/g),
+        ...home.matchAll(/<section\b[^>]*aria-labelledby="home-replays-title"/g),
       ]).toHaveLength(1);
       expect([...home.matchAll(/<h1\b/g)]).toHaveLength(1);
       const podcast = renderToStaticMarkup(await PodcastPage());

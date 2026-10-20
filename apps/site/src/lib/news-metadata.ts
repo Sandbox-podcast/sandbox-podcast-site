@@ -5,24 +5,24 @@ import { readNewsPageData } from './news-page-data';
 
 const COPY = {
   'fr-FR': {
-    title: 'Actualité IA : recherche, outils, entreprises et usages',
+    title: 'Actualité IA pour les équipes tech : annonces et sources',
     description:
-      "L'actualité de l'intelligence artificielle : recherche, outils, entreprises et usages. Des synthèses générées à partir des médias cités, avec un lien direct vers chaque source.",
+      'Suis les annonces en intelligence artificielle et en développement pour préparer tes prochains essais. Des synthèses automatiques, avec un lien vers chaque source.',
   },
   en: {
-    title: 'AI news: research, tools, companies and real-world uses',
+    title: 'AI news for tech teams: announcements and sources',
     description:
-      'Follow AI research, tools, companies and real-world uses through automatically generated summaries, translated into four languages and linked to their original publishers.',
+      'Follow AI and development announcements to plan your next experiments. Automated summaries with a link to every source.',
   },
   'es-ES': {
-    title: 'Noticias sobre IA: investigación, herramientas, empresas y usos',
+    title: 'Actualidad de IA para equipos de tecnología: anuncios y fuentes',
     description:
-      'Sigue la actualidad de la inteligencia artificial, la investigación, las herramientas, las empresas y sus usos con resúmenes automáticos y enlaces directos a las fuentes originales.',
+      'Sigue los anuncios sobre inteligencia artificial y desarrollo para preparar tus próximas pruebas. Resúmenes automáticos con un enlace a cada fuente.',
   },
   'de-DE': {
-    title: 'KI-Nachrichten: Forschung, Tools, Unternehmen und Anwendungen',
+    title: 'KI-Nachrichten für Tech-Teams: Ankündigungen und Quellen',
     description:
-      'Verfolge KI-Forschung, Tools, Unternehmen und Anwendungen mit automatisch erstellten Zusammenfassungen und direkten Links zu den Originalquellen.',
+      'Verfolge Ankündigungen zu KI und Softwareentwicklung für deine nächsten Tests. Automatische Zusammenfassungen mit einem Link zu jeder Quelle.',
   },
 } as const;
 

@@ -59,6 +59,8 @@ export type NewsCursor = z.infer<typeof newsCursorSchema>;
 export const newsFeedSchema = z.object({
   nextCursor: newsCursorSchema.nullable().optional(),
   checkedAt: z.iso.datetime().nullable(),
+  /** Dernière insertion sur le site, distincte de la date publiée par le média. */
+  lastPublishedAt: z.iso.datetime().nullable().optional(),
   sources: z.array(
     z.object({
       name: z.string(),

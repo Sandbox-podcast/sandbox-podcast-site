@@ -114,17 +114,31 @@ describe('textes locaux', () => {
     ).toBe('Editor');
   });
   it("traduit le titre public de l'accueil", async () => {
-    const source = "Sandbox TalkShow : actualité IA, tests d'outils et podcast tech";
+    const source = "Sandbox TalkShow : ce que l'IA change pour les produits et les équipes tech";
     expect(translateText(source, await siteDictionary('en'), 'en')).toBe(
-      'Sandbox TalkShow: AI news, tool tests and a tech podcast',
+      'Sandbox TalkShow: what AI changes for products and tech teams',
     );
     expect(translateText(source, await siteDictionary('es-ES'), 'es-ES')).toBe(
-      'Sandbox TalkShow: actualidad de IA, pruebas de herramientas y un pódcast de tecnología',
+      'Sandbox TalkShow: lo que la IA cambia para los productos y los equipos de tecnología',
     );
     expect(translateText(source, await siteDictionary('de-DE'), 'de-DE')).toBe(
-      'Sandbox TalkShow: KI-Nachrichten, Werkzeugtests und ein Tech-Podcast',
+      'Sandbox TalkShow: was KI für Produkte und Tech-Teams verändert',
     );
   });
+  it.each([
+    ['en', 'What AI changes for those who build.'],
+    ['es-ES', 'Lo que la IA cambia para quienes construyen.'],
+    ['de-DE', 'Was KI für alle verändert, die entwickeln.'],
+  ])(
+    'garde une phrase naturelle entre les deux fragments du titre en %s',
+    async (locale, title) => {
+      const dictionary = await siteDictionary(locale);
+      const fragments = ["Ce que l'IA change", 'pour ceux qui construisent.'];
+      expect(
+        fragments.map((fragment) => translateText(fragment, dictionary, locale)).join(' '),
+      ).toBe(title);
+    },
+  );
   it('charge un dictionnaire pour chaque langue proposée', async () => {
     for (const { locale } of SITE_LOCALES) {
       const dictionary = await siteDictionary(locale);
@@ -254,7 +268,7 @@ describe('même site en français et en anglais', () => {
     const html = renderToStaticMarkup(
       createElement(LocalizationProvider, { locale: 'en', dictionary, children: page }),
     );
-    expect(html).toContain('Sandbox TalkShow');
+    expect(html).toContain('Discussing AI in our work.');
     expect(html).toContain('No replays yet.');
     expect(html).not.toContain('href="/en/episodes/40"');
     expect(html).not.toContain('href="/en/episodes/41"');

@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import { EpisodeArtwork } from './episode-artwork';
 import { Text, LocalizedLink as Link } from '@/components/localization';
 import { JsonLd } from '@/components/json-ld';
 import { episodeArtwork } from '@/domain/episode-artwork';
@@ -13,10 +13,11 @@ function ReplayArtwork({ episode, latest = false }: { episode: Episode; latest?:
   return (
     <div className="replay-artwork" data-tone={episode.cover.tone}>
       {artwork ? (
-        <Image
-          src={artwork}
-          alt=""
-          fill
+        <EpisodeArtwork
+          artwork={artwork}
+          videoId={episode.platforms.youtubeId}
+          number={episode.number}
+          title={episode.title}
           sizes={latest ? '(max-width: 48rem) 100vw, 55vw' : '(max-width: 40rem) 30vw, 12rem'}
           loading={latest ? 'eager' : 'lazy'}
           className="replay-image"

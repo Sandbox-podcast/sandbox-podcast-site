@@ -59,6 +59,12 @@ a.chip {
   width: 9rem;
   height: 3rem;
 }
+.site-home-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  flex-shrink: 0;
+}
 .main-nav-list {
   display: flex;
   align-items: center;
@@ -1396,6 +1402,12 @@ body:has([data-home='editorial']) .masthead-row {
   gap: 32px;
   padding-block: 36px;
 }
+.footer-navigation-mobile {
+  display: none;
+}
+.footer-contact-mobile {
+  display: none;
+}
 .discovery-footer-grid > div > p {
   color: var(--ink-2);
   max-width: 30ch;
@@ -1451,17 +1463,131 @@ body:has([data-home='editorial']) .masthead-row {
   align-items: center;
 }
 @media (max-width: 700px) {
-  .discovery-footer-grid {
+  .site-footer.discovery-footer {
+    margin-top: 32px;
+  }
+  .site-footer.discovery-footer .discovery-footer-grid {
     grid-template-columns: 1fr 1fr;
+    gap: 8px 16px;
+    padding-block: 16px 8px;
   }
   .discovery-footer-grid > div {
     grid-column: 1 / -1;
   }
+  .discovery-footer-grid > div > p {
+    max-width: 40ch;
+    margin-block: 0 8px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .discovery-footer-grid .footer-description,
+  .discovery-footer-bottom .footer-contact-desktop {
+    display: none;
+  }
+  .footer-contact-mobile {
+    display: list-item;
+  }
+  .footer-home-link .wordmark {
+    width: 108px;
+    height: 36px;
+  }
+  .footer-navigation-desktop {
+    display: none;
+  }
+  .footer-navigation-mobile {
+    display: block;
+  }
+  .footer-navigation-mobile summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    min-height: 44px;
+    font-size: 14px;
+    cursor: pointer;
+    list-style: none;
+  }
+  .footer-navigation-mobile summary::-webkit-details-marker {
+    display: none;
+  }
+  .footer-navigation-mobile[open] summary > span {
+    transform: rotate(45deg);
+  }
+  .footer-navigation-mobile li {
+    min-width: 0;
+  }
+  .footer-navigation-mobile a {
+    overflow-wrap: anywhere;
+  }
+  .discovery-footer-grid .footer-platforms {
+    gap: 4px;
+    margin-top: 8px;
+  }
+  .discovery-footer-grid .footer-platforms a {
+    width: 44px;
+    height: 44px;
+    justify-content: center;
+    padding: 0;
+  }
+  .footer-platform-name {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
   .discovery-footer-grid a {
     min-height: 44px;
   }
+  .discovery-footer-bottom {
+    gap: 0 16px;
+    padding-block: 8px;
+    font-size: 13px;
+  }
+  .discovery-footer-bottom > span {
+    width: 100%;
+    font-size: 12px;
+  }
+  .discovery-footer-bottom > a {
+    overflow-wrap: anywhere;
+    max-width: 100%;
+  }
   .site-search-action {
     display: none;
+  }
+}
+
+@media (max-width: 1024px) {
+  .masthead-row,
+  body:has([data-home='editorial']) .masthead-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    gap: 6px;
+    min-height: 64px;
+    padding-inline: 16px;
+  }
+  .masthead-tools {
+    margin-left: 0;
+  }
+  .site-header .wordmark {
+    width: clamp(88px, 30vw, 112px);
+    height: 38px;
+  }
+  body:has([data-home='editorial']) .mobile-navigation {
+    display: block;
+    pointer-events: auto;
+  }
+  .site-header .mobile-menu-trigger {
+    gap: 6px;
+    padding-inline: 6px;
+  }
+  .site-header .mobile-menu-panel {
+    max-height: calc(100dvh - 64px);
+    overscroll-behavior: contain;
   }
 }
 

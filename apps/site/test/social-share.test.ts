@@ -59,9 +59,9 @@ describe('aperçus des liens partagés', () => {
   });
 
   it.each([
-    ['en', 'AI podcast: news, tools and debate | Sandbox TalkShow'],
-    ['es-es', 'Pódcast de IA: actualidad, herramientas y debate | Sandbox TalkShow'],
-    ['de-de', 'KI-Podcast: News, Werkzeuge und Debatten | Sandbox TalkShow'],
+    ['en', 'AI podcast: engineering, product and tech teams | SANDBOX'],
+    ['es-es', 'Pódcast de IA: ingeniería, producto y equipos de tecnología | SANDBOX'],
+    ['de-de', 'KI-Podcast: Engineering, Produktentwicklung und Tech-Teams | SANDBOX'],
   ])('conserve le nom Sandbox TalkShow dans les aperçus en %s', async (locale, title) => {
     const metadata = await localizedMetadata({
       params: Promise.resolve({ locale, path: ['podcast'] }),

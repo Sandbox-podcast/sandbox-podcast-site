@@ -92,6 +92,7 @@ export async function publishNewsBatch(value: unknown): Promise<{ inserted: numb
           checkedAt: sql`excluded.checked_at`,
           updatedAt: sql`now()`,
         },
+        setWhere: sql`excluded.checked_at >= ${newsSourceStatus.checkedAt}`,
       });
 
     return { inserted };
@@ -113,7 +114,7 @@ export async function knownNewsUrls(now = new Date()): Promise<string[]> {
 
 export async function readPublishedNews(now = new Date(), cursor?: NewsCursor): Promise<NewsFeed> {
   requireNewsDatabase();
-  const [itemRows, sourceRows] = await Promise.all([
+  const [itemRows, sourceRows, publicationRows] = await Promise.all([
     getDb()
       .select({ payload: newsItems.payload, publishedAt: newsItems.publishedAt, id: newsItems.id })
       .from(newsItems)
@@ -128,6 +129,9 @@ export async function readPublishedNews(now = new Date(), cursor?: NewsCursor): 
       .orderBy(desc(newsItems.publishedAt), desc(newsItems.id))
       .limit(NEWS_PAGE_SIZE + 1),
     getDb().select().from(newsSourceStatus),
+    getDb()
+      .select({ lastPublishedAt: sql<string | null>`max(${newsItems.createdAt})` })
+      .from(newsItems),
   ]);
   const page = itemRows.slice(0, NEWS_PAGE_SIZE);
   const last = page.at(-1);
@@ -158,6 +162,9 @@ export async function readPublishedNews(now = new Date(), cursor?: NewsCursor): 
     .sort((left, right) => Date.parse(right) - Date.parse(left))[0];
   return {
     checkedAt: checkedAt ? new Date(checkedAt).toISOString() : null,
+    lastPublishedAt: publicationRows[0]?.lastPublishedAt
+      ? new Date(publicationRows[0].lastPublishedAt).toISOString()
+      : null,
     sources,
     items,
     nextCursor:

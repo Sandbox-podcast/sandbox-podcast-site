@@ -163,6 +163,24 @@ describe('génération et traduction des nouvelles fiches', () => {
     expect(report.items[0]?.project).toBe('The Rundown AI');
     expect(report.skipped).toBe(1);
   });
+
+  it('remonte une échéance pendant la reprise au lieu de clôturer les candidats en rejet', async () => {
+    let attempts = 0;
+    const translate = vi.fn(async () => {
+      attempts++;
+      if (attempts === 1) throw new Error('Traduction du lot refusée');
+      await new Promise((resolve) => setTimeout(resolve, 40));
+      throw new Error('Traitement interrompu');
+    });
+    await expect(
+      generateAndTranslateNews([article(1), article(5)], {
+        budgetMs: 20,
+        summarize: async (inputs) => inputs.map(summaryFor),
+        translate,
+      }),
+    ).rejects.toThrow('Traitement interrompu');
+    expect(translate).toHaveBeenCalledTimes(2);
+  });
   it('publie uniquement des résumés sourcés, traduits dans les quatre langues et séparés par URL', async () => {
     const items = [article(1), article(5)];
     const summarize = vi.fn(async (inputs: readonly NewsSummaryInput[]) => inputs.map(summaryFor));

@@ -1,5 +1,9 @@
 # SANDBOX Social Network Manager
 
+## Mise à jour du 20 octobre 2026
+
+Lou demande le nom public `Sandbox Podcast` et le mot-clé `Talkshow` dans les descriptions. L'état observé et les textes à utiliser sont consignés dans [DD-0065](../design-decisions/dd-0065-nom-public-sandbox-podcast.md) et [la préparation des profils](social-profile-copy-2026-10-20.md). Les informations ci-dessous reflètent le relevé du 17 octobre.
+
 État du 17 octobre 2026. Ce document transforme le brief Head of Social Media en mode opératoire, calendrier et premiers brouillons. Il distingue les faits observés des propositions. Aucun contenu n'est publié ou programmé par ce document.
 
 ## Audit de départ

@@ -136,6 +136,13 @@ export function ChartsExperience({
   );
   const isUnavailable = data.mode === 'unavailable';
   const latestPublished = series?.snapshots.toSorted((a, b) => compareWeeks(b.week, a.week))[0];
+  const lastUpdatedAt =
+    latestPublished?.publication?.publishedAt ?? latestPublished?.publishedAt ?? null;
+  const updateFormatter = new Intl.DateTimeFormat(intlLocale(locale), {
+    dateStyle: 'medium',
+    timeStyle: 'short',
+    timeZone: 'Europe/Paris',
+  });
   const publicationLate =
     data.mode === 'live' && latestPublished && data.checkedAt
       ? Date.parse(data.checkedAt) - editionStart(latestPublished.week).getTime() >
@@ -184,12 +191,44 @@ export function ChartsExperience({
             <Text>{heading}</Text>
           </h1>
           <p className={styles['intro']}>
-            <Text>Des outils à découvrir. Des données pour les comparer.</Text>
+            <Text>
+              Des repères pour choisir quoi tester. Compare les projets GitHub, les skills et les
+              modèles IA à partir des mesures disponibles.
+            </Text>
           </p>
         </div>
-        <p className={styles['update']}>
-          <Text>{'Éditions datées et sourcées'}</Text>
-        </p>
+        <div className={styles['update']}>
+          <p>
+            <Text>{'Éditions datées et sourcées'}</Text>
+          </p>
+          <p>
+            <Text>{'Dernière mise à jour :'}</Text>{' '}
+            {isUnavailable ? (
+              <Text>{'Indisponible'}</Text>
+            ) : lastUpdatedAt ? (
+              <time dateTime={lastUpdatedAt}>
+                {updateFormatter.format(new Date(lastUpdatedAt))} (Europe/Paris)
+              </time>
+            ) : (
+              <Text>{'Aucune édition publiée pour ce classement.'}</Text>
+            )}
+          </p>
+          <p>
+            <Text>{'Date de publication de la dernière édition de ce classement.'}</Text>
+          </p>
+          <details className={styles['updateSchedule']}>
+            <summary>
+              <Text>{'Comment les mises à jour fonctionnent'}</Text>
+            </summary>
+            <p>
+              <Text>
+                {
+                  'Collecte prévue à 03:17 et 15:17 UTC, avec contrôle chaque heure. Une édition est publiée lorsque ses données sont suffisantes.'
+                }
+              </Text>
+            </p>
+          </details>
+        </div>
       </header>
       {publicationLate ? (
         <p className={styles['preview']} role="status">
@@ -251,6 +290,11 @@ export function ChartsExperience({
               >
                 <Text>Comprendre les données de cette édition</Text>
               </summary>
+              <p>
+                <Text>
+                  Consulte les critères et les sources avant de les rapporter à ton usage.
+                </Text>
+              </p>
               <p>
                 <Text>{method.description}</Text>
               </p>

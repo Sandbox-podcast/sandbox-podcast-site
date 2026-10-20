@@ -117,12 +117,12 @@ try {
     })),
   ];
   const homeTitles = new Map([
-    ['/en', 'Sandbox TalkShow: AI news, tool tests and a tech podcast'],
+    ['/en', 'Sandbox TalkShow: what AI changes for products and tech teams'],
     [
       '/es-es',
-      'Sandbox TalkShow: actualidad de IA, pruebas de herramientas y un pódcast de tecnología',
+      'Sandbox TalkShow: lo que la IA cambia para los productos y los equipos de tecnología',
     ],
-    ['/de-de', 'Sandbox TalkShow: KI-Nachrichten, Werkzeugtests und ein Tech-Podcast'],
+    ['/de-de', 'Sandbox TalkShow: was KI für Produkte und Tech-Teams verändert'],
   ]);
   const shareImages = new Map();
   for (const path of [

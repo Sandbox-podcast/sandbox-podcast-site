@@ -1,5 +1,6 @@
 import siteSettingsSource from '../../content/site.json' with { type: 'json' };
 import { siteSettingsSchema, type SiteSettings } from '../domain/schema.ts';
+import { resolvePublishedSiteSettings } from '../domain/site-marketing.ts';
 
 export type DataMode = 'mock' | 'live';
 
@@ -17,7 +18,9 @@ export function mediaDisplayName(configured: string): string {
 }
 
 export function setSiteSettingsOverride(settings: SiteSettings | undefined): void {
-  activeSiteSettings = settings ?? defaultSiteSettings;
+  activeSiteSettings = settings
+    ? resolvePublishedSiteSettings(settings, defaultSiteSettings)
+    : defaultSiteSettings;
 }
 
 /** Le domaine public reste canonique, y compris quand Vercel fournit son sous-domaine par défaut. */

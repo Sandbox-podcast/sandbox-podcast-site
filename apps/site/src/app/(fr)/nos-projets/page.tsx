@@ -9,7 +9,7 @@ import styles from '@/components/project-store.module.css';
 export const metadata = pageMetadata({
   title: 'Projets IA, jeux et outils de l’équipe Sandbox',
   description:
-    "Découvre les applications, outils d'IA, jeux et projets open source créés par l'équipe Sandbox, avec des descriptions, des captures et les sources de chaque fiche.",
+    "Découvre les projets de Lou, Nicolas et Loïc : applications, outils d'IA, jeux et open source. Leur fonctionnement, leurs sources et les liens pour les essayer.",
   path: '/nos-projets',
   noindex: false,
 });
@@ -21,12 +21,12 @@ export default function PersonalProjectsPage() {
         <header className={styles['heading']}>
           <div>
             <h1>
-              <Text>Nos projets</Text>
+              <Text>Ce que nous construisons.</Text>
             </h1>
             <p>
               <Text>
-                Des outils d'IA, des applications, des jeux et des projets open source créés par
-                Lou, Nicolas et Loïc.
+                Découvre les projets de Lou, Nicolas et Loïc, leur fonctionnement et les liens pour
+                les essayer.
               </Text>
             </p>
           </div>

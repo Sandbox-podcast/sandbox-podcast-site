@@ -322,9 +322,9 @@ describe('médias News demandés par Lou', () => {
     },
   );
   it.each([
-    ['en', 'en', 'AI news: research, tools, companies and real-world uses'],
-    ['es-ES', 'es-es', 'Noticias sobre IA: investigación, herramientas, empresas y usos'],
-    ['de-DE', 'de-de', 'KI-Nachrichten: Forschung, Tools, Unternehmen und Anwendungen'],
+    ['en', 'en', 'AI news for tech teams: announcements and sources'],
+    ['es-ES', 'es-es', 'Actualidad de IA para equipos de tecnología: anuncios y fuentes'],
+    ['de-DE', 'de-de', 'KI-Nachrichten für Tech-Teams: Ankündigungen und Quellen'],
   ])(
     'sert les métadonnées de la bonne langue pour /%s/news',
     async (locale, routeLocale, title) => {

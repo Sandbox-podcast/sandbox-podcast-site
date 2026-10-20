@@ -13,7 +13,7 @@ export async function generateMetadata({
   return pageMetadata({
     title: 'SANDBOX CHARTS | Classements open source, skills et IA',
     description:
-      'Classements GitHub de projets open source, skills et modèles IA. Popularité, progression, qualité et méthodes publiques.',
+      'Compare les projets GitHub, les skills et les modèles IA à partir des mesures disponibles. Des classements datés, avec leurs critères et leurs sources pour choisir quoi tester.',
     path: '/charts',
     ownImage: true,
     noindex: !hasIndexableChartCollection(data) || hasChartSelectionQuery(await searchParams),

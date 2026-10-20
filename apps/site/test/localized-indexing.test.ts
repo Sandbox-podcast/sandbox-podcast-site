@@ -15,9 +15,9 @@ import { loadContent } from '../src/lib/load';
 
 describe('ouverture des pages traduites', () => {
   it.each([
-    ['en', 'AI news, tool tests and a tech podcast'],
-    ['es-es', 'actualidad de IA, pruebas de herramientas y un pódcast de tecnología'],
-    ['de-de', 'KI-Nachrichten, Werkzeugtests und ein Tech-Podcast'],
+    ['en', 'what AI changes for products and tech teams'],
+    ['es-es', 'lo que la IA cambia para los productos y los equipos de tecnología'],
+    ['de-de', 'was KI für Produkte und Tech-Teams verändert'],
   ])(
     "traduit les métadonnées de l'accueil en %s, même si son nom change",
     async (locale, suffix) => {
@@ -44,7 +44,7 @@ describe('ouverture des pages traduites', () => {
         locale === 'es-es' ? 'es-ES' : locale === 'de-de' ? 'de-DE' : locale,
       );
       for (const project of personalProjects) {
-        const title = `${project.name} : ${translateText(project.tagline, dictionary)}`;
+        const title = `${project.name}: ${translateText(project.tagline, dictionary)}`;
         const metadata = await generateMetadata({
           params: Promise.resolve({ locale, path: ['nos-projets', project.slug] }),
         });

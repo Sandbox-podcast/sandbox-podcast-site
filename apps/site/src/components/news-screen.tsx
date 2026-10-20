@@ -18,8 +18,9 @@ import { NEWS_MEDIA } from '@/domain/news-media';
 
 const COPY = {
   'fr-FR': {
-    title: 'Actualité IA.',
-    subtitle: 'Recherche, outils, entreprises et usages.',
+    title: "L'actualité IA pour les équipes tech.",
+    subtitle:
+      'Les annonces en IA et en développement, avec un résumé et un lien vers chaque source pour préparer tes prochains essais.',
     section: 'SANDBOX / ACTUALITÉ',
     readArticle: "Lire l'article",
     all: 'Tout le fil',
@@ -57,18 +58,24 @@ const COPY = {
     automatic: 'Mise à jour automatique',
     note: 'Les titres et synthèses sont générés à partir des extraits publics des médias cités, puis traduits. Ouvre la source pour vérifier les faits.',
     home: 'Accueil',
-    collected: 'Dernier relevé',
-    uncollected: 'Aucun relevé',
+    updated: 'Dernière mise à jour',
+    published: 'Dernière publication sur le site',
+    collected: 'Dernière collecte des sources',
+    collectionNote:
+      'Collecte prévue chaque heure. Seuls les articles qui passent les contrôles sont publiés.',
+    unpublished: 'Date non disponible',
+    uncollected: 'Aucune collecte enregistrée',
     results: 'résultats',
     result: 'résultat',
     failed: 'Collecte partielle. Les publications déjà reçues restent disponibles.',
     unavailable: 'Collecte indisponible. Réessayez dans un instant.',
   },
   en: {
-    title: 'AI news',
+    title: 'AI news for tech teams.',
     section: 'SANDBOX / NEWS',
     readArticle: 'Read the article',
-    subtitle: 'Research, tools, companies and real-world uses.',
+    subtitle:
+      'AI and development announcements, with a summary and a link to each source to help you plan your next experiments.',
     all: 'All topics',
     development: 'Development',
     agents: 'AI agents',
@@ -89,7 +96,7 @@ const COPY = {
     business: 'Business',
     research: 'Research',
     society: 'Society',
-    placeholder: 'A tool, a model, a version...',
+    placeholder: 'A topic, a tool, a publisher...',
     refresh: 'Refresh',
     loading: 'Collecting',
     recent: 'Most recent',
@@ -104,18 +111,24 @@ const COPY = {
     automatic: 'Automatic updates',
     note: 'Headlines and summaries are generated from public excerpts published by the cited outlets, then translated. Follow the source link to check the facts.',
     home: 'Home',
-    collected: 'Last collected',
-    uncollected: 'Not collected yet',
+    updated: 'Last update',
+    published: 'Last publication on the site',
+    collected: 'Last source collection',
+    collectionNote:
+      'Collection is scheduled hourly. Only articles that pass the checks are published.',
+    unpublished: 'Date unavailable',
+    uncollected: 'No collection recorded',
     results: 'results',
     result: 'result',
     failed: 'Partial collection. Previously received publications remain available.',
     unavailable: 'Collection unavailable. Try again shortly.',
   },
   'es-ES': {
-    title: 'Noticias sobre IA',
+    title: 'Actualidad de IA para equipos de tecnología.',
     section: 'SANDBOX / NOTICIAS',
     readArticle: 'Leer el artículo',
-    subtitle: 'Investigación, herramientas, empresas y usos.',
+    subtitle:
+      'Anuncios de IA y desarrollo, con un resumen y un enlace a cada fuente para preparar tus próximas pruebas.',
     all: 'Todos los temas',
     development: 'Desarrollo',
     agents: 'Agentes IA',
@@ -136,7 +149,7 @@ const COPY = {
     business: 'Empresas',
     research: 'Investigación',
     society: 'Sociedad',
-    placeholder: 'Una herramienta, un modelo, una versión...',
+    placeholder: 'Un tema, una herramienta, un medio...',
     refresh: 'Actualizar',
     loading: 'Recopilando',
     recent: 'Más recientes',
@@ -151,18 +164,24 @@ const COPY = {
     automatic: 'Actualización automática',
     note: 'Los titulares y resúmenes se generan a partir de extractos públicos de los medios citados y después se traducen. Abre la fuente para comprobar los datos.',
     home: 'Inicio',
-    collected: 'Última recopilación',
-    uncollected: 'Sin recopilación',
+    updated: 'Última actualización',
+    published: 'Última publicación en el sitio',
+    collected: 'Última recopilación de fuentes',
+    collectionNote:
+      'Recopilación prevista cada hora. Solo se publican los artículos que superan los controles.',
+    unpublished: 'Fecha no disponible',
+    uncollected: 'No hay recopilaciones registradas',
     results: 'resultados',
     result: 'resultado',
     failed: 'Recopilación parcial. Las publicaciones anteriores siguen disponibles.',
     unavailable: 'Recopilación no disponible. Inténtalo de nuevo.',
   },
   'de-DE': {
-    title: 'KI-Nachrichten',
+    title: 'KI-Nachrichten für Tech-Teams.',
     section: 'SANDBOX / NACHRICHTEN',
     readArticle: 'Artikel lesen',
-    subtitle: 'Forschung, Tools, Unternehmen und Anwendungen.',
+    subtitle:
+      'Ankündigungen zu KI und Softwareentwicklung mit einer Zusammenfassung und einem Link zu jeder Quelle für deine nächsten Tests.',
     all: 'Alle Themen',
     development: 'Entwicklung',
     agents: 'KI-Agenten',
@@ -183,7 +202,7 @@ const COPY = {
     business: 'Unternehmen',
     research: 'Forschung',
     society: 'Gesellschaft',
-    placeholder: 'Ein Tool, ein Modell, eine Version...',
+    placeholder: 'Ein Thema, ein Tool, ein Medium...',
     refresh: 'Aktualisieren',
     loading: 'Wird abgerufen',
     recent: 'Neueste zuerst',
@@ -199,8 +218,13 @@ const COPY = {
     automatic: 'Automatische Aktualisierung',
     note: 'Titel und Zusammenfassungen entstehen aus öffentlichen Auszügen der genannten Medien und werden anschließend übersetzt. Über den Quellenlink kannst du die Angaben prüfen.',
     home: 'Startseite',
-    collected: 'Letzter Abruf',
-    uncollected: 'Noch kein Abruf',
+    updated: 'Letzte Aktualisierung',
+    published: 'Letzte Veröffentlichung auf der Website',
+    collected: 'Letzter Quellenabruf',
+    collectionNote:
+      'Der Abruf ist stündlich geplant. Nur Artikel, die die Prüfungen bestehen, werden veröffentlicht.',
+    unpublished: 'Datum nicht verfügbar',
+    uncollected: 'Kein Abruf erfasst',
     results: 'Ergebnisse',
     result: 'Ergebnis',
     failed: 'Teilweiser Abruf. Frühere Veröffentlichungen bleiben verfügbar.',
@@ -329,9 +353,34 @@ export function NewsScreen({
       </header>
       <section className={styles['terminal']} aria-label={copy.title} aria-busy={pending}>
         <div className={styles['status']}>
-          <span className={styles['statusText']}>
-            {copy.collected} : {feed.checkedAt ? date(feed.checkedAt) : copy.uncollected}
-          </span>
+          <div className={styles['collectionStatus']}>
+            <p className={styles['statusText']}>{copy.updated}</p>
+            <dl className={styles['updateDates']}>
+              <div>
+                <dt>{copy.published}</dt>
+                <dd>
+                  {feed.lastPublishedAt ? (
+                    <time dateTime={feed.lastPublishedAt}>
+                      {date(feed.lastPublishedAt)} (Europe/Paris)
+                    </time>
+                  ) : (
+                    copy.unpublished
+                  )}
+                </dd>
+              </div>
+              <div>
+                <dt>{copy.collected}</dt>
+                <dd>
+                  {feed.checkedAt ? (
+                    <time dateTime={feed.checkedAt}>{date(feed.checkedAt)} (Europe/Paris)</time>
+                  ) : (
+                    copy.uncollected
+                  )}
+                </dd>
+              </div>
+            </dl>
+            <p className={styles['collectionNote']}>{copy.collectionNote}</p>
+          </div>
           {isPreview ? (
             <button type="button" onClick={() => void refresh()} disabled={pending}>
               {pending ? copy.loading : copy.refresh}

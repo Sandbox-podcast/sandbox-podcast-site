@@ -1,28 +1,35 @@
 # Texte et paramètres de la chaîne
 
-Nom : Sandbox TalkShow
+Nom : Sandbox Podcast
 Identifiant public actuel : @SandboxFR
 URL publique : https://www.youtube.com/@SandboxFR
 
 L'ancien identifiant @SandboxPodcast-fr redirige vers @SandboxFR. Le nom public de la chaîne est Sandbox TalkShow, vérifié dans YouTube Studio le 18 octobre 2026. Le logotype visuel affiche SANDBOX comme sur le site.
 
-Description :
-SANDBOX est un média indépendant sur l'IA, le développement et l'open source. Nos podcasts vidéo testent les outils, interrogent les modèles et remettent les chiffres en perspective.
+Description validée du 20 octobre 2026 : 902 caractères, retours à la ligne inclus. Source canonique : [descriptions des réseaux](../../docs/site/descriptions-reseaux-vision-2026-10-20.md#youtube).
 
-Sur sandboxpodcast.fr, retrouvez les épisodes, leurs sources et SANDBOX CHARTS, nos classements tech et IA.
+```text
+Ce que l'IA change pour ceux qui construisent.
 
-Suivez Sandbox :
+Sandbox Podcast est un talkshow français consacré aux effets de l'IA sur le développement logiciel, les produits numériques et les équipes tech.
+
+Lou, Nicolas et Loïc réunissent deux développeurs et un Product Manager. Nous testons des outils, construisons des projets et confrontons nos points de vue sur ce que nous apprenons. Nos discussions vont du code aux choix produit, jusqu'à l'organisation du travail.
+
+Pour les CTO, Tech Leads et responsables produit qui veulent nourrir leurs réflexions sur le travail de leur équipe.
+
+Abonne-toi pour retrouver les émissions. Les replays, les projets et les sources sont sur https://www.sandboxpodcast.fr/
+
+Suivre Sandbox :
 X : https://x.com/SandboxTalkShow
 TikTok : https://www.tiktok.com/@sandbox.talkshow
 Instagram : https://www.instagram.com/Sandbox.TalkShow/
 YouTube : https://www.youtube.com/@SandboxFR
-
-La tech mérite mieux que du bruit.
+```
 
 Lien du profil : https://www.sandboxpodcast.fr/
 
 Mots-clés :
-Sandbox, Sandbox TalkShow, podcast tech, podcast français, intelligence artificielle, IA, développement, open source, modèles IA, outils IA, actualité tech
+Sandbox, Sandbox Podcast, Talkshow, podcast tech, podcast français, intelligence artificielle, IA, développement, open source, modèles IA, outils IA, actualité tech
 
 Réglages enregistrés :
 

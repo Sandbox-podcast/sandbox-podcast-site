@@ -415,6 +415,9 @@ try {
         await card.waitFor();
         await card.scrollIntoViewIfNeeded();
         const image = card.locator('img[data-history-artwork-id]');
+        await image.evaluate(async (element) => {
+          await element.decode();
+        });
         const svgUrl = new URL(await image.getAttribute('src'), origin);
         assert.equal(svgUrl.origin, origin);
         const response = await context.request.get(svgUrl.href);
@@ -497,6 +500,7 @@ try {
       const starfield = page.locator('canvas[data-temporal-starfield]');
       assert.equal(await starfield.getAttribute('aria-hidden'), 'true');
       await range.press('Home');
+      await page.waitForFunction(() => document.getElementById('tm-timeline')?.value === '0');
       await page.waitForTimeout(1300);
       const still = await starfield.evaluate((canvas) => canvas.toDataURL());
       const beforeFrames = await page.evaluate(() => window.__sandboxStarfieldFrames);

@@ -83,6 +83,10 @@
     "translation": "",
     "sources": ["src/components/chart-lens.tsx"]
   },
+  "(Europe/Paris)": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
   "(lecteur vidéo)": {
     "translation": "",
     "sources": ["src/app/(fr)/episodes/[number]/page.tsx"]
@@ -93,11 +97,12 @@
       "src/app/(fr)/about/page.tsx",
       "src/app/(fr)/episodes/[number]/page.tsx",
       "src/app/(fr)/podcast/page.tsx",
-      "src/components/discovery-home.tsx",
+      "src/components/discovery-story.tsx",
       "src/components/entity-screen.tsx",
       "src/components/guide-article.tsx",
       "src/components/home-host-card.tsx",
       "src/components/shell.tsx",
+      "src/components/studio-landing.tsx",
       "src/components/ui.tsx"
     ]
   },
@@ -110,6 +115,10 @@
     "sources": ["src/i18n/dictionaries/en.json"]
   },
   "{count} d’affilée": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "{count} dates de l'intelligence artificielle, de {fromYear} à {toYear}. Travaux, modèles et lancements sourcés pour comprendre d'où vient l'IA d'aujourd'hui.": {
     "translation": "",
     "sources": ["src/i18n/dictionaries/en.json"]
   },
@@ -205,15 +214,27 @@
     "translation": "",
     "sources": ["src/i18n/dictionaries/en.json"]
   },
+  "{name} : actualité IA, tests d'outils et podcast tech": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
   "{name} : benchmarks, classement et avis": {
     "translation": "",
     "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "{name} : ce que l'IA change pour les produits et les équipes tech": {
+    "translation": "",
+    "sources": ["src/app/(fr)/page.tsx", "src/i18n/dictionaries/en.json"]
   },
   "{name} : classement GitHub, historique et avis": {
     "translation": "",
     "sources": ["src/i18n/dictionaries/en.json"]
   },
   "{name} : comprendre l'IA en la pratiquant": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "{name} : l'impact de l'IA sur les entreprises et les équipes tech": {
     "translation": "",
     "sources": ["src/i18n/dictionaries/en.json"]
   },
@@ -477,6 +498,10 @@
     "translation": "",
     "sources": ["src/components/entity-screen.tsx"]
   },
+  "À propos de Sandbox": {
+    "translation": "",
+    "sources": ["src/components/discovery-story.tsx"]
+  },
   "À propos du projet": {
     "translation": "",
     "sources": ["src/components/video-club-dossier.tsx"]
@@ -539,11 +564,7 @@
   },
   "Accueil Sandbox": {
     "translation": "",
-    "sources": ["src/i18n/messages.ts"]
-  },
-  "Actualité": {
-    "translation": "",
-    "sources": ["src/components/nav.tsx", "src/components/shell.tsx"]
+    "sources": ["src/components/nav.tsx", "src/i18n/messages.ts"]
   },
   "Aceptar": {
     "translation": "",
@@ -555,7 +576,7 @@
   },
   "Activer les mouvements": {
     "translation": "",
-    "sources": ["src/components/cinematic-stage.tsx"]
+    "sources": ["src/components/cinematic-stage.tsx", "src/components/studio-scroll.tsx"]
   },
   "Activity": {
     "translation": "",
@@ -565,9 +586,14 @@
     "translation": "",
     "sources": ["content/charts/github.json"]
   },
-  "Actualité IA · outils · développement · open source": {
+  "Actualités": {
     "translation": "",
-    "sources": ["content/site.json"]
+    "sources": [
+      "src/components/nav.tsx",
+      "src/components/shell.tsx",
+      "src/components/studio-easter-eggs.tsx",
+      "src/components/studio-landing.tsx"
+    ]
   },
   "Administrer un serveur Rust depuis le chat.": {
     "translation": "",
@@ -655,6 +681,10 @@
   "AI Models Top 20 : classement croisé des modèles IA": {
     "translation": "",
     "sources": ["content/charts/ai-models.json"]
+  },
+  "AI policy": {
+    "translation": "",
+    "sources": ["src/domain/news-translation-terms.ts"]
   },
   "AI rankings": {
     "translation": "",
@@ -828,6 +858,10 @@
     "translation": "",
     "sources": ["src/components/entity-screen.tsx"]
   },
+  "Analyse et code de reproduction d'Anthropic": {
+    "translation": "",
+    "sources": ["content/ai-history.json"]
+  },
   "Ancienne page de démonstration": {
     "translation": "",
     "sources": ["src/components/demo-content-page.tsx"]
@@ -968,6 +1002,14 @@
     "translation": "",
     "sources": ["content/ai-history.json"]
   },
+  "Annonce de MBZUAI": {
+    "translation": "",
+    "sources": ["content/ai-history.json"]
+  },
+  "Annonce de Meta": {
+    "translation": "",
+    "sources": ["content/ai-history.json"]
+  },
   "Annonce de Mistral Large 4": {
     "translation": "",
     "sources": ["content/ai-history.json"]
@@ -1008,6 +1050,10 @@
     "translation": "",
     "sources": ["content/ai-history.json"]
   },
+  "Annonce du Rosalind Academic Plan": {
+    "translation": "",
+    "sources": ["content/ai-history.json"]
+  },
   "Annonce et accès à Llama 2": {
     "translation": "",
     "sources": ["content/ai-history.json"]
@@ -1033,6 +1079,14 @@
     "sources": ["content/ai-history.json"]
   },
   "Annonce officielle de Muse Wonder": {
+    "translation": "",
+    "sources": ["content/ai-history.json"]
+  },
+  "Annonce officielle du 17 octobre": {
+    "translation": "",
+    "sources": ["content/ai-history.json"]
+  },
+  "Annonce officielle du DOE": {
     "translation": "",
     "sources": ["content/ai-history.json"]
   },
@@ -1120,6 +1174,10 @@
     "translation": "",
     "sources": ["content/ai-history.json"]
   },
+  "Anthropic rapporte qu'un modèle de recherche Claude a retrouvé comment les graines de plusieurs courbes NIST avaient été générées à partir d'horodatages.": {
+    "translation": "",
+    "sources": ["content/ai-history.json"]
+  },
   "anthropics/claude-code": {
     "translation": "",
     "sources": ["content/entities/projects.json"]
@@ -1171,6 +1229,10 @@
   "Apprendre à gérer son argent en jouant.": {
     "translation": "",
     "sources": ["content/personal-projects.json"]
+  },
+  "Architecture et licence de Muse Spark Open": {
+    "translation": "",
+    "sources": ["content/ai-history.json"]
   },
   "Archive": {
     "translation": "",
@@ -1252,6 +1314,10 @@
     "translation": "",
     "sources": ["content/ai-history.json"]
   },
+  "Article répété dans le lot.": {
+    "translation": "",
+    "sources": ["src/domain/news-publishing.ts"]
+  },
   "Articles": {
     "translation": "",
     "sources": ["src/domain/kinds.ts"]
@@ -1307,6 +1373,10 @@
   "Aucun animateur n’est associé à votre compte.": {
     "translation": "",
     "sources": ["src/domain/episode-import.ts"]
+  },
+  "Aucun article publié.": {
+    "translation": "",
+    "sources": ["src/domain/news-health.ts"]
   },
   "Aucun changement": {
     "translation": "",
@@ -1416,6 +1486,10 @@
     "translation": "",
     "sources": ["src/app/(fr)/episodes/[number]/page.tsx"]
   },
+  "Aucune source News lisible.": {
+    "translation": "",
+    "sources": ["src/domain/news-health.ts"]
+  },
   "Audience cumulée (vue complémentaire)": {
     "translation": "",
     "sources": ["content/charts/skills.json"]
@@ -1427,6 +1501,10 @@
   "Audience measurement": {
     "translation": "",
     "sources": ["src/components/analytics-consent.tsx"]
+  },
+  "Ausgabetokens": {
+    "translation": "",
+    "sources": ["src/domain/news-translation-terms.ts"]
   },
   "Aussi cette semaine": {
     "translation": "",
@@ -1702,13 +1780,17 @@
     "translation": "",
     "sources": ["src/components/project-badges.tsx"]
   },
-  "Ce qu'on essaie en ce moment.": {
-    "translation": "",
-    "sources": ["src/app/(fr)/podcast/page.tsx"]
-  },
   "Ce que c'est": {
     "translation": "",
     "sources": ["src/domain/chart-edition.ts"]
+  },
+  "Ce que l'IA change": {
+    "translation": "",
+    "sources": ["src/components/studio-landing.tsx"]
+  },
+  "Ce que l'IA change pour ceux qui construisent.": {
+    "translation": "",
+    "sources": ["content/site.json", "src/components/studio-landing.tsx"]
   },
   "Ce que les chiffres permettent de dire": {
     "translation": "",
@@ -1720,7 +1802,7 @@
   },
   "Ce que nous construisons.": {
     "translation": "",
-    "sources": ["src/components/discovery-story.tsx"]
+    "sources": ["src/app/(fr)/nos-projets/page.tsx", "src/components/discovery-story.tsx"]
   },
   "Ce que tu peux faire": {
     "translation": "",
@@ -1754,10 +1836,6 @@
     "translation": "",
     "sources": ["src/components/charts-experience.tsx"]
   },
-  "Cette édition classe les installations cumulées de Skills.sh. Les étoiles GitHub sont un contexte, pas une seconde mesure du score.": {
-    "translation": "",
-    "sources": ["src/domain/chart-publication.ts"]
-  },
   "Cette édition classe l'accélération mesurée des jeunes dépôts. OpenSSF Scorecard ne couvre pas assez de dépôts pour corroborer le Top : ce signal est absent du score. Les dépôts sans deux fenêtres de sept jours sont omis.": {
     "translation": "",
     "sources": ["src/domain/chart-publication.ts"]
@@ -1766,11 +1844,19 @@
     "translation": "",
     "sources": ["src/domain/chart-publication.ts"]
   },
-  "Cette édition classe les skills qui ont une progression d'installations et une progression d'étoiles sur sept jours. Les skills auxquels il manque une mesure sont omis. Ce score n'est pas le profil corroboré v3.": {
+  "Cette édition classe la progression réelle des installations Skills.sh sur sept jours. La dynamique GitHub n'entre pas dans le score. Aucune installation manquante n'est estimée.": {
     "translation": "",
     "sources": ["src/domain/chart-publication.ts"]
   },
-  "Cette édition classe la progression réelle des installations Skills.sh sur sept jours. La dynamique GitHub n'entre pas dans le score. Aucune installation manquante n'est estimée.": {
+  "Cette édition classe les installations cumulées de Skills.sh. Les étoiles GitHub sont un contexte, pas une seconde mesure du score.": {
+    "translation": "",
+    "sources": ["src/domain/chart-publication.ts"]
+  },
+  "Cette édition classe les modèles qui ont une évaluation Arena admissible, un indice Artificial Analysis admissible, ou les deux. Une évaluation absente n'est pas estimée et ne vaut pas 100. Deux modèles à 100 peuvent avoir été les meilleurs de deux épreuves différentes. Ce score n'est pas le profil corroboré v3.": {
+    "translation": "",
+    "sources": ["src/domain/chart-publication.ts"]
+  },
+  "Cette édition classe les skills qui ont une progression d'installations et une progression d'étoiles sur sept jours. Les skills auxquels il manque une mesure sont omis. Ce score n'est pas le profil corroboré v3.": {
     "translation": "",
     "sources": ["src/domain/chart-publication.ts"]
   },
@@ -1849,13 +1935,9 @@
     "translation": "",
     "sources": ["content/personal-projects.json"]
   },
-  "Chaque semaine, Lou, Loïc et Nico décryptent l'actualité de l'IA et de la tech, testent des outils et racontent ce qui change vraiment. Sources et classements à l'appui.": {
+  "Chaque source doit apparaître une fois.": {
     "translation": "",
-    "sources": ["src/components/discovery-home.tsx"]
-  },
-  "Chaque semaine, nous testons des outils d'IA, confrontons nos expériences et vérifions ce que les annonces changent vraiment. Retrouve les épisodes, leurs sources et nos classements commentés.": {
-    "translation": "",
-    "sources": ["content/site.json"]
+    "sources": ["src/domain/news-publishing.ts"]
   },
   "Chargement de l'aperçu.": {
     "translation": "",
@@ -1944,6 +2026,10 @@
   "Choisis une cassette sur le rayon.": {
     "translation": "",
     "sources": ["src/components/video-club.tsx"]
+  },
+  "Choisis une date, puis ouvre sa fiche pour lire les détails et les sources.": {
+    "translation": "",
+    "sources": ["src/components/time-machine.tsx"]
   },
   "CHOIX DE SANDBOX": {
     "translation": "",
@@ -2053,7 +2139,8 @@
       "src/components/reference-methodology.tsx",
       "src/components/search-screen.tsx",
       "src/components/shell.tsx",
-      "src/components/studio-easter-eggs.tsx"
+      "src/components/studio-easter-eggs.tsx",
+      "src/components/studio-landing.tsx"
     ]
   },
   "Classements commentés": {
@@ -2066,11 +2153,7 @@
   },
   "Classements de projets open source, de skills et de modèles IA": {
     "translation": "",
-    "sources": ["src/components/charts-experience.tsx", "src/app/(fr)/charts/page.tsx"]
-  },
-  "Classements GitHub de projets open source, skills et modèles IA. Popularité, progression, qualité et méthodes publiques.": {
-    "translation": "",
-    "sources": ["src/app/(fr)/charts/page.tsx"]
+    "sources": ["src/app/(fr)/charts/page.tsx", "src/components/charts-experience.tsx"]
   },
   "Classements IA": {
     "translation": "",
@@ -2096,11 +2179,19 @@
     "translation": "",
     "sources": ["content/ai-history.json"]
   },
+  "Claude conçoit des circuits quantiques moins coûteux": {
+    "translation": "",
+    "sources": ["content/ai-history.json"]
+  },
   "Claude Haiku 5.5 complète la famille Claude 5.5": {
     "translation": "",
     "sources": ["content/ai-history.json"]
   },
   "Claude identifie un système enzymatique associé à des répétitions d'ADN": {
+    "translation": "",
+    "sources": ["content/ai-history.json"]
+  },
+  "Claude retrouve l'origine des paramètres de courbes ECDSA": {
     "translation": "",
     "sources": ["content/ai-history.json"]
   },
@@ -2211,6 +2302,18 @@
     "translation": "",
     "sources": ["src/components/charts-mini.tsx"]
   },
+  "Collecte News absente ou en retard de plus de trois heures.": {
+    "translation": "",
+    "sources": ["src/domain/news-health.ts"]
+  },
+  "Collecte prévue à 03:17 et 15:17 UTC, avec contrôle chaque heure. Une édition est publiée lorsque ses données sont suffisantes.": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
+  "Collecte récente et fil public lisible.": {
+    "translation": "",
+    "sources": ["src/domain/news-health.ts"]
+  },
   "Collection de serveurs MCP qui montrent comment exposer fichiers, bases de données ou API à un agent. Le point de départ pour comprendre et écrire le sien.": {
     "translation": "",
     "sources": ["content/entities/projects.json"]
@@ -2218,10 +2321,6 @@
   "Collection de skills : des dossiers d'instructions et de scripts que l'agent charge à la demande pour une tâche précise. Sert aussi d'exemple pour écrire les siens.": {
     "translation": "",
     "sources": ["content/entities/projects.json"]
-  },
-  "Collez la description de l’épisode avec ses sources.": {
-    "translation": "",
-    "sources": ["src/domain/episode-import.ts"]
   },
   "comfy.org": {
     "translation": "",
@@ -2246,6 +2345,10 @@
   "Comment le {chart} est calculé : sources, critères, limites": {
     "translation": "",
     "sources": ["src/i18n/dictionaries/en.json"]
+  },
+  "Comment les mises à jour fonctionnent": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
   },
   "Comment se calcule son score ?": {
     "translation": "",
@@ -2279,6 +2382,10 @@
     "translation": "",
     "sources": ["src/components/charts-experience.tsx"]
   },
+  "Compare les projets GitHub, les skills et les modèles IA à partir des mesures disponibles. Des classements datés, avec leurs critères et leurs sources pour choisir quoi tester.": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/page.tsx"]
+  },
   "Comparer les modèles": {
     "translation": "",
     "sources": ["content/personal-projects.json"]
@@ -2302,6 +2409,10 @@
   "Compréhension d'images et de texte de niveau universitaire.": {
     "translation": "",
     "sources": ["content/scoring/models.json"]
+  },
+  "Comprendre d'où vient l'IA d'aujourd'hui. Retrouve les dates, les travaux et les lancements qui ont jalonné l'histoire de l'IA, avec leurs sources.": {
+    "translation": "",
+    "sources": ["src/components/time-machine.tsx"]
   },
   "Comprendre les données de cette édition": {
     "translation": "",
@@ -2351,6 +2462,10 @@
     "translation": "",
     "sources": ["src/app/(fr)/confidentialite/page.tsx"]
   },
+  "Consulte les critères et les sources avant de les rapporter à ton usage.": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
   "Consulte tes moniteurs Uptime Kuma depuis Raycast. L'extension affiche leur disponibilité, leur temps de réponse et leurs derniers heartbeats.": {
     "translation": "",
     "sources": ["content/personal-projects.json"]
@@ -2370,6 +2485,10 @@
   "Consulter la fiche du projet": {
     "translation": "",
     "sources": ["src/app/(fr)/charts/awards/[week]/page.tsx"]
+  },
+  "Consulter le classement GitHub": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
   },
   "Contacter la CNIL": {
     "translation": "",
@@ -2552,13 +2671,13 @@
     "translation": "",
     "sources": ["src/app/(fr)/podcast/page.tsx"]
   },
-  "DANS LE TALK SHOW": {
-    "translation": "",
-    "sources": ["src/components/charts-experience.tsx"]
-  },
   "Dans le Talk Show": {
     "translation": "",
     "sources": ["src/app/(fr)/nos-projets/[slug]/page.tsx", "src/components/chart-screen.tsx"]
+  },
+  "DANS LE TALK SHOW": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
   },
   "Dans les distinctions, ouvrez \"Obtenir mon badge\" et copiez le Markdown.": {
     "translation": "",
@@ -2567,6 +2686,10 @@
   "Dans les épisodes": {
     "translation": "",
     "sources": ["src/components/entity-screen.tsx"]
+  },
+  "Dans SANDBOX, nous discutons de l'IA dans les produits et les équipes tech. Lou, Nicolas et Loïc y confrontent leurs expériences, leurs essais et leurs désaccords. Regarde les replays et retrouve les ressources citées pour poursuivre tes propres recherches.": {
+    "translation": "",
+    "sources": ["src/app/(fr)/podcast/page.tsx"]
   },
   "Dart": {
     "translation": "",
@@ -2580,9 +2703,17 @@
     "translation": "",
     "sources": ["src/domain/badges.ts"]
   },
+  "Date d’édition invalide.": {
+    "translation": "",
+    "sources": ["src/domain/charts-refresh-runner.ts"]
+  },
   "Date de collecte invalide.": {
     "translation": "",
     "sources": ["src/domain/chart-refresh.ts"]
+  },
+  "Date de publication de la dernière édition de ce classement.": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
   },
   "Date de publication invalide ou édition future.": {
     "translation": "",
@@ -2616,13 +2747,13 @@
     "translation": "",
     "sources": ["content/ai-history.json"]
   },
-  "Découvre les applications, outils d'IA, jeux et projets open source créés par l'équipe Sandbox, avec des descriptions, des captures et les sources de chaque fiche.": {
+  "Découvre les projets de Lou, Nicolas et Loïc : applications, outils d'IA, jeux et open source. Leur fonctionnement, leurs sources et les liens pour les essayer.": {
     "translation": "",
     "sources": ["src/app/(fr)/nos-projets/page.tsx"]
   },
-  "Découvre les profils publics de Lou, Nicolas et Loïc, les animateurs de Sandbox TalkShow sur l’actualité IA et tech.": {
+  "Découvre les projets de Lou, Nicolas et Loïc, leur fonctionnement et les liens pour les essayer.": {
     "translation": "",
-    "sources": ["src/app/(fr)/about/page.tsx"]
+    "sources": ["src/app/(fr)/nos-projets/page.tsx"]
   },
   "Découvrir": {
     "translation": "",
@@ -2634,10 +2765,6 @@
   "Découvrir BallCam": {
     "translation": "",
     "sources": ["content/personal-projects.json"]
-  },
-  "Découvrir l'émission": {
-    "translation": "",
-    "sources": ["src/components/discovery-home.tsx"]
   },
   "Découvrir la tirelire virtuelle": {
     "translation": "",
@@ -2651,9 +2778,9 @@
       "src/components/video-club-dossier.tsx"
     ]
   },
-  "Découvrir le vidéoclub des projets": {
+  "Découvrir nos projets": {
     "translation": "",
-    "sources": ["src/components/discovery-home.tsx"]
+    "sources": ["src/components/studio-landing.tsx"]
   },
   "Décroissance exponentielle à partir du dernier push, sur une constante de temps de 30 jours.": {
     "translation": "",
@@ -2700,6 +2827,14 @@
     "sources": ["content/ai-history.json"]
   },
   "DeepMind publie AlphaGeometry, qui associe modèle neuronal et moteur de déduction pour résoudre des problèmes de géométrie.": {
+    "translation": "",
+    "sources": ["content/ai-history.json"]
+  },
+  "DeepSeek déploie V4.1-Flash-1017 sur son site, son application et son API, publie les poids et ouvre ses interfaces de recherche et de lecture du Web.": {
+    "translation": "",
+    "sources": ["content/ai-history.json"]
+  },
+  "DeepSeek met à jour V4.1 Flash et ouvre Search et Fetch": {
     "translation": "",
     "sources": ["content/ai-history.json"]
   },
@@ -2767,9 +2902,9 @@
     "translation": "",
     "sources": ["src/domain/sandbox-charts.ts"]
   },
-  "Dernier épisode": {
+  "Depuis le plateau": {
     "translation": "",
-    "sources": ["src/components/discovery-home.tsx"]
+    "sources": ["src/components/studio-landing.tsx"]
   },
   "Dernier rang dans les scénarios de pondération": {
     "translation": "",
@@ -2789,7 +2924,11 @@
   },
   "Dernière mise à jour :": {
     "translation": "",
-    "sources": ["src/components/chart-screen.tsx", "src/i18n/messages.ts"]
+    "sources": [
+      "src/components/chart-screen.tsx",
+      "src/components/charts-experience.tsx",
+      "src/i18n/messages.ts"
+    ]
   },
   "Dernière place du Top 10. Une liste de liens est-elle un projet ? Débat ouvert, on a perdu une demi-heure dessus en studio.": {
     "translation": "",
@@ -2808,6 +2947,10 @@
     "sources": ["src/components/discovery-story.tsx"]
   },
   "Des agents Claude repèrent un système de transcriptases inverses associé à des répétitions d'ADN, nommé ART, puis étudié au laboratoire.": {
+    "translation": "",
+    "sources": ["content/ai-history.json"]
+  },
+  "Des biologistes utilisent Antigravity et ProtNLM pour repérer et analyser un candidat antimicrobien dans les bases de protéines.": {
     "translation": "",
     "sources": ["content/ai-history.json"]
   },
@@ -2835,13 +2978,13 @@
     "translation": "",
     "sources": ["content/personal-projects.json"]
   },
-  "Des outils à découvrir. Des données pour les comparer.": {
+  "Des repères pour choisir quoi tester. Compare les projets GitHub, les skills et les modèles IA à partir des mesures disponibles.": {
     "translation": "",
     "sources": ["src/components/charts-experience.tsx"]
   },
-  "Des outils d'IA, des applications, des jeux et des projets open source créés par Lou, Nicolas et Loïc.": {
+  "Des repères pour tes prochains choix.": {
     "translation": "",
-    "sources": ["src/app/(fr)/nos-projets/page.tsx"]
+    "sources": ["src/components/discovery-story.tsx"]
   },
   "Des réseaux traduisent une séquence en une autre": {
     "translation": "",
@@ -2870,6 +3013,18 @@
   "DÉTECTION INTRAJOURNALIÈRE": {
     "translation": "",
     "sources": ["src/components/github-burst-panel.tsx"]
+  },
+  "Deux développeurs et un Product Manager confrontent leurs expériences de l'IA, du code aux choix produit et au travail des équipes.": {
+    "translation": "",
+    "sources": ["content/site.json"]
+  },
+  "Deux développeurs et un Product Manager.": {
+    "translation": "",
+    "sources": ["content/site.json"]
+  },
+  "Deux développeurs et un Product Manager. Nous confrontons nos essais et nos points de vue sur ce que l'IA change pour les produits et les équipes tech.": {
+    "translation": "",
+    "sources": ["src/components/discovery-story.tsx"]
   },
   "Deux réseaux apprennent en compétition : l'un produit des exemples et l'autre tente de reconnaître les exemples synthétiques.": {
     "translation": "",
@@ -2975,10 +3130,6 @@
     "translation": "",
     "sources": ["content/entities/projects.json"]
   },
-  "Du Talk Show au concret": {
-    "translation": "",
-    "sources": ["src/components/discovery-story.tsx"]
-  },
   "Durée YouTube indisponible.": {
     "translation": "",
     "sources": ["src/components/youtube-duration-probe.tsx"]
@@ -2991,17 +3142,17 @@
     "translation": "",
     "sources": ["src/domain/reference-profiles.ts"]
   },
-  "Dynamique Skills observée": {
+  "Dynamique GitHub": {
     "translation": "",
-    "sources": ["src/domain/chart-publication.ts"]
+    "sources": ["src/domain/reference-profiles.ts"]
   },
   "Dynamique GitHub observée": {
     "translation": "",
     "sources": ["src/domain/chart-publication.ts"]
   },
-  "Dynamique GitHub": {
+  "Dynamique Skills observée": {
     "translation": "",
-    "sources": ["src/domain/reference-profiles.ts"]
+    "sources": ["src/domain/chart-publication.ts"]
   },
   "DYNAMIQUE SUR 30 JOURS": {
     "translation": "",
@@ -3123,6 +3274,10 @@
   "Éducation": {
     "translation": "",
     "sources": ["src/domain/personal-projects.ts"]
+  },
+  "Eingabetokens": {
+    "translation": "",
+    "sources": ["src/domain/news-translation-terms.ts"]
   },
   "Einwilligung widerrufen": {
     "translation": "",
@@ -3322,6 +3477,10 @@
     "translation": "",
     "sources": ["src/components/chart-row.tsx"]
   },
+  "étoiles": {
+    "translation": "",
+    "sources": ["src/components/charts-features.tsx"]
+  },
   "Étoiles": {
     "translation": "",
     "sources": ["src/components/charts-experience.tsx"]
@@ -3329,10 +3488,6 @@
   "ÉTOILES": {
     "translation": "",
     "sources": ["src/components/charts-experience.tsx", "src/components/charts-ranking.tsx"]
-  },
-  "étoiles": {
-    "translation": "",
-    "sources": ["src/components/charts-features.tsx"]
   },
   "Étoiles gagnées sur les 7 derniers jours.": {
     "translation": "",
@@ -3353,6 +3508,10 @@
   "Évaluation officielle IMO 2025": {
     "translation": "",
     "sources": ["content/ai-history.json"]
+  },
+  "Évaluations observées": {
+    "translation": "",
+    "sources": ["src/domain/chart-publication.ts"]
   },
   "Évaluations standardisées": {
     "translation": "",
@@ -3434,21 +3593,21 @@
     "translation": "",
     "sources": ["src/components/time-machine.tsx"]
   },
-  "Explorer l'IA.": {
-    "translation": "",
-    "sources": ["src/components/discovery-story.tsx"]
-  },
   "Explorer la simulation": {
     "translation": "",
     "sources": ["content/personal-projects.json"]
+  },
+  "Explorer le plateau": {
+    "translation": "",
+    "sources": ["src/components/studio-landing.tsx"]
   },
   "Explorer les données politiques": {
     "translation": "",
     "sources": ["content/personal-projects.json"]
   },
-  "Explorer les projets, les modèles et les skills, avec leurs sources et leurs méthodes.": {
+  "Explorer une année": {
     "translation": "",
-    "sources": ["src/components/discovery-story.tsx"]
+    "sources": ["src/components/time-machine.tsx"]
   },
   "Explorez les derniers classements IA mesurés.": {
     "translation": "",
@@ -3510,10 +3669,6 @@
     "translation": "",
     "sources": ["content/entities/projects.json"]
   },
-  "Fais défiler pour découvrir l'équipe.": {
-    "translation": "",
-    "sources": ["src/components/discovery-story.tsx"]
-  },
   "FAITES": {
     "translation": "",
     "sources": ["src/components/video-club.tsx"]
@@ -3562,6 +3717,10 @@
     "translation": "",
     "sources": ["src/domain/chart-edition.ts"]
   },
+  "Fiche du modèle publiée par Reflection": {
+    "translation": "",
+    "sources": ["content/ai-history.json"]
+  },
   "Fiche mise à jour avec le relevé du": {
     "translation": "",
     "sources": ["src/components/entity-screen.tsx"]
@@ -3581,6 +3740,10 @@
   "Fil d'Ariane": {
     "translation": "",
     "sources": ["src/components/chart-screen.tsx", "src/components/ui.tsx"]
+  },
+  "Fil public invalide.": {
+    "translation": "",
+    "sources": ["src/domain/news-health.ts"]
   },
   "Filtrer": {
     "translation": "",
@@ -3609,6 +3772,14 @@
   "Flux RSS": {
     "translation": "",
     "sources": ["src/components/shell.tsx", "src/i18n/messages.ts"]
+  },
+  "FLUX.3 Image Klein arrive dans Diffusers": {
+    "translation": "",
+    "sources": ["content/ai-history.json"]
+  },
+  "FLUX.3 Image Klein combine génération et modification d'images avec plusieurs références, et contrôle du placement par zones dans le prompt.": {
+    "translation": "",
+    "sources": ["content/ai-history.json"]
   },
   "Fois #1": {
     "translation": "",
@@ -3935,6 +4106,10 @@
     "translation": "",
     "sources": ["content/ai-history.json"]
   },
+  "Google utilise Antigravity pour chercher des peptides antimicrobiens": {
+    "translation": "",
+    "sources": ["content/ai-history.json"]
+  },
   "google-gemini/gemini-cli": {
     "translation": "",
     "sources": ["content/entities/projects.json"]
@@ -4183,9 +4358,13 @@
     "translation": "",
     "sources": ["src/domain/personal-projects.ts"]
   },
-  "IA, développement et open source. Une phrase, sa source et sa date.": {
+  "IBM publie Granite Switch 4.1 en versions 8B et 30B, qui combinent un modèle de langage, des adaptateurs de décision et un modèle de transcription.": {
     "translation": "",
-    "sources": ["src/components/discovery-story.tsx"]
+    "sources": ["content/ai-history.json"]
+  },
+  "IBM réunit conversation, décisions et transcription dans Granite Switch 4.1": {
+    "translation": "",
+    "sources": ["content/ai-history.json"]
   },
   "Icône de Aigora": {
     "translation": "",
@@ -4279,6 +4458,10 @@
     "translation": "",
     "sources": ["src/domain/time-machine.ts"]
   },
+  "Identité indéterminée.": {
+    "translation": "",
+    "sources": ["src/domain/external-identity.ts"]
+  },
   "Ihre Auswahl konnte nicht gespeichert werden. Erlauben Sie den lokalen Speicher und versuchen Sie es erneut.": {
     "translation": "",
     "sources": ["src/components/analytics-consent.tsx"]
@@ -4345,7 +4528,10 @@
   },
   "Indisponible": {
     "translation": "",
-    "sources": ["src/app/(fr)/charts/project/[slug]/page.tsx"]
+    "sources": [
+      "src/app/(fr)/charts/project/[slug]/page.tsx",
+      "src/components/charts-experience.tsx"
+    ]
   },
   "Inférence de LLM en C/C++, sur à peu près tout le matériel": {
     "translation": "",
@@ -4371,6 +4557,10 @@
     "translation": "",
     "sources": ["src/domain/github-charts.ts", "src/domain/sandbox-charts.ts"]
   },
+  "input tokens": {
+    "translation": "",
+    "sources": ["src/domain/news-translation-terms.ts"]
+  },
   "Instagram": {
     "translation": "",
     "sources": ["src/components/shell.tsx", "src/domain/chart-share.ts"]
@@ -4382,18 +4572,6 @@
   "Install reach": {
     "translation": "",
     "sources": ["content/charts/skills.json", "content/scoring/skills-momentum.json"]
-  },
-  "Installations observées": {
-    "translation": "",
-    "sources": ["src/domain/chart-publication.ts"]
-  },
-  "Évaluations observées": {
-    "translation": "",
-    "sources": ["src/domain/chart-publication.ts"]
-  },
-  "Cette édition classe les modèles qui ont une évaluation Arena admissible, un indice Artificial Analysis admissible, ou les deux. Une évaluation absente n'est pas estimée et ne vaut pas 100. Deux modèles à 100 peuvent avoir été les meilleurs de deux épreuves différentes. Ce score n'est pas le profil corroboré v3.": {
-    "translation": "",
-    "sources": ["src/domain/chart-publication.ts"]
   },
   "Installations cumulées": {
     "translation": "",
@@ -4410,6 +4588,10 @@
   "Installations mesurées par la télémétrie du CLI. Les installations ne prouvent ni exécution, ni réussite du skill.": {
     "translation": "",
     "sources": ["src/domain/reference-profiles.ts"]
+  },
+  "Installations observées": {
+    "translation": "",
+    "sources": ["src/domain/chart-publication.ts"]
   },
   "Installations Skills.sh (50 %)": {
     "translation": "",
@@ -4459,6 +4641,10 @@
     "translation": "",
     "sources": ["content/hosts.json", "src/domain/home-story.ts"]
   },
+  "Jais 3 publie six modèles pour l'arabe et ses dialectes": {
+    "translation": "",
+    "sources": ["content/ai-history.json"]
+  },
   "jalons à retenir": {
     "translation": "",
     "sources": ["src/components/time-machine.tsx"]
@@ -4494,10 +4680,6 @@
   "Jeux": {
     "translation": "",
     "sources": ["src/domain/personal-projects.ts"]
-  },
-  "Jeux, musique et outils : voici quelques projets de l'équipe.": {
-    "translation": "",
-    "sources": ["src/components/discovery-story.tsx"]
   },
   "John Hopfield et Geoffrey Hinton reçoivent le Nobel de physique pour leurs travaux fondateurs sur les réseaux de neurones.": {
     "translation": "",
@@ -4549,27 +4731,11 @@
   },
   "L'actualité": {
     "translation": "",
-    "sources": ["src/components/discovery-story.tsx", "src/components/studio-easter-eggs.tsx"]
-  },
-  "L'actualité de l'IA et de la tech, expliquée dans un podcast vidéo : tests d'outils IA, débats et classements avec leurs sources.": {
-    "translation": "",
-    "sources": ["content/site.json"]
-  },
-  "L'actualité de l'IA, testée et mise en perspective.": {
-    "translation": "",
-    "sources": ["content/site.json"]
+    "sources": ["src/components/discovery-story.tsx"]
   },
   "L'actualité IA et développement": {
     "translation": "",
     "sources": ["src/components/studio-easter-eggs.tsx"]
-  },
-  "L'actualité IA et tech.": {
-    "translation": "",
-    "sources": ["src/app/(fr)/podcast/page.tsx"]
-  },
-  "L'actualité IA,": {
-    "translation": "",
-    "sources": ["src/components/discovery-home.tsx"]
   },
   "L'agent de code d'OpenAI, en local dans le terminal": {
     "translation": "",
@@ -4631,6 +4797,10 @@
     "translation": "",
     "sources": ["content/personal-projects.json"]
   },
+  "L'équipe": {
+    "translation": "",
+    "sources": ["content/site.json"]
+  },
   "L’équipe": {
     "translation": "",
     "sources": ["src/domain/schema.ts"]
@@ -4678,6 +4848,14 @@
       "src/components/entity-awards.tsx",
       "src/components/project-badges.tsx"
     ]
+  },
+  "L'IA dans notre travail, en discussion.": {
+    "translation": "",
+    "sources": ["src/app/(fr)/podcast/page.tsx"]
+  },
+  "L’IA dans votre métier": {
+    "translation": "",
+    "sources": ["src/domain/replay-posters.ts"]
   },
   "L'IA générative": {
     "translation": "",
@@ -4745,10 +4923,6 @@
   "La couverture mensuelle sera disponible après la première édition.": {
     "translation": "",
     "sources": ["src/components/charts-features.tsx"]
-  },
-  "La date et la durée doivent venir de YouTube. Configurez YOUTUBE_API_KEY sur le serveur.": {
-    "translation": "",
-    "sources": ["src/domain/episode-import.ts"]
   },
   "La découverte couvre plusieurs domaines et langues, avec des partitions de recherche. Le classement exige une licence open source reconnue par notre liste publiée. GitHub Trending sert uniquement à découvrir des candidats. Les poussées intrajournalières sont des signaux distincts, fondés sur nos propres relevés.": {
     "translation": "",
@@ -4830,13 +5004,9 @@
     "translation": "",
     "sources": ["src/components/video-club.tsx"]
   },
-  "La suite": {
+  "La source de l’article est inconnue.": {
     "translation": "",
-    "sources": ["src/components/discovery-home.tsx"]
-  },
-  "La tech mérite mieux que du bruit.": {
-    "translation": "",
-    "sources": ["content/site.json"]
+    "sources": ["src/domain/news-publishing.ts"]
   },
   "La variante de Qwen3 spécialisée dans le code et les agents": {
     "translation": "",
@@ -4853,10 +5023,6 @@
   "La vidéo de cet épisode n'est pas encore disponible.": {
     "translation": "",
     "sources": ["src/app/(fr)/episodes/[number]/page.tsx"]
-  },
-  "La vidéo doit durer au moins une minute.": {
-    "translation": "",
-    "sources": ["src/domain/episode-import.ts"]
   },
   "La vue scindée, la recherche et l'export Markdown servent à retrouver les échanges. Les appels d'outils et la consommation de contexte restent visibles. L'interface existe en français et en anglais et peut s'installer comme une PWA.": {
     "translation": "",
@@ -4971,6 +5137,10 @@
     "translation": "",
     "sources": ["content/personal-projects.json"]
   },
+  "Le code et le produit, en discussion.": {
+    "translation": "",
+    "sources": ["src/components/discovery-story.tsx"]
+  },
   "Le Coffre magique": {
     "translation": "",
     "sources": ["content/personal-projects.json"]
@@ -4991,6 +5161,10 @@
     "translation": "",
     "sources": ["src/domain/time-machine.ts"]
   },
+  "Le département américain de l'Énergie publie des instructions et des outils réutilisables pour les agents de code employés en recherche scientifique.": {
+    "translation": "",
+    "sources": ["content/ai-history.json"]
+  },
   "Le dépôt de référence des Agent Skills": {
     "translation": "",
     "sources": ["content/entities/projects.json"]
@@ -5010,6 +5184,10 @@
   "Le développement piloté par les spécifications, avec des agents": {
     "translation": "",
     "sources": ["content/entities/projects.json"]
+  },
+  "Le DOE publie Genesis Agent Skills pour la recherche": {
+    "translation": "",
+    "sources": ["content/ai-history.json"]
   },
   "Le grand modèle ouvert de Mistral AI": {
     "translation": "",
@@ -5083,6 +5261,10 @@
     "translation": "",
     "sources": ["content/entities/models.json"]
   },
+  "Le modèle ne suffit pas": {
+    "translation": "",
+    "sources": ["src/domain/replay-posters.ts"]
+  },
   "Le mouvement en chiffres": {
     "translation": "",
     "sources": ["src/app/(fr)/charts/project/[slug]/page.tsx"]
@@ -5126,10 +5308,6 @@
   "Le plus gros mouvement de la semaine : +2 places grâce à une révision de ses scores d'agent. À regarder de près, surtout pour le contexte long.": {
     "translation": "",
     "sources": ["content/takes/ai-models.json"]
-  },
-  "Le podcast vidéo de Sandbox sur l'actualité IA et la tech : essais d'outils, débats et retours d'expérience. Regarde les derniers épisodes et retrouve leurs sources.": {
-    "translation": "",
-    "sources": ["src/app/(fr)/podcast/page.tsx"]
   },
   "Le podium": {
     "translation": "",
@@ -5231,15 +5409,7 @@
       "src/components/shell.tsx"
     ]
   },
-  "Le Talk Show IA & tech": {
-    "translation": "",
-    "sources": ["src/components/discovery-home.tsx"]
-  },
-  "Le Talk Show IA & tech de Lou, Loïc et Nico.": {
-    "translation": "",
-    "sources": ["src/components/shell.tsx"]
-  },
-  "Le Talk Show qui teste les outils d'IA, débat de leurs usages et remet les annonces en perspective.": {
+  "Le talk-show IA, engineering et produit": {
     "translation": "",
     "sources": ["content/site.json"]
   },
@@ -5257,7 +5427,7 @@
   },
   "Le vidéoclub": {
     "translation": "",
-    "sources": ["src/components/discovery-home.tsx", "src/components/video-club.tsx"]
+    "sources": ["src/components/video-club.tsx"]
   },
   "Le village préhistorique": {
     "translation": "",
@@ -5298,6 +5468,14 @@
   "Les actions servent à ouvrir un moniteur ou son URL, à le suspendre et à le reprendre. L'extension accepte l'authentification à deux facteurs et suit les changements avec Socket.IO.": {
     "translation": "",
     "sources": ["content/personal-projects.json"]
+  },
+  "Les annonces et leurs conséquences pour notre travail.": {
+    "translation": "",
+    "sources": ["src/app/(fr)/podcast/page.tsx"]
+  },
+  "Les annonces IA et développement, résumées et reliées à leurs sources.": {
+    "translation": "",
+    "sources": ["src/components/discovery-story.tsx"]
   },
   "Les archives · SANDBOX CHARTS": {
     "translation": "",
@@ -5402,6 +5580,10 @@
   "Les éditions publiées et leurs premières places, conservées avec leur méthode de calcul.": {
     "translation": "",
     "sources": ["src/app/(fr)/charts/history/page.tsx"]
+  },
+  "Les émissions en replay.": {
+    "translation": "",
+    "sources": ["src/components/studio-landing.tsx"]
   },
   "Les épisodes": {
     "translation": "",
@@ -5519,6 +5701,10 @@
     "translation": "",
     "sources": ["content/entities/models.json"]
   },
+  "Les points sur lesquels nos expériences et nos convictions divergent.": {
+    "translation": "",
+    "sources": ["src/app/(fr)/podcast/page.tsx"]
+  },
   "Les premières éditions se préparent": {
     "translation": "",
     "sources": ["src/app/(fr)/charts/history/page.tsx"]
@@ -5526,6 +5712,10 @@
   "Les prénoms, tâches et règles se modifient dans les réglages. Les données sont conservées dans le navigateur avec localStorage.": {
     "translation": "",
     "sources": ["content/personal-projects.json"]
+  },
+  "Les prochaines émissions seront à retrouver ici.": {
+    "translation": "",
+    "sources": ["src/components/studio-landing.tsx"]
   },
   "Les progressions les plus nettes depuis l'édition précédente.": {
     "translation": "",
@@ -5563,6 +5753,10 @@
     "translation": "",
     "sources": ["content/charts/github.json"]
   },
+  "Les projets qui nourrissent nos essais et nos discussions.": {
+    "translation": "",
+    "sources": ["src/components/discovery-story.tsx"]
+  },
   "Les projets qui ont tenu les premières places ce mois-ci.": {
     "translation": "",
     "sources": ["src/components/charts-features.tsx"]
@@ -5598,6 +5792,18 @@
   "LES RECORDS": {
     "translation": "",
     "sources": ["src/components/charts-features.tsx"]
+  },
+  "Les références concordent : conserver en priorité la fiche déjà publiée, après revue des variantes.": {
+    "translation": "",
+    "sources": ["src/domain/model-identity-audit.ts"]
+  },
+  "Les références concordent mais l’historique public ne désigne pas une seule fiche canonique.": {
+    "translation": "",
+    "sources": ["src/domain/model-identity-audit.ts"]
+  },
+  "Les références diffèrent : vérifier version, fournisseur et variante pour chaque fiche.": {
+    "translation": "",
+    "sources": ["src/domain/model-identity-audit.ts"]
   },
   "Les références renvoient aux sources primaires.": {
     "translation": "",
@@ -5651,6 +5857,10 @@
     "translation": "",
     "sources": ["content/personal-projects.json"]
   },
+  "Les technologies et les usages que nous voulons explorer.": {
+    "translation": "",
+    "sources": ["src/app/(fr)/podcast/page.tsx"]
+  },
   "Les thèmes": {
     "translation": "",
     "sources": ["src/i18n/messages.ts"]
@@ -5666,10 +5876,6 @@
   "Les utilisateurs connectés sont visibles et l'historique se charge progressivement. Le dépôt documente des thèmes clair et sombre et un déploiement Docker. Aucun site public actif n'a été confirmé.": {
     "translation": "",
     "sources": ["content/personal-projects.json"]
-  },
-  "Les voix de Sandbox.": {
-    "translation": "",
-    "sources": ["src/components/discovery-story.tsx"]
   },
   "Licence :": {
     "translation": "",
@@ -5702,10 +5908,6 @@
   "Lien public entre Loïc et AkashaBot": {
     "translation": "",
     "sources": ["content/personal-projects.json"]
-  },
-  "Lien Spotify à venir": {
-    "translation": "",
-    "sources": ["src/components/discovery-home.tsx"]
   },
   "Limites": {
     "translation": "",
@@ -5785,7 +5987,7 @@
   },
   "Loïc": {
     "translation": "",
-    "sources": ["src/components/discovery-home.tsx", "src/domain/personal-projects.ts"]
+    "sources": ["src/domain/personal-projects.ts"]
   },
   "Long context": {
     "translation": "",
@@ -5797,15 +5999,19 @@
   },
   "Lou": {
     "translation": "",
-    "sources": ["src/components/discovery-home.tsx", "src/domain/personal-projects.ts"]
+    "sources": ["src/domain/personal-projects.ts"]
   },
-  "Lou, Loïc et Nico décryptent l'actualité de l'IA et de la tech, testent des outils et confrontent leurs expériences.": {
+  "Lou, Nicolas et Loïc animent SANDBOX. Deux développeurs expérimentés et un Product Manager explorent les effets de l'IA sur les produits et les équipes tech.": {
     "translation": "",
-    "sources": ["src/app/(fr)/podcast/page.tsx"]
+    "sources": ["src/app/(fr)/about/page.tsx"]
   },
   "Lou, Nicolas et Loïc animent Sandbox. Retrouve leurs profils et leurs projets.": {
     "translation": "",
     "sources": ["src/domain/schema.ts"]
+  },
+  "Lou, Nicolas et Loïc réunissent deux développeurs et un Product Manager. Nous construisons des projets, testons des outils et discutons de ce que nous apprenons. Nos expériences et nos désaccords nourrissent chaque émission, avec une question commune : comment l'IA change-t-elle notre manière de concevoir, développer et piloter les produits numériques ? SANDBOX s'adresse aux CTO, Head of Engineering, Engineering Managers, Tech Leads et responsables produit, ainsi qu'aux développeurs expérimentés. Nous partageons des observations et des points de vue pour nourrir tes propres réflexions sur le travail de ton équipe.": {
+    "translation": "",
+    "sources": ["content/site.json"]
   },
   "LSTM donne de la mémoire aux réseaux": {
     "translation": "",
@@ -5850,6 +6056,10 @@
       "content/charts/open-source-ai.json",
       "content/scoring/models.json"
     ]
+  },
+  "MBZUAI et Inception42 publient six modèles de langage pour l'arabe, de 900 millions à 375 milliards de paramètres, accompagnés de Jais Speech.": {
+    "translation": "",
+    "sources": ["content/ai-history.json"]
   },
   "MCP": {
     "translation": "",
@@ -5943,6 +6153,10 @@
     "translation": "",
     "sources": ["content/ai-history.json"]
   },
+  "Meta publie les poids de Muse Spark Open": {
+    "translation": "",
+    "sources": ["content/ai-history.json"]
+  },
   "Meta publie Llama 3 en versions de 8 et 70 milliards de paramètres.": {
     "translation": "",
     "sources": ["content/ai-history.json"]
@@ -5956,6 +6170,10 @@
     "sources": ["content/ai-history.json"]
   },
   "Meta publie LLaMA, une famille de modèles de langage de 7 à 65 milliards de paramètres.": {
+    "translation": "",
+    "sources": ["content/ai-history.json"]
+  },
+  "Meta publie un modèle multimodal pour le code et les agents, avec 816 milliards de paramètres, dont 42 milliards actifs par token.": {
     "translation": "",
     "sources": ["content/ai-history.json"]
   },
@@ -6258,6 +6476,10 @@
     "translation": "",
     "sources": ["content/entities/projects.json"]
   },
+  "Models": {
+    "translation": "",
+    "sources": ["src/domain/chart-search.ts"]
+  },
   "MODELS TOP 20": {
     "translation": "",
     "sources": [
@@ -6363,10 +6585,6 @@
     "translation": "",
     "sources": ["src/domain/reference-profiles.ts"]
   },
-  "Nico": {
-    "translation": "",
-    "sources": ["src/components/discovery-home.tsx"]
-  },
   "Nicolas": {
     "translation": "",
     "sources": ["src/domain/personal-projects.ts"]
@@ -6431,21 +6649,20 @@
     "translation": "",
     "sources": ["content/charts/skills.json"]
   },
-  "Nos débats et nos désaccords.": {
+  "Nos expérimentations": {
     "translation": "",
-    "sources": ["src/app/(fr)/podcast/page.tsx"]
+    "sources": ["src/components/discovery-story.tsx"]
   },
   "Nos projets": {
     "translation": "",
     "sources": [
-      "src/app/(fr)/nos-projets/page.tsx",
       "src/app/(fr)/nos-projets/[slug]/page.tsx",
       "src/components/nav.tsx",
       "src/components/search-screen.tsx",
       "src/components/shell.tsx"
     ]
   },
-  "Nos projets et retours d'expérience.": {
+  "Nos projets, nos essais et ce que nous en apprenons.": {
     "translation": "",
     "sources": ["src/app/(fr)/podcast/page.tsx"]
   },
@@ -6653,6 +6870,10 @@
     "translation": "",
     "sources": ["content/ai-history.json"]
   },
+  "OpenAI ouvre les candidatures au Rosalind Academic Plan": {
+    "translation": "",
+    "sources": ["content/ai-history.json"]
+  },
   "OpenAI ouvre o1-preview et o1-mini, conçus pour consacrer davantage de calcul au raisonnement avant de répondre.": {
     "translation": "",
     "sources": ["content/ai-history.json"]
@@ -6686,6 +6907,10 @@
     "sources": ["content/ai-history.json"]
   },
   "OpenAI présente les recherches derrière Sora, capable de générer des vidéos à partir de texte.": {
+    "translation": "",
+    "sources": ["content/ai-history.json"]
+  },
+  "OpenAI propose aux laboratoires universitaires américains éligibles un accès financé à GPT-Rosalind et à ses outils pour les sciences du vivant.": {
     "translation": "",
     "sources": ["content/ai-history.json"]
   },
@@ -6829,6 +7054,10 @@
   "Outils de dev": {
     "translation": "",
     "sources": ["content/topics.json"]
+  },
+  "output tokens": {
+    "translation": "",
+    "sources": ["src/domain/news-translation-terms.ts"]
   },
   "OUVERT": {
     "translation": "",
@@ -7064,7 +7293,7 @@
   },
   "Plateau de Sandbox": {
     "translation": "",
-    "sources": ["src/components/discovery-home.tsx"]
+    "sources": ["src/components/studio-landing.tsx"]
   },
   "Plateforme": {
     "translation": "",
@@ -7130,13 +7359,17 @@
     "translation": "",
     "sources": ["src/components/entity-screen.tsx"]
   },
-  "Podcast IA : actualité, outils et débats | Sandbox TalkShow": {
+  "Podcast IA : engineering, produit et équipes tech | SANDBOX": {
     "translation": "",
     "sources": ["src/app/(fr)/podcast/page.tsx"]
   },
   "Poids effectifs conservés": {
     "translation": "",
     "sources": ["src/components/published-methodology.tsx"]
+  },
+  "Poids et licence du modèle": {
+    "translation": "",
+    "sources": ["content/ai-history.json"]
   },
   "Poids fermés": {
     "translation": "",
@@ -7157,6 +7390,10 @@
   "Point Zero représente une explosion nucléaire en trois dimensions, à l'endroit choisi sur la carte. La simulation affiche les zones d'impact et donne un repère visuel sur l'échelle du phénomène.": {
     "translation": "",
     "sources": ["content/personal-projects.json"]
+  },
+  "política sobre la IA": {
+    "translation": "",
+    "sources": ["src/domain/news-translation-terms.ts"]
   },
   "Politique de confidentialité de Google": {
     "translation": "",
@@ -7209,6 +7446,10 @@
   "Pour aller plus loin": {
     "translation": "",
     "sources": ["src/components/discovery-story.tsx"]
+  },
+  "pour ceux qui construisent.": {
+    "translation": "",
+    "sources": ["src/components/studio-landing.tsx"]
   },
   "Pour qui": {
     "translation": "",
@@ -7602,6 +7843,10 @@
     "translation": "",
     "sources": ["src/components/home-project-spotlight.tsx"]
   },
+  "Projets": {
+    "translation": "",
+    "sources": ["src/components/studio-landing.tsx"]
+  },
   "Projets de l'équipe": {
     "translation": "",
     "sources": ["src/components/home-project-spotlight.tsx"]
@@ -7694,6 +7939,10 @@
     "translation": "",
     "sources": ["content/ai-history.json"]
   },
+  "Publication de Google DeepMind": {
+    "translation": "",
+    "sources": ["content/ai-history.json"]
+  },
   "Publication de GPT-5": {
     "translation": "",
     "sources": ["content/ai-history.json"]
@@ -7707,6 +7956,14 @@
     "sources": ["content/ai-history.json"]
   },
   "Publication de GraphCast": {
+    "translation": "",
+    "sources": ["content/ai-history.json"]
+  },
+  "Publication de l'équipe Diffusers": {
+    "translation": "",
+    "sources": ["content/ai-history.json"]
+  },
+  "Publication de l'équipe IBM Granite": {
     "translation": "",
     "sources": ["content/ai-history.json"]
   },
@@ -7754,6 +8011,10 @@
     "translation": "",
     "sources": ["content/ai-history.json"]
   },
+  "Publication des poids de Beam": {
+    "translation": "",
+    "sources": ["content/ai-history.json"]
+  },
   "Publication du Model Context Protocol": {
     "translation": "",
     "sources": ["content/ai-history.json"]
@@ -7779,6 +8040,10 @@
     "sources": ["src/domain/time-machine.ts"]
   },
   "Publication scientifique AlphaDev": {
+    "translation": "",
+    "sources": ["content/ai-history.json"]
+  },
+  "Publication scientifique d'Anthropic": {
     "translation": "",
     "sources": ["content/ai-history.json"]
   },
@@ -7826,7 +8091,7 @@
     "translation": "",
     "sources": ["content/scoring/models.json"]
   },
-  "Qui anime Sandbox TalkShow ? Lou, Nicolas et Loïc": {
+  "Qui anime SANDBOX ? Deux développeurs et un Product Manager": {
     "translation": "",
     "sources": ["src/app/(fr)/about/page.tsx"]
   },
@@ -7974,7 +8239,11 @@
   },
   "Rechercher dans le Talk Show et les classements": {
     "translation": "",
-    "sources": ["src/components/search-screen.tsx", "src/i18n/messages.ts"]
+    "sources": [
+      "src/components/search-screen.tsx",
+      "src/components/shell.tsx",
+      "src/i18n/messages.ts"
+    ]
   },
   "Rechercher un projet": {
     "translation": "",
@@ -8014,7 +8283,7 @@
   },
   "Réduire les mouvements": {
     "translation": "",
-    "sources": ["src/components/cinematic-stage.tsx"]
+    "sources": ["src/components/cinematic-stage.tsx", "src/components/studio-scroll.tsx"]
   },
   "Réessayer": {
     "translation": "",
@@ -8032,13 +8301,21 @@
     "translation": "",
     "sources": ["src/components/reference-methodology.tsx"]
   },
+  "Reflection publie Beam, un modèle de 501 milliards de paramètres, dont 23 milliards actifs, pour le développement et les agents.": {
+    "translation": "",
+    "sources": ["content/ai-history.json"]
+  },
+  "Reflection publie les poids de Beam sous Apache 2.0": {
+    "translation": "",
+    "sources": ["content/ai-history.json"]
+  },
   "Refuser": {
     "translation": "",
     "sources": ["src/components/analytics-consent.tsx"]
   },
-  "Regarder le dernier épisode": {
+  "Regarde SANDBOX : deux développeurs et un Product Manager confrontent leurs essais et leurs points de vue sur l'IA dans les produits et les équipes tech.": {
     "translation": "",
-    "sources": ["src/components/discovery-home.tsx"]
+    "sources": ["src/app/(fr)/podcast/page.tsx"]
   },
   "Règle d'attribution :": {
     "translation": "",
@@ -8080,10 +8357,6 @@
     "translation": "",
     "sources": ["src/components/video-club.tsx"]
   },
-  "Remonter l'histoire de l'IA, de ses premières avancées aux modèles actuels.": {
-    "translation": "",
-    "sources": ["src/components/discovery-story.tsx"]
-  },
   "REMONTEZ LE TEMPS": {
     "translation": "",
     "sources": ["src/components/time-machine.tsx"]
@@ -8094,7 +8367,11 @@
   },
   "Rencontrer l'équipe": {
     "translation": "",
-    "sources": ["src/app/(fr)/podcast/page.tsx"]
+    "sources": ["src/app/(fr)/podcast/page.tsx", "src/components/studio-scroll.tsx"]
+  },
+  "Repérer quoi tester parmi les projets, les modèles et les skills, avec leurs mesures et leurs sources.": {
+    "translation": "",
+    "sources": ["src/components/discovery-story.tsx"]
   },
   "Replays Sandbox": {
     "translation": "",
@@ -8212,6 +8489,10 @@
     "translation": "",
     "sources": ["src/app/(fr)/nos-projets/page.tsx"]
   },
+  "Retrouver les dates et les sources pour comprendre d'où vient l'IA d'aujourd'hui.": {
+    "translation": "",
+    "sources": ["src/components/discovery-story.tsx"]
+  },
   "Retrouver les notes": {
     "translation": "",
     "sources": ["content/personal-projects.json"]
@@ -8230,21 +8511,25 @@
   },
   "Rising": {
     "translation": "",
-    "sources": ["src/app/(fr)/charts/project/[slug]/page.tsx"]
+    "sources": ["src/app/(fr)/charts/project/[slug]/page.tsx", "src/domain/chart-search.ts"]
   },
   "RISING 20": {
     "translation": "",
     "sources": ["src/domain/sandbox-charts.ts"]
   },
+  "Rising attend au moins 20 projets éligibles avec deux périodes de sept jours mesurées pour calculer leur accélération. Les nouvelles entrées du Top GitHub ne sont pas un classement Rising.": {
+    "translation": "",
+    "sources": ["src/components/charts-experience.tsx"]
+  },
   "RISING STAR": {
     "translation": "",
     "sources": ["src/domain/awards.ts"]
   },
-  "ROOKIE OF THE MONTH": {
+  "Rookie of the Month": {
     "translation": "",
     "sources": ["src/domain/awards.ts"]
   },
-  "Rookie of the Month": {
+  "ROOKIE OF THE MONTH": {
     "translation": "",
     "sources": ["src/domain/awards.ts"]
   },
@@ -8305,7 +8590,12 @@
   },
   "SANDBOX": {
     "translation": "",
-    "sources": ["src/components/shell.tsx", "src/components/video-club.tsx"]
+    "sources": [
+      "src/components/episode-artwork.tsx",
+      "src/components/shell.tsx",
+      "src/components/studio-landing.tsx",
+      "src/components/video-club.tsx"
+    ]
   },
   "Sandbox — {title}": {
     "translation": "",
@@ -8319,13 +8609,13 @@
     "translation": "",
     "sources": ["src/components/cards.tsx"]
   },
-  "SANDBOX /": {
-    "translation": "",
-    "sources": ["src/app/(fr)/charts/entity/[slug]/page.tsx", "src/components/discovery-home.tsx"]
-  },
   "Sandbox /": {
     "translation": "",
     "sources": ["src/app/(fr)/about/page.tsx"]
+  },
+  "SANDBOX /": {
+    "translation": "",
+    "sources": ["src/app/(fr)/charts/entity/[slug]/page.tsx"]
   },
   "Sandbox #1 (pilote) Mistral Large 4, Claude Haiku 5.5, Gemini at Work, Sillage et les harnais IA": {
     "translation": "",
@@ -8448,7 +8738,7 @@
   },
   "Sandbox TalkShow": {
     "translation": "",
-    "sources": ["src/app/(fr)/podcast/page.tsx", "src/domain/news-seo.ts"]
+    "sources": ["src/domain/news-seo.ts"]
   },
   "Sandbox Top 100": {
     "translation": "",
@@ -8519,6 +8809,10 @@
     "translation": "",
     "sources": ["src/domain/schema.ts"]
   },
+  "Scroll pour allumer le plateau": {
+    "translation": "",
+    "sources": ["src/components/studio-landing.tsx"]
+  },
   "SDXL 1.0 est publié": {
     "translation": "",
     "sources": ["content/ai-history.json"]
@@ -8530,6 +8824,10 @@
   "Search": {
     "translation": "",
     "sources": ["src/i18n/messages.ts"]
+  },
+  "Search editorial content unavailable:": {
+    "translation": "",
+    "sources": ["src/components/search-screen.tsx"]
   },
   "Search the talk show and AI rankings": {
     "translation": "",
@@ -8611,6 +8909,10 @@
     "translation": "",
     "sources": ["src/components/charts-features.tsx"]
   },
+  "Sillage : {label}": {
+    "translation": "",
+    "sources": ["src/i18n/dictionaries/en.json"]
+  },
   "Sillage en 54 secondes": {
     "translation": "",
     "sources": ["content/personal-projects.json"]
@@ -8653,7 +8955,11 @@
   },
   "Skills": {
     "translation": "",
-    "sources": ["content/entities/projects.json", "src/components/charts-experience.tsx"]
+    "sources": [
+      "content/entities/projects.json",
+      "src/components/charts-experience.tsx",
+      "src/domain/chart-search.ts"
+    ]
   },
   "Skills Top 20": {
     "translation": "",
@@ -8739,6 +9045,10 @@
     "translation": "",
     "sources": ["src/components/entity-screen.tsx"]
   },
+  "Source de candidat hors registre.": {
+    "translation": "",
+    "sources": ["src/domain/news-queue.ts"]
+  },
   "Source dupliquée.": {
     "translation": "",
     "sources": ["src/domain/reference-ranking.ts"]
@@ -8753,6 +9063,10 @@
   "SOURCE GITHUB ·": {
     "translation": "",
     "sources": ["src/app/(fr)/charts/project/[slug]/page.tsx"]
+  },
+  "Source hors registre.": {
+    "translation": "",
+    "sources": ["src/domain/news-publishing.ts"]
   },
   "Source HTTPS requise": {
     "translation": "",
@@ -8824,7 +9138,7 @@
   },
   "Spotify": {
     "translation": "",
-    "sources": ["src/components/discovery-home.tsx", "src/components/shell.tsx"]
+    "sources": ["src/components/shell.tsx", "src/components/studio-landing.tsx"]
   },
   "Spotify ↗": {
     "translation": "",
@@ -8954,6 +9268,10 @@
     "translation": "",
     "sources": ["src/components/time-machine.tsx"]
   },
+  "Talk-show IA, engineering et produit. Deux développeurs et un Product Manager explorent ce que l'IA change pour les produits et les équipes tech.": {
+    "translation": "",
+    "sources": ["content/site.json"]
+  },
   "Team Bots partage les agents Grok au sein d'une équipe": {
     "translation": "",
     "sources": ["content/ai-history.json"]
@@ -9030,10 +9348,6 @@
     "translation": "",
     "sources": ["content/personal-projects.json"]
   },
-  "testée et mise en perspective.": {
-    "translation": "",
-    "sources": ["src/components/discovery-home.tsx"]
-  },
   "Texte de partage": {
     "translation": "",
     "sources": ["src/components/badge-generator.tsx"]
@@ -9072,6 +9386,7 @@
       "src/components/discovery-story.tsx",
       "src/components/nav.tsx",
       "src/components/studio-easter-eggs.tsx",
+      "src/components/studio-landing.tsx",
       "src/components/time-machine.tsx"
     ]
   },
@@ -9086,6 +9401,14 @@
   "TITRES / VHS": {
     "translation": "",
     "sources": ["src/components/video-club.tsx"]
+  },
+  "tokens de entrada": {
+    "translation": "",
+    "sources": ["src/domain/news-translation-terms.ts"]
+  },
+  "tokens de salida": {
+    "translation": "",
+    "sources": ["src/domain/news-translation-terms.ts"]
   },
   "Tokens générés par seconde (médiane des fournisseurs).": {
     "translation": "",
@@ -9174,6 +9497,10 @@
   "Toutes les catégories": {
     "translation": "",
     "sources": ["src/components/charts-experience.tsx", "src/components/search-screen.tsx"]
+  },
+  "Toutes les émissions": {
+    "translation": "",
+    "sources": ["src/components/studio-landing.tsx"]
   },
   "Toutes les récompenses": {
     "translation": "",
@@ -9377,18 +9704,6 @@
     "translation": "",
     "sources": ["content/entities/models.json"]
   },
-  "Sandbox TalkShow : actualité IA, tests d'outils et podcast tech": {
-    "translation": "",
-    "sources": ["src/app/(fr)/page.tsx"]
-  },
-  "{name} : actualité IA, tests d'outils et podcast tech": {
-    "translation": "",
-    "sources": ["src/app/(fr)/page.tsx"]
-  },
-  "Un podcast vidéo sur l'actualité de l'intelligence artificielle et de la tech. Chaque semaine, Lou, Loïc et Nico testent des outils IA, débattent de leurs usages et citent leurs sources.": {
-    "translation": "",
-    "sources": ["src/app/(fr)/page.tsx"]
-  },
   "Un profil publié doit avoir reviewedAt et publishedAt.": {
     "translation": "",
     "sources": ["src/domain/ranking-catalog.ts"]
@@ -9472,6 +9787,14 @@
   "Une équipe d'agents IA sur ton propre serveur.": {
     "translation": "",
     "sources": ["content/personal-projects.json"]
+  },
+  "Une équipe utilise Claude Mythos 5 et un évaluateur automatique pour réduire les ressources nécessaires à huit primitives de calcul quantique.": {
+    "translation": "",
+    "sources": ["content/ai-history.json"]
+  },
+  "Une exclusion existe : relire la décision de modération avant tout raccordement.": {
+    "translation": "",
+    "sources": ["src/domain/model-identity-audit.ts"]
   },
   "une fiche figure plusieurs fois.": {
     "translation": "",
@@ -9685,6 +10008,10 @@
     "translation": "",
     "sources": ["src/components/video-club.tsx"]
   },
+  "Vidéo en français.": {
+    "translation": "",
+    "sources": ["src/app/(fr)/episodes/[number]/page.tsx"]
+  },
   "Vidéo indisponible. Voir la publication originale": {
     "translation": "",
     "sources": ["src/components/project-gallery.tsx"]
@@ -9700,6 +10027,10 @@
   "Vidéos": {
     "translation": "",
     "sources": ["src/domain/kinds.ts"]
+  },
+  "Vidéos en français.": {
+    "translation": "",
+    "sources": ["src/app/(fr)/podcast/page.tsx"]
   },
   "Vision": {
     "translation": "",
@@ -9745,6 +10076,10 @@
     "translation": "",
     "sources": ["src/components/published-methodology.tsx"]
   },
+  "Voir l'émission": {
+    "translation": "",
+    "sources": ["src/components/studio-landing.tsx"]
+  },
   "Voir l’épisode {number}": {
     "translation": "",
     "sources": ["src/i18n/dictionaries/en.json"]
@@ -9787,7 +10122,7 @@
   },
   "Voir le replay": {
     "translation": "",
-    "sources": ["src/components/podcast-replays.tsx"]
+    "sources": ["src/components/podcast-replays.tsx", "src/components/studio-landing.tsx"]
   },
   "Voir le retrait de cette attribution et sa source historique.": {
     "translation": "",
@@ -9813,13 +10148,17 @@
     "translation": "",
     "sources": ["src/components/video-club.tsx"]
   },
+  "Voir les replays": {
+    "translation": "",
+    "sources": ["src/components/studio-landing.tsx"]
+  },
   "Voir les souvenirs et l'activité de son agent.": {
     "translation": "",
     "sources": ["content/personal-projects.json"]
   },
   "Voir sur YouTube": {
     "translation": "",
-    "sources": ["src/app/(fr)/episodes/[number]/page.tsx", "src/components/discovery-home.tsx"]
+    "sources": ["src/app/(fr)/episodes/[number]/page.tsx"]
   },
   "Voir tous nos projets": {
     "translation": "",
@@ -9951,11 +10290,7 @@
   },
   "YouTube": {
     "translation": "",
-    "sources": ["src/components/discovery-home.tsx"]
-  },
-  "YouTube n’a pas fourni la date ou la durée de cette vidéo.": {
-    "translation": "",
-    "sources": ["src/domain/episode-import.ts"]
+    "sources": ["src/components/studio-landing.tsx"]
   },
   "Z.ai publie GLM-5.3, issu du même modèle de base que GLM-5.2 avec un entraînement complémentaire centré sur les tâches longues.": {
     "translation": "",
@@ -9976,533 +10311,5 @@
   "τ-bench": {
     "translation": "",
     "sources": ["content/scoring/models.json", "content/sources.json"]
-  },
-  "Adapter les prénoms et les règles.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Administrer les groupes et permissions.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Afficher l'état et le ping des moniteurs.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Afficher un avatar sur l'écran.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Ajuster la poussée et la trajectoire.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Authentifier les connexions.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Changer la mesure affichée depuis une touche.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Choisir des récompenses dans la boutique.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Choisir la suite de l'histoire.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Choisir les appareils et la langue.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Choisir un lieu sur Terre.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Choisir un thème clair ou sombre.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Comparer différentes puissances.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Comparer et éditer les prises.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Comparer les deux géométries.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Comparer les points de vue des joueurs.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Comparer les positions des candidats.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Comparer les scores politiques par axe.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Comparer son résultat au classement.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Configurer les clés API dans l'administration.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Configurer plusieurs fournisseurs et des replis.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Configurer plusieurs serveurs et des plugins.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Conserver les souvenirs dans SQLite.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Conserver une mémoire et des notes.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Consulter la présentation historique.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Consulter le prompt et la méthode.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Consulter les engagements et leurs sources.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Consulter les estimations illustratives.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Consulter les utilisateurs et canaux.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Consulter les états et temps de réponse.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Contrôler les appels d'outils avant exécution.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Créer des agents avec une mémoire persistante.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Créer des clips avec une caméra libre ou des images clés.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Créer des espaces de travail.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Créer et mettre à jour les entrées DNS depuis les labels.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Créer et valider des quêtes familiales.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Demander des modifications aux agents.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Dialoguer avec Akasha sur le réseau local.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Dialoguer dans l'application ou le terminal.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Diffuser les messages et suivre la présence.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Découvrir les dix mondes annoncés.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Découvrir les placements simulés.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Découvrir leurs expériences et leur infrastructure.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Déplacer les trois observateurs.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Envoyer des messages et des pokes.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Envoyer une notification vocale par HTTP.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Explorer des villages et leurs missions.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Explorer le graphe de connaissances.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Explorer les démonstrations du dépôt.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Explorer les lois, votes et thèmes.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Explorer les zones d'impact sur la carte 3D.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Exporter en WAV, FLAC ou MP3.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Exposer une API HTTP compatible avec OpenAI.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Exécuter les modèles GGUF pris en charge.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Faire collaborer les agents.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Flasher et configurer le firmware documenté.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Gagner des cartes à collectionner.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Générer une chanson à partir d'un style et de paroles.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Gérer les agents et les modèles.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Gérer les entrées A, AAAA, CNAME, MX et TXT.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Importer un fichier .replay et revoir le match en 3D.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Inspecter les appels d'outils et le contexte.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Jouer des rôles aux informations différentes.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Lire les articles de Marlbot et Pelouse.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Lire les diagnostics et journaux.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Lire les labels Traefik en option.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Lire les logs et envoyer des commandes.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Lire les réponses brutes des modèles.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Observer le ciel ou passer à la première personne.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Opposer deux équipes en mode PvP.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Organiser les notes et les tâches.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Organiser les projets et les tâches.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Ouvrir les aperçus et inspecter les branches Git.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Ouvrir, suspendre ou reprendre un moniteur.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Parcourir la chronologie et le graphe.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Partager les instructions, la mémoire et les outils MCP.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Personnaliser le prénom du héros.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Piloter le booster pendant son vol retour.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Planifier des tâches.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Programmer des tâches.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Préparer les requêtes pour les automatisations.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Préparer les tâches familiales.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Recevoir des alertes sur mots-clés.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Rechercher dans les souvenirs.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Rechercher et exporter les conversations.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Rechercher les faits et sessions.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Regarder et analyser une action en équipe.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Rejoindre la liste d'attente de la bêta.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Rejoindre une salle depuis son lien.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Relier OpenClaw, MCP ou la ligne de commande.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Relier des messageries et ajouter des plugins.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Relier le chat du jeu à Slack ou Discord.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Relier plusieurs agents à des salons.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Relire les fichiers et les différences Git.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Retourner des scores ou probabilités.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Retrouver des conversations persistantes.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Retrouver l'historique des conversations.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Retrouver la connexion après une interruption.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Retrouver les fonctionnalités et captures publiées par l'auteur.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Retrouver sa progression et ses cartes.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Retrouver une session depuis un autre appareil.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Répartir les requêtes selon la tâche.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Répondre aux quiz sur les votes et programmes.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Résoudre des missions coopératives chronométrées.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Réviser des notions du CP au CM2.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Suivre l'avancement du projet.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Suivre la consommation de tokens.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Suivre la disponibilité sur 24 heures et 30 jours.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Suivre les coûts et la latence.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Suivre les nouvelles publications par RSS.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Suivre les points et récompenses.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Suivre les réponses en streaming.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Suivre les sessions et tâches planifiées.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Suspendre ou reprendre un moniteur.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Synchroniser l'orientation des vues.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Séparer le morceau en pistes.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Tenter la capture par Mechazilla.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Travailler la partition et le mix.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Utiliser Docker autonome ou Swarm.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Utiliser l'authentification à deux facteurs.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Utiliser la vue scindée et les thèmes.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Utiliser les espaces de création.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Utiliser les fichiers et les mini-apps.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Utiliser un moteur local depuis Akasha.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Valider les tâches de la semaine.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Voir les derniers heartbeats.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Voir les utilisateurs connectés.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Écarter temporairement un modèle en échec.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Échanger des messages en temps réel.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Éditer les fichiers et suivre les tâches.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Épargner dans le Coffre magique.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
-  },
-  "Évaluer plusieurs options.": {
-    "translation": "",
-    "sources": ["content/personal-projects.json"]
   }
 }

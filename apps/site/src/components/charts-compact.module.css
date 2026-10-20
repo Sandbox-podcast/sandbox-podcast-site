@@ -19,6 +19,23 @@
 .update {
   color: var(--ink-2);
   font-size: 12px;
+  max-width: 40ch;
+  flex-shrink: 0;
+  line-height: 1.6;
+}
+.update p {
+  margin: 0;
+}
+.update p + p {
+  margin-top: 4px;
+}
+.updateSchedule summary {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 .intro {
   color: var(--ink-2);

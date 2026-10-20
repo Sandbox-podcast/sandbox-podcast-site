@@ -1,6 +1,6 @@
 import { Text, LocalizedElement } from '@/components/localization';
 import { LocalizedLink as Link } from '@/components/localization';
-import Image from 'next/image';
+import { EpisodeArtwork } from './episode-artwork';
 import { episodeArtwork } from '@/domain/episode-artwork';
 import { verifiedEpisodeDuration } from '@/domain/episode-presentation';
 import { formatDateShort, formatDuration, formatNumber } from '@/domain/format';
@@ -80,10 +80,11 @@ export function EpisodeCover({
     <div className="cover" data-tone={episode.cover.tone}>
       <Text>
         {thumbnail ? (
-          <Image
-            src={thumbnail}
-            alt=""
-            fill
+          <EpisodeArtwork
+            artwork={thumbnail}
+            videoId={episode.platforms.youtubeId}
+            number={episode.number}
+            title={episode.title}
             sizes="(max-width: 48rem) 88vw, (max-width: 80rem) 35vw, 28rem"
             className="cover-image"
           />
@@ -127,10 +128,11 @@ export function EpisodeCard({ episode }: { episode: Episode }) {
         <div className="episode-card-poster" data-tone={episode.cover.tone}>
           <Text>
             {artwork ? (
-              <Image
-                src={artwork}
-                alt=""
-                fill
+              <EpisodeArtwork
+                artwork={artwork}
+                videoId={episode.platforms.youtubeId}
+                number={episode.number}
+                title={episode.title}
                 sizes="(max-width: 40rem) 78vw, (max-width: 80rem) 30vw, 20rem"
                 className="episode-card-image"
               />

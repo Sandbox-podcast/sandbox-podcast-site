@@ -5,7 +5,6 @@ import { type PersonalProject } from '@/domain/personal-projects';
 import { homeProfiles, homeProjects } from '@/domain/home-story';
 import styles from './discovery-chapters.module.css';
 import { HomeProjectSpotlight } from './home-project-spotlight';
-import { HomeHostCard } from './home-host-card';
 
 export function DiscoveryStory({
   hosts,
@@ -35,7 +34,7 @@ export function DiscoveryStory({
                 <Text>Derrière les micros</Text>
               </p>
               <h2 id="home-team-title">
-                <Text>Les voix de Sandbox.</Text>
+                <Text>Le code et le produit, en discussion.</Text>
               </h2>
             </div>
             <p className={styles['teamNames']} aria-hidden="true">
@@ -44,30 +43,54 @@ export function DiscoveryStory({
               ))}
             </p>
           </header>
-          <div
-            className={styles['teamGrid']}
-            role="region"
-            aria-labelledby="home-team-title"
-            aria-describedby="home-team-hint"
-            tabIndex={0}
-            data-home-team-rail="true"
-          >
-            {team.map((host, index) => (
-              <div
-                key={host.slug}
-                className={styles['teamCard']}
-                data-reveal="collection"
-                data-reveal-side={index === 0 ? 'left' : index === 2 ? 'right' : undefined}
-                data-reveal-delay={index * 90}
-              >
-                <HomeHostCard host={host} index={index} />
-              </div>
-            ))}
-          </div>
-          <p id="home-team-hint" className={styles['collectionHint']}>
-            <Text>Fais défiler pour découvrir l'équipe.</Text>
-            <ArrowIcon />
+          <p className={styles['teamIntro']}>
+            <Text>
+              Deux développeurs et un Product Manager. Nous confrontons nos essais et nos points de
+              vue sur ce que l'IA change pour les produits et les équipes tech.
+            </Text>
           </p>
+          <ul className={styles['teamProfiles']}>
+            {team.map((host) => (
+              <li key={host.slug}>
+                <div className={styles['teamPortrait']}>
+                  {host.photo ? (
+                    <Image src={host.photo} alt="" fill sizes="(max-width: 600px) 90px, 160px" />
+                  ) : (
+                    <span>{host.name.slice(0, 1)}</span>
+                  )}
+                </div>
+                <div className={styles['teamProfileCopy']}>
+                  <h3>
+                    <Text>{host.name}</Text>
+                  </h3>
+                  {host.aka ? <p className={styles['teamAka']}>{host.aka}</p> : null}
+                  <p>
+                    <Text>{host.bio}</Text>
+                  </p>
+                  <nav aria-label={host.name}>
+                    {Object.entries(host.socials).map(([network, href]) =>
+                      href ? (
+                        <a key={network} href={href} target="_blank" rel="noopener noreferrer">
+                          {network === 'github'
+                            ? 'GitHub'
+                            : network === 'linkedin'
+                              ? 'LinkedIn'
+                              : 'X'}
+                          <span className="sr-only">
+                            <Text> (nouvel onglet)</Text>
+                          </span>
+                        </a>
+                      ) : null,
+                    )}
+                  </nav>
+                </div>
+              </li>
+            ))}
+          </ul>
+          <Link href="/about" className={styles['chapterAction']}>
+            <Text>À propos de Sandbox</Text>
+            <ArrowIcon />
+          </Link>
         </section>
       ) : null}
       {selection.length > 0 ? (
@@ -83,14 +106,14 @@ export function DiscoveryStory({
                   <span className={styles['chapterNumber']} aria-hidden="true">
                     02
                   </span>
-                  <Text>Du Talk Show au concret</Text>
+                  <Text>Nos expérimentations</Text>
                 </p>
                 <h2 id="home-projects-title">
                   <Text>Ce que nous construisons.</Text>
                 </h2>
               </div>
               <p className={styles['chapterIntro']}>
-                <Text>Jeux, musique et outils : voici quelques projets de l'équipe.</Text>
+                <Text>Les projets qui nourrissent nos essais et nos discussions.</Text>
               </p>
             </header>
             <div data-reveal="project" data-reveal-delay="90">
@@ -125,7 +148,7 @@ export function DiscoveryStory({
               <Text>Pour aller plus loin</Text>
             </p>
             <h2 id="home-explore-title">
-              <Text>Explorer l'IA.</Text>
+              <Text>Des repères pour tes prochains choix.</Text>
             </h2>
           </div>
         </header>
@@ -160,7 +183,7 @@ export function DiscoveryStory({
               </h3>
               <p id="home-history-description" className={styles['exploreDescription']}>
                 <Text>
-                  Remonter l'histoire de l'IA, de ses premières avancées aux modèles actuels.
+                  Retrouver les dates et les sources pour comprendre d'où vient l'IA d'aujourd'hui.
                 </Text>
               </p>
             </div>
@@ -199,8 +222,8 @@ export function DiscoveryStory({
               </h3>
               <p id="home-charts-description" className={styles['exploreDescription']}>
                 <Text>
-                  Explorer les projets, les modèles et les skills, avec leurs sources et leurs
-                  méthodes.
+                  Repérer quoi tester parmi les projets, les modèles et les skills, avec leurs
+                  mesures et leurs sources.
                 </Text>
               </p>
             </div>
@@ -233,7 +256,9 @@ export function DiscoveryStory({
                   <Text>L'actualité</Text>
                 </h3>
                 <p id="home-news-description" className={styles['exploreDescription']}>
-                  <Text>IA, développement et open source. Une phrase, sa source et sa date.</Text>
+                  <Text>
+                    Les annonces IA et développement, résumées et reliées à leurs sources.
+                  </Text>
                 </p>
               </div>
               <span className={styles['exploreArrow']} aria-hidden="true">

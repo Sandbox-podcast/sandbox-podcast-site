@@ -33,7 +33,7 @@ export async function generateMetadata({
   return {
     metadataBase: new URL(siteConfig.url),
     title: {
-      default: `${siteConfig.name} — ${translateText('Talk Show et classements IA', dictionary, locale)}`,
+      default: `${siteConfig.name} : ${translateText('IA, engineering et produit', dictionary, locale)}`,
       template: `%s · ${siteConfig.name}`,
     },
     description,

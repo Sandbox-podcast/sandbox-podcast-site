@@ -106,6 +106,28 @@ describe('traductions produites manuellement dans le harnais', () => {
     ).toBe(false);
     expect(next.episodes.at(-1)?.platforms).toEqual(episode.platforms);
   });
+  it('exporte aussi les chapitres et ressources calculés depuis la description vidéo', () => {
+    const content = fixture();
+    const episode = newEpisode(content.episodes, new Date('2026-10-01T12:00:00Z'), ['lou']);
+    const texts = editorialTranslationSources({
+      ...content,
+      episodes: [
+        {
+          ...episode,
+          status: 'published',
+          description:
+            '0:00 Une introduction vidéo inédite\n\nLe site et nos ressources : https://example.org/resources',
+          chapters: [],
+          mentions: [],
+          sources: [],
+        },
+      ],
+    }).map((item) => item.source);
+    expect(texts).toContain('Une introduction vidéo inédite');
+    expect(texts).toContain('Le site et nos ressources');
+    expect(texts).not.toContain('https://example.org/resources');
+  });
+
   it('couvre les avis réels ajoutés dans les éditions de classement', () => {
     const texts = chartEditionTranslationSources({
       week: '2026-W41',
