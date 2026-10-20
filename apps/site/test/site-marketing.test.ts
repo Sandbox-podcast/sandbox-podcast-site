@@ -13,6 +13,16 @@ afterEach(() => {
 });
 
 describe('compatibilité des textes de marque déjà publiés', () => {
+  it.each([
+    "Ce que l'IA change pour ceux qui construisent.",
+    "Bienvenue dans l'univers de Sandbox. Trois passionnés de tech qui explorent, expérimentent et décryptent ce que l'IA change vraiment dans notre façon de créer, de travailler et de construire.",
+  ])('remplace l’ancienne accroche du plateau : %s', (heroTitle) => {
+    setSiteSettingsOverride({
+      ...siteSettingsSchema.parse(siteSettings),
+      heroTitle,
+    });
+    expect(siteConfig.heroTitle).toBe("Bienvenue dans l'univers de Sandbox.");
+  });
   it('actualise les anciens libellés connus en conservant le nom, les liens et le stockage source', () => {
     const input = Object.freeze({
       ...legacySiteSettings,
@@ -98,7 +108,7 @@ describe('compatibilité des textes de marque déjà publiés', () => {
     setSiteSettingsOverride({ ...legacySiteSettings, heroTitle: 'Titre personnalisé' });
     expect(siteConfig.heroTitle).toBe('Titre personnalisé');
   });
-  it('rend le titre personnalisé dans le plateau minimal sans ajouter une introduction', () => {
+  it('rend le titre et l’introduction personnalisés dans deux éléments distincts', () => {
     setSiteSettingsOverride({
       ...legacySiteSettings,
       heroTitle: 'Un titre personnel pour le prochain direct.',
@@ -113,7 +123,7 @@ describe('compatibilité des textes de marque déjà publiés', () => {
     );
     expect(html).toContain('Un titre personnel pour le prochain direct.');
     expect(html).toContain('data-minimal-studio');
-    expect(html).not.toContain('Une introduction choisie pour ce rendez-vous.');
+    expect(html).toContain('Une introduction choisie pour ce rendez-vous.');
     expect(siteConfig.heroDek).toBe('Une introduction choisie pour ce rendez-vous.');
     expect(html).not.toContain('pour ceux qui construisent.');
   });

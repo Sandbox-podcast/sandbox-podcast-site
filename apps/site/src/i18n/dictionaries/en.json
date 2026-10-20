@@ -1,4 +1,6 @@
 {
+  "Bienvenue dans l'univers de Sandbox.": "Welcome to the world of Sandbox.",
+  "Trois passionnés de tech explorent et testent ce que l'IA change dans nos façons de créer, de travailler et de construire.": "Three tech enthusiasts explore and test how AI changes the way we create, work and build.",
   "Classements IA": "AI rankings",
   "Des classements IA datés et sourcés, calculés selon des méthodes publiées.": "Dated, sourced AI rankings built with published methods.",
   "Explorez des classements datés avec leurs candidats, leurs sources et leurs méthodes publiées.": "Explore dated rankings with their candidates, sources and published methods.",
@@ -3793,6 +3795,7 @@
   "{name} : ce que l'IA change pour les produits et les équipes tech": "{name}: what AI changes for products and tech teams",
   "Ce que l'IA change": "What AI changes",
   "Ce que l'IA change pour ceux qui construisent.": "What AI changes for those who build.",
+  "Bienvenue dans l'univers de Sandbox. Trois passionnés de tech qui explorent, expérimentent et décryptent ce que l'IA change vraiment dans notre façon de créer, de travailler et de construire.": "Welcome to the world of Sandbox. Three tech enthusiasts exploring, experimenting and making sense of what AI really changes in the way we create, work and build.",
   "Compare les projets GitHub, les skills et les modèles IA à partir des mesures disponibles. Des classements datés, avec leurs critères et leurs sources pour choisir quoi tester.": "Compare GitHub projects, skills and AI models using the available measurements. Dated rankings with their criteria and sources to help you choose what to test.",
   "Comprendre d'où vient l'IA d'aujourd'hui. Retrouve les dates, les travaux et les lancements qui ont jalonné l'histoire de l'IA, avec leurs sources.": "Understand where today's AI comes from. Explore the dates, research and launches that have shaped its history, with their sources.",
   "Consulte les critères et les sources avant de les rapporter à ton usage.": "Read the criteria and sources before applying them to your use case.",
@@ -3856,6 +3859,7 @@
   "Projets en progression": "Rising projects",
   "IA & développement": "AI & development",
   "Ouvrir le fil": "Open the feed",
+  "Explore les six salles via le portail ou le bouton en haut à droite.": "Explore the six rooms through the portal or with the button at the top right.",
   "Replays précédents": "Previous replays",
   "Replays suivants": "Next replays",
   "Replays {from}–{to} sur {total}": "Replays {from}–{to} of {total}",
