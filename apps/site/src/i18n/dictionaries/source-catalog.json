@@ -1,4 +1,12 @@
 {
+  "Bienvenue dans l'univers de Sandbox.": {
+    "translation": "",
+    "sources": ["content/site.json"]
+  },
+  "Trois passionnés de tech explorent et testent ce que l'IA change dans nos façons de créer, de travailler et de construire.": {
+    "translation": "",
+    "sources": ["content/site.json"]
+  },
   "- Lien (": {
     "translation": "",
     "sources": ["src/domain/chart-markdown.ts"]
@@ -1788,6 +1796,14 @@
     "translation": "",
     "sources": ["src/components/studio-landing.tsx"]
   },
+  "Bienvenue dans l'univers de Sandbox. Trois passionnés de tech qui explorent, expérimentent et décryptent ce que l'IA change vraiment dans notre façon de créer, de travailler et de construire.": {
+    "translation": "",
+    "sources": ["content/site.json"]
+  },
+  "Explore les six salles via le portail ou le bouton en haut à droite.": {
+    "translation": "",
+    "sources": ["src/components/sandbox-room-content.tsx"]
+  },
   "Ce que l'IA change pour ceux qui construisent.": {
     "translation": "",
     "sources": ["content/site.json", "src/components/studio-landing.tsx"]
@@ -2780,7 +2796,7 @@
   },
   "Découvrir le vidéoclub des projets": {
     "translation": "",
-    "sources": ["src/components/studio-landing.tsx"]
+    "sources": ["src/components/studio-portal.tsx"]
   },
   "Découvrir nos projets": {
     "translation": "",
@@ -3377,7 +3393,11 @@
   },
   "Entrer dans le vidéoclub": {
     "translation": "",
-    "sources": ["src/components/studio-door.tsx", "src/components/video-club.tsx"]
+    "sources": [
+      "src/components/studio-door.tsx",
+      "src/components/studio-portal.tsx",
+      "src/components/video-club.tsx"
+    ]
   },
   "Envoie une requête HTTP pour faire lire une notification par tes appareils Google Home. Dans le panneau d'administration, configure les appareils, les clés API et les requêtes à déclencher depuis un script ou une automatisation IFTTT.": {
     "translation": "",

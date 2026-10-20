@@ -1,4 +1,6 @@
 {
+  "Bienvenue dans l'univers de Sandbox.": "Willkommen in der Welt von Sandbox.",
+  "Trois passionnés de tech explorent et testent ce que l'IA change dans nos façons de créer, de travailler et de construire.": "Drei Tech-Begeisterte erkunden und testen, wie KI verändert, wie wir kreativ sind, arbeiten und Neues entwickeln.",
   "Classements IA": "KI-Ranglisten",
   "Des classements IA datés et sourcés, calculés selon des méthodes publiées.": "Datierte KI-Ranglisten mit Quellen und veröffentlichten Methoden.",
   "Explorez des classements datés avec leurs candidats, leurs sources et leurs méthodes publiées.": "Entdecken Sie datierte Ranglisten mit Kandidaten, Quellen und veröffentlichten Methoden.",
@@ -2958,6 +2960,7 @@
   "{name} : ce que l'IA change pour les produits et les équipes tech": "{name}: was KI für Produkte und Tech-Teams verändert",
   "Ce que l'IA change": "Was KI für alle verändert,",
   "Ce que l'IA change pour ceux qui construisent.": "Was KI für alle verändert, die entwickeln.",
+  "Bienvenue dans l'univers de Sandbox. Trois passionnés de tech qui explorent, expérimentent et décryptent ce que l'IA change vraiment dans notre façon de créer, de travailler et de construire.": "Willkommen in der Welt von Sandbox. Drei Tech-Begeisterte, die erkunden, experimentieren und erklären, was KI daran verändert, wie wir kreativ sind, arbeiten und Neues entwickeln.",
   "Compare les projets GitHub, les skills et les modèles IA à partir des mesures disponibles. Des classements datés, avec leurs critères et leurs sources pour choisir quoi tester.": "Vergleiche GitHub-Projekte, Skills und KI-Modelle anhand der verfügbaren Messwerte. Datierte Ranglisten mit Kriterien und Quellen, damit du entscheiden kannst, was du testest.",
   "Comprendre d'où vient l'IA d'aujourd'hui. Retrouve les dates, les travaux et les lancements qui ont jalonné l'histoire de l'IA, avec leurs sources.": "Verstehe, woher die heutige KI kommt. Entdecke die Daten, Forschungsarbeiten und Veröffentlichungen, die ihre Geschichte geprägt haben, mit den jeweiligen Quellen.",
   "Consulte les critères et les sources avant de les rapporter à ton usage.": "Lies die Kriterien und Quellen, bevor du sie auf deinen Anwendungsfall überträgst.",
@@ -3021,6 +3024,7 @@
   "Projets en progression": "Aufstrebende Projekte",
   "IA & développement": "KI & Entwicklung",
   "Ouvrir le fil": "Nachrichten öffnen",
+  "Explore les six salles via le portail ou le bouton en haut à droite.": "Erkunde die sechs Räume durch das Portal oder über den Button oben rechts.",
   "Replays précédents": "Vorherige Aufzeichnungen",
   "Replays suivants": "Nächste Aufzeichnungen",
   "Replays {from}–{to} sur {total}": "Aufzeichnungen {from}–{to} von {total}",

@@ -113,8 +113,8 @@ describe('lecture publique pendant une panne Postgres', () => {
         videoClubEnabled: false,
       }),
     );
-    expect(home).toContain('Ce que l&#x27;IA change');
-    expect(home).toContain('pour ceux qui construisent.');
+    expect(home).toContain('Bienvenue dans l&#x27;univers de Sandbox.');
+    expect(home).toContain('de créer, de travailler et de construire.');
     expect(home).not.toContain('Un Talk Show pour y voir plus clair.');
     expect(JSON.stringify(publication)).toBe(stored);
     expect(loadContent().site).toEqual(legacySiteSettings);

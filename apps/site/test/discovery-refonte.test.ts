@@ -51,6 +51,31 @@ afterEach(() => {
 });
 
 describe('accueil du Talk Show', () => {
+  it.each([false, true])(
+    'ajoute le vidéoclub aux repères, avec News disponible : %s',
+    (newsAvailable) => {
+      const html = renderToStaticMarkup(
+        createElement(DiscoveryHome, { episodes: [], newsAvailable }),
+      );
+      const section = html.slice(
+        html.indexOf('data-home-section="explore"'),
+        html.indexOf('</section>', html.indexOf('data-home-section="explore"')),
+      );
+      expect(section).toContain('href="/nos-projets"');
+      expect(section).toContain('aria-labelledby="home-project-room-title"');
+      expect(section).toContain('aria-describedby="home-project-room-description"');
+      expect(section).toContain('/images/rooms/video-club-room-v2.webp');
+      expect(section).toContain('data-analytics-destination="projects"');
+      expect(section.match(/<a\b/g)).toHaveLength(newsAvailable ? 4 : 3);
+      for (const id of ['history', 'charts', 'project-room', ...(newsAvailable ? ['news'] : [])]) {
+        expect(section).toContain(`aria-describedby="home-${id}-description"`);
+        expect(section).toContain(`id="home-${id}-description"`);
+      }
+      expect(section).toContain('data-analytics-destination="time-machine"');
+      expect(section).toContain('data-analytics-destination="charts"');
+      expect(section.includes('data-analytics-destination="news"')).toBe(newsAvailable);
+    },
+  );
   it('retire les portraits du plateau et utilise les photos publiées dans la présentation de l’équipe', () => {
     const hosts = publicHosts().map((host) => ({
       ...host,
@@ -155,7 +180,7 @@ describe('accueil du Talk Show', () => {
     expect(html).not.toContain(`href="${siteSettings.platforms.spotify}"`);
     expect(html).not.toContain('title="Lien Spotify à venir"');
   });
-  it('présente le plateau et le sélecteur des pièces puis l’équipe, les projets et les rubriques', () => {
+  it('présente le plateau puis les repères, l’équipe et les expérimentations', () => {
     const html = renderToStaticMarkup(
       createElement(DiscoveryHome, {
         episodes: [pilot],
@@ -166,9 +191,9 @@ describe('accueil du Talk Show', () => {
     const sections = [
       'id="room-title-studio"',
       '<option value="cinema">',
+      'id="home-explore-title"',
       'id="home-team-title"',
       'id="home-projects-title"',
-      'id="home-explore-title"',
     ];
     const positions = sections.map((section) => html.indexOf(section));
     expect(positions.every((position) => position >= 0)).toBe(true);
@@ -204,7 +229,7 @@ describe('accueil du Talk Show', () => {
     const html = renderToStaticMarkup(createElement(DiscoveryHome, { episodes: [pilot] }));
     expect(html).not.toContain('Le podcast IA &amp; tech');
     const title = /<h1\b[^>]*>(.*?)<\/h1>/.exec(html)?.[1]?.replace(/<[^>]*>/g, '');
-    expect(title).toBe('Ce que l&#x27;IA change pour ceux qui construisent.');
+    expect(title).toBe('Bienvenue dans l&#x27;univers de Sandbox.');
     expect(html).toContain('data-minimal-studio');
     expect(html).toContain('Explorer les pièces');
     expect(html).not.toContain('Découvrir nos projets');
@@ -254,7 +279,8 @@ describe('accueil du Talk Show', () => {
     expect(minimal).toContain('<h1');
     expect(minimal).not.toContain('<button');
     expect(minimal).not.toContain('<a ');
-    expect(minimal).not.toContain('<p');
+    expect(minimal).toContain('data-studio-navigation="true"');
+    expect(minimal.match(/<p\b/g)).toHaveLength(2);
     expect(html).toMatch(/<canvas\b[^>]*aria-hidden="true"/);
   });
   it('garde la porte comme lien natif sans charger le magasin avant le clic', () => {

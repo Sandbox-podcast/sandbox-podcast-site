@@ -1,10 +1,58 @@
 import Image from 'next/image';
+import type { CSSProperties } from 'react';
 import { Text, LocalizedLink as Link } from './localization';
 import type { Host } from '@/domain/schema';
-import { type PersonalProject } from '@/domain/personal-projects';
 import { homeProfiles, homeProjects } from '@/domain/home-story';
-import styles from './discovery-chapters.module.css';
+import type { PersonalProject } from '@/domain/personal-projects';
 import { HomeProjectSpotlight } from './home-project-spotlight';
+import styles from './discovery-chapters.module.css';
+
+const explorationCards = [
+  {
+    destination: 'time-machine',
+    href: '/time-machine',
+    id: 'history',
+    kicker: "Histoire de l'IA",
+    title: 'Time Machine',
+    description: "Remonter l'histoire de l'IA, de ses premières avancées aux modèles actuels.",
+    image: '/images/rooms/time-machine-room-v1.webp',
+    color: '#6480ff',
+    rgb: '100, 128, 255',
+  },
+  {
+    destination: 'charts',
+    href: '/charts',
+    id: 'charts',
+    kicker: 'Sandbox Charts',
+    title: 'Les classements',
+    description: 'GitHub · Skills · Models · Rising',
+    image: '/images/rooms/rankings-room-v1.webp',
+    color: '#ff784f',
+    rgb: '255, 120, 79',
+  },
+  {
+    destination: 'projects',
+    href: '/nos-projets',
+    id: 'project-room',
+    kicker: 'Le vidéoclub',
+    title: 'Nos projets',
+    description: "Nos projets et retours d'expérience.",
+    image: '/images/rooms/video-club-room-v2.webp',
+    color: '#bb64ff',
+    rgb: '187, 100, 255',
+  },
+  {
+    destination: 'news',
+    href: '/news',
+    id: 'news',
+    kicker: 'Sandbox News',
+    title: "L'actualité",
+    description: "L'actualité IA et développement",
+    image: '/images/rooms/radar-room-v1.webp',
+    color: '#5ed6b0',
+    rgb: '94, 214, 176',
+  },
+] as const;
 
 export function DiscoveryStory({
   hosts,
@@ -19,6 +67,81 @@ export function DiscoveryStory({
   const selection = homeProjects(projects);
   return (
     <div id="home-story" className={styles['story']}>
+      <section
+        className={`${styles['chapter']} ${styles['exploreChapter']}`}
+        aria-labelledby="home-explore-title"
+        data-home-section="explore"
+      >
+        <header className={styles['chapterHeading']} data-reveal="title">
+          <div>
+            <p className={styles['eyebrow']} data-signal-contact>
+              <span className={styles['chapterNumber']} aria-hidden="true">
+                01
+              </span>
+              <Text>Pour aller plus loin</Text>
+            </p>
+            <h2 id="home-explore-title">
+              <Text>Des repères pour tes prochains choix.</Text>
+            </h2>
+          </div>
+        </header>
+        <div className={styles['exploreGrid']} data-news={newsAvailable ? 'true' : undefined}>
+          {explorationCards
+            .filter((card) => card.destination !== 'news' || newsAvailable)
+            .map((card, index) => (
+              <Link
+                key={card.destination}
+                href={card.href}
+                className={styles['exploreLink']}
+                style={
+                  { '--bookmark-color': card.color, '--bookmark-rgb': card.rgb } as CSSProperties
+                }
+                aria-labelledby={`home-${card.id}-title`}
+                aria-describedby={`home-${card.id}-description`}
+                data-analytics-event="discovery_open"
+                data-analytics-destination={card.destination}
+                data-analytics-placement="home"
+                data-reveal="portal"
+                data-reveal-side={index % 2 === 0 ? 'left' : 'right'}
+                data-reveal-delay={String(index * 80)}
+              >
+                <div className={styles['bookmarkFrame']}>
+                  <span className={styles['bookmarkSurface']} aria-hidden="true" />
+                  <span className={styles['panelKicker']}>
+                    <Text>{card.kicker}</Text>
+                  </span>
+                  <div className={styles['exploreArtwork']}>
+                    <Image
+                      src={card.image}
+                      unoptimized
+                      alt=""
+                      fill
+                      sizes="(max-width: 700px) calc(100vw - 72px), (max-width: 1280px) 44vw, 300px"
+                    />
+                    <p id={`home-${card.id}-description`} className={styles['exploreDescription']}>
+                      <Text>{card.description}</Text>
+                    </p>
+                  </div>
+                  <div className={styles['exploreCopy']}>
+                    <h3 id={`home-${card.id}-title`} className={styles['exploreName']}>
+                      <Text>{card.title}</Text>
+                    </h3>
+                  </div>
+                  <div className={styles['bookmarkFooter']} aria-hidden="true">
+                    <span className={styles['bookmarkDots']}>
+                      {[0, 1, 2].map((dot) => (
+                        <i key={dot} data-lit={dot <= index % 3 ? 'true' : undefined} />
+                      ))}
+                    </span>
+                    <span className={styles['exploreArrow']}>
+                      <ArrowIcon />
+                    </span>
+                  </div>
+                </div>
+              </Link>
+            ))}
+        </div>
+      </section>
       {team.length > 0 ? (
         <section
           className={`${styles['chapter']} ${styles['teamChapter']}`}
@@ -29,7 +152,7 @@ export function DiscoveryStory({
             <div>
               <p className={styles['eyebrow']} data-signal-contact>
                 <span className={styles['chapterNumber']} aria-hidden="true">
-                  01
+                  02
                 </span>
                 <Text>Derrière les micros</Text>
               </p>
@@ -93,7 +216,7 @@ export function DiscoveryStory({
               <div>
                 <p className={styles['eyebrow']} data-signal-contact>
                   <span className={styles['chapterNumber']} aria-hidden="true">
-                    02
+                    03
                   </span>
                   <Text>Nos expérimentations</Text>
                 </p>
@@ -120,137 +243,6 @@ export function DiscoveryStory({
           </div>
         </section>
       ) : null}
-      <section
-        className={`${styles['chapter']} ${styles['exploreChapter']}`}
-        aria-labelledby="home-explore-title"
-        data-home-section="explore"
-      >
-        <header className={styles['chapterHeading']} data-reveal="title">
-          <div>
-            <p className={styles['eyebrow']} data-signal-contact>
-              <span className={styles['chapterNumber']} aria-hidden="true">
-                03
-              </span>
-              <Text>Pour aller plus loin</Text>
-            </p>
-            <h2 id="home-explore-title">
-              <Text>Des repères pour tes prochains choix.</Text>
-            </h2>
-          </div>
-        </header>
-        <div className={styles['exploreGrid']} data-news={newsAvailable ? 'true' : undefined}>
-          <Link
-            href="/time-machine"
-            className={styles['exploreLink']}
-            aria-labelledby="home-history-title"
-            aria-describedby="home-history-description"
-            data-analytics-event="discovery_open"
-            data-analytics-destination="time-machine"
-            data-analytics-placement="home"
-            data-reveal="portal"
-            data-reveal-side="left"
-            data-reveal-delay="0"
-          >
-            <div className={styles['exploreArtwork']} aria-hidden="true">
-              <Image
-                src="/images/rooms/time-machine-room-v1.webp"
-                unoptimized
-                alt=""
-                fill
-                sizes="(max-width: 700px) calc(100vw - 48px), (max-width: 1280px) 50vw, 610px"
-              />
-            </div>
-            <span className={styles['panelKicker']}>
-              <Text>Histoire de l'IA</Text>
-            </span>
-            <div className={styles['exploreCopy']}>
-              <h3 id="home-history-title" className={styles['exploreName']}>
-                Time Machine
-              </h3>
-              <p id="home-history-description" className={styles['exploreDescription']}>
-                <Text>
-                  Retrouver les dates et les sources pour comprendre d'où vient l'IA d'aujourd'hui.
-                </Text>
-              </p>
-            </div>
-            <span className={styles['exploreArrow']} aria-hidden="true">
-              <ArrowIcon />
-            </span>
-          </Link>
-          <Link
-            href="/charts"
-            className={styles['exploreLink']}
-            aria-labelledby="home-charts-title"
-            aria-describedby="home-charts-description"
-            data-analytics-event="discovery_open"
-            data-analytics-destination="charts"
-            data-analytics-placement="home"
-            data-reveal="portal"
-            data-reveal-side="right"
-            data-reveal-delay="80"
-          >
-            <div className={styles['exploreArtwork']} aria-hidden="true">
-              <Image
-                src="/images/rooms/rankings-room-v1.webp"
-                unoptimized
-                alt=""
-                fill
-                sizes="(max-width: 700px) calc(100vw - 48px), (max-width: 1280px) 50vw, 610px"
-              />
-            </div>
-            <span className={styles['panelKicker']}>Sandbox Charts</span>
-            <div className={styles['exploreCopy']}>
-              <h3 id="home-charts-title" className={styles['exploreName']}>
-                <Text>Les classements</Text>
-              </h3>
-              <p id="home-charts-description" className={styles['exploreDescription']}>
-                <Text>
-                  Repérer quoi tester parmi les projets, les modèles et les skills, avec leurs
-                  mesures et leurs sources.
-                </Text>
-              </p>
-            </div>
-            <span className={styles['exploreArrow']} aria-hidden="true">
-              <ArrowIcon />
-            </span>
-          </Link>
-          {newsAvailable ? (
-            <Link
-              href="/news"
-              className={`${styles['exploreLink']} ${styles['newsLink']}`}
-              aria-labelledby="home-news-title"
-              aria-describedby="home-news-description"
-              data-reveal="portal"
-              data-reveal-side="right"
-              data-reveal-delay="160"
-            >
-              <div className={styles['exploreArtwork']} aria-hidden="true">
-                <Image
-                  src="/images/rooms/radar-room-v1.webp"
-                  unoptimized
-                  alt=""
-                  fill
-                  sizes="(max-width: 700px) calc(100vw - 48px), (max-width: 1050px) 100vw, 33vw"
-                />
-              </div>
-              <span className={styles['panelKicker']}>Sandbox News</span>
-              <div className={styles['exploreCopy']}>
-                <h3 id="home-news-title" className={styles['exploreName']}>
-                  <Text>L'actualité</Text>
-                </h3>
-                <p id="home-news-description" className={styles['exploreDescription']}>
-                  <Text>
-                    Les annonces IA et développement, résumées et reliées à leurs sources.
-                  </Text>
-                </p>
-              </div>
-              <span className={styles['exploreArrow']} aria-hidden="true">
-                <ArrowIcon />
-              </span>
-            </Link>
-          ) : null}
-        </div>
-      </section>
     </div>
   );
 }

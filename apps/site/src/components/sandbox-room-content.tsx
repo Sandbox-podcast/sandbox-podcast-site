@@ -274,7 +274,7 @@ function HistoryWall({ data }: { data?: TimeMachineData | undefined }) {
 
 function NewsTerminal() {
   return (
-    <Link href="/news" className={styles['newsTerminal']}>
+    <Link href="/news" className={styles['newsTerminal']} data-news-terminal>
       <span className={styles['radarDisplay']} aria-hidden="true">
         <span className={styles['radarBeam']} />
       </span>
@@ -283,7 +283,7 @@ function NewsTerminal() {
         <strong>
           <Text>IA & développement</Text>
         </strong>
-        <span>
+        <span className={styles['radarAction']}>
           <Text>Ouvrir le fil</Text> <span aria-hidden="true">↗</span>
         </span>
       </span>
@@ -583,7 +583,13 @@ export function SandboxRoomContent({
             <h1 id="room-title-studio" tabIndex={-1}>
               <Text>{hero.title}</Text>
             </h1>
+            <p className={styles['studioIntroduction']}>
+              <Text>{hero.description}</Text>
+            </p>
           </div>
+          <p className={styles['studioHint']} data-studio-navigation>
+            <Text>Explore les six salles via le portail ou le bouton en haut à droite.</Text>
+          </p>
         </div>
       </section>
     );

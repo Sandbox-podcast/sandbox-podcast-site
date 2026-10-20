@@ -34,21 +34,26 @@ const episode = episodeSchema.parse({
 });
 
 describe('contenus des six salles', () => {
-  it('limite le premier écran du plateau à la phrase d’accroche en mode immersif', () => {
+  it('présente l’accroche et explique la visite des six salles en mode immersif', () => {
     const html = renderToStaticMarkup(
       createElement(SandboxRoomContent, {
         roomId: 'studio',
         episodes: [episode],
         projects: personalProjects,
         minimalStudio: true,
-        heroCopy: { eyebrow: 'Repère absent', title: 'Notre phrase', description: 'Texte absent' },
+        heroCopy: {
+          eyebrow: 'Repère absent',
+          title: 'Notre phrase',
+          description: 'Notre présentation',
+        },
       }),
     );
     expect(html).toContain('Notre phrase');
+    expect(html).toContain('Explore les six salles via le portail ou le bouton en haut à droite.');
     expect(html).toContain('data-studio-inscription="true"');
     expect(html).toContain('id="room-title-studio" tabindex="-1"');
     expect(html).not.toContain('Repère absent');
-    expect(html).not.toContain('Texte absent');
+    expect(html).toContain('Notre présentation');
     expect(html).not.toContain('<a ');
     expect(html).not.toContain('<button');
   });

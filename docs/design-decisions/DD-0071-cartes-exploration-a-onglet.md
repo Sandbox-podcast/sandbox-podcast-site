@@ -1,0 +1,21 @@
+# DD-0071 : cartes d’exploration à onglet
+
+20 octobre 2026. À la demande de Lou, les cartes de « Des repères pour tes prochains choix. » reprennent le design de la [référence vidéo fournie](https://pub-1e5b4001b36b47e28e6a2fb775966a79.r2.dev/previews/card-bookmark-v1.mp4). Réalisation décidée par l'agent sur délégation (PD-0003).
+
+Les quatre destinations conservent leurs liens : Time Machine, classements, projets et actualité. La carte News dépend toujours de la disponibilité du fil. Une découpe CSS `shape()` dessine l'onglet supérieur et le retrait inférieur. Après le signalement de Lou, le masque s'applique au cadre complet, image et texte compris, pour supprimer les débordements dans les angles. Le lien extérieur garde son focus et une zone de survol stable. Les décors des pièces existantes occupent une fenêtre dans chaque carte ; des descriptions courtes précisent leur contenu. Les textes réutilisent le catalogue de traduction existant.
+
+La carte remonte de 8 pixels au survol et au focus sur ordinateur. Les fonds sombres prennent une couleur au survol et au focus : bleu pour l'histoire, orange pour les classements, violet pour les projets et vert pour les News. Les petits points reprennent les repères décoratifs de la référence. Ils ne représentent ni une pagination ni des données. Sur écran tactile, les couleurs restent visibles. Les mouvements respectent la préférence système et la pause de l'accueil. Les liens disposent d'un titre, d'une description et d'un focus extérieur à la découpe.
+
+La grille conserve quatre colonnes sur grand écran, deux jusqu'à 1280 pixels et une jusqu'à 700 pixels. Aucun média supplémentaire ni moteur d'animation n'est ajouté. Les événements de découverte sont conservés et étendus à la carte News.
+
+Sources modifiées : `discovery-story.tsx`, `discovery-chapters.module.css`, test de rendu `discovery-refonte.test.ts` et recette navigateur `test-bookmark-cards.mjs`. Les captures locales sont enregistrées sous `apps/site/.local/bookmark-cards/`. La recette couvre 320, 390, 701, 820, 1050, 1280 et 1440 pixels, les quatre langues, les limites des cartes, leurs titres, descriptions, liens, focus et la réduction des mouvements.
+
+Travail local, sans commit, push, PR ni déploiement. Le contrôle complet passe le formatage et le lint, puis s’arrête sur trois erreurs de types préexistantes dans `news-preview.test.ts` : ces appels transmettent encore `projects` à `DiscoveryStory`, alors que ce paramètre était déjà absent au début de cette retouche. L’exécution séparée des tests donne 1 157 réussites et un échec dans `discovery-refonte.test.ts`, qui attend une section de projets déjà absente du composant d’accueil initial. Aucun de ces contrôles n’est désactivé.
+
+Les deux variantes du test des cartes (avec et sans News) passent après les corrections du mouvement et du masque.
+
+La recette navigateur finale réussit ses dix cas sous Edge headless, sans erreur JavaScript. Les quatre largeurs ordinateur vérifient aussi la remontée de 8 pixels et le masque du cadre complet. Les captures ont été inspectées sur ordinateur et mobile émulé ; aucun téléphone physique n'a été testé. Le dernier pnpm check retrouve les trois mêmes erreurs TypeScript après réussite du formatage et du lint.
+
+Lou demande ensuite la même marge à gauche, à droite et au-dessus de l'image. Ces trois marges mesurent 16 pixels, le haut étant mesuré depuis le bord horizontal sous l'onglet. La hauteur de ce bord est désormais fixe à 48 pixels ; elle ne dépend plus de la hauteur de la carte. La recette mesure ces trois espacements pour chaque carte et chaque résolution.
+
+Consolidation de livraison : les incohérences de la copie partagée sont résolues en conservant la section projets et son paramètre depuis main. Le contrôle complet et le build réussissent dans la branche de PR ; voir [le rapport de livraison](../site/livraison-restant-local-2026-10-20.md).

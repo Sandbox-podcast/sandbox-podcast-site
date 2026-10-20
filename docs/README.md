@@ -1,5 +1,9 @@
 # Documentation
 
+Travail local restant après la PR 101 : [périmètre et vérifications](site/livraison-restant-local-2026-10-20.md).
+
+Cartes de découverte à onglet et dernières corrections de l’accueil : [DD-0071](design-decisions/DD-0071-cartes-exploration-a-onglet.md).
+
 Lot local complet du 20 octobre : [périmètre et recette d’intégration](site/livraison-lot-local-2026-10-20.md).
 
 Portail du plateau vers le vidéoclub au survol de la porte : [DD-0069](design-decisions/dd-0069-portail-vers-le-videoclub.md) et [recette locale du 20 octobre](site/portail-videoclub-2026-10-20.md).

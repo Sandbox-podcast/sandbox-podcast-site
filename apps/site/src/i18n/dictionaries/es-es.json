@@ -1,4 +1,6 @@
 {
+  "Bienvenue dans l'univers de Sandbox.": "Bienvenido al universo de Sandbox.",
+  "Trois passionnés de tech explorent et testent ce que l'IA change dans nos façons de créer, de travailler et de construire.": "Tres apasionados de la tecnología exploran y prueban cómo la IA cambia nuestra forma de crear, trabajar y construir.",
   "Classements IA": "Rankings de IA",
   "Des classements IA datés et sourcés, calculés selon des méthodes publiées.": "Rankings de IA fechados, con fuentes y métodos publicados.",
   "Explorez des classements datés avec leurs candidats, leurs sources et leurs méthodes publiées.": "Explora rankings fechados con sus candidatos, fuentes y métodos publicados.",
@@ -2958,6 +2960,7 @@
   "{name} : ce que l'IA change pour les produits et les équipes tech": "{name}: lo que la IA cambia para los productos y los equipos de tecnología",
   "Ce que l'IA change": "Lo que la IA cambia",
   "Ce que l'IA change pour ceux qui construisent.": "Lo que la IA cambia para quienes construyen.",
+  "Bienvenue dans l'univers de Sandbox. Trois passionnés de tech qui explorent, expérimentent et décryptent ce que l'IA change vraiment dans notre façon de créer, de travailler et de construire.": "Bienvenido al universo de Sandbox. Tres apasionados de la tecnología que exploran, experimentan y analizan lo que la IA cambia realmente en nuestra forma de crear, trabajar y construir.",
   "Compare les projets GitHub, les skills et les modèles IA à partir des mesures disponibles. Des classements datés, avec leurs critères et leurs sources pour choisir quoi tester.": "Compara proyectos de GitHub, skills y modelos de IA a partir de las mediciones disponibles. Clasificaciones fechadas con sus criterios y fuentes para elegir qué probar.",
   "Comprendre d'où vient l'IA d'aujourd'hui. Retrouve les dates, les travaux et les lancements qui ont jalonné l'histoire de l'IA, avec leurs sources.": "Entiende de dónde viene la IA actual. Consulta las fechas, los trabajos y los lanzamientos que han marcado su historia, con sus fuentes.",
   "Consulte les critères et les sources avant de les rapporter à ton usage.": "Consulta los criterios y las fuentes antes de aplicarlos a tu caso de uso.",
@@ -3021,6 +3024,7 @@
   "Projets en progression": "Proyectos en crecimiento",
   "IA & développement": "IA y desarrollo",
   "Ouvrir le fil": "Abrir las noticias",
+  "Explore les six salles via le portail ou le bouton en haut à droite.": "Explora las seis salas a través del portal o con el botón de arriba a la derecha.",
   "Replays précédents": "Grabaciones anteriores",
   "Replays suivants": "Siguientes grabaciones",
   "Replays {from}–{to} sur {total}": "Grabaciones {from}–{to} de {total}",

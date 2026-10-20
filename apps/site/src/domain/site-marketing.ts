@@ -31,11 +31,14 @@ const previousCopy: Record<MarketingField, readonly string[]> = {
     'Podcast indépendant · IA · développement · open source',
   ],
   heroTitle: [
+    "Bienvenue dans l'univers de Sandbox. Trois passionnés de tech qui explorent, expérimentent et décryptent ce que l'IA change vraiment dans notre façon de créer, de travailler et de construire.",
+    "Ce que l'IA change pour ceux qui construisent.",
     "L'actualité de l'IA, testée et mise en perspective.",
     'Un Talk Show pour y voir plus clair.',
     'Un podcast pour y voir plus clair.',
   ],
   heroDek: [
+    "Deux développeurs et un Product Manager confrontent leurs expériences de l'IA, du code aux choix produit et au travail des équipes.",
     "Chaque semaine, nous testons des outils d'IA, confrontons nos expériences et vérifions ce que les annonces changent vraiment. Retrouve les épisodes, leurs sources et nos classements commentés.",
     'Chaque semaine, nos épisodes vidéo explorent les outils, les modèles et les idées qui changent le travail. Retrouvez aussi les sources citées et les classements commentés.',
   ],

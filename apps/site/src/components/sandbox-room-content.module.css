@@ -37,14 +37,34 @@
 .deskInscription .copy h1 {
   max-width: none;
   color: #ffe5b5;
-  font-size: clamp(22px, calc(40px * var(--room-scale, 1)), 70px);
-  font-weight: 550;
+  font-size: clamp(24px, calc(36px * var(--room-scale, 1)), 56px);
+  font-weight: 600;
   line-height: 1.14;
   letter-spacing: -0.025em;
   text-shadow:
     0 1px 2px #120e08,
     0 0 8px #edb86755,
     0 0 22px #edb86733;
+}
+
+.studioIntroduction {
+  max-width: 60ch;
+  margin: clamp(8px, calc(10px * var(--room-scale, 1)), 16px) auto 0;
+  color: #f1dec2;
+  font-size: clamp(14px, calc(16px * var(--room-scale, 1)), 24px);
+  font-weight: 400;
+  line-height: 1.5;
+  text-wrap: balance;
+  text-shadow: 0 1px 4px #120e08;
+}
+
+.studioHint {
+  margin: clamp(12px, calc(16px * var(--room-scale, 1)), 24px) auto 0;
+  color: #cfbea6;
+  font-size: clamp(11px, calc(12px * var(--room-scale, 1)), 18px);
+  line-height: 1.5;
+  text-wrap: balance;
+  text-shadow: 0 1px 5px #120e08;
 }
 
 /* Les objets occupent le mur ; les textes restent au premier plan, près du sol. */
@@ -587,16 +607,18 @@
   display: flex;
   align-self: center;
   align-items: center;
-  gap: 1.7rem;
+  gap: 1.5rem;
   width: fit-content;
   max-width: 100%;
   margin-bottom: 1rem;
   padding: 1.25rem 2rem 1.25rem 1.25rem;
-  border: 1px solid #74745a;
-  border-radius: 10px;
-  background: linear-gradient(140deg, #313d35, #17221f);
-  box-shadow: 0 15px 30px #0009;
-  color: #ddf3cf;
+  border: 1px solid #93ba9866;
+  border-radius: 3px;
+  background: radial-gradient(ellipse at 15% 10%, #25443b, #0b1919 75%);
+  box-shadow:
+    inset 0 0 24px #0006,
+    0 15px 30px #0009;
+  color: #e0ebd8;
   text-decoration: none;
   pointer-events: auto;
 }
@@ -632,6 +654,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.9rem;
+  min-width: 0;
 }
 
 .radarLabel {
@@ -647,12 +670,22 @@
   line-height: 1.1;
 }
 
-.radarCopy > span:last-child {
+.radarAction {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
   font-size: 0.65rem;
 }
 
-.newsTerminal:hover {
+.newsTerminal:hover,
+.content .newsTerminal:focus-visible {
   border-color: #c0dd99;
+  color: #f2ffe8;
+}
+
+.newsTerminal:focus-visible {
+  outline-offset: -4px;
 }
 
 /* Coordonnées du décor de référence ; le conteneur les recadre comme la photographie. */
@@ -804,29 +837,57 @@
     display: none;
   }
   .content > .newsTerminal {
-    width: calc(430px * var(--room-scale, 1));
-    height: calc(115px * var(--room-scale, 1));
-    padding: calc(13px * var(--room-scale, 1));
+    /* Intérieur du moniteur : (266, 272), (698, 287), (698, 394), (266, 394)
+       dans la photographie de 1672 × 941, avec le même recadrage que le décor. */
+    top: calc(50% - var(--room-photo-height) * 0.14612);
+    left: calc(50% - var(--room-photo-width) * 0.21172);
+    width: calc(var(--room-photo-width) * 0.25837);
+    height: calc(var(--room-photo-height) * 0.12965);
+    max-width: none;
+    margin: 0;
+    padding: calc(23px * var(--room-scale, 1)) calc(24px * var(--room-scale, 1))
+      calc(12px * var(--room-scale, 1));
+    overflow: hidden;
+    clip-path: polygon(0 0, 100% 12.3%, 100% 100%, 0 100%);
     border: 0;
     border-radius: 0;
-    box-shadow: none;
-    background: #10211ef5;
+    box-shadow: inset 0 0 28px #0009;
+    background:
+      repeating-linear-gradient(0deg, #adc8ac04 0 1px, transparent 1px 3px),
+      radial-gradient(ellipse at 15% 20%, #203a32, #0b1617 80%);
     gap: 0;
+  }
+  .content > .newsTerminal:hover,
+  .content > .newsTerminal:focus-visible {
+    box-shadow:
+      inset 0 0 0 3px #b4d5a8,
+      inset 0 0 35px #94cf8c22;
   }
   .radarDisplay {
     display: none;
   }
   .radarCopy {
     width: 100%;
-    gap: 7px;
+    height: 100%;
+    justify-content: space-between;
+    gap: calc(5px * var(--room-scale, 1));
+  }
+  .radarLabel {
+    font: 500 clamp(8px, calc(9px * var(--room-scale, 1)), 14px) var(--font-mono);
+    letter-spacing: 0.16em;
+    color: #a9c2a3;
   }
   .radarCopy strong {
     max-width: none;
-    font-size: clamp(15px, 1.5vw, 25px);
+    font-size: clamp(15px, calc(23px * var(--room-scale, 1)), 38px);
+    letter-spacing: -0.025em;
+    text-shadow: 0 0 16px #b9e5aa25;
   }
-  .radarCopy > span:last-child {
-    align-self: flex-end;
-    font-size: 0.65rem;
+  .radarAction {
+    padding-top: calc(7px * var(--room-scale, 1));
+    border-top: 1px solid #a9c2a326;
+    font-size: clamp(9px, calc(10px * var(--room-scale, 1)), 16px);
+    color: #bcd5b4;
   }
   .content > .projects {
     width: var(--room-photo-width);
@@ -1065,7 +1126,7 @@
   }
 
   .radarDisplay {
-    width: 105px;
+    width: clamp(54px, 18vw, 105px);
   }
 }
 
