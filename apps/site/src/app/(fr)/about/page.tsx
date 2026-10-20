@@ -3,7 +3,11 @@ import { Text, LocalizedElement } from '@/components/localization';
 import { siteConfig } from '@/config/site';
 import { preparePublicEditorialContent } from '@/lib/admin-persistence';
 import { publicHosts } from '@/lib/repository';
-import { pageMetadata } from '@/lib/seo';
+import { JsonLd } from '@/components/json-ld';
+import { absoluteUrl, breadcrumbLd, pageMetadata, publisherLd } from '@/lib/seo';
+import { localizedHref } from '@/i18n/routing';
+import { siteDictionary } from '@/i18n/dictionaries';
+import { translateText } from '@/i18n/translation';
 export const dynamic = 'force-dynamic';
 export const metadata = pageMetadata({
   title: 'Qui anime SANDBOX ? Deux développeurs et un Product Manager',
@@ -17,11 +21,38 @@ const networks = [
   { key: 'linkedin', label: 'LinkedIn' },
   { key: 'x', label: 'X' },
 ] as const;
-export default async function AboutPage() {
+export default async function AboutPage({ locale = 'fr-FR' }: { locale?: string } = {}) {
   await preparePublicEditorialContent();
   const hosts = publicHosts();
+  const dictionary = await siteDictionary(locale);
+  const text = (value: string) => translateText(value, dictionary, locale);
   return (
     <div className="wrap about-social-page">
+      <JsonLd
+        data={[
+          {
+            '@context': 'https://schema.org',
+            '@type': 'AboutPage',
+            url: absoluteUrl(localizedHref('/about', locale)),
+            name: text(siteConfig.aboutTitle),
+            inLanguage: locale,
+            mainEntity: {
+              ...publisherLd,
+              member: hosts.map((host) => ({
+                '@type': 'Person',
+                '@id': absoluteUrl(`/about#${host.slug}`),
+                name: host.name,
+                description: text(host.bio),
+                sameAs: Object.values(host.socials).filter(Boolean),
+              })),
+            },
+          },
+          breadcrumbLd([
+            { name: text('Accueil'), path: localizedHref('/', locale) },
+            { name: text('À propos'), path: localizedHref('/about', locale) },
+          ]),
+        ]}
+      />
       <header className="about-social-heading">
         <p className="label text-ink-3">
           <Text>{siteConfig.aboutEyebrow}</Text>
@@ -41,7 +72,7 @@ export default async function AboutPage() {
               return href ? [{ href, label }] : [];
             });
             return (
-              <li className="about-social-person" key={host.slug}>
+              <li className="about-social-person" id={host.slug} key={host.slug}>
                 <div className="about-social-card-top">
                   <span className="label">
                     <Text>{'Sandbox / '}</Text>
@@ -70,6 +101,12 @@ export default async function AboutPage() {
                   <h2>
                     <Text>{host.name}</Text>
                   </h2>
+                  <p className="about-social-role">
+                    <Text>{host.role}</Text>
+                  </p>
+                  <p className="about-social-bio whitespace-pre-line">
+                    <Text>{host.bio}</Text>
+                  </p>
                   {host.aka && (
                     <p className="about-social-aka label">
                       <Text>{'Aka '}</Text>

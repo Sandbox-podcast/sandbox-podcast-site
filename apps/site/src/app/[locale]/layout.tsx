@@ -16,7 +16,8 @@ import { JsonLd } from '@/components/json-ld';
 import { isMock, siteConfig } from '@/config/site';
 import { localeTagFromRouteSegment } from '@/i18n/locales';
 import { isLocaleUiReviewed, siteMessages } from '@/i18n/messages';
-import { absoluteUrl, openGraphLocaleForTag, robotsMetadata } from '@/lib/seo';
+import { openGraphLocaleForTag, robotsMetadata } from '@/lib/seo';
+import { siteIdentityLd } from '@/lib/site-identity';
 
 export async function generateMetadata({
   params,
@@ -84,23 +85,7 @@ export default async function LocalizedRootLayout({
           <Footer newsAvailable={newsAvailable} />
         </LocalizationProvider>
         <JsonLd
-          data={[
-            {
-              '@context': 'https://schema.org',
-              '@type': 'WebSite',
-              name: siteConfig.name,
-              url: siteConfig.url,
-              description: translateText(siteConfig.description, dictionary, locale),
-              inLanguage: locale,
-            },
-            {
-              '@context': 'https://schema.org',
-              '@type': 'Organization',
-              name: siteConfig.name,
-              url: siteConfig.url,
-              logo: absoluteUrl('/sandbox-logo.png'),
-            },
-          ]}
+          data={siteIdentityLd(translateText(siteConfig.description, dictionary, locale), locale)}
         />
         <AnalyticsConsent language={locale} />
       </body>

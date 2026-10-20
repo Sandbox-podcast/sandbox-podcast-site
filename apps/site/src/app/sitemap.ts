@@ -4,6 +4,7 @@ import { absoluteUrl } from '@/lib/seo';
 import { preparePublicEditorialContent } from '@/lib/admin-persistence';
 import {
   publishedChartSitemapPaths,
+  publishedChartSitemapLastModified,
   type PublishedChartEditionForSitemap,
 } from '@/domain/chart-seo';
 import { publicChartHistory, publicGithubRankedProjectSlugs } from '@/lib/charts-public';
@@ -22,6 +23,8 @@ import { isDemoEntity } from '@/lib/demo-content';
 import { timeMachineData } from '@/lib/time-machine';
 import { sharedPageAlternates } from '@/i18n/indexing';
 import { latestNewsPublicationTime, newsPublicEnabled } from '@/lib/news-store';
+import { SKILL_GUIDES_REVIEWED_AT, skillGuidePath, skillGuides } from '@/domain/skill-guides';
+import { hreflangAlternates } from '@/domain/ranking-catalog';
 
 export const dynamic = 'force-dynamic';
 
@@ -85,6 +88,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     chart: edition.chart,
     week: edition.week,
     entries: edition.entries,
+    publishedAt: edition.publishedAt,
   }));
   const chartEntries = publishedChartSitemapPaths(editions, projects)
     .filter((path) => !isMock || !path.endsWith('/methodology'))
@@ -99,7 +103,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
               : path.startsWith('/charts/project/')
                 ? 0.5
                 : 0.3;
-      return entry(path, undefined, priority);
+      return entry(path, publishedChartSitemapLastModified(path, editions), priority);
     });
   const localizedEntries = [
     ...localizedRankings
@@ -132,6 +136,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       })
     : undefined;
   const entries = uniqueSitemapEntries([
+    entry('/guides', SKILL_GUIDES_REVIEWED_AT, 0.8),
+    ...skillGuides.map((guide) => entry(skillGuidePath(guide.slug), SKILL_GUIDES_REVIEWED_AT, 0.8)),
     ...(episodes.length || chartEntries.length || history.events.length || personalProjects.length
       ? [entry('/', undefined, 1)]
       : []),
@@ -148,7 +154,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       : []),
     ...localizedEntries,
     ...localizedRankingHubs,
-    ...(episodes.length ? [entry('/podcast', undefined, 0.8)] : []),
+    ...(episodes.length
+      ? [
+          entry(
+            '/podcast',
+            episodes
+              .map((episode) => episode.publishedAt)
+              .toSorted()
+              .at(-1),
+            0.8,
+          ),
+        ]
+      : []),
     ...episodes.map((e) => entry(`/episodes/${String(e.number)}`, e.publishedAt, 0.8)),
     ...(!isMock
       ? allEntities()
@@ -169,9 +186,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       const path = new URL(item.url).pathname;
       const variants = sharedPageAlternates(path);
       if (!variants.length) return [item];
-      const languages = Object.fromEntries(
-        variants.map((page) => [page.locale, absoluteUrl(page.path)]),
-      );
+      const languages = hreflangAlternates(variants, absoluteUrl('/'));
       return variants.map((alternate) => ({
         ...item,
         url: absoluteUrl(alternate.path),

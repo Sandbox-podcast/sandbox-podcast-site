@@ -167,6 +167,11 @@ export function Footer({ newsAvailable = false }: { newsAvailable?: boolean } = 
               </Link>
             </li>
             <li>
+              <Link href="/guides" hrefLang="fr" lang="fr">
+                Guides des skills IA (FR)
+              </Link>
+            </li>
+            <li>
               <Link href="/time-machine">
                 <Text>Time Machine (en français)</Text>
               </Link>

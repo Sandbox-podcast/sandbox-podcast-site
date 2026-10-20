@@ -5,22 +5,24 @@ import { sandboxChartsData } from '@/lib/sandbox-charts';
 import { pageMetadata } from '@/lib/seo';
 import { hasIndexableChartArchive } from '@/domain/chart-seo';
 import { chartSelectionSchema, hasChartSelectionQuery } from '@/domain/chart-selection';
+import { chartArchiveMetadataCopy } from '@/domain/chart-seo-copy';
 export const dynamicParams = true;
 export async function generateMetadata({
   params,
   searchParams = Promise.resolve({}),
+  locale = 'fr-FR',
 }: {
   params: Promise<{
     week: string;
   }>;
   searchParams?: Promise<Record<string, string | string[] | undefined>>;
+  locale?: string;
 }) {
   const week = editionFromRoute((await params).week);
   if (!week) return {};
   const data = await sandboxChartsData(week);
   return pageMetadata({
-    title: `Archives des classements · ${week} · SANDBOX CHARTS`,
-    description: `Les positions et les mouvements de l'édition ${week}.`,
+    ...chartArchiveMetadataCopy(week, locale),
     path: `/charts/history/${week}`,
     noindex: !hasIndexableChartArchive(data, week) || hasChartSelectionQuery(await searchParams),
   });

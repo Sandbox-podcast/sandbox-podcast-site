@@ -22,11 +22,15 @@ import { allEpisodes } from '@/lib/repository';
 import { preparePublicEditorialContent } from '@/lib/admin-persistence';
 import { episodeProjects } from '@/domain/episode-projects';
 import { formatTimestamp } from '@/domain/format';
-import { absoluteUrl, breadcrumbLd, pageMetadata } from '@/lib/seo';
+import { absoluteUrl, breadcrumbLd, pageMetadata, publisherLd } from '@/lib/seo';
+import { localizedHref } from '@/i18n/routing';
+import { siteDictionary } from '@/i18n/dictionaries';
+import { translateText } from '@/i18n/translation';
 import styles from '@/components/project-store.module.css';
 
 interface ProjectPageProps {
   params: Promise<{ slug: string }>;
+  locale?: string;
 }
 export const dynamic = 'force-dynamic';
 
@@ -53,12 +57,16 @@ export async function generateMetadata({ params }: ProjectPageProps) {
   return metadata;
 }
 
-export default async function PersonalProjectPage({ params }: ProjectPageProps) {
+export default async function PersonalProjectPage({ params, locale = 'fr-FR' }: ProjectPageProps) {
   await preparePublicEditorialContent();
   const { slug } = await params;
   const project = personalProject(slug);
   if (!project) notFound();
   const creator = PROJECT_CREATORS[project.creator];
+  const dictionary = await siteDictionary(locale);
+  const text = (value: string) => translateText(value, dictionary, locale);
+  const ownPath = localizedHref(personalProjectPath(slug), locale);
+  const cover = project.cover ?? project.images[0] ?? project.icon;
   const related = personalProjects
     .filter((item) => item.slug !== slug && item.creator === project.creator)
     .slice(0, 6);
@@ -67,10 +75,42 @@ export default async function PersonalProjectPage({ params }: ProjectPageProps) 
   return (
     <article className={styles['page']}>
       <JsonLd
-        data={breadcrumbLd([
-          { name: 'Nos projets', path: '/nos-projets' },
-          { name: project.name, path: personalProjectPath(slug) },
-        ])}
+        data={[
+          breadcrumbLd([
+            { name: text('Accueil'), path: localizedHref('/', locale) },
+            { name: text('Nos projets'), path: localizedHref('/nos-projets', locale) },
+            { name: project.name, path: ownPath },
+          ]),
+          {
+            '@context': 'https://schema.org',
+            '@type': 'WebPage',
+            '@id': absoluteUrl(`${ownPath}#webpage`),
+            url: absoluteUrl(ownPath),
+            name: `${project.name} : ${text(project.tagline)}`,
+            description: text(project.description[0] ?? project.tagline),
+            inLanguage: locale,
+            lastReviewed: project.verifiedAt,
+            publisher: publisherLd,
+            ...(cover
+              ? { primaryImageOfPage: { '@type': 'ImageObject', url: absoluteUrl(cover.src) } }
+              : {}),
+            mainEntity: {
+              '@type': 'CreativeWork',
+              '@id': project.url,
+              url: project.url,
+              name: project.name,
+              description: text(project.tagline),
+              creator: {
+                '@type': 'Person',
+                '@id': absoluteUrl(`/about#${project.creator}`),
+                name: creator.name,
+                sameAs: creator.url,
+              },
+              ...(project.repository ? { sameAs: project.repository } : {}),
+            },
+            citation: project.sources.map((source) => source.url),
+          },
+        ]}
       />
       <div className={styles['wrap']}>
         <Link href="/nos-projets" className={styles['back']}>

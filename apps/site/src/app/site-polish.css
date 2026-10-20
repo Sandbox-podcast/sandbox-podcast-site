@@ -700,6 +700,18 @@ a.chapter-row:hover {
 .about-social-grid {
   margin-top: 2rem;
 }
+
+.about-social-role {
+  margin-top: 0.8rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.about-social-bio {
+  margin-top: 1rem;
+  color: var(--ink-2);
+  line-height: 1.7;
+}
 .topic-catalog-link {
   min-height: 10rem;
   align-items: start;

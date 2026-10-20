@@ -55,6 +55,7 @@ jobs:
       - run: pnpm --filter @podcast/site test:admin:http
       - run: pnpm --filter @podcast/site test:public-routes
       - run: pnpm --filter @podcast/site exec playwright install --with-deps chromium
+      - run: pnpm --filter @podcast/site test:seo:e2e
       - run: pnpm --filter @podcast/site test:analytics:e2e
       - run: pnpm --filter @podcast/site test:news:e2e
       - run: pnpm --filter @podcast/site test:episode:e2e

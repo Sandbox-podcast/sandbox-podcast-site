@@ -1,5 +1,7 @@
 # Documentation
 
+Référencement de l’ensemble du site, 20 octobre : [audit des 569 URL publiques et correctifs globaux](site/seo-global-2026-10-20.md), avec les [guides de choix des skills](site/seo-skills-2026-10-20.md).
+
 Travail local restant après la PR 101 : [périmètre et vérifications](site/livraison-restant-local-2026-10-20.md).
 
 Cartes de découverte à onglet et dernières corrections de l’accueil : [DD-0071](design-decisions/DD-0071-cartes-exploration-a-onglet.md).

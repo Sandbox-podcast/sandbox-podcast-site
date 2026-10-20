@@ -4,15 +4,17 @@ import { pageMetadata } from '@/lib/seo';
 import { hasIndexableChartContent } from '@/domain/chart-seo';
 import { chartSelectionSchema, hasChartSelectionQuery } from '@/domain/chart-selection';
 import { GithubBurstPanel } from '@/components/github-burst-panel';
+import { chartMetadataCopy } from '@/domain/chart-seo-copy';
 export async function generateMetadata({
   searchParams = Promise.resolve({}),
+  locale = 'fr-FR',
 }: {
   searchParams?: Promise<Record<string, string | string[] | undefined>>;
+  locale?: string;
 }) {
   const data = await sandboxChartsData();
   return pageMetadata({
-    title: 'SANDBOX CHARTS | Rising 20',
-    description: 'Les projets open source qui accélèrent le plus dans nos mesures.',
+    ...chartMetadataCopy('rising', locale),
     path: '/charts/rising',
     ownImage: true,
     noindex:
