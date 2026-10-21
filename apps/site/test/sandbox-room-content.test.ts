@@ -88,7 +88,7 @@ describe('contenus des six salles', () => {
       }),
     );
     expect(html).toContain(`>${label}<`);
-    expect(html).toContain('href="https://www.youtube.com/@SandboxFR"');
+    expect(html).toContain('href="https://www.youtube.com/@SandboxFR?sub_confirmation=1"');
   });
 
   it('présente les deux replays disponibles sans compléter le mur avec de fausses affiches', () => {
