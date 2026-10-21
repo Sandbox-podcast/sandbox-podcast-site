@@ -593,7 +593,7 @@ export function SandboxRoomContent({
             rel="noopener noreferrer"
             data-studio-videos
             data-analytics-event="youtube_open"
-            data-analytics-location="home_studio"
+            data-analytics-placement="home"
           >
             <Text>Nos vidéos</Text>
             <span aria-hidden="true">↗</span>

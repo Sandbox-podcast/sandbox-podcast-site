@@ -254,10 +254,22 @@ try {
         });
         element.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
       });
-      await page.waitForFunction(
-        (eventName) => window.__qaGoogleEvents?.some((event) => event.name === eventName),
-        name,
-      );
+      try {
+        await page.waitForFunction(
+          (eventName) => window.__qaGoogleEvents?.some((event) => event.name === eventName),
+          name,
+        );
+      } catch (error) {
+        const state = await page.evaluate(() => ({
+          href: window.location.href,
+          events: window.__qaGoogleEvents,
+          loaded: window.__sandboxGoogleTagLoaded,
+        }));
+        throw new Error(
+          `Action Analytics absente : ${name} ${path} ${width}px ${JSON.stringify(state)}`,
+          { cause: error },
+        );
+      }
       checks.push(`${name} ${width}px`);
       if (delayedImage) {
         assert.equal(

@@ -1,3 +1,4 @@
+import { analyticsActionFromDataset } from '../src/domain/analytics-actions';
 import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it } from 'vitest';
@@ -58,6 +59,14 @@ describe('contenus des six salles', () => {
       /<a[^>]*href="https:\/\/www.youtube.com\/@SandboxFR"[^>]*target="_blank"[^>]*rel="noopener noreferrer"[^>]*data-studio-videos[^>]*>Nos vidéos/,
     );
     expect(html).toContain('data-analytics-event="youtube_open"');
+    const link = /<a[^>]*data-studio-videos[^>]*>/u.exec(html)?.[0] ?? '';
+    const action = analyticsActionFromDataset({
+      analyticsEvent: /data-analytics-event="([^"]+)"/u.exec(link)?.[1],
+      analyticsPlacement: /data-analytics-placement="([^"]+)"/u.exec(link)?.[1],
+    });
+    expect(action.success).toBe(true);
+    if (action.success) expect(action.data).toEqual({ name: 'youtube_open', placement: 'home' });
+
     expect(html).not.toContain('<button');
   });
 

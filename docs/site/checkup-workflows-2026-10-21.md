@@ -23,3 +23,9 @@ Les contrôles de sécurité, de publication et de fraîcheur restent actifs. Le
 L’API courante de Rising répond 202 avec un état pending, une liste vide et un message explicite sur les deux fenêtres de sept jours. Le contrôle rend cet état comme une attente, avec ok=false et pending=true pour la ligne Rising. L’agrégat de santé accepte cette seule attente connue si les autres éditions sont valides. Une absence de réponse, un échec, une liste incohérente ou un classement Skills périmé restent bloquants. Cette distinction corrige le signal d’exploitation ; elle ne publie aucune édition ni ne valide un historique manquant.
 
 Les journaux de reprise conservent désormais les détails des collecteurs et des gels, pour distinguer manque d’historique, accès source et panne réseau.
+
+## Échec Analytics révélé après les premiers contrôles
+
+La CI suivante franchit les anciens échecs et s’arrête sur le clic YouTube de l’accueil mobile. La reproduction locale confirme que le bouton « Nos vidéos » utilise data-analytics-location, alors que le schéma des événements exige data-analytics-placement. L’événement est donc rejeté avant envoi. Le bouton transmet désormais placement=home. Un test lit les attributs du lien rendu et les soumet au validateur d’événements ; la recette navigateur garde les contrôles du consentement et des services simulés.
+
+Le passage Charts 39606417107 réussit : les éditions GitHub, Skills et Models du créneau du 21 octobre à midi UTC sont publiées. Rising reste explicitement en attente d’historique, sans édition publiée.
