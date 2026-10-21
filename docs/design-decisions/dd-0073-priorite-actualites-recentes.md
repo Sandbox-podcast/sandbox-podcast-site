@@ -2,6 +2,8 @@
 
 Date : 21 octobre 2026. Décidée par l'agent sur délégation (PD-0003), après la demande de Lou de corriger et publier en production.
 
+Complément demandé par Lou : [DD-0074](dd-0074-volume-de-publication-news.md) précise qu'il faut publier tous les sujets admissibles, sans quota éditorial, et augmente le débit par des workers parallèles. La répartition de chaque lot ci-dessous organise la priorité ; elle ne limite pas le volume du fil.
+
 Le fil public reste au 19 octobre malgré les collectes horaires. Le passage terminé le 21 octobre à 09 h Paris traite vingt candidats, publie cinq fiches et laisse un arriéré de plus de cinq cents candidats. La sélection commence par les premières entrées enregistrées ; la date d'insertion d'une fiche ne garantit donc pas la fraîcheur de son article.
 
 Chaque réservation de cinq candidats prend désormais les quatre articles aux dates sources les plus récentes, puis une entrée de l'arriéré par ordre d'arrivée. Les places inutilisées sont remplies par l'arriéré. Les deux sélections restent dans la même transaction, avec verrouillage et exclusion des lignes réservées par les autres workers. L'ordre retourné conserve les nouveautés en premier. Les délais de reprise, les trois tentatives, la fenêtre de quatorze jours et les contrôles éditoriaux restent applicables. Aucune donnée n'est supprimée et aucune migration n'est nécessaire.

@@ -43,15 +43,42 @@ const summarySchema = z.object({
   ]),
 });
 const workerResponseSchema = z.object({
-  results: z.array(z.object({ url: z.url(), summary: z.unknown() })).max(20),
+  results: z
+    .array(
+      z.object({
+        url: z.url(),
+        summary: z.unknown(),
+        reason: z
+          .enum([
+            'missing_excerpt',
+            'insufficient_source_sentences',
+            'model_refused',
+            'invalid_summary',
+          ])
+          .optional(),
+      }),
+    )
+    .max(20),
 });
+
+export type NewsSkipReason =
+  | 'missing_excerpt'
+  | 'insufficient_source_sentences'
+  | 'model_refused'
+  | 'invalid_summary'
+  | 'translation_rejected';
+interface NewsSummaryResult {
+  url: string;
+  summary: unknown;
+  reason?: NewsSkipReason | undefined;
+}
 
 export type NewsSummaryInput = Pick<NewsItem, 'url' | 'headline' | 'project' | 'publishedAt'> & {
   sourceExcerpt: string;
 };
 export type NewsSummaryBatch = (
   items: readonly NewsSummaryInput[],
-) => Promise<readonly { url: string; summary: unknown }[]>;
+) => Promise<readonly NewsSummaryResult[]>;
 
 function workerPython(): string {
   const override = process.env['SANDBOX_NEWS_SUMMARY_PYTHON'];
@@ -76,7 +103,7 @@ function safeWorkerEnvironment(): NodeJS.ProcessEnv {
 function runLocalSummaryBatch(
   items: readonly NewsSummaryInput[],
   signal?: AbortSignal,
-): Promise<readonly { url: string; summary: unknown }[]> {
+): Promise<readonly NewsSummaryResult[]> {
   return new Promise((resolve, reject) => {
     if (signal?.aborted) {
       reject(new Error('Le budget du lot News est épuisé.'));
@@ -97,7 +124,7 @@ function runLocalSummaryBatch(
     let outputSize = 0;
     let errorSize = 0;
     let settled = false;
-    const finish = (error?: Error, value?: readonly { url: string; summary: unknown }[]) => {
+    const finish = (error?: Error, value?: readonly NewsSummaryResult[]) => {
       if (settled) return;
       settled = true;
       clearTimeout(timer);
@@ -230,6 +257,7 @@ export async function generateAndTranslateNews(
     translate?: NewsTranslationBatch;
     editorial?: Record<string, NewsEditorialRecord>;
     budgetMs?: number;
+    onSkipped?: (item: NewsItem, reason: NewsSkipReason) => void;
   } = {},
 ): Promise<{ items: NewsItem[]; generated: number; skipped: number }> {
   const budgetMs = options.budgetMs ?? 14 * 60_000;
@@ -256,10 +284,13 @@ export async function generateAndTranslateNews(
     : [];
   signal.throwIfAborted();
   const summariesByUrl = new Map(summaries.map((summary) => [summary.url, summary.summary]));
+  const reasons = new Map(summaries.map((summary) => [summary.url, summary.reason]));
   const generatedEditorial: Record<string, NewsEditorialRecord> = {};
   for (const item of eligible) {
     const summary = checkedSummary(summariesByUrl.get(item.url), item.sourceExcerpt);
     if (summary) generatedEditorial[item.url] = summary;
+    else if (!reasons.get(item.url))
+      reasons.set(item.url, summariesByUrl.get(item.url) ? 'invalid_summary' : 'model_refused');
   }
   const combinedEditorial = { ...editorial, ...generatedEditorial };
   const translatable = items
@@ -314,6 +345,15 @@ export async function generateAndTranslateNews(
     return newsItemSchema.parse(cleanItem);
   });
   const acceptedGenerated = clean.filter((item) => generatedEditorial[new URL(item.url).href]);
+  const accepted = new Set(clean.map((item) => item.url));
+  for (const item of unpublished) {
+    if (accepted.has(item.url)) continue;
+    const reason =
+      !item.sourceExcerpt || item.sourceExcerpt.trim().length < 240
+        ? 'missing_excerpt'
+        : (reasons.get(item.url) ?? 'translation_rejected');
+    options.onSkipped?.(item, reason);
+  }
   return {
     items: clean,
     generated: acceptedGenerated.length,

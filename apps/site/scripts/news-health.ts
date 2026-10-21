@@ -16,7 +16,13 @@ try {
     signal: AbortSignal.timeout(30_000),
   });
   const report = response.ok
-    ? verifyNewsHealth(await response.json())
+    ? verifyNewsHealth(
+        await response.json(),
+        new Date(),
+        process.env['SANDBOX_NEWS_PUBLICATION_SINCE'] === ''
+          ? undefined
+          : process.env['SANDBOX_NEWS_PUBLICATION_SINCE'],
+      )
     : { ok: false, reason: `Fil public HTTP ${response.status}.` };
   console.log(JSON.stringify(report, null, 2));
   if (!report.ok) process.exitCode = 1;

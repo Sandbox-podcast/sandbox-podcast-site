@@ -342,6 +342,11 @@ describe('sorties du précontrôle et sélection des workflows', () => {
     expect(news).toContain('- due');
     expect(news).toContain('group: news-refresh');
     expect(news).toContain("if: steps.preflight.outputs.collect-needed == 'true'");
-    expect(news.match(/if: steps.preflight.outputs.process-needed == 'true'/gu)).toHaveLength(5);
+    expect(news).toContain("if: steps.preflight.outputs.process-needed == 'true'");
+    expect(news).toContain('needs: collect');
+    expect(news).toContain('max-parallel: 8');
+    expect(news).toContain('fail-fast: false');
+    expect(news).toContain('needs: [collect, process]');
+    expect(news).toContain('node apps/site/scripts/news-worker-plan.ts');
   });
 });

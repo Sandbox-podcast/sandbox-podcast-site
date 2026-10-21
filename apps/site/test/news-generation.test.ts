@@ -4,6 +4,7 @@ import type { NewsItem } from '../src/domain/news-preview.ts';
 import {
   generateAndTranslateNews,
   type NewsSummaryInput,
+  type NewsSkipReason,
 } from '../src/pipeline/news-generation.ts';
 
 const evidence = [
@@ -262,14 +263,32 @@ describe('génération et traduction des nouvelles fiches', () => {
       texts.map((text) => `${locale}: ${text}`),
     );
 
-    const invalidEvidence = await generateAndTranslateNews([candidate], { summarize, translate });
-    const repeatedEvidence = await generateAndTranslateNews([candidate], { summarize, translate });
-    const noExcerpt = await generateAndTranslateNews([article(1, false)], { summarize, translate });
+    const onSkipped = vi.fn<(item: NewsItem, reason: NewsSkipReason) => void>();
+    const invalidEvidence = await generateAndTranslateNews([candidate], {
+      summarize,
+      translate,
+      onSkipped,
+    });
+    const repeatedEvidence = await generateAndTranslateNews([candidate], {
+      summarize,
+      translate,
+      onSkipped,
+    });
+    const noExcerpt = await generateAndTranslateNews([article(1, false)], {
+      summarize,
+      translate,
+      onSkipped,
+    });
 
     expect(invalidEvidence).toEqual({ items: [], generated: 0, skipped: 1 });
     expect(repeatedEvidence).toEqual({ items: [], generated: 0, skipped: 1 });
     expect(noExcerpt).toEqual({ items: [], generated: 0, skipped: 1 });
     expect(summarize).toHaveBeenCalledTimes(2);
     expect(translate).not.toHaveBeenCalled();
+    expect(onSkipped.mock.calls.map((call) => call[1])).toEqual([
+      'invalid_summary',
+      'invalid_summary',
+      'missing_excerpt',
+    ]);
   });
 });

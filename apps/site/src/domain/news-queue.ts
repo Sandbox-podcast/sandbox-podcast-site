@@ -48,6 +48,7 @@ export const newsPendingSchema = z
     backlog: z
       .object({
         pending: z.number().int().nonnegative(),
+        ready: z.number().int().nonnegative().optional(),
         oldestPendingAt: z.iso.datetime().nullable(),
       })
       .optional(),

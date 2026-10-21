@@ -81,7 +81,7 @@ def source_evidence(excerpt: str) -> list[str]:
     selected = []
     for sentence in sentences:
         text = sentence.strip()
-        if 30 <= len(text) <= 240 and text.endswith((".", "!", "?")) and not re.search(r"\b[A-Z]\.$", text) and text not in selected:
+        if 30 <= len(text) <= 320 and text.endswith((".", "!", "?")) and not re.search(r"\b[A-Z]\.$", text) and text not in selected:
             selected.append(text)
         if len(selected) == 3:
             break
@@ -94,10 +94,10 @@ def generate(llm: Any, item: dict[str, Any]) -> dict[str, Any]:
     headline = clean_input(item.get("headline"), 500)
     source = clean_input(item.get("project"), 100)
     if not url or len(excerpt) < 240 or not headline or not source:
-        return {"url": url, "summary": None}
+        return {"url": url, "summary": None, "reason": "missing_excerpt"}
     quotes = source_evidence(excerpt)
     if len(quotes) != 3:
-        return {"url": url, "summary": None}
+        return {"url": url, "summary": None, "reason": "insufficient_source_sentences"}
     schema = deepcopy(SUMMARY_SCHEMA)
     schema["oneOf"][1]["properties"]["evidence"] = {"const": quotes}
 
@@ -133,7 +133,7 @@ distincts de l'extrait, un pour chaque phrase. Si les faits ne suffisent pas, in
     content = response["choices"][0]["message"]["content"]
     parsed = json.loads(content)
     if not isinstance(parsed, dict) or parsed.get("publish") is not True:
-        return {"url": url, "summary": None}
+        return {"url": url, "summary": None, "reason": "model_refused"}
     editorial = {key: parsed.get(key) for key in ("title", "sentences", "category", "evidence")}
     return {"url": url, "summary": editorial}
 
@@ -156,7 +156,7 @@ def main() -> None:
             results.append(generate(llm, item))
         except (KeyError, TypeError, ValueError, json.JSONDecodeError):
             url = clean_input(item.get("url"), 2048)
-            results.append({"url": url, "summary": None})
+            results.append({"url": url, "summary": None, "reason": "invalid_summary"})
     sys.stdout.buffer.write(json.dumps({"results": results}, ensure_ascii=False).encode("utf-8"))
 
 

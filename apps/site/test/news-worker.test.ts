@@ -1,7 +1,20 @@
 import { describe, expect, it, vi } from 'vitest';
-import { drainNewsQueue } from '../src/domain/news-worker';
+import { drainNewsQueue, planNewsWorkers } from '../src/domain/news-worker';
 
 describe('traitement horaire News', () => {
+  it('dimensionne le parallélisme sans lancer de modèles pour les reprises différées', () => {
+    expect(planNewsWorkers({ pending: 500, ready: 0 })).toEqual({
+      count: 0,
+      matrix: { worker: [] },
+    });
+    expect(planNewsWorkers({ pending: 500, ready: 21 })).toEqual({
+      count: 2,
+      matrix: { worker: [1, 2] },
+    });
+    expect(planNewsWorkers({ pending: 500, ready: 500 }).count).toBe(8);
+    expect(planNewsWorkers({ pending: 1 }).count).toBe(1);
+    expect(() => planNewsWorkers({ pending: -1 })).toThrow();
+  });
   it('poursuit au-delà du premier lot et traverse un lot entièrement rejeté', async () => {
     const batch = vi
       .fn()

@@ -96,7 +96,11 @@ async function processPending(): Promise<{
       item.sourceExcerpt ? [[item.url, newsSourceExcerptHash(item.sourceExcerpt)] as const] : [],
     ),
   );
-  const generated = await generateAndTranslateNews(pending.items);
+  const generated = await generateAndTranslateNews(pending.items, {
+    onSkipped: (item, reason) => {
+      console.log(JSON.stringify({ phase: 'rejected', url: item.url, reason }));
+    },
+  });
   let inserted = 0;
   for (const items of newsRequestBatches(generated.items)) {
     const payload = newsPublicationFromQueue(
@@ -145,7 +149,10 @@ async function main() {
     console.log(JSON.stringify({ phase: 'drain', ...report }));
     if (
       report.failures ||
-      (report.candidates > 0 && report.published === 0 && report.skipped === report.candidates)
+      (process.env['SANDBOX_NEWS_PARALLEL_WORKER'] !== '1' &&
+        report.candidates > 0 &&
+        report.published === 0 &&
+        report.skipped === report.candidates)
     )
       throw new Error('Le traitement News comporte des échecs ou aucun candidat accepté.');
   }

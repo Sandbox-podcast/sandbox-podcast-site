@@ -1,3 +1,11 @@
+/** Le parallélisme suit la file ; il ne limite pas le nombre d'articles publiables. */
+export function planNewsWorkers(backlog: { pending: number; ready?: number | undefined }) {
+  const ready = backlog.ready ?? backlog.pending;
+  if (!Number.isSafeInteger(ready) || ready < 0) throw new Error('Volume News invalide.');
+  const count = Math.min(8, Math.ceil(ready / 20));
+  return { count, matrix: { worker: Array.from({ length: count }, (_, index) => index + 1) } };
+}
+
 /** Vide plusieurs lots sans dépasser la durée réservée au traitement horaire. */
 export async function drainNewsQueue(
   processBatch: () => Promise<{ candidates: number; published: number; skipped: number }>,

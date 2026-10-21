@@ -25,10 +25,14 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  refresh:
+  collect:
     if: github.ref == 'refs/heads/main' && vars.SANDBOX_NEWS_PUBLIC == 'true'
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 20
+    outputs:
+      workers: ${{ steps.workers.outputs.workers }}
+      worker-count: ${{ steps.workers.outputs.worker-count || '0' }}
+      processing-started-at: ${{ steps.workers.outputs.processing-started-at }}
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
@@ -52,13 +56,46 @@ jobs:
           AUTOMATION_MODE: ${{ github.event_name == 'workflow_dispatch' && (inputs.mode || 'refresh') || 'due' }}
         run: node apps/site/scripts/automation-workflow-preflight.ts news
 
-      - uses: actions/setup-python@v7
+      - name: Collecter toutes les sources et conserver les candidats en base
+        if: steps.preflight.outputs.collect-needed == 'true'
+        env:
+          SANDBOX_NEWS_ORIGIN: ${{ vars.SANDBOX_CHARTS_ORIGIN || 'https://www.sandboxpodcast.fr' }}
+          CRON_SECRET: ${{ secrets.SANDBOX_CHARTS_CRON_SECRET }}
+        run: pnpm --filter @podcast/site news:automation:refresh --collect-only
+
+      - name: Dimensionner le traitement selon les candidats prêts
+        id: workers
         if: steps.preflight.outputs.process-needed == 'true'
+        env:
+          SANDBOX_NEWS_ORIGIN: ${{ vars.SANDBOX_CHARTS_ORIGIN || 'https://www.sandboxpodcast.fr' }}
+          CRON_SECRET: ${{ secrets.SANDBOX_CHARTS_CRON_SECRET }}
+        run: node apps/site/scripts/news-worker-plan.ts
+
+  process:
+    needs: collect
+    if: needs.collect.outputs.worker-count != '0'
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix: ${{ fromJSON(needs.collect.outputs.workers || '{"worker":[1]}') }}
+    name: Rédaction News ${{ matrix.worker }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.11'
-
       - name: Restaurer les modèles locaux
-        if: steps.preflight.outputs.process-needed == 'true'
         uses: actions/cache@v4
         with:
           path: |
@@ -69,35 +106,40 @@ jobs:
             apps/site/.local/news-translator-venv
             apps/site/.local/argos-runtime
           key: sandbox-news-v3-ubuntu-py311-argos111-qwen3instruct-a06e946
-
-      - name: Collecter toutes les sources et conserver les candidats en base
-        if: steps.preflight.outputs.collect-needed == 'true'
-        env:
-          SANDBOX_NEWS_ORIGIN: ${{ vars.SANDBOX_CHARTS_ORIGIN || 'https://www.sandboxpodcast.fr' }}
-          CRON_SECRET: ${{ secrets.SANDBOX_CHARTS_CRON_SECRET }}
-        run: pnpm --filter @podcast/site news:automation:refresh --collect-only
-
       - name: Installer les modèles de traduction locaux
-        if: steps.preflight.outputs.process-needed == 'true'
         env:
           SANDBOX_NEWS_SETUP_PYTHON: python
         run: pnpm --filter @podcast/site news:translator:setup
 
       - name: Installer le modèle de résumé local
-        if: steps.preflight.outputs.process-needed == 'true'
         env:
           SANDBOX_NEWS_SUMMARY_SETUP_PYTHON: python
         run: pnpm --filter @podcast/site news:summarizer:setup
 
       - name: Générer, traduire et publier le prochain lot de la file
-        if: steps.preflight.outputs.process-needed == 'true'
         env:
+          SANDBOX_NEWS_PARALLEL_WORKER: '1'
           SANDBOX_NEWS_ORIGIN: ${{ vars.SANDBOX_CHARTS_ORIGIN || 'https://www.sandboxpodcast.fr' }}
           CRON_SECRET: ${{ secrets.SANDBOX_CHARTS_CRON_SECRET }}
         run: pnpm --filter @podcast/site news:automation:refresh --process-only
 
+  health:
+    needs: [collect, process]
+    if: ${{ !cancelled() && github.ref == 'refs/heads/main' && vars.SANDBOX_NEWS_PUBLIC == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
       - name: Vérifier la fraîcheur du fil public
-        if: ${{ !cancelled() }}
         env:
+          SANDBOX_NEWS_PUBLICATION_SINCE: ${{ needs.collect.outputs.worker-count != '0' && needs.collect.outputs.processing-started-at || '' }}
           SANDBOX_NEWS_ORIGIN: ${{ vars.SANDBOX_CHARTS_ORIGIN || 'https://www.sandboxpodcast.fr' }}
         run: node apps/site/scripts/news-health.ts

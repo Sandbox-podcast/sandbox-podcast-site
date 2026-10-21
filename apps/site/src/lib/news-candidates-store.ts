@@ -79,15 +79,23 @@ export async function readPendingNewsCandidates(): Promise<NewsCandidate[]> {
 
 export async function readNewsBacklog() {
   if (!hasDatabaseConfiguration()) throw new Error('Stockage News absent.');
+  const now = new Date().toISOString();
   const [row] = await getDb()
     .select({
       pending: sql<number>`count(*)::int`,
+      ready: sql<number>`count(*) filter (where
+        ${newsCandidates.nextAttemptAt} <= ${now}
+        and (${newsCandidates.leaseExpiresAt} is null or ${newsCandidates.leaseExpiresAt} <= ${now})
+        and (${newsCandidates.payload}->>'publishedAt') >= ${new Date(Date.now() - 14 * 86_400_000).toISOString()}
+        and not exists (select 1 from ${newsItems} where ${newsItems.canonicalUrl} = ${newsCandidates.canonicalUrl})
+      )::int`,
       oldestPendingAt: sql<string | null>`min(${newsCandidates.createdAt})`,
     })
     .from(newsCandidates)
     .where(and(eq(newsCandidates.status, 'pending'), lt(newsCandidates.attempts, 3)));
   return {
     pending: row?.pending ?? 0,
+    ready: row?.ready ?? 0,
     oldestPendingAt: row?.oldestPendingAt ? new Date(row.oldestPendingAt).toISOString() : null,
   };
 }

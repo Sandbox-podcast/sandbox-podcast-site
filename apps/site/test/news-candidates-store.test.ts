@@ -15,6 +15,7 @@ import {
   readPendingNewsCandidates,
   completeNewsCandidates,
   claimNewsCandidates,
+  readNewsBacklog,
 } from '../src/lib/news-candidates-store';
 
 function candidate(index = 0) {
@@ -52,6 +53,28 @@ afterAll(async () => {
 });
 
 describe('file News durable', () => {
+  it('alimente huit workers concurrents sans réserver deux fois le même article', async () => {
+    await enqueueNewsCandidates(Array.from({ length: 40 }, (_, index) => candidate(index)));
+    const batches = await Promise.all(Array.from({ length: 8 }, () => claimNewsCandidates()));
+    expect(batches.every((batch) => batch.items.length === 5)).toBe(true);
+    expect(new Set(batches.flatMap((batch) => batch.items.map((item) => item.url))).size).toBe(40);
+    expect(new Set(batches.map((batch) => batch.leaseId)).size).toBe(8);
+    expect(await readNewsBacklog()).toMatchObject({ pending: 40, ready: 0 });
+  });
+  it('compte les candidats immédiatement traitables sans confondre attente et réservation', async () => {
+    await enqueueNewsCandidates(Array.from({ length: 9 }, (_, index) => candidate(index)));
+    expect(await readNewsBacklog()).toMatchObject({ pending: 9, ready: 9 });
+    const claimed = await claimNewsCandidates();
+    expect(await readNewsBacklog()).toMatchObject({ pending: 9, ready: 4 });
+    await completeNewsCandidates(
+      [],
+      claimed.items.map((item) => item.url),
+      claimed.leaseId,
+    );
+    expect(await readNewsBacklog()).toMatchObject({ pending: 9, ready: 4 });
+    await db.update(schema.newsCandidates).set({ attempts: 3 });
+    expect(await readNewsBacklog()).toMatchObject({ pending: 0, ready: 0 });
+  });
   it('publie quatre articles récents avant une entrée de l’arriéré, même après une collecte massive', async () => {
     const now = Date.now();
     const items = Array.from({ length: 9 }, (_, index) => ({

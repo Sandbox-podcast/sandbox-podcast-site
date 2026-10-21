@@ -8,6 +8,13 @@ SPEC.loader.exec_module(SUMMARY)
 
 
 class SummaryContractTests(unittest.TestCase):
+    def test_keeps_source_sentences_above_old_240_character_limit(self):
+        long_fact = "The laboratory published a model " + "with documented capabilities " * 8 + "for developers."
+        self.assertGreater(len(long_fact), 240)
+        self.assertLessEqual(len(long_fact), 320)
+        source = long_fact + " The release includes weights under an open licence for independent inspection. Independent experimental validation remains necessary before clinical use."
+        self.assertEqual(SUMMARY.source_evidence(source)[0], long_fact)
+
     def test_skips_author_initials_and_keeps_exact_source_sentences(self):
         facts = [
             "The laboratory published a new model for analysing protein structures.",
@@ -23,7 +30,9 @@ class SummaryContractTests(unittest.TestCase):
             def create_chat_completion(self, **_kwargs):
                 raise AssertionError("Le modèle ne doit pas être appelé")
         item = {"url": "https://example.test/story", "headline": "Article public", "project": "Source", "sourceExcerpt": "A single incomplete public excerpt " * 20}
-        self.assertIsNone(SUMMARY.generate(UnusedModel(), item)["summary"])
+        result = SUMMARY.generate(UnusedModel(), item)
+        self.assertIsNone(result["summary"])
+        self.assertEqual(result["reason"], "insufficient_source_sentences")
 
     def test_constrains_evidence_to_source_passages_and_allows_refusal(self):
         class ObservedModel:

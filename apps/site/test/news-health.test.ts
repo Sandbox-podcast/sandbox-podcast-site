@@ -20,6 +20,19 @@ const feed = {
   ],
 };
 describe('fraîcheur News publique', () => {
+  it('exige une insertion confirmée pendant le cycle quand des workers ont été lancés', () => {
+    const since = '2026-10-19T11:00:00Z';
+    expect(verifyNewsHealth(feed, now, since).ok).toBe(false);
+    expect(
+      verifyNewsHealth({ ...feed, lastPublishedAt: '2026-10-19T10:59:59Z' }, now, since).ok,
+    ).toBe(false);
+    expect(
+      verifyNewsHealth({ ...feed, lastPublishedAt: '2026-10-19T11:01:00Z' }, now, since).ok,
+    ).toBe(true);
+    expect(
+      verifyNewsHealth({ ...feed, lastPublishedAt: now.toISOString() }, now, 'invalid').ok,
+    ).toBe(false);
+  });
   it('conserve un planning horaire, son activation explicite et des passages sans annulation', async () => {
     const workflow = await readFile(
       new URL('../../../.github/workflows/news-refresh.yml', import.meta.url),
