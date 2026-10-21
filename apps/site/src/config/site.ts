@@ -6,7 +6,7 @@ export type DataMode = 'mock' | 'live';
 
 const dataMode: DataMode = process.env['SITE_DATA_MODE'] === 'live' ? 'live' : 'mock';
 const PUBLIC_SITE_URL = 'https://www.sandboxpodcast.fr';
-const OFFICIAL_YOUTUBE_CHANNEL = 'https://www.youtube.com/@SandboxFR';
+const OFFICIAL_YOUTUBE_CHANNEL = 'https://www.youtube.com/@SandboxFR?sub_confirmation=1';
 const defaultSiteSettings = siteSettingsSchema.parse(siteSettingsSource);
 let activeSiteSettings: SiteSettings = defaultSiteSettings;
 
@@ -36,7 +36,11 @@ export function canonicalSiteUrl(explicit?: string, vercelProductionDomain?: str
 /** Une URL YouTube générique issue d'anciens réglages ne doit pas remplacer la chaîne du site. */
 export function youtubeChannelUrl(configured: string): string {
   const url = new URL(configured);
-  return /^(www\.|m\.)?youtube\.com$/i.test(url.hostname) && url.pathname === '/'
+  const isYouTubeHost = /^(www\.|m\.)?youtube\.com$/i.test(url.hostname);
+  const pathname = url.pathname.replace(/\/+$/, '') || '/';
+  const isGenericChannel = pathname === '/';
+  const isOfficialChannel = pathname.toLowerCase() === '/@sandboxfr';
+  return isYouTubeHost && (isGenericChannel || isOfficialChannel)
     ? OFFICIAL_YOUTUBE_CHANNEL
     : configured;
 }
