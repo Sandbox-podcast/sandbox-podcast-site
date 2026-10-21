@@ -1,6 +1,6 @@
 import type { PersonalProject } from './personal-projects';
 import { VIDEO_CLUB_BAYS } from './video-club';
-import { HOME_PROJECT_ARTWORK } from './home-project-artwork';
+import { vhsProjectArtwork } from './vhs-project-artwork';
 
 export const STUDIO_PORTAL_DURATION_MS = 720;
 
@@ -22,9 +22,7 @@ export function portalProjects(projects: readonly PersonalProject[]) {
         slug: project.slug,
         name: project.name,
         color: project.color,
-        image:
-          HOME_PROJECT_ARTWORK[project.slug] ??
-          (project.cover ?? project.images[0] ?? project.icon)?.src,
+        image: vhsProjectArtwork(project),
       })),
   );
 }

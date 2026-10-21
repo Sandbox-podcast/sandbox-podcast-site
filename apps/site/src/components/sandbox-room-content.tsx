@@ -6,8 +6,8 @@ import { useEffect, useId, useRef, useState, type CSSProperties } from 'react';
 import { localizedHref } from '@/i18n/routing';
 import { siteConfig } from '@/config/site';
 import { latestVideoEpisode } from '@/domain/home-discovery';
-import { HOME_PROJECT_ARTWORK } from '@/domain/home-project-artwork';
-import { VHS_PROJECT_ARTWORK } from '@/domain/vhs-project-artwork';
+import { vhsProjectArtwork } from '@/domain/vhs-project-artwork';
+import { videoClubTapeSlot } from '@/domain/video-club';
 import {
   PROJECT_CREATORS,
   type PersonalProject,
@@ -332,19 +332,15 @@ function ProjectBay({
       <h3 className={styles['bayName']}>{PROJECT_CREATORS[creator].name}</h3>
       <ul id={listId}>
         {page.items.map((project, slot) => {
-          const artwork =
-            VHS_PROJECT_ARTWORK[project.slug] ??
-            HOME_PROJECT_ARTWORK[project.slug] ??
-            project.cover?.src ??
-            project.images[0]?.src ??
-            project.icon?.src;
+          const artwork = vhsProjectArtwork(project);
+          const position = videoClubTapeSlot(bayIndex, slot);
           return (
             <li
               key={project.slug}
               style={
                 {
-                  '--tape-x': `${21 + bayIndex * 23 + (slot % 3) * 6}%`,
-                  '--tape-y': `${[43.5, 55, 66][Math.floor(slot / 3)]}%`,
+                  '--tape-x': `${position.x * 100}%`,
+                  '--tape-y': `${position.y * 100}%`,
                 } as CSSProperties
               }
             >

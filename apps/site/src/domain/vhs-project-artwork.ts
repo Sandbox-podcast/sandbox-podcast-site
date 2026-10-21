@@ -1,3 +1,6 @@
+import type { PersonalProject } from './personal-projects';
+import { HOME_PROJECT_ARTWORK } from './home-project-artwork';
+
 /** Illustrations éditoriales des jaquettes VHS ; les médias produit restent dans le catalogue. */
 export const VHS_PROJECT_ARTWORK: Readonly<Partial<Record<string, string>>> = {
   sillage: '/images/vhs-projects/sillage-v1.webp',
@@ -35,3 +38,14 @@ export const VHS_PROJECT_ARTWORK: Readonly<Partial<Record<string, string>>> = {
   'rust-commander': '/images/vhs-projects/rust-commander-v1.webp',
   chromehue: '/images/vhs-projects/chromehue-v1.webp',
 };
+
+/** Même jaquette dans la salle, le portail et le catalogue du vidéoclub. */
+export function vhsProjectArtwork(project: PersonalProject) {
+  return (
+    VHS_PROJECT_ARTWORK[project.slug] ??
+    HOME_PROJECT_ARTWORK[project.slug] ??
+    project.cover?.src ??
+    project.images[0]?.src ??
+    project.icon?.src
+  );
+}

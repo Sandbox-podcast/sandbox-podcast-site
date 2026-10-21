@@ -18,16 +18,12 @@ import {
   videoClubShelves,
 } from '@/domain/video-club';
 import { VideoClubDossier } from './video-club-dossier';
-import { VHS_PROJECT_ARTWORK } from '@/domain/vhs-project-artwork';
+import { vhsProjectArtwork } from '@/domain/vhs-project-artwork';
 import { LocalizedElement, Text } from './localization';
 import styles from './video-club.module.css';
 
 function TapeArtwork({ project, number }: { project: PersonalProject; number: number }) {
-  const artwork =
-    VHS_PROJECT_ARTWORK[project.slug] ??
-    project.cover?.src ??
-    project.images[0]?.src ??
-    project.icon?.src;
+  const artwork = vhsProjectArtwork(project);
   return (
     <span
       className={styles['tapeArtwork']}
