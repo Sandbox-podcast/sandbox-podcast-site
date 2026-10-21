@@ -1,5 +1,5 @@
 import { randomUUID } from 'node:crypto';
-import { and, asc, eq, inArray, isNull, lt, lte, or, sql } from 'drizzle-orm';
+import { and, asc, desc, eq, inArray, notInArray, isNull, lt, lte, or, sql } from 'drizzle-orm';
 import { getDb, hasDatabaseConfiguration } from '@/db/client';
 import { newsCandidates, newsItems } from '@/db/schema';
 import {
@@ -68,7 +68,11 @@ export async function readPendingNewsCandidates(): Promise<NewsCandidate[]> {
         isNull(newsItems.id),
       ),
     )
-    .orderBy(asc(newsCandidates.createdAt), asc(newsCandidates.canonicalUrl))
+    .orderBy(
+      desc(sql`(${newsCandidates.payload}->>'publishedAt')::timestamptz`),
+      asc(newsCandidates.createdAt),
+      asc(newsCandidates.canonicalUrl),
+    )
     .limit(NEWS_PROCESSING_BATCH_SIZE);
   return rows.map((row) => newsCandidateSchema.parse(row.payload));
 }
@@ -113,25 +117,48 @@ export async function claimNewsCandidates(): Promise<{ leaseId: string; items: N
           or(isNull(newsCandidates.leaseExpiresAt), lte(newsCandidates.leaseExpiresAt, now)),
         ),
       );
-    const selected = await tx
+    const eligible = and(
+      eq(newsCandidates.status, 'pending'),
+      lt(newsCandidates.attempts, 3),
+      lte(newsCandidates.nextAttemptAt, now),
+      or(isNull(newsCandidates.leaseExpiresAt), lte(newsCandidates.leaseExpiresAt, now)),
+      sql`(${newsCandidates.payload}->>'publishedAt') >= ${new Date(Date.now() - 14 * 86_400_000).toISOString()}`,
+      isNull(newsItems.id),
+    );
+    // Quatre nouveautés, puis une place réservée au rattrapage de l'historique.
+    const recent = await tx
+      .select({ url: newsCandidates.canonicalUrl })
+      .from(newsCandidates)
+      .leftJoin(newsItems, eq(newsCandidates.canonicalUrl, newsItems.canonicalUrl))
+      .where(eligible)
+      .orderBy(
+        desc(sql`(${newsCandidates.payload}->>'publishedAt')::timestamptz`),
+        asc(newsCandidates.createdAt),
+        asc(newsCandidates.canonicalUrl),
+      )
+      .limit(NEWS_GENERATION_BATCH_SIZE - 1)
+      .for('update', { of: newsCandidates, skipLocked: true });
+    const backlog = await tx
       .select({ url: newsCandidates.canonicalUrl })
       .from(newsCandidates)
       .leftJoin(newsItems, eq(newsCandidates.canonicalUrl, newsItems.canonicalUrl))
       .where(
         and(
-          eq(newsCandidates.status, 'pending'),
-          lt(newsCandidates.attempts, 3),
-          lte(newsCandidates.nextAttemptAt, now),
-          or(isNull(newsCandidates.leaseExpiresAt), lte(newsCandidates.leaseExpiresAt, now)),
-          sql`(${newsCandidates.payload}->>'publishedAt') >= ${new Date(Date.now() - 14 * 86_400_000).toISOString()}`,
-          isNull(newsItems.id),
+          eligible,
+          recent.length
+            ? notInArray(
+                newsCandidates.canonicalUrl,
+                recent.map((row) => row.url),
+              )
+            : undefined,
         ),
       )
       .orderBy(asc(newsCandidates.createdAt), asc(newsCandidates.canonicalUrl))
-      .limit(NEWS_GENERATION_BATCH_SIZE)
+      .limit(NEWS_GENERATION_BATCH_SIZE - recent.length)
       .for('update', { of: newsCandidates, skipLocked: true });
+    const selected = [...recent, ...backlog];
     if (!selected.length) return [];
-    return tx
+    const claimed = await tx
       .update(newsCandidates)
       .set({
         leaseId,
@@ -146,6 +173,11 @@ export async function claimNewsCandidates(): Promise<{ leaseId: string; items: N
         ),
       )
       .returning({ payload: newsCandidates.payload });
+    const positions = new Map(selected.map((row, index) => [row.url, index]));
+    return claimed.sort(
+      (left, right) =>
+        (positions.get(left.payload.url) ?? 0) - (positions.get(right.payload.url) ?? 0),
+    );
   });
   return { leaseId, items: items.map((row) => newsCandidateSchema.parse(row.payload)) };
 }

@@ -52,6 +52,40 @@ afterAll(async () => {
 });
 
 describe('file News durable', () => {
+  it('publie quatre articles récents avant une entrée de l’arriéré, même après une collecte massive', async () => {
+    const now = Date.now();
+    const items = Array.from({ length: 9 }, (_, index) => ({
+      ...candidate(index),
+      publishedAt: new Date(now - (9 - index) * 3_600_000).toISOString(),
+    }));
+    await enqueueNewsCandidates(items);
+    await db
+      .update(schema.newsCandidates)
+      .set({ createdAt: new Date(now - 1000).toISOString() })
+      .where(eq(schema.newsCandidates.canonicalUrl, candidate(0).url));
+    expect((await readPendingNewsCandidates()).map((item) => item.url)).toEqual(
+      [...items].reverse().map((item) => item.url),
+    );
+    const first = await claimNewsCandidates();
+    expect(first.items.map((item) => item.url)).toEqual(
+      [8, 7, 6, 5, 0].map((index) => candidate(index).url),
+    );
+    const second = await claimNewsCandidates();
+    expect(second.items.map((item) => item.url)).toEqual(
+      [4, 3, 2, 1].map((index) => candidate(index).url),
+    );
+    expect((await claimNewsCandidates()).items).toHaveLength(0);
+  });
+  it('compare les dates sources plutôt que leur format texte ou la date d’arrivée', async () => {
+    const today = new Date().toISOString().slice(0, 10);
+    const dated = { ...candidate(0), publishedAt: today };
+    const timed = { ...candidate(1), publishedAt: `${today}T00:00:01Z` };
+    await enqueueNewsCandidates([dated, timed]);
+    expect((await claimNewsCandidates()).items.map((item) => item.url)).toEqual([
+      timed.url,
+      dated.url,
+    ]);
+  });
   it('conserve toutes les nouveautés et les traite par lots sans doublon', async () => {
     const items = Array.from({ length: 45 }, (_, index) => candidate(index));
     expect(await enqueueNewsCandidates(items)).toBe(45);

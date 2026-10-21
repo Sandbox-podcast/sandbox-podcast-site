@@ -15,5 +15,21 @@ export function verifyNewsHealth(value: unknown, now = new Date()) {
     return { ok: false, reason: 'Aucune source News lisible.', checkedAt: feed.checkedAt };
   if (!feed.items.length)
     return { ok: false, reason: 'Aucun article publié.', checkedAt: feed.checkedAt };
-  return { ok: true, reason: 'Collecte récente et fil public lisible.', checkedAt: feed.checkedAt };
+  const latestArticleAt = new Date(
+    Math.max(...feed.items.map((item) => Date.parse(item.publishedAt))),
+  ).toISOString();
+  const articleAge = now.getTime() - Date.parse(latestArticleAt);
+  if (articleAge < -300_000 || articleAge > 36 * 3_600_000)
+    return {
+      ok: false,
+      reason: 'Dernier article daté de plus de 36 heures ou dans le futur.',
+      checkedAt: feed.checkedAt,
+      latestArticleAt,
+    };
+  return {
+    ok: true,
+    reason: 'Collecte récente et article de moins de 36 heures publié.',
+    checkedAt: feed.checkedAt,
+    latestArticleAt,
+  };
 }

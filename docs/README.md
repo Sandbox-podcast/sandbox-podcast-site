@@ -1,5 +1,7 @@
 # Documentation
 
+Actualités récentes, 21 octobre : [DD-0073](design-decisions/dd-0073-priorite-actualites-recentes.md) donne quatre places sur cinq aux articles récents, conserve une place de rattrapage et contrôle l'âge du dernier article publié.
+
 Jaquettes du vidéoclub et retrait de MindOdyssey : [catalogue des projets](site/nos-projets.md#jaquettes-illustrées-du-20-octobre-2026), avec les [33 prompts et fichiers générés](site/vhs-project-artwork-2026-10-20.json).
 
 Référencement de l’ensemble du site, 20 octobre : [audit des 569 URL publiques et correctifs globaux](site/seo-global-2026-10-20.md), avec les [guides de choix des skills](site/seo-skills-2026-10-20.md).

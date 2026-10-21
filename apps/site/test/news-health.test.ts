@@ -61,4 +61,35 @@ describe('fraîcheur News publique', () => {
       false,
     );
   });
+  it('signale un fil ancien même après une collecte et une insertion récentes', () => {
+    const value = {
+      ...feed,
+      lastPublishedAt: now.toISOString(),
+      items: [{ ...feed.items[0], publishedAt: '2026-10-17T12:00:00Z' }],
+    };
+    expect(verifyNewsHealth(value, now)).toMatchObject({
+      ok: false,
+      latestArticleAt: '2026-10-17T12:00:00.000Z',
+    });
+  });
+  it('accepte la limite de 36 heures et refuse son dépassement et les dates futures', () => {
+    const value = (date: string) => ({ ...feed, items: [{ ...feed.items[0], publishedAt: date }] });
+    expect(verifyNewsHealth(value('2026-10-18T00:00:00Z'), now).ok).toBe(true);
+    expect(verifyNewsHealth(value('2026-10-17T23:59:59Z'), now).ok).toBe(false);
+    expect(verifyNewsHealth(value('2026-10-19T12:06:00Z'), now).ok).toBe(false);
+  });
+  it('cherche le dernier article dans tout le lot sans dépendre de son ordre', () => {
+    expect(
+      verifyNewsHealth(
+        {
+          ...feed,
+          items: [
+            { ...feed.items[0], publishedAt: '2026-10-17T12:00:00Z' },
+            { ...feed.items[0], id: 'rundown:recent', publishedAt: '2026-10-19T11:00:00Z' },
+          ],
+        },
+        now,
+      ),
+    ).toMatchObject({ ok: true, latestArticleAt: '2026-10-19T11:00:00.000Z' });
+  });
 });
