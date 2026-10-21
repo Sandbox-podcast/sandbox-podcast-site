@@ -25,7 +25,7 @@ class SummaryContractTests(unittest.TestCase):
         self.assertEqual(SUMMARY.source_evidence(source), facts)
         self.assertTrue(all(fact in source for fact in SUMMARY.source_evidence(source)))
 
-    def test_does_not_generate_without_three_complete_passages(self):
+    def test_does_not_generate_without_a_complete_passage(self):
         class UnusedModel:
             def create_chat_completion(self, **_kwargs):
                 raise AssertionError("Le modèle ne doit pas être appelé")
@@ -46,6 +46,21 @@ class SummaryContractTests(unittest.TestCase):
         self.assertIsNone(result["summary"])
         proof = model.captured["response_format"]["schema"]["oneOf"][1]["properties"]["evidence"]["const"]
         self.assertEqual(proof, SUMMARY.source_evidence(excerpt))
+
+    def test_accepts_one_or_two_complete_source_passages(self):
+        class Model:
+            def create_chat_completion(self, **kwargs):
+                self.schema = kwargs["response_format"]["schema"]
+                return {"choices": [{"message": {"content": '{"publish":false}'}}]}
+        facts = ["The laboratory released a new open model.", "The weights use the Apache 2.0 licence."]
+        for count in (1, 2):
+            with self.subTest(count=count):
+                model = Model()
+                SUMMARY.generate(model, {"url": "https://example.test/story", "headline": "Public story", "project": "Source", "sourceExcerpt": " ".join(facts[:count])})
+                properties = model.schema["oneOf"][1]["properties"]
+                self.assertEqual(properties["evidence"]["const"], facts[:count])
+                self.assertEqual(properties["sentences"]["minItems"], count)
+                self.assertEqual(properties["sentences"]["maxItems"], count)
 
 
 if __name__ == "__main__":

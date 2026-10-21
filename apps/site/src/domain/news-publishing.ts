@@ -4,11 +4,7 @@ import { newsItemSchema } from './news-preview.ts';
 
 const articleTitleSchema = z.string().trim().min(1).max(200);
 const articleSentenceSchema = z.string().trim().min(1).max(600);
-const articleSentencesSchema = z.tuple([
-  articleSentenceSchema,
-  articleSentenceSchema,
-  articleSentenceSchema,
-]);
+const articleSentencesSchema = z.array(articleSentenceSchema).min(1).max(3);
 
 export const publishedNewsItemSchema = newsItemSchema
   .omit({ sourceExcerpt: true })
@@ -18,22 +14,31 @@ export const publishedNewsItemSchema = newsItemSchema
     titles: z
       .object({
         'fr-FR': articleTitleSchema,
-        en: articleTitleSchema,
-        'es-ES': articleTitleSchema,
-        'de-DE': articleTitleSchema,
+        en: articleTitleSchema.optional(),
+        'es-ES': articleTitleSchema.optional(),
+        'de-DE': articleTitleSchema.optional(),
       })
       .strict(),
     synopses: z
       .object({
         'fr-FR': articleSentencesSchema,
-        en: articleSentencesSchema,
-        'es-ES': articleSentencesSchema,
-        'de-DE': articleSentencesSchema,
+        en: articleSentencesSchema.optional(),
+        'es-ES': articleSentencesSchema.optional(),
+        'de-DE': articleSentencesSchema.optional(),
       })
       .strict(),
     editorialSourceHash: z.string().regex(/^[a-f0-9]{64}$/),
   })
-  .strict();
+  .strict()
+  .superRefine((item, context) => {
+    for (const locale of ['en', 'es-ES', 'de-DE'] as const) {
+      if (
+        !!item.titles[locale] !== !!item.synopses[locale] ||
+        (item.synopses[locale] && item.synopses[locale].length !== item.synopses['fr-FR'].length)
+      )
+        context.addIssue({ code: 'custom', message: `Traduction partielle en ${locale}.` });
+    }
+  });
 
 export type PublishedNewsItem = z.infer<typeof publishedNewsItemSchema>;
 

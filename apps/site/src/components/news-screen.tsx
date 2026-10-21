@@ -512,7 +512,7 @@ export function NewsScreen({
                   </svg>
                 </summary>
                 <div className={styles['synopsis']}>
-                  {newsSynopsis(item, locale).length === 3 ? (
+                  {newsSynopsis(item, locale).length > 0 ? (
                     <p lang={locale !== 'fr-FR' && !item.synopses?.[locale] ? 'fr' : undefined}>
                       {newsSynopsis(item, locale).join(' ')}
                     </p>

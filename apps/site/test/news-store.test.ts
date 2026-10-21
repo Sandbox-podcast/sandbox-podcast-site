@@ -9,6 +9,8 @@ import { newsFeedSchema } from '../src/domain/news-preview.ts';
 import type { NewsIngestionRequest } from '../src/domain/news-publishing.ts';
 import { newsIngestionRequestSchema } from '../src/domain/news-publishing.ts';
 import {
+  readNewsTranslationBacklog,
+  completeNewsTranslations,
   knownNewsUrls,
   latestNewsPublicationTime,
   publishNewsBatch,
@@ -103,6 +105,75 @@ afterAll(async () => {
 });
 
 describe('publication automatique SANDBOX News', () => {
+  it('publie une brève française, complète les langues et protège le texte déjà publié', async () => {
+    const payload = ingestion();
+    const original = payload.items[0]?.item;
+    if (!original) throw new Error('Fixture absente');
+    const french = {
+      ...original,
+      titles: { 'fr-FR': original.titles['fr-FR'] },
+      synopses: { 'fr-FR': original.synopses['fr-FR'].slice(0, 1) },
+    };
+    payload.items = [{ item: french }];
+    expect(await publishNewsBatch(payload)).toEqual({ inserted: 1 });
+    const before = await readPublishedNews();
+    expect(before.items[0]?.synopses?.['fr-FR']).toHaveLength(1);
+    expect((await readNewsTranslationBacklog()).items).toHaveLength(1);
+    const translated = {
+      ...french,
+      titles: original.titles,
+      synopses: Object.fromEntries(
+        Object.entries(original.synopses).map(([locale, texts]) => [locale, texts?.slice(0, 1)]),
+      ),
+    };
+    expect(
+      await completeNewsTranslations([{ ...translated, editorialSourceHash: 'c'.repeat(64) }]),
+    ).toEqual({ updated: 0 });
+    expect(
+      await completeNewsTranslations([
+        { ...translated, titles: { ...translated.titles, 'fr-FR': 'Un autre titre.' } },
+      ]),
+    ).toEqual({ updated: 0 });
+    expect(await completeNewsTranslations([translated])).toEqual({ updated: 1 });
+    expect(await completeNewsTranslations([translated])).toEqual({ updated: 0 });
+    expect((await readNewsTranslationBacklog()).items).toEqual([]);
+    const after = await readPublishedNews();
+    expect(after.items[0]?.titles?.['en']).toBe(original.titles.en);
+    expect(after.lastPublishedAt).toBe(before.lastPublishedAt);
+    expect(after.items[0]?.synopses?.['fr-FR']).toEqual(french.synopses['fr-FR']);
+  });
+  it('reprend les traductions par pages sans répéter une fiche en échec', async () => {
+    const item = ingestion().items[0]?.item;
+    if (!item) throw new Error('Fixture absente');
+    await db.insert(schema.newsItems).values(
+      Array.from({ length: 23 }, (_, index) => {
+        const id = `rundown:/articles/translation-${String(index).padStart(2, '0')}`;
+        const url = `https://www.therundown.ai/articles/translation-${index}`;
+        return {
+          id,
+          canonicalUrl: url,
+          sourceId: 'rundown',
+          sourceName: item.project,
+          publishedAt: item.publishedAt,
+          category: item.category,
+          payload: {
+            ...item,
+            id,
+            url,
+            titles: { 'fr-FR': item.titles['fr-FR'] },
+            synopses: { 'fr-FR': item.synopses['fr-FR'] },
+          },
+        };
+      }),
+    );
+    const first = await readNewsTranslationBacklog();
+    expect(first.items).toHaveLength(20);
+    const second = await readNewsTranslationBacklog(first.next ?? undefined);
+    expect(second.items).toHaveLength(3);
+    expect(second.next).toBeNull();
+    expect(new Set([...first.items, ...second.items].map((item) => item.id)).size).toBe(23);
+  });
+
   it('accepte le registre précédent pendant le déploiement et refuse une source répétée', () => {
     const request = ingestion();
     expect(

@@ -1,4 +1,5 @@
-import { and, desc, eq, gte, lt, or, sql } from 'drizzle-orm';
+import { z } from 'zod';
+import { and, asc, desc, eq, gt, gte, lt, or, sql } from 'drizzle-orm';
 import { NEWS_MEDIA } from '@/domain/news-media';
 import { newsSourceMatches } from '@/domain/news-source';
 import {
@@ -182,4 +183,64 @@ export async function latestNewsPublicationTime(): Promise<string | undefined> {
     .orderBy(desc(newsItems.publishedAt))
     .limit(1);
   return row[0]?.publishedAt;
+}
+
+/** Les fiches françaises sont leur propre file durable de traductions manquantes. */
+export async function readNewsTranslationBacklog(after?: string) {
+  requireNewsDatabase();
+  const rows = await getDb()
+    .select({ payload: newsItems.payload, id: newsItems.id })
+    .from(newsItems)
+    .where(
+      and(
+        after ? gt(newsItems.id, after) : undefined,
+        sql`not (${newsItems.payload}->'titles' ?& array['en','es-ES','de-DE'])`,
+      ),
+    )
+    .orderBy(asc(newsItems.id))
+    .limit(21);
+  return {
+    items: rows.slice(0, 20).map((row) => publishedNewsItemSchema.parse(row.payload)),
+    next: rows.length > 20 ? (rows[19]?.id ?? null) : null,
+  };
+}
+
+/** Complète les langues sans réécrire le français ni la date de publication. */
+export async function completeNewsTranslations(value: unknown): Promise<{ updated: number }> {
+  requireNewsDatabase();
+  const items = z.array(publishedNewsItemSchema).max(20).parse(value);
+  return getDb().transaction(async (tx) => {
+    let updated = 0;
+    for (const incoming of items) {
+      const [row] = await tx
+        .select()
+        .from(newsItems)
+        .where(eq(newsItems.canonicalUrl, incoming.url))
+        .for('update');
+      if (!row) continue;
+      const saved = publishedNewsItemSchema.parse(row.payload);
+      if (
+        saved.editorialSourceHash !== incoming.editorialSourceHash ||
+        saved.titles['fr-FR'] !== incoming.titles['fr-FR'] ||
+        JSON.stringify(saved.synopses['fr-FR']) !== JSON.stringify(incoming.synopses['fr-FR'])
+      )
+        continue;
+      const titles = { ...saved.titles };
+      const synopses = { ...saved.synopses };
+      let changed = false;
+      for (const locale of ['en', 'es-ES', 'de-DE'] as const) {
+        if (titles[locale] || !incoming.titles[locale] || !incoming.synopses[locale]) continue;
+        titles[locale] = incoming.titles[locale];
+        synopses[locale] = incoming.synopses[locale];
+        changed = true;
+      }
+      if (!changed) continue;
+      await tx
+        .update(newsItems)
+        .set({ payload: publishedNewsItemSchema.parse({ ...saved, titles, synopses }) })
+        .where(eq(newsItems.id, row.id));
+      updated++;
+    }
+    return { updated };
+  });
 }

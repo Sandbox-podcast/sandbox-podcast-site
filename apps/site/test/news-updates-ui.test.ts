@@ -58,3 +58,37 @@ describe('dates de mise à jour du fil News', () => {
     expect(html).not.toContain('<time');
   });
 });
+
+describe('brèves françaises avant traduction', () => {
+  it.each([1, 2, 3])('affiche les %i phrases disponibles et attend la bonne langue', (count) => {
+    const sentences = [
+      'Le modèle est publié.',
+      'Les poids sont accessibles.',
+      'La licence est ouverte.',
+    ].slice(0, count);
+    const initialFeed: NewsFeed = {
+      ...feed,
+      items: [
+        {
+          id: 'rundown:/articles/brief',
+          project: 'The Rundown AI',
+          repository: 'therundown.ai',
+          version: 'article',
+          url: 'https://www.therundown.ai/articles/brief',
+          publishedAt: '2026-10-21T08:00:00Z',
+          category: 'models',
+          prerelease: false,
+          kind: 'article',
+          titles: { 'fr-FR': 'Un modèle accessible' },
+          synopses: { 'fr-FR': sentences },
+        },
+      ],
+    };
+    const french = renderToStaticMarkup(
+      createElement(NewsScreen, { initialFeed, locale: 'fr-FR' }),
+    );
+    for (const sentence of sentences) expect(french).toContain(sentence);
+    const english = renderToStaticMarkup(createElement(NewsScreen, { initialFeed, locale: 'en' }));
+    expect(english).not.toContain('Un modèle accessible');
+  });
+});

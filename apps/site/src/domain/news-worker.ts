@@ -1,3 +1,5 @@
+export const NEWS_PARALLEL_PROCESSING_BUDGET_MS = 32 * 60_000;
+
 /** Le parallélisme suit la file ; il ne limite pas le nombre d'articles publiables. */
 export function planNewsWorkers(backlog: { pending: number; ready?: number | undefined }) {
   const ready = backlog.ready ?? backlog.pending;
@@ -8,7 +10,12 @@ export function planNewsWorkers(backlog: { pending: number; ready?: number | und
 
 /** Vide plusieurs lots sans dépasser la durée réservée au traitement horaire. */
 export async function drainNewsQueue(
-  processBatch: () => Promise<{ candidates: number; published: number; skipped: number }>,
+  processBatch: () => Promise<{
+    candidates: number;
+    published: number;
+    skipped: number;
+    failures?: number;
+  }>,
   options: {
     budgetMs?: number;
     maxBatches?: number;
@@ -30,7 +37,6 @@ export async function drainNewsQueue(
   while (report.batches < (options.maxBatches ?? 30) && now() < deadline) {
     try {
       const batch = await processBatch();
-      consecutiveFailures = 0;
       if (!batch.candidates) {
         report.drained = true;
         break;
@@ -38,6 +44,11 @@ export async function drainNewsQueue(
       report.candidates += batch.candidates;
       report.published += batch.published;
       report.skipped += batch.skipped;
+      report.failures += batch.failures ?? 0;
+      consecutiveFailures =
+        batch.failures && batch.published === 0 && batch.skipped === 0
+          ? consecutiveFailures + 1
+          : 0;
     } catch (error) {
       options.onError?.(error);
       report.failures++;

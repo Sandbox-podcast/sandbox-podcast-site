@@ -5,7 +5,7 @@ import {
   newsRequestBatches,
   newsPublicationFromQueue,
 } from '../src/domain/news-queue.ts';
-import { drainNewsQueue } from '../src/domain/news-worker.ts';
+import { drainNewsQueue, NEWS_PARALLEL_PROCESSING_BUDGET_MS } from '../src/domain/news-worker.ts';
 import { collectMediaNewsPreview } from '../src/pipeline/news-media-preview.ts';
 import {
   generateAndTranslateNews,
@@ -81,6 +81,7 @@ async function processPending(): Promise<{
   candidates: number;
   published: number;
   skipped: number;
+  failures?: number;
 }> {
   const pending = newsPendingSchema.parse(
     await request('/api/cron/news-candidates', 'POST', { action: 'claim' }),
@@ -97,6 +98,7 @@ async function processPending(): Promise<{
     ),
   );
   const generated = await generateAndTranslateNews(pending.items, {
+    deferTranslations: true,
     onSkipped: (item, reason) => {
       console.log(JSON.stringify({ phase: 'rejected', url: item.url, reason }));
     },
@@ -115,8 +117,9 @@ async function processPending(): Promise<{
     ).inserted;
   }
   const published = generated.items.map((item) => item.url);
+  const failed = new Set(generated.failedUrls ?? []);
   const skipped = pending.items
-    .filter((item) => !published.includes(item.url))
+    .filter((item) => !published.includes(item.url) && !failed.has(item.url))
     .map((item) => item.url);
   await request('/api/cron/news-candidates', 'POST', {
     action: 'complete',
@@ -131,9 +134,15 @@ async function processPending(): Promise<{
       generated: generated.generated,
       skipped: skipped.length,
       published: inserted,
+      failures: failed.size,
     }),
   );
-  return { candidates: pending.items.length, published: inserted, skipped: skipped.length };
+  return {
+    candidates: pending.items.length,
+    published: inserted,
+    skipped: skipped.length,
+    failures: failed.size,
+  };
 }
 async function main() {
   if (secret.length < 16) throw new Error('CRON_SECRET SANDBOX News absent ou trop court.');
@@ -142,6 +151,10 @@ async function main() {
   if (!process.argv.includes('--process-only')) await collect();
   if (!process.argv.includes('--collect-only')) {
     const report = await drainNewsQueue(processPending, {
+      budgetMs:
+        process.env['SANDBOX_NEWS_PARALLEL_WORKER'] === '1'
+          ? NEWS_PARALLEL_PROCESSING_BUDGET_MS
+          : 22 * 60_000,
       onError: (error) => {
         console.error(error instanceof Error ? error.message : 'Échec du traitement News.');
       },

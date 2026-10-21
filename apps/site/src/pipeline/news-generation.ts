@@ -6,16 +6,13 @@ import { join } from 'node:path';
 import { z } from 'zod';
 import { newsCategorySchema, newsItemSchema, type NewsItem } from '../domain/news-preview.ts';
 import {
+  applyNewsEditorial,
   newsEditorialForItem,
   newsEditorialSourceHash,
   NEWS_EDITORIAL,
   type NewsEditorialRecord,
 } from './news-editorial.ts';
-import {
-  newsEditorialTranslationsComplete,
-  translateNewsEditorialItems,
-  type NewsTranslationBatch,
-} from './news-translation.ts';
+import { translateNewsEditorialItems, type NewsTranslationBatch } from './news-translation.ts';
 
 const applicationRoot = fileURLToPath(new URL('../../', import.meta.url));
 const workerPath = join(applicationRoot, 'scripts', 'news-summarize.py');
@@ -30,17 +27,9 @@ const bundledPython = join(
 
 const summarySchema = z.object({
   title: z.string().trim().min(1).max(200),
-  sentences: z.tuple([
-    z.string().trim().min(1).max(600),
-    z.string().trim().min(1).max(600),
-    z.string().trim().min(1).max(600),
-  ]),
+  sentences: z.array(z.string().trim().min(1).max(600)).min(1).max(3),
   category: newsCategorySchema,
-  evidence: z.tuple([
-    z.string().trim().min(20).max(320),
-    z.string().trim().min(20).max(320),
-    z.string().trim().min(20).max(320),
-  ]),
+  evidence: z.array(z.string().trim().min(20).max(320)).min(1).max(3),
 });
 const workerResponseSchema = z.object({
   results: z
@@ -70,7 +59,7 @@ export type NewsSkipReason =
 interface NewsSummaryResult {
   url: string;
   summary: unknown;
-  reason?: NewsSkipReason | undefined;
+  reason?: NewsSkipReason | 'generation_failed' | undefined;
 }
 
 export type NewsSummaryInput = Pick<NewsItem, 'url' | 'headline' | 'project' | 'publishedAt'> & {
@@ -100,7 +89,7 @@ function safeWorkerEnvironment(): NodeJS.ProcessEnv {
   };
 }
 
-function runLocalSummaryBatch(
+function runLocalSummaryProcess(
   items: readonly NewsSummaryInput[],
   signal?: AbortSignal,
 ): Promise<readonly NewsSummaryResult[]> {
@@ -182,6 +171,30 @@ function normalizeEvidence(value: string): string {
   return value.replace(/\s+/gu, ' ').trim().toLocaleLowerCase('fr-FR');
 }
 
+/** Un arrêt natif sur un article ne doit pas perdre les autres résumés du lot. */
+async function runLocalSummaryBatch(
+  items: readonly NewsSummaryInput[],
+  signal?: AbortSignal,
+): Promise<readonly NewsSummaryResult[]> {
+  if (items.length <= 1) return runLocalSummaryProcess(items, signal);
+  const results: NewsSummaryResult[] = [];
+  for (const item of items) {
+    signal?.throwIfAborted();
+    try {
+      results.push(...(await runLocalSummaryProcess([item], signal)));
+    } catch (error) {
+      if (signal?.aborted) throw error;
+      console.error(
+        'Échec du résumé News pour',
+        item.url,
+        error instanceof Error ? error.message : 'erreur',
+      );
+      results.push({ url: item.url, summary: null, reason: 'generation_failed' });
+    }
+  }
+  return results;
+}
+
 function checkedSummary(value: unknown, sourceExcerpt: string): NewsEditorialRecord | undefined {
   const result = summarySchema.safeParse(value);
   if (!result.success) return undefined;
@@ -200,11 +213,7 @@ function checkedSummary(value: unknown, sourceExcerpt: string): NewsEditorialRec
       .replace(/\baujourd['’]hui,?\s*/giu, '')
       .replace(/ +/gu, ' ')
       .trim();
-  const sentences: [string, string, string] = [
-    withoutRelativeToday(result.data.sentences[0]),
-    withoutRelativeToday(result.data.sentences[1]),
-    withoutRelativeToday(result.data.sentences[2]),
-  ];
+  const sentences = result.data.sentences.map(withoutRelativeToday);
   if (
     sentences.some(
       (sentence) =>
@@ -214,7 +223,7 @@ function checkedSummary(value: unknown, sourceExcerpt: string): NewsEditorialRec
     )
   )
     return undefined;
-  if (new Set(sentences.map(normalizeEvidence)).size !== 3) return undefined;
+  if (new Set(sentences.map(normalizeEvidence)).size !== sentences.length) return undefined;
   if (
     sentences.some((sentence) =>
       /\b(?:je|nous|notre|nos|mon|mes|we|our|my)\b|\bj['’]/iu.test(sentence),
@@ -223,7 +232,8 @@ function checkedSummary(value: unknown, sourceExcerpt: string): NewsEditorialRec
     return undefined;
   const excerpt = normalizeEvidence(sourceExcerpt);
   const evidence = result.data.evidence.map(normalizeEvidence);
-  if (new Set(evidence).size !== 3) return undefined;
+  if (evidence.length !== sentences.length || new Set(evidence).size !== evidence.length)
+    return undefined;
   if (evidence.some((quote) => quote.length < 20 || !excerpt.includes(quote))) return undefined;
   // Une modalité (texte, image, audio) ne désigne pas un modèle distinct.
   if (
@@ -236,7 +246,7 @@ function checkedSummary(value: unknown, sourceExcerpt: string): NewsEditorialRec
   )
     return undefined;
   // Le titre reprend un fait du résumé : le modèle ne peut y ajouter une autre affirmation.
-  const title = sentences[0].replace(/[.!?]$/u, '');
+  const title = (sentences[0] ?? '').replace(/[.!?]$/u, '');
   if (title.length < 8 || title.length > 200) return undefined;
   return {
     title,
@@ -257,9 +267,10 @@ export async function generateAndTranslateNews(
     translate?: NewsTranslationBatch;
     editorial?: Record<string, NewsEditorialRecord>;
     budgetMs?: number;
+    deferTranslations?: boolean;
     onSkipped?: (item: NewsItem, reason: NewsSkipReason) => void;
   } = {},
-): Promise<{ items: NewsItem[]; generated: number; skipped: number }> {
+): Promise<{ items: NewsItem[]; generated: number; skipped: number; failedUrls?: string[] }> {
   const budgetMs = options.budgetMs ?? 14 * 60_000;
   const deadline = Date.now() + budgetMs;
   const signal = AbortSignal.timeout(budgetMs);
@@ -269,7 +280,7 @@ export async function generateAndTranslateNews(
   );
   const eligible = unpublished.filter(
     (item): item is NewsItem & { sourceExcerpt: string } =>
-      typeof item.sourceExcerpt === 'string' && item.sourceExcerpt.trim().length >= 240,
+      typeof item.sourceExcerpt === 'string' && item.sourceExcerpt.trim().length >= 30,
   );
   const summaries = eligible.length
     ? await (options.summarize ?? ((inputs) => runLocalSummaryBatch(inputs, signal)))(
@@ -296,49 +307,22 @@ export async function generateAndTranslateNews(
   const translatable = items
     .filter((item) => item.kind === 'article' && newsEditorialForItem(item, combinedEditorial))
     .map((item) => ({ ...item, sourceExcerpt: undefined }));
-  let translated: NewsItem[];
-  try {
-    translated = await translateNewsEditorialItems(
-      translatable,
-      options.translate,
-      combinedEditorial,
-      undefined,
-      signal,
-    );
-  } catch (error) {
-    if (signal.aborted) throw error;
-    if (translatable.length <= 1) throw error;
-    console.warn('SANDBOX News : traduction du lot rejetée, reprise article par article.');
-    translated = [];
-    for (const item of translatable) {
-      signal.throwIfAborted();
-      if (Date.now() >= deadline)
-        throw new Error('Le budget du lot News est épuisé.', { cause: error });
-      try {
-        translated.push(
-          ...(await translateNewsEditorialItems(
-            [item],
-            options.translate,
-            combinedEditorial,
-            undefined,
-            signal,
-          )),
-        );
-      } catch (error) {
-        if (Date.now() >= deadline) throw error;
-        signal.throwIfAborted();
-        console.warn('SANDBOX News : traduction rejetée pour', item.url);
-      }
-    }
-  }
+  const translated = options.deferTranslations
+    ? translatable.map((item) => applyNewsEditorial(item, combinedEditorial))
+    : await translateNewsEditorialItems(
+        translatable,
+        options.translate,
+        combinedEditorial,
+        undefined,
+        signal,
+        true,
+      );
   signal.throwIfAborted();
   if (Date.now() >= deadline) throw new Error('Le budget du lot News est épuisé.');
-  const complete = translated
-    .filter((item) => newsEditorialTranslationsComplete([item], combinedEditorial))
-    .map((item) => {
-      const record = newsEditorialForItem(item, combinedEditorial);
-      return record ? { ...item, editorialSourceHash: newsEditorialSourceHash(record) } : item;
-    });
+  const complete = translated.map((item) => {
+    const record = newsEditorialForItem(item, combinedEditorial);
+    return record ? { ...item, editorialSourceHash: newsEditorialSourceHash(record) } : item;
+  });
   const clean = complete.map((item) => {
     const cleanItem: NewsItem = { ...item };
     delete cleanItem.sourceExcerpt;
@@ -346,17 +330,22 @@ export async function generateAndTranslateNews(
   });
   const acceptedGenerated = clean.filter((item) => generatedEditorial[new URL(item.url).href]);
   const accepted = new Set(clean.map((item) => item.url));
+  const failedUrls = eligible
+    .filter((item) => !accepted.has(item.url) && reasons.get(item.url) === 'generation_failed')
+    .map((item) => item.url);
+  const failed = new Set(failedUrls);
   for (const item of unpublished) {
-    if (accepted.has(item.url)) continue;
+    if (accepted.has(item.url) || failed.has(item.url)) continue;
     const reason =
-      !item.sourceExcerpt || item.sourceExcerpt.trim().length < 240
+      !item.sourceExcerpt || item.sourceExcerpt.trim().length < 30
         ? 'missing_excerpt'
         : (reasons.get(item.url) ?? 'translation_rejected');
-    options.onSkipped?.(item, reason);
+    if (reason !== 'generation_failed') options.onSkipped?.(item, reason);
   }
   return {
     items: clean,
     generated: acceptedGenerated.length,
-    skipped: unpublished.length - acceptedGenerated.length,
+    skipped: unpublished.length - acceptedGenerated.length - failedUrls.length,
+    ...(failedUrls.length ? { failedUrls } : {}),
   };
 }

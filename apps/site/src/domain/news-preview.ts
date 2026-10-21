@@ -35,16 +35,13 @@ export const newsItemSchema = z.object({
   headline: z.string().min(1).max(500).optional(),
   /** Extrait public temporaire, réservé à la génération avant publication. */
   sourceExcerpt: z.string().max(8000).optional(),
-  titles: z.record(z.string(), z.string().min(1).max(200)).optional(),
+  titles: z.record(z.string(), z.string().min(1).max(200).optional()).optional(),
   editorialSourceHash: z
     .string()
     .regex(/^[a-f0-9]{64}$/)
     .optional(),
   synopses: z
-    .record(
-      z.string(),
-      z.tuple([z.string().min(1).max(600), z.string().min(1).max(600), z.string().min(1).max(600)]),
-    )
+    .record(z.string(), z.array(z.string().min(1).max(600)).min(1).max(3).optional())
     .optional(),
 });
 export type NewsItem = z.infer<typeof newsItemSchema>;
@@ -119,9 +116,9 @@ export function selectNews(
     (item) =>
       (item.kind !== 'article' ||
         (!!item.titles?.['fr-FR'] &&
-          item.synopses?.['fr-FR']?.length === 3 &&
+          !!item.synopses?.['fr-FR']?.length &&
           !!item.titles[locale] &&
-          item.synopses[locale]?.length === 3)) &&
+          !!item.synopses[locale]?.length)) &&
       (!options.source || options.source === 'all' || item.project === options.source) &&
       (!options.category || options.category === 'all' || item.category === options.category) &&
       (!query ||

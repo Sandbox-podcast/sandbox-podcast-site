@@ -133,6 +133,63 @@ describe('médias News demandés par Lou', () => {
       }
     }
   });
+  it('traduit des brèves de longueurs différentes et reprend seulement la langue en échec', async () => {
+    const editorial = Object.fromEntries(
+      [1, 2].map((count) => [
+        `https://www.therundown.ai/articles/brief-${count}`,
+        {
+          title: `Un modèle ouvert numéro ${count}`,
+          sentences: ['Le modèle est disponible.', 'Les poids sont publiés.'].slice(0, count),
+          category: 'models' as const,
+        },
+      ]),
+    );
+    const items = Object.entries(editorial).map(([url, record]) => ({
+      id: url,
+      project: 'The Rundown AI',
+      repository: 'therundown.ai',
+      version: 'article',
+      url,
+      publishedAt: '2026-10-21',
+      category: record.category,
+      prerelease: false,
+      kind: 'article' as const,
+    }));
+    const translated = await translateNewsEditorialItems(
+      items,
+      async (texts, locale) => texts.map((text) => `${locale}: ${text}`),
+      editorial,
+      {},
+    );
+    expect(translated.map((item) => item.synopses?.['en']?.length)).toEqual([1, 2]);
+    const partial = await translateNewsEditorialItems(
+      items,
+      async (texts, locale) => {
+        if (locale === 'es-ES') throw new Error('Indisponible');
+        return texts.map((text) => `${locale}: ${text}`);
+      },
+      editorial,
+      {},
+      undefined,
+      true,
+    );
+    expect(partial[0]?.titles?.['en']).toBeTruthy();
+    expect(partial[0]?.titles?.['es-ES']).toBeUndefined();
+    expect(partial[0]?.titles?.['de-DE']).toBeTruthy();
+    const retry = vi.fn(async (texts: readonly string[], locale: string) =>
+      texts.map((text) => `${locale}: ${text}`),
+    );
+    const completed = await translateNewsEditorialItems(
+      partial,
+      retry,
+      editorial,
+      {},
+      undefined,
+      true,
+    );
+    expect(retry.mock.calls.map((call) => call[1])).toEqual(['es-ES', 'es-ES']);
+    expect(newsEditorialTranslationsComplete(completed, editorial)).toBe(true);
+  });
   it('génère les traductions manquantes au rafraîchissement et les invalide si le texte français change', async () => {
     const path = '/articles/automatic-translation-case';
     const editorial = {

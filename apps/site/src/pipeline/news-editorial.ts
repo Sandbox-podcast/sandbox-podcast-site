@@ -4,7 +4,7 @@ import { NEWS_EDITORIAL_TRANSLATIONS, type LocalizedEditorial } from './news-tra
 
 export interface NewsEditorialRecord {
   title: string;
-  sentences: [string, string, string];
+  sentences: string[];
   category: NewsItem['category'];
 }
 

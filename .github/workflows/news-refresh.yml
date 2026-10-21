@@ -106,11 +106,6 @@ jobs:
             apps/site/.local/news-translator-venv
             apps/site/.local/argos-runtime
           key: sandbox-news-v3-ubuntu-py311-argos111-qwen3instruct-a06e946
-      - name: Installer les modèles de traduction locaux
-        env:
-          SANDBOX_NEWS_SETUP_PYTHON: python
-        run: pnpm --filter @podcast/site news:translator:setup
-
       - name: Installer le modèle de résumé local
         env:
           SANDBOX_NEWS_SUMMARY_SETUP_PYTHON: python
@@ -122,6 +117,42 @@ jobs:
           SANDBOX_NEWS_ORIGIN: ${{ vars.SANDBOX_CHARTS_ORIGIN || 'https://www.sandboxpodcast.fr' }}
           CRON_SECRET: ${{ secrets.SANDBOX_CHARTS_CRON_SECRET }}
         run: pnpm --filter @podcast/site news:automation:refresh --process-only
+
+  translations:
+    needs: [collect, process]
+    if: ${{ !cancelled() && github.ref == 'refs/heads/main' && vars.SANDBOX_NEWS_PUBLIC == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.11'
+      - uses: actions/cache@v4
+        with:
+          path: |
+            apps/site/.local/news-translator-models
+            apps/site/.local/news-translator-sbd
+            apps/site/.local/news-translator-venv
+            apps/site/.local/argos-runtime
+          key: sandbox-news-translations-v1-ubuntu-py311-argos111
+      - name: Installer les modèles de traduction locaux
+        env:
+          SANDBOX_NEWS_SETUP_PYTHON: python
+        run: pnpm --filter @podcast/site news:translator:setup
+      - name: Compléter les langues manquantes des articles publiés
+        env:
+          SANDBOX_NEWS_ORIGIN: ${{ vars.SANDBOX_CHARTS_ORIGIN || 'https://www.sandboxpodcast.fr' }}
+          CRON_SECRET: ${{ secrets.SANDBOX_CHARTS_CRON_SECRET }}
+        run: node apps/site/scripts/news-translate-pending.ts
 
   health:
     needs: [collect, process]
@@ -143,3 +174,10 @@ jobs:
           SANDBOX_NEWS_PUBLICATION_SINCE: ${{ needs.collect.outputs.worker-count != '0' && needs.collect.outputs.processing-started-at || '' }}
           SANDBOX_NEWS_ORIGIN: ${{ vars.SANDBOX_CHARTS_ORIGIN || 'https://www.sandboxpodcast.fr' }}
         run: node apps/site/scripts/news-health.ts
+
+      - name: Mesurer les candidats restants après traitement
+        if: ${{ !cancelled() }}
+        env:
+          SANDBOX_NEWS_ORIGIN: ${{ vars.SANDBOX_CHARTS_ORIGIN || 'https://www.sandboxpodcast.fr' }}
+          CRON_SECRET: ${{ secrets.SANDBOX_CHARTS_CRON_SECRET }}
+        run: node apps/site/scripts/news-worker-plan.ts

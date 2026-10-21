@@ -2,7 +2,7 @@ export type NewsLocale = 'en' | 'es-ES' | 'de-DE';
 
 export interface EditorialTranslation {
   title: string;
-  sentences: [string, string, string];
+  sentences: string[];
 }
 
 export type LocalizedEditorial = Record<NewsLocale, EditorialTranslation>;

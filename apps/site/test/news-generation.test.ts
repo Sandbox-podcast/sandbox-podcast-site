@@ -53,6 +53,25 @@ function summaryFor(item: NewsSummaryInput) {
 }
 
 describe('génération et traduction des nouvelles fiches', () => {
+  it('publie les résumés valides et distingue les erreurs natives des refus éditoriaux', async () => {
+    const items = [article(1), article(5)];
+    const first = items[0];
+    if (!first) throw new Error('Fixture absente.');
+    const onSkipped = vi.fn<(item: NewsItem, reason: NewsSkipReason) => void>();
+    const result = await generateAndTranslateNews(items, {
+      summarize: async (inputs) =>
+        inputs.map((item, index) =>
+          index === 0
+            ? { url: item.url, summary: null, reason: 'generation_failed' }
+            : summaryFor(item),
+        ),
+      translate: async (texts, locale) => texts.map((text) => `${locale}: ${text}`),
+      onSkipped,
+    });
+    expect(result).toMatchObject({ generated: 1, skipped: 0, failedUrls: [first.url] });
+    expect(result.items).toHaveLength(1);
+    expect(onSkipped).not.toHaveBeenCalled();
+  });
   it.each([
     {
       sentence:
@@ -160,27 +179,44 @@ describe('génération et traduction des nouvelles fiches', () => {
       return texts.map((text) => `${locale}: ${text}`);
     };
     const report = await generateAndTranslateNews(items, { summarize, translate });
-    expect(report.items).toHaveLength(1);
+    expect(report.items).toHaveLength(2);
     expect(report.items[0]?.project).toBe('The Rundown AI');
-    expect(report.skipped).toBe(1);
+    expect(report.skipped).toBe(0);
   });
 
-  it('remonte une échéance pendant la reprise au lieu de clôturer les candidats en rejet', async () => {
-    let attempts = 0;
+  it('publie le français sans lancer ni attendre le moteur de traduction', async () => {
     const translate = vi.fn(async () => {
-      attempts++;
-      if (attempts === 1) throw new Error('Traduction du lot refusée');
-      await new Promise((resolve) => setTimeout(resolve, 40));
-      throw new Error('Traitement interrompu');
+      throw new Error('Indisponible');
     });
-    await expect(
-      generateAndTranslateNews([article(1), article(5)], {
-        budgetMs: 20,
-        summarize: async (inputs) => inputs.map(summaryFor),
-        translate,
-      }),
-    ).rejects.toThrow('Traitement interrompu');
-    expect(translate).toHaveBeenCalledTimes(2);
+    const result = await generateAndTranslateNews([article(1)], {
+      summarize: async (inputs) => inputs.map(summaryFor),
+      translate,
+      deferTranslations: true,
+    });
+    expect(result.items).toHaveLength(1);
+    expect(result.items[0]?.synopses?.['fr-FR']).toHaveLength(3);
+    expect(result.items[0]?.titles?.['en']).toBeUndefined();
+    expect(translate).not.toHaveBeenCalled();
+  });
+  it.each([1, 2, 3])('publie une brève sourcée de %i phrase(s)', async (count) => {
+    const input = { ...article(1), sourceExcerpt: evidence.slice(0, count).join(' ') };
+    const result = await generateAndTranslateNews([input], {
+      deferTranslations: true,
+      summarize: async (inputs) =>
+        inputs.map((item) => {
+          const result = summaryFor(item);
+          return {
+            ...result,
+            summary: {
+              ...result.summary,
+              sentences: result.summary.sentences.slice(0, count),
+              evidence: evidence.slice(0, count),
+            },
+          };
+        }),
+    });
+    expect(result.items[0]?.synopses?.['fr-FR']).toHaveLength(count);
+    expect(result.skipped).toBe(0);
   });
   it('publie uniquement des résumés sourcés, traduits dans les quatre langues et séparés par URL', async () => {
     const items = [article(1), article(5)];
@@ -209,7 +245,7 @@ describe('génération et traduction des nouvelles fiches', () => {
       expect(item.editorialSourceHash).toMatch(/^[a-f0-9]{64}$/u);
       expect(item).not.toHaveProperty('sourceExcerpt');
     }
-    expect(translate).toHaveBeenCalledTimes(3);
+    expect(translate).toHaveBeenCalledTimes(6);
   });
 
   it('reprend le premier fait dans le titre et retire un aujourd’hui devenu ambigu', async () => {

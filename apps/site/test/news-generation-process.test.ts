@@ -48,6 +48,27 @@ afterEach(() => {
 });
 
 describe('diagnostic du processus local de résumé News', () => {
+  it('isole un arrêt natif et poursuit le second article sans fermer sa réservation comme un rejet', async () => {
+    const second = fakeProcess();
+    processMock.spawn.mockReturnValueOnce(child).mockReturnValueOnce(second);
+    const result = generateAndTranslateNews([
+      article,
+      { ...article, id: 'fixture:second', url: 'https://fixture.test/second' },
+    ]);
+    child.emit('close', null, 'SIGSEGV');
+    await vi.advanceTimersByTimeAsync(0);
+    expect(processMock.spawn).toHaveBeenCalledTimes(2);
+    second.stdout.write(Buffer.from(JSON.stringify({ results: [] })));
+    second.emit('close', 0, null);
+    await expect(result).resolves.toMatchObject({
+      items: [],
+      generated: 0,
+      skipped: 1,
+      failedUrls: [article.url],
+    });
+    second.stdout.destroy();
+    second.stderr.destroy();
+  });
   it('identifie un code de sortie non nul en conservant le détail stderr', async () => {
     const result = generateAndTranslateNews([article]);
     child.stderr.write(Buffer.from('Erreur locale de test.'));

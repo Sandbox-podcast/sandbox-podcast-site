@@ -53,7 +53,8 @@ export function newsEditorialTranslationsComplete(
     const record = newsEditorialForItem(item, editorial);
     if (!record) return true;
     return locales.every(
-      (locale) => !!item.titles?.[locale] && item.synopses?.[locale]?.length === 3,
+      (locale) =>
+        !!item.titles?.[locale] && item.synopses?.[locale]?.length === record.sentences.length,
     );
   });
 }
@@ -85,9 +86,10 @@ function editorialTranslation(
   texts: readonly string[],
   locale: NewsLocale,
 ): EditorialTranslation {
-  if (texts.length !== 4) throw new Error(`Traduction News incomplète en ${locale}.`);
+  if (texts.length !== source.sentences.length + 1)
+    throw new Error(`Traduction News incomplète en ${locale}.`);
   const [title, ...sentences] = texts;
-  if (title === undefined || sentences.length !== 3)
+  if (title === undefined || sentences.length !== source.sentences.length)
     throw new Error(`Traduction News incomplète en ${locale}.`);
   const translatedTitle = validateTranslatedText(source.title, title, locale, 200);
   const translatedSentences = sentences.map((sentence, index) => {
@@ -98,10 +100,10 @@ function editorialTranslation(
       [...new Intl.Segmenter(locale, { granularity: 'sentence' }).segment(translatedSentence)]
         .length !== 1
     )
-      throw new Error(`La synthèse News doit rester en trois phrases en ${locale}.`);
+      throw new Error(`Chaque phrase News doit rester une phrase en ${locale}.`);
     return translatedSentence;
   });
-  return { title: translatedTitle, sentences: translatedSentences as [string, string, string] };
+  return { title: translatedTitle, sentences: translatedSentences };
 }
 
 function argosPython(): string {
@@ -226,6 +228,7 @@ export async function translateNewsEditorialItems(
   editorial: Record<string, NewsEditorialRecord> = NEWS_EDITORIAL,
   knownTranslations: Partial<Record<string, LocalizedEditorial>> = NEWS_EDITORIAL_TRANSLATIONS,
   signal?: AbortSignal,
+  allowPartial = false,
 ): Promise<NewsItem[]> {
   const translateBatch = translate ?? ((texts, locale) => runArgosBatch(texts, locale, signal));
   const prepared = items.map((item) => applyNewsEditorial(item, editorial, knownTranslations));
@@ -236,21 +239,40 @@ export async function translateNewsEditorialItems(
     const source = newsEditorialForItem(item, editorial);
     if (!source) continue;
     for (const locale of locales) {
-      if (item.titles?.[locale] && item.synopses?.[locale]?.length === 3) continue;
+      if (item.titles?.[locale] && item.synopses?.[locale]?.length === source.sentences.length)
+        continue;
       pendingByLocale.set(locale, [...(pendingByLocale.get(locale) ?? []), { index, source }]);
     }
   }
 
   for (const [locale, pending] of pendingByLocale) {
     signal?.throwIfAborted();
-    const input = pending.flatMap(({ source }) => [source.title, ...source.sentences]);
-    const output = await translateBatch(input, locale);
-    if (output.length !== input.length)
-      throw new Error(`Le moteur n’a pas traduit tous les textes News en ${locale}.`);
     const generated = new Map<number, EditorialTranslation>();
-    for (const [position, entry] of pending.entries()) {
-      const texts = output.slice(position * 4, position * 4 + 4);
-      generated.set(entry.index, editorialTranslation(entry.source, texts, locale));
+    const batches = allowPartial ? pending.map((entry) => [entry]) : [pending];
+    for (const entries of batches) {
+      try {
+        const input = entries.flatMap(({ source }) => [source.title, ...source.sentences]);
+        const output = await translateBatch(input, locale);
+        if (output.length !== input.length)
+          throw new Error(`Le moteur n’a pas traduit tous les textes News en ${locale}.`);
+        let offset = 0;
+        for (const entry of entries) {
+          const count = entry.source.sentences.length + 1;
+          generated.set(
+            entry.index,
+            editorialTranslation(entry.source, output.slice(offset, offset + count), locale),
+          );
+          offset += count;
+        }
+      } catch (error) {
+        signal?.throwIfAborted();
+        if (!allowPartial) throw error;
+        console.warn(
+          'SANDBOX News : traduction à reprendre',
+          locale,
+          error instanceof Error ? error.message : 'erreur',
+        );
+      }
     }
     for (const [index, translation] of generated) {
       const item = prepared[index];
