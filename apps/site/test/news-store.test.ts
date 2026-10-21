@@ -105,6 +105,16 @@ afterAll(async () => {
 });
 
 describe('publication automatique SANDBOX News', () => {
+  it('accepte un titre traduit plus long sans élargir la borne française', async () => {
+    const payload = ingestion();
+    const item = payload.items[0]?.item;
+    if (!item) throw new Error('Fixture absente');
+    item.titles.en = 'Translated title '.repeat(16).trim();
+    expect(item.titles.en.length).toBeGreaterThan(200);
+    expect(await publishNewsBatch(payload)).toEqual({ inserted: 1 });
+    item.titles['fr-FR'] = 'Titre français '.repeat(16).trim();
+    await expect(publishNewsBatch(payload)).rejects.toThrow('Lot SANDBOX News invalide');
+  });
   it('publie une brève française, complète les langues et protège le texte déjà publié', async () => {
     const payload = ingestion();
     const original = payload.items[0]?.item;

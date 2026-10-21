@@ -36,7 +36,7 @@ export const newsItemSchema = z.object({
   headline: z.string().min(1).max(500).optional(),
   /** Extrait public temporaire, réservé à la génération avant publication. */
   sourceExcerpt: z.string().max(8000).optional(),
-  titles: z.record(z.string(), z.string().min(1).max(200).optional()).optional(),
+  titles: z.record(z.string(), z.string().min(1).max(400).optional()).optional(),
   editorialSourceHash: z
     .string()
     .regex(/^[a-f0-9]{64}$/)

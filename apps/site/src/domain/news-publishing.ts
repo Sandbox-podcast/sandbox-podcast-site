@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { NEWS_MEDIA } from './news-media.ts';
 import { newsItemSchema } from './news-preview.ts';
 
-const articleTitleSchema = z.string().trim().min(1).max(200);
+const articleTitleSchema = z.string().trim().min(1).max(400);
 const articleSentenceSchema = z.string().trim().min(1).max(600);
 const articleSentencesSchema = z.array(articleSentenceSchema).min(1).max(3);
 
@@ -13,7 +13,7 @@ export const publishedNewsItemSchema = newsItemSchema
     headline: z.string().trim().min(1).max(500),
     titles: z
       .object({
-        'fr-FR': articleTitleSchema,
+        'fr-FR': articleTitleSchema.max(200),
         en: articleTitleSchema.optional(),
         'es-ES': articleTitleSchema.optional(),
         'de-DE': articleTitleSchema.optional(),

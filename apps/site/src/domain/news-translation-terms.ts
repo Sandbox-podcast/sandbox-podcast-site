@@ -18,9 +18,23 @@ const terms = [
   },
 ] as const;
 
+const numberPattern = /\d+(?:(?:[ \u00a0\u202f]\d{3})|(?:[.,]\d+))*/gu;
+function numberTokens(text: string) {
+  return [...text.matchAll(numberPattern)].map((match, index) => ({
+    value: match[0],
+    marker: `SBXNUMBER${String(index)
+      .split('')
+      .map((digit) => String.fromCharCode(65 + Number(digit)))
+      .join('')}END`,
+  }));
+}
+
 /** Protège les unités techniques que le moteur de traduction omet parfois. */
 export function prepareNewsTranslation(text: string): string {
-  return terms.reduce((value, term) => value.replace(term.source, term.marker), text);
+  const prepared = terms.reduce((value, term) => value.replace(term.source, term.marker), text);
+  let index = 0;
+  const tokens = numberTokens(prepared);
+  return prepared.replace(numberPattern, () => tokens[index++]?.marker ?? '');
 }
 
 export function restoreNewsTranslation(
@@ -36,6 +50,15 @@ export function restoreNewsTranslation(
     if (expected !== received) throw new Error(`Unité technique News perdue en ${locale}.`);
     value = value.replaceAll(term.marker, term.translations[locale]);
   }
+  const tokens = numberTokens(source);
+  const expected = tokens.map((token) => token.marker);
+  const received = value.match(/SBXNUMBER[A-Z]+END/gu) ?? [];
+  if (
+    received.length !== expected.length ||
+    expected.some((marker) => received.filter((entry) => entry === marker).length !== 1)
+  )
+    throw new Error(`Nombre protégé News perdu en ${locale}.`);
+  for (const token of tokens) value = value.replaceAll(token.marker, token.value);
   return value;
 }
 

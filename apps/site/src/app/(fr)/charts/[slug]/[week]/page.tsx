@@ -26,6 +26,8 @@ export async function generateMetadata({ params, searchParams, locale = 'fr-FR' 
   if (!chart || !week) return {};
   const chartId = chartIdForSlug(slug);
   const data = chartId ? await sandboxChartsData(week) : undefined;
+  if (chartId && data && data.mode !== 'unavailable' && !hasChartEdition(data, chartId, week))
+    notFound();
   return pageMetadata({
     ...chartMetadataCopy(chartId ?? 'models', locale, week),
     path: `/charts/${chart.slug}/${week}`,

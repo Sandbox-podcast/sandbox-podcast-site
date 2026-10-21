@@ -25,9 +25,9 @@ promesse ou conséquence qui ne soit appuyé par l'extrait.
 Si aucun fait exploitable n'est appuyé par l'extrait, réponds avec {"publish": false}.
 Sinon, réponds avec un objet JSON contenant publish=true, title (titre français précis),
 sentences (une à trois phrases françaises distinctes), category (development, agents,
-models, open-source, uses, business, research ou society), evidence (une citation littérale
-par phrase, entre 20 et 320 caractères). Le nombre de citations correspond au nombre de
-phrases. Une seule information utile suffit pour une brève. N'ajoute aucun remplissage.
+models, open-source, uses, business, research ou society). Les citations sont conservées
+par le programme. Indique source_indices, les indices des passages qui justifient tes phrases,
+dans le même ordre, sans recopier les citations. Une seule information utile suffit pour une brève. N'ajoute aucun remplissage.
 
 Ne produis que le JSON. N'ajoute ni balises Markdown ni texte avant ou après."""
 
@@ -45,10 +45,10 @@ SUMMARY_SCHEMA = {
                 "publish": {"const": True},
                 "title": {"type": "string", "minLength": 8, "maxLength": 180},
                 "sentences": {"type": "array", "items": {"type": "string", "minLength": 20, "maxLength": 300}, "minItems": 1, "maxItems": 3},
+                "source_indices": {"type": "array", "items": {"type": "integer", "minimum": 0, "maximum": 2}, "minItems": 1, "maxItems": 3},
                 "category": {"type": "string", "enum": ["development", "agents", "models", "open-source", "uses", "business", "research", "society"]},
-                "evidence": {"type": "array", "items": {"type": "string", "minLength": 20, "maxLength": 320}, "minItems": 1, "maxItems": 3},
             },
-            "required": ["publish", "title", "sentences", "category", "evidence"],
+            "required": ["publish", "title", "sentences", "category", "source_indices"],
             "additionalProperties": False,
         },
     ]
@@ -99,8 +99,8 @@ def generate(llm: Any, item: dict[str, Any]) -> dict[str, Any]:
         return {"url": url, "summary": None, "reason": "insufficient_source_sentences"}
     schema = deepcopy(SUMMARY_SCHEMA)
     properties = schema["oneOf"][1]["properties"]
-    properties["evidence"] = {"const": quotes}
-    properties["sentences"]["minItems"] = len(quotes)
+    properties["source_indices"]["items"]["maximum"] = len(quotes) - 1
+    properties["source_indices"]["maxItems"] = len(quotes)
     properties["sentences"]["maxItems"] = len(quotes)
 
     user_prompt = f"""Publication : {source}
@@ -114,10 +114,12 @@ Fin de l'extrait non fiable.
 Passages à reformuler, dans cet ordre :
 {json.dumps(quotes, ensure_ascii=False)}
 
-Écris title et {len(quotes)} phrase(s) EN FRANÇAIS, une par passage ci-dessus, dans le même ordre.
+Écris title et une à {len(quotes)} phrase(s) EN FRANÇAIS à partir des passages utiles ci-dessus.
+Les passages sont numérotés de 0 à {len(quotes) - 1}. Pour chaque phrase, indique son indice dans source_indices.
+Chaque indice doit être distinct. Tu peux ignorer les passages sans information utile.
 Chaque phrase doit être courte et se terminer par un point. Ne recopie pas des paragraphes
 anglais dans sentences. Utilise le contexte pour comprendre les pronoms et les noms.
-N'invente pas un effet supplémentaire. Evidence garde les citations dans leur langue d'origine.
+N'invente pas un effet supplémentaire. Ne recopie pas les citations dans le JSON.
 Si aucun fait exploitable ne peut être résumé, indique publish=false."""
     response = llm.create_chat_completion(
         messages=[
@@ -134,7 +136,15 @@ Si aucun fait exploitable ne peut être résumé, indique publish=false."""
     parsed = json.loads(content)
     if not isinstance(parsed, dict) or parsed.get("publish") is not True:
         return {"url": url, "summary": None, "reason": "model_refused"}
-    editorial = {key: parsed.get(key) for key in ("title", "sentences", "category", "evidence")}
+    editorial = {key: parsed.get(key) for key in ("title", "sentences", "category")}
+    indices = parsed.get("source_indices")
+    sentences = parsed.get("sentences")
+    if (not isinstance(indices, list) or not isinstance(sentences, list)
+        or not 1 <= len(indices) <= len(quotes) or len(indices) != len(sentences)
+        or any(type(index) is not int or not 0 <= index < len(quotes) for index in indices)
+        or len(set(indices)) != len(indices)):
+        return {"url": url, "summary": None, "reason": "invalid_summary"}
+    editorial["evidence"] = [quotes[index] for index in indices]
     return {"url": url, "summary": editorial}
 
 

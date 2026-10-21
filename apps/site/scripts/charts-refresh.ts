@@ -2,6 +2,7 @@ import { appendFile } from 'node:fs/promises';
 import { setTimeout } from 'node:timers/promises';
 import { z } from 'zod';
 import {
+  chartsChecksHealthy,
   planChartsRecovery,
   refreshCharts,
   verifyPublishedEdition,
@@ -65,7 +66,7 @@ if (!checkOnly && !recoverOnly && (!secret || secret.length < 16)) {
               chart,
               ...verifyPublishedEdition(value, chart, now),
             }));
-            return { ok: results.every((result) => result.ok), recovery, results };
+            return { ok: chartsChecksHealthy(results), recovery, results };
           })()
         : await refreshCharts(
             {

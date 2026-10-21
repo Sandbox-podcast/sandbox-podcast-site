@@ -1,5 +1,7 @@
 # Documentation
 
+Échecs GitHub Actions, 21 octobre : [diagnostic et corrections News, traductions, CI et classements](site/checkup-workflows-2026-10-21.md).
+
 Volume des actualités, 21 octobre : [DD-0074](design-decisions/dd-0074-volume-de-publication-news.md) formalise la publication de tous les sujets admissibles, sans quota éditorial, et dimensionne jusqu'à huit workers selon la file prête.
 
 Actualités récentes, 21 octobre : [DD-0073](design-decisions/dd-0073-priorite-actualites-recentes.md) donne quatre places sur cinq aux articles récents, conserve une place de rattrapage et contrôle l'âge du dernier article publié.

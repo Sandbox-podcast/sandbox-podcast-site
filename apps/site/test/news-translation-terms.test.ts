@@ -35,7 +35,7 @@ describe('unités et valeurs des traductions News', () => {
     ] as const) {
       const restored = restoreNewsTranslation(
         source,
-        '2 $ / SBXINPUTTOKENS; 10 $ / SBXOUTPUTTOKENS',
+        'SBXNUMBERAEND $ / SBXINPUTTOKENS; SBXNUMBERBEND $ / SBXOUTPUTTOKENS',
         locale,
       );
       expect(restored).toContain(input);
@@ -49,6 +49,26 @@ describe('unités et valeurs des traductions News', () => {
     );
     expect(() => restoreNewsTranslation('Un modèle ouvert.', 'SBXINPUTTOKENS', 'en')).toThrow(
       'Unité technique',
+    );
+  });
+  it('protège les milliers et les décimales sans autoriser la perte ou la duplication de valeurs', () => {
+    const original = '200 000 développeurs et 1 400 entreprises, à 4,5 euros.';
+    expect(prepareNewsTranslation(original)).toBe(
+      'SBXNUMBERAEND développeurs et SBXNUMBERBEND entreprises, à SBXNUMBERCEND euros.',
+    );
+    const restored = restoreNewsTranslation(
+      original,
+      'SBXNUMBERAEND developers, SBXNUMBERBEND companies, SBXNUMBERCEND euros.',
+      'en',
+    );
+    expect(restored).toBe('200 000 developers, 1 400 companies, 4,5 euros.');
+    expect(newsTranslationKeepsNumbers(original, restored)).toBe(true);
+    expect(() => restoreNewsTranslation(original, 'SBXNUMBERAEND developers.', 'en')).toThrow(
+      'Nombre protégé',
+    );
+    expect(() => restoreNewsTranslation(original, 'No values.', 'en')).toThrow('Nombre protégé');
+    expect(() => restoreNewsTranslation('2', 'SBXNUMBERAEND SBXNUMBERAEND', 'en')).toThrow(
+      'Nombre protégé',
     );
   });
   it('rejette les nombres perdus, accepte la virgule décimale et conserve les répétitions', () => {

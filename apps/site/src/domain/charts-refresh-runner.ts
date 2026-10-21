@@ -18,7 +18,21 @@ export const refreshSummarySchema = z.object({
   failed: z.number().int().nonnegative(),
   snapshotsCreated: z.number().int().nonnegative(),
   remaining: z.number().int().nonnegative().optional(),
+  details: z.array(z.string()).optional(),
 });
+
+const pendingRisingSchema = z.object({
+  chart: z.literal('rising'),
+  status: z.literal('pending'),
+  entries: z.array(z.unknown()).length(0),
+  message: z.string().startsWith('Rising attend '),
+});
+
+export function chartsChecksHealthy(
+  results: readonly { ok: boolean; pending?: boolean }[],
+): boolean {
+  return results.every((result) => result.ok || result.pending === true);
+}
 
 const currentEditionSchema = z.object({
   chart: z.enum(['github', 'skills', 'models', 'rising']),
@@ -36,7 +50,14 @@ export function verifyPublishedEdition(
   chart: string,
   now: Date,
   exactSlot?: string,
-): { ok: boolean; edition: string | null; reason: string } {
+): { ok: boolean; edition: string | null; reason: string; pending?: boolean } {
+  if (chart === 'rising' && pendingRisingSchema.safeParse(value).success)
+    return {
+      ok: false,
+      pending: true,
+      edition: null,
+      reason: 'Rising attend son historique mesuré ; aucune édition publiée.',
+    };
   const parsed = currentEditionSchema.safeParse(value);
   if (!parsed.success || parsed.data.chart !== chart)
     return { ok: false, edition: null, reason: 'Aucune édition publique valide.' };
@@ -90,6 +111,7 @@ export async function refreshCharts(
       .map(async ([chart, collect, freeze]) => {
         if (!chart || !collect || !freeze) throw new Error('Chaîne de collecte invalide.');
         const statuses: string[] = [];
+        const details: string[] = [];
         for (let attempt = 0; attempt < 3; attempt++) {
           if (transport.mayRunJob && !transport.mayRunJob()) {
             statuses.push('skipped');
@@ -98,6 +120,7 @@ export async function refreshCharts(
           try {
             const summary = refreshSummarySchema.parse(await transport.job(collect));
             statuses.push(summary.status);
+            details.push(...(summary.details ?? []));
             if (summary.status === 'success' && !summary.remaining) break;
             if (['insufficient_history', 'awaiting_review'].includes(summary.status)) break;
           } catch {
@@ -110,6 +133,7 @@ export async function refreshCharts(
           try {
             const summary = refreshSummarySchema.parse(await transport.job(freeze));
             statuses.push(summary.status);
+            details.push(...(summary.details ?? []));
           } catch {
             statuses.push('failed');
           }
@@ -122,6 +146,7 @@ export async function refreshCharts(
               return {
                 chart: publicChart,
                 statuses,
+                details,
                 ...verifyPublishedEdition(
                   await transport.current(publicChart),
                   publicChart,
@@ -133,6 +158,7 @@ export async function refreshCharts(
               return {
                 chart: publicChart,
                 statuses,
+                details,
                 ok: false,
                 edition: null,
                 reason: 'Vérification publique indisponible.',
@@ -143,5 +169,5 @@ export async function refreshCharts(
       }),
   );
   const results = grouped.flat();
-  return { ok: results.every((result) => result.ok), slot, results };
+  return { ok: chartsChecksHealthy(results), slot, results };
 }

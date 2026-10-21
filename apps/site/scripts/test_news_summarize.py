@@ -44,8 +44,8 @@ class SummaryContractTests(unittest.TestCase):
         model = ObservedModel()
         result = SUMMARY.generate(model, {"url": "https://example.test/story", "headline": "Article public", "project": "Source", "sourceExcerpt": excerpt})
         self.assertIsNone(result["summary"])
-        proof = model.captured["response_format"]["schema"]["oneOf"][1]["properties"]["evidence"]["const"]
-        self.assertEqual(proof, SUMMARY.source_evidence(excerpt))
+        properties = model.captured["response_format"]["schema"]["oneOf"][1]["properties"]
+        self.assertNotIn("evidence", properties)
 
     def test_accepts_one_or_two_complete_source_passages(self):
         class Model:
@@ -58,9 +58,36 @@ class SummaryContractTests(unittest.TestCase):
                 model = Model()
                 SUMMARY.generate(model, {"url": "https://example.test/story", "headline": "Public story", "project": "Source", "sourceExcerpt": " ".join(facts[:count])})
                 properties = model.schema["oneOf"][1]["properties"]
-                self.assertEqual(properties["evidence"]["const"], facts[:count])
-                self.assertEqual(properties["sentences"]["minItems"], count)
+                self.assertNotIn("evidence", properties)
+                self.assertEqual(properties["sentences"]["minItems"], 1)
                 self.assertEqual(properties["sentences"]["maxItems"], count)
+
+    def test_quotes_never_enter_the_native_grammar_and_proofs_remain_exact(self):
+        import json
+        facts = ['The team calls the feature "thinking mode" for image generation.', 'The release accepts paths such as C:\\models\\draft and quoted inputs.']
+        class Model:
+            def create_chat_completion(self, **kwargs):
+                schema = json.dumps(kwargs["response_format"]["schema"])
+                for fact in facts:
+                    assert fact not in schema
+                result = {"publish": True, "title": "Un mode de réflexion", "category": "models", "sentences": ["Le mode est publié.", "Il accepte des chemins."], "source_indices": [0, 1]}
+                return {"choices": [{"message": {"content": json.dumps(result)}}]}
+        result = SUMMARY.generate(Model(), {"url": "https://example.test/story", "headline": "Release", "project": "Source", "sourceExcerpt": " ".join(facts)})
+        self.assertEqual(result["summary"]["evidence"], facts)
+
+    def test_can_select_one_useful_passage_and_rejects_invalid_proof_indices(self):
+        import json
+        facts = ["The publisher introduces its weekly newsletter for readers.", "The model weights are available under the Apache 2.0 licence.", "The full documentation is available from the project website."]
+        class Model:
+            def __init__(self, indices): self.indices = indices
+            def create_chat_completion(self, **kwargs):
+                value = {"publish": True, "title": "Des poids ouverts", "category": "models", "sentences": ["Les poids sont disponibles sous licence Apache 2.0."], "source_indices": self.indices}
+                return {"choices": [{"message": {"content": json.dumps(value)}}]}
+        item = {"url": "https://example.test/story", "headline": "Release", "project": "Source", "sourceExcerpt": " ".join(facts)}
+        self.assertEqual(SUMMARY.generate(Model([1]), item)["summary"]["evidence"], [facts[1]])
+        for indices in ([3], [-1], [True], [1, 1], [], ["1"]):
+            with self.subTest(indices=indices):
+                self.assertEqual(SUMMARY.generate(Model(indices), item)["reason"], "invalid_summary")
 
 
 if __name__ == "__main__":

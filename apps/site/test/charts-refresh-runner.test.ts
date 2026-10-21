@@ -91,25 +91,52 @@ describe('chaîne de mise à jour et contrôle de publication', () => {
     expect(result.ok).toBe(false);
   });
 
-  it('signale Rising absent même si les trois autres éditions sont publiées', async () => {
+  it('distingue l’attente explicite de Rising d’un échec de publication', async () => {
     const job = vi.fn().mockResolvedValue(summary());
     const result = await refreshCharts(
       {
         job,
         current: async (chart) =>
-          chart === 'rising' ? { status: 'pending', entries: [] } : edition(chart),
+          chart === 'rising'
+            ? {
+                chart: 'rising',
+                status: 'pending',
+                entries: [],
+                message: 'Rising attend au moins vingt projets éligibles.',
+              }
+            : edition(chart),
         wait: vi.fn(),
       },
       now,
     );
-    expect(result.ok).toBe(false);
+    expect(result.ok).toBe(true);
     expect(result.results.find((row) => row.chart === 'rising')).toMatchObject({
       ok: false,
+      pending: true,
       edition: null,
     });
     expect(job.mock.calls.filter(([name]) => name === 'github-daily')).toHaveLength(1);
   });
 
+  it('ne transforme pas une réponse manquante ou une erreur Rising en attente normale', () => {
+    for (const value of [
+      { status: 'pending', entries: [] },
+      { chart: 'rising', status: 'failed', entries: [], message: 'Source indisponible' },
+    ])
+      expect(verifyPublishedEdition(value, 'rising', now)).not.toHaveProperty('pending');
+    expect(
+      verifyPublishedEdition(
+        {
+          chart: 'rising',
+          status: 'pending',
+          entries: [],
+          message: 'Rising attend au moins vingt projets éligibles.',
+        },
+        'skills',
+        now,
+      ),
+    ).not.toHaveProperty('pending');
+  });
   it('renvoie un échec HTTP pour les collectes partielles et les gels bloqués', () => {
     for (const status of [
       'partial',

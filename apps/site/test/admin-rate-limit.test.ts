@@ -1,38 +1,41 @@
 import { readFileSync } from 'node:fs';
 import { PGlite } from '@electric-sql/pglite';
 import { drizzle } from 'drizzle-orm/pglite';
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import {
   adminAttemptKey,
   checkAdminAttempt,
   consumeDatabaseAttempt,
 } from '../src/lib/admin-rate-limit.ts';
 
+let pg: PGlite;
+beforeAll(async () => {
+  pg = new PGlite();
+  await pg.waitReady;
+  await pg.exec(readFileSync('drizzle/0015_admin_login_attempts.sql', 'utf8'));
+}, 30_000);
+afterAll(async () => {
+  await pg.close();
+});
 afterEach(() => vi.unstubAllEnvs());
 
 describe('limiteur partagé des connexions', () => {
   it('partage le compteur entre instances et réserve exactement cinq tentatives concurrentes', async () => {
-    const pg = new PGlite();
-    try {
-      await pg.exec(readFileSync('drizzle/0015_admin_login_attempts.sql', 'utf8'));
-      const first = drizzle(pg);
-      const second = drizzle(pg);
-      const results = await Promise.all(
-        Array.from({ length: 20 }, (_, i) =>
-          consumeDatabaseAttempt(i % 2 ? first : second, 'address-hash'),
-        ),
-      );
-      expect(results.filter((result) => result.status === 'allowed')).toHaveLength(5);
-      expect(results.filter((result) => result.status === 'limited')).toHaveLength(15);
-      expect(await consumeDatabaseAttempt(second, 'other-hash')).toEqual({ status: 'allowed' });
-      await pg.exec("UPDATE admin_login_attempts SET expires_at = now() - interval '2 days'");
-      expect(await consumeDatabaseAttempt(first, 'address-hash')).toEqual({ status: 'allowed' });
-      const rows = await pg.query('SELECT * FROM admin_login_attempts');
-      expect(rows.rows).toHaveLength(1);
-      expect(rows.rows[0]).toMatchObject({ key: 'address-hash', attempts: 1 });
-    } finally {
-      await pg.close();
-    }
+    const first = drizzle(pg);
+    const second = drizzle(pg);
+    const results = await Promise.all(
+      Array.from({ length: 20 }, (_, i) =>
+        consumeDatabaseAttempt(i % 2 ? first : second, 'address-hash'),
+      ),
+    );
+    expect(results.filter((result) => result.status === 'allowed')).toHaveLength(5);
+    expect(results.filter((result) => result.status === 'limited')).toHaveLength(15);
+    expect(await consumeDatabaseAttempt(second, 'other-hash')).toEqual({ status: 'allowed' });
+    await pg.exec("UPDATE admin_login_attempts SET expires_at = now() - interval '2 days'");
+    expect(await consumeDatabaseAttempt(first, 'address-hash')).toEqual({ status: 'allowed' });
+    const rows = await pg.query('SELECT * FROM admin_login_attempts');
+    expect(rows.rows).toHaveLength(1);
+    expect(rows.rows[0]).toMatchObject({ key: 'address-hash', attempts: 1 });
   });
 
   it('ignore les en-têtes usurpables hors Vercel et ne conserve pas les IP en clair', () => {

@@ -219,14 +219,26 @@ try {
     assert.ok((await image.arrayBuffer()).byteLength > 1000);
     checks.push(`${path}/opengraph-image`);
   }
-  const absent = await fetch(`${fixture.origin}/charts/skills/2026-10-09`);
-  assert.equal(absent.status, 404);
-  checks.push('archive absente : 404');
-  const absentMethod = await fetch(
-    `${fixture.origin}/charts/skills/methodology?edition=2026-10-09`,
-  );
-  assert.equal(absentMethod.status, 404);
-  checks.push('méthode absente : 404');
+  // Next.js documente un statut 200 pour notFound après le début d'un flux HTML.
+  // Exiger le contenu 404 et noindex, puis le 404 JSON non diffusé en flux.
+  for (const path of [
+    '/charts/skills/2026-10-09',
+    '/charts/skills/methodology?edition=2026-10-09',
+  ]) {
+    const absent = await fetch(fixture.origin + path);
+    assert.ok([200, 404].includes(absent.status), path);
+    const missingHtml = await absent.text();
+    assert.match(missingHtml, /name="robots" content="noindex/);
+    assert.match(
+      missingHtml,
+      /NEXT_HTTP_ERROR_FALLBACK;404|This page could not be found|Page introuvable/,
+    );
+    assert.doesNotMatch(missingHtml, /FIXTURE skills 0/);
+    checks.push(`${path} : page introuvable et noindex`);
+  }
+  const absentApi = await fetch(`${fixture.origin}/api/charts/skills/2026-10-09`);
+  assert.equal(absentApi.status, 404);
+  checks.push('édition absente : API 404');
   await writeFile(
     new URL('routes.json', fixture.artifactDir),
     JSON.stringify({ status: 'passed', database: 'ephemeral-pglite', checks }, null, 2),

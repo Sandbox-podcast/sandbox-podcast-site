@@ -91,7 +91,7 @@ function editorialTranslation(
   const [title, ...sentences] = texts;
   if (title === undefined || sentences.length !== source.sentences.length)
     throw new Error(`Traduction News incomplète en ${locale}.`);
-  const translatedTitle = validateTranslatedText(source.title, title, locale, 200);
+  const translatedTitle = validateTranslatedText(source.title, title, locale, 400);
   const translatedSentences = sentences.map((sentence, index) => {
     const sourceSentence = source.sentences[index];
     if (!sourceSentence) throw new Error(`Phrase source absente en ${locale}.`);
