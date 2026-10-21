@@ -402,7 +402,7 @@ describe('médias News demandés par Lou', () => {
       vi.stubEnv('SANDBOX_NEWS_PUBLIC', '1');
       const metadata = newsPageMetadata(locale);
       expect(metadata.robots).toMatchObject({ index: true, follow: true });
-      expect(metadata.alternates?.languages).toBeDefined();
+      expect(metadata.alternates?.languages).toBeUndefined();
       expect(metadata.alternates?.canonical).toBe(
         locale === 'fr-FR' ? '/news' : `/${locale.toLowerCase()}/news`,
       );

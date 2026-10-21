@@ -21,12 +21,7 @@ await mkdir(output, { recursive: true });
 const browser = await chromium.launch({ channel: 'msedge', headless: true });
 const results = [];
 const failures = [];
-const configs = [
-  { locale: 'fr-FR', prefix: '', homeLabel: 'Accueil Sandbox' },
-  { locale: 'en', prefix: '/en', homeLabel: 'Sandbox home' },
-  { locale: 'es-ES', prefix: '/es-es', homeLabel: 'Inicio de Sandbox' },
-  { locale: 'de-DE', prefix: '/de-de', homeLabel: 'Sandbox-Startseite' },
-];
+const configs = [{ locale: 'fr-FR', prefix: '', homeLabel: 'Accueil Sandbox' }];
 
 try {
   for (const width of [320, 375, 390].filter(
@@ -79,7 +74,7 @@ try {
             await home.locator('img').evaluate((img) => img.complete && img.naturalWidth > 0),
           );
           const headerTargets = await header
-            .locator('.site-home-link, .locale-switcher, .mobile-menu-trigger')
+            .locator('.site-home-link, .site-search-action, .mobile-menu-trigger')
             .evaluateAll((items) =>
               items.map((item) => {
                 const box = item.getBoundingClientRect();
@@ -91,7 +86,7 @@ try {
               headerTargets.every(
                 (box) => box.width >= 44 && box.height >= 44 && box.x >= 0 && box.right <= width,
               ),
-            'Logo, langue et menu accessibles au toucher.',
+            'Logo, recherche et menu accessibles au toucher.',
           );
           assert.equal(
             await page.evaluate(() => document.documentElement.scrollWidth > innerWidth),
@@ -128,9 +123,9 @@ try {
           await page.keyboard.press('Escape');
           assert.equal(await menu.getAttribute('open'), null);
           await menu.locator('summary').tap();
-          await header.locator('.locale-switcher').tap();
+          await home.tap();
           assert.equal(await menu.getAttribute('open'), null, 'Un appui extérieur ferme le menu.');
-          assert.equal(await page.locator('.locale-options-list a:visible').count(), 4);
+          assert.equal(await page.locator('.locale-switcher').count(), 0);
           await page.keyboard.press('Escape');
           const footer = page.locator('footer.site-footer');
           await footer.scrollIntoViewIfNeeded();

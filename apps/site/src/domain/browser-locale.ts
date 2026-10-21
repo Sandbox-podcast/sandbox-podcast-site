@@ -1,4 +1,5 @@
-import { DEFAULT_SITE_LOCALE, siteLocaleSchema } from '../i18n/locales';
+import { DEFAULT_SITE_LOCALE, localeTagFromRouteSegment, siteLocaleSchema } from '../i18n/locales';
+import { sourcePath } from '../i18n/routing';
 
 export const SITE_LOCALE_COOKIE = 'sandbox-locale';
 const COOKIE_MAX_AGE = 60 * 60 * 24 * 365;
@@ -39,21 +40,20 @@ export function preferredBrowserLocale(
   return candidates[0]?.locale ?? DEFAULT_SITE_LOCALE;
 }
 
-/** Seule l'entrée sans langue explicite choisit automatiquement une destination. */
+/** Les anciennes URL traduites reviennent temporairement au français. */
 export function browserLocaleRedirect({
   pathname,
   method,
-  acceptLanguage,
-  savedLocale,
 }: {
   pathname: string;
   method: string;
   acceptLanguage?: string | null;
   savedLocale?: string | undefined;
 }): string | undefined {
-  if (pathname !== '/' || !['GET', 'HEAD'].includes(method)) return undefined;
-  const locale = preferredBrowserLocale(acceptLanguage, savedLocale);
-  return locale === DEFAULT_SITE_LOCALE ? undefined : `/${locale.toLowerCase()}`;
+  if (!['GET', 'HEAD'].includes(method)) return undefined;
+  if (!localeTagFromRouteSegment(pathname.split('/')[1] ?? '')) return undefined;
+  const destination = sourcePath(pathname);
+  return destination === pathname ? undefined : destination;
 }
 
 /** Cookie fonctionnel écrit uniquement lorsqu'une personne choisit sa langue. */

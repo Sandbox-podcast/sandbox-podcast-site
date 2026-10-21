@@ -56,7 +56,7 @@ const COPY = {
     more: 'Afficher la suite',
     preview: 'Aperçu local',
     automatic: 'Mise à jour automatique',
-    note: 'Les titres et synthèses sont générés à partir des extraits publics des médias cités, puis traduits. Ouvre la source pour vérifier les faits.',
+    note: 'Les titres et synthèses sont générés à partir des extraits publics des médias cités. Ouvre la source pour vérifier les faits.',
     home: 'Accueil',
     updated: 'Dernière mise à jour',
     published: 'Dernière publication sur le site',

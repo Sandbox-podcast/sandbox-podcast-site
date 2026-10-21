@@ -24,11 +24,6 @@ try {
     '/nos-projets',
     '/nos-projets/sillage',
     '/charts/github',
-    '/en/about',
-    '/en/nos-projets/sillage',
-    '/en/charts/github',
-    '/es-es/charts/github',
-    '/de-de/charts/github',
     '/guides',
     ...skillGuides.map((guide) => skillGuidePath(guide.slug)),
   ];
@@ -49,7 +44,22 @@ try {
   assert.equal(emptyPodcast.status, 200);
   assert.ok(!urls.includes(`${fixture.origin}/podcast`));
   assert.match(await emptyPodcast.text(), /name="robots" content="noindex/);
-  assert.equal((await fetch(`${fixture.origin}/en/guides/meilleurs-skills-claude`)).status, 404);
+  for (const prefix of ['en', 'es-es', 'de-de']) {
+    const response = await fetch(`${fixture.origin}/${prefix}/nos-projets/sillage?source=test`, {
+      redirect: 'manual',
+    });
+    assert.equal(response.status, 307);
+    assert.equal(
+      new URL(response.headers.get('location'), fixture.origin).href,
+      `${fixture.origin}/nos-projets/sillage?source=test`,
+    );
+    assert.ok(urls.every((url) => !new URL(url).pathname.startsWith(`/${prefix}/`)));
+    checks.push({
+      path: `/${prefix}/nos-projets/sillage`,
+      status: response.status,
+      redirectedToFrench: true,
+    });
+  }
 
   browser = await chromium.launch({ headless: true });
   const context = await browser.newContext({ locale: 'fr-FR', javaScriptEnabled: false });
@@ -95,7 +105,7 @@ try {
       });
       await page.goto(`${fixture.origin}/guides`);
     }
-    for (const path of ['/about', '/en/nos-projets/sillage']) {
+    for (const path of ['/about', '/nos-projets/sillage']) {
       await page.goto(fixture.origin + path);
       const overflow = await page.evaluate(
         () => globalThis.document.documentElement.scrollWidth > globalThis.innerWidth + 1,

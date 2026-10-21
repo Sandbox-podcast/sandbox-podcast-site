@@ -10,7 +10,7 @@ import {
 import { publicChartHistory, publicGithubRankedProjectSlugs } from '@/lib/charts-public';
 import { publicLocalizedSitePages, publicRankingCollectionPages } from '@/lib/localized-content';
 import { isLocaleUiReviewed } from '@/i18n/messages';
-import { localeRouteSegment } from '@/i18n/locales';
+import { isPublicSiteLocale, localeRouteSegment } from '@/i18n/locales';
 import { allEntities, allEpisodes, entityPath } from '@/lib/repository';
 import { indexableEpisode } from '@/domain/episode-seo';
 import { uniqueSitemapEntries } from '@/domain/site-sitemap';
@@ -107,10 +107,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     });
   const localizedEntries = [
     ...localizedRankings
-      .filter((page) => isLocaleUiReviewed(page.localization.locale))
+      .filter(
+        (page) =>
+          isPublicSiteLocale(page.localization.locale) &&
+          isLocaleUiReviewed(page.localization.locale),
+      )
       .map((page) => entry(page.localization.path, page.publishedAt, 0.8)),
     ...localizedSitePages
-      .filter((page) => isLocaleUiReviewed(page.locale))
+      .filter((page) => isPublicSiteLocale(page.locale) && isLocaleUiReviewed(page.locale))
       .map((page) =>
         entry(page.path, page.publishedAt, page.contentKind === 'episode' ? 0.8 : 0.6),
       ),
@@ -118,7 +122,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const localizedRankingHubs = [
     ...new Set(
       localizedRankings.flatMap((page) => {
-        if (!isLocaleUiReviewed(page.localization.locale)) return [];
+        if (
+          !isPublicSiteLocale(page.localization.locale) ||
+          !isLocaleUiReviewed(page.localization.locale)
+        )
+          return [];
         const prefix = localeRouteSegment(page.localization.locale);
         return prefix ? [`/${prefix}/charts`] : [];
       }),

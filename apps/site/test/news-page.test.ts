@@ -110,6 +110,6 @@ describe('accès et disponibilité des pages News', () => {
     });
     const metadata = await publicNewsPageMetadata('en');
     expect(metadata.robots).toMatchObject({ index: true });
-    expect(metadata.alternates?.languages).toBeDefined();
+    expect(metadata.alternates?.languages).toBeUndefined();
   });
 });

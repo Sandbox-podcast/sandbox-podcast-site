@@ -116,14 +116,6 @@ try {
       path: `/charts/entity/fixture-${chart}-0`,
     })),
   ];
-  const homeTitles = new Map([
-    ['/en', 'Sandbox TalkShow: what AI changes for products and tech teams'],
-    [
-      '/es-es',
-      'Sandbox TalkShow: lo que la IA cambia para los productos y los equipos de tecnología',
-    ],
-    ['/de-de', 'Sandbox TalkShow: was KI für Produkte und Tech-Teams verändert'],
-  ]);
   const shareImages = new Map();
   for (const path of [
     '/charts',
@@ -150,16 +142,25 @@ try {
     `/moves/${move.chart}/${move.week}/${move.entity}`,
   ];
   for (const prefix of ['', '/en', '/es-es', '/de-de']) {
-    if (homeTitles.has(prefix)) {
-      const response = await fetch(`${fixture.origin}${prefix}`);
-      assert.equal(response.status, 200);
-      const html = await response.text();
-      const expected = homeTitles.get(prefix);
-      const title = html.match(/<title>([^<]+)<\/title>/)?.[1];
-      assert.ok(title?.startsWith(expected), `Titre d'accueil traduit : ${prefix}`);
-      assert.equal(html.match(/<meta property="og:title" content="([^"]+)"/)?.[1], expected);
-      assert.equal(html.match(/<meta name="twitter:title" content="([^"]+)"/)?.[1], expected);
-      checks.push(`${prefix} : titres HTML, Open Graph et Twitter traduits`);
+    if (prefix) {
+      for (const path of [
+        '',
+        '/about',
+        '/search?q=fixture',
+        ...legacyPaths,
+        '/charts/skills/2026-10-10',
+        '/charts/skills/methodology?edition=2026-10-10',
+        '/confidentialite',
+      ]) {
+        const response = await fetch(`${fixture.origin}${prefix}${path}`, { redirect: 'manual' });
+        assert.equal(response.status, 307);
+        assert.equal(
+          new URL(response.headers.get('location'), fixture.origin).href,
+          `${fixture.origin}${path || '/'}`,
+        );
+        checks.push(`${prefix}${path} : redirection temporaire vers le français`);
+      }
+      continue;
     }
     for (const entry of searchFixtures) {
       const searchPath = `${prefix}/search?${new URLSearchParams({ q: entry.query, type: 'entities' })}`;

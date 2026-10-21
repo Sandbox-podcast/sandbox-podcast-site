@@ -1,4 +1,4 @@
-import { SITE_LOCALES } from './locales';
+import { PUBLIC_SITE_LOCALES } from './locales';
 import { isLocaleUiReviewed } from './messages';
 import { matchSharedPage } from './page-routes';
 import { localizedHref, sourcePath } from './routing';
@@ -7,11 +7,13 @@ import { localizedHref, sourcePath } from './routing';
 export function sharedPageAlternates(path: string) {
   const source = sourcePath(path);
   if (!matchSharedPage(source)) return [];
-  return SITE_LOCALES.filter(({ locale }) => isLocaleUiReviewed(locale)).map(({ locale }) => ({
-    locale,
-    path: localizedHref(source, locale),
-    indexable: true,
-  }));
+  return PUBLIC_SITE_LOCALES.filter(({ locale }) => isLocaleUiReviewed(locale)).map(
+    ({ locale }) => ({
+      locale,
+      path: localizedHref(source, locale),
+      indexable: true,
+    }),
+  );
 }
 
 /** La traduction ne doit jamais ouvrir une recherche, un brouillon ou une page vide. */

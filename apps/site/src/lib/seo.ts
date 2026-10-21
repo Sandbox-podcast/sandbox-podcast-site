@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { isMock, siteConfig } from '@/config/site';
 import { hreflangAlternates, type HreflangPage } from '@/domain/ranking-catalog';
 import { sharedPageAlternates } from '@/i18n/indexing';
+import { isPublicSiteLocale } from '@/i18n/locales';
 
 export const absoluteUrl = (path: string): string => new URL(path, siteConfig.url).toString();
 export const SITE_SHARE_IMAGE_ALT = 'Sandbox Podcast : émission et classements tech et IA';
@@ -62,7 +63,9 @@ export function pageMetadata(meta: PageMeta): Metadata {
   const fallbackImage = siteShareImage();
   const languages = !blocked
     ? hreflangAlternates(
-        meta.localizedAlternates ?? sharedPageAlternates(meta.path),
+        (meta.localizedAlternates ?? sharedPageAlternates(meta.path)).filter((page) =>
+          isPublicSiteLocale(page.locale),
+        ),
         siteConfig.url,
       )
     : undefined;

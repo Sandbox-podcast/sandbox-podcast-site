@@ -2,13 +2,22 @@ import { z } from 'zod';
 
 export const DEFAULT_SITE_LOCALE = 'fr-FR';
 
-/** Les seules langues proposées et servies par le site. */
+/** Langues conservées pour une éventuelle réactivation des traductions. */
 export const SITE_LOCALES = [
   { locale: 'fr-FR', name: 'Français' },
   { locale: 'en', name: 'Anglais' },
   { locale: 'es-ES', name: 'Espagnol' },
   { locale: 'de-DE', name: 'Allemand' },
 ] as const;
+
+/** Publication temporairement limitée au français, à la demande de Lou le 21 octobre 2026. */
+export const PUBLIC_SITE_LOCALES = SITE_LOCALES.filter(
+  ({ locale }) => locale === DEFAULT_SITE_LOCALE,
+);
+
+export function isPublicSiteLocale(locale: string): boolean {
+  return PUBLIC_SITE_LOCALES.some((item) => item.locale === locale);
+}
 
 export const siteLocaleSchema = z.enum(['fr-FR', 'en', 'es-ES', 'de-DE']);
 
