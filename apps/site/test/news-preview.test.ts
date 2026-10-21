@@ -1,3 +1,4 @@
+import { newsSynopsisForDisplay } from '../src/domain/news-preview.ts';
 import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { afterEach, describe, expect, it, vi } from 'vitest';
@@ -183,5 +184,23 @@ describe('isolation de la prévisualisation', () => {
     expect(
       renderToStaticMarkup(createElement(DiscoveryStory, { hosts: [], newsAvailable: true })),
     ).toContain('home-news-title');
+  });
+});
+
+describe('phrases affichées sans répétition', () => {
+  it('ignore casse, espaces et ponctuation finale sans supprimer un fait différent', () => {
+    const displayItem = {
+      ...item,
+      kind: 'article' as const,
+      titles: { 'fr-FR': 'Un modèle ouvert est disponible' },
+      synopses: {
+        'fr-FR': [
+          'UN MODÈLE OUVERT EST DISPONIBLE !',
+          'Les poids sont publics.',
+          'Les poids sont publics!',
+        ],
+      },
+    };
+    expect(newsSynopsisForDisplay(displayItem)).toEqual(['Les poids sont publics.']);
   });
 });

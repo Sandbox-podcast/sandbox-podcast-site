@@ -92,3 +92,40 @@ describe('brèves françaises avant traduction', () => {
     expect(english).not.toContain('Un modèle accessible');
   });
 });
+
+describe('absence de répétition entre le titre et le résumé', () => {
+  it.each(['fr-FR', 'en', 'es-ES', 'de-DE'])(
+    'retire la reprise du titre en %s tout en conservant les autres faits',
+    (locale) => {
+      const title = 'Un modèle est accessible';
+      const item: NewsFeed['items'][number] = {
+        id: 'rundown:/articles/distinct',
+        project: 'The Rundown AI',
+        repository: 'therundown.ai',
+        version: 'article',
+        url: 'https://www.therundown.ai/articles/distinct',
+        publishedAt: '2026-10-21T08:00:00Z',
+        category: 'models',
+        prerelease: false,
+        kind: 'article',
+        titles: { 'fr-FR': title, [locale]: title },
+        synopses: {
+          'fr-FR': [title + '.', 'Les poids sont publiés.'],
+          [locale]: [title + '.', 'Les poids sont publiés.'],
+        },
+      };
+      const html = renderToStaticMarkup(
+        createElement(NewsScreen, { initialFeed: { ...feed, items: [item] }, locale }),
+      );
+      const visible = html.replace(/<script[\s\S]*?<\/script>/gu, '');
+      expect(visible.split(title)).toHaveLength(2);
+      expect(visible).toContain('Les poids sont publiés.');
+      item.synopses = { 'fr-FR': [title + '.'], [locale]: [title + '.'] };
+      const brief = renderToStaticMarkup(
+        createElement(NewsScreen, { initialFeed: { ...feed, items: [item] }, locale }),
+      ).replace(/<script[\s\S]*?<\/script>/gu, '');
+      expect(brief.split(title)).toHaveLength(2);
+      expect(brief).toContain('https://www.therundown.ai/articles/distinct');
+    },
+  );
+});

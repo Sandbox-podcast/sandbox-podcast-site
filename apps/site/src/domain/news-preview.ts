@@ -96,6 +96,26 @@ export function newsSynopsis(item: NewsItem, locale = 'fr-FR'): string[] {
   return item.synopses?.[locale] ?? [];
 }
 
+/** Le résumé visible ne répète ni le titre ni une phrase déjà affichée. */
+export function newsSynopsisForDisplay(item: NewsItem, locale = 'fr-FR'): string[] {
+  const normalize = (text: string) =>
+    text
+      .normalize('NFKC')
+      .replace(/[’‘]/gu, "'")
+      .replace(/\s+/gu, ' ')
+      .trim()
+      .replace(/[.!?…]+$/u, '')
+      .trim()
+      .toLocaleLowerCase(locale);
+  const seen = new Set([normalize(newsSentence(item, locale))]);
+  return newsSynopsis(item, locale).filter((sentence) => {
+    const key = normalize(sentence);
+    if (!key || seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
 export function selectNews(
   items: readonly NewsItem[],
   options: {

@@ -5,7 +5,7 @@ import Link from 'next/link';
 import {
   newsFeedSchema,
   newsSentence,
-  newsSynopsis,
+  newsSynopsisForDisplay,
   selectNews,
   NEWS_PAGE_SIZE,
   uniqueNews,
@@ -512,9 +512,9 @@ export function NewsScreen({
                   </svg>
                 </summary>
                 <div className={styles['synopsis']}>
-                  {newsSynopsis(item, locale).length > 0 ? (
+                  {newsSynopsisForDisplay(item, locale).length > 0 ? (
                     <p lang={locale !== 'fr-FR' && !item.synopses?.[locale] ? 'fr' : undefined}>
-                      {newsSynopsis(item, locale).join(' ')}
+                      {newsSynopsisForDisplay(item, locale).join(' ')}
                     </p>
                   ) : null}
                   <a href={item.url} target="_blank" rel="noopener noreferrer" title={item.project}>
