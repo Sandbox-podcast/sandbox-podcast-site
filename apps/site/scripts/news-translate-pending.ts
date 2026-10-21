@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { publishedNewsItemSchema } from '../src/domain/news-publishing.ts';
 import {
-  translateNewsEditorialItems,
+  translatePublishedNewsItem,
   newsEditorialTranslationsComplete,
 } from '../src/pipeline/news-translation.ts';
 import type { NewsEditorialRecord } from '../src/pipeline/news-editorial.ts';
@@ -53,20 +53,18 @@ async function main() {
           category: item.category,
         },
       };
-      const translated = await translateNewsEditorialItems(
-        [item],
-        undefined,
-        editorial,
-        {},
-        AbortSignal.timeout(7 * 60_000),
-        true,
-      );
+      const translated = [
+        await translatePublishedNewsItem(item, undefined, AbortSignal.timeout(7 * 60_000)),
+      ];
       await request(undefined, translated);
       if (!newsEditorialTranslationsComplete(translated, editorial)) incomplete++;
     }
     after = page.next ?? undefined;
   } while (after);
-  console.log(JSON.stringify({ phase: 'translation', incomplete }));
+  const remaining = pageSchema.parse(await request()).items.length;
+  console.log(JSON.stringify({ phase: 'translation', incomplete, remainingAtLeast: remaining }));
+  if (remaining)
+    throw new Error(`${remaining} fiche(s) restent sans toutes leurs traductions en base.`);
   if (incomplete) throw new Error(`${incomplete} article(s) attendent encore une traduction.`);
 }
 main().catch((error: unknown) => {

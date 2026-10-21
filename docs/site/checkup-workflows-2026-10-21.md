@@ -29,3 +29,11 @@ Les journaux de reprise conservent désormais les détails des collecteurs et de
 La CI suivante franchit les anciens échecs et s’arrête sur le clic YouTube de l’accueil mobile. La reproduction locale confirme que le bouton « Nos vidéos » utilise data-analytics-location, alors que le schéma des événements exige data-analytics-placement. L’événement est donc rejeté avant envoi. Le bouton transmet désormais placement=home. Un test lit les attributs du lien rendu et les soumet au validateur d’événements ; la recette navigateur garde les contrôles du consentement et des services simulés.
 
 Le passage Charts 39606417107 réussit : les éditions GitHub, Skills et Models du créneau du 21 octobre à midi UTC sont publiées. Rising reste explicitement en attente d’historique, sans édition publiée.
+
+## Reprise finale des traductions
+
+Le passage de rédaction corrigé traite quinze candidats et publie sept fiches sans erreur d’exécution ni SIGSEGV. La CI complète a4b6d13 est réussie. La première reprise des traductions complète plusieurs fiches mais révèle deux derniers cas : des marqueurs contenant les mots anglais NUMBER et END sont altérés sur le trajet vers l’allemand ; une ancienne fiche possède une empreinte différente de son texte français et ses traductions calculées ne sont pas enregistrées.
+
+Les nombres utilisent des marqueurs opaques, toujours vérifiés avant restitution. Un suffixe numérique isolé après une virgule est conservé hors du moteur, puis restitué en fin de texte. Il ne dépend ainsi pas de la décision du moteur de supprimer un renvoi. La reprise traduit le français effectivement stocké et conserve le jeton de concurrence initial pour l’écriture. Les langues déjà enregistrées restent conservées. La garde de l’API compare toujours l’empreinte et le français sous verrou avant toute écriture. Le job relit aussi les fiches encore incomplètes en base avant d’annoncer sa réussite.
+
+Le mode manuel translate reprend les langues des fiches publiées sans relancer la collecte ni le modèle de résumé. Il utilise le même verrou que les cycles complets et conserve le contrôle de fraîcheur. Les cycles horaires gardent leur fonctionnement complet.

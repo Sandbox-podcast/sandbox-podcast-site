@@ -1,3 +1,5 @@
+import { publishedNewsItemSchema } from '../src/domain/news-publishing.ts';
+import { translatePublishedNewsItem } from '../src/pipeline/news-translation.ts';
 import { createElement } from 'react';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -132,6 +134,34 @@ describe('médias News demandés par Lou', () => {
         }
       }
     }
+  });
+  it('complète une fiche dont l’empreinte ancienne diffère du français sans perdre les langues enregistrées', async () => {
+    const item = publishedNewsItemSchema.parse({
+      id: 'rundown:/articles/old-hash',
+      project: 'The Rundown AI',
+      repository: 'therundown.ai',
+      version: 'article',
+      url: 'https://www.therundown.ai/articles/old-hash',
+      publishedAt: '2026-10-21',
+      category: 'models',
+      prerelease: false,
+      kind: 'article',
+      headline: 'An open model',
+      titles: { 'fr-FR': 'Un modèle ouvert', en: 'An open model' },
+      synopses: { 'fr-FR': ['Le modèle est disponible.'], en: ['The model is available.'] },
+      editorialSourceHash: 'a'.repeat(64),
+    });
+    const translate = vi.fn(async (texts: readonly string[], locale: string) =>
+      texts.map((text) => `${locale}: ${text}`),
+    );
+    const result = await translatePublishedNewsItem(item, translate);
+    expect(result.editorialSourceHash).toBe(item.editorialSourceHash);
+    expect(result.titles['fr-FR']).toBe(item.titles['fr-FR']);
+    expect(result.synopses['fr-FR']).toEqual(item.synopses['fr-FR']);
+    expect(result.titles.en).toBe(item.titles.en);
+    expect(translate.mock.calls.map((call) => call[1])).toEqual(['es-ES', 'de-DE']);
+    expect(result.titles['es-ES']).toBeTruthy();
+    expect(result.titles['de-DE']).toBeTruthy();
   });
   it('traduit des brèves de longueurs différentes et reprend seulement la langue en échec', async () => {
     const editorial = Object.fromEntries(

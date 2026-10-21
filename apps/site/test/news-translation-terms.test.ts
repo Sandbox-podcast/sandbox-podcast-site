@@ -35,7 +35,7 @@ describe('unités et valeurs des traductions News', () => {
     ] as const) {
       const restored = restoreNewsTranslation(
         source,
-        'SBXNUMBERAEND $ / SBXINPUTTOKENS; SBXNUMBERBEND $ / SBXOUTPUTTOKENS',
+        'ZXQAQXZ $ / SBXINPUTTOKENS; ZXQBQXZ $ / SBXOUTPUTTOKENS',
         locale,
       );
       expect(restored).toContain(input);
@@ -54,22 +54,38 @@ describe('unités et valeurs des traductions News', () => {
   it('protège les milliers et les décimales sans autoriser la perte ou la duplication de valeurs', () => {
     const original = '200 000 développeurs et 1 400 entreprises, à 4,5 euros.';
     expect(prepareNewsTranslation(original)).toBe(
-      'SBXNUMBERAEND développeurs et SBXNUMBERBEND entreprises, à SBXNUMBERCEND euros.',
+      'ZXQAQXZ développeurs et ZXQBQXZ entreprises, à ZXQCQXZ euros.',
     );
     const restored = restoreNewsTranslation(
       original,
-      'SBXNUMBERAEND developers, SBXNUMBERBEND companies, SBXNUMBERCEND euros.',
+      'ZXQAQXZ developers, ZXQBQXZ companies, ZXQCQXZ euros.',
       'en',
     );
     expect(restored).toBe('200 000 developers, 1 400 companies, 4,5 euros.');
     expect(newsTranslationKeepsNumbers(original, restored)).toBe(true);
-    expect(() => restoreNewsTranslation(original, 'SBXNUMBERAEND developers.', 'en')).toThrow(
+    expect(() => restoreNewsTranslation(original, 'ZXQAQXZ developers.', 'en')).toThrow(
       'Nombre protégé',
     );
     expect(() => restoreNewsTranslation(original, 'No values.', 'en')).toThrow('Nombre protégé');
-    expect(() => restoreNewsTranslation('2', 'SBXNUMBERAEND SBXNUMBERAEND', 'en')).toThrow(
-      'Nombre protégé',
+    expect(() => restoreNewsTranslation('2', 'ZXQAQXZ ZXQAQXZ', 'en')).toThrow('Nombre protégé');
+  });
+  it('préserve un nombre final protégé sans retirer les parenthèses du texte source', () => {
+    const text = 'La migration couvre 8 applications, 0.';
+    expect(prepareNewsTranslation(text)).toBe('La migration couvre ZXQAQXZ applications.');
+    const translated = restoreNewsTranslation(
+      text,
+      'Die Migration umfasst ZXQAQXZ Anwendungen.',
+      'de-DE',
     );
+    expect(translated).toBe('Die Migration umfasst 8 Anwendungen, 0.');
+    expect(newsTranslationKeepsNumbers(text, translated)).toBe(true);
+    expect(
+      restoreNewsTranslation(
+        'La version (2) est disponible.',
+        'Version (ZXQAQXZ) is available.',
+        'en',
+      ),
+    ).toBe('Version (2) is available.');
   });
   it('rejette les nombres perdus, accepte la virgule décimale et conserve les répétitions', () => {
     expect(newsTranslationKeepsNumbers(source, '$2 input and $10 output')).toBe(true);

@@ -3,6 +3,7 @@ import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { z } from 'zod';
 import type { NewsItem } from '../domain/news-preview.ts';
+import { publishedNewsItemSchema, type PublishedNewsItem } from '../domain/news-publishing.ts';
 import {
   prepareNewsTranslation,
   restoreNewsTranslation,
@@ -289,4 +290,31 @@ export async function translateNewsEditorialItems(
   }
 
   return prepared;
+}
+
+/** Traduit la révision enregistrée, même si une ancienne empreinte ne décrit plus le français. */
+export async function translatePublishedNewsItem(
+  item: PublishedNewsItem,
+  translate?: NewsTranslationBatch,
+  signal?: AbortSignal,
+): Promise<PublishedNewsItem> {
+  const record: NewsEditorialRecord = {
+    title: item.titles['fr-FR'],
+    sentences: item.synopses['fr-FR'],
+    category: item.category,
+  };
+  const [translated] = await translateNewsEditorialItems(
+    [{ ...item, editorialSourceHash: newsEditorialSourceHash(record) }],
+    translate,
+    { [item.url]: record },
+    {},
+    signal,
+    true,
+  );
+  if (!translated) throw new Error('Fiche traduite absente.');
+  // L’empreinte stockée est le jeton de concurrence de l’API, pas une valeur à réécrire.
+  return publishedNewsItemSchema.parse({
+    ...translated,
+    editorialSourceHash: item.editorialSourceHash,
+  });
 }
