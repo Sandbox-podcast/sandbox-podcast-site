@@ -40,9 +40,6 @@ describe('langue de première visite', () => {
   });
 
   it.each([
-    '/en',
-    '/es-es',
-    '/de-de',
     '/about',
     '/time-machine',
     '/api/news',
@@ -63,22 +60,41 @@ describe('langue de première visite', () => {
     ).toBeUndefined();
   });
 
-  it('redirige la landing en conservant les paramètres et sans cache partagé', () => {
+  it.each(['en', 'es-es', 'de-de'])(
+    'redirige les anciennes pages %s en français sans perdre les paramètres',
+    (locale) => {
+      const response = proxy(
+        new NextRequest(`https://sandbox.test/${locale}/news?source=direct`, {
+          headers: { 'accept-language': 'en-US', host: 'sandbox.test' },
+        }),
+      );
+      expect(response.status).toBe(307);
+      expect(response.headers.get('location')).toBe('https://sandbox.test/news?source=direct');
+      expect(response.headers.get('cache-control')).toContain('private, no-store');
+      expect(response.headers.get('vary')).toBe('Accept-Language, Cookie');
+      const landed = proxy(
+        new NextRequest(response.headers.get('location') ?? 'https://sandbox.test/', {
+          headers: { 'accept-language': 'de-DE', host: 'sandbox.test' },
+        }),
+      );
+      expect(landed.headers.get('location')).toBeNull();
+    },
+  );
+
+  it('ignore une ancienne préférence étrangère et la langue du navigateur sur l’accueil', () => {
     const response = proxy(
       new NextRequest('https://sandbox.test/?source=direct', {
-        headers: { 'accept-language': 'en-US', host: 'sandbox.test' },
+        headers: {
+          'accept-language': 'en-US',
+          cookie: `${SITE_LOCALE_COOKIE}=de-DE`,
+          host: 'sandbox.test',
+        },
       }),
     );
-    expect(response.status).toBe(307);
-    expect(response.headers.get('location')).toBe('https://sandbox.test/en?source=direct');
-    expect(response.headers.get('cache-control')).toContain('private, no-store');
-    expect(response.headers.get('vary')).toBe('Accept-Language, Cookie');
-    const landed = proxy(
-      new NextRequest(response.headers.get('location') ?? 'https://sandbox.test/', {
-        headers: { 'accept-language': 'de-DE', host: 'sandbox.test' },
-      }),
-    );
-    expect(landed.headers.get('location')).toBeNull();
+    expect(response.headers.get('location')).toBeNull();
+    for (const pathname of ['/en', '/es-es', '/de-de'])
+      expect(browserLocaleRedirect({ pathname, method: 'HEAD' })).toBe('/');
+    expect(browserLocaleRedirect({ pathname: '/en/news', method: 'POST' })).toBeUndefined();
   });
 
   it('conserve le choix français malgré un navigateur anglais', () => {

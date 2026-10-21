@@ -86,17 +86,17 @@ describe('ouverture des pages traduites', () => {
     },
   );
   it.each(['es-es', 'de-de'])(
-    'indexe une page complète en %s avec sa canonique et ses langues réciproques',
+    'conserve les données %s sans annoncer de variante étrangère pendant la suspension',
     async (locale) => {
       const metadata = await generateMetadata({
         params: Promise.resolve({ locale, path: ['about'] }),
       });
       expect(metadata.robots).toMatchObject({ index: true, googleBot: { index: true } });
       expect(metadata.alternates?.canonical).toContain(`/${locale}/about`);
-      expect(metadata.alternates?.languages?.['fr-FR']).toContain('/about');
-      expect(metadata.alternates?.languages?.en).toContain('/en/about');
-      expect(metadata.alternates?.languages?.['es-ES']).toContain('/es-es/about');
-      expect(metadata.alternates?.languages?.['de-DE']).toContain('/de-de/about');
+      expect(metadata.alternates?.languages).toEqual({});
+      expect(metadata.alternates?.languages?.en).toBeUndefined();
+      expect(metadata.alternates?.languages?.['es-ES']).toBeUndefined();
+      expect(metadata.alternates?.languages?.['de-DE']).toBeUndefined();
       expect(metadata.title).not.toBe('Retrouvez l’équipe Sandbox');
     },
   );
@@ -128,14 +128,19 @@ describe('ouverture des pages traduites', () => {
     expect(sharedPageAlternates('/time-machine')).toEqual([]);
   });
 
-  it('ajoute les pages ES/DE disponibles au sitemap sans inventer de route', async () => {
+  it('annonce uniquement les pages françaises dans le sitemap pendant la suspension', async () => {
     const entries = await sitemap();
-    for (const prefix of ['es-es', 'de-de']) {
-      expect(entries.some(({ url }) => url.endsWith(`/${prefix}/about`))).toBe(true);
-      expect(entries.some(({ url }) => url.endsWith(`/${prefix}/nos-projets`))).toBe(true);
+    for (const prefix of ['en', 'es-es', 'de-de']) {
+      expect(
+        entries.some(({ url }) => new RegExp(`^/${prefix}(?:/|$)`).exec(new URL(url).pathname)),
+      ).toBe(false);
       expect(entries.some(({ url }) => url.endsWith(`/${prefix}/search`))).toBe(false);
       expect(entries.some(({ url }) => url.endsWith(`/${prefix}/time-machine`))).toBe(false);
     }
+    expect(entries.some(({ url }) => url.endsWith('/about'))).toBe(true);
+    expect(sharedPageAlternates('/about')).toEqual([
+      { locale: 'fr-FR', path: '/about', indexable: true },
+    ]);
     expect(new Set(entries.map(({ url }) => url)).size).toBe(entries.length);
   });
 });

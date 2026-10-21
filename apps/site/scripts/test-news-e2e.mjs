@@ -18,12 +18,7 @@ assert.equal(new URL(fixture.origin).hostname, '127.0.0.1');
 const output = new URL('../.local/news-e2e/', import.meta.url);
 await mkdir(output, { recursive: true });
 const report = { checks: [], browserErrors: [] };
-const paths = [
-  ['fr-FR', '/news'],
-  ['en', '/en/news'],
-  ['es-ES', '/es-es/news'],
-  ['de-DE', '/de-de/news'],
-];
+const paths = [['fr-FR', '/news']];
 const titles = {
   'fr-FR': 'FIXTURE FR : un modèle de test.',
   en: 'FIXTURE EN: a test model.',
@@ -269,7 +264,9 @@ try {
       const alternates = await page
         .locator('link[rel="alternate"][hreflang]')
         .evaluateAll((nodes) => nodes.map((node) => new URL(node.href).pathname));
-      for (const [, alternate] of paths) assert.ok(alternates.includes(alternate));
+      assert.deepEqual(alternates, []);
+      assert.equal(await page.locator('.site-header .locale-switcher').count(), 0);
+      assert.match(await page.locator('html').getAttribute('lang'), /^fr(?:-FR)?$/);
       if (locale === 'fr-FR')
         await page.screenshot({
           path: fileURLToPath(new URL(`published-${viewport.width}.png`, output)),
@@ -277,11 +274,24 @@ try {
     }
   }
   report.checks.push(
-    'Les huit pages desktop/mobile rendent titre, trois phrases, source, canonique et hreflang.',
+    'Les pages françaises desktop/mobile rendent titre, trois phrases, source et canonique, sans sélecteur de langue ni hreflang étranger.',
   );
   report.checks.push(
-    'Les huit pages affichent séparément les dates réelles de publication et de collecte, en heure de Paris.',
+    'Les pages affichent séparément les dates réelles de publication et de collecte, en heure de Paris.',
   );
+  for (const prefix of ['en', 'es-es', 'de-de']) {
+    const response = await fetch(`${fixture.origin}/${prefix}/news?source=test`, {
+      redirect: 'manual',
+    });
+    assert.equal(response.status, 307);
+    assert.equal(
+      new URL(response.headers.get('location'), fixture.origin).href,
+      `${fixture.origin}/news?source=test`,
+    );
+    await page.goto(`${fixture.origin}/${prefix}/news`);
+    assert.equal(new URL(page.url()).pathname, '/news');
+    assert.match(await page.locator('html').getAttribute('lang'), /^fr(?:-FR)?$/);
+  }
   await page.goto(fixture.origin + '/news', { waitUntil: 'domcontentloaded' });
   await page.locator('[data-news-hydrated="true"]').waitFor();
   await page.locator('input[type="search"]').fill('no-fixture-matches-this');

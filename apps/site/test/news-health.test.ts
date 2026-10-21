@@ -20,6 +20,18 @@ const feed = {
   ],
 };
 describe('fraîcheur News publique', () => {
+  it('suspend les traductions sans interrompre la collecte, la rédaction française et la santé', async () => {
+    const workflow = await readFile(
+      new URL('../../../.github/workflows/news-refresh.yml', import.meta.url),
+      'utf8',
+    );
+    expect(workflow).not.toMatch(/^ {2}translations:/m);
+    expect(workflow).not.toContain('news-translate-pending.ts');
+    expect(workflow).not.toContain('news:translator:setup');
+    for (const job of ['collect', 'process', 'health']) expect(workflow).toContain(`  ${job}:`);
+    const refresh = await readFile(new URL('../scripts/news-refresh.ts', import.meta.url), 'utf8');
+    expect(refresh).toContain('deferTranslations: true');
+  });
   it('exige une insertion confirmée pendant le cycle quand des workers ont été lancés', () => {
     const since = '2026-10-19T11:00:00Z';
     expect(verifyNewsHealth(feed, now, since).ok).toBe(false);

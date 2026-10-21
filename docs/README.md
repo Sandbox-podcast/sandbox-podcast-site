@@ -1,5 +1,7 @@
 # Documentation
 
+Emails GitHub News répétés, 21 octobre : [diagnostic et passage temporaire au français](site/incident-emails-news-2026-10-21.md), selon [DD-0075](design-decisions/dd-0075-suspension-traductions.md).
+
 Échecs GitHub Actions, 21 octobre : [diagnostic et corrections News, traductions, CI et classements](site/checkup-workflows-2026-10-21.md).
 
 Volume des actualités, 21 octobre : [DD-0074](design-decisions/dd-0074-volume-de-publication-news.md) formalise la publication de tous les sujets admissibles, sans quota éditorial, et dimensionne jusqu'à huit workers selon la file prête.

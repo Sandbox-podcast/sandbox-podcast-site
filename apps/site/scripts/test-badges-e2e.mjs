@@ -314,10 +314,10 @@ try {
     assert.ok((await page.locator('#badges [data-award]').count()) > 0);
   }
   await page.goto(`${origin}/en/charts/awards?type=best-model`, { waitUntil: 'networkidle' });
-  await page.getByRole('heading', { name: 'Award winners', exact: true }).waitFor();
+  await page.getByRole('heading', { name: 'Les lauréats', exact: true }).waitFor();
   await page.getByLabel('Award', { exact: true }).selectOption('skill-week');
-  await page.getByRole('button', { name: 'Filter', exact: true }).click();
-  await page.waitForURL('**/en/charts/awards?**');
+  await page.getByRole('button', { name: 'Filtrer', exact: true }).click();
+  await page.waitForURL('**/charts/awards?**');
   assert.equal(new URL(page.url()).searchParams.get('type'), 'skill-week');
   for (const locale of ['en', 'es-es', 'de-de']) {
     const entry = extended.find((candidate) => candidate.type === 'best-model');

@@ -16,6 +16,12 @@ afterEach(() => {
 });
 
 describe('navigation publique', () => {
+  it('retire le sélecteur de langue de l’en-tête public', () => {
+    const html = renderToStaticMarkup(createElement(Masthead));
+    expect(html).not.toContain('locale-switcher');
+    expect(html).not.toContain('Changer de langue');
+    expect(html).toContain('site-search-action');
+  });
   it('annonce News dans les menus et le footer seulement quand le fil est disponible', () => {
     for (const component of [MainNav, MobileNav, Masthead, Footer]) {
       expect(

@@ -4,7 +4,7 @@ import Image from 'next/image';
 import type { ReactNode } from 'react';
 import { siteConfig } from '@/config/site';
 
-import { HomeLink, LocaleSwitcher, MainNav, MobileNav } from './nav';
+import { HomeLink, MainNav, MobileNav } from './nav';
 import { ScrollState } from './client';
 export function Wordmark({ className }: { className?: string }) {
   return (
@@ -62,7 +62,6 @@ export function Masthead({
                 <Text>Rechercher</Text>
               </span>
             </Link>
-            <LocaleSwitcher locale={locale} />
           </div>
           <MobileNav locale={locale} newsAvailable={newsAvailable} />
         </div>
