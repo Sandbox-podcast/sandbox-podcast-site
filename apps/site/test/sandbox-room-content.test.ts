@@ -56,7 +56,7 @@ describe('contenus des six salles', () => {
     expect(html).not.toContain('Repère absent');
     expect(html).toContain('Notre présentation');
     expect(html).toMatch(
-      /<a[^>]*href="https:\/\/www.youtube.com\/@SandboxFR"[^>]*target="_blank"[^>]*rel="noopener noreferrer"[^>]*data-studio-videos[^>]*>Nos vidéos/,
+      /<a[^>]*href="https:\/\/www.youtube.com\/@SandboxFR\?sub_confirmation=1"[^>]*target="_blank"[^>]*rel="noopener noreferrer"[^>]*data-studio-videos[^>]*>Nos vidéos/,
     );
     expect(html).toContain('data-analytics-event="youtube_open"');
     const link = /<a[^>]*data-studio-videos[^>]*>/u.exec(html)?.[0] ?? '';
