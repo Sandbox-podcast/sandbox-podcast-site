@@ -8,7 +8,12 @@ import {
   publishedNewsItemSchema,
   type NewsIngestionRequest,
 } from '@/domain/news-publishing';
-import { NEWS_PAGE_SIZE, type NewsCursor, type NewsFeed } from '@/domain/news-preview';
+import {
+  newsLocaleSchema,
+  NEWS_PAGE_SIZE,
+  type NewsCursor,
+  type NewsFeed,
+} from '@/domain/news-preview';
 import { getDb, hasDatabaseConfiguration } from '@/db/client';
 import { newsItems, newsSourceStatus } from '@/db/schema';
 
@@ -113,19 +118,27 @@ export async function knownNewsUrls(now = new Date()): Promise<string[]> {
   return rows.map((row) => row.url);
 }
 
-export async function readPublishedNews(now = new Date(), cursor?: NewsCursor): Promise<NewsFeed> {
+export async function readPublishedNews(
+  now = new Date(),
+  cursor?: NewsCursor,
+  locale = 'fr-FR',
+): Promise<NewsFeed> {
   requireNewsDatabase();
+  const language = newsLocaleSchema.parse(locale);
   const [itemRows, sourceRows, publicationRows] = await Promise.all([
     getDb()
       .select({ payload: newsItems.payload, publishedAt: newsItems.publishedAt, id: newsItems.id })
       .from(newsItems)
       .where(
-        cursor
-          ? or(
-              lt(newsItems.publishedAt, cursor.publishedAt),
-              and(eq(newsItems.publishedAt, cursor.publishedAt), lt(newsItems.id, cursor.id)),
-            )
-          : undefined,
+        and(
+          sql`${newsItems.payload}->'titles'->>${language} is not null`,
+          cursor
+            ? or(
+                lt(newsItems.publishedAt, cursor.publishedAt),
+                and(eq(newsItems.publishedAt, cursor.publishedAt), lt(newsItems.id, cursor.id)),
+              )
+            : undefined,
+        ),
       )
       .orderBy(desc(newsItems.publishedAt), desc(newsItems.id))
       .limit(NEWS_PAGE_SIZE + 1),

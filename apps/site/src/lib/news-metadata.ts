@@ -47,6 +47,6 @@ export function newsPageMetadata(locale = 'fr-FR', indexable = newsPublicEnabled
 }
 
 export async function publicNewsPageMetadata(locale = 'fr-FR') {
-  const data = await readNewsPageData();
+  const data = await readNewsPageData(locale);
   return newsPageMetadata(locale, data.status === 'published' && data.feed.items.length > 0);
 }

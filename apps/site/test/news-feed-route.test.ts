@@ -39,8 +39,14 @@ describe('pagination publique News', () => {
       ),
     );
     expect(response.status).toBe(200);
-    expect(state.read).toHaveBeenCalledWith(expect.any(Date), cursor);
+    expect(state.read).toHaveBeenCalledWith(expect.any(Date), cursor, 'fr-FR');
     expect(response.headers.get('cache-control')).toBe('no-store');
+  });
+  it('valide la langue et la transmet avant de paginer', async () => {
+    expect((await GET(new Request('https://sandbox.test/api/news?locale=xx'))).status).toBe(400);
+    expect(state.read).not.toHaveBeenCalled();
+    expect((await GET(new Request('https://sandbox.test/api/news?locale=en'))).status).toBe(200);
+    expect(state.read).toHaveBeenCalledWith(expect.any(Date), undefined, 'en');
   });
   it('conserve une erreur lisible sans détails SQL', async () => {
     state.read.mockRejectedValue(new Error('secret database detail'));

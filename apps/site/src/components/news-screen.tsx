@@ -315,7 +315,7 @@ export function NewsScreen({
     setPending(true);
     setError('');
     try {
-      const params = new URLSearchParams({ cursor: JSON.stringify(feed.nextCursor) });
+      const params = new URLSearchParams({ cursor: JSON.stringify(feed.nextCursor), locale });
       const response = await fetch(`/api/news?${params.toString()}`, {
         signal: AbortSignal.timeout(30_000),
       });

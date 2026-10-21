@@ -7,11 +7,11 @@ type NewsPageData =
   { status: 'disabled' | 'unavailable' } | { status: 'preview' | 'published'; feed: NewsFeed };
 
 /** Partage un même relevé entre le rendu et ses métadonnées pendant la requête. */
-export const readNewsPageData = cache(async (): Promise<NewsPageData> => {
+export const readNewsPageData = cache(async (locale = 'fr-FR'): Promise<NewsPageData> => {
   if (newsPreviewEnabled()) return { status: 'preview', feed: await readNewsPreview() };
   if (!newsPublicEnabled()) return { status: 'disabled' };
   try {
-    return { status: 'published', feed: await readPublishedNews() };
+    return { status: 'published', feed: await readPublishedNews(new Date(), undefined, locale) };
   } catch (error) {
     console.error('SANDBOX News unavailable:', error instanceof Error ? error.name : 'unknown');
     return { status: 'unavailable' };

@@ -2,6 +2,7 @@ import { z } from 'zod';
 import { NEWS_ALLOWED_HOSTS } from './news-media.ts';
 
 export const NEWS_PAGE_SIZE = 30;
+export const newsLocaleSchema = z.enum(['fr-FR', 'en', 'es-ES', 'de-DE']);
 
 export const newsCategorySchema = z.enum([
   'development',

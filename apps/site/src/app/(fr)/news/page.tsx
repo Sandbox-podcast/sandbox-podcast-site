@@ -6,7 +6,7 @@ import { readNewsPageData } from '@/lib/news-page-data';
 export const dynamic = 'force-dynamic';
 export const generateMetadata = () => publicNewsPageMetadata();
 export default async function NewsPage({ locale = 'fr-FR' }: { locale?: string }) {
-  const data = await readNewsPageData();
+  const data = await readNewsPageData(locale);
   if (data.status !== 'preview' && (data.status !== 'published' || data.feed.items.length === 0))
     notFound();
   return (

@@ -142,6 +142,39 @@ describe('publication automatique SANDBOX News', () => {
     expect(after.lastPublishedAt).toBe(before.lastPublishedAt);
     expect(after.items[0]?.synopses?.['fr-FR']).toEqual(french.synopses['fr-FR']);
   });
+  it('conserve les articles anglais visibles après plus de trente publications françaises', async () => {
+    const payload = ingestion();
+    const item = payload.items[0]?.item;
+    if (!item) throw new Error('Fixture absente');
+    item.publishedAt = new Date(Date.now() - 60_000).toISOString();
+    await publishNewsBatch(payload);
+    await db.insert(schema.newsItems).values(
+      Array.from({ length: 35 }, (_, index) => {
+        const id = `rundown:/articles/fr-only-${index}`;
+        const url = `https://www.therundown.ai/articles/fr-only-${index}`;
+        return {
+          id,
+          canonicalUrl: url,
+          sourceId: 'rundown',
+          sourceName: item.project,
+          publishedAt: new Date().toISOString(),
+          category: item.category,
+          payload: {
+            ...item,
+            id,
+            url,
+            publishedAt: new Date().toISOString(),
+            titles: { 'fr-FR': item.titles['fr-FR'] },
+            synopses: { 'fr-FR': item.synopses['fr-FR'] },
+          },
+        };
+      }),
+    );
+    expect((await readPublishedNews()).items).toHaveLength(30);
+    const english = await readPublishedNews(new Date(), undefined, 'en');
+    expect(english.items.map((entry) => entry.id)).toEqual([item.id]);
+    expect(english.nextCursor).toBeNull();
+  });
   it('reprend les traductions par pages sans répéter une fiche en échec', async () => {
     const item = ingestion().items[0]?.item;
     if (!item) throw new Error('Fixture absente');
