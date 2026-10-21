@@ -5,6 +5,14 @@ export const VIDEO_CLUB_ROOM_IMAGE = '/images/rooms/video-club-room-v2.webp';
 export const VIDEO_CLUB_VHS_CLOSED_IMAGE = '/video-club/vhs-case-closed-v1.webp';
 export const VIDEO_CLUB_VHS_OPEN_IMAGE = '/video-club/vhs-case-open-v1.webp';
 
+/** Centre horizontal et bas de la cassette dans la photographie de 1672 × 941. */
+export function videoClubTapeSlot(bayIndex: number, slot: number) {
+  return {
+    x: (21 + bayIndex * 23 + (slot % 3) * 6) / 100,
+    y: ([43.5, 55, 66][Math.floor(slot / 3)] ?? 66) / 100,
+  };
+}
+
 /** Garde du décor autour des rayons latéraux, même dans un cadre très large. */
 export function videoClubRoomFit(
   width: number,

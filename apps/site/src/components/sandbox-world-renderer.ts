@@ -1,6 +1,8 @@
 import * as THREE from 'three';
 import type { SandboxRoomId } from '@/domain/sandbox-rooms';
 import type { PortalProjects } from '@/domain/studio-portal';
+import { videoClubTapeSlot } from '@/domain/video-club';
+import { drawSandboxProjectCover } from './sandbox-project-cover';
 import {
   portalWorldPosition,
   worldTravel,
@@ -269,43 +271,45 @@ export async function createWorldRenderer(
         back,
       ]);
       if (id === 'projects') {
+        await document.fonts.ready;
+        const fontFamily = getComputedStyle(canvas).fontFamily;
         await Promise.all(
           projects.flatMap((bay, bayIndex) =>
             bay.map(async (project, index) => {
               const art = document.createElement('canvas');
-              art.width = 180;
-              art.height = 260;
+              art.width = 264;
+              art.height = 392;
               const ctx = art.getContext('2d');
               if (!ctx) return;
-              ctx.fillStyle = project.color;
-              ctx.fillRect(0, 0, 180, 260);
+              let cover: HTMLImageElement | undefined;
               if (project.image) {
                 try {
-                  const cover = await loadImage(
+                  cover = await loadImage(
                     `/_next/image?url=${encodeURIComponent(project.image)}&w=256&q=75`,
                   );
-                  ctx.drawImage(cover, 0, 12, 180, 195);
                 } catch {
                   // La cassette garde sa couleur et son titre si la couverture manque.
                 }
               }
-              ctx.fillStyle = '#10151c';
-              ctx.fillRect(0, 206, 180, 54);
-              ctx.fillStyle = '#f7e7c8';
-              ctx.font = 'bold 15px sans-serif';
-              ctx.fillText(project.name.slice(0, 22), 8, 235, 165);
+              drawSandboxProjectCover(ctx, project, cover, fontFamily);
               const coverTexture = track(new THREE.CanvasTexture(art));
               coverTexture.colorSpace = THREE.SRGBColorSpace;
-              const tape = new THREE.Mesh(
-                track(new THREE.BoxGeometry(0.67, 1, 0.16)),
-                track(new THREE.MeshBasicMaterial({ map: coverTexture })),
-              );
+              const size = portalWorldPosition({ x: 0.5 + 66 / 1672, y: 0.5 - 98 / 941 });
+              const side = track(new THREE.MeshBasicMaterial({ color: '#18191b' }));
+              const front = track(new THREE.MeshBasicMaterial({ map: coverTexture }));
+              const tape = new THREE.Mesh(track(new THREE.BoxGeometry(size.x, size.y, 0.16)), [
+                side,
+                side,
+                side,
+                side,
+                front,
+                side,
+              ]);
               // Première page de chaque baie, alignée sur les trois rayons photographiés.
-              const position = portalWorldPosition({
-                x: 0.21 + bayIndex * 0.23 + (index % 3) * 0.06,
-                y: 0.435 + Math.floor(index / 3) * 0.113 - 0.052,
-              });
-              tape.position.set(position.x, position.y, -5.84);
+              const slot = videoClubTapeSlot(bayIndex, index);
+              const position = portalWorldPosition({ x: slot.x, y: slot.y - 49 / 941 });
+              tape.position.set(position.x, position.y, -5.92);
+              tape.rotation.y = (-7 * Math.PI) / 180;
               objects.add(tape);
             }),
           ),

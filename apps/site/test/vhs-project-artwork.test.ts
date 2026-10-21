@@ -4,12 +4,24 @@ import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import sharp from 'sharp';
 import { describe, expect, it } from 'vitest';
-import { VHS_PROJECT_ARTWORK } from '../src/domain/vhs-project-artwork';
+import { VHS_PROJECT_ARTWORK, vhsProjectArtwork } from '../src/domain/vhs-project-artwork';
 import { personalProjects } from '../src/lib/personal-projects';
 import { SandboxRoomContent } from '../src/components/sandbox-room-content';
 import { VideoClub } from '../src/components/video-club';
 
 describe('jaquettes illustrées du vidéoclub', () => {
+  it('garde les médias produit en repli pour un projet sans illustration VHS', () => {
+    const original = personalProjects[0];
+    if (!original) throw new Error('Le catalogue de test doit contenir un projet.');
+    const project = { ...original, slug: 'project-without-vhs-artwork' };
+    expect(vhsProjectArtwork(project)).toBe(
+      project.cover?.src ?? project.images[0]?.src ?? project.icon?.src,
+    );
+    expect(
+      vhsProjectArtwork({ ...project, cover: undefined, images: [], icon: undefined }),
+    ).toBeUndefined();
+  });
+
   it('couvre chaque projet publié avec une illustration distincte et exclut MindOdyssey', () => {
     expect(Object.keys(VHS_PROJECT_ARTWORK).sort()).toEqual(
       personalProjects.map(({ slug }) => slug).sort(),

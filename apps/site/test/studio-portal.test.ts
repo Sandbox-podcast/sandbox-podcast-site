@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { portalPointer, portalProjects } from '../src/domain/studio-portal';
 import { personalProjects } from '../src/lib/personal-projects';
+import { VHS_PROJECT_ARTWORK } from '../src/domain/vhs-project-artwork';
+import { videoClubTapeSlot } from '../src/domain/video-club';
 
 describe('portail du vidéoclub', () => {
   it('déplace la vue derrière la porte dans le sens opposé au regard, sans dépasser le cadre', () => {
@@ -25,5 +27,18 @@ describe('portail du vidéoclub', () => {
       }
     }
     expect(portalProjects([])).toEqual([[], [], []]);
+  });
+
+  it('montre les illustrations VHS actuelles pour chaque cassette de l’aperçu', () => {
+    for (const project of portalProjects(personalProjects).flat()) {
+      expect(project.image).toBe(VHS_PROJECT_ARTWORK[project.slug]);
+      expect(project.image).toMatch(/^\/images\/vhs-projects\//);
+    }
+  });
+
+  it('conserve les trois colonnes et les bas des trois rayons de la salle', () => {
+    expect(videoClubTapeSlot(0, 0)).toEqual({ x: 0.21, y: 0.435 });
+    expect(videoClubTapeSlot(1, 4)).toEqual({ x: 0.5, y: 0.55 });
+    expect(videoClubTapeSlot(2, 8)).toEqual({ x: 0.79, y: 0.66 });
   });
 });
