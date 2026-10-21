@@ -23,3 +23,9 @@ Le dépôt est public. Les workers utilisent les runners Ubuntu standards, dont 
 Les journaux donnent un motif par URL écartée : extrait absent, moins de trois passages sources utilisables, refus du modèle, résumé invalide ou traduction rejetée. Les trois phrases et leurs trois preuves restent requises. Les citations sources peuvent atteindre les 320 caractères déjà admis par le validateur, au lieu d'être limitées à 240 par le seul prétraitement Python. Aucune preuve ni date n'est inventée pour augmenter le volume.
 
 Le nombre de fiches effectivement publiées doit être mesuré sur un passage complet. Huit workers ne garantissent pas huit fois plus de publications : cela dépend des extraits disponibles, des refus et du temps de génération. Les sources bloquées et les candidats rejetés restent des limites à traiter à partir de ces motifs.
+
+## Correction du compteur après le premier passage
+
+Le premier passage parallèle annonce 504 candidats en attente mais zéro prêt. Le compteur utilisait une sous-requête corrélée dans une projection à une seule table. Drizzle retirait les qualifications des deux colonnes `canonical_url` ; la comparaison devenait interne à `news_items`. Dès qu'un article publié existait, tous les candidats disparaissaient du compte. Les tests initiaux de ce compteur avaient une table d'articles vide.
+
+La correction qualifie explicitement les colonnes des deux tables. Une régression contient un article publié distinct des deux candidats : elle reproduit le zéro erroné, puis vérifie le compte de deux candidats prêts et l'exclusion du seul candidat effectivement publié. Le planificateur refuse désormais un compteur inférieur au nombre de candidats prêts renvoyés dans la même réponse, au lieu de terminer sans lancer les workers.

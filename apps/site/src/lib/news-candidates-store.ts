@@ -87,7 +87,7 @@ export async function readNewsBacklog() {
         ${newsCandidates.nextAttemptAt} <= ${now}
         and (${newsCandidates.leaseExpiresAt} is null or ${newsCandidates.leaseExpiresAt} <= ${now})
         and (${newsCandidates.payload}->>'publishedAt') >= ${new Date(Date.now() - 14 * 86_400_000).toISOString()}
-        and not exists (select 1 from ${newsItems} where ${newsItems.canonicalUrl} = ${newsCandidates.canonicalUrl})
+        and not exists (select 1 from ${newsItems} where ${newsItems}.${sql.identifier(newsItems.canonicalUrl.name)} = ${newsCandidates}.${sql.identifier(newsCandidates.canonicalUrl.name)})
       )::int`,
       oldestPendingAt: sql<string | null>`min(${newsCandidates.createdAt})`,
     })

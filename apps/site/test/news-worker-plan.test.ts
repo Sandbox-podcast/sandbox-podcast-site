@@ -22,6 +22,32 @@ const queue = {
 afterEach(() => vi.unstubAllGlobals());
 
 describe('planification privée du volume News', () => {
+  it('refuse un compteur vide si la file renvoie un candidat prêt', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue(
+        Response.json({
+          ...queue,
+          backlog: { ...queue.backlog, ready: 0 },
+          items: [
+            {
+              id: 'rundown:/articles/fixture',
+              url: 'https://www.therundown.ai/articles/fixture',
+              project: 'The Rundown AI',
+              repository: 'www.therundown.ai',
+              version: 'article',
+              kind: 'article',
+              headline: 'Fixture',
+              publishedAt: new Date().toISOString(),
+              category: 'models',
+              prerelease: false,
+            },
+          ],
+        }),
+      ),
+    );
+    await expect(newsWorkerPlan(env)).rejects.toThrow('contredit');
+  });
   it('lit la file sans réserver de candidat et transmet le secret au seul endpoint prévu', async () => {
     const request = vi.fn<typeof fetch>().mockResolvedValue(Response.json(queue));
     vi.stubGlobal('fetch', request);

@@ -27,6 +27,8 @@ export async function newsWorkerPlan(
   if (!response.ok) throw new Error(`File News : HTTP ${response.status}.`);
   const pending = newsPendingSchema.parse(await response.json());
   if (!pending.backlog) throw new Error('Volume de la file News absent.');
+  if (pending.backlog.ready !== undefined && pending.backlog.ready < pending.items.length)
+    throw new Error('Le compteur News contredit les candidats prêts retournés par la file.');
   const plan = planNewsWorkers(pending.backlog);
   return { ...plan, backlog: pending.backlog, processingStartedAt: new Date().toISOString() };
 }

@@ -33,6 +33,30 @@ function candidate(index = 0) {
     sourceExcerpt: 'Extrait public de test. '.repeat(20),
   });
 }
+async function published(index: number) {
+  const item = candidate(index);
+  const sentences: [string, string, string] = [
+    'Première phrase de test.',
+    'Deuxième phrase de test.',
+    'Troisième phrase de test.',
+  ];
+  const payload = {
+    ...item,
+    titles: { 'fr-FR': 'Fixture', en: 'Fixture', 'es-ES': 'Fixture', 'de-DE': 'Fixture' },
+    synopses: { 'fr-FR': sentences, en: sentences, 'es-ES': sentences, 'de-DE': sentences },
+    editorialSourceHash: 'a'.repeat(64),
+  };
+  delete payload.sourceExcerpt;
+  await db.insert(schema.newsItems).values({
+    id: item.id,
+    canonicalUrl: item.url,
+    sourceId: 'rundown',
+    sourceName: item.project,
+    publishedAt: item.publishedAt,
+    category: item.category,
+    payload,
+  });
+}
 beforeAll(async () => {
   for (const file of [
     '0016_sandbox_news_autopublishing',
@@ -47,12 +71,21 @@ beforeAll(async () => {
 });
 afterEach(async () => {
   await db.delete(schema.newsCandidates);
+  await db.delete(schema.newsItems);
 });
 afterAll(async () => {
   await pg.close();
 });
 
 describe('file News durable', () => {
+  it('ne confond pas un autre article déjà publié avec les candidats de la file', async () => {
+    await enqueueNewsCandidates([candidate(0), candidate(1)]);
+    await published(99);
+    expect(await readNewsBacklog()).toMatchObject({ pending: 2, ready: 2 });
+    await published(0);
+    expect(await readNewsBacklog()).toMatchObject({ pending: 2, ready: 1 });
+    expect((await readPendingNewsCandidates()).map((item) => item.url)).toEqual([candidate(1).url]);
+  });
   it('alimente huit workers concurrents sans réserver deux fois le même article', async () => {
     await enqueueNewsCandidates(Array.from({ length: 40 }, (_, index) => candidate(index)));
     const batches = await Promise.all(Array.from({ length: 8 }, () => claimNewsCandidates()));
