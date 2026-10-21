@@ -65,10 +65,13 @@ describe('réglages publics du site', () => {
 
   it('remplace une ancienne URL YouTube générique par la chaîne officielle', () => {
     expect(youtubeChannelUrl('https://www.youtube.com/')).toBe(
-      'https://www.youtube.com/@SandboxFR',
+      'https://www.youtube.com/@SandboxFR?sub_confirmation=1',
     );
     expect(youtubeChannelUrl('https://www.youtube.com/@SandboxFR')).toBe(
-      'https://www.youtube.com/@SandboxFR',
+      'https://www.youtube.com/@SandboxFR?sub_confirmation=1',
+    );
+    expect(youtubeChannelUrl('https://m.youtube.com/@SandboxFR?feature=shared')).toBe(
+      'https://www.youtube.com/@SandboxFR?sub_confirmation=1',
     );
   });
 

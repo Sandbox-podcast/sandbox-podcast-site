@@ -159,7 +159,7 @@ describe('accueil du Talk Show', () => {
     const spotify = 'https://open.spotify.com/show/2Wp6S4qgRqQaV01AjkDcMH';
     const html = renderToStaticMarkup(createElement(Footer));
     expect(html).toContain(
-      'href="https://www.youtube.com/@SandboxFR" target="_blank" rel="noopener noreferrer"',
+      'href="https://www.youtube.com/@SandboxFR?sub_confirmation=1" target="_blank" rel="noopener noreferrer"',
     );
     expect(html).toContain(`href="${spotify}" target="_blank" rel="noopener noreferrer"`);
     expect(html).not.toContain('/episode/4Dq1kMkrvdHlsp8gYfO1vJ');
@@ -283,7 +283,7 @@ describe('accueil du Talk Show', () => {
     expect(minimal).toContain('<h1');
     expect(minimal).not.toContain('<button');
     expect(minimal).toContain('data-studio-videos="true"');
-    expect(minimal).toContain('href="https://www.youtube.com/@SandboxFR"');
+    expect(minimal).toContain('href="https://www.youtube.com/@SandboxFR?sub_confirmation=1"');
     expect(minimal).toContain('data-studio-navigation="true"');
     expect(minimal.match(/<p\b/g)).toHaveLength(2);
     expect(html).toMatch(/<canvas\b[^>]*aria-hidden="true"/);

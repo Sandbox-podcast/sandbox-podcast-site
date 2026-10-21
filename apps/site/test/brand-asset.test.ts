@@ -20,7 +20,7 @@ describe('identité YouTube Sandbox', () => {
       await readFile(new URL('../content/site.json', import.meta.url), 'utf8'),
     ) as { platforms: { youtube: string } };
 
-    expect(site.platforms.youtube).toBe('https://www.youtube.com/@SandboxFR');
+    expect(site.platforms.youtube).toBe('https://www.youtube.com/@SandboxFR?sub_confirmation=1');
   });
 
   it.each([

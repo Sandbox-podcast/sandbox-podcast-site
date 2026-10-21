@@ -127,7 +127,7 @@ describe('identité et contrôles communs', () => {
     const footer = renderToStaticMarkup(createElement(Footer));
     expect(header).toContain('sandbox-logo.png');
     expect(footer).toContain('sandbox-logo.png');
-    expect(footer).toContain('https://www.youtube.com/@SandboxFR');
+    expect(footer).toContain('https://www.youtube.com/@SandboxFR?sub_confirmation=1');
     expect(footer).toContain('https://open.spotify.com/');
     expect(footer).toContain('https://x.com/SandboxTalkShow');
     expect(footer).toContain('https://www.tiktok.com/@sandbox.talkshow');
