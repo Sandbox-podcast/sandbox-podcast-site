@@ -1,9 +1,31 @@
 import json
 import os
+import re
 import sys
+from collections import Counter
 
 for stream in (sys.stdin, sys.stdout, sys.stderr):
     stream.reconfigure(encoding="utf-8", errors="strict")
+
+
+def translate_preserving_markers(translator, text):
+    markers = lambda value: Counter(re.findall(r"ZXQ[A-Z]+QXZ|SBX[A-Z]+", value))
+    expected = markers(text)
+    result = translator.translate(text)
+    if markers(result) == expected:
+        return result
+    aliases = {marker: f"[{marker[3:-3]}]" for marker in expected if marker.startswith("ZXQ")}
+    if aliases and all(alias not in text for alias in aliases.values()):
+        alternative = text
+        for marker, alias in aliases.items():
+            alternative = alternative.replace(marker, alias)
+        retried = translator.translate(alternative)
+        if all(retried.count(alias) == expected[marker] for marker, alias in aliases.items()):
+            for marker, alias in aliases.items():
+                retried = retried.replace(alias, marker)
+            if markers(retried) == expected:
+                return retried
+    raise RuntimeError("Argos ne conserve pas tous les marqueurs protégés.")
 
 
 def main():
@@ -42,7 +64,7 @@ def main():
             translator = source.get_translation(target)
             if translator is None:
                 raise RuntimeError(f"Le trajet Argos {source.code} vers {target.code} manque.")
-            current = translator.translate(current)
+            current = translate_preserving_markers(translator, current)
         translated.append(current.strip())
     if any(not text for text in translated):
         raise RuntimeError("Argos a renvoyé une traduction vide.")
