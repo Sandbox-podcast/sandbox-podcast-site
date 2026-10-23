@@ -43,8 +43,8 @@ export const scenes = [
     sourceImage: './assets/sources/copilot-studio-memory.webp',
     sourceImageAlt:
       'Visuel Microsoft montrant l’activation de la mémoire et la gestion des souvenirs dans Copilot Studio.',
-    caption: 'Compte propre · Mémoire · Déclencheurs',
-    captionDetail: 'Frontier · expérimental',
+    figureCaption: 'Compte propre · Mémoire · Déclencheurs',
+    figureAside: 'Frontier · expérimental',
     sources: [
       {
         label: 'Annonce Microsoft · 15/10',
@@ -60,7 +60,7 @@ export const scenes = [
     id: 'anthropic-employment',
     kind: 'radar-story',
     chapter: 'Radar',
-    title: 'Travailler chez Anthropic',
+    title: 'Comment l’IA transforme Anthropic',
     subtitle: 'Comment forme-t-on les futurs seniors à l’ère des agents IA ?',
     date: '16 octobre 2026',
     illustration: './assets/radar-v1.webp',
@@ -100,6 +100,31 @@ export const scenes = [
       {
         title: '6. Terminer sur un choix · 1 minute',
         text: 'Si l’IA vous faisait gagner deux heures par jour, voudriez-vous produire davantage, apprendre autre chose ou travailler moins ? Qui déciderait ? Aux auditeurs : quelle tâche délégueriez-vous immédiatement et laquelle garderiez-vous pour continuer à apprendre ?',
+      },
+    ],
+  },
+  {
+    id: 'voxtral-3',
+    kind: 'radar-story',
+    chapter: 'Radar',
+    title: 'Voxtral 3 : Mistral assemble écoute, raisonnement et parole',
+    date: '20 octobre 2026',
+    illustration: './assets/radar-v1.webp',
+    sourceImage: './assets/voxtral-3-pipeline.svg',
+    sourceImageAlt:
+      'Schéma du SDK Voice Agents : transcription Voxtral, raisonnement par un modèle de langage avec outils, puis synthèse vocale Voxtral.',
+    figureCaption:
+      'Le SDK Voice Agents relie transcription, raisonnement et réponse parlée en temps réel.',
+    figureAside: 'Modèles audio en préversion publique',
+    question: 'Dans une entreprise, quelles tâches vocales laisseriez-vous un agent accomplir ?',
+    sources: [
+      {
+        label: 'Annonce Mistral · 20/10',
+        url: 'https://mistral.ai/news/voxtral-3/',
+      },
+      {
+        label: 'Documentation Mistral · Audio',
+        url: 'https://docs.mistral.ai/studio/audio/overview',
       },
     ],
   },

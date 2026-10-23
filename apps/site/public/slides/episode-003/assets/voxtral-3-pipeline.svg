@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 640" role="img" aria-labelledby="title desc">
+  <title id="title">Chaîne d’un agent vocal avec Voxtral 3</title>
+  <desc id="desc">La transcription Voxtral transmet le texte à un modèle de langage qui peut appeler des outils, puis Voxtral TTS produit la réponse parlée.</desc>
+  <defs>
+    <linearGradient id="panel" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#101c29" />
+      <stop offset="1" stop-color="#071019" />
+    </linearGradient>
+    <linearGradient id="cyan" x1="0" x2="1">
+      <stop offset="0" stop-color="#43d9f5" />
+      <stop offset="1" stop-color="#7be8fa" />
+    </linearGradient>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0 0 10 5 0 10Z" fill="#49d8f1" />
+    </marker>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M48 0H0V48" fill="none" stroke="#aec8d5" stroke-opacity=".035" />
+    </pattern>
+  </defs>
+  <rect width="1600" height="640" rx="26" fill="url(#panel)" />
+  <rect width="1600" height="640" rx="26" fill="url(#grid)" />
+  <rect x="1" y="1" width="1598" height="638" rx="25" fill="none" stroke="#7290a3" stroke-opacity=".25" />
+
+  <text x="72" y="70" fill="#5de0f4" font-family="Arial, sans-serif" font-size="20" font-weight="700" letter-spacing="4">DE LA VOIX À L’ACTION</text>
+  <text x="72" y="132" fill="#f4f7fa" font-family="Arial, sans-serif" font-size="48" font-weight="700" letter-spacing="-1.5">Voxtral 3</text>
+  <text x="1528" y="72" text-anchor="end" fill="#a9bac4" font-family="Arial, sans-serif" font-size="19" letter-spacing="2">MISTRAL · 20 OCT. 2026</text>
+
+  <g font-family="Arial, sans-serif">
+    <rect x="72" y="190" width="430" height="300" rx="16" fill="#0a141e" stroke="#46cfe6" stroke-opacity=".55" />
+    <rect x="72" y="190" width="430" height="5" rx="2.5" fill="url(#cyan)" />
+    <text x="104" y="237" fill="#60dff2" font-size="17" font-weight="700" letter-spacing="2">01 · ÉCOUTER</text>
+    <text x="104" y="299" fill="#f2f6f8" font-size="28" font-weight="700">Voxtral Mini</text>
+    <text x="104" y="338" fill="#f2f6f8" font-size="28" font-weight="700">Transcribe Realtime 3</text>
+    <text x="104" y="388" fill="#a9bac4" font-size="19">Transcrit l’audio en direct</text>
+    <g fill="none" stroke="#4bd8f0" stroke-linecap="round" stroke-width="5" opacity=".9">
+      <path d="M108 439v12M128 425v40M148 414v62M168 431v29M188 420v51M208 437v16M228 426v38M248 416v57M268 433v27M288 423v47M308 438v15M328 427v37M348 416v58M368 431v30M388 422v45M408 437v16M428 426v38M448 418v55" />
+    </g>
+
+    <rect x="585" y="190" width="430" height="300" rx="16" fill="#0a141e" stroke="#e8aa61" stroke-opacity=".55" />
+    <rect x="585" y="190" width="430" height="5" rx="2.5" fill="#e8aa61" />
+    <text x="617" y="237" fill="#f0bd7e" font-size="17" font-weight="700" letter-spacing="2">02 · RAISONNER + AGIR</text>
+    <text x="617" y="299" fill="#f2f6f8" font-size="28" font-weight="700">Modèle de langage</text>
+    <text x="617" y="350" fill="#a9bac4" font-size="19">Comprend la demande, choisit</text>
+    <text x="617" y="380" fill="#a9bac4" font-size="19">une action et appelle un outil.</text>
+    <g transform="translate(617 421)" fill="none" stroke="#e8aa61" stroke-width="2">
+      <rect width="112" height="38" rx="8" />
+      <rect x="124" width="112" height="38" rx="8" />
+      <rect x="248" width="112" height="38" rx="8" />
+      <path d="M112 19h12M236 19h12" />
+    </g>
+    <g fill="#efc28a" font-size="13" text-anchor="middle">
+      <text x="673" y="445">COMPRENDRE</text>
+      <text x="797" y="445">DÉCIDER</text>
+      <text x="921" y="445">APPELER</text>
+    </g>
+
+    <rect x="1098" y="190" width="430" height="300" rx="16" fill="#0a141e" stroke="#46cfe6" stroke-opacity=".55" />
+    <rect x="1098" y="190" width="430" height="5" rx="2.5" fill="url(#cyan)" />
+    <text x="1130" y="237" fill="#60dff2" font-size="17" font-weight="700" letter-spacing="2">03 · RÉPONDRE</text>
+    <text x="1130" y="299" fill="#f2f6f8" font-size="28" font-weight="700">Voxtral TTS 3</text>
+    <text x="1130" y="350" fill="#a9bac4" font-size="19">Génère une réponse parlée</text>
+    <text x="1130" y="380" fill="#a9bac4" font-size="19">avec voix et rythme adaptés.</text>
+    <g fill="none" stroke="#4bd8f0" stroke-linecap="round" stroke-width="5" opacity=".9">
+      <path d="M1134 442h18l22-18v54l-22-18h-18zM1192 430q20 21 0 42M1208 418q34 33 0 66M1225 407q48 45 0 88" />
+    </g>
+  </g>
+
+  <path d="M512 340h60" stroke="#49d8f1" stroke-width="3" marker-end="url(#arrow)" />
+  <path d="M1025 340h60" stroke="#49d8f1" stroke-width="3" marker-end="url(#arrow)" />
+  <text x="800" y="565" text-anchor="middle" fill="#b5c5cd" font-family="Arial, sans-serif" font-size="19">Le SDK Voice Agents orchestre les étapes dans un même flux temps réel.</text>
+</svg>

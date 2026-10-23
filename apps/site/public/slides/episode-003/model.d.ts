@@ -13,8 +13,8 @@ export interface Slide {
   upcoming?: string;
   sourceImage?: string;
   sourceImageAlt?: string;
-  caption?: string;
-  captionDetail?: string;
+  figureCaption?: string;
+  figureAside?: string;
   sources?: { label: string; url: string }[];
   notes?: { title: string; text: string }[];
 }

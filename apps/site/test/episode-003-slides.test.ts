@@ -6,12 +6,13 @@ import { scenes, sceneIndex } from '../public/slides/episode-003/model.js';
 const root = resolve(process.cwd(), 'public/slides/episode-003');
 
 describe('support de l’épisode 003', () => {
-  it('contient quatre lobbies et quatre slides de contenu, dans l’ordre prévu', () => {
+  it('contient quatre lobbies et cinq slides de contenu, dans l’ordre prévu', () => {
     expect(scenes.map(({ id, chapter, kind }) => ({ id, chapter, kind }))).toEqual([
       { id: 'intro', chapter: 'Introduction', kind: 'lobby' },
       { id: 'radar', chapter: 'Radar', kind: 'lobby' },
       { id: 'copilot-studio-frontier', chapter: 'Radar', kind: 'radar-story' },
       { id: 'anthropic-employment', chapter: 'Radar', kind: 'radar-story' },
+      { id: 'voxtral-3', chapter: 'Radar', kind: 'radar-story' },
       { id: 'talk', chapter: 'Talk', kind: 'lobby' },
       { id: 'talk-case', chapter: 'Talk', kind: 'talk-case' },
       { id: 'clash', chapter: 'Clash', kind: 'lobby' },
@@ -61,15 +62,28 @@ describe('support de l’épisode 003', () => {
     for (const obsoleteDataFile of ['content.json', 'shorts.json', 'rundown.json']) {
       expect(script).not.toContain(obsoleteDataFile);
       expect(html).not.toContain(obsoleteDataFile);
+      expect(model).not.toContain(obsoleteDataFile);
     }
-    expect(model).not.toMatch(/news|skills|debates|shorts/i);
+    // Les anciens jeux de données sont exclus, pas les URL de sources contenant /news/.
+    expect(model).not.toMatch(/\b(?:news|skills|debates|shorts)\s*[:=]/);
     expect(html).not.toContain('notes-toggle');
     expect(html).not.toContain('Exporter nos choix');
     expect(html).not.toContain('Notre choix');
   });
 
+  it('conserve Voxtral 3 avec son schéma, ses légendes et sa question après Anthropic', () => {
+    const slide = scenes.find(({ id }) => id === 'voxtral-3');
+    expect(sceneIndex('#voxtral-3')).toBe(4);
+    expect(slide?.figureCaption).toContain('SDK Voice Agents');
+    expect(slide?.figureAside).toContain('préversion publique');
+    expect(slide?.question).toContain('quelles tâches vocales');
+    expect(slide?.sources).toHaveLength(2);
+    expect(existsSync(resolve(root, slide?.sourceImage ?? 'absent'))).toBe(true);
+  });
+
   it('rattache le plan de Nico et ses précautions au sujet Anthropic dans le Radar', () => {
     const slide = scenes.find(({ id }) => id === 'anthropic-employment');
+    expect(slide?.title).toBe('Comment l’IA transforme Anthropic');
     expect(slide?.chapter).toBe('Radar');
     expect(slide?.points?.map(([figure]) => figure)).toEqual(['6 ×', '> ½ semaine', '27 % → 9 %']);
     expect(slide?.sources?.[0]?.url).toBe(
@@ -105,11 +119,11 @@ describe('support de l’épisode 003', () => {
     expect(html).toContain("object-src 'none'");
   });
 
-  it('résout les ancres des huit écrans et revient à l’introduction si elle est inconnue', () => {
+  it('résout les ancres des neuf écrans et revient à l’introduction si elle est inconnue', () => {
     expect(sceneIndex('#intro')).toBe(0);
     expect(sceneIndex('#radar')).toBe(1);
-    expect(sceneIndex('#talk-case')).toBe(5);
-    expect(sceneIndex('#clash-question')).toBe(7);
+    expect(sceneIndex('#talk-case')).toBe(6);
+    expect(sceneIndex('#clash-question')).toBe(8);
     expect(sceneIndex('#6')).toBe(5);
     expect(sceneIndex('#sujet-retiré')).toBe(0);
   });

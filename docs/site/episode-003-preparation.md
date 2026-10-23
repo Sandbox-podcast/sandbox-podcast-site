@@ -1,21 +1,23 @@
 # Épisode 003 : support actuel
 
-Le support contient huit écrans : les lobbies Introduction, Radar, Talk et Clash, deux actualités (Copilot Studio et le travail chez Anthropic), une slide de cas d’usage dans le Talk et une question dans le Clash.
+Le support contient neuf écrans : les lobbies Introduction, Radar, Talk et Clash, trois actualités dans le Radar (Copilot Studio, Anthropic et Voxtral 3), une slide de cas d’usage dans le Talk et une question dans le Clash.
 
 - **Introduction** : lobby de séquence.
-- **Radar** : lobby, puis Microsoft Copilot Studio / Frontier (15 octobre 2026) et le travail chez Anthropic (16 octobre 2026).
+- **Radar** : lobby, puis trois slides d’actualité : Microsoft Copilot Studio / Frontier (15 octobre 2026), l’impact de l’IA chez Anthropic (16 octobre 2026) et Voxtral 3 (20 octobre 2026).
 - **Talk** : lobby, puis « J’ai intégré l’ensemble de notre catalogue produits dans un agent. Qu’est-ce que ça permet aux équipes ? »
 - **Clash** : lobby, puis « En entreprise, peut-on vraiment mettre en production un produit développé en vibe coding ? »
 
 Les anciens fichiers de préparation restent présents, mais le support ne les charge pas et n’affiche aucun de leurs sujets.
 
-La direction et les illustrations des six écrans sont décrites dans [la note de direction artistique](episode-003-direction-artistique.md).
+Les six illustrations de séquence et le schéma Voxtral sont décrits dans [la note de direction artistique](episode-003-direction-artistique.md).
 
 ## Ouvrir le support actuel
 
 La slide Copilot Studio reprend l’[annonce Microsoft du 15 octobre](https://www.microsoft.com/en-us/copilot/blog/copilot-studio/delegate-shared-business-processes-to-agents-that-are-more-persistent-and-proactive-with-microsoft-copilot-studio/) : compte propre, mémoire du processus et déclencheurs dans le harnais GitHub Copilot. Le [programme Frontier](https://www.microsoft.com/en-us/copilot/resources/frontier-features?sortBy=newest-oldest#All-Frontier-features) donne accès à des fonctions expérimentales. Le navigateur cloud et les suggestions d’amélioration restent annoncés pour plus tard. Le visuel de mémoire provient de l’article Microsoft et figure dans `assets/sources/copilot-studio-memory.webp`. Les deux sources sont accessibles depuis la slide. À la demande de Lou, le visuel occupe l’essentiel de l’écran ; seuls le titre, les mots repères et le statut expérimental restent affichés. Les explications sont données à l’oral.
 
-Le sujet de Nico sur [le travail chez Anthropic](https://www.anthropic.com/research/employment-at-anthropic) suit Copilot Studio, à l’ancre `#anthropic-employment`. À la demande de Nico, il affiche uniquement le titre « Travailler chez Anthropic » et la phrase « Comment forme-t-on les futurs seniors à l’ère des agents IA ? ». Les chiffres, les précautions et le lien vers l’étude sont conservés dans les notes. Le bouton **Notes (N)** ouvre en régie le plan de discussion de 10 à 12 minutes, avec les relances pour Lou et Loïc et les limites de l’étude. Les notes se ferment au changement de slide et en mode live ; elles ne sont pas projetées dans ce mode. Elles restent visibles si l’on partage la régie avec le panneau ouvert.
+La slide Voxtral 3 reprend l’[annonce Mistral du 20 octobre](https://mistral.ai/news/voxtral-3/) et la [documentation Audio](https://docs.mistral.ai/studio/audio/overview). Elle distingue les modèles de transcription et de synthèse vocale du SDK Voice Agents, qui relie ces étapes à un modèle de langage et aux outils. Mistral indique que les modèles audio sont en préversion publique. Le schéma local `assets/voxtral-3-pipeline.svg` illustre cette chaîne ; il ne présente ni les modèles comme open source ni les performances annoncées comme mesurées par Sandbox.
+
+Le sujet de Nico sur [le travail chez Anthropic](https://www.anthropic.com/research/employment-at-anthropic) suit Copilot Studio, à l’ancre `#anthropic-employment`. À la demande de Nico, il affiche uniquement le titre « Comment l’IA transforme Anthropic » et la phrase « Comment forme-t-on les futurs seniors à l’ère des agents IA ? ». Les chiffres, les précautions et le lien vers l’étude sont conservés dans les notes. Le bouton **Notes (N)** ouvre en régie le plan de discussion de 10 à 12 minutes, avec les relances pour Lou et Loïc et les limites de l’étude. Les notes se ferment au changement de slide et en mode live ; elles ne sont pas projetées dans ce mode. Elles restent visibles si l’on partage la régie avec le panneau ouvert.
 
 Intégration demandée par Nico : une seule slide, reprenant le fond Radar et la typographie existante. Aucun nouveau sujet n’est ajouté au Talk ou au Clash. La légende Microsoft est désormais portée par ses propres données pour ne pas apparaître sur les autres actualités.
 
@@ -27,7 +29,7 @@ python -m http.server 4334 --bind 127.0.0.1 --directory apps/site/public
 
 Ouvrir <http://127.0.0.1:4334/slides/episode-003/index.html>.
 
-Les flèches, Espace, Page précédente et Page suivante parcourent les huit écrans. Le menu Diapositive donne un accès direct à chaque écran. `P` active le mode live et `F` demande le plein écran.
+Les flèches, Espace, Page précédente et Page suivante parcourent les neuf écrans. Le menu Diapositive donne un accès direct à chaque écran, dont les trois actualités du Radar. `P` active le mode live et `F` demande le plein écran.
 
 ## Préparation antérieure du 18 octobre — archive éditoriale
 
