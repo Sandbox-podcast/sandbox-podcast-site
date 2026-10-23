@@ -322,6 +322,92 @@ header > img {
   text-underline-offset: 0.2em;
 }
 
+#screen.talk-trend {
+  padding: clamp(1.5rem, 3vw, 3.5rem) clamp(1.4rem, 4vw, 4rem);
+  overflow-y: auto;
+}
+
+.talk-trend-copy {
+  align-self: center;
+  width: min(100%, 1500px);
+  margin: auto;
+}
+
+.talk-trend-copy .eyebrow {
+  margin-bottom: 0.8rem;
+}
+
+.talk-trend-copy h1 {
+  max-width: 24ch;
+  margin: 0;
+  font-size: clamp(2.5rem, 5vw, 5.4rem);
+  letter-spacing: -0.065em;
+  line-height: 1;
+}
+
+.talk-trend-intro {
+  max-width: 60ch;
+  margin: 0.85rem 0 0;
+  color: var(--muted);
+  font-size: clamp(1.05rem, 1.5vw, 1.55rem);
+  line-height: 1.4;
+}
+
+.talk-trend-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: clamp(1.2rem, 2.6vh, 2rem) 0 0;
+  border-block: 1px solid rgb(154 170 178 / 35%);
+  background: rgb(5 9 13 / 76%);
+}
+
+.talk-trend-point {
+  min-width: 0;
+  padding: clamp(0.95rem, 1.5vw, 1.5rem);
+}
+
+.talk-trend-point + .talk-trend-point {
+  border-left: 1px solid rgb(154 170 178 / 35%);
+}
+
+.talk-trend-point h2 {
+  margin: 0 0 0.65rem;
+  color: var(--cyan);
+  font-size: clamp(1.1rem, 1.55vw, 1.55rem);
+  letter-spacing: -0.035em;
+}
+
+.talk-trend-point p {
+  max-width: 38ch;
+  margin: 0;
+  color: var(--ink);
+  font-size: clamp(0.95rem, 1.08vw, 1.15rem);
+  line-height: 1.42;
+}
+
+.talk-trend-takeaway {
+  max-width: 105ch;
+  margin: 1rem 0 0;
+  border-left: 2px solid var(--line);
+  padding-left: 0.9rem;
+  color: var(--muted);
+  font-size: clamp(0.9rem, 1.05vw, 1.1rem);
+  line-height: 1.4;
+}
+
+.talk-trend-question {
+  margin: 0.75rem 0 0;
+  color: var(--cyan);
+  font-size: clamp(1.2rem, 1.9vw, 2rem);
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 1.2;
+}
+
+.talk-trend-sources {
+  font-size: clamp(0.75rem, 0.9vw, 1rem);
+}
+
 #speaker-notes {
   position: fixed;
   z-index: 6;
@@ -480,6 +566,40 @@ body.presenting #live-controls:focus-within {
   .slide-picker select {
     max-width: 37vw;
   }
+
+  #screen.talk-trend {
+    padding: 1.5rem 1.15rem;
+  }
+
+  #screen.talk-trend::before {
+    background: linear-gradient(
+      90deg,
+      rgb(5 9 13 / 94%) 0%,
+      rgb(5 9 13 / 86%) 62%,
+      rgb(5 9 13 / 72%) 100%
+    );
+  }
+
+  .talk-trend-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .talk-trend-point {
+    padding: 0.9rem 1rem;
+  }
+
+  .talk-trend-point + .talk-trend-point {
+    border-top: 1px solid rgb(154 170 178 / 35%);
+    border-left: 0;
+  }
+
+  .talk-trend-point p {
+    max-width: 58ch;
+  }
+
+  .talk-trend-sources {
+    gap: 0.55rem 1rem;
+  }
 }
 
 @media (max-width: 480px) {
@@ -499,5 +619,17 @@ body.presenting #live-controls:focus-within {
     order: 1;
     width: 100%;
     justify-content: center;
+  }
+
+  .talk-trend-copy h1 {
+    font-size: clamp(2.3rem, 11vw, 3.4rem);
+  }
+
+  .talk-trend-point h2 {
+    font-size: 1.05rem;
+  }
+
+  .talk-trend-point p {
+    font-size: 0.93rem;
   }
 }

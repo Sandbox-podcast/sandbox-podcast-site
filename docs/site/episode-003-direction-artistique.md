@@ -20,6 +20,8 @@ Les anciennes slides reposaient davantage sur des formes abstraites cyan et des 
 
 Les six illustrations de séquence ont été générées avec l’outil intégré ImageGen le 20 octobre 2026. Les PNG sources et leurs versions WebP sont conservés dans le dossier `assets/`; le support charge les WebP. La slide Voxtral ajoute un schéma SVG local dédié à la news. Ces visuels ne portent pas les titres éditoriaux, qui restent en texte HTML modifiable.
 
+La slide Talk « L’agent, nouvelle interface ? » réutilise le décor du cas d’usage Talk ; son texte et ses sources restent en HTML.
+
 ## Brief commun de génération
 
 - Format horizontal 16:9, rendu photoréaliste soigné, inspiré d’un plateau de podcast et d’un vidéoclub de la fin des années 1980.

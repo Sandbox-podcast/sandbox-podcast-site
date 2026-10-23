@@ -145,6 +145,53 @@ export const scenes = [
     illustration: './assets/talk-case-v1.webp',
   },
   {
+    id: 'talk-interfaces',
+    kind: 'talk-trend',
+    chapter: 'Talk',
+    title: 'L’agent, nouvelle interface ?',
+    subtitle: 'On parle, on montre — et l’écran s’adapte à la tâche.',
+    illustration: './assets/talk-case-v1.webp',
+    points: [
+      [
+        'Parler et agir',
+        'GPT-Live écoute et répond en audio; l’agent peut déléguer le raisonnement et les actions à des outils.',
+      ],
+      [
+        'Voir le contexte',
+        'Guided Vision dans Gemini Live transforme la caméra en assistance conversationnelle, avec des descriptions audio en direct sur Android.',
+      ],
+      [
+        'Composer l’écran',
+        'Workday annonce des formulaires et calendriers adaptés. Une prépublication Google Research rapporte une préférence humaine pour l’UI générée face au Markdown, mais pas aux créations expertes (vitesse ignorée).',
+      ],
+    ],
+    takeaway:
+      'Selon IDC, les agents peuvent absorber la porte d’entrée sans faire disparaître les logiciels métier; la transition reste graduelle et inégale selon les marchés.',
+    question: 'Si l’agent agit, que faut-il encore voir et valider à l’écran ?',
+    sources: [
+      {
+        label: 'OpenAI · GPT-Live · 10/09/26',
+        url: 'https://openai.com/index/introducing-gpt-live-1-in-the-api/',
+      },
+      {
+        label: 'Google · Guided Vision · 01/10/26',
+        url: 'https://blog.google/innovation-and-ai/products/gemini-app/guided-vision-gemini-live/',
+      },
+      {
+        label: 'Workday · Sana · 13/10/26',
+        url: 'https://newsroom.workday.com/2026-10-13-Sana-Is-the-New-Workday-Home-A-Dynamic-Agentic-Experience-Built-to-Finish-the-Work,-Not-Just-Answer-Questions',
+      },
+      {
+        label: 'Google Research · UI générative',
+        url: 'https://generativeui.github.io/static/pdfs/paper.pdf',
+      },
+      {
+        label: 'IDC · 23/09/26',
+        url: 'https://www.idc.com/resource-center/blog/saaspocalypse-catchy-title-flawed-premise/',
+      },
+    ],
+  },
+  {
     id: 'clash',
     kind: 'lobby',
     chapter: 'Clash',
