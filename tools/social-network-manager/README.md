@@ -1,5 +1,7 @@
 # SANDBOX Social Network Manager
 
+Pour Nico et Loïc : commence par le [tutoriel de génération des Shorts](GENERER.md). Il décrit l'installation sur un autre ordinateur, la source vidéo à fournir, les rendus locaux et leurs contrôles. Les vidéos ne font pas partie de cette livraison.
+
 Agent editorial pour préparer, contrôler et mesurer la distribution de SANDBOX sur YouTube, Instagram, TikTok et X. Le dossier complète l'outil YouTube existant. Il ne remplace pas ses contrôles et ne publie rien par défaut.
 
 Les [sources des trente Shorts E02 caméra unique](episode-02/camera-unique-v2/README.md) conservent les compositions, timecodes et outils locaux de reproduction. Le pipeline reste séparé de la file de publication et des comptes des réseaux.
@@ -71,7 +73,7 @@ Le plan d'exécution détaillé se trouve dans [la stratégie de croissance du 1
 
 ## Automatisation Codex
 
-Dans la conversation de Lou, deux tâches locales sont programmées : contrôle quotidien à 09 h et bilan hebdomadaire le lundi à 09 h 30, heure de Paris. Elles réutilisent le contexte de cette conversation et enregistrent les observations datées sous `.local/social-network-manager/`. Elles restent en préparation : aucune publication, programmation, modification de profil, interaction sociale, commit ou push n'est automatique. Les associés doivent créer leur propre routine s'ils souhaitent les mêmes rappels dans leur session Codex. Les tâches locales nécessitent que l'ordinateur, l'application Codex et le dépôt soient disponibles au moment prévu.
+Depuis le 24 octobre 2026, toutes les routines Sandbox de cette conversation sont en pause à la demande de Lou. Le contrôle quotidien à 09 h et le bilan du lundi à 09 h 30 ne se déclenchent plus. Leurs anciennes observations restent sous `.local/social-network-manager/`. Les associés peuvent lancer les contrôles manuellement dans leur session. Toute nouvelle routine nécessite une demande explicite ; le clone du dépôt n'en crée aucune.
 
 ## Mesure
 
