@@ -13,7 +13,10 @@ export interface Slide {
   upcoming?: string;
   sourceImage?: string;
   sourceImageAlt?: string;
+  caption?: string;
+  captionDetail?: string;
   sources?: { label: string; url: string }[];
+  notes?: { title: string; text: string }[];
 }
 
 export const scenes: Slide[];

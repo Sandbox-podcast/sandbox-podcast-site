@@ -6,11 +6,12 @@ import { scenes, sceneIndex } from '../public/slides/episode-003/model.js';
 const root = resolve(process.cwd(), 'public/slides/episode-003');
 
 describe('support de l’épisode 003', () => {
-  it('contient quatre lobbies et trois slides de contenu, dans l’ordre prévu', () => {
+  it('contient quatre lobbies et quatre slides de contenu, dans l’ordre prévu', () => {
     expect(scenes.map(({ id, chapter, kind }) => ({ id, chapter, kind }))).toEqual([
       { id: 'intro', chapter: 'Introduction', kind: 'lobby' },
       { id: 'radar', chapter: 'Radar', kind: 'lobby' },
       { id: 'copilot-studio-frontier', chapter: 'Radar', kind: 'radar-story' },
+      { id: 'anthropic-employment', chapter: 'Radar', kind: 'radar-story' },
       { id: 'talk', chapter: 'Talk', kind: 'lobby' },
       { id: 'talk-case', chapter: 'Talk', kind: 'talk-case' },
       { id: 'clash', chapter: 'Clash', kind: 'lobby' },
@@ -30,11 +31,11 @@ describe('support de l’épisode 003', () => {
   });
 
   it('reprend le cas d’usage du Talk et la question du Clash', () => {
-    expect(scenes[4]).toMatchObject({
+    expect(scenes.find(({ id }) => id === 'talk-case')).toMatchObject({
       title: 'J’ai intégré l’ensemble de notre catalogue produits dans un agent.',
       question: 'Qu’est-ce que ça permet aux équipes ?',
     });
-    expect(scenes[6]?.title).toBe(
+    expect(scenes.find(({ id }) => id === 'clash-question')?.title).toBe(
       'En entreprise, peut-on vraiment mettre en production un produit développé en vibe coding ?',
     );
   });
@@ -67,6 +68,27 @@ describe('support de l’épisode 003', () => {
     expect(html).not.toContain('Notre choix');
   });
 
+  it('rattache le plan de Nico et ses précautions au sujet Anthropic dans le Radar', () => {
+    const slide = scenes.find(({ id }) => id === 'anthropic-employment');
+    expect(slide?.chapter).toBe('Radar');
+    expect(slide?.points?.map(([figure]) => figure)).toEqual(['6 ×', '> ½ semaine', '27 % → 9 %']);
+    expect(slide?.sources?.[0]?.url).toBe(
+      'https://www.anthropic.com/research/employment-at-anthropic',
+    );
+    expect(slide?.notes).toHaveLength(6);
+    const notes = slide?.notes?.map(({ text }) => text).join(' ');
+    for (const qualification of [
+      '40 heures',
+      'sans équivalence de travail utile',
+      'pas un temps observé',
+      'pas des licenciements',
+      'pas randomisée',
+    ]) {
+      expect(notes).toContain(qualification);
+    }
+    expect(sceneIndex('#anthropic-employment')).toBe(3);
+  });
+
   it('garde les quatre accès de séquence et les commandes de présentation', () => {
     const html = readFileSync(resolve(root, 'index.html'), 'utf8');
     const script = readFileSync(resolve(root, 'show.js'), 'utf8');
@@ -83,11 +105,11 @@ describe('support de l’épisode 003', () => {
     expect(html).toContain("object-src 'none'");
   });
 
-  it('résout les ancres des sept écrans et revient à l’introduction si elle est inconnue', () => {
+  it('résout les ancres des huit écrans et revient à l’introduction si elle est inconnue', () => {
     expect(sceneIndex('#intro')).toBe(0);
     expect(sceneIndex('#radar')).toBe(1);
-    expect(sceneIndex('#talk-case')).toBe(4);
-    expect(sceneIndex('#clash-question')).toBe(6);
+    expect(sceneIndex('#talk-case')).toBe(5);
+    expect(sceneIndex('#clash-question')).toBe(7);
     expect(sceneIndex('#6')).toBe(5);
     expect(sceneIndex('#sujet-retiré')).toBe(0);
   });
