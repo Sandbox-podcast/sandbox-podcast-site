@@ -61,6 +61,33 @@ function render() {
         <h1>${escapeText(slide.title)}</h1>
         <p class="question">${escapeText(slide.subtitle)}</p>
       </article>`;
+  } else if (slide.kind === 'talk-trend') {
+    screen.innerHTML = `
+      ${illustration}
+      <article class="talk-trend-copy">
+        <p class="eyebrow">LE TALK <span>·</span> INTERFACES EN MUTATION</p>
+        <h1>${escapeText(slide.title)}</h1>
+        <p class="talk-trend-intro">${escapeText(slide.subtitle ?? '')}</p>
+        <div class="talk-trend-grid">
+          ${(slide.points ?? [])
+            .map(
+              ([label, detail]) => `
+                <section class="talk-trend-point">
+                  <h2>${escapeText(label)}</h2>
+                  <p>${escapeText(detail)}</p>
+                </section>`,
+            )
+            .join('')}
+        </div>
+        ${slide.takeaway ? `<p class="talk-trend-takeaway">${escapeText(slide.takeaway)}</p>` : ''}
+        ${slide.question ? `<p class="talk-trend-question">${escapeText(slide.question)}</p>` : ''}
+        <nav class="radar-sources talk-trend-sources" aria-label="Sources du talk">${(slide.sources ?? [])
+          .map(
+            ({ label, url }) =>
+              `<a href="${escapeText(url)}" target="_blank" rel="noopener noreferrer">${escapeText(label)} ↗</a>`,
+          )
+          .join('')}</nav>
+      </article>`;
   } else if (slide.kind === 'talk-case') {
     screen.innerHTML = `
       ${illustration}

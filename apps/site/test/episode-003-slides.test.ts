@@ -6,7 +6,7 @@ import { scenes, sceneIndex } from '../public/slides/episode-003/model.js';
 const root = resolve(process.cwd(), 'public/slides/episode-003');
 
 describe('support de l’épisode 003', () => {
-  it('contient quatre lobbies et cinq slides de contenu, dans l’ordre prévu', () => {
+  it('contient quatre lobbies et six slides de contenu, dans l’ordre prévu', () => {
     expect(scenes.map(({ id, chapter, kind }) => ({ id, chapter, kind }))).toEqual([
       { id: 'intro', chapter: 'Introduction', kind: 'lobby' },
       { id: 'radar', chapter: 'Radar', kind: 'lobby' },
@@ -15,6 +15,7 @@ describe('support de l’épisode 003', () => {
       { id: 'voxtral-3', chapter: 'Radar', kind: 'radar-story' },
       { id: 'talk', chapter: 'Talk', kind: 'lobby' },
       { id: 'talk-case', chapter: 'Talk', kind: 'talk-case' },
+      { id: 'talk-interfaces', chapter: 'Talk', kind: 'talk-trend' },
       { id: 'clash', chapter: 'Clash', kind: 'lobby' },
       { id: 'clash-question', chapter: 'Clash', kind: 'clash-question' },
     ]);
@@ -119,11 +120,11 @@ describe('support de l’épisode 003', () => {
     expect(html).toContain("object-src 'none'");
   });
 
-  it('résout les ancres des neuf écrans et revient à l’introduction si elle est inconnue', () => {
+  it('résout les ancres des dix écrans et revient à l’introduction si elle est inconnue', () => {
     expect(sceneIndex('#intro')).toBe(0);
     expect(sceneIndex('#radar')).toBe(1);
     expect(sceneIndex('#talk-case')).toBe(6);
-    expect(sceneIndex('#clash-question')).toBe(8);
+    expect(sceneIndex('#clash-question')).toBe(9);
     expect(sceneIndex('#6')).toBe(5);
     expect(sceneIndex('#sujet-retiré')).toBe(0);
   });

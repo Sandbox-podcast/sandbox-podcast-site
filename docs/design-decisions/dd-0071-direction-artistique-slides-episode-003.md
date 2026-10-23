@@ -23,3 +23,5 @@ Chaque image garde une zone sombre à gauche pour le texte HTML. Aucun titre, lo
 ## Mise à jour du 23 octobre 2026
 
 À la demande de Lou, le Radar contient maintenant une slide Voxtral 3 datée du 20 octobre, après celle sur Copilot Studio. Elle réutilise le décor photographique du Radar et ajoute un schéma SVG local de la chaîne audio ; les liens vers l’annonce et la documentation officielles restent cliquables depuis le support.
+
+Le Talk comprend aussi « L’agent, nouvelle interface ? » après le cas d’usage. La slide réutilise son décor photographique et présente voix, vision en direct et interfaces générées, avec des liens vers les sources correspondantes.

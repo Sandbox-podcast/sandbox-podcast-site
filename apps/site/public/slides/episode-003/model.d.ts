@@ -1,10 +1,11 @@
 export interface Slide {
   id: string;
-  kind: 'lobby' | 'radar-story' | 'talk-case' | 'clash-question';
+  kind: 'lobby' | 'radar-story' | 'talk-case' | 'talk-trend' | 'clash-question';
   chapter: string;
   title: string;
   sequence?: number;
   question?: string;
+  takeaway?: string;
   illustration: string;
   subtitle?: string;
   date?: string;
