@@ -12,10 +12,14 @@ La charte du site privilégie un bleu nuit éditorial et un cyan parcimonieux ([
 
 Illustrer les six écrans de l’épisode 003 par des scènes photoréalistes reliées au plateau. Le bleu nuit reste dominant ; le cyan marque les éléments éditoriaux et la lumière ambrée apporte de la chaleur. Les écrans cathodiques, les cassettes vidéo et le matériel de diffusion portent les références au vidéoclub et au rétrofuturisme.
 
-Chaque image garde une zone sombre à gauche pour le texte HTML. Aucun titre, logo ou contenu éditorial n’est intégré dans les images. Les lobbies Introduction, Radar, Talk et Clash, le cas d’usage Talk et la question Clash disposent chacun d’une illustration dédiée. Le Radar reste un lobby vide, en attente des trois actualités choisies par l’équipe.
+Chaque image garde une zone sombre à gauche pour le texte HTML. Aucun titre, logo ou contenu éditorial n’est intégré dans les images. Les lobbies Introduction, Radar, Talk et Clash, le cas d’usage Talk et la question Clash disposent chacun d’une illustration dédiée. Le lobby Radar marque la séquence ; les actualités sélectionnées apparaissent dans des slides distinctes.
 
 ## Conséquences
 
 - La note de [direction artistique de l’épisode](../site/episode-003-direction-artistique.md) décrit les six images et leurs briefs.
 - Les images sources PNG et leurs versions WebP sont conservées dans `apps/site/public/slides/episode-003/assets/` ; le support sert les WebP.
 - Cette décision concerne le support de l’épisode 003 et ne change pas la charte générale du site.
+
+## Mise à jour du 23 octobre 2026
+
+À la demande de Lou, le Radar contient maintenant une slide Voxtral 3 datée du 20 octobre, après celle sur Copilot Studio. Elle réutilise le décor photographique du Radar et ajoute un schéma SVG local de la chaîne audio ; les liens vers l’annonce et la documentation officielles restent cliquables depuis le support.

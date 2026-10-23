@@ -308,6 +308,15 @@ header > img {
   margin-top: 1rem;
 }
 
+.radar-question {
+  margin: 1rem 0 0;
+  border-left: 2px solid var(--cyan);
+  padding-left: 0.8rem;
+  color: var(--ink);
+  font-size: clamp(1rem, 1.3vw, 1.4rem);
+  line-height: 1.35;
+}
+
 .radar-sources a {
   color: inherit;
   text-underline-offset: 0.2em;
