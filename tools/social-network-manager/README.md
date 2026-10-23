@@ -1,6 +1,6 @@
 # SANDBOX Social Network Manager
 
-Pour Nico et Loïc : commence par le [tutoriel de génération des Shorts](GENERER.md). Il décrit l'installation sur un autre ordinateur, la source vidéo à fournir, les rendus locaux et leurs contrôles. Les vidéos ne font pas partie de cette livraison.
+Pour Nico et Loïc : commence par le [tutoriel pour chaque nouvel épisode](GENERER.md). Il couvre les Shorts adaptés à chaque réseau, les formats YouTube de 5 à 15 minutes, l'installation sur un autre ordinateur et les contrôles. Les vidéos ne font pas partie de cette livraison. Les compositions E02 sont une référence de montage ; leurs timecodes ne doivent pas être réutilisés pour une nouvelle émission.
 
 Agent editorial pour préparer, contrôler et mesurer la distribution de SANDBOX sur YouTube, Instagram, TikTok et X. Le dossier complète l'outil YouTube existant. Il ne remplace pas ses contrôles et ne publie rien par défaut.
 

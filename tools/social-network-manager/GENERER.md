@@ -1,156 +1,174 @@
-# Générer les Shorts Sandbox avec Nico et Loïc
+# Générer les formats d'un nouvel épisode Sandbox
 
-Le code de génération, les trente compositions corrigées de l'épisode 2, leurs sous-titres et leurs timecodes sont dans ce dépôt. Les MP4 générés et le fichier source restent sur ton ordinateur. Tu n'as besoin d'aucun accès aux comptes sociaux pour effectuer un rendu local.
+Nico et Loïc peuvent utiliser ce système pour chaque prochaine émission : produire des Shorts adaptés à YouTube, TikTok, Instagram et X, ainsi que des vidéos YouTube thématiques de 5 à 15 minutes. Le master, les transcriptions et les rendus restent locaux. Les sources E02 servent uniquement de référence de montage.
 
 ## Sommaire
 
-- [Récupérer le système](#récupérer-le-système)
-- [Choisir le bon pipeline](#choisir-le-bon-pipeline)
-- [Installer les outils](#installer-les-outils)
-- [Fournir la source de l'épisode](#fournir-la-source-de-lépisode)
-- [Préparer les trente compositions E02](#préparer-les-trente-compositions-e02)
-- [Rendre un extrait puis le lot](#rendre-un-extrait-puis-le-lot)
-- [Contrôler et récupérer les fichiers](#contrôler-et-récupérer-les-fichiers)
-- [Travailler avec un nouvel épisode](#travailler-avec-un-nouvel-épisode)
+- [Installer le système](#installer-le-système)
+- [Préparer un nouvel épisode](#préparer-un-nouvel-épisode)
+- [Choisir les passages et les variantes par réseau](#choisir-les-passages-et-les-variantes-par-réseau)
+- [Générer les Shorts](#générer-les-shorts)
+- [Générer les vidéos de 5 à 15 minutes](#générer-les-vidéos-de-5-à-15-minutes)
+- [Contrôler et comparer](#contrôler-et-comparer)
 - [Demande à copier dans Codex](#demande-à-copier-dans-codex)
-- [Résoudre les blocages](#résoudre-les-blocages)
 
-## Récupérer le système
+## Installer le système
 
-Clone le dépôt depuis GitHub et ouvre-le dans Codex, ou utilise ton éditeur habituel. Exécute toutes les commandes de ce guide depuis la racine du dépôt, dans PowerShell. Si le dépôt est déjà présent, récupère la branche contenant ce guide avant de commencer.
-
-Les commandes utilisent des chemins relatifs : le dépôt peut être installé ailleurs que dans le dossier de Lou.
-
-| Dossier                                                              | Rôle                                                                                    |
-| -------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
-| `tools/social-network-manager/episode-02/camera-unique-v2/`          | Pipeline Python et manifeste des trente extraits E02                                    |
-| `tools/social-network-manager/episode-02/camera-unique-v2/projects/` | Trente compositions HTML et storyboards : cadrage, sous-titres, habillage et mouvements |
-| `tools/youtube-growth/`                                              | Préparation d'autres épisodes, sélection de passages et rendu FFmpeg                    |
-| `.local/`                                                            | Sources privées, dépendances locales, rendus et contrôles ; ignoré par Git              |
-
-Les routines Codex de Lou sont en pause depuis le 24 octobre 2026. Cloner le dépôt ne les réactive pas et ne transfère pas sa session. La génération décrite ici se lance manuellement.
-
-## Choisir le bon pipeline
-
-**Pour reproduire les trente Shorts E02 corrigés**, suis ce guide. Le pipeline conserve une seule vidéo à l'écran et les cadrages validés pour cet épisode.
-
-**Pour un nouvel épisode**, utilise le [guide YouTube](../youtube-growth/README.md), puis prépare et relis de nouveaux passages. Le pipeline E02 est une recette figée : remplacer son fichier source par une autre émission produirait des coupes et des sous-titres incorrects. Il ne sélectionne pas automatiquement trente passages dans une nouvelle vidéo.
-
-## Installer les outils
-
-Prérequis : Python 3.12 ou supérieur, Node.js 24, FFmpeg et FFprobe accessibles dans le `PATH`. Les filtres FFmpeg doivent inclure `subtitles` ou `ass` pour les sous-titres du pipeline YouTube.
+Clone le dépôt, récupère la branche de cette livraison, puis ouvre-le dans Codex. Toutes les commandes ci-dessous partent de la racine, dans PowerShell. Prérequis : Python 3.12 ou supérieur, FFmpeg et FFprobe dans le PATH. FFmpeg doit disposer du filtre ASS pour les sous-titres incrustés. Aucun compte social ni OAuth n'est requis pour générer les fichiers.
 
 ```powershell
-python --version
-node --version
-ffmpeg -version
-ffprobe -version
-
 python -m venv .local/social-venv
-& ./.local/social-venv/Scripts/python.exe -m pip install -r tools/social-network-manager/episode-02/camera-unique-v2/requirements-qa.txt
-
-npm install --prefix .local/e02-runtime --no-save --package-lock=false hyperframes@0.8.172 gsap@3.14.2
+& ./.local/social-venv/Scripts/python.exe -m pip install -r tools/youtube-growth/requirements-thematic-qa.txt
+$env:PYTHONPATH = 'tools/youtube-growth/src'
+& ./.local/social-venv/Scripts/python.exe -m youtube_growth.social --help
+& ./.local/social-venv/Scripts/python.exe -m youtube_growth.thematic --help
 ```
 
-NumPy et Pillow servent aux contrôles audio et aux planches d'images. HyperFrames rend les compositions ; GSAP anime leurs éléments. Les versions correspondent au pipeline conservé. Les installations téléchargent des dépendances ; ce guide ne déclenche aucun service IA payant.
+L'installation télécharge les dépendances. Le parcours local n'appelle aucun service IA payant. L'analyse OpenAI des formats thématiques est une option explicite, facturée au compte API configuré ; elle n'est jamais activée par défaut.
 
-Contrôle des sources versionnées, sans vidéo ni connexion aux réseaux sociaux :
+| Élément                                     | Emplacement                                                               |
+| ------------------------------------------- | ------------------------------------------------------------------------- |
+| Générateur de variantes courtes             | `tools/youtube-growth/src/youtube_growth/social.py`                       |
+| Moteur de rendu vertical et sous-titres     | `tools/youtube-growth/src/youtube_growth/rendering.py`                    |
+| Générateur 5–15 min                         | `tools/youtube-growth/src/youtube_growth/thematic.py` et modules associés |
+| Guide détaillé des formats 5–15 min         | [THEMATIC.md](../youtube-growth/THEMATIC.md)                              |
+| Référence E02 avec compositions HyperFrames | [camera-unique-v2](episode-02/camera-unique-v2/README.md)                 |
+
+## Préparer un nouvel épisode
+
+Crée un dossier neuf, par exemple `.local/episode-suivant/`. Fournis :
+
+1. `source.mp4` : master autorisé ou copie téléchargée par le propriétaire dans YouTube Studio. Un lien YouTube seul ne fournit pas les images au moteur local.
+2. `transcript.txt` : transcription horodatée relue, portant le bon identifiant vidéo.
+3. `social-plan.json` : sélection des passages et variantes, préparée après lecture et examen des scènes.
+
+Format de transcription accepté par le moteur court :
+
+```text
+Video ID: IDENTIFIANT_YOUTUBE
+[00:00] Paroles réellement prononcées au début.
+[00:04] Intervention suivante avec son véritable horodatage.
+```
+
+Remplace l'identifiant et les paroles par ceux du nouvel épisode. Une fin de segment est déduite du début suivant : vérifie les limites à l'écoute. Les SRT et les JSON ASR ne peuvent pas être renommés en TXT sans conversion. Le moteur thématique accepte aussi les segments JSON/JSONL, selon son guide.
+
+Le moteur vertical actuel exige une source **1280 × 720 avec audio**. Pour une autre résolution, prépare une copie de travail compatible et conserve le master. Vérifie que la copie et la transcription gardent les mêmes temps. Le cadrage `fit` conserve toute l'image horizontale dans le cadre vertical. Les cadrages historiques `speaker`, `panel` et `slide` supposent des positions de caméra : utilise-les seulement après inspection de la nouvelle émission. Le programme ne détecte pas automatiquement l'intervenant.
+
+## Choisir les passages et les variantes par réseau
+
+Demande à l'agent de lire la transcription et de proposer des passages sourcés : question, démonstration ou désaccord complet, début, fin, contexte indispensable et réserves. Examine aussi les images. Une transcription seule ne permet pas de vérifier qu'une démonstration reste lisible.
+
+Pour chaque passage retenu, décide sur quels réseaux il apporte quelque chose. Un passage peut avoir une, deux, trois ou quatre variantes. Chaque variante possède ses propres bornes source, son titre, sa légende et son cadrage. Un même thème peut donc commencer plus tôt sur YouTube, aller directement au résultat sur TikTok et conserver une explication pratique sur Instagram. Ce sont des choix éditoriaux à tester sur les comptes Sandbox, pas des règles universelles.
+
+| Réseau          | Hypothèse de montage à tester                                                                                                  | Mesures à relever après publication autorisée                                         |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------- |
+| YouTube Shorts  | Une question explicite, une réponse complète et un prolongement vers une vidéo thématique ou l'épisode                         | Vues engagées, choix de regarder plutôt que balayer, rétention, abonnements attribués |
+| TikTok          | Montrer immédiatement l'usage ou l'enjeu ; garder la réaction et la conclusion ; reprendre les mots employés par le public     | Temps regardé, complétion, partages, visites du profil, abonnements                   |
+| Instagram Reels | Un cas utile et compréhensible sans contexte, une couverture lisible et une conclusion qui mérite d'être conservée ou partagée | Portée hors abonnés, durée regardée, enregistrements, partages, abonnements           |
+| X               | Une idée ou un désaccord précis, accompagné d'un texte qui apporte le contexte                                                 | Impressions, lectures disponibles, interactions, clics et abonnements mesurables      |
+
+Commence avec des hypothèses de durée adaptées au propos, par exemple 20–40 secondes pour une démonstration très directe et 40–60 secondes pour une explication. Allonge uniquement si le contexte l'exige. Ces plages ne sont ni des limites des plateformes ni une durée optimale démontrée. Le générateur accepte 5 à 180 secondes par variante ; vérifie l'éligibilité réelle dans la plateforme avant diffusion.
+
+Les sources officielles justifient de mesurer séparément : [YouTube distingue les vues engagées des démarrages de Shorts](https://support.google.com/youtube/answer/10059070?hl=en), [TikTok tient compte du temps regardé et des interactions](https://support.tiktok.com/en/using-tiktok/exploring-videos/how-tiktok-recommends-content), et [Instagram propose les Reels d'essai auprès de non-abonnés](https://about.fb.com/news/2024/12/trial-reels-try-content-non-followers-first-see-what-perfoms-best/). Vérification documentaire : 24 octobre 2026. Les fonctions disponibles peuvent varier selon le compte.
+
+## Générer les Shorts
+
+Prépare `social-plan.json`. Cet exemple illustre le schéma ; son identifiant, sa durée, ses timecodes et ses textes sont fictifs et doivent être remplacés après sélection réelle :
+
+```json
+{
+  "version": 1,
+  "video_id": "AbCdEfGhI12",
+  "source_duration": 7200,
+  "clips": [
+    {
+      "id": "assistant-restaurant",
+      "variants": [
+        {
+          "platform": "youtube",
+          "start": 120,
+          "end": 175,
+          "title": "Comment un assistant traite une réservation",
+          "caption": "Le raisonnement complet, extrait de notre nouvelle émission.",
+          "layout": "fit"
+        },
+        {
+          "platform": "tiktok",
+          "start": 132,
+          "end": 165,
+          "title": "Répondre pendant le service",
+          "caption": "Quel appel te fait perdre le plus de temps pendant le service ?",
+          "layout": "fit"
+        },
+        {
+          "platform": "instagram",
+          "start": 126,
+          "end": 170,
+          "title": "Un cas concret pour les restaurateurs",
+          "caption": "La piste présentée dans cet extrait, avec ses limites.",
+          "layout": "fit"
+        }
+      ]
+    }
+  ]
+}
+```
+
+Ajoute autant de passages utiles que l'émission en contient, jusqu'à 100 par plan. Trente passages avec trois variantes produisent jusqu'à 90 fichiers ; l'outil n'invente aucun passage pour atteindre ce nombre. Chaque variante est un **extrait continu** : le moteur applique ses bornes et son cadrage, incruste les sous-titres et le titre, puis normalise l'audio. Il ne réécrit pas les propos et ne réalise pas encore de montage interne complexe. Pour des coupes successives ou des mouvements de caméra, crée une nouvelle composition HyperFrames sur le modèle de la référence E02, avec les nouveaux sous-titres et timecodes.
+
+Simulation sans écriture ni rendu :
 
 ```powershell
-& ./.local/social-venv/Scripts/python.exe -m unittest discover -s tools/social-network-manager/episode-02/camera-unique-v2 -p test_pipeline.py -v
-& ./.local/social-venv/Scripts/python.exe tools/social-network-manager/episode-02/camera-unique-v2/pipeline.py check
+$env:PYTHONPATH = 'tools/youtube-growth/src'
+& ./.local/social-venv/Scripts/python.exe -m youtube_growth.social --plan .local/episode-suivant/social-plan.json --source .local/episode-suivant/source.mp4 --transcript .local/episode-suivant/transcript.txt --output .local/episode-suivant/shorts-v1
 ```
 
-Le second contrôle doit annoncer `valid_sources: 30` et `revision: camera-unique-v2`. Il vérifie les compositions ; il ne prouve pas que les vidéos ont été rendues.
+Après relecture du plan, relance avec `--execute` pour créer les fichiers. Le dossier de sortie contient un sous-dossier par réseau puis par passage, avec le MP4, les sous-titres ASS, `caption.txt` et le reçu de rendu. `social-manifest.json` regroupe les résultats avec le statut `needs_review`.
 
-## Fournir la source de l'épisode
+Le programme vérifie tous les candidats avant le rendu. Il refuse un plan ou une source modifiés dans un ancien dossier. Une reprise avec le même plan réutilise uniquement les fichiers correspondant aux empreintes enregistrées. Un rendu interrompu sans reçu doit être conservé pour diagnostic ; utilise un nouveau dossier. Ne retire un verrou qu'après avoir vérifié l'absence de processus actif.
 
-Récupère auprès de l'équipe la copie autorisée complète de l'épisode YouTube `7KVqydbGow0`, en 1280 × 720 avec audio. Place-la dans `.local/medias/episode-02.mp4`. La copie peut provenir du téléchargement officiel de sa propre vidéo dans YouTube Studio. Un lien YouTube seul ne suffit pas au rendu local.
+## Générer les vidéos de 5 à 15 minutes
 
-Le dépôt ne contient pas ce fichier. Ne crée pas de commit avec le master, les MP4 générés ou des identifiants de connexion. Les exports sous `.local/` restent ignorés par Git.
-
-## Préparer les trente compositions E02
-
-La première commande affiche le plan. Elle ne crée aucun média :
+Ce parcours produit des vidéos horizontales avec une question, un développement et une conclusion. Il fournit aussi les sous-titres, une proposition de miniature, le titre, la description et la carte des coupes.
 
 ```powershell
-& ./.local/social-venv/Scripts/python.exe tools/social-network-manager/episode-02/camera-unique-v2/pipeline.py prepare --workspace .local/e02-reproduction --episode .local/medias/episode-02.mp4 --gsap .local/e02-runtime/node_modules/gsap/dist/gsap.min.js --font apps/site/public/slides/episode-002-bis/assets/archivo.woff2 --logo apps/site/public/sandbox-logo.png
+& ./.local/social-venv/Scripts/python.exe -m youtube_growth.thematic --source .local/episode-suivant/source.mp4 --transcript .local/episode-suivant/transcript.txt --video-id IDENTIFIANT_YOUTUBE --output .local/episode-suivant/thematiques-v1 --analyze-only
 ```
 
-Après vérification des chemins, relance la même commande avec `--execute`. Elle prépare les segments source, copie les compositions dans un dossier neuf et enregistre les empreintes dans `provenance.json`. Le master reste intact. Ouvre les compositions préparées dans HyperFrames et vérifie l'aperçu avant de rendre.
+Remplace `IDENTIFIANT_YOUTUBE`. Examine `selection.json` et `rapport.md`, puis relance sans `--analyze-only` pour rendre. Le programme retient au plus cinq vidéos, chacune de 300 à 900 secondes, et peut n'en retenir aucune. Il préserve les sources et vérifie chaque export.
 
-## Rendre un extrait puis le lot
+L'analyse locale reconnaît un vocabulaire limité, issu des premiers sujets Sandbox. Une nouvelle émission peut nécessiter une analyse sémantique ou une sélection externe vérifiée, via `--analysis`. Le [guide thématique](../youtube-growth/THEMATIC.md) décrit le schéma et l'option OpenAI explicite. Le programme ne garantit pas de reconnaître tous les sujets d'une prochaine émission.
 
-Commence par un extrait, par exemple E02-007 :
+La miniature proposée suppose une caméra à droite. Adapte-la si le nouveau plateau diffère. L'analyse d'un sujet et les notes éditoriales ne prédisent pas les vues.
+
+## Contrôler et comparer
+
+Avant livraison, écoute les coupes, corrige les sous-titres, vérifie le cadrage et le contexte de chaque variante. Les contrôles techniques décodent les exports ; ils ne certifient pas le sens du montage.
 
 ```powershell
-& ./.local/social-venv/Scripts/python.exe tools/social-network-manager/episode-02/camera-unique-v2/pipeline.py render --workspace .local/e02-reproduction --cli .local/e02-runtime/node_modules/.bin/hyperframes.cmd --clip E02-007 --execute
+$env:PYTHONPATH = 'tools/youtube-growth/src'
+& ./.local/social-venv/Scripts/python.exe -m unittest discover -s tools/youtube-growth/tests -p test_social.py -v
+& ./.local/social-venv/Scripts/python.exe -m unittest discover -s tools/youtube-growth/tests -p test_thematic.py -v
+& ./.local/social-venv/Scripts/python.exe -m youtube_growth.thematic_qa --output .local/episode-suivant/thematiques-v1
 ```
 
-Vérifie l'image, le cadrage, la voix et les sous-titres. Pour les vingt-neuf autres, répète la commande avec leur identifiant `--clip`. Le rendu refuse d'écraser un fichier existant. Pour rendre les trente ensemble, utilise un workspace neuf et omets `--clip`.
+La dernière commande exige des rendus thématiques terminés. Elle compare des fenêtres d'image et de son au master. Un doute reste à relire.
 
-Chaque rendu passe d'abord le contrôle HyperFrames. Les sorties vont dans `.local/e02-reproduction/shorts/`, au format 720 × 1280 à 30 images par seconde. Le temps de calcul dépend de l'ordinateur ; aucun compte social n'est utilisé.
+Après publication explicitement autorisée, relève les métriques natives à 48 heures puis à sept jours. Compare les variantes au sein de leur réseau, à âge comparable, avec source et période. Tester une seule différence à la fois facilite l'interprétation ; les variantes concurrentes sur des audiences différentes ne constituent pas un A/B aléatoire. Un gagnant TikTok n'est pas automatiquement un gagnant Instagram ou YouTube. Avec peu de données, conserve la conclusion « insuffisant ».
 
-## Contrôler et récupérer les fichiers
-
-Après les rendus :
-
-```powershell
-& ./.local/social-venv/Scripts/python.exe tools/social-network-manager/episode-02/camera-unique-v2/pipeline.py qa --workspace .local/e02-reproduction --audio --contact --execute
-```
-
-Le pipeline décode les vidéos, vérifie format et durée, compare des fenêtres audio à la source et prépare les images de revue. Ces contrôles ne remplacent pas l'écoute et la relecture des sous-titres.
-
-Après la revue humaine, complète `visual-review.json` selon le [format documenté](episode-02/camera-unique-v2/README.md#vérifier-puis-rendre). Chaque entrée doit porter le SHA-256 du fichier réellement examiné et le nom de la personne qui l'a relu. Aucun script ne peut attester cette revue à ta place.
-
-Pour réunir les trente fichiers contrôlés dans un dossier de livraison neuf :
-
-```powershell
-& ./.local/social-venv/Scripts/python.exe tools/social-network-manager/episode-02/camera-unique-v2/pipeline.py install --workspace .local/e02-reproduction --destination .local/e02-bundle --execute
-```
-
-Pour produire les quatre coupes Instagram prévues par le manifeste E02 :
-
-```powershell
-& ./.local/social-venv/Scripts/python.exe tools/social-network-manager/episode-02/camera-unique-v2/pipeline.py instagram --workspace .local/e02-reproduction --execute
-```
-
-Cette commande crée uniquement les quatre variantes dont les intervalles sont conservés dans le manifeste, pas un second lot de trente vidéos. Relis ces coupes séparément avant de les diffuser. Leur limite de moins de 90 secondes correspond à cette recette, sans prétendre décrire toutes les limites actuelles d'Instagram.
-
-La génération ne publie et ne programme rien. Avant tout envoi autorisé, vérifie les publications et réservations natives pour éviter de dupliquer un extrait déjà diffusé. Les statuts historiques versionnés ne remplacent pas cette vérification.
-
-## Travailler avec un nouvel épisode
-
-Le [programme YouTube](../youtube-growth/README.md) contient les commandes `native-pack` et le module `youtube_growth.rendering`. Il permet de préparer un lot à partir d'une transcription horodatée et d'une spécification d'épisode, puis de rendre les passages sélectionnés avec FFmpeg. Le format de rendu accepte au plus dix candidats par lot : répartis trente candidats en plusieurs lots distincts.
-
-Installe ses dépendances dans un environnement Python séparé et suis ses exemples complets. Le parcours `native-pack` s'appuie sur une transcription disponible ; le parcours historique de sélection et transcription par OpenAI nécessite une clé et peut être facturé. Un navigateur connecté à YouTube ne connecte pas le programme Python.
-
-Pour retrouver le rendu E02 sur une nouvelle émission, il faut créer et contrôler de nouvelles compositions, timecodes et sous-titres. Copie-les dans un nouveau dossier versionné ; conserve les sources E02. Ne réutilise pas les anciennes bornes ou les cadrages sans examiner les nouvelles scènes.
+Ne mets aucun MP4, master, mot de passe ou jeton sur GitHub. Les routines Codex de Lou sont en pause depuis le 24 octobre 2026. Le clone et les commandes de génération ne créent aucune programmation native ni publication.
 
 ## Demande à copier dans Codex
 
 ```text
-Lis AGENTS.md, tools/social-network-manager/GENERER.md et le README du pipeline choisi.
-Je veux générer des Shorts localement, sans publication ni programmation.
-Commence par vérifier les dépendances et me signaler la source vidéo manquante.
-Pour E02, utilise les trente compositions camera-unique-v2 déjà versionnées.
-Pour un nouvel épisode, prépare d'abord une sélection sourcée avec timecodes,
-contexte, titres et sous-titres ; fais relire les passages avant de rendre le lot.
-Travaille dans un nouveau dossier .local/, préserve le master et les anciens rendus.
-Vérifie vidéo, audio et cadrage ; distingue contrôles techniques et revue humaine.
-Ne crée aucune routine automatique, ne contacte personne et ne téléverse aucun MP4 sur GitHub.
+Lis AGENTS.md, tools/social-network-manager/GENERER.md et tools/youtube-growth/THEMATIC.md.
+Nous traitons un NOUVEL épisode. Demande le fichier source, la transcription horodatée
+et l'identifiant YouTube s'ils manquent. N'utilise aucun ancien timecode.
+Propose des Shorts et des sujets de 5 à 15 minutes à partir des propos réels.
+Pour chaque Short, choisis les réseaux pertinents et propose des variantes de bornes,
+d'accroche, de titre, de cadrage et de légende, avec une justification à tester.
+Fais relire les sélections puis génère les fichiers localement dans un dossier neuf.
+Préserve la voix, le contexte, le master et les anciens rendus ; vérifie les sous-titres.
+Distingue contrôles techniques, revue humaine et performance observée.
+Ne publie ni ne programme rien et n'ajoute aucun fichier vidéo dans Git.
 ```
-
-## Résoudre les blocages
-
-| Message ou situation              | Action                                                                                                          |
-| --------------------------------- | --------------------------------------------------------------------------------------------------------------- |
-| Master absent après le clone      | Récupérer la copie autorisée auprès de l'équipe ou dans Studio ; aucune vidéo source n'est incluse dans le code |
-| `ffmpeg` ou `ffprobe` introuvable | Installer les outils et vérifier le `PATH` dans un nouveau terminal                                             |
-| HyperFrames ou GSAP introuvable   | Vérifier l'installation locale et les chemins sous `.local/e02-runtime/`                                        |
-| Destination déjà présente         | Choisir un nouveau workspace ou rendre uniquement les clips qui n'existent pas encore                           |
-| Source d'une autre résolution     | Adapter et relire les cadrages avant le rendu ; ne pas prétendre que les contrôles E02 couvrent cette source    |
-| Échec audio ou durée              | Conserver les preuves et corriger le rendu avant livraison                                                      |
-| Revue visuelle absente            | Examiner les fichiers puis remplir les attestations réelles ; ne pas les inventer                               |
-
-Le [README technique E02](episode-02/camera-unique-v2/README.md) détaille les contrôles, les seuils audio et les limites de reproduction.
