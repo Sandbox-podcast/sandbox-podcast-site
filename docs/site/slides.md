@@ -41,7 +41,7 @@ Voir aussi [DD-0007](../design-decisions/DD-0007-sous-domaine-des-presentations.
 
 ## Épisode 003 en préparation
 
-Le [support du troisième épisode](episode-003-preparation.md) compte huit écrans : un lobby pour chacune des séquences Introduction, Radar, Talk et Clash, deux actualités dans le Radar (Microsoft Copilot Studio et Voxtral 3), une slide de cas d’usage dans le Talk et une question dans le Clash.
+Le [support du troisième épisode](episode-003-preparation.md) compte neuf écrans : un lobby pour chacune des séquences Introduction, Radar, Talk et Clash, trois actualités dans le Radar (Microsoft Copilot Studio, l’impact de l’IA chez Anthropic et Voxtral 3), une slide de cas d’usage dans le Talk et une question dans le Clash.
 
 La slide du Talk présente le catalogue produits intégré dans un agent et demande ce que cela permet aux équipes. Celle du Clash pose la question de la mise en production en entreprise d’un produit développé en vibe coding. Les anciennes données de préparation restent sur disque, mais ne sont pas chargées par le support.
 

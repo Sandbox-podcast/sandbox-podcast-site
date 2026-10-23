@@ -39,12 +39,26 @@
       ></label>
       <output id="counter" aria-live="polite"></output>
       <button id="next" type="button" aria-label="Diapositive suivante">Suivant</button>
+      <button
+        id="speaker-notes-button"
+        type="button"
+        aria-expanded="false"
+        aria-controls="speaker-notes"
+        hidden
+      >
+        Notes (N)
+      </button>
       <button id="present" type="button" aria-pressed="false" title="Mode live (P)">
         Mode live
       </button>
       <button id="fullscreen" type="button" title="Plein écran (F)">Plein écran</button>
     </nav>
     <p id="status" class="status" role="status"></p>
+    <aside id="speaker-notes" aria-labelledby="speaker-notes-title" hidden>
+      <button id="close-speaker-notes" type="button">Fermer les notes (N)</button>
+      <h2 id="speaker-notes-title">Plan de discussion · 10 à 12 minutes</h2>
+      <div id="speaker-notes-content"></div>
+    </aside>
     <div id="live-controls" hidden>
       <button id="leave-live" type="button">Régie (P)</button>
     </div>

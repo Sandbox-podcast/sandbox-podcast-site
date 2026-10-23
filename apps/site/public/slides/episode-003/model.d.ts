@@ -16,6 +16,7 @@ export interface Slide {
   figureCaption?: string;
   figureAside?: string;
   sources?: { label: string; url: string }[];
+  notes?: { title: string; text: string }[];
 }
 
 export const scenes: Slide[];

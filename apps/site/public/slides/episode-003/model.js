@@ -57,6 +57,53 @@ export const scenes = [
     ],
   },
   {
+    id: 'anthropic-employment',
+    kind: 'radar-story',
+    chapter: 'Radar',
+    title: 'Comment l’IA transforme Anthropic',
+    subtitle: 'Comment forme-t-on les futurs seniors à l’ère des agents IA ?',
+    date: '16 octobre 2026',
+    illustration: './assets/radar-v1.webp',
+    points: [
+      ['6 ×', 'Heures d’exécution des agents / heures humaines estimées'],
+      ['> ½ semaine', 'Pour lire toutes les réponses, même hors métiers techniques'],
+      ['27 % → 9 %', 'Part des juniors dans les recrutements techniques'],
+    ],
+    availability: 'Étude interne · heures ≠ travail utile · lecture théorique · part des embauches',
+    sources: [
+      {
+        label: 'Étude Anthropic · 16/10',
+        url: 'https://www.anthropic.com/research/employment-at-anthropic',
+      },
+    ],
+    notes: [
+      {
+        title: '1. L’accroche · 1 minute',
+        text: 'On parle souvent de ce que l’IA va changer dans nos métiers. Regardons comment on travaille chez son fabricant. L’étude s’appuie sur des données internes et 17 entretiens. Question de départ : aimerait-on travailler dans une entreprise organisée autour des agents ?',
+      },
+      {
+        title: '2. Un salarié entouré d’agents · 2 minutes',
+        text: 'Le ratio de six concerne août 2026 : durées d’exécution des agents comparées à 40 heures hebdomadaires supposées par salarié, sans équivalence de travail utile. Situation imaginaire : cinq tâches lancées, trois agents demandent une décision. Que vérifier personnellement ? Lou, Loïc : passez-vous davantage de temps à faire, à expliquer ou à vérifier ?',
+      },
+      {
+        title: '3. Le temps gagné devient-il du temps de lecture ? · 2 minutes',
+        text: 'La demi-semaine est une estimation de lecture des sorties, pas un temps observé. Nico : raconter un exemple réel sur Sillage où une réponse a aidé ou ralenti une décision. Que devrait montrer un agent : résultat, doutes, preuves ? Qui contrôle l’agent vérificateur ? À quel moment valide-t-on sans lire ?',
+      },
+      {
+        title: '4. Comment former les futurs seniors ? · 3 minutes',
+        text: '27 % à 9 % décrit une proportion d’embauches techniques, pas des licenciements. Quelles tâches nous ont appris notre métier ? Les déléguerions-nous aujourd’hui ? Peut-on reconnaître une mauvaise solution sans en avoir construit ? Un junior avec une IA et un mentor apprendrait-il plus vite ? Demain, recruterions-nous un senior seul avec des agents, ou un senior et un junior équipé ?',
+      },
+      {
+        title: '5. Est-ce transposable ailleurs ? · 1 à 2 minutes',
+        text: 'Anthropic étudie sa propre organisation et vend les outils concernés ; l’adoption n’est pas randomisée. Imaginons une agence de dix personnes, une mairie ou un commerce. Qu’est-ce qui serait utile demain ? Qui configurerait et contrôlerait les outils ? Quelles décisions garder collectives ? Ces questions sont des pistes de débat, pas des conclusions de l’étude.',
+      },
+      {
+        title: '6. Terminer sur un choix · 1 minute',
+        text: 'Si l’IA vous faisait gagner deux heures par jour, voudriez-vous produire davantage, apprendre autre chose ou travailler moins ? Qui déciderait ? Aux auditeurs : quelle tâche délégueriez-vous immédiatement et laquelle garderiez-vous pour continuer à apprendre ?',
+      },
+    ],
+  },
+  {
     id: 'voxtral-3',
     kind: 'radar-story',
     chapter: 'Radar',

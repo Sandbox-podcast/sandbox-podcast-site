@@ -8,6 +8,8 @@ const counter = document.getElementById('counter');
 const presentButton = document.getElementById('present');
 const liveControls = document.getElementById('live-controls');
 const status = document.getElementById('status');
+const notesButton = document.getElementById('speaker-notes-button');
+const notesPanel = document.getElementById('speaker-notes');
 const chapterLinks = document.querySelectorAll('[data-chapter]');
 const escapeText = (value) =>
   String(value)
@@ -40,17 +42,24 @@ function render() {
         <h1>${escapeText(slide.title)}</h1>
       </div>`;
   } else if (slide.kind === 'radar-story') {
-    screen.innerHTML = `
+    screen.innerHTML = slide.sourceImage
+      ? `
       ${illustration}
       <article class="radar-copy">
         <p class="eyebrow">LE RADAR <span>·</span> ${escapeText(slide.date)}</p>
         <h1>${escapeText(slide.title)}</h1>
-          <figure class="radar-visual">
-            <img src="${escapeText(slide.sourceImage)}" alt="${escapeText(slide.sourceImageAlt)}" />
-            <figcaption>${escapeText(slide.figureCaption ?? '')}${slide.figureAside ? `<span>${escapeText(slide.figureAside)}</span>` : ''}</figcaption>
-          </figure>
+        <figure class="radar-visual">
+          <img src="${escapeText(slide.sourceImage)}" alt="${escapeText(slide.sourceImageAlt)}" />
+          <figcaption>${escapeText(slide.figureCaption ?? '')} <span>${escapeText(slide.figureAside ?? '')}</span></figcaption>
+        </figure>
         ${slide.question ? `<p class="radar-question">${escapeText(slide.question)}</p>` : ''}
         <nav class="radar-sources" aria-label="Sources de l’actualité">${slide.sources.map(({ label, url }) => `<a href="${escapeText(url)}" target="_blank" rel="noopener noreferrer">${escapeText(label)} ↗</a>`).join('')}</nav>
+      </article>`
+      : `
+      ${illustration}
+      <article class="content-copy">
+        <h1>${escapeText(slide.title)}</h1>
+        <p class="question">${escapeText(slide.subtitle)}</p>
       </article>`;
   } else if (slide.kind === 'talk-case') {
     screen.innerHTML = `
@@ -70,6 +79,19 @@ function render() {
   }
 
   topicSelect.value = String(current);
+  notesButton.hidden = !slide.notes?.length;
+  notesButton.setAttribute('aria-expanded', 'false');
+  notesPanel.hidden = true;
+  document.getElementById('speaker-notes-content').innerHTML =
+    (slide.notes ?? [])
+      .map(
+        ({ title, text }) =>
+          `<section><h3>${escapeText(title)}</h3><p>${escapeText(text)}</p></section>`,
+      )
+      .join('') +
+    (slide.notes?.length
+      ? `<nav class="radar-sources" aria-label="Sources de l’actualité">${(slide.sources ?? []).map(({ label, url }) => `<a href="${escapeText(url)}" target="_blank" rel="noopener noreferrer">${escapeText(label)} ↗</a>`).join('')}</nav>`
+      : '');
   counter.textContent = `${current + 1} / ${scenes.length}`;
   document.getElementById('previous').disabled = current === 0;
   document.getElementById('next').disabled = current === scenes.length - 1;
@@ -89,10 +111,20 @@ function move(delta) {
 }
 
 function setPresentation(active) {
+  notesPanel.hidden = true;
+  notesButton.setAttribute('aria-expanded', 'false');
   document.body.classList.toggle('presenting', active);
   presentButton.setAttribute('aria-pressed', String(active));
   liveControls.hidden = !active;
   screen.focus({ preventScroll: true });
+}
+
+function toggleNotes() {
+  if (!scenes[current].notes?.length || document.body.classList.contains('presenting')) return;
+  notesPanel.hidden = !notesPanel.hidden;
+  notesButton.setAttribute('aria-expanded', String(!notesPanel.hidden));
+  if (!notesPanel.hidden) document.getElementById('close-speaker-notes').focus();
+  else notesButton.focus();
 }
 
 function togglePresentation() {
@@ -119,6 +151,8 @@ topicSelect.addEventListener('change', () => {
   render();
 });
 presentButton.addEventListener('click', togglePresentation);
+notesButton.addEventListener('click', toggleNotes);
+document.getElementById('close-speaker-notes').addEventListener('click', toggleNotes);
 document.getElementById('leave-live').addEventListener('click', togglePresentation);
 document.getElementById('fullscreen').addEventListener('click', () => void toggleFullscreen());
 document.addEventListener('fullscreenchange', () => {
@@ -161,6 +195,7 @@ document.addEventListener('keydown', (event) => {
   }
   if (event.key.toLowerCase() === 'f') void toggleFullscreen();
   if (event.key.toLowerCase() === 'p') togglePresentation();
+  if (event.key.toLowerCase() === 'n') toggleNotes();
   if (event.key === 'Escape') setPresentation(false);
 });
 
