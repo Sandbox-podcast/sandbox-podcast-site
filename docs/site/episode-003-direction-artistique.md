@@ -16,7 +16,7 @@ Les anciennes slides reposaient davantage sur des formes abstraites cyan et des 
 | Cas d’usage Talk | `apps/site/public/slides/episode-003/assets/talk-case-v1.webp`      | Catalogue de produits et dossiers reliés visuellement à un écran d’agent.                                  |
 | Lobby Clash      | `apps/site/public/slides/episode-003/assets/clash-lobby-v1.webp`    | Deux micros face à face, avec une opposition cyan et corail contenue dans le décor.                        |
 | Question Clash   | `apps/site/public/slides/episode-003/assets/clash-question-v1.webp` | Ordinateur rétro et infrastructure serveur pour évoquer le passage en production sans suggérer la réponse. |
-| Schéma Voxtral 3 | `apps/site/public/slides/episode-003/assets/voxtral-3-pipeline.svg` | Diagramme éditorial de la chaîne transcription, raisonnement et synthèse vocale du SDK Voice Agents. |
+| Schéma Voxtral 3 | `apps/site/public/slides/episode-003/assets/voxtral-3-pipeline.svg` | Diagramme éditorial de la chaîne transcription, raisonnement et synthèse vocale du SDK Voice Agents.       |
 
 Les six illustrations de séquence ont été générées avec l’outil intégré ImageGen le 20 octobre 2026. Les PNG sources et leurs versions WebP sont conservés dans le dossier `assets/`; le support charge les WebP. La slide Voxtral ajoute un schéma SVG local dédié à la news. Ces visuels ne portent pas les titres éditoriaux, qui restent en texte HTML modifiable.
 
