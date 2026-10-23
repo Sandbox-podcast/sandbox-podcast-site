@@ -1,19 +1,21 @@
 # Épisode 003 : support actuel
 
-Le support contient sept écrans : les lobbies Introduction, Radar, Talk et Clash, une actualité Copilot Studio, une slide de cas d’usage dans le Talk et une question dans le Clash.
+Le support contient huit écrans : les lobbies Introduction, Radar, Talk et Clash, deux actualités dans le Radar (Copilot Studio et Voxtral 3), une slide de cas d’usage dans le Talk et une question dans le Clash.
 
 - **Introduction** : lobby de séquence.
-- **Radar** : lobby, puis une slide Microsoft Copilot Studio / Frontier (annonce du 15 octobre 2026).
+- **Radar** : lobby, puis deux slides d’actualité : Microsoft Copilot Studio / Frontier (15 octobre 2026) et Voxtral 3 (20 octobre 2026).
 - **Talk** : lobby, puis « J’ai intégré l’ensemble de notre catalogue produits dans un agent. Qu’est-ce que ça permet aux équipes ? »
 - **Clash** : lobby, puis « En entreprise, peut-on vraiment mettre en production un produit développé en vibe coding ? »
 
 Les anciens fichiers de préparation restent présents, mais le support ne les charge pas et n’affiche aucun de leurs sujets.
 
-La direction et les illustrations des six écrans sont décrites dans [la note de direction artistique](episode-003-direction-artistique.md).
+Les six illustrations de séquence et le schéma Voxtral sont décrits dans [la note de direction artistique](episode-003-direction-artistique.md).
 
 ## Ouvrir le support actuel
 
 La slide Copilot Studio reprend l’[annonce Microsoft du 15 octobre](https://www.microsoft.com/en-us/copilot/blog/copilot-studio/delegate-shared-business-processes-to-agents-that-are-more-persistent-and-proactive-with-microsoft-copilot-studio/) : compte propre, mémoire du processus et déclencheurs dans le harnais GitHub Copilot. Le [programme Frontier](https://www.microsoft.com/en-us/copilot/resources/frontier-features?sortBy=newest-oldest#All-Frontier-features) donne accès à des fonctions expérimentales. Le navigateur cloud et les suggestions d’amélioration restent annoncés pour plus tard. Le visuel de mémoire provient de l’article Microsoft et figure dans `assets/sources/copilot-studio-memory.webp`. Les deux sources sont accessibles depuis la slide. À la demande de Lou, le visuel occupe l’essentiel de l’écran ; seuls le titre, les mots repères et le statut expérimental restent affichés. Les explications sont données à l’oral.
+
+La slide Voxtral 3 reprend l’[annonce Mistral du 20 octobre](https://mistral.ai/news/voxtral-3/) et la [documentation Audio](https://docs.mistral.ai/studio/audio/overview). Elle distingue les modèles de transcription et de synthèse vocale du SDK Voice Agents, qui relie ces étapes à un modèle de langage et aux outils. Mistral indique que les modèles audio sont en préversion publique. Le schéma local `assets/voxtral-3-pipeline.svg` illustre cette chaîne ; il ne présente ni les modèles comme open source ni les performances annoncées comme mesurées par Sandbox.
 
 Depuis la racine du dépôt :
 
@@ -23,7 +25,7 @@ python -m http.server 4334 --bind 127.0.0.1 --directory apps/site/public
 
 Ouvrir <http://127.0.0.1:4334/slides/episode-003/index.html>.
 
-Les flèches, Espace, Page précédente et Page suivante parcourent les sept écrans. Le menu Diapositive donne un accès direct à chaque écran. `P` active le mode live et `F` demande le plein écran.
+Les flèches, Espace, Page précédente et Page suivante parcourent les huit écrans. Le menu Diapositive donne un accès direct à chaque écran, dont les deux actualités du Radar. `P` active le mode live et `F` demande le plein écran.
 
 ## Préparation antérieure du 18 octobre — archive éditoriale
 
