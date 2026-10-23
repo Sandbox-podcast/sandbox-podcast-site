@@ -1,5 +1,7 @@
 # SANDBOX YouTube Growth Agent
 
+Pour chaque nouvel épisode : [générer des Shorts adaptés à YouTube, TikTok, Instagram et X, puis des vidéos de 5 à 15 minutes](../social-network-manager/GENERER.md). La commande `youtube_growth.social` rend les variantes locales d'un plan relu ; `youtube_growth.thematic` prépare les formats horizontaux selon [son guide](THEMATIC.md). Ces deux commandes ne publient rien.
+
 Outil Python pour [Sandbox TalkShow](https://www.youtube.com/@SandboxFR). Il complète le site existant sans modifier `old/`. Voir [ADR-0029](../../docs/adr/ADR-0029-growth-agent-et-extraits-youtube.md), [ADR-0032](../../docs/adr/ADR-0032-protections-et-persistance-issue-68.md) et [la livraison du 14 octobre](../../docs/site/youtube-growth-2026-10-14.md).
 
 ## Connexion et audit

@@ -87,6 +87,8 @@ Le mode opératoire multi-réseaux est décrit dans [`tools/social-network-manag
 
 ### Utiliser l'agent avec Nico et Loïc
 
+**Pour chaque nouvel épisode : suis le [tutoriel de génération des Shorts par réseau et des vidéos de 5 à 15 minutes](tools/social-network-manager/GENERER.md).** Le code prépare des variantes distinctes pour YouTube, TikTok, Instagram et X ; le master et les MP4 générés restent locaux. La génération fonctionne sans connexion aux comptes sociaux.
+
 1. Ouvrir le dépôt `Sandbox-podcast/sandbox-podcast-site` dans Codex ou un autre agent de code autorisé, sur la branche de travail de l'équipe.
 2. Lui demander de lire `AGENTS.md`, `tools/social-network-manager/README.md` et `docs/site/social-network-manager-2026-10-17.md` avant de préparer une tâche.
 3. Décrire le résultat voulu et la plateforme. Exemples : « prépare deux variantes TikTok à partir de l'extrait Codex/OpenCode » ou « relève les performances de la semaine et compare-les aux relevés précédents ».
