@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#05090d" />
+    <link rel="icon" type="image/png" href="../episode-002-bis/assets/logo.png" />
+    <meta
+      name="description"
+      content="Épisode 004 de SANDBOX. Radar Atlassian AI-native SDLC et Talk : du prototype codé au binôme produit-développeur avec des agents IA."
+    />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'"
+    />
+    <title>SANDBOX | Épisode 004</title>
+    <link rel="stylesheet" href="./show.css" />
+    <script type="module" src="./show.js"></script>
+  </head>
+  <body>
+    <header>
+      <img src="../episode-002-bis/assets/logo.png" alt="SANDBOX" />
+      <span class="episode-label">ÉPISODE 004</span>
+      <nav class="chapter-nav" aria-label="Séquences">
+        <a class="chapter-link" data-chapter="Radar" href="#radar">Le Radar</a
+        ><a class="chapter-link" data-chapter="Talk" href="#talk">Le Talk</a>
+      </nav>
+    </header>
+    <main id="screen" tabindex="-1" aria-label="Diapositive">
+      <p role="status">Chargement du support...</p>
+    </main>
+    <nav class="deck-controls" aria-label="Navigation du support">
+      <button id="previous" type="button" aria-label="Diapositive précédente">Précédent</button>
+      <label class="slide-picker"
+        >Diapositive
+        <select id="topics" aria-label="Choisir une diapositive"></select
+      ></label>
+      <output id="counter" aria-live="polite"></output>
+      <button id="next" type="button" aria-label="Diapositive suivante">Suivant</button>
+      <button id="notes-toggle" type="button" aria-controls="notes" aria-expanded="false">
+        Notes (N)
+      </button>
+      <button id="present" type="button" aria-pressed="false">Mode live (P)</button>
+      <button id="fullscreen" type="button">Plein écran (F)</button>
+    </nav>
+    <p id="status" class="status" role="status"></p>
+    <aside id="notes" hidden aria-label="Notes du présentateur">
+      <div class="notes-heading">
+        <h2>Notes du présentateur</h2>
+        <button id="close-notes" type="button">Fermer (N)</button>
+      </div>
+      <div id="notes-content"></div>
+    </aside>
+    <div id="live-controls" hidden><button id="leave-live" type="button">Régie (P)</button></div>
+    <noscript
+      >Activez JavaScript pour parcourir les trois slides du Radar et les cinq slides du
+      Talk.</noscript
+    >
+  </body>
+</html>
