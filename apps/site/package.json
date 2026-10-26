@@ -61,7 +61,7 @@
     "@vercel/blob": "2.6.1",
     "@vercel/speed-insights": "2.0.0",
     "drizzle-orm": "^0.45.3",
-    "next": "^16.3.8",
+    "next": "^16.4.1",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
     "react-markdown": "^10.1.0",
@@ -69,7 +69,7 @@
     "sharp": "0.35.5",
     "three": "^0.186.1",
     "ws": "^8.22.0",
-    "zod": "^4.6.5"
+    "zod": "^4.6.6"
   },
   "devDependencies": {
     "@electric-sql/pglite": "^0.5.8",

@@ -66,8 +66,8 @@ export interface AutomationCycle {
 
 export function newsAutomationCycle(now: Date): AutomationCycle {
   const start = new Date(now);
-  start.setUTCMinutes(37, 0, 0);
-  if (start.getTime() > now.getTime()) start.setUTCHours(start.getUTCHours() - 1);
+  start.setUTCHours(3, 37, 0, 0);
+  if (start.getTime() > now.getTime()) start.setUTCDate(start.getUTCDate() - 1);
   return {
     key: start.toISOString(),
     startsAt: start.toISOString(),

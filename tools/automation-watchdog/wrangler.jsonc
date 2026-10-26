@@ -10,7 +10,7 @@
     "DRY_RUN": "true",
   },
   "triggers": {
-    "crons": ["*/5 * * * *"],
+    "crons": ["37 5 * * *"],
   },
   "durable_objects": {
     "bindings": [{ "name": "WATCHDOG", "class_name": "SandboxAutomationWatchdog" }],

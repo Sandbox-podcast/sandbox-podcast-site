@@ -89,7 +89,7 @@ describe('précontrôle News sous le verrou du workflow', () => {
     expect(fetcher).not.toHaveBeenCalled();
   });
   it('ne relance pas un cycle déjà collecté lors du deuxième déclenchement', async () => {
-    checkedAt = '2026-10-20T09:40:00Z';
+    checkedAt = '2026-10-19T03:40:00Z';
     expect(await workflowPreflight('news', environment, now)).toMatchObject({
       collectNeeded: true,
       processNeeded: true,
@@ -103,7 +103,7 @@ describe('précontrôle News sous le verrou du workflow', () => {
       reason: 'fresh',
     });
   });
-  it.each([null, '2026-10-20T09:40:00Z', '2026-10-21T10:40:00Z'])(
+  it.each([null, '2026-10-19T03:40:00Z', '2026-10-21T10:40:00Z'])(
     'collecte si la date %s est absente, ancienne ou future',
     async (value) => {
       checkedAt = value;
@@ -114,13 +114,13 @@ describe('précontrôle News sous le verrou du workflow', () => {
       });
     },
   );
-  it('respecte le cycle horaire à :37 sans imposer au cron GitHub la grâce du contrôle externe', async () => {
-    checkedAt = '2026-10-20T09:40:00Z';
+  it('respecte le cycle quotidien à 03:37 UTC sans imposer au cron GitHub la grâce externe', async () => {
+    checkedAt = '2026-10-19T03:40:00Z';
     expect(
-      await workflowPreflight('news', environment, new Date('2026-10-20T10:36:59Z')),
+      await workflowPreflight('news', environment, new Date('2026-10-20T03:36:59Z')),
     ).toMatchObject({ collectNeeded: false });
     expect(
-      await workflowPreflight('news', environment, new Date('2026-10-20T10:37:00Z')),
+      await workflowPreflight('news', environment, new Date('2026-10-20T03:37:00Z')),
     ).toMatchObject({ collectNeeded: true });
   });
   it.each(['failure', 'timed_out', 'action_required', 'startup_failure'])(
@@ -336,7 +336,8 @@ describe('sorties du précontrôle et sélection des workflows', () => {
     }
     for (const mode of ['refresh', 'recover', 'discovery']) expect(charts).toContain(`- ${mode}`);
     expect(charts).toContain('group: charts-discovery-publish');
-    expect(charts.match(/group: charts-collect-publish/gu)).toHaveLength(2);
+    expect(charts.match(/group: charts-collect-publish/gu)).toHaveLength(1);
+    expect(news.match(/group: charts-collect-publish/gu)).toHaveLength(2);
     expect(charts).toContain("inputs.mode != 'discovery'");
     expect(charts).toContain("inputs.mode == 'discovery'");
     expect(news).toContain('- due');

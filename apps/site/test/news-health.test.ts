@@ -45,14 +45,14 @@ describe('fraîcheur News publique', () => {
       verifyNewsHealth({ ...feed, lastPublishedAt: now.toISOString() }, now, 'invalid').ok,
     ).toBe(false);
   });
-  it('conserve un planning horaire, son activation explicite et des passages sans annulation', async () => {
+  it('conserve un planning quotidien, son activation explicite et des passages sans annulation', async () => {
     const workflow = await readFile(
       new URL('../../../.github/workflows/news-refresh.yml', import.meta.url),
       'utf8',
     );
     const schedules = [...workflow.matchAll(/cron:\s*'([^']+)'/gu)].map((match) => match[1]);
     expect(schedules).toHaveLength(1);
-    expect(schedules[0]).toMatch(/^(?:[1-9]|[1-5]\d) \* \* \* \*$/u);
+    expect(schedules[0]).toBe('37 3 * * *');
     expect(workflow).toContain('workflow_dispatch:');
     expect(workflow).toContain(
       "github.ref == 'refs/heads/main' && vars.SANDBOX_NEWS_PUBLIC == 'true'",
@@ -60,7 +60,7 @@ describe('fraîcheur News publique', () => {
     expect(workflow).toContain('cancel-in-progress: false');
     expect(workflow).toContain('timeout-minutes: 45');
   });
-  it('livre les scripts Node appelés par le workflow horaire', async () => {
+  it('livre les scripts Node appelés par le workflow quotidien', async () => {
     const workflow = await readFile(
       new URL('../../../.github/workflows/news-refresh.yml', import.meta.url),
       'utf8',
@@ -76,7 +76,9 @@ describe('fraîcheur News publique', () => {
     }
   });
   it('refuse une collecte ancienne même si les anciens articles restent lisibles', () => {
-    expect(verifyNewsHealth({ ...feed, checkedAt: '2026-10-19T08:00:00Z' }, now).ok).toBe(false);
+    expect(verifyNewsHealth({ ...feed, checkedAt: '2026-10-18T08:59:59Z' }, now).ok).toBe(false);
+    expect(verifyNewsHealth({ ...feed, checkedAt: '2026-10-18T09:00:00Z' }, now).ok).toBe(true);
+    expect(verifyNewsHealth({ ...feed, checkedAt: '2026-10-18T12:00:00Z' }, now).ok).toBe(true);
     expect(verifyNewsHealth(feed, now).ok).toBe(true);
   });
   it('distingue un flux invalide, vide, et des sources toutes indisponibles', () => {

@@ -1,5 +1,7 @@
 # Documentation
 
+Issue 68, 26 octobre : [bilan actuel, corrections et accès encore nécessaires](site/issue-68-bilan-2026-10-26.md), [archive avant suppression](site/issue-68-archive-2026-10-26.md) et [workflow quotidien commun](adr/ADR-0041-controles-quotidiens-news-et-classements.md).
+
 Emails GitHub News répétés, 21 octobre : [diagnostic et passage temporaire au français](site/incident-emails-news-2026-10-21.md), selon [DD-0075](design-decisions/dd-0075-suspension-traductions.md).
 
 Échecs GitHub Actions, 21 octobre : [diagnostic et corrections News, traductions, CI et classements](site/checkup-workflows-2026-10-21.md).

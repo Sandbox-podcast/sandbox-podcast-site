@@ -154,9 +154,9 @@ describe('planning automatique déterministe', () => {
     expect(fixture.saved.size).toBe(0);
     expect(fixture.transport).toHaveBeenCalled();
   });
-  it('garde le cycle News précédent avant la minute37 et respecte les cinq minutes de grâce', () => {
+  it('garde le cycle News de la veille avant 03:37 UTC et respecte les cinq minutes de grâce', () => {
     expect(newsAutomationCycle(new Date('2026-10-20T00:36:00Z')).startsAt).toBe(
-      '2026-10-19T23:37:00.000Z',
+      '2026-10-19T03:37:00.000Z',
     );
     const input = { now: new Date('2026-10-20T03:38:00Z'), checkedAt: null, lastRunFailed: false };
     expect(planNewsAutomation(input).reason).toBe('not_due');
@@ -164,6 +164,21 @@ describe('planning automatique déterministe', () => {
     expect(planNewsAutomation({ ...input, now: new Date('2026-10-20T03:42:00Z') }).needed).toBe(
       true,
     );
+  });
+  it('conserve le même cycle News toute la journée et le renouvelle le lendemain à 03:37 UTC', () => {
+    const cycle = newsAutomationCycle(new Date('2026-10-20T03:37:00Z'));
+    for (const time of ['2026-10-20T10:37:00Z', '2026-10-20T23:59:59Z', '2026-10-21T03:36:59Z'])
+      expect(newsAutomationCycle(new Date(time))).toEqual(cycle);
+    expect(newsAutomationCycle(new Date('2026-10-21T03:37:00Z')).startsAt).toBe(
+      '2026-10-21T03:37:00.000Z',
+    );
+    expect(
+      planNewsAutomation({
+        now: new Date('2026-10-20T23:59:59Z'),
+        checkedAt: '2026-10-20T03:40:00Z',
+        lastRunFailed: false,
+      }).needed,
+    ).toBe(false);
   });
   it('reprend le traitement raté sans masquer une collecte encore nécessaire', () => {
     expect(
@@ -319,8 +334,11 @@ describe('watchdog et transport borné', () => {
     });
     expect(h.posts).toHaveLength(3);
     h.setTime('2026-10-20T04:42:00Z');
+    expect((await h.execute()).results[0]?.status).toBe('exhausted');
+    expect(h.posts).toHaveLength(3);
+    h.setTime('2026-10-21T03:42:00Z');
     expect((await h.execute()).results[0]?.attempts).toBe(1);
-    expect(h.posts).toHaveLength(4);
+    expect(h.posts.filter((post) => post.url.includes('news-refresh.yml'))).toHaveLength(4);
   });
   it('reprend un classement absent avec mode recover et une grâce de trente minutes', async () => {
     const h = harness();

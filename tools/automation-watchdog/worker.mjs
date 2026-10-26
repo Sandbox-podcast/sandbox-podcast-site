@@ -19,7 +19,7 @@ export class SandboxAutomationWatchdog extends DurableObject {
       const report = await this.ctx.storage.get('last-report');
       const checkedAt = report?.checkedAt;
       const age = typeof checkedAt === 'string' ? Date.now() - Date.parse(checkedAt) : Infinity;
-      const recent = Number.isFinite(age) && age >= -60_000 && age <= 15 * 60_000;
+      const recent = Number.isFinite(age) && age >= -60_000 && age <= 27 * 3_600_000;
       const schedulerOk = recent && report?.enabled === true && report?.ok === true;
       const results = report?.results ?? [];
       const dataFresh = !schedulerOk
