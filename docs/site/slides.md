@@ -39,6 +39,10 @@ La navigation du support fonctionne avec les flèches gauche/droite, Page préc�
 
 Voir aussi [DD-0007](../design-decisions/DD-0007-sous-domaine-des-presentations.md).
 
+## Épisode 004 en préparation
+
+Le [support de l'épisode 004](episode-004-talk.md) contient trois slides Radar sur le SDLC d'Atlassian, puis cinq slides Talk : sujet d'ouverture, prototype fonctionnel conçu par le PO, reprise par le développeur avec les agents, évolution des tickets et débat sur les responsabilités de design et de QA. Les notes et sources s'ouvrent avec N.
+
 ## Épisode 003 en préparation
 
 Le [support du troisième épisode](episode-003-preparation.md) compte neuf écrans : un lobby pour chacune des séquences Introduction, Radar, Talk et Clash, trois actualités dans le Radar (Microsoft Copilot Studio, l’impact de l’IA chez Anthropic et Voxtral 3), une slide de cas d’usage dans le Talk et une question dans le Clash.
