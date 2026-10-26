@@ -99,6 +99,11 @@
   object-fit: cover;
 }
 
+.cinema[data-with-poster='false'] > img {
+  height: 58% !important;
+  object-fit: contain;
+}
+
 .cinemaCopy {
   position: absolute;
   inset: 58% 7% 5%;

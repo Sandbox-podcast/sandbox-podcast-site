@@ -106,13 +106,25 @@ describe('contenus des six salles', () => {
     expect(html).toContain('id="room-title-cinema" tabindex="-1"');
   });
 
-  it('parcourt trente replays par paires sans en perdre ni en dupliquer', () => {
+  it('affiche les trois épisodes ensemble dès la première page du cinéma', () => {
+    const html = renderToStaticMarkup(
+      createElement(SandboxRoomContent, {
+        roomId: 'cinema',
+        projects: [],
+        episodes: [1, 2, 3].map((number) => ({ ...episode, number })),
+      }),
+    );
+    for (const number of [1, 2, 3]) expect(html).toContain(`href="/episodes/${number}"`);
+    expect(html).not.toContain('data-cinema-pagination');
+  });
+
+  it('parcourt trente replays dans les six cadres sans en perdre ni en dupliquer', () => {
     const collection = Array.from({ length: 30 }, (_, index) => ({
       ...episode,
       number: index + 1,
       title: `Émission ${String(index + 1)} avec son titre complet`,
     }));
-    for (const size of [1, 2]) {
+    for (const size of [1, 2, 6]) {
       const visited: number[] = [];
       for (let index = 0; index < 30 / size; index++) {
         const page = cinemaReplayPage(collection, index, size);
@@ -133,13 +145,13 @@ describe('contenus des six salles', () => {
         projects: [],
       }),
     );
-    expect(html.match(/href="\/episodes\/\d+"/g)).toHaveLength(2);
-    expect(html).toContain('Replays 1–2 sur 30');
+    expect(html.match(/href="\/episodes\/\d+"/g)).toHaveLength(6);
+    expect(html).toContain('Replays 1–6 sur 30');
     expect(html).toContain('data-cinema-pagination="true"');
     expect(html).toContain('Replays précédents</button>');
     expect(html).toContain('Replays suivants<span');
     expect(html).toContain('Émission 30 avec son titre complet');
-    expect(html).not.toContain('href="/episodes/28"');
+    expect(html).not.toContain('href="/episodes/24"');
   });
 
   it('ne montre pas de navigation inactive lorsqu’un seul replay est publié', () => {
@@ -159,11 +171,11 @@ describe('contenus des six salles', () => {
       ...episode,
       number: index + 1,
     }));
-    expect(cinemaReplayPage(collection, 3).items.map(({ number }) => number)).toEqual([2, 1]);
-    expect(cinemaReplayPage(collection.slice(0, 7), 3).items.map(({ number }) => number)).toEqual([
+    expect(cinemaReplayPage(collection, 1).items.map(({ number }) => number)).toEqual([2, 1]);
+    expect(cinemaReplayPage(collection.slice(0, 7), 1).items.map(({ number }) => number)).toEqual([
       1,
     ]);
-    expect(cinemaReplayPage(collection, 0, 100).items).toHaveLength(2);
+    expect(cinemaReplayPage(collection, 0, 100).items).toHaveLength(6);
     expect(cinemaReplayPage(collection, Number.NaN, Number.NaN).page).toBe(0);
     expect(cinemaReplayPage([], 5)).toMatchObject({
       items: [],

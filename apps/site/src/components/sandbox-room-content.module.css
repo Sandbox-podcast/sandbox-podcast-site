@@ -212,6 +212,7 @@
 .projects,
 .posters {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: flex-end;
   gap: clamp(0.7rem, 1.6vw, 1.6rem);
@@ -746,6 +747,18 @@
   .cinemaCollection .posters li:nth-child(2) {
     left: 70.455%;
     width: 7%;
+  }
+  .cinemaCollection .posters li:nth-child(3) {
+    left: 13.1%;
+  }
+  .cinemaCollection .posters li:nth-child(4) {
+    left: 79.9%;
+  }
+  .cinemaCollection .posters li:nth-child(5) {
+    left: 3.7%;
+  }
+  .cinemaCollection .posters li:nth-child(6) {
+    left: 89.3%;
   }
   .cinemaCollection .posters li:nth-child(1) .posterArt {
     clip-path: none;

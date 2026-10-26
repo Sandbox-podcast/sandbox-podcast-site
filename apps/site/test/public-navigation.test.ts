@@ -22,6 +22,23 @@ describe('navigation publique', () => {
     expect(html).not.toContain('Changer de langue');
     expect(html).toContain('site-search-action');
   });
+  it('expose les rubriques principales dès l’accueil, dans les deux menus', () => {
+    navigation.pathname = '/';
+    for (const component of [MainNav, MobileNav]) {
+      const html = renderToStaticMarkup(createElement(component, { newsAvailable: true }));
+      for (const path of [
+        '/podcast',
+        '/news',
+        '/charts',
+        '/time-machine',
+        '/nos-projets',
+        '/guides',
+        '/about',
+      ])
+        expect(html).toContain(`href="${path}"`);
+      expect(html).toContain('Navigation principale');
+    }
+  });
   it('annonce News dans les menus et le footer seulement quand le fil est disponible', () => {
     for (const component of [MainNav, MobileNav, Masthead, Footer]) {
       expect(
@@ -38,7 +55,8 @@ describe('navigation publique', () => {
     expect(html.indexOf('href="/podcast"')).toBeLessThan(html.indexOf('href="/charts"'));
     for (const path of ['/charts', '/podcast', '/time-machine', '/nos-projets', '/search'])
       expect(html).toContain(`href="${path}"`);
-    expect(html).not.toContain('href="/about"');
+    expect(html).toContain('href="/about"');
+    expect(html).toContain('href="/guides"');
     expect(renderToStaticMarkup(createElement(Footer))).toContain('href="/about"');
   });
   it('garde la ressource courante lorsque la langue change', () => {

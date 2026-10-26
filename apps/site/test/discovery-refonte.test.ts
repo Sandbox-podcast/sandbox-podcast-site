@@ -386,7 +386,7 @@ describe('accueil du Talk Show', () => {
     expect(html).not.toContain('href="/episodes/2"');
     expect(html).not.toContain('href="/episodes/3"');
   });
-  it('réserve les affiches au cinéma et présente les deux derniers replays sans doublons', () => {
+  it('réserve les affiches au cinéma et remplit les six cadres sans doublons', () => {
     const episodes = Array.from({ length: 10 }, (_, index) => ({ ...pilot, number: index + 1 }));
     const html = renderToStaticMarkup(createElement(DiscoveryHome, { episodes }));
     expect(html).toContain('<option value="cinema">');
@@ -397,7 +397,7 @@ describe('accueil du Talk Show', () => {
     const posters = [...cinema.matchAll(/href="\/episodes\/(\d+)"/g)].map((match) =>
       Number(match[1]),
     );
-    expect(posters).toEqual([10, 9]);
+    expect(posters).toEqual([10, 9, 8, 7, 6, 5]);
     expect(cinema).toContain('Replays suivants');
     expect(cinema).not.toContain('href="/episodes/1"');
     expect(cinema).not.toContain('href="/episodes/2"');

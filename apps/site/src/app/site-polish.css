@@ -1373,35 +1373,33 @@ body:has(.admin-shell) .site-footer {
   border-radius: 50%;
 }
 
-/* Accueil éditorial clair, navigation légère. */
+/* L'accueil conserve une navigation visible vers les rubriques. */
 html:has([data-home='editorial']) {
-  scroll-padding-top: 0;
+  scroll-padding-top: var(--header-offset);
 }
 body:has([data-home='editorial']) main [id] {
-  scroll-margin-top: 0;
+  scroll-margin-top: var(--header-offset);
 }
 body:has([data-home='editorial']) .site-header {
-  position: absolute;
-  inset: 0 0 auto;
-  background: transparent;
-  border-bottom-color: transparent;
-  box-shadow: none;
-  backdrop-filter: none;
-  pointer-events: none;
+  position: sticky;
+  top: 0;
+  background: #080c12f5;
+  border-bottom-color: #29313e;
+  box-shadow: 0 4px 20px #0003;
+  backdrop-filter: blur(14px);
 }
-body:has([data-home='editorial']) .site-header :is(a, button, .locale-menu) {
-  pointer-events: auto;
+.site-header .main-nav-list {
+  gap: clamp(0.75rem, 1.3vw, 1.4rem);
 }
-
-body:has([data-home='editorial']) .desktop-navigation,
-body:has([data-home='editorial']) .mobile-navigation,
-body:has([data-home='editorial']) .site-search-action {
-  display: none;
+.site-header .nav-link {
+  white-space: nowrap;
+  font-size: 0.875rem;
+  font-weight: 600;
 }
 body:has([data-home='editorial']) .masthead-row {
-  max-width: none;
-  padding-inline: 5.5%;
-  min-height: 84px;
+  max-width: 1440px;
+  padding-inline: 24px;
+  min-height: 72px;
 }
 @media (max-width: 760px) {
   body:has([data-home='editorial']) .masthead-row {

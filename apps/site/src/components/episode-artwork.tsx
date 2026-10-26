@@ -38,6 +38,7 @@ export function EpisodeArtwork({
       <span
         className={styles['cinema']}
         data-cinema-episode-artwork={locale}
+        data-with-poster={cinemaPosterArtwork(videoId) ? 'true' : 'false'}
         data-mood={videoId === '7KVqydbGow0' ? 'amber' : 'cyan'}
         aria-hidden="true"
       >

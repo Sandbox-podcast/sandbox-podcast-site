@@ -1,5 +1,7 @@
 # DD-0070 : six pièces reliées par des portails
 
+Mise à jour du 26 octobre : le cinéma utilise les six cadres existants avant de paginer. Les miniatures sans affiche dédiée restent entières au-dessus d’un titre court. Correction locale décidée par l’agent sur délégation (PD-0003), à la demande de Lou. Voir la [correction et les tests YouTube](../site/cinema-et-extraits-abc-2026-10-26.md).
+
 20 octobre 2026. Lou demande de retirer le scroll qui transforme le plateau et de remplacer le premier effet de loupe par un parcours entre six pièces. Les choix de réalisation sont décidés par l'agent sur délégation (PD-0003).
 
 Cette décision remplace la séquence d'ouverture au scroll de [DD-0064](dd-0064-accueil-impact-ia-et-plateau-au-scroll.md). Elle complète la [direction des six pièces](../site/sandbox-six-pieces-direction-2026-10-20.md) et suit [vision.md](../../vision.md).
