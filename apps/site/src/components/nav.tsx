@@ -16,6 +16,8 @@ const ITEMS = [
   { href: '/charts', label: 'Classements' },
   { href: '/time-machine', label: 'Time Machine' },
   { href: '/nos-projets', label: 'Nos projets' },
+  { href: '/guides', label: 'Guides' },
+  { href: '/about', label: 'À propos' },
 ];
 
 export function HomeLink({ children, className }: { children: ReactNode; className?: string }) {
@@ -119,6 +121,7 @@ export function MainNav({
             <li key={item.href}>
               <LocalizedLink
                 href={item.href}
+                hrefLang={item.href === '/guides' ? 'fr' : undefined}
                 className="nav-link"
                 aria-current={active ? 'page' : undefined}
               >

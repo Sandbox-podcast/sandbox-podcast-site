@@ -81,7 +81,9 @@ function render() {
         </div>
         ${slide.takeaway ? `<p class="talk-trend-takeaway">${escapeText(slide.takeaway)}</p>` : ''}
         ${slide.question ? `<p class="talk-trend-question">${escapeText(slide.question)}</p>` : ''}
-        <nav class="radar-sources talk-trend-sources" aria-label="Sources du talk">${(slide.sources ?? [])
+        <nav class="radar-sources talk-trend-sources" aria-label="Sources du talk">${(
+          slide.sources ?? []
+        )
           .map(
             ({ label, url }) =>
               `<a href="${escapeText(url)}" target="_blank" rel="noopener noreferrer">${escapeText(label)} ↗</a>`,

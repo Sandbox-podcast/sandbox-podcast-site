@@ -38,10 +38,29 @@ describe('textes et miniatures des vidéos localisées', () => {
       }),
     );
     expect(html).toContain('data-cinema-episode-artwork="fr-FR"');
+    expect(html).toContain('data-with-poster="false"');
     expect(html).toContain('Notre prochain épisode');
     expect(html).toContain('Épisode 30');
     expect(html).toContain(encodeURIComponent('/images/custom.webp'));
     expect(html).not.toContain('episode-001-cinema-v2.webp');
+  });
+
+  it('utilise l’affiche cinéma dédiée et le titre court de l’épisode 3', () => {
+    const html = renderToStaticMarkup(
+      createElement(EpisodeArtwork, {
+        videoId: 'eEsaxtmDjR4',
+        artwork: '/images/episode-003.jpg',
+        title: 'Vibe coding en production : jusqu’où faire confiance à l’IA ? | SANDBOX #3',
+        number: 3,
+        cinema: true,
+        portrait: true,
+        sizes: '160px',
+      }),
+    );
+    expect(html).toContain('data-with-poster="true"');
+    expect(html).toContain('episode-003-cinema-v1.webp');
+    expect(html).toContain('Vibe coding en production');
+    expect(html).not.toContain('jusqu’où faire confiance');
   });
 
   it.each(['fr-FR', 'en', 'es-ES', 'de-DE'])(

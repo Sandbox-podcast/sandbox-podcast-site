@@ -10,6 +10,9 @@ describe('affiches de la salle cinéma', () => {
       '/images/home/replays/episode-002-cinema-v2.webp',
     );
     expect(cinemaPosterArtwork('abcdefghijk')).toBeUndefined();
+    expect(cinemaPosterArtwork('eEsaxtmDjR4')).toBe(
+      '/images/home/replays/episode-003-cinema-v1.webp',
+    );
     expect(cinemaPosterArtwork()).toBeUndefined();
   });
 });

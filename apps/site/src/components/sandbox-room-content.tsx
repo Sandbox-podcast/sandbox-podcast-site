@@ -429,14 +429,14 @@ function ProjectShelf({ projects }: { projects: readonly PersonalProject[] }) {
 export function cinemaReplayPage(
   episodes: readonly Episode[],
   requestedPage: number,
-  requestedPageSize = 2,
+  requestedPageSize = 6,
 ) {
   const replays = episodes
     .filter((episode) => episode.status !== 'draft' && episode.platforms.youtubeId)
     .toSorted((a, b) => b.publishedAt.localeCompare(a.publishedAt) || b.number - a.number);
   const pageSize = Number.isFinite(requestedPageSize)
-    ? Math.max(1, Math.min(2, Math.trunc(requestedPageSize)))
-    : 2;
+    ? Math.max(1, Math.min(6, Math.trunc(requestedPageSize)))
+    : 6;
   const pageCount = Math.ceil(replays.length / pageSize);
   const page = Number.isFinite(requestedPage)
     ? Math.max(0, Math.min(Math.max(0, pageCount - 1), Math.trunc(requestedPage)))

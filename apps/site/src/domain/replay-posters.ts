@@ -11,6 +11,7 @@ const posters: Readonly<Record<string, string>> = {
 const cinemaPosters: Readonly<Record<string, string>> = {
   GgSiPkADCz4: '/images/home/replays/episode-001-cinema-v2.webp',
   '7KVqydbGow0': '/images/home/replays/episode-002-cinema-v2.webp',
+  eEsaxtmDjR4: '/images/home/replays/episode-003-cinema-v1.webp',
 };
 
 export function cinemaPosterArtwork(videoId?: string): string | undefined {
@@ -26,6 +27,7 @@ export function replayPortraitArtwork(videoId?: string): string | undefined {
 export function replayPosterCaption(videoId?: string): string | undefined {
   if (videoId === 'GgSiPkADCz4') return 'Le modèle ne suffit pas';
   if (videoId === '7KVqydbGow0') return 'L’IA dans votre métier';
+  if (videoId === 'eEsaxtmDjR4') return 'Vibe coding en production';
   return undefined;
 }
 
