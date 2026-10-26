@@ -2,6 +2,8 @@
 
 Relevé du 20 octobre 2026. Les horaires ci-dessous sont en UTC ; Paris a deux heures d'avance à cette date. Les workflows s'exécutent sur GitHub Actions depuis `main`. Ils appellent le site Vercel, qui lit et écrit dans Postgres/Neon. Ouvrir une page du site ne lance pas une collecte.
 
+Mise à jour locale du 26 octobre : News et le contrôle Charts partagent un seul workflow quotidien à 03:37 UTC et le contrôleur externe à 05:37 UTC. Voir [ADR-0041](../adr/ADR-0041-controles-quotidiens-news-et-classements.md). Les constats et horaires du 20 octobre conservés ci-dessous précèdent ce changement ; sa livraison distante reste à effectuer.
+
 ## Horaires prévus
 
 | Traitement                               | Planification                                               | Action                                                                                                                         |

@@ -1,10 +1,12 @@
 # Questions ouvertes du site média
 
+Actualisation du 26 octobre : le [bilan de l’issue 68](site/issue-68-bilan-2026-10-26.md) distingue les corrections, les constats de production et les accès encore nécessaires. Lou demande la suppression de l’issue ; son [texte est archivé](site/issue-68-archive-2026-10-26.md). Rising publie désormais vingt positions. Les traductions restent suspendues selon DD-0075. Les relevés plus anciens ci-dessous sont historiques.
+
 21 octobre : à la demande de Lou, le site passe temporairement en français uniquement. Le sélecteur de langue, les variantes étrangères annoncées et le job de traduction News sont retirés du lot local ; leur arrêt distant attend la livraison autorisée sur `main`. Voir [DD-0075](design-decisions/dd-0075-suspension-traductions.md) et le [diagnostic des emails répétés](site/incident-emails-news-2026-10-21.md). Les traductions existantes restent conservées. La réactivation attend la correction des pertes de marqueurs numériques et des échecs de segmentation.
 
 Actualisation du 20 octobre : la file News fonctionne en production et les derniers passages planifiés ont généré de nouvelles fiches. L'[audit de stabilisation du 19 octobre](site/audit-stabilisation-2026-10-19.md) consigne la sauvegarde et l'application des migrations 0017/0018. L'[audit du 20 octobre](site/audit-automatisation-2026-10-20.md) confirme des déclenchements irréguliers, un arriéré News et des éditions GitHub, Skills et Models restées au créneau du 19 octobre à midi. Rising attend toujours son historique admissible. Les dates visibles, protections News et la reprise horaire des classements sont corrigées localement ; leur livraison et la preuve de passages planifiés consécutifs restent à faire. Voir [fonctionnement et horaires](site/automatisation-news-charts-2026-10-20.md).
 
-État du 16 octobre 2026 après mise en service. Le suivi unique est l'[issue #68](https://github.com/Sandbox-podcast/sandbox-podcast-site/issues/68), avec les preuves dans le [rapport de corrections](site/issue-68-2026-10-16.md) et le [compte rendu de mise en service](site/issue-68-mise-en-service-2026-10-16.md). Les anciennes issues ont été regroupées puis supprimées à la demande de Lou.
+État du 16 octobre 2026 après mise en service. Le suivi actuel est le [bilan du 26 octobre](site/issue-68-bilan-2026-10-26.md), avec les preuves dans le [rapport de corrections](site/issue-68-2026-10-16.md) et le [compte rendu de mise en service](site/issue-68-mise-en-service-2026-10-16.md). Les anciennes issues ont été regroupées puis supprimées à la demande de Lou.
 
 Ce document concerne `apps/site`. Les questions de la plateforme vidéo sont archivées dans [old/](../old/README.md) et ne conditionnent pas le site média.
 

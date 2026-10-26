@@ -278,8 +278,12 @@ describe('reprise horaire des classements après un créneau omis', () => {
 
   it('partage le verrou de collecte et garde un budget propre au contrôle public', () => {
     const refresh = workflow.split('\n  refresh:\n')[1]?.split('\n  freshness:\n')[0];
-    const freshness = workflow.split('\n  freshness:\n')[1]?.split('\n  recovery:\n')[0];
-    const recovery = workflow.split('\n  recovery:\n')[1];
+    const daily = readFileSync(
+      new URL('../../../.github/workflows/news-refresh.yml', import.meta.url),
+      'utf8',
+    ).replaceAll('\r\n', '\n');
+    const freshness = daily.split('\n  freshness:\n')[1]?.split('\n  recovery:\n')[0];
+    const recovery = daily.split('\n  recovery:\n')[1];
     for (const job of [refresh, recovery]) {
       expect(job).toContain('group: charts-collect-publish');
       expect(job).toContain('cancel-in-progress: false');

@@ -5,10 +5,10 @@ export function verifyNewsHealth(value: unknown, now = new Date(), publicationSi
   if (!parsed.success) return { ok: false, reason: 'Fil public invalide.', checkedAt: null };
   const feed = parsed.data;
   const age = feed.checkedAt ? now.getTime() - Date.parse(feed.checkedAt) : Infinity;
-  if (age < -300_000 || age > 3 * 3_600_000)
+  if (age < -300_000 || age > 27 * 3_600_000)
     return {
       ok: false,
-      reason: 'Collecte News absente ou en retard de plus de trois heures.',
+      reason: 'Collecte News absente ou datant de plus de vingt-sept heures.',
       checkedAt: feed.checkedAt,
     };
   if (!feed.sources.some((source) => source.ok))

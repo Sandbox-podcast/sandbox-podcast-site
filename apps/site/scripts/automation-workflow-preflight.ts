@@ -7,12 +7,12 @@ import {
   automationWorkflowRunsSchema,
   completedDiscovery,
   discoveryAutomationCycle,
-  latestNewsRunFailed,
   newsAutomationCycle,
   planNewsAutomation,
   trustedAutomationRuns,
   type AutomationWorkflowRun,
 } from '../src/domain/automation-watchdog.ts';
+import { latestNewsProcessingFailed } from '../src/pipeline/news-run-failure.ts';
 
 type Environment = Readonly<Record<string, string | undefined>>;
 export const WORKFLOW_PREFLIGHT_READ_TIMEOUT_MS = 30_000;
@@ -103,7 +103,9 @@ export async function workflowPreflight(
       completedRuns('news-refresh.yml', cycle.startsAt, env, now),
     ]);
     const feed = newsFeedSchema.parse(feedValue);
-    const lastRunFailed = latestNewsRunFailed(runs, cycle, feed.checkedAt);
+    const lastRunFailed = await latestNewsProcessingFailed(runs, cycle, feed.checkedAt, (url) =>
+      json(new URL(url), env['GITHUB_TOKEN']),
+    );
     const plan = planNewsAutomation({
       now,
       checkedAt: feed.sources.some((source) => source.ok) ? feed.checkedAt : null,

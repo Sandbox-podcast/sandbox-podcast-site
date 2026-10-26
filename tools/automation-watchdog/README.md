@@ -1,6 +1,6 @@
 # Contrôle externe de la cadence
 
-Ce Worker Cloudflare vérifie News et Charts toutes les cinq minutes, indépendamment du planificateur GitHub. Les traitements Qwen, Argos et les collecteurs restent dans les workflows existants. Lou a choisi un service externe gratuit le 20 octobre 2026. Le code ne souscrit aucune offre payante.
+Ce Worker Cloudflare vérifie News et Charts chaque jour à 05:37 UTC, indépendamment du planificateur GitHub. Les traitements Qwen, Argos et les collecteurs restent dans les workflows existants. Lou a demandé cette cadence quotidienne le 26 octobre 2026 pour réduire les exécutions et notifications. Voir [ADR-0041](../../docs/adr/ADR-0041-controles-quotidiens-news-et-classements.md). La modification est locale ; le dernier état distant vérifié reste celui du 20 octobre ci-dessous.
 
 Le compte cible est celui renseigné dans `wrangler.jsonc`. La configuration locale reste désactivée par défaut (`ENABLED=false`, `DRY_RUN=true`). L'URL publique expose uniquement `GET /health` ; un appel public ne peut pas déclencher les traitements. Le Durable Object SQLite sérialise les passages et conserve les réservations avant les appels GitHub. Trois tentatives au maximum sont permises par cycle, avec une attente de quinze minutes pour News et trente minutes pour Charts et la découverte. Un résultat réseau ambigu conserve cette attente.
 
@@ -50,9 +50,9 @@ Attendre la propagation du cron, puis contrôler au moins deux événements rée
 
 - HTTP 200 quand le contrôle récent confirme les trois cibles à jour ;
 - HTTP 202 quand le contrôleur fonctionne mais qu'un traitement ou une confirmation reste en attente ;
-- HTTP 503 si le service est désactivé, si son dernier contrôle dépasse quinze minutes, si le jeton manque, si une inspection échoue ou si les reprises sont épuisées.
+- HTTP 503 si le service est désactivé, si son dernier contrôle dépasse vingt-sept heures, si le jeton manque, si une inspection échoue ou si les reprises sont épuisées.
 
-Les champs `schedulerOk` et `dataFresh` séparent le fonctionnement du contrôleur de la publication réellement confirmée. Avant l'horaire d'une cible, sa fraîcheur n'est pas déclarée démontrée. Les horloges sont en UTC. News reste prévu chaque heure à la minute 37, les éditions Charts après 03:17 et 15:17, et la découverte après 01:17.
+Les champs `schedulerOk` et `dataFresh` séparent le fonctionnement du contrôleur de la publication confirmée au dernier contrôle. Avant l'horaire d'une cible, sa fraîcheur n'est pas déclarée démontrée. Les horloges sont en UTC. News et le contrôle public Charts partagent le workflow quotidien de 03:37, les collectes Charts à 03:17 et 15:17, et la découverte à 01:17. Le passage externe quotidien à 05:37 laisse deux heures au workflow News ; si un traitement reste actif, il attend le passage du lendemain. Les plafonds de tentatives restent des protections contre les doublons, pas un programme de relances toutes les quinze minutes.
 
 Le Worker signale un run News actif depuis plus d'une heure ou Charts depuis plus de quarante-cinq minutes, sans l'annuler et sans empiler des remplaçants. Une panne de GitHub, du site ou des sources peut donc encore empêcher une publication ; elle reste visible. Rising conserve ses critères de données et ne provoque pas de reprise à lui seul.
 

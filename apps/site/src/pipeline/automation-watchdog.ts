@@ -8,7 +8,6 @@ import {
   automationWorkflowRunsSchema,
   completedDiscovery,
   discoveryAutomationCycle,
-  latestNewsRunFailed,
   newsAutomationCycle,
   planChartsAutomation,
   planNewsAutomation,
@@ -18,6 +17,7 @@ import {
   type AutomationWatchdogState,
 } from '../domain/automation-watchdog.ts';
 export { configureAutomationWatchdogRuntime } from '../domain/automation-watchdog.ts';
+import { latestNewsProcessingFailed } from './news-run-failure.ts';
 
 export interface AutomationWatchdogStateStore {
   get(key: AutomationTarget): Promise<unknown>;
@@ -188,7 +188,12 @@ export async function runAutomationWatchdog({
     const plan = planNewsAutomation({
       now: instant,
       checkedAt: checked,
-      lastRunFailed: latestNewsRunFailed(runs, newsAutomationCycle(instant), checked),
+      lastRunFailed: await latestNewsProcessingFailed(
+        runs,
+        newsAutomationCycle(instant),
+        checked,
+        (url) => json(url, true),
+      ),
     });
     if (!plan.needed)
       add({

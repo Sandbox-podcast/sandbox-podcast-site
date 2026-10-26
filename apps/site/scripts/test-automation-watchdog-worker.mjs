@@ -25,12 +25,22 @@ await writeFile(
   `
 import worker, { SandboxAutomationWatchdog } from './bundle/worker.js';
 const NativeDate = Date;
+let testNow = '2026-10-20T04:00:00Z';
 globalThis.Date = class extends NativeDate {
-  constructor(...args) { super(...(args.length ? args : ['2026-10-20T04:00:00Z'])); }
-  static now() { return NativeDate.parse('2026-10-20T04:00:00Z'); }
+  constructor(...args) { super(...(args.length ? args : [testNow])); }
+  static now() { return NativeDate.parse(testNow); }
 };
 export { SandboxAutomationWatchdog };
-export default worker;
+export default {
+  ...worker,
+  async fetch(request, env) {
+    if (new URL(request.url).pathname === '/_test/clock') {
+      testNow = await request.text();
+      return new Response(null, { status: 204 });
+    }
+    return worker.fetch(request, env);
+  },
+};
 `,
 );
 const persistence = await mkdtemp(join(tmpdir(), 'sandbox-watchdog-'));
@@ -164,6 +174,17 @@ try {
   assert.equal(calls.filter((call) => call.method === 'POST').length, due ? 1 : 0);
   checks.push(
     'Le redémarrage du runtime conserve le cooldown SQLite et ne redéclenche pas le même travail.',
+  );
+  for (const [time, status] of [
+    ['2026-10-21T04:00:00Z', 202],
+    ['2026-10-21T07:00:00Z', 202],
+    ['2026-10-21T07:00:01Z', 503],
+  ]) {
+    await emulator.dispatchFetch('https://local.test/_test/clock', { method: 'POST', body: time });
+    assert.equal((await emulator.dispatchFetch('https://local.test/health')).status, status);
+  }
+  checks.push(
+    'Le contrôle quotidien reste récent pendant vingt-sept heures puis signale le retard.',
   );
   await emulator.dispose();
   emulator = new Miniflare(options(false));
