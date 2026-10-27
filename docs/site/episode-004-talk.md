@@ -6,6 +6,8 @@ Le Talk tient dans cinq slides, écran d'ouverture compris. Il reprend la vision
 
 ## Le Radar : trois slides Atlassian et quatre fiches sur le revenu universel
 
+À côté de « LE RADAR », les trois premières slides affichent « Atlassian SDLC » et les quatre suivantes « Revenu universel IA ». Le numéro reste visible pour se repérer dans la séquence.
+
 1. Le constat 94 % / 6 %, puis une explication : Teamwork Graph relie les tickets, documents et décisions de l'entreprise ; Code Context y ajoute la compréhension du code et de ses relations. Les maxima +44 % de qualité et -48 % de tokens sont présentés comme les résultats de tests internes annoncés par Atlassian avec Teamwork Graph.
 2. Les sept étapes ensemble, dans l'ordre : Contexte, Planning, Design, Développement, Review, Maintenance et Mesure. Chaque ligne associe le nom de l'étape à une phrase sur ce qui change avec l'IA. Les détails des outils, dont Devin, Factory, Warp et Codex, restent dans les notes.
 3. Les résultats sont expliqués par des phrases complètes : vélocité estimée supérieure à 7x, roadmap de plusieurs mois réalisée en quelques semaines lors d'un pilote, près de 50 % des feature flags nettoyés automatiquement. Le rôle des feature flags est défini. La slide explique aussi que DX AI Measurement suit les effets sur la productivité et la qualité, compare le retour sur investissement et aide à repérer les modèles trop coûteux pour une tâche. Les limites et statuts de disponibilité restent visibles et détaillés dans les notes.

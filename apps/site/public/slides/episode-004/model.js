@@ -71,6 +71,7 @@ export const radarScenes = [
   {
     id: 'radar',
     chapter: 'Radar',
+    topic: 'Atlassian SDLC',
     kind: 'radar-context',
     label: 'Atlassian : adoption et contexte',
     title: 'Atlassian repense le SDLC autour des agents.',
@@ -86,6 +87,7 @@ export const radarScenes = [
   {
     id: 'radar-atlassian-sdlc',
     chapter: 'Radar',
+    topic: 'Atlassian SDLC',
     kind: 'radar-workflow',
     label: 'Atlassian : les agents dans le SDLC',
     title: "Les 7 étapes du SDLC avec l'IA.",
@@ -102,6 +104,7 @@ export const radarScenes = [
   {
     id: 'radar-atlassian-results',
     chapter: 'Radar',
+    topic: 'Atlassian SDLC',
     kind: 'radar-results',
     label: 'Atlassian : résultats et disponibilité',
     title: 'Atlassian annonce ses premiers résultats.',
@@ -117,6 +120,7 @@ export const radarScenes = [
   {
     id: 'radar-ia-revenu',
     chapter: 'Radar',
+    topic: 'Revenu universel IA',
     kind: 'radar-brief',
     label: 'Revenu universel : les annonces Anthropic',
     title: 'L’IA va-t-elle financer un revenu universel ?',
@@ -144,6 +148,7 @@ export const radarScenes = [
   {
     id: 'radar-ia-fonds-publics',
     chapter: 'Radar',
+    topic: 'Revenu universel IA',
     kind: 'radar-brief',
     label: 'Revenu universel : OpenAI et Sanders',
     title: 'Des fonds publics pour partager les gains de l’IA',
@@ -170,6 +175,7 @@ export const radarScenes = [
   {
     id: 'radar-ia-financement',
     chapter: 'Radar',
+    topic: 'Revenu universel IA',
     kind: 'radar-brief',
     label: 'Revenu universel : financement et distribution',
     title: 'Qui finance, qui possède, qui reçoit ?',
@@ -201,6 +207,7 @@ export const radarScenes = [
   {
     id: 'radar-ia-limites',
     chapter: 'Radar',
+    topic: 'Revenu universel IA',
     kind: 'radar-brief',
     label: 'Revenu universel : trois visions de l’avenir économique',
     title: 'Trois visions de l’avenir économique avec l’IA',

@@ -66,7 +66,7 @@ function render() {
   const illustration = slide.chapter === 'Radar' ? 'radar-v1.webp' : 'talk-lobby-v1.webp';
   screen.className = slide.kind;
   screen.innerHTML = `<img class="slide-illustration" src="../episode-003/assets/${illustration}" alt="" aria-hidden="true" />
-    <article class="talk-slide"><div class="slide-heading"><p class="eyebrow">LE ${escapeText(slide.chapter.toUpperCase())} <span>${String(chapterIndex + 1).padStart(2, '0')} / ${String(chapterScenes.length).padStart(2, '0')}</span></p><h1>${escapeText(slide.title)}</h1><p class="subtitle">${escapeText(slide.subtitle)}</p></div>
+    <article class="talk-slide"><div class="slide-heading"><p class="eyebrow">LE ${escapeText(slide.chapter.toUpperCase())}${slide.topic ? `<span class="radar-topic">${escapeText(slide.topic)}</span>` : ''}<span>${String(chapterIndex + 1).padStart(2, '0')} / ${String(chapterScenes.length).padStart(2, '0')}</span></p><h1>${escapeText(slide.title)}</h1><p class="subtitle">${escapeText(slide.subtitle)}</p></div>
     ${visual}
     <nav class="sources" aria-label="Sources de la diapositive">${slide.sources.map((source) => `<a href="${escapeText(source.url)}" target="_blank" rel="noopener noreferrer">${escapeText(source.label)}</a>`).join('')}</nav></article>`;
   document.getElementById('notes-content').innerHTML =

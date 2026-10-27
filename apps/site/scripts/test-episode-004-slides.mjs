@@ -33,6 +33,11 @@ try {
       for (const [index, slide] of scenes.entries()) {
         if (index) await page.keyboard.press('ArrowRight');
         assert.equal(await page.locator('h1').innerText(), slide.title);
+        if (slide.chapter === 'Radar') {
+          assert.equal(await page.locator('.eyebrow .radar-topic').innerText(), slide.topic);
+        } else {
+          assert.equal(await page.locator('.eyebrow .radar-topic').count(), 0);
+        }
         await page.locator('.slide-illustration').evaluate((image) => image.decode());
         assert.equal(new URL(page.url()).hash, `#${slide.id}`);
         assert.equal(await page.locator('.sources a').count(), slide.sources.length);

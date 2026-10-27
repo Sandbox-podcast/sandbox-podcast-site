@@ -7,6 +7,7 @@ export interface Source {
 export interface Slide {
   id: string;
   chapter: 'Talk' | 'Radar';
+  topic?: string;
   kind:
     | 'opening'
     | 'prototype'

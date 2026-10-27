@@ -52,6 +52,15 @@ describe("Le Talk de l'épisode 004", () => {
     expect(scenes.slice(7)).toEqual(talkScenes);
     expect(sceneIndex('#radar')).toBe(0);
     expect(sceneIndex('#talk')).toBe(7);
+    expect(radarScenes.map((slide) => slide.topic)).toEqual([
+      'Atlassian SDLC',
+      'Atlassian SDLC',
+      'Atlassian SDLC',
+      'Revenu universel IA',
+      'Revenu universel IA',
+      'Revenu universel IA',
+      'Revenu universel IA',
+    ]);
     const notes = radarScenes.flatMap((slide) => slide.notes).join(' ');
     for (const detail of [
       '94 %',

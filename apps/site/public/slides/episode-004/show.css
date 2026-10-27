@@ -552,9 +552,15 @@
 }
 .slide-heading .eyebrow {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 28px;
+  gap: 8px 28px;
   margin: 0 0 14px;
+}
+.eyebrow .radar-topic {
+  color: #d7b08a;
+  letter-spacing: 0.02em;
+  text-transform: none;
 }
 .eyebrow span {
   color: var(--muted);
