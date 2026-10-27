@@ -111,10 +111,46 @@ describe('photos des animateurs', () => {
     expect(html).not.toContain('class="about-social-monogram"');
     expect(html).toContain('MarlburroW');
     expect(html.match(/class="about-social-aka label"/g)).toHaveLength(2);
-    expect(html).toContain('https://github.com/loukan42');
+    expect(html).toContain('https://louhusson.com/');
+    expect(html).not.toContain('https://github.com/loukan42');
     expect(html).toContain('https://github.com/MarlBurroW');
     expect(html).toContain('https://github.com/azerothl');
     expect(html).not.toContain('Équipe Sandbox');
+  });
+
+  it('affiche uniquement le site personnel de Lou, même avec les anciens liens publiés', async () => {
+    const content = loadContent();
+    setEditorialOverride({
+      ...content,
+      hosts: content.hosts.map((host) => ({ ...host, website: undefined })),
+    });
+    const html = renderToStaticMarkup(createElement('div', null, await AboutPage()));
+    const card = /<li[^>]*id="lou"[\s\S]*?<\/li>/.exec(html)?.[0];
+    expect(card).toBeDefined();
+    expect(card?.match(/<a /g)).toHaveLength(1);
+    expect(card).toContain('href="https://louhusson.com/"');
+    expect(card).toContain('louhusson.com');
+    expect(html).not.toContain('https://github.com/loukan42');
+    expect(html).not.toContain('https://linkedin.com/louhusson');
+    expect(html).not.toContain('https://x.com/loukan42');
+    expect(html).toContain('https://github.com/MarlBurroW');
+    expect(html).toContain('https://github.com/azerothl');
+  });
+
+  it('conserve un site personnel renseigné dans la fiche publiée', () => {
+    const content = loadContent();
+    setEditorialOverride({
+      ...content,
+      hosts: content.hosts.map((host) =>
+        host.slug === 'lou' ? { ...host, website: 'https://lou.example/' } : host,
+      ),
+    });
+    expect(loadContent().hosts.find((host) => host.slug === 'lou')?.website).toBe(
+      'https://lou.example/',
+    );
+    expect(
+      hostSchema.safeParse({ ...content.hosts[0], website: 'javascript:alert(1)' }).success,
+    ).toBe(false);
   });
 
   it('remplace uniquement l’ancienne photo de Lou dans un profil déjà publié', () => {

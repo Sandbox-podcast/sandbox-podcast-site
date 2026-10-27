@@ -45,7 +45,9 @@ try {
         const title = element.querySelector('h3');
         const frame = element.firstElementChild.getBoundingClientRect();
         const artwork = element.querySelector('img').parentElement.getBoundingClientRect();
+        const kicker = element.querySelector('[class*="panelKicker"]');
         return {
+          kickerPrefix: getComputedStyle(kicker, '::before').content,
           insets: [
             artwork.left - frame.left,
             frame.right - artwork.right,
@@ -62,6 +64,7 @@ try {
             ?.textContent,
         };
       });
+      assert.equal(geometry.kickerPrefix, '"\u2015 "', 'le préfixe des onglets reste lisible');
       assert.ok(
         geometry.insets.every((inset) => Math.abs(inset - 16) < 0.5),
         JSON.stringify(geometry),

@@ -5,6 +5,7 @@ import { shortWeek } from '@/domain/weeks';
 import { ChartLogo } from './chart-logo';
 import { interpolateText } from '@/i18n/translation';
 import {
+  chartOfficialUrl,
   chartFilterLabel,
   chartStatusLabel,
   type ChartsRow,
@@ -203,13 +204,13 @@ export function ChartsRanking({
   rows,
   series,
   period,
-  onShare,
+  onBadge,
   badgeSlugs = [],
 }: {
   rows: ChartsRow[];
   series: ChartsSeries | undefined;
   period: ChartPeriod;
-  onShare: (row: ChartsRow) => void;
+  onBadge: (row: ChartsRow, trigger: HTMLButtonElement) => void;
   badgeSlugs?: string[];
 }) {
   const { t } = useLocalization();
@@ -413,24 +414,6 @@ export function ChartsRanking({
                     <Text>{' éditions dans le Top 20 \u00B7 meilleur rang #'}</Text>
                     <Text>{row.peak ?? '-'}</Text>
                   </p>
-                  <div className="sc-row-actions">
-                    {badgeSlugs.includes(row.entity.slug) ? (
-                      <Link href={`${row.entity.href}#badges`}>
-                        <Text>{'Obtenir mon badge'}</Text>
-                      </Link>
-                    ) : null}
-                    <Link href={row.entity.href}>
-                      <Text>{'Ouvrir la fiche \u2197'}</Text>
-                    </Link>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        onShare(row);
-                      }}
-                    >
-                      <Text>{'PARTAGER LE CLASSEMENT \u2197'}</Text>
-                    </button>
-                  </div>
                 </div>
                 <details className="sc-metrics">
                   <summary>
@@ -493,6 +476,25 @@ export function ChartsRanking({
                 </details>
               </div>
             </details>
+            <div className="sc-row-actions sc-row-direct-actions">
+              {chartOfficialUrl(row.entity) ? (
+                <a href={chartOfficialUrl(row.entity)} target="_blank" rel="noreferrer">
+                  <Text>{'Projet officiel'}</Text>
+                  <span aria-hidden="true"> ↗</span>
+                </a>
+              ) : null}
+              {badgeSlugs.includes(row.entity.slug) ? (
+                <button
+                  type="button"
+                  aria-haspopup="dialog"
+                  onClick={(event) => {
+                    onBadge(row, event.currentTarget);
+                  }}
+                >
+                  <Text>{'Obtenir mon badge'}</Text>
+                </button>
+              ) : null}
+            </div>
           </li>
         ))}
       </Text>

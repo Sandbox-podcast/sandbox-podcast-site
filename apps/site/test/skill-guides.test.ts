@@ -18,7 +18,11 @@ describe('guides de choix des skills', () => {
     const html = renderToStaticMarkup(await GuidePage({ params }));
     expect(html.match(/<h1\b/g)).toHaveLength(1);
     expect(html).toContain('Revue documentaire');
-    expect(html).toContain('aucun score de performance');
+    expect(html).toContain('pas des résultats de tests réalisés par Sandbox');
+    expect(html.match(/<blockquote>/g)).toHaveLength(guide.options.length);
+    expect(html.match(/<summary>Comment vérifier le résultat<\/summary>/g)).toHaveLength(
+      guide.options.length,
+    );
     for (const option of guide.options) {
       expect(html).toContain(`href="${option.source}"`);
       expect(html).toContain(option.name);
@@ -47,6 +51,21 @@ describe('guides de choix des skills', () => {
       description: guide.description,
       type: 'article',
     });
+  });
+
+  it('distingue les recettes à créer des skills disponibles et donne une vraie procédure', async () => {
+    const chat = skillGuides.find((guide) => guide.kind === 'recipes');
+    expect(chat?.tool).toBe('ChatGPT');
+    if (!chat) throw new Error('Guide ChatGPT manquant');
+    const html = renderToStaticMarkup(
+      await GuidePage({ params: Promise.resolve({ slug: chat.slug }) }),
+    );
+    expect(html).toContain('pas des extensions à télécharger');
+    expect(html).toContain('@skill-creator');
+    expect(html).toContain('Créer ton skill');
+    expect(html).not.toContain('>Installation</a>');
+    const claude = skillGuides.find((guide) => guide.tool === 'Claude');
+    expect(claude?.command).toContain('/plugin install document-skills@anthropic-agent-skills');
   });
 
   it('rend les guides découvrables depuis le hub, le classement et le pied de page', () => {

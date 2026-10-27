@@ -8,6 +8,7 @@ import { absoluteUrl, breadcrumbLd, pageMetadata, publisherLd } from '@/lib/seo'
 import { localizedHref } from '@/i18n/routing';
 import { siteDictionary } from '@/i18n/dictionaries';
 import { translateText } from '@/i18n/translation';
+import type { Host } from '@/domain/schema';
 export const dynamic = 'force-dynamic';
 export const metadata = pageMetadata({
   title: 'Qui anime SANDBOX ? Deux développeurs et un Product Manager',
@@ -21,6 +22,16 @@ const networks = [
   { key: 'linkedin', label: 'LinkedIn' },
   { key: 'x', label: 'X' },
 ] as const;
+function profileLinks(host: Host) {
+  if (host.website) {
+    return [{ href: host.website, label: new URL(host.website).hostname }];
+  }
+  return networks.flatMap(({ key, label }) => {
+    const href = host.socials[key];
+    return href ? [{ href, label }] : [];
+  });
+}
+
 export default async function AboutPage({ locale = 'fr-FR' }: { locale?: string } = {}) {
   await preparePublicEditorialContent();
   const hosts = publicHosts();
@@ -43,7 +54,7 @@ export default async function AboutPage({ locale = 'fr-FR' }: { locale?: string 
                 '@id': absoluteUrl(`/about#${host.slug}`),
                 name: host.name,
                 description: text(host.bio),
-                sameAs: Object.values(host.socials).filter(Boolean),
+                sameAs: profileLinks(host).map(({ href }) => href),
               })),
             },
           },
@@ -67,10 +78,7 @@ export default async function AboutPage({ locale = 'fr-FR' }: { locale?: string 
       <ul className="about-social-grid">
         <Text>
           {hosts.map((host, index) => {
-            const links = networks.flatMap(({ key, label }) => {
-              const href = host.socials[key];
-              return href ? [{ href, label }] : [];
-            });
+            const links = profileLinks(host);
             return (
               <li className="about-social-person" id={host.slug} key={host.slug}>
                 <div className="about-social-card-top">

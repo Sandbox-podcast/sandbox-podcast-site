@@ -4,7 +4,9 @@ Implémentation dans `apps/site`. Décision et audit : [ADR-0031](../adr/ADR-003
 
 ## Parcours public
 
-Depuis les détails d'un dépôt éligible dans `/charts/github`, le lien "Obtenir mon badge" ouvre sa fiche à la section des distinctions. Le générateur présente le SVG public sur fond clair ou sombre, puis le Markdown, le HTML et l'URL directe. La copie donne une confirmation accessible ; si le presse-papiers est bloqué, le texte reste sélectionnable. Le visiteur peut également copier un texte de partage pour un Award.
+Depuis chaque ligne d'un classement, « Projet officiel » ouvre directement la source du projet et « Obtenir mon badge » ouvre le générateur dans une fenêtre, sans changer de page ni déplier les détails. Le générateur présente immédiatement le SVG public sur fond clair ou sombre, puis le Markdown, le HTML et l'URL directe. Un sélecteur donne accès aux autres distinctions disponibles. La disponibilité est revérifiée côté serveur au clic ; les retraits et rangs périmés sont exclus. La copie donne une confirmation accessible ; si le presse-papiers est bloqué, le texte reste sélectionnable. Voir [DD-0075](../design-decisions/DD-0075-badge-direct-depuis-le-classement.md).
+
+Les anciennes fiches et leurs générateurs restent accessibles depuis les liens déjà partagés. Elles permettent aussi de copier un texte de partage pour un Award.
 
 `/charts/awards` présente les critères, l'installation, les attributions et leurs éventuels retraits. Les pages utilisent le système de traductions locales français, anglais, espagnol et allemand. La relecture native des traductions espagnoles et allemandes reste nécessaire, comme pour le reste du site.
 

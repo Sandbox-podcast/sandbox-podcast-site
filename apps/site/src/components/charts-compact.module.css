@@ -67,6 +67,31 @@
 .page:global(.sc-page) :global(.sc-row-identity) > div {
   min-width: 0;
 }
+.page:global(.sc-page) :global(.sc-row-direct-actions) {
+  justify-content: flex-end;
+  gap: 8px;
+  margin: 0;
+  padding: 0 16px 12px;
+}
+.page:global(.sc-page) :global(.sc-row-direct-actions) a,
+.page:global(.sc-page) :global(.sc-row-direct-actions) button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1px solid var(--hair);
+  border-radius: 6px;
+  color: var(--ink);
+  background: var(--paper-2);
+  font-size: 12px;
+  text-decoration: none;
+  cursor: pointer;
+}
+.page:global(.sc-page) :global(.sc-row-direct-actions) :focus-visible {
+  outline: 2px solid var(--hl);
+  outline-offset: 3px;
+}
 .page:global(.sc-page) :global(.sc-row-identity) > div > p {
   font: 13px/1.5 var(--font-sans);
   color: var(--ink-2);

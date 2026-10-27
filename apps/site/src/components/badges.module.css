@@ -2,6 +2,62 @@
   margin-block: 3rem;
   scroll-margin-top: 7rem;
 }
+.dialog {
+  width: min(680px, calc(100vw - 32px));
+  max-height: calc(100dvh - 32px);
+  margin: auto;
+  padding: 24px;
+  overflow: auto;
+  border: 1px solid var(--hair);
+  border-radius: 12px;
+  background: var(--paper);
+  color: var(--ink);
+}
+.dialog::backdrop {
+  background: rgb(0 0 0 / 75%);
+}
+.dialog h2 {
+  overflow-wrap: anywhere;
+}
+.dialog .heading {
+  flex-wrap: nowrap;
+  align-items: flex-start;
+}
+.dialog .heading > div {
+  min-width: 0;
+  flex: 1;
+}
+.dialog .close {
+  flex-shrink: 0;
+}
+.close {
+  cursor: pointer;
+  min-width: 44px;
+  min-height: 44px;
+  border: 1px solid var(--hair);
+  border-radius: 6px;
+  color: var(--ink);
+  background: var(--paper-2);
+  font-size: 24px;
+}
+.choice {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.choice select {
+  width: 100%;
+  min-height: 44px;
+  padding: 8px;
+  color: var(--ink);
+  background: var(--paper-2);
+  border: 1px solid var(--hair);
+  font: inherit;
+}
+.dialog :focus-visible {
+  outline: 2px solid var(--hl);
+  outline-offset: 3px;
+}
 .heading,
 .badgeHeading {
   display: flex;

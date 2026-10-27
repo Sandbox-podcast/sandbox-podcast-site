@@ -1,42 +1,78 @@
-.guide {
-  max-width: 76rem;
-  padding-block: clamp(2rem, 5vw, 5rem);
+.guide,
+.hub {
+  padding-block: clamp(2rem, 5vw, 4rem);
   overflow-wrap: anywhere;
+  font-size: 1.0625rem;
+  line-height: 1.7;
 }
-
+.guide {
+  max-width: 52rem;
+}
+.hub {
+  max-width: 72rem;
+}
 .breadcrumbs,
 .contents {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem 1.5rem;
+  gap: 0.5rem 1.5rem;
 }
-
 .breadcrumbs,
-.byline {
+.byline,
+.guideType,
+.source {
   font-size: 0.875rem;
+  color: var(--ink-2);
 }
 .heading {
-  max-width: 62rem;
-  margin-block: 2rem;
+  margin-block: 2rem 2.5rem;
 }
 .heading h1 {
-  max-width: 22ch;
-  font-size: clamp(2.4rem, 6vw, 5.5rem);
-  line-height: 1.05;
+  max-width: 23ch;
+  font-size: clamp(2.25rem, 5vw, 4rem);
+  line-height: 1.12;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
 }
-.heading > p:not(.byline) {
-  max-width: 68ch;
+.heading > p:not(.byline):not(.eyebrow) {
+  max-width: 62ch;
   margin-block: 1.5rem;
-  font-size: 1.2rem;
+  font-size: 1.1875rem;
   line-height: 1.65;
 }
-.contents {
-  padding-block: 1rem;
-  border-block: 1px solid var(--hair);
+.eyebrow {
+  color: var(--accent-ink);
+  font-weight: 600;
+  margin-bottom: 1rem;
 }
-.guide a {
+.contents {
+  padding-block: 0.75rem;
+  border-block: 1px solid var(--hair);
+  font-size: 0.9375rem;
+}
+.contents a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+.guide a,
+.hub a {
   text-decoration: underline;
-  text-underline-offset: 0.2em;
+  text-underline-offset: 0.22em;
+}
+.guide a:hover,
+.hub a:hover {
+  color: var(--accent-ink);
+}
+.takeaway {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: var(--paper-2);
+  border-left: 3px solid var(--accent);
+}
+.takeaway h2 {
+  font-size: 1.15rem;
+  margin-bottom: 0.5rem;
 }
 .scope,
 .section,
@@ -44,79 +80,164 @@
   margin-block: 2.5rem;
   scroll-margin-top: 7rem;
 }
-.scope,
-.section > p,
-.section > div {
-  max-width: 72ch;
-}
-.guide p,
-.guide dd,
-.steps {
-  line-height: 1.75;
-}
 .guide p + p {
   margin-top: 1rem;
 }
-.section h2,
-.related h2 {
-  margin-bottom: 1.25rem;
-  font-size: clamp(1.5rem, 3vw, 2.2rem);
-  line-height: 1.2;
+.scope p + p {
+  font-size: 0.875rem;
+  color: var(--ink-2);
 }
-.section h3 {
-  margin-block: 1.5rem 0.5rem;
-  font-size: 1.25rem;
+.section h2,
+.related h2,
+.definition h2 {
+  margin-bottom: 1.25rem;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  line-height: 1.25;
+  letter-spacing: -0.025em;
 }
 .options {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
   list-style: none;
   padding: 0;
 }
 .options > li {
-  min-width: 0;
-  padding: clamp(1rem, 2vw, 1.75rem);
-  border: 1px solid var(--hair);
+  padding-block: 2rem;
+  border-top: 1px solid var(--hair);
 }
 .options h3 {
-  margin-top: 0;
+  font-size: clamp(1.3rem, 3vw, 1.6rem);
+  line-height: 1.3;
 }
-.options .use {
+.skillName {
+  color: var(--accent-ink);
+  font-size: 0.9375rem;
+  margin-block: 0.5rem 1rem;
+}
+.example {
+  margin-block: 1.5rem;
+  padding: 1.25rem 1.5rem;
+  background: var(--paper-3);
+  border-radius: 0.5rem;
+}
+.example h4 {
+  font: inherit;
   font-weight: 650;
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
 }
-.options dl {
-  margin-block: 1rem;
+.example blockquote {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  line-height: 1.55;
 }
-.options dt {
-  margin-top: 1rem;
-  font-weight: 650;
+.limitation {
+  font-size: 0.9375rem;
+  color: var(--ink-2);
 }
-.options dd {
-  margin: 0.25rem 0 0;
+.verification {
+  margin-block: 0.75rem;
+}
+.verification p,
+.question p {
+  padding-block: 0.75rem 1rem;
+}
+.verification summary,
+.question summary {
+  min-height: 44px;
+  padding-block: 0.65rem;
+  cursor: pointer;
+}
+.verification summary {
+  font-size: 0.9375rem;
+}
+.question {
+  border-bottom: 1px solid var(--hair);
+}
+.question summary {
+  font-weight: 600;
+}
+.source {
+  display: inline-block;
+  padding-block: 0.5rem;
 }
 .steps {
-  max-width: 72ch;
   padding-left: 1.5rem;
 }
+.steps li {
+  padding-left: 0.5rem;
+}
 .steps li + li {
-  margin-top: 1rem;
+  margin-top: 1.25rem;
+}
+.steps li::marker {
+  color: var(--accent-ink);
+  font-weight: 700;
 }
 .section pre {
   max-width: 100%;
-  overflow-x: auto;
-  padding: 1rem;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  padding: 1.25rem;
+  background: var(--paper-3);
   border: 1px solid var(--hair);
-  margin-block: 1.25rem;
+  margin-block: 1.5rem;
+  font-size: 0.875rem;
+}
+.related {
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--hair);
 }
 .related ul {
   display: grid;
   gap: 0.75rem;
   padding-left: 1.25rem;
 }
+.related p {
+  max-width: 65ch;
+}
+.definition {
+  max-width: 65ch;
+  margin-block: 2rem 3rem;
+}
+.definition h2 {
+  font-size: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+.guideList {
+  padding: 0;
+  list-style: none;
+}
+.guideList > li {
+  display: grid;
+  grid-template-columns: 9rem minmax(0, 1fr);
+  gap: 2rem;
+  border-top: 1px solid var(--hair);
+  padding-block: 2rem;
+}
+.tool {
+  color: var(--accent-ink);
+  font-size: 1.25rem;
+  font-weight: 650;
+}
+.guideList h2 {
+  max-width: 36ch;
+  font-size: clamp(1.4rem, 3vw, 1.9rem);
+  line-height: 1.3;
+  margin-bottom: 0.75rem;
+}
+.guideList p {
+  max-width: 62ch;
+  margin-bottom: 1rem;
+}
 @media (max-width: 640px) {
-  .options {
+  .guideList > li {
     grid-template-columns: minmax(0, 1fr);
+    gap: 0.75rem;
+  }
+  .heading h1 {
+    font-size: 2.25rem;
+  }
+  .example,
+  .takeaway {
+    padding: 1.1rem;
   }
 }

@@ -137,7 +137,15 @@ export function loadContent(root: string = process.env['SITE_ROOT'] ?? process.c
         host.slug === 'lou' && host.photo === '/team/lou.jpg'
           ? (bundled?.photo ?? host.photo)
           : (host.photo ?? bundled?.photo);
-      return { ...host, photo, aka: host.aka ?? bundled?.aka };
+      const pendingBio = !host.bio.trim() || host.bio.trim() === 'Présentation à compléter.';
+      const bio = pendingBio ? (bundled?.bio ?? host.bio) : host.bio;
+      return {
+        ...host,
+        bio,
+        photo,
+        aka: host.aka ?? bundled?.aka,
+        website: host.website ?? bundled?.website,
+      };
     }),
     snapshots,
   };
