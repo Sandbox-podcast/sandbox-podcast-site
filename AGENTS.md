@@ -43,6 +43,20 @@ tools/      contrôleur d’exploitation du site
 
 Les productions éditoriales et vidéo, médias sources, outils sociaux, exports et archive de l’ancienne plateforme sont dans [sandbox-podcast-resources](https://github.com/Sandbox-podcast/sandbox-podcast-resources).
 
+## Périmètre obligatoire des modifications
+
+Cette règle s’applique à tous les agents et à chaque création, modification, déplacement, résolution de conflit ou préparation de commit, conformément à [ADR-0042](docs/adr/ADR-0042-separation-site-et-ressources.md).
+
+- **Dans ce dépôt** : code du site, contenu effectivement publié, snapshots de classements, migrations, tests, dépendances, configuration de compilation et de déploiement, workflows et outils nécessaires au fonctionnement du site. Les guides maintenus, ADR et décisions du site restent dans `docs/`.
+- **Dans [sandbox-podcast-resources](https://github.com/Sandbox-podcast/sandbox-podcast-resources)** : préparation éditoriale, projets vidéo, expériences, médias sources, fichiers de travail graphiques, kits sociaux, exports, outils YouTube et réseaux sociaux, archives et rapports datés. Un rapport d’audit, de recette, de livraison ou de suivi appartient à ce dépôt de ressources même si son sujet est le site. Le ranger sous `docs/site/history/AAAA/MM/`.
+- Ne conserver dans le site que les assets nécessaires à son affichage ou à sa compilation ; placer les sources de production et leurs variantes de travail dans le dépôt de ressources. Exemple : une miniature publiée peut rester dans `apps/site/public/`, son projet de montage et ses rendus intermédiaires vont dans le dépôt de ressources.
+- Exemple documentaire : `docs/site/guides.md` reste ici comme guide maintenu ; un compte rendu tel que `guides-lisibilite-2026-10-26.md` va dans `sandbox-podcast-resources/docs/site/history/2026/10/`.
+- Ne pas recréer ici les dossiers de production `brand/`, `videos/`, `experiments/`, `exports/`, `kits-relais/` ou `old/`, ni utiliser `docs/site/` comme dossier de rapports historiques. Les captures et journaux temporaires de vérification restent hors Git dans un dossier local ignoré.
+- Lorsqu’une tâche touche les deux dépôts, consulter leur `AGENTS.md`, modifier chaque fichier dans son dépôt propriétaire et relier les documents avec des liens GitHub. Référencer une ressource partagée au lieu d’en conserver une copie documentaire dans chaque dépôt.
+- Si le dépôt de ressources n’est pas disponible localement, signaler le chemin et le dépôt de destination nécessaires ; ne pas déposer les fichiers de production dans le dépôt du site comme solution de repli.
+- Avant de retirer un document du site ou de résoudre un conflit modification/suppression, vérifier que sa version récente est conservée dans le dépôt de ressources et adapter les liens. Ne pas perdre les ajouts arrivés sur `main` après un premier transfert.
+- Avant tout commit autorisé, relire la liste des fichiers modifiés et indexés (`git status --short`, `git diff --cached --name-status`) et vérifier le dépôt de destination de chaque fichier ajouté. Indexer explicitement les seuls chemins du lot ; respecter les autorisations de commit, de push et de PR définies plus haut.
+
 ## Commandes
 
 Prérequis : Node 24, pnpm 12 (`corepack enable`).
