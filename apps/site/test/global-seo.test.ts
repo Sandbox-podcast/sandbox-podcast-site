@@ -4,7 +4,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import { siteIdentityLd } from '../src/lib/site-identity';
 import { absoluteUrl, publisherLd } from '../src/lib/seo';
 import { setSiteSettingsOverride, siteConfig } from '../src/config/site';
-import { loadContent } from '../src/lib/load';
+import { loadContent, setEditorialOverride } from '../src/lib/load';
 import { publicHosts } from '../src/lib/repository';
 import { personalProject } from '../src/lib/personal-projects';
 import AboutPage from '../src/app/(fr)/about/page';
@@ -15,6 +15,7 @@ vi.mock('../src/lib/admin-persistence', async (importOriginal) => ({
   preparePublicEditorialContent: async () => undefined,
 }));
 afterEach(() => {
+  setEditorialOverride(undefined);
   setSiteSettingsOverride(undefined);
 });
 
@@ -25,6 +26,36 @@ function structuredData(html: string): Record<string, unknown>[] {
 }
 
 describe('SEO global : identité et attribution des contenus', () => {
+  it.each(['Présentation à compléter.', '   '])(
+    'reprend les descriptions du dépôt quand les fiches publiées contiennent « %s »',
+    async (bio) => {
+      const content = loadContent();
+      setEditorialOverride({
+        ...content,
+        hosts: content.hosts.map((host) => ({ ...host, bio })),
+      });
+      const html = renderToStaticMarkup(createElement('div', null, await AboutPage()));
+      const visible = html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, '');
+      const people = content.hosts.filter((host) => !host.placeholder);
+      for (const host of people) {
+        expect(visible).toContain(
+          renderToStaticMarkup(createElement('p', null, host.bio)).slice(3, -4),
+        );
+      }
+      expect(publicHosts().map((host) => host.bio)).toEqual(people.map((host) => host.bio));
+    },
+  );
+
+  it('conserve une biographie réellement renseignée dans une fiche publiée', () => {
+    const content = loadContent();
+    const bio = 'Je présente mes nouveaux projets dans Sandbox.';
+    setEditorialOverride({
+      ...content,
+      hosts: content.hosts.map((host) => (host.slug === 'lou' ? { ...host, bio } : host)),
+    });
+    expect(publicHosts().find((host) => host.slug === 'lou')?.bio).toBe(bio);
+  });
+
   it('relie chaque langue à la même organisation et aux profils publics sans figer un ancien nom', () => {
     setSiteSettingsOverride({ ...loadContent().site, name: 'Sandbox Studio' });
     for (const locale of ['fr-FR', 'en', 'es-ES', 'de-DE']) {

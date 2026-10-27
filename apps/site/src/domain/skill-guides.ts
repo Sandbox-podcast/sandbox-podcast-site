@@ -5,12 +5,16 @@ export interface SkillGuideOption {
   limitation: string;
   source: string;
   check: string;
+  prompt: string;
 }
 
 export interface SkillGuide {
   slug: string;
   title: string;
   heading: string;
+  tool: string;
+  kind: 'catalog' | 'recipes';
+  takeaway: string;
   description: string;
   introduction: string;
   scope: string;
@@ -22,7 +26,7 @@ export interface SkillGuide {
 }
 
 // Date de la revue documentaire, jamais remplacée par la date de visite ou de build.
-export const SKILL_GUIDES_REVIEWED_AT = '2026-10-20';
+export const SKILL_GUIDES_REVIEWED_AT = '2026-10-26';
 export const skillGuidePath = (slug: string) => `/guides/${slug}`;
 const anthropicSkill = (name: string) =>
   `https://github.com/anthropics/skills/blob/main/skills/${name}/SKILL.md`;
@@ -33,19 +37,25 @@ export const skillGuides: readonly SkillGuide[] = [
   {
     slug: 'meilleurs-skills-claude',
     title: 'Meilleurs skills Claude et Anthropic : lequel choisir ?',
-    heading: 'Meilleurs skills Claude : choisir par usage',
+    heading: 'Quel skill Claude utiliser pour ton travail ?',
+    tool: 'Claude',
+    kind: 'catalog',
+    takeaway:
+      'Tu veux produire un fichier ? Commence par son format : Word, Excel, PowerPoint ou PDF. Pour travailler sur un site web, regarde frontend-design.',
     description:
-      'Compare 6 skills Anthropic pour Claude : documents, PDF, Excel, présentations et design. Sources, limites et installation dans Claude Code.',
+      'Six skills Anthropic expliqués avec des exemples : Word, Excel, PowerPoint, PDF, interface web et création de skills. Comment les utiliser dans Claude.',
     introduction:
-      'Pour choisir les meilleurs skills Claude, pars du livrable : docx pour Word, xlsx pour un tableur, pptx pour les slides, pdf pour les PDF et frontend-design pour une interface. Le skill-creator sert à construire ta propre méthode. Ces six pistes viennent du dépôt Anthropic ; leur intérêt dépend du travail que tu veux leur confier.',
+      'Tu as un rapport à mettre en page, un tableur à nettoyer ou une présentation à préparer. Anthropic propose des skills pour ces tâches : chacun donne à Claude une méthode de travail et, parfois, des outils pour manipuler tes fichiers. Voici lequel essayer selon ce que tu veux obtenir.',
     scope:
-      '« Skills Anthropic » désigne ici les ressources du dépôt anthropics/skills. Claude, Claude Code et l’API ont des modes d’accès différents. La présence d’un fichier SKILL.md ne suffit pas à confirmer que ses scripts et ses dépendances fonctionneront dans ton environnement. Consulte la documentation de la surface que tu utilises avant de l’installer.',
+      'Ces six skills viennent du dépôt officiel Anthropic. Dans Claude sur le web, vérifie les skills disponibles dans ton compte. Dans Claude Code, tu peux ajouter les plugins du dépôt avec la procédure plus bas.',
     options: [
       {
         name: 'docx',
+        prompt:
+          'Avec le skill docx, transforme ces notes en compte rendu Word. Garde les décisions, les responsables et les dates. Mets les actions dans un tableau et signale les informations manquantes.',
         use: 'Créer ou modifier un document Word',
         description:
-          'Travaille sur les fichiers Word, leur structure et leur mise en forme. À examiner si ton destinataire doit continuer à modifier le document.',
+          'Choisis docx pour obtenir un document Word que tu pourras encore modifier. Fournis tes notes ou un fichier existant, puis précise ce que tu veux garder : titres, tableaux, en-tête ou commentaires.',
         limitation:
           'La fidélité au modèle de départ et la pagination doivent être contrôlées dans le fichier produit.',
         source: anthropicSkill('docx'),
@@ -54,9 +64,11 @@ export const skillGuides: readonly SkillGuide[] = [
       },
       {
         name: 'xlsx',
+        prompt:
+          'Avec le skill xlsx, prépare un récapitulatif de ce fichier de ventes par mois. Ajoute des totaux calculés par formule. Signale les doublons et les montants absents sans les supprimer.',
         use: 'Nettoyer un tableau ou préparer un fichier Excel',
         description:
-          'Couvre les feuilles de calcul, les formules et les graphiques. À examiner quand le résultat attendu est un fichier tableur.',
+          'Choisis xlsx pour nettoyer des données, ajouter des formules ou créer un graphique dans Excel. Donne le fichier de départ et explique ce que représente chaque colonne, surtout les dates et les montants.',
         limitation: 'Un total affiché ne prouve pas que la formule se recalcule correctement.',
         source: anthropicSkill('xlsx'),
         check:
@@ -64,9 +76,11 @@ export const skillGuides: readonly SkillGuide[] = [
       },
       {
         name: 'pptx',
+        prompt:
+          'Avec le skill pptx, prépare trois diapositives à partir de ces notes et de ce modèle PowerPoint : problème, proposition, prochaine étape. Garde les textes et les graphiques modifiables.',
         use: 'Préparer une présentation PowerPoint',
         description:
-          'Couvre la création et la modification de présentations, y compris les modèles et les notes. À examiner pour un support éditable.',
+          'Choisis pptx pour créer ou reprendre une présentation PowerPoint. Joins ton modèle si tu en as un, précise le public et limite le nombre de diapositives. Tu pourras ensuite retoucher le fichier.',
         limitation:
           'L’existence du fichier ne valide ni la lisibilité des slides ni le respect de ta charte.',
         source: anthropicSkill('pptx'),
@@ -75,9 +89,11 @@ export const skillGuides: readonly SkillGuide[] = [
       },
       {
         name: 'pdf',
+        prompt:
+          'Avec le skill pdf, extrais le tableau de cette page dans un fichier CSV. Conserve les intitulés et les unités. Marque les valeurs illisibles au lieu de les deviner.',
         use: 'Extraire, assembler ou remplir des PDF',
         description:
-          'Regroupe des procédures de manipulation de PDF, dont l’extraction et l’OCR des pages scannées.',
+          'Choisis pdf pour extraire un tableau, réunir des documents ou remplir un formulaire. Pour un scan, la reconnaissance de caractères peut récupérer le texte ; les chiffres et les colonnes méritent une relecture.',
         limitation:
           'Les scans, colonnes et tableaux demandent une vérification avec la page d’origine.',
         source: anthropicSkill('pdf'),
@@ -86,9 +102,11 @@ export const skillGuides: readonly SkillGuide[] = [
       },
       {
         name: 'frontend-design',
+        prompt:
+          'Avec frontend-design, reprends cette page d’inscription. Rends les champs et le bouton principal faciles à repérer sur mobile. Conserve les couleurs et la typographie du site.',
         use: 'Concevoir une interface web',
         description:
-          'Guide les choix visuels d’une interface, dont la typographie et la composition, à partir du sujet et du public.',
+          'Ce skill aide Claude à choisir la typographie, les couleurs et la disposition d’une interface web. Donne-lui la page à créer, son public et ta charte graphique. Une capture de l’existant aide à éviter une proposition hors sujet.',
         limitation:
           'Une proposition visuelle doit encore passer les contrôles d’accessibilité et être essayée sur mobile.',
         source: anthropicSkill('frontend-design'),
@@ -97,9 +115,11 @@ export const skillGuides: readonly SkillGuide[] = [
       },
       {
         name: 'skill-creator',
+        prompt:
+          'Avec skill-creator, crée un skill pour mes comptes rendus. Voici deux exemples validés. Il doit séparer décisions et propositions, puis lister les actions avec leur responsable quand il est connu.',
         use: 'Formaliser une tâche récurrente',
         description:
-          'Aide à rédiger, améliorer et évaluer un skill. À examiner quand tes consignes reviennent d’une tâche à l’autre.',
+          'Tu redonnes les mêmes consignes à chaque réunion ? skill-creator aide à en faire un skill réutilisable. Apporte un exemple de départ et un résultat qui te convient, puis essaie la procédure sur d’autres notes.',
         limitation:
           'Une description trop large peut déclencher le skill sur des demandes sans rapport.',
         source: anthropicSkill('skill-creator'),
@@ -108,12 +128,13 @@ export const skillGuides: readonly SkillGuide[] = [
       },
     ],
     installation: [
-      'Ouvre le fichier SKILL.md du candidat, ses scripts et sa licence. Les conditions des skills documentaires diffèrent de celles des exemples sous licence Apache.',
-      'Dans Claude Code, ajoute le dépôt officiel comme marketplace avec la commande ci-dessous. Choisis ensuite le plugin document-skills ou example-skills suivant ton besoin.',
-      'Pour claude.ai ou l’API, suis la procédure propre à ce produit depuis le dépôt Anthropic. Ne transpose pas une commande Claude Code dans une conversation web.',
-      'Lance un essai sur une copie de ton fichier, avec un résultat attendu écrit à l’avance. Garde la version du skill et les défauts observés.',
+      'Dans Claude Code, saisis la première commande ci-dessous pour ajouter le catalogue Anthropic.',
+      'La deuxième commande installe les skills Word, Excel, PowerPoint et PDF. Pour frontend-design et skill-creator, choisis example-skills dans le catalogue anthropic-agent-skills.',
+      'Joins une copie de ton fichier ou indique son chemin, puis reprends une des demandes proposées dans ce guide. Cite le nom du skill que tu veux utiliser.',
+      'Ouvre le résultat dans ton logiciel habituel. Vérifie les éléments importants : un total qui se recalcule, une page correctement mise en forme ou des diapositives modifiables. Sur claude.ai, utilise la procédure web liée dans la documentation Anthropic.',
     ],
-    command: '/plugin marketplace add anthropics/skills',
+    command:
+      '/plugin marketplace add anthropics/skills\n/plugin install document-skills@anthropic-agent-skills',
     documentation: {
       name: 'Anthropic : dépôt et procédures d’installation',
       url: 'https://github.com/anthropics/skills#try-in-claude-code-claudeai-and-the-api',
@@ -139,19 +160,25 @@ export const skillGuides: readonly SkillGuide[] = [
   {
     slug: 'meilleurs-skills-chatgpt',
     title: 'Meilleurs skills ChatGPT : usages, choix et installation',
-    heading: 'Meilleurs skills ChatGPT : partir de ta tâche',
+    heading: 'Quatre recettes pour tes tâches répétitives dans ChatGPT',
+    tool: 'ChatGPT',
+    kind: 'recipes',
+    takeaway:
+      'Commence par une tâche que tu refais souvent et un exemple de résultat qui te convient. Les quatre recettes ci-dessous sont des idées de skills à créer, pas des extensions à télécharger.',
     description:
-      'Quels skills choisir pour ChatGPT ? Compare recherche sourcée, rédaction, reporting et suivi de projet, avec prérequis et protocole de vérification.',
+      'Recherche, rédaction, rapport de chiffres ou compte rendu : quatre exemples pour créer un skill ChatGPT, avec les consignes à lui donner.',
     introduction:
-      'Les meilleurs skills ChatGPT sont ceux qui décrivent précisément une tâche que tu répètes : rechercher des sources, appliquer une charte de rédaction, préparer un reporting ou suivre un projet. Commence par un seul de ces usages et un exemple de résultat attendu. Vérifie ensuite les outils et accès dont le skill a besoin.',
+      'Chaque semaine, tu expliques à ChatGPT comment rédiger ton compte rendu ou présenter tes chiffres. Un skill permet de garder cette méthode pour les prochaines fois. Voici quatre façons de commencer, avec des consignes que tu peux adapter à ton travail.',
     scope:
-      'Un skill rassemble une procédure et ses ressources. Un plugin peut distribuer des skills et des connecteurs ; un serveur MCP fournit des données et des actions. OpenAI documente les skills pour ChatGPT et Codex, avec des modes de distribution différents. Les pistes ci-dessous sont des modèles de skills à configurer, pas des noms de plugins prêts à installer ni une liste de fonctionnalités incluses dans chaque compte.',
+      'La création décrite ici utilise skill-creator dans ChatGPT Work, si tu y as accès. Tu peux déjà essayer les consignes dans une conversation ordinaire avec tes documents. Cela te permettra de les ajuster avant d’en faire un skill.',
     options: [
       {
         name: 'Recherche sourcée',
+        prompt:
+          'Compare les offres A et B à partir de leur documentation officielle. Pour chaque différence, donne le lien et la date de consultation. Si tu ne trouves pas une information, écris « non trouvé ». Termine par les points qui restent à vérifier.',
         use: 'Comparer des informations avec leurs preuves',
         description:
-          'Définis les sources admises, la date à relever et le format des citations. Demande au skill de distinguer les faits vérifiés et les questions ouvertes.',
+          'Utile quand tu compares régulièrement des outils ou prépares une veille. Indique les sources à consulter et les questions auxquelles répondre. Tu obtiendras un format que tu peux relire et vérifier d’une semaine à l’autre.',
         limitation:
           'Il faut un outil de recherche ou un connecteur adapté. Une URL citée doit soutenir la phrase qui la précède.',
         source: 'https://developers.openai.com/plugins/concepts/skills',
@@ -160,9 +187,11 @@ export const skillGuides: readonly SkillGuide[] = [
       },
       {
         name: 'Rédaction selon ta charte',
+        prompt:
+          'Réécris ce brouillon dans le ton des deux exemples joints. Garde les noms, chiffres, citations et liens. N’ajoute aucune information. Si une phrase manque de précision, signale-la après le texte.',
         use: 'Appliquer les mêmes règles à chaque texte',
         description:
-          'Prépare un skill avec ta voix, les mots à conserver et deux exemples validés. Précise les passages qu’il peut reformuler et les faits qu’il doit garder.',
+          'Utile pour une newsletter ou des publications régulières. Fournis deux textes dont tu aimes le ton, le public visé et quelques formulations à éviter. Des exemples donnent une direction plus précise que « écris de façon professionnelle ».',
         limitation:
           'Le skill doit recevoir les faits et les exemples. Une consigne de ton ne fournit aucune source supplémentaire.',
         source: 'https://developers.openai.com/plugins/concepts/skills',
@@ -171,9 +200,11 @@ export const skillGuides: readonly SkillGuide[] = [
       },
       {
         name: 'Reporting récurrent',
+        prompt:
+          'À partir de ce fichier, prépare le bilan mensuel des ventes. Affiche le total par mois et explique le calcul. Signale les doublons et les valeurs manquantes. Compare uniquement les mois complets.',
         use: 'Reproduire un rapport à partir de données',
         description:
-          'Décris les colonnes, les calculs et les règles en cas de valeur absente. Fournis un petit jeu de données avec les résultats que tu as calculés.',
+          'Utile si tu prépares toujours le même bilan à partir d’un tableur. Joins un fichier d’exemple et précise les calculs attendus. Décide aussi quoi faire des lignes incomplètes : les ignorer sans le dire fausserait le rapport.',
         limitation:
           'L’accès aux fichiers ou au service de données doit être disponible. Toute donnée absente doit rester identifiable.',
         source: 'https://developers.openai.com/plugins/concepts/skills',
@@ -182,9 +213,11 @@ export const skillGuides: readonly SkillGuide[] = [
       },
       {
         name: 'Point de suivi projet',
+        prompt:
+          'Transforme ces notes en compte rendu court. Sépare les décisions prises des propositions. Liste les actions avec leur responsable et leur date quand ils sont indiqués. Écris « à préciser » quand une information manque.',
         use: 'Transformer des informations en actions',
         description:
-          'Fixe un format avec décisions, actions, responsables et échéances. Demande une référence vers le document ou le ticket qui justifie chaque action.',
+          'Utile après une réunion, quand il faut retrouver qui fait quoi. Donne les notes et le format attendu. Si tu utilises des tickets, demande le lien de chaque ticket concerné pour pouvoir revenir au contexte.',
         limitation:
           'Le connecteur projet exige ses propres autorisations. Un responsable ou une échéance non renseignés doivent être signalés.',
         source: 'https://developers.openai.com/plugins/concepts/skills',
@@ -193,10 +226,10 @@ export const skillGuides: readonly SkillGuide[] = [
       },
     ],
     installation: [
-      'Choisis le résultat attendu et rassemble un exemple d’entrée avec sa sortie validée. Nomme les erreurs qui rendraient le résultat inutilisable.',
-      'Vérifie si ton interface accepte un skill autonome ou un plugin qui le contient. La documentation OpenAI distingue ces modes d’accès ; une procédure Codex CLI ne remplace pas celle de ChatGPT web.',
-      'Si la tâche lit un service externe, configure le connecteur nécessaire et ses droits. Le texte du skill ne crée pas cet accès.',
-      'Teste une demande normale, une entrée incomplète et une demande hors périmètre. Révise les instructions à partir des différences avec tes résultats attendus.',
+      'Essaie une des consignes ci-dessus avec un petit document que tu connais. Corrige la demande jusqu’à obtenir un résultat que tu souhaites réutiliser.',
+      'Dans ChatGPT Work, sélectionne @skill-creator et demande-lui de transformer cette méthode en skill. Fournis tes consignes et ton exemple de résultat.',
+      'Précise quand le skill doit intervenir : par exemple « quand je demande le compte rendu d’une réunion ». Si les données viennent d’un service externe, il faut aussi connecter ce service avec les droits nécessaires.',
+      'Sélectionne ton nouveau skill avec @ dans une autre conversation et donne-lui de nouvelles notes. Contrôle notamment les informations manquantes : il doit les signaler, sans inventer de responsable ni de date.',
     ],
     documentation: {
       name: 'OpenAI : distribution des skills dans ChatGPT et Codex',
@@ -204,9 +237,9 @@ export const skillGuides: readonly SkillGuide[] = [
     },
     questions: [
       {
-        question: 'Un skill ChatGPT est-il un GPT personnalisé ?',
+        question: 'Comment appeler un skill dans ChatGPT ?',
         answer:
-          'La documentation des skills décrit des dossiers d’instructions et de ressources réutilisables, éventuellement distribués dans un plugin. Vérifie le format réel du produit que tu consultes : le mot « skill » peut aussi servir d’étiquette commerciale pour un simple ensemble de prompts.',
+          'Si ton interface propose les skills, tape @ et sélectionne celui que tu veux utiliser. Donne ensuite ta demande et les fichiers nécessaires. La documentation OpenAI indique aussi que ChatGPT peut choisir un skill quand sa description correspond à ta demande.',
       },
       {
         question: 'Peut-on utiliser un skill Claude dans ChatGPT ?',
@@ -223,19 +256,25 @@ export const skillGuides: readonly SkillGuide[] = [
   {
     slug: 'meilleurs-skills-openai',
     title: 'Meilleurs skills OpenAI et Codex : guide de choix',
-    heading: 'Meilleurs skills OpenAI pour travailler avec Codex',
+    heading: 'Les skills Codex qui aident à avancer sur un projet',
+    tool: 'Codex',
+    kind: 'catalog',
+    takeaway:
+      'Un contrôle GitHub échoue ? Essaie gh-fix-ci. Tu as des retours de revue à traiter ? Choisis gh-address-comments. Pour une question sur une API OpenAI, commence par openai-docs.',
     description:
-      'Choisis tes skills OpenAI pour Codex : documentation API, correction de CI et revue GitHub. Sources officielles, prérequis, installation et tests à faire.',
+      'Retrouver une réponse dans la documentation OpenAI, comprendre un test en échec ou traiter une revue GitHub : quel skill utiliser et comment l’installer.',
     introduction:
-      'Pour trouver les meilleurs skills OpenAI dans Codex, commence par le blocage que tu veux résoudre : openai-docs pour consulter la documentation, gh-fix-ci pour diagnostiquer GitHub Actions et gh-address-comments pour traiter une revue de code. Le skill-creator sert à formaliser une procédure propre à ton projet.',
+      'Un test qui bloque la livraison, des commentaires à reprendre dans une revue de code, un paramètre d’API à retrouver : les skills de Codex donnent une procédure à l’agent pour ces tâches. Voici trois ressources du catalogue OpenAI et le créateur de skills pour tes besoins propres.',
     scope:
-      'Ce guide examine des skills du catalogue openai/skills et les procédures de Codex. Pour une utilisation dans ChatGPT, consulte le guide dédié : l’interface, les connecteurs et les possibilités d’exécution changent ce qu’un skill peut faire. Les noms ci-dessous identifient des ressources précises ; vérifie leur version et leurs prérequis dans le dépôt avant installation.',
+      'Ce guide s’adresse aux personnes qui travaillent sur du code avec Codex. Les deux skills GitHub utilisent gh, l’outil GitHub en ligne de commande : il doit être installé et connecté à un compte qui peut lire ton dépôt.',
     options: [
       {
         name: 'openai-docs',
+        prompt:
+          'Avec openai-docs, retrouve dans la documentation officielle comment envoyer un fichier PDF à l’API Responses. Donne un exemple minimal et les liens qui expliquent les paramètres utilisés.',
         use: 'Vérifier une API ou un produit OpenAI',
         description:
-          'Oriente la recherche vers la documentation officielle OpenAI et les sources nécessaires à une réponse citée.',
+          'À utiliser quand tu intègres une API OpenAI ou cherches une information sur Codex. Le skill dirige la recherche vers la documentation officielle et demande des liens pour étayer la réponse.',
         limitation:
           'La documentation ne donne pas l’état de tes comptes, de tes clés ou de ton application.',
         source: openaiSkill('openai-docs'),
@@ -244,20 +283,24 @@ export const skillGuides: readonly SkillGuide[] = [
       },
       {
         name: 'gh-fix-ci',
+        prompt:
+          'Avec gh-fix-ci, examine les contrôles GitHub Actions en échec sur cette pull request. Montre l’erreur utile et propose une correction. Attends mon accord avant de modifier le code.',
         use: 'Diagnostiquer une CI GitHub Actions en échec',
         description:
-          'Lit les contrôles et les logs d’une pull request, puis prépare un plan de correction. La procédure prévoit une validation avant modification.',
+          'La CI regroupe les contrôles automatiques du projet. Quand l’un d’eux échoue dans GitHub Actions, ce skill lit les journaux d’exécution, recherche la cause et propose une correction à valider avant de modifier le code.',
         limitation:
-          'Nécessite la CLI gh authentifiée. Les autres fournisseurs de CI sont hors du périmètre annoncé.',
+          'Il faut connecter l’outil gh à GitHub. Ce skill prend en charge GitHub Actions ; pour un autre service de tests, il se limite au lien vers l’échec.',
         source: openaiSkill('gh-fix-ci'),
         check:
           'Prends un échec déjà compris. Vérifie que le diagnostic retrouve la cause et que les tests concernés passent après correction autorisée.',
       },
       {
         name: 'gh-address-comments',
+        prompt:
+          'Avec gh-address-comments, liste les commentaires encore à traiter sur la pull request de cette branche. Résume la modification demandée pour chacun, puis laisse-moi choisir ceux à corriger.',
         use: 'Traiter les retours d’une pull request',
         description:
-          'Rassemble les commentaires de revue et aide à appliquer les corrections choisies sur la branche courante.',
+          'Une pull request, ou PR, propose des changements de code à relire. Ce skill rassemble les retours de cette revue et te demande lesquels traiter. Il aide ensuite à appliquer les corrections choisies.',
         limitation:
           'Demande un accès GitHub et un choix des retours à traiter. Une suggestion de revue peut nécessiter une discussion.',
         source: openaiSkill('gh-address-comments'),
@@ -266,9 +309,11 @@ export const skillGuides: readonly SkillGuide[] = [
       },
       {
         name: 'skill-creator',
+        prompt:
+          'Avec skill-creator, prépare un skill pour vérifier une migration de base de données dans ce dépôt. Utilise nos consignes et ces deux exemples de revue. Il doit analyser la migration sans l’appliquer.',
         use: 'Créer une procédure adaptée au dépôt',
         description:
-          'Sert à créer ou mettre à jour un skill dans l’environnement OpenAI. Utile pour une procédure répétée et spécifique à ton équipe.',
+          'À utiliser pour une méthode propre à ton équipe : préparer une revue, vérifier une migration ou rédiger une note de version. Fournis les consignes du dépôt et un exemple validé pour créer une première version.',
         limitation:
           'Écrire les instructions ne démontre pas leur efficacité. Il faut des entrées et des résultats attendus pour les évaluer.',
         source: 'https://learn.chatgpt.com/docs/build-skills',
@@ -278,9 +323,9 @@ export const skillGuides: readonly SkillGuide[] = [
     ],
     installation: [
       'Ouvre le skill dans le catalogue OpenAI. Vérifie ses fichiers, sa licence et les outils requis avant de l’ajouter à ton environnement.',
-      'Dans Codex, demande au skill-installer d’installer le nom choisi. La commande ci-dessous utilise l’exemple fourni par le catalogue officiel.',
-      'Contrôle ensuite que le skill apparaît dans la liste disponible. Si ta version ne le détecte pas, redémarre Codex et relis la documentation de cette version.',
-      'Essaie-le sur une branche de travail. Vérifie le diff et les contrôles du dépôt avant d’autoriser un commit, un push ou une publication.',
+      'Dans une conversation Codex, saisis la commande ci-dessous. Remplace gh-address-comments par le nom du skill souhaité. Le créateur skill-creator fait partie des skills système.',
+      'Vérifie que le skill apparaît dans la liste disponible. S’il manque, redémarre Codex. Pour les skills GitHub, assure-toi aussi que gh est connecté à ton compte.',
+      'Ouvre ton projet sur une branche de travail et reprends une demande d’exemple. Relis les changements de code et lance les tests du projet avant de les publier.',
     ],
     command: '$skill-installer gh-address-comments',
     documentation: {

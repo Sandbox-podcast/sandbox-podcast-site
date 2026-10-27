@@ -5,7 +5,7 @@ import { ChartsExperience } from '../src/components/charts-experience.tsx';
 import { LocalizationProvider } from '../src/components/localization.tsx';
 import { chartSelectionSchema } from '../src/domain/chart-selection.ts';
 import { chartEditionSchema, snapshotSchema } from '../src/domain/schema.ts';
-import type { ChartsData } from '../src/domain/sandbox-charts.ts';
+import { chartOfficialUrl, type ChartsData } from '../src/domain/sandbox-charts.ts';
 import { siteDictionary } from '../src/i18n/dictionaries.ts';
 
 function dataset(): ChartsData {
@@ -21,7 +21,7 @@ function dataset(): ChartsData {
       description: 'Un projet de test.',
       category: slug === 'a' ? 'Agents' : 'Coding',
       topics: [],
-      links: [],
+      links: [{ kind: 'github' as const, label: 'GitHub', url: `https://github.com/test/${slug}` }],
       href: `/charts/project/${slug}`,
     })),
     series: [
@@ -61,6 +61,15 @@ function summaries(html: string): string[] {
 }
 
 describe('classement compact', () => {
+  it('utilise la source officielle plutôt qu’un fournisseur de mesures', () => {
+    const entity = dataset().entities[0];
+    if (!entity) throw new Error('Projet requis.');
+    entity.links = [{ kind: 'other', label: 'OpenSSF', url: 'https://scorecard.dev/viewer/' }];
+    entity.github = { repo: 'test/project' };
+    expect(chartOfficialUrl(entity)).toBe('https://github.com/test/project');
+    entity.officialUrl = 'https://project.test/';
+    expect(chartOfficialUrl(entity)).toBe('https://project.test/');
+  });
   it('date la dernière publication réelle et conserve cette date en consultant une archive', () => {
     const data = dataset();
     const series = data.series[0];
@@ -159,8 +168,30 @@ describe('classement compact', () => {
     expect(html).toContain('Mesures, composants du score et sources');
     expect(html.match(/href="\/charts\/github\/methodology\?edition=2026-10-13"/g)).toHaveLength(1);
     expect(html).toContain('href="/charts/history"');
-    expect(html).toContain('PARTAGER LE CLASSEMENT');
+    expect(html).not.toContain('PARTAGER LE CLASSEMENT');
+    expect(html).not.toContain('Ouvrir la fiche');
+    expect(html).toContain('https://github.com/test/a');
     expect(html).toContain('13 oct. 2026');
+  });
+
+  it('propose les deux actions sans ouvrir les détails ni passer par une fiche', () => {
+    const data = dataset();
+    data.badgeSlugs = ['a'];
+    const html = renderToStaticMarkup(createElement(ChartsExperience, { data }));
+    const first = /<li>([\s\S]*?)<\/li>/.exec(html)?.[1] ?? '';
+    const actions =
+      first.split('</details>')[2] ?? first.slice(first.lastIndexOf('</details>') + 10);
+    expect(actions).toContain('https://github.com/test/a');
+    expect(actions).toContain('target="_blank"');
+    expect(actions).toContain('Projet officiel');
+    expect(actions).toContain('aria-haspopup="dialog"');
+    expect(actions).toContain('Obtenir mon badge');
+    expect(html).not.toContain('/charts/project/a');
+    expect(html.match(/Obtenir mon badge/g)).toHaveLength(1);
+    data.mode = 'fixtures';
+    expect(renderToStaticMarkup(createElement(ChartsExperience, { data }))).not.toContain(
+      'Obtenir mon badge',
+    );
   });
 
   it('distingue les deux créneaux UTC du même jour dans les archives', () => {

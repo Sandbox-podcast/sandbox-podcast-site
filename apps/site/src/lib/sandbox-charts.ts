@@ -454,6 +454,7 @@ export const sandboxChartsData = cache(async function sandboxChartsData(
             ? [{ kind: 'github' as const, label: repo.fullName, url: entity.sourceUrl }]
             : [{ kind: 'other' as const, label: entity.name, url: entity.sourceUrl }],
         href: repo ? `/charts/project/${entity.slug}` : `/charts/entity/${entity.slug}`,
+        officialUrl: entity.sourceUrl,
         ...(entity.openWeights !== null ? { openWeights: entity.openWeights } : {}),
         ...(repo ? { github: { repo: repo.fullName } } : {}),
       };

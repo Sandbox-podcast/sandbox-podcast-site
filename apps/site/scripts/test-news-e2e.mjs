@@ -327,6 +327,7 @@ try {
     );
   }
   await page.goto(fixture.origin + '/news', { waitUntil: 'domcontentloaded' });
+  await page.locator('[data-news-hydrated="true"]').waitFor();
   assert.equal(await page.locator('ol details').count(), 30);
   const nextPage = page.waitForResponse((response) => response.url().includes('/api/news?'));
   await page.getByRole('button', { name: /Afficher la suite/ }).click();

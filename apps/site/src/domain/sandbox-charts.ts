@@ -116,6 +116,16 @@ export interface ChartsEntity extends Pick<
   | 'github'
 > {
   href: string;
+  officialUrl?: string;
+}
+export function chartOfficialUrl(entity: ChartsEntity): string | undefined {
+  return (
+    entity.officialUrl ??
+    entity.links.find((link) => link.kind === 'site')?.url ??
+    (entity.github ? `https://github.com/${entity.github.repo}` : undefined) ??
+    entity.links.find((link) => link.kind === 'github' || link.kind === 'huggingface')?.url ??
+    entity.links[0]?.url
+  );
 }
 export interface ChartsSeries {
   id: ChartId;

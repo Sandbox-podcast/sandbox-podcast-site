@@ -23,4 +23,8 @@ Le dépôt ressources commence par un instantané des fichiers suivis à la rév
 
 Les modifications du site n’incluent plus les projets audiovisuels ni les outils de diffusion. Une personne qui travaille sur l’expérience 002 bis et veut publier le deck doit avoir les deux dépôts ou définir `SANDBOX_SITE_ROOT`. Les rapports datés restent consultables dans le dépôt ressources et les documents de référence du site restent avec le code. Les workflows du dépôt ressources ne publient pas automatiquement sur les plateformes sociales ; toute action de publication reste explicitement contrôlée.
 
-La séparation matérielle est préparée dans la branche `codex/split-site-resources` du dépôt du site ; sa fusion attend une demande explicite de PR.
+La séparation matérielle est préparée dans la branche `codex/split-site-resources` du dépôt du site ; son intégration est suivie par la [PR 119](https://github.com/Sandbox-podcast/sandbox-podcast-site/pull/119).
+
+## Synchronisation du 27 octobre 2026
+
+La branche reprend le site à la révision `25047d20e8df4d49a5b8fdaeec423835a7f44902` (PR 120). Les README conservent les références aux badges et aux guides. Le rapport de lisibilité du 26 octobre rejoint le dépôt ressources ; les rapports SEO et de suivi de l’issue 68 ainsi que le guide YouTube y sont synchronisés depuis cette révision, avec leurs liens adaptés. Les ajouts de code, de tests et de décisions du site restent dans le dépôt du site.

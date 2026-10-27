@@ -3,10 +3,9 @@
 import { Text, LocalizedElement, useLocalization } from '@/components/localization';
 import { LocalizedLink as Link } from '@/components/localization';
 import dynamic from 'next/dynamic';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { chartSelectionQuery, type ChartSelection } from '@/domain/chart-selection';
 import { chartMethodPath, chartMethodSummary, hasModelMeasure } from '@/domain/chart-publication';
-import { formatCompact } from '@/domain/format';
 import {
   CHART_LABELS,
   CHART_PERIODS,
@@ -29,7 +28,9 @@ import { ChartsRanking } from './charts-ranking';
 import { ChartPublication } from './chart-publication';
 import styles from './charts-compact.module.css';
 
-const ChartsShare = dynamic(() => import('./charts-share').then((module) => module.ChartsShare));
+const ChartBadgeDialog = dynamic(() =>
+  import('./chart-badge-dialog').then((module) => module.ChartBadgeDialog),
+);
 const periodLabels: Record<ChartPeriod, string> = {
   week: 'Cette édition',
   month: 'Ce mois',
@@ -80,7 +81,8 @@ export function ChartsExperience({
   const [view, setView] = useState(
     initialSelection?.view ?? initialView ?? (initialId === 'models' ? 'quality' : 'momentum'),
   );
-  const [shareRow, setShareRow] = useState<ChartsRow | null>(null);
+  const [badgeRow, setBadgeRow] = useState<ChartsRow | null>(null);
+  const badgeTrigger = useRef<HTMLButtonElement | null>(null);
 
   useEffect(() => {
     const url = new URL(window.location.href);
@@ -156,32 +158,8 @@ export function ChartsExperience({
     setId(next);
     setFilter('All');
     setView(next === 'models' ? 'quality' : 'momentum');
-    setShareRow(null);
+    setBadgeRow(null);
   }
-
-  const currentShare = shareRow
-    ? {
-        week,
-        title: `${meta.title}${id === 'models' ? ` / ${t(MODEL_VIEWS.find((item) => item.id === view)?.label ?? 'Général')}` : ''}${period !== 'week' ? ` / ${t(periodLabels[period])}` : ''}`,
-        name: shareRow.entity.name,
-        rank: shareRow.rank,
-        movement: shareRow.baseline
-          ? '-'
-          : shareRow.movement.kind === 'new'
-            ? t('NOUVEAU')
-            : shareRow.movement.delta > 0
-              ? `+${shareRow.movement.delta}`
-              : shareRow.movement.delta < 0
-                ? String(shareRow.movement.delta)
-                : '=',
-        stat:
-          shareRow.periodStars === null
-            ? `${shareRow.score.toFixed(1)} / 100`
-            : `${shareRow.periodStars > 0 ? '+' : ''}${formatCompact(shareRow.periodStars)} ${t('ÉTOILES')}`,
-        growth: '',
-        fixture: data.mode === 'fixtures',
-      }
-    : null;
 
   return (
     <div className={`wrap sc-page ${styles['page']}`}>
@@ -322,7 +300,7 @@ export function ChartsExperience({
               value={period}
               onChange={(event) => {
                 setPeriod(event.target.value as ChartPeriod);
-                setShareRow(null);
+                setBadgeRow(null);
               }}
             >
               {CHART_PERIODS.map((item) => (
@@ -341,7 +319,7 @@ export function ChartsExperience({
                 value={view}
                 onChange={(event) => {
                   setView(event.target.value);
-                  setShareRow(null);
+                  setBadgeRow(null);
                 }}
               >
                 {MODEL_VIEWS.map((item) => (
@@ -364,7 +342,7 @@ export function ChartsExperience({
                 value={filter}
                 onChange={(event) => {
                   setFilter(event.target.value);
-                  setShareRow(null);
+                  setBadgeRow(null);
                 }}
               >
                 {filters.map((item) => (
@@ -384,7 +362,7 @@ export function ChartsExperience({
                 value={week}
                 onChange={(event) => {
                   setWeek(event.target.value);
-                  setShareRow(null);
+                  setBadgeRow(null);
                 }}
               >
                 {chartWeeks.map((item) => (
@@ -463,7 +441,10 @@ export function ChartsExperience({
               rows={visible}
               series={displaySeries}
               period={period}
-              onShare={setShareRow}
+              onBadge={(row, trigger) => {
+                badgeTrigger.current = trigger;
+                setBadgeRow(row);
+              }}
               badgeSlugs={data.mode === 'live' ? (data.badgeSlugs ?? []) : []}
             />
           </>
@@ -556,12 +537,12 @@ export function ChartsExperience({
           </div>
         ) : null}
       </div>
-      {shareRow && currentShare ? (
-        <ChartsShare
-          content={currentShare}
-          url={`/charts/${meta.slug}/${week}?period=${period}${id === 'models' ? `&view=${encodeURIComponent(view)}` : ''}`}
+      {badgeRow ? (
+        <ChartBadgeDialog
+          project={badgeRow.entity}
           onClose={() => {
-            setShareRow(null);
+            setBadgeRow(null);
+            requestAnimationFrame(() => badgeTrigger.current?.focus());
           }}
         />
       ) : null}

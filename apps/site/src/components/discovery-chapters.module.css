@@ -242,7 +242,7 @@
   letter-spacing: -0.02em;
 }
 .panelKicker::before {
-  content: 'â€• ';
+  content: '\2015\0020';
 }
 .exploreArtwork {
   position: relative;
@@ -512,7 +512,7 @@
   }
 }
 
-/* Profils issus du Ã€ propos : portraits rÃ©els, biographies et liens publiÃ©s. */
+/* Profils issus du À propos : portraits réels, biographies et liens publiés. */
 .teamProfiles {
   display: flex;
   flex-direction: column;
