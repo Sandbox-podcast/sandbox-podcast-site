@@ -26,7 +26,7 @@ La réduction du mouvement et les pointeurs tactiles arrêtent l'inclinaison. Un
 
 ## Production et provenance
 
-Outil intégré image_gen.imagegen, une génération par animateur. Les PNG produits restent dans generated_images de Codex. Les photos sources ne sont pas écrasées. Le relevé conserve leurs empreintes SHA-256, les prompts complets et les chemins : [production des illustrations](../site/home-host-fantasy-prompts-2026-10-16.json).
+Outil intégré image_gen.imagegen, une génération par animateur. Les PNG produits restent dans generated_images de Codex. Les photos sources ne sont pas écrasées. Le relevé conserve leurs empreintes SHA-256, les prompts complets et les chemins : [production des illustrations](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/home-host-fantasy-prompts-2026-10-16.json).
 
 Les WebP livrés sous apps/site/public/images/home/hosts sont encodés avec Sharp, qualité 90, en 1050 x 1400 pixels. Les poids sont de 447 256 octets pour Lou, 365 958 pour Loïc et 419 708 pour Nicolas. Leur contenu n'est pas retouché après génération. Ces scènes sont imaginaires ; elles ne remplacent pas les photographies des pages biographiques.
 

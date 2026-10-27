@@ -26,4 +26,4 @@ Les données structurées décrivent un `Article`, son auteur institutionnel San
 
 Les sources sont revues le 20 octobre ; l’exécution effective des skills et la disponibilité des fonctionnalités dans chaque compte ne sont pas attestées. Ces guides ne garantissent ni indexation ni position. Le déploiement, Search Console et les premiers résultats restent à confirmer séparément.
 
-Voir le [rapport SEO et les vérifications](../site/seo-skills-2026-10-20.md).
+Voir le [rapport SEO et les vérifications](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/seo-skills-2026-10-20.md).

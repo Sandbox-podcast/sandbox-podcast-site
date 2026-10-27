@@ -36,4 +36,4 @@ Les publications automatiques restent désactivées. OAuth, la revue initiale, l
 
 ## Vérification
 
-Les tests couvrent la concurrence, l'expiration et le refus des connexions non protégées, les nonces distincts, la conservation des identités et des exclusions, les reprises YouTube avec deux connexions Postgres, les opérations ambiguës et les uploads répétés. Les preuves d'exécution et limites figurent dans le [rapport de l'issue 68](../site/issue-68-2026-10-16.md).
+Les tests couvrent la concurrence, l'expiration et le refus des connexions non protégées, les nonces distincts, la conservation des identités et des exclusions, les reprises YouTube avec deux connexions Postgres, les opérations ambiguës et les uploads répétés. Les preuves d'exécution et limites figurent dans le [rapport de l'issue 68](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/issue-68-2026-10-16.md).

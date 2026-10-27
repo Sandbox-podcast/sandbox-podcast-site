@@ -17,4 +17,4 @@ L'audit du 18 octobre a relevé le même H1 `Sandbox Charts` sur le hub des clas
 
 Le contenu de l'édition, ses sources, son URL canonique, son `hreflang` et son état d'indexation ne changent pas. Aucun classement ni résultat n'est créé par ce changement. Des titres plus explicites aident les lecteurs et les moteurs à distinguer les pages ; ils ne garantissent pas une meilleure position.
 
-La vérification locale et les limites sont consignées dans le [rapport des correctifs SEO](../site/seo-2026-10-18/correctifs-locaux.md).
+La vérification locale et les limites sont consignées dans le [rapport des correctifs SEO](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/seo-2026-10-18/correctifs-locaux.md).

@@ -2,7 +2,7 @@
 
 Le 16 octobre, la correction des écarts de production retire la restriction au développement. La porte et la vignette mobile sont disponibles dans le build de production, avec des routes dans les quatre langues. Voir [DD-0047](../design-decisions/dd-0047-parite-accueil-production.md). Les validations historiques ci-dessous décrivent le prototype initial.
 
-Les boîtiers fermés et ouverts utilisent maintenant des assets VHS photographiques avec fond transparent. La cassette ouverte remplace le dessin CSS initial. Voir [les assets, prompts et contrôles](refonte-2026-10-15/accueil-plein-ecran-et-vhs.md) et [DD-0038](../design-decisions/dd-0038-accueil-plein-ecran-portraits-reels-et-vhs.md).
+Les boîtiers fermés et ouverts utilisent maintenant des assets VHS photographiques avec fond transparent. La cassette ouverte remplace le dessin CSS initial. Voir [les assets, prompts et contrôles](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/refonte-2026-10-15/accueil-plein-ecran-et-vhs.md) et [DD-0038](../design-decisions/dd-0038-accueil-plein-ecran-portraits-reels-et-vhs.md).
 
 Prototype demandé par Lou le 15 octobre 2026. Décision : [DD-0035](../design-decisions/dd-0035-videoclub-local-des-projets.md).
 
@@ -16,9 +16,9 @@ pnpm --filter @podcast/site exec next dev --webpack --hostname 127.0.0.1 --port 
 
 Ouvrir `http://127.0.0.1:3219/nos-projets/video-club`.
 
-Depuis l'accueil local, la petite porte à droite dans le décor ouvre directement les rayons. Le lien "Retour au plateau" revient à l'accueil. [Image, intégration et validation](refonte-2026-10-15/porte-video-club.md).
+Depuis l'accueil local, la petite porte à droite dans le décor ouvre directement les rayons. Le lien "Retour au plateau" revient à l'accueil. [Image, intégration et validation](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/refonte-2026-10-15/porte-video-club.md).
 
-La [dernière version du décor](refonte-2026-10-15/decor-chaleureux-et-porte-animee.md) reprend l'image chaleureuse fournie par Lou. La porte s'ouvre au clic avant l'entrée ; la réduction des mouvements donne un accès immédiat.
+La [dernière version du décor](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/refonte-2026-10-15/decor-chaleureux-et-porte-animee.md) reprend l'image chaleureuse fournie par Lou. La porte s'ouvre au clic avant l'entrée ; la réduction des mouvements donne un accès immédiat.
 
 1. Entrer dans le vidéoclub.
 2. Choisir le rayon d'un créateur en bas de l'écran. Les flèches gauche et droite changent de rayon lorsque le décor a le focus ; haut avance, bas recule.
@@ -38,7 +38,7 @@ La page est accessible dans les builds de développement et de production. Elle 
 
 ## Validation
 
-L'entrée depuis le plateau et les boutons de chaînes sont vérifiés dans le [rapport du 15 octobre](refonte-2026-10-15/porte-video-club.md). Après cette intégration, `pnpm check` passe avec 615 tests du site et 11 tests média.
+L'entrée depuis le plateau et les boutons de chaînes sont vérifiés dans le [rapport du 15 octobre](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/refonte-2026-10-15/porte-video-club.md). Après cette intégration, `pnpm check` passe avec 615 tests du site et 11 tests média.
 
 Les tests `test/video-club.test.ts` vérifient l'inventaire complet, les attributions, la conservation du catalogue, les positions de caméra, l'accès en production, les routes multilingues et la reprise des sources et vidéos sans chargement automatique.
 
@@ -54,4 +54,4 @@ Captures prises dans le navigateur : entrée, rayons, cassette en main, fiche Si
 
 ## Habillage du 16 octobre 2026
 
-L'interface du magasin et des fiches reprend désormais l'ivoire, l'encre et le cyan de l'accueil V11. Les photographies du décor et des VHS sont conservées. Voir [DD-0040](../design-decisions/dd-0040-videoclub-habillage-editorial.md) et [les contrôles du lot](refonte-2026-10-15/refonte-editoriale-mobile-v11.md).
+L'interface du magasin et des fiches reprend désormais l'ivoire, l'encre et le cyan de l'accueil V11. Les photographies du décor et des VHS sont conservées. Voir [DD-0040](../design-decisions/dd-0040-videoclub-habillage-editorial.md) et [les contrôles du lot](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/refonte-2026-10-15/refonte-editoriale-mobile-v11.md).

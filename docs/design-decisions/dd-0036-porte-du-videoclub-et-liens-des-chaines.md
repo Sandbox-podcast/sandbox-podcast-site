@@ -10,4 +10,4 @@ Le clic ouvre directement les rayons, sans répéter l'écran d'entrée. Le lien
 
 Deux petits boutons YouTube et Spotify se placent sous l'action principale. Ils utilisent les adresses des réglages du site et ouvrent un nouvel onglet. YouTube pointe vers `@SandboxFR`. Le lien d'épisode fourni ensuite par Lou permet de retrouver la page Spotify de Sandbox Podcast, `https://open.spotify.com/show/2Wp6S4qgRqQaV01AjkDcMH`. Le bouton actif ouvre cette page d'émission. Les paramètres de partage du lien d'épisode ne sont pas conservés.
 
-Le [rapport et la provenance](../site/refonte-2026-10-15/porte-video-club.md) consignent le prompt, les fichiers et les vérifications locales.
+Le [rapport et la provenance](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/refonte-2026-10-15/porte-video-club.md) consignent le prompt, les fichiers et les vérifications locales.

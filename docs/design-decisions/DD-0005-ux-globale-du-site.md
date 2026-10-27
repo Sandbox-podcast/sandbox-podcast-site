@@ -16,4 +16,4 @@ Les classements conservent leur direction graphique. Un sommaire relie les secti
 
 Le studio utilise les mêmes champs, boutons et repères. La connexion permet d'afficher le mot de passe. Une erreur de chargement propose une reprise, les sélections sont annoncées aux outils d'assistance et le pied de page public ne prolonge plus l'espace d'administration. Les permissions serveur et la publication restent régies par les décisions existantes.
 
-Les choix restent locaux et réversibles. Aucun changement de données, de migration ou de compte n'est requis. La validation est consignée dans [le rapport UI/UX](../site/ui-ux-2026-10-08.md).
+Les choix restent locaux et réversibles. Aucun changement de données, de migration ou de compte n'est requis. La validation est consignée dans [le rapport UI/UX](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/ui-ux-2026-10-08.md).

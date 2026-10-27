@@ -32,4 +32,4 @@ La reprise dépend d'un contrôle horaire effectivement déclenché. GitHub peut
 
 ## Vérification
 
-Les tests couvrent les bornes 03:17 et 15:17, le créneau réellement dû, une seule chaîne manquante, l'exclusion de Rising comme seul motif, la relecture après le verrou, l'absence de secret, la reprise réelle du script avec transport simulé, les budgets et le verrou partagé. Le suivi d'exploitation est détaillé dans le [guide du 20 octobre](../site/automatisation-news-charts-2026-10-20.md).
+Les tests couvrent les bornes 03:17 et 15:17, le créneau réellement dû, une seule chaîne manquante, l'exclusion de Rising comme seul motif, la relecture après le verrou, l'absence de secret, la reprise réelle du script avec transport simulé, les budgets et le verrou partagé. Le suivi d'exploitation est détaillé dans le [guide du 20 octobre](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/automatisation-news-charts-2026-10-20.md).

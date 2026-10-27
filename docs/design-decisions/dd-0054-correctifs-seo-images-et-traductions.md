@@ -12,4 +12,4 @@ Les titres localisés des 34 fiches projet sont assemblés après traduction de 
 
 Les mesures de poids sont des comparaisons de réponses WebP de l'optimiseur local. Elles ne prouvent aucun gain de LCP en production. La relecture native des traductions n'est pas revendiquée. La publication, les commits, pushes et PR restent soumis aux instructions du dépôt.
 
-Voir le [rapport des correctifs](../site/seo-2026-10-18/correctifs-locaux.md) pour les preuves, tests et limites. La demande de validation Search Console reste préparée ; le code IONOS transmis lors de la reprise n'a pas été accepté et aucun DNS n'a été modifié.
+Voir le [rapport des correctifs](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/seo-2026-10-18/correctifs-locaux.md) pour les preuves, tests et limites. La demande de validation Search Console reste préparée ; le code IONOS transmis lors de la reprise n'a pas été accepté et aucun DNS n'a été modifié.

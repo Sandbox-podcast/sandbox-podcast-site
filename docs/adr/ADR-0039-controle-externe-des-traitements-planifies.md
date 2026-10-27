@@ -7,7 +7,7 @@
 
 ## Constat
 
-Les historiques News montrent cinq heures et cinquante-deux minutes entre deux runs créés, alors que les jobs commencent deux secondes après leur création et terminent en environ quatorze minutes. La découverte Charts du 20 octobre est créée quatre heures et quarante-deux minutes après son horaire prévu, puis commence en deux secondes. Les workflows sont actifs sur `main` et News est autorisé par sa variable de dépôt. Les faits et leurs liens sont dans [le diagnostic](../site/fiabilisation-planification-2026-10-20.md).
+Les historiques News montrent cinq heures et cinquante-deux minutes entre deux runs créés, alors que les jobs commencent deux secondes après leur création et terminent en environ quatorze minutes. La découverte Charts du 20 octobre est créée quatre heures et quarante-deux minutes après son horaire prévu, puis commence en deux secondes. Les workflows sont actifs sur `main` et News est autorisé par sa variable de dépôt. Les faits et leurs liens sont dans [le diagnostic](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/fiabilisation-planification-2026-10-20.md).
 
 La reprise horaire d'ADR-0038 dépend du même événement GitHub `schedule` que la collecte manquée. Elle ne suffit pas quand GitHub retarde ou omet le contrôle lui-même. Le dernier état documenté de Vercel est Hobby, limité aux tâches quotidiennes. Lou demande une solution indépendante et choisit un service externe gratuit.
 

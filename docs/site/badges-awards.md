@@ -71,7 +71,7 @@ badgeSnippets(siteConfig.url, {
 });
 ```
 
-Le résultat Markdown est `[![texte alternatif](URL_SVG)](URL_FICHE)`. Le HTML est un lien contenant une image avec valeurs échappées. Les valeurs réelles sont fournies sur la fiche ; aucun exemple de la documentation ne prétend attribuer un rang à un projet réel. Le texte alternatif d'un badge dynamique ne fige aucun numéro de rang.
+Le résultat Markdown associe une image de badge à la fiche correspondante. Le HTML est un lien contenant une image avec valeurs échappées. Les valeurs réelles sont fournies sur la fiche ; aucun exemple de la documentation ne prétend attribuer un rang à un projet réel. Le texte alternatif d'un badge dynamique ne fige aucun numéro de rang.
 
 Le lien de retour porte `utm_source=sandbox_badge`, `utm_medium=badge` et une campagne parmi `github_top_100`, `rising_star`, `github_category`, `biggest_mover`, `rookie_month`, `skill_week`, `best_model`, `annual`. Les nouvelles récompenses utilisent l'ancre `award-:uuid` ; les anciennes ancres Rising restent valides. Les URL canoniques restent sans ces paramètres. Le partage fournit un texte, un lien permanent et une image PNG 1200 par 630, téléchargeable.
 

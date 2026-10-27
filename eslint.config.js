@@ -2,13 +2,6 @@ import js from '@eslint/js';
 import { defineConfig } from 'eslint/config';
 import tseslint from 'typescript-eslint';
 
-const browserGlobals = {
-  window: 'readonly',
-  document: 'readonly',
-  requestAnimationFrame: 'readonly',
-  performance: 'readonly',
-  URLSearchParams: 'readonly',
-};
 const scriptGlobals = { process: 'readonly', console: 'readonly', Buffer: 'readonly' };
 
 export default defineConfig(
@@ -20,17 +13,8 @@ export default defineConfig(
       '**/.next/**',
       // Captures et compilations Next générées par les tests navigateur locaux.
       '**/.local/**',
-      // Dépendances Python locales ; les sources de l'agent restent contrôlées.
-      'tools/youtube-growth/.venv/**',
-      // Projets HyperFrames E02 générés localement, dont GSAP fourni par le moteur.
-      // Les scripts et tests du dépôt restent inclus dans les contrôles.
-      'exports/reseaux-sociaux/episode-02/composition/**',
-      // Copies du même moteur tiers dans les rendus de révision, sans sources du site.
-      'exports/reseaux-sociaux/episode-02/revisions/**/projects/**/assets/gsap.min.js',
       '**/next-env.d.ts',
       '.site-publish/**',
-      // Archive du travail sur la plateforme vidéo : plus dans l'espace de travail pnpm, hors des contrôles.
-      'old/**',
       // Brouillons locaux hors du dépôt.
       'scripts/_tmp-*/**',
       'scripts/_tmp-*',
@@ -50,15 +34,6 @@ export default defineConfig(
   {
     files: ['**/*.js', '**/*.mjs', '**/*.cjs'],
     extends: [tseslint.configs.disableTypeChecked],
-  },
-  {
-    files: ['videos/**/*.js'],
-    languageOptions: { globals: browserGlobals },
-  },
-  {
-    // Les scripts Node sérialisent aussi des callbacks exécutés par Playwright.
-    files: ['videos/**/*.mjs'],
-    languageOptions: { globals: { ...scriptGlobals, ...browserGlobals } },
   },
   {
     files: ['**/*.cjs'],

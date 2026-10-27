@@ -1,6 +1,6 @@
 # Sandbox Time Machine
 
-Parcours simplifié le 19 octobre : choix d'année près de la chronologie, sélection explicite par clic, tactile ou clavier, archives récentes en premier. Le survol ne change plus l'événement ouvert. Les filtres avancés et le Wrapped sont conservés. Voir [DD-0063](../design-decisions/dd-0063-stabilisation-des-classements-news-et-time-machine.md) et le [rapport d'audit](audit-stabilisation-2026-10-19.md) pour les sources et les recettes.
+Parcours simplifié le 19 octobre : choix d'année près de la chronologie, sélection explicite par clic, tactile ou clavier, archives récentes en premier. Le survol ne change plus l'événement ouvert. Les filtres avancés et le Wrapped sont conservés. Voir [DD-0063](../design-decisions/dd-0063-stabilisation-des-classements-news-et-time-machine.md) et le [rapport d'audit](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/audit-stabilisation-2026-10-19.md) pour les sources et les recettes.
 
 Route locale : [Time Machine](http://127.0.0.1:3000/time-machine). Décision : [DD-0027](../design-decisions/DD-0027-time-machine-histoire-mondiale-ia.md).
 
@@ -12,7 +12,7 @@ Le serveur écoute sur 127.0.0.1:3000. Un autre port se choisit avec -- --port=3
 
 ## Corpus
 
-Mise à jour du 18 octobre 2026 : 162 événements, dont 52 en 2026. La page ouvre le dernier événement documenté, le 17 octobre. Voir [les ajouts et leur validation](time-machine-2026-10-18.md). Les relevés du 15 et du 16 octobre ci-dessous décrivent les versions précédentes.
+Mise à jour du 18 octobre 2026 : 162 événements, dont 52 en 2026. La page ouvre le dernier événement documenté, le 17 octobre. Voir [les ajouts et leur validation](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/time-machine-2026-10-18.md). Les relevés du 15 et du 16 octobre ci-dessous décrivent les versions précédentes.
 
 apps/site/content/ai-history.json contient 151 événements, 56 jalons et 156 références primaires distinctes. La revue du 15 octobre 2026 ajoute 53 événements. Derniers événements documentés : 14 octobre 2026. La sélection mondiale couvre 1996-2026.
 
@@ -83,4 +83,4 @@ Le contrôle complet `pnpm check` a été lancé mais reste bloqué par le forma
 
 La fiche illustrée passe avant la courbe. Le titre court, la date et le résumé restent visibles ; le contexte et les sources se déplient. La courbe cumulative reste accessible au clavier dans un volet secondaire. Les archives annuelles et les jalons du récapitulatif utilisent les mêmes illustrations de concept.
 
-Les 151 événements conservent leur texte complet et toutes leurs sources dans le HTML initial. Un fond étoilé accompagne les changements de date et s'arrête lorsque les animations sont réduites. Voir [DD-0043](../design-decisions/dd-0043-time-machine-inventions-illustrees.md) et [le rapport d'interface](refonte-2026-10-15/time-machine-illustree-v13.md).
+Les 151 événements conservent leur texte complet et toutes leurs sources dans le HTML initial. Un fond étoilé accompagne les changements de date et s'arrête lorsque les animations sont réduites. Voir [DD-0043](../design-decisions/dd-0043-time-machine-inventions-illustrees.md) et [le rapport d'interface](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/refonte-2026-10-15/time-machine-illustree-v13.md).

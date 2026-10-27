@@ -11,7 +11,7 @@ Trois workflows existent : CI, rafraîchissement des classements et agent YouTub
 
 Le contrôle horaire des éditions et les poussées GitHub utilisaient deux runners distincts lorsque les poussées étaient activées. La collecte manuelle et la collecte programmée pouvaient se chevaucher, car leur verrou de workflow dépendait de l'événement. Le verrou global YouTube regroupait les tests de toutes les branches et le traitement de la chaîne.
 
-Le dernier passage YouTube contrôlé ne disposait pas d'OAuth mais installait quand même les dépendances. Voir les [preuves et les limites de l'audit](../site/news-audit-2026-10-18.md).
+Le dernier passage YouTube contrôlé ne disposait pas d'OAuth mais installait quand même les dépendances. Voir les [preuves et les limites de l'audit](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/news-audit-2026-10-18.md).
 
 ## Décision
 

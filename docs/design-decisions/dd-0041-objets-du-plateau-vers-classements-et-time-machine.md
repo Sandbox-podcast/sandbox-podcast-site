@@ -26,4 +26,4 @@ Les 33 tests ciblés de l'accueil et du vidéoclub passent après cette modifica
 
 Les classements et la Time Machine s'ouvrent au clic ; les deux accès sont également vérifiés avec Entrée au clavier. La porte démarre son animation et ouvre le vidéoclub. À 1024 x 768, le décor est recentré pour conserver la télévision dans la fenêtre. À 390 x 844, le plateau et ses liens sont masqués, la carte mobile est présente et la page ne déborde pas horizontalement.
 
-Capture du rendu : [accueil desktop](../site/refonte-2026-10-15/captures/accueil-easter-eggs-v13.jpg).
+Capture du rendu : [accueil desktop](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/refonte-2026-10-15/captures/accueil-easter-eggs-v13.jpg).

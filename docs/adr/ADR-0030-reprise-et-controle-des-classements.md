@@ -29,4 +29,4 @@ Le contrôle horaire utilise le même fournisseur que le planificateur. Il ne co
 
 Le code doit être déployé avant l'activation du nouveau workflow. Le secret GitHub Actions doit être configuré séparément. La revue des profils et les identités Models contradictoires restent nécessaires ; aucun seuil n'est abaissé pour publier. Les observations absentes ne peuvent pas être reconstituées à partir des compteurs actuels.
 
-Voir le [constat et la procédure de reprise](../site/incident-classements-2026-10-15.md).
+Voir le [constat et la procédure de reprise](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/incident-classements-2026-10-15.md).

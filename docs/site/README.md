@@ -1,34 +1,34 @@
 # Site média : conception
 
-Affiche cinéma de l’épisode 3 et navigation visible de l’accueil : [sources et recette du 26 octobre](affiche-episode-003-et-navigation-2026-10-26.md), selon [DD-0074](../design-decisions/DD-0074-navigation-accueil-et-affiche-episode-003.md).
+Affiche cinéma de l’épisode 3 et navigation visible de l’accueil : [sources et recette du 26 octobre](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/affiche-episode-003-et-navigation-2026-10-26.md), selon [DD-0074](../design-decisions/DD-0074-navigation-accueil-et-affiche-episode-003.md).
 
-Cinéma : trois épisodes visibles ensemble et miniature de l’épisode 3 conservée entière. Les cinq extraits YouTube disposent de tests A/B/C actifs : [suivi du 26 octobre](cinema-et-extraits-abc-2026-10-26.md).
+Cinéma : trois épisodes visibles ensemble et miniature de l’épisode 3 conservée entière. Les cinq extraits YouTube disposent de tests A/B/C actifs : [suivi du 26 octobre](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/cinema-et-extraits-abc-2026-10-26.md).
 
-Lot local complet du 20 octobre : [périmètre et recette d’intégration](livraison-lot-local-2026-10-20.md).
+Lot local complet du 20 octobre : [périmètre et recette d’intégration](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/livraison-lot-local-2026-10-20.md).
 
-Portail du plateau vers le vidéoclub au survol de la porte : [DD-0069](../design-decisions/dd-0069-portail-vers-le-videoclub.md) et [recette locale du 20 octobre](portail-videoclub-2026-10-20.md).
+Portail du plateau vers le vidéoclub au survol de la porte : [DD-0069](../design-decisions/dd-0069-portail-vers-le-videoclub.md) et [recette locale du 20 octobre](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/portail-videoclub-2026-10-20.md).
 
-Cadence News et Charts : [diagnostic et contrôle Cloudflare indépendant](fiabilisation-planification-2026-10-20.md), selon [ADR-0039](../adr/ADR-0039-controle-externe-des-traitements-planifies.md), avec [la procédure d'activation](../../tools/automation-watchdog/README.md).
+Cadence News et Charts : [diagnostic et contrôle Cloudflare indépendant](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/fiabilisation-planification-2026-10-20.md), selon [ADR-0039](../adr/ADR-0039-controle-externe-des-traitements-planifies.md), avec [la procédure d'activation](../../tools/automation-watchdog/README.md).
 
-Reprise des travaux interrompus : [lot local et résultats de validation du 20 octobre](reprise-locale-2026-10-20.md).
+Reprise des travaux interrompus : [lot local et résultats de validation du 20 octobre](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/reprise-locale-2026-10-20.md).
 
-Mobile et langues : [navigation, logos et footer compact](responsive-mobile-2026-10-20.md), [textes et miniatures vidéo localisés](mobile-i18n-video-2026-10-20.md), selon [DD-0067](../design-decisions/dd-0067-miniatures-video-et-textes-localises.md).
+Mobile et langues : [navigation, logos et footer compact](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/responsive-mobile-2026-10-20.md), [textes et miniatures vidéo localisés](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/mobile-i18n-video-2026-10-20.md), selon [DD-0067](../design-decisions/dd-0067-miniatures-video-et-textes-localises.md).
 
-News et classements : [fonctionnement automatique et horaires](automatisation-news-charts-2026-10-20.md), [audit du 20 octobre](audit-automatisation-2026-10-20.md) et [reprise des créneaux manqués, ADR-0038](../adr/ADR-0038-reprise-horaire-des-classements.md). La date de collecte News, l'insertion d'une nouvelle fiche et la publication d'une édition sont distinguées dans les vues.
+News et classements : [fonctionnement automatique et horaires](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/automatisation-news-charts-2026-10-20.md), [audit du 20 octobre](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/audit-automatisation-2026-10-20.md) et [reprise des créneaux manqués, ADR-0038](../adr/ADR-0038-reprise-horaire-des-classements.md). La date de collecte News, l'insertion d'une nouvelle fiche et la publication d'une édition sont distinguées dans les vues.
 
-Accueil orienté vers l'impact de l'IA dans les entreprises, plateau au scroll et équipe sans cartes à collectionner : [DD-0064](../design-decisions/dd-0064-accueil-impact-ia-et-plateau-au-scroll.md) et [recette locale du 20 octobre](accueil-impact-ia-2026-10-20.md). Les replays suivent l'allumage du plateau, avant la présentation de l'équipe.
+Accueil orienté vers l'impact de l'IA dans les entreprises, plateau au scroll et équipe sans cartes à collectionner : [DD-0064](../design-decisions/dd-0064-accueil-impact-ia-et-plateau-au-scroll.md) et [recette locale du 20 octobre](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/accueil-impact-ia-2026-10-20.md). Les replays suivent l'allumage du plateau, avant la présentation de l'équipe.
 
 Rythme et espacements des pages publiques : [DD-0046](../design-decisions/dd-0046-rythme-et-espacements-publics.md). La passe réduit les marges cumulées de l'accueil et harmonise les pages éditoriales.
 
-Accueil mobile éditorial, sans montage du trio, et plateau conservé sur ordinateur : [DD-0039](../design-decisions/dd-0039-accueil-mobile-editorial-et-plateau-desktop.md) et [validation V11](refonte-2026-10-15/refonte-editoriale-mobile-v11.md).
+Accueil mobile éditorial, sans montage du trio, et plateau conservé sur ordinateur : [DD-0039](../design-decisions/dd-0039-accueil-mobile-editorial-et-plateau-desktop.md) et [validation V11](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/refonte-2026-10-15/refonte-editoriale-mobile-v11.md).
 
-Le 16 octobre, les épaules coupées de Loïc et Nicolas sont complétées et les micros flottants retirés du plateau, avec les têtes issues des photos d'origine : [retouches et validation](refonte-2026-10-15/retouches-bustes-2026-10-16.md).
+Le 16 octobre, les épaules coupées de Loïc et Nicolas sont complétées et les micros flottants retirés du plateau, avec les têtes issues des photos d'origine : [retouches et validation](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/refonte-2026-10-15/retouches-bustes-2026-10-16.md).
 
-L'accueil couvre désormais le premier écran et place les trois vrais portraits détourés derrière la table. La porte reste un easter egg sans libellé visible ; le vidéoclub utilise des boîtes VHS photographiques. Voir [DD-0038](../design-decisions/dd-0038-accueil-plein-ecran-portraits-reels-et-vhs.md) et [les sources et contrôles](refonte-2026-10-15/accueil-plein-ecran-et-vhs.md).
+L'accueil couvre désormais le premier écran et place les trois vrais portraits détourés derrière la table. La porte reste un easter egg sans libellé visible ; le vidéoclub utilise des boîtes VHS photographiques. Voir [DD-0038](../design-decisions/dd-0038-accueil-plein-ecran-portraits-reels-et-vhs.md) et [les sources et contrôles](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/refonte-2026-10-15/accueil-plein-ecran-et-vhs.md).
 
-Le décor actuel de l'accueil reprend l'image chaleureuse fournie par Lou, avec une porte animée vers le vidéoclub en développement : [DD-0037](../design-decisions/dd-0037-decor-chaleureux-et-ouverture-de-la-porte.md) et [provenance et validation](refonte-2026-10-15/decor-chaleureux-et-porte-animee.md).
+Le décor actuel de l'accueil reprend l'image chaleureuse fournie par Lou, avec une porte animée vers le vidéoclub en développement : [DD-0037](../design-decisions/dd-0037-decor-chaleureux-et-ouverture-de-la-porte.md) et [provenance et validation](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/refonte-2026-10-15/decor-chaleureux-et-porte-animee.md).
 
-La dernière itération de l'accueil suit le parcours plateau, biographies, projets, puis Time Machine et classements : [DD-0034](../design-decisions/DD-0034-accueil-equipe-projets-puis-rubriques.md). Les onglets quittent le premier écran. Les biographies s'appuient sur les projets documentés, selon le choix de Lou. Le plateau et sa courte progression au scroll restent définis par [DD-0033](../design-decisions/DD-0033-accueil-cinematique-et-trio-sur-plateau-tv.md). Voir la [validation V4](refonte-2026-10-15/accueil-parcours-v4.md).
+La dernière itération de l'accueil suit le parcours plateau, biographies, projets, puis Time Machine et classements : [DD-0034](../design-decisions/DD-0034-accueil-equipe-projets-puis-rubriques.md). Les onglets quittent le premier écran. Les biographies s'appuient sur les projets documentés, selon le choix de Lou. Le plateau et sa courte progression au scroll restent définis par [DD-0033](../design-decisions/DD-0033-accueil-cinematique-et-trio-sur-plateau-tv.md). Voir la [validation V4](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/refonte-2026-10-15/accueil-parcours-v4.md).
 
 La refonte du 15 octobre présente le podcast et sa promesse sur l'accueil, avec le plateau comme image de marque et un accès au dernier épisode. Les classements, l'histoire de l'IA et les réalisations attirent depuis leurs propres pages. Voir [l'audit business et site](../SANDBOX_AUDIT.md), [la stratégie UX](../SANDBOX_UX_STRATEGY.md), [la roadmap](../SANDBOX_ROADMAP.md) et [DD-0032](../design-decisions/DD-0032-accueil-marque-et-plateau.md).
 
@@ -38,13 +38,13 @@ Application : [`apps/site`](../../apps/site). Décision de fond : [ADR-0015](../
 
 La [Time Machine](time-machine.md) retrace l'histoire mondiale de l'IA depuis 1996, avec une chronologie sourcée et un récapitulatif annuel. Elle suit [DD-0027](../design-decisions/DD-0027-time-machine-histoire-mondiale-ia.md) et fonctionne indépendamment des classements.
 
-Confiance et parcours : [corrections initiales](confiance-parcours-2026-10-14.md) et [intégration locale des méthodes, de la mesure et des parcours](audit-integration-2026-10-15.md), selon [DD-0029](../design-decisions/DD-0029-integration-audit-methodes-et-mesure.md). Les pages historiques simulées sont neutralisées ; les validations distantes restent séparées des tests locaux.
+Confiance et parcours : [corrections initiales](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/confiance-parcours-2026-10-14.md) et [intégration locale des méthodes, de la mesure et des parcours](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/audit-integration-2026-10-15.md), selon [DD-0029](../design-decisions/DD-0029-integration-audit-methodes-et-mesure.md). Les pages historiques simulées sont neutralisées ; les validations distantes restent séparées des tests locaux.
 
 Les badges publics et les sept Awards sont décrits dans [le guide](badges-awards.md) et [ADR-0031](../adr/ADR-0031-badges-et-awards-sandbox.md). Ils lisent les éditions officielles ; les migrations 0009 et 0010 conservent les attributions et leurs retraits. Lou demande une vérification locale avant livraison.
 
 La rubrique `/nos-projets` présente les applications personnelles de l'équipe avec leurs fiches, captures et vidéos. Voir [le guide et l'inventaire](nos-projets.md) et [DD-0019](../design-decisions/DD-0019-catalogue-nos-projets.md).
 
-La présentation compacte des classements suit [DD-0017](../design-decisions/DD-0017-interface-compacte-des-classements.md) : liste unique, filtres regroupés et détails à la demande. Voir [le rapport de validation](refonte-charts-2026-10-13.md).
+La présentation compacte des classements suit [DD-0017](../design-decisions/DD-0017-interface-compacte-des-classements.md) : liste unique, filtres regroupés et détails à la demande. Voir [le rapport de validation](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/refonte-charts-2026-10-13.md).
 
 La collection Animateurs alimente les profils publics de `/about`, y compris les liens sociaux ([DD-0015](../design-decisions/DD-0015-animateurs-source-page-a-propos.md)).
 
@@ -56,7 +56,7 @@ Le Talk Show est regroupé sur `/podcast`, avec le dernier replay et l'historiqu
 
 La fiche d'épisode suit [DD-0022](../design-decisions/DD-0022-fiche-episode-sans-description-longue.md) : lecteur sur toute la largeur, puis chapitres et ressources côte à côte sur ordinateur. La description longue reste la source éditoriale dans l'admin ; seul le résumé court est affiché sur la fiche.
 
-La chaîne YouTube publique est [@SandboxFR](https://www.youtube.com/@SandboxFR). Son identité reprend le logo complet et le triangle du site ; voir [DD-0011](../design-decisions/DD-0011-identite-youtube-sandbox.md) et le [kit de chaîne](../../brand/youtube/README.md).
+La chaîne YouTube publique est [@SandboxFR](https://www.youtube.com/@SandboxFR). Son identité reprend le logo complet et le triangle du site ; voir [DD-0011](../design-decisions/DD-0011-identite-youtube-sandbox.md) et le [kit de chaîne](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/brand/youtube/README.md).
 
 [DD-0009](../design-decisions/DD-0009-langue-des-classements.md) fixe les libellés français des classements publics et un état d'attente explicite tant qu'aucune édition réelle n'est publiée.
 
@@ -80,7 +80,7 @@ Depuis le rework SANDBOX CHARTS, les données GitHub nouvelles vivent dans Postg
 | **ÉDITORIAL** | avis (OUR TAKE), épisodes, fiches, méthodologie                      | `content/` (JSON, validé par Zod)   | `editorial`      |
 | **DÉRIVÉ**    | mouvements (UP, DOWN, NEW, RE, OUT), séries, statistiques, relations | calculé à la lecture, jamais stocké | calculé          |
 
-Le contenu initial est du code : fichiers JSON dans Git, validés par des schémas Zod et par des contrôles de références (`pnpm content:check`). Le backoffice enregistre les brouillons et publications dans Postgres/Neon en production, puis déclenche la revalidation ISR. En développement, un fichier local ignoré par Git suffit. Next.js 16 pré-génère les pages publiques ; les routes d'administration et d'écriture sont dynamiques. Le projet Vercel actuel est `sandbox-podcast`, relié à `www.sandboxpodcast.fr`. L'intégration de la [PR #2](https://github.com/Sandbox-podcast/sandbox-podcast-site/pull/2) et les étapes restantes figurent dans [ADR-0017](../adr/ADR-0017-persistance-editoriale-postgres.md) et [la transmission Vercel](transmission-vercel-2026-10-07.md).
+Le contenu initial est du code : fichiers JSON dans Git, validés par des schémas Zod et par des contrôles de références (`pnpm content:check`). Le backoffice enregistre les brouillons et publications dans Postgres/Neon en production, puis déclenche la revalidation ISR. En développement, un fichier local ignoré par Git suffit. Next.js 16 pré-génère les pages publiques ; les routes d'administration et d'écriture sont dynamiques. Le projet Vercel actuel est `sandbox-podcast`, relié à `www.sandboxpodcast.fr`. L'intégration de la [PR #2](https://github.com/Sandbox-podcast/sandbox-podcast-site/pull/2) et les étapes restantes figurent dans [ADR-0017](../adr/ADR-0017-persistance-editoriale-postgres.md) et [la transmission Vercel](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/transmission-vercel-2026-10-07.md).
 
 Un graphe de contenus relie les entités (projets et modèles), les classements et les épisodes sans qu'aucun lien ne soit saisi deux fois. Les liens se déduisent des mentions d'épisode et des voisins de classement (`src/lib/graph.ts`).
 
@@ -180,8 +180,8 @@ Fait : workflow de traduction déclenché manuellement dans le harnais, export d
 
 À terminer : mise en service et calibration des profils v3, vérification des migrations Neon et du secret Actions, réception GA4/Vercel, premières attributions réelles des Awards et relecture native des traductions. Le détail courant est dans [les questions ouvertes](../open-questions.md) et l'[issue #68](https://github.com/Sandbox-podcast/sandbox-podcast-site/issues/68). Le domaine public et la chaîne YouTube sont déjà reliés ; l'épisode pilote réel est publié.
 
-Le lot local de l'issue 68 ajoute un limiteur Postgres partagé et une CSP avec nonce sur l'administration. La CSP publique conserve les scripts inline nécessaires au rendu statique/ISR. Voir [ADR-0032](../adr/ADR-0032-protections-et-persistance-issue-68.md) et [les contrôles du 16 octobre](issue-68-2026-10-16.md). Des tests HTTP et navigateur existent ; ils ne remplacent pas une revue complète d'accessibilité ni les mesures de performance sur le déploiement. Les nouveaux contrôles de consentement utilisent des services Analytics simulés.
+Le lot local de l'issue 68 ajoute un limiteur Postgres partagé et une CSP avec nonce sur l'administration. La CSP publique conserve les scripts inline nécessaires au rendu statique/ISR. Voir [ADR-0032](../adr/ADR-0032-protections-et-persistance-issue-68.md) et [les contrôles du 16 octobre](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/issue-68-2026-10-16.md). Des tests HTTP et navigateur existent ; ils ne remplacent pas une revue complète d'accessibilité ni les mesures de performance sur le déploiement. Les nouveaux contrôles de consentement utilisent des services Analytics simulés.
 
 ## Optimisation UI/UX du 8 octobre 2026
 
-Le parcours podcast décrit dans DD-0005 est remplacé par la page unique de replays de DD-0030. Les fiches, les méthodes et les classements ont des sommaires. L'en-tête, le pied de page, les états vides et le studio partagent les mêmes repères. Voir [DD-0005](../design-decisions/DD-0005-ux-globale-du-site.md) et le [rapport de validation](ui-ux-2026-10-08.md).
+Le parcours podcast décrit dans DD-0005 est remplacé par la page unique de replays de DD-0030. Les fiches, les méthodes et les classements ont des sommaires. L'en-tête, le pied de page, les états vides et le studio partagent les mêmes repères. Voir [DD-0005](../design-decisions/DD-0005-ux-globale-du-site.md) et le [rapport de validation](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/ui-ux-2026-10-08.md).

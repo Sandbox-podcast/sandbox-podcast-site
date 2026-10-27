@@ -175,4 +175,4 @@ Le navigateur intégré n'accorde pas le plein écran natif pendant cette recett
 
 ## Regroupement dans la PR unique
 
-À la demande de Lou le 18 octobre, la PR 78 de l'épisode 003 est intégrée à la PR 77 avec News, le SEO et les contenus de relais. Les révisions éditoriales plus récentes de `content.json` et `shorts.json` sont conservées. La suite complète et les 84 contrôles live sont relancés sur le lot réuni ; voir [le rapport de regroupement](consolidation-pr77-78-2026-10-18.md).
+À la demande de Lou le 18 octobre, la PR 78 de l'épisode 003 est intégrée à la PR 77 avec News, le SEO et les contenus de relais. Les révisions éditoriales plus récentes de `content.json` et `shorts.json` sont conservées. La suite complète et les 84 contrôles live sont relancés sur le lot réuni ; voir [le rapport de regroupement](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/consolidation-pr77-78-2026-10-18.md).

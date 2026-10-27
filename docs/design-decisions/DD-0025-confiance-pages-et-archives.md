@@ -17,4 +17,4 @@ Un avertissement au-dessus des faux chiffres a été écarté : il laisse circul
 
 La publication, les commits et les pushes restent soumis au propriétaire. Aucun changement de score, de méthode de calcul ou d'édition réelle n'est inclus. Les questions de dates et méthodes de l'action A03 restent séparées.
 
-Voir [le rapport et les vérifications](../site/confiance-parcours-2026-10-14.md).
+Voir [le rapport et les vérifications](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/confiance-parcours-2026-10-14.md).

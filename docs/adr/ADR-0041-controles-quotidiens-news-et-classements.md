@@ -21,4 +21,4 @@ La livraison doit inclure les workflows et leur précontrôle sur `main`, puis l
 
 ## Vérification
 
-Voir le [bilan et les validations du 26 octobre](../site/issue-68-bilan-2026-10-26.md). Les tests couvrent le cycle quotidien, la déduplication, la lecture des résultats par job et les bornes de fraîcheur. Un échec Charts ne doit pas relancer News ; un historique incomplet reste une erreur.
+Voir le [bilan et les validations du 26 octobre](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/issue-68-bilan-2026-10-26.md). Les tests couvrent le cycle quotidien, la déduplication, la lecture des résultats par job et les bornes de fraîcheur. Un échec Charts ne doit pas relancer News ; un historique incomplet reste une erreur.

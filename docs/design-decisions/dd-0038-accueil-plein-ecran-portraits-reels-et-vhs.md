@@ -14,19 +14,19 @@ Lou demande aussi des VHS photoréalistes. Les rayons et la boîte ramassée uti
 
 Le cadrage s'adapte aux écrans étroits et au téléphone. Les personnes, la table et la porte restent dans le même plan de décor pendant les mouvements. La réduction des mouvements garde un accès immédiat.
 
-[Sources, prompts, fichiers et validation](../site/refonte-2026-10-15/accueil-plein-ecran-et-vhs.md).
+[Sources, prompts, fichiers et validation](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/refonte-2026-10-15/accueil-plein-ecran-et-vhs.md).
 
 ## Complément du 16 octobre 2026
 
 Lou autorise explicitement de reconstituer les bouts d'épaules absents de Loïc et Nicolas, et demande de retirer les micros flottants devant les trois animateurs. Cette retouche limitée des bustes remplace l'interdiction de générer des morceaux de corps pour ces zones. Une première intégration superpose les têtes originales aux bustes. Lou signale ensuite les raccords visibles : la correction utilise chaque portrait retouché complet en une seule image, sans superposition au cou. Les photos sources restent intactes. L'intégration est décidée par l'agent sur délégation (PD-0003).
 
-Voir les [assets, prompts et contrôles de la retouche](../site/refonte-2026-10-15/retouches-bustes-2026-10-16.md).
+Voir les [assets, prompts et contrôles de la retouche](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/refonte-2026-10-15/retouches-bustes-2026-10-16.md).
 
 ## Correction responsive et portraits complets
 
 Le 16 octobre, Lou signale les personnes minuscules sur téléphone et la dispersion des éléments au format intermédiaire. La composition compacte s'applique jusqu'à 1100 pixels ; la taille des portraits dépend de la largeur visible et reste limitée par la hauteur. Le texte, les noms et les actions sont centrés sur le bureau. Les trois portraits retouchés complets remplacent les plans séparés, sans nouvelle génération. Les sources restent intactes ; les visages des variantes retouchées ne sont plus des copies pixel à pixel. Intégration décidée par l'agent sur délégation (PD-0003).
 
-Voir le [rapport de correction](../site/refonte-2026-10-15/corrections-responsive-bio-2026-10-16.md).
+Voir le [rapport de correction](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/refonte-2026-10-15/corrections-responsive-bio-2026-10-16.md).
 
 ## Alignement au-dessus des dossiers
 

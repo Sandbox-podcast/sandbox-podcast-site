@@ -25,7 +25,7 @@ Les replays sont des affiches de cinéma vintage dérivées des miniatures YouTu
 
 Le mur affiche au plus huit épisodes vidéo disponibles, triés du plus récent au plus ancien. Aucune affiche n'est inventée ni répétée pour remplir le mur. Sans affiche spécifique, la miniature éditoriale de la vidéo reste utilisée. Les nouvelles affiches nécessitent une préparation graphique ; il n'y a pas de génération payante automatique.
 
-Les images ont été créées avec l'outil intégré ImageGen. Les sources PNG, les versions WebP et les [prompts](../site/studio-photos-2026-10-20-prompts.json) sont conservés dans le dépôt. Cette version utilise des photographies transformées en perspective, sans scène 3D navigable.
+Les images ont été créées avec l'outil intégré ImageGen. Les sources PNG, les versions WebP et les [prompts](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/studio-photos-2026-10-20-prompts.json) sont conservés dans le dépôt. Cette version utilise des photographies transformées en perspective, sans scène 3D navigable.
 
 Les raccourcis permettent d'allumer le plateau, de rejoindre les replays ou de passer à l'équipe. Les parties invisibles ne prennent pas le focus. Le bouton de réduction des mouvements est partagé avec les interactions existantes de l'accueil.
 
@@ -45,4 +45,4 @@ Lou demande également d'ajouter [la page LinkedIn de Sandbox](https://www.linke
 
 ## Livraison
 
-Travail local uniquement. Aucun commit, push, PR ou déploiement n'est autorisé par cette demande. Les vérifications et limites sont consignées dans [la recette locale](../site/accueil-impact-ia-2026-10-20.md).
+Travail local uniquement. Aucun commit, push, PR ou déploiement n'est autorisé par cette demande. Les vérifications et limites sont consignées dans [la recette locale](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/accueil-impact-ia-2026-10-20.md).

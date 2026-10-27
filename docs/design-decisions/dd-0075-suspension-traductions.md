@@ -12,4 +12,4 @@ Le workflow News conserve la collecte, la génération française, la publicatio
 
 La redirection temporaire permet une réactivation ultérieure. Cette réactivation demandera de rétablir ensemble les langues publiques, le sélecteur, le routage et le traitement de traduction, après correction et recette sur les textes qui échouaient.
 
-Voir le [diagnostic et la validation](../site/incident-emails-news-2026-10-21.md). Aucun changement de compte, préférence de notification, secret ou base distante n’est effectué dans ce lot local.
+Voir le [diagnostic et la validation](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/incident-emails-news-2026-10-21.md). Aucun changement de compte, préférence de notification, secret ou base distante n’est effectué dans ce lot local.
