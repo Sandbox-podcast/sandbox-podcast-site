@@ -1,5 +1,7 @@
 # Site média : conception
 
+Badges depuis le classement : [DD-0075](../design-decisions/DD-0075-badge-direct-depuis-le-classement.md).
+
 Affiche cinéma de l’épisode 3 et navigation visible de l’accueil : [sources et recette du 26 octobre](affiche-episode-003-et-navigation-2026-10-26.md), selon [DD-0074](../design-decisions/DD-0074-navigation-accueil-et-affiche-episode-003.md).
 
 Cinéma : trois épisodes visibles ensemble et miniature de l’épisode 3 conservée entière. Les cinq extraits YouTube disposent de tests A/B/C actifs : [suivi du 26 octobre](cinema-et-extraits-abc-2026-10-26.md).

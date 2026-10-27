@@ -67,6 +67,10 @@ try {
   for (const width of [390, 1440]) {
     await page.setViewportSize({ width, height: 1000 });
     await page.goto(`${fixture.origin}/guides`);
+    await page.screenshot({
+      path: fileURLToPath(new URL(`hub-${width}.png`, artifacts)),
+      fullPage: true,
+    });
     for (const guide of skillGuides) {
       await page.getByRole('link', { name: guide.heading, exact: false }).click();
       assert.equal(await page.locator('h1').textContent(), guide.heading);
@@ -91,8 +95,17 @@ try {
         dimensions.scroll <= dimensions.viewport + 1,
         `Pas de débordement : ${guide.slug} à ${width}px : ${JSON.stringify(dimensions)}`,
       );
-      await page.getByRole('link', { name: 'Installation', exact: true }).click();
+      const verification = page.locator('#choix details').first();
+      await verification.locator('summary').focus();
+      await page.keyboard.press('Enter');
+      assert.equal(await verification.getAttribute('open'), '');
+      assert.equal(await verification.locator('p').isVisible(), true);
+      const question = page.locator('#questions details').first();
+      await question.locator('summary').click();
+      assert.equal(await question.locator('p').isVisible(), true);
+      await page.locator('nav[aria-label="Sommaire du guide"] a[href="#installation"]').click();
       assert.equal(new URL(page.url()).hash, '#installation');
+      await page.evaluate(() => globalThis.window.scrollTo(0, 0));
       await page.screenshot({
         path: fileURLToPath(new URL(`${guide.slug}-${width}.png`, artifacts)),
         fullPage: true,
@@ -124,7 +137,7 @@ try {
     JSON.stringify({ checkedAt: new Date().toISOString(), checks }, null, 2),
   );
   log(
-    `${checks.length} contrôles HTTP et navigateur réussis ; 10 captures dans apps/site/.local/skill-guides-check/.`,
+    `${checks.length} contrôles HTTP et navigateur réussis ; 12 captures dans apps/site/.local/skill-guides-check/.`,
   );
 } catch (error) {
   log('Recette SEO échouée :', error instanceof Error ? error.message : error);

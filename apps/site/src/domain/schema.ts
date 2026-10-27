@@ -46,6 +46,8 @@ export const hostSchema = z.object({
   bio: z.string().min(1),
   /** Pseudonyme affiché sous le prénom sur /about (« Aka »). */
   aka: z.string().trim().min(1).optional(),
+  /** Site personnel présenté seul dans les liens de la page À propos. */
+  website: httpsUrlSchema.optional(),
   /** Photo servie par le site : importée depuis l'admin (`/api/host-photos/<sha256>.webp`) ou versionnée dans `public/` (`/team/nicolas.jpg`). */
   photo: z
     .string()

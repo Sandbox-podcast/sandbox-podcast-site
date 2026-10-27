@@ -22,6 +22,22 @@ Les liens sociaux étaient saisis à deux endroits : dans les fiches Animateurs 
 - L'admin n'expose plus un second formulaire de cartes d'équipe dans "Identité du site".
 - La source de contenu pour les traductions de `/about` suit les noms et liens des animateurs publiés.
 
+## Descriptions fournies par Lou, 26 octobre 2026
+
+Lou demande de reprendre sur `/about` les trois descriptions de son screenshot. Elles sont déjà présentes à l'identique dans `content/hosts.json`. Le contrôle HTTP du domaine public affiche encore « Présentation à compléter. » pour les trois profils.
+
+Compatibilité décidée par l'agent sur délégation (PD-0003) : une biographie publiée vide ou égale à « Présentation à compléter. » reprend celle du même profil dans Git. Une biographie renseignée reste prioritaire ; un profil absent du dépôt conserve son texte. Les noms et liens publiés restent lus dans la collection Animateurs.
+
+Validation locale : les tests de rendu couvrent les trois descriptions visibles avec les fiches publiées provisoires, les biographies vides et la conservation d'une biographie renseignée. La mise en ligne reste à effectuer dans le lot autorisé par Lou.
+
+## Site personnel de Lou, 26 octobre 2026
+
+À la demande de Lou, sa fiche sur `/about` présente uniquement `https://louhusson.com/`. Le champ facultatif `website` de la collection Animateurs est validé en HTTPS. Sur cette page, un site personnel remplace les liens sociaux, y compris dans les données structurées ; les profils sans site conservent leurs liens actuels. Les liens sociaux restent disponibles pour les autres pages.
+
+Compatibilité décidée par l'agent sur délégation (PD-0003) : une fiche publiée sans ce champ reprend le site du même profil dans Git. Un site déjà renseigné dans la fiche publiée reste prioritaire. La modification reste locale jusqu'à la livraison du lot.
+
+Validation locale : 22 tests ciblés réussis, contrôle TypeScript réussi, ESLint et Prettier réussis sur les fichiers modifiés. `pnpm check` s'arrête au formatage de 105 fichiers hors de cette modification. Le test de rendu vérifie un seul lien sur la carte de Lou avec une ancienne fiche publiée, ainsi que la conservation des liens des autres animateurs.
+
 ## Photos de Lou et Loïc, 14 octobre 2026
 
 À la demande du propriétaire, les portraits fournis sont conservés dans `apps/site/public/team/lou.png` et `apps/site/public/team/loic.png`, puis associés aux profils `lou` et `loic` par le champ facultatif `photo`, déjà utilisé en production. Le champ local provisoire `photoPath` est retiré.
