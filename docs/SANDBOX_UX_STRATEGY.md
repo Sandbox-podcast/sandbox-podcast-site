@@ -107,6 +107,6 @@ Pas de portail généraliste, newsletter supplémentaire, comptes visiteurs, nou
 
 ## Vérification
 
-La revue locale utilise `http://127.0.0.1:3340/`. Le pilote public du 12 octobre est recopié dans un stockage de développement isolé. Les classements de ce serveur restent des fixtures explicitement identifiées ; ils ne prouvent pas la fraîcheur du site public. Le plateau est une image provisoire générée, documentée avec son prompt dans [la fiche du visuel](site/refonte-2026-10-15/plateau-provisoire.md).
+La revue locale utilise `http://127.0.0.1:3340/`. Le pilote public du 12 octobre est recopié dans un stockage de développement isolé. Les classements de ce serveur restent des fixtures explicitement identifiées ; ils ne prouvent pas la fraîcheur du site public. Le plateau est une image provisoire générée, documentée avec son prompt dans [la fiche du visuel](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/refonte-2026-10-15/plateau-provisoire.md).
 
-Les contrôles et captures de la version finale du lot sont consignés dans [le rapport de validation](site/refonte-2026-10-15/validation.md). La revue du message et de la scène avec Lou reste une étape éditoriale ; aucun test automatisé ne permet de déclarer le design parfait.
+Les contrôles et captures de la version finale du lot sont consignés dans [le rapport de validation](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/refonte-2026-10-15/validation.md). La revue du message et de la scène avec Lou reste une étape éditoriale ; aucun test automatisé ne permet de déclarer le design parfait.

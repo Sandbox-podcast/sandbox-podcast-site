@@ -11,11 +11,8 @@ coverage/
 .site-admin-users.local.json
 .DS_Store
 Thumbs.db
-# Données locales des POC (enregistrements, chunks, fixtures générées)
-pocs/**/.local/
+# Données locales du site et ses outils
 apps/**/.local/
-# Archive de la plateforme (old/) : mêmes données locales (secrets, enregistrements), jamais commitées
-old/**/.local/
 # Application Next.js (apps/site)
 .next/
 *.tsbuildinfo

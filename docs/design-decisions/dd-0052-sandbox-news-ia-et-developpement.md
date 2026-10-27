@@ -14,7 +14,7 @@ Le second cahier des charges remplace les demandes contradictoires du premier : 
 
 ## Intégration
 
-Réutiliser le site et son identité SANDBOX. Le routage, les composants communs, PostgreSQL/Neon et GitHub Actions sont les points d'intégration examinés dans [l'audit](../site/news-audit-2026-10-18.md). Le flux News a sa propre voie hors ligne : Qwen produit le texte français et Argos les traductions des trois autres langues. Le dépôt du code ne déclenche pas la collecte ni la publication en production.
+Réutiliser le site et son identité SANDBOX. Le routage, les composants communs, PostgreSQL/Neon et GitHub Actions sont les points d'intégration examinés dans [l'audit](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/news-audit-2026-10-18.md). Le flux News a sa propre voie hors ligne : Qwen produit le texte français et Argos les traductions des trois autres langues. Le dépôt du code ne déclenche pas la collecte ni la publication en production.
 
 L'autonomie éditoriale demandée concerne le fonctionnement après mise en service. L'application de la migration et l'activation des variables de production restent à effectuer après revue ; voir [la procédure DD-0057](dd-0057-automatisation-production-news.md).
 

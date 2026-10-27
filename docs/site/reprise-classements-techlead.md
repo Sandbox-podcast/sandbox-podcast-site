@@ -4,7 +4,7 @@ Demande de Lou du 15 octobre 2026 : les opérations GitHub et Vercel doivent êt
 
 ## État de départ
 
-Le correctif [PR #65](https://github.com/Sandbox-podcast/sandbox-podcast-site/pull/65) est déjà fusionné et déployé, au commit `1599f99d947a26d6c0acbe7c6e457867af5fdd32`. Sa CI, son build et ses tests ont passé. Le [rapport d'incident](incident-classements-2026-10-15.md) contient les causes et les résultats des collectes réelles.
+Le correctif [PR #65](https://github.com/Sandbox-podcast/sandbox-podcast-site/pull/65) est déjà fusionné et déployé, au commit `1599f99d947a26d6c0acbe7c6e457867af5fdd32`. Sa CI, son build et ses tests ont passé. Le [rapport d'incident](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/incident-classements-2026-10-15.md) contient les causes et les résultats des collectes réelles.
 
 Le test manuel [38715345103](https://github.com/Sandbox-podcast/sandbox-podcast-site/actions/runs/38715345103) échoue car `SANDBOX_CHARTS_CRON_SECRET` est absent. Les API publiques vérifiées le 15 octobre servent toujours GitHub et Skills du 10 octobre, Models du 12. Les collectes réparées ont repris ; les nouvelles éditions ne sont pas encore publiables.
 

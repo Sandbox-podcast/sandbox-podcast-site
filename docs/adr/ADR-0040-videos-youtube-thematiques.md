@@ -31,4 +31,4 @@ Les caches dépendent de l'empreinte du master, du texte, du modèle, du prompt 
 
 Le traitement n'a aucune commande d'upload. Il ne lit ni ne modifie la file des réseaux, les comptes ou les identifiants de Shorts publiés. Aucun commit, push, PR ou déploiement n'est réalisé.
 
-Les limites fondées sur les pauses ASR ne certifient pas une fin de phrase. Les erreurs de transcription ne sont pas corrigées en inventant une citation. Les tests techniques et les comparaisons avec la source ne remplacent pas une écoute éditoriale intégrale avant publication. La recette et les sorties sont décrites dans [le rapport du 20 octobre](../site/youtube-thematiques-2026-10-20.md).
+Les limites fondées sur les pauses ASR ne certifient pas une fin de phrase. Les erreurs de transcription ne sont pas corrigées en inventant une citation. Les tests techniques et les comparaisons avec la source ne remplacent pas une écoute éditoriale intégrale avant publication. La recette et les sorties sont décrites dans [le rapport du 20 octobre](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/youtube-thematiques-2026-10-20.md).

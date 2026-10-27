@@ -1,6 +1,6 @@
 # Préparation des guides
 
-Les routes `/guides` et `/guides/[slug]` servent les guides documentaires sur les skills depuis le 20 octobre, selon [DD-0072](../design-decisions/DD-0072-guides-seo-skills.md). Leur contenu se trouve dans `src/domain/skill-guides.ts`. La [reprise du 26 octobre](guides-lisibilite-2026-10-26.md) explique la nouvelle présentation et les vérifications.
+Les routes `/guides` et `/guides/[slug]` servent les guides documentaires sur les skills depuis le 20 octobre, selon [DD-0072](../design-decisions/DD-0072-guides-seo-skills.md). Leur contenu se trouve dans `src/domain/skill-guides.ts`. La [reprise du 26 octobre](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/guides-lisibilite-2026-10-26.md) explique la nouvelle présentation et les vérifications.
 
 Le catalogue `apps/site/content/guides.json` reste vide. Il concerne les futurs guides tirés des épisodes, distincts des guides documentaires sur les skills.
 

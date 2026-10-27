@@ -10,4 +10,4 @@ En développement, le clic fait pivoter le battant vers l'intérieur. Le vidéoc
 
 Le lien reste natif sans JavaScript et avec les clics modifiés. L'entrée est immédiate si les mouvements sont réduits par le système ou par le bouton du plateau. Le retour navigateur réinitialise la porte. Le vidéoclub et son entrée restent réservés au développement. Les boutons YouTube et Spotify gardent leurs destinations.
 
-[Provenance, prompt et contrôles](../site/refonte-2026-10-15/decor-chaleureux-et-porte-animee.md).
+[Provenance, prompt et contrôles](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/refonte-2026-10-15/decor-chaleureux-et-porte-animee.md).

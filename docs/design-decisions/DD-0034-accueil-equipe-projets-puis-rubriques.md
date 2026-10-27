@@ -18,8 +18,8 @@ Les portraits et les liens sociaux viennent de la collection Animateurs. Une bio
 
 Les sections sont rendues côté serveur. Les portraits et couvertures sont chargés à la demande avec Next Image. Aucun lecteur, graphique de classement ou module de Time Machine n'est chargé dans ces aperçus. Sur mobile, les cartes se suivent en une colonne ; elles ne sont pas enfermées dans la hauteur d'un écran. Les traductions des textes ajoutés sont présentes en anglais, espagnol et allemand.
 
-Les sources médias et le contenu éditorial distant restent intacts. La sélection de projets et les biographies de repli pourront être ajustées localement. La [validation](../site/refonte-2026-10-15/accueil-parcours-v4.md) consigne les contrôles et limites.
+Les sources médias et le contenu éditorial distant restent intacts. La sélection de projets et les biographies de repli pourront être ajustées localement. La [validation](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/refonte-2026-10-15/accueil-parcours-v4.md) consigne les contrôles et limites.
 
 ## Biographie de Lou, 16 octobre 2026
 
-Lou fournit sa biographie et le domaine "Jeux vidéo, éducation et apprentissage". Ils remplacent le texte de repli fondé sur les projets. La collection Animateurs conserve le texte exact et ses deux paragraphes, avec les projets Héros de la classe, Okodukai et Not My Fault. Les biographies publiées restent prioritaires. Voir le [rapport de correction](../site/refonte-2026-10-15/corrections-responsive-bio-2026-10-16.md).
+Lou fournit sa biographie et le domaine "Jeux vidéo, éducation et apprentissage". Ils remplacent le texte de repli fondé sur les projets. La collection Animateurs conserve le texte exact et ses deux paragraphes, avec les projets Héros de la classe, Okodukai et Not My Fault. Les biographies publiées restent prioritaires. Voir le [rapport de correction](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/refonte-2026-10-15/corrections-responsive-bio-2026-10-16.md).

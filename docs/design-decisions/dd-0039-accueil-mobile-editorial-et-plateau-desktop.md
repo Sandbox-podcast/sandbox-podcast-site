@@ -12,7 +12,7 @@ La suite de l'accueil est reprise : photographies et biographies sur fond clair,
 
 La composition repose sur le rendu serveur et les media queries. Le titre n'est pas dupliqué. Le module de mouvement existant reste réservé au plateau ; sa réduction des mouvements est conservée. Les petites tailles de source déclarées pour le plateau masqué évitent de demander ses grandes variantes sur téléphone. Les assets sources restent intacts.
 
-Cette décision remplace les choix de composition mobile de DD-0038. Elle ne change pas les contenus publiés ni les autres pages du site. Les [contrôles de la V11](../site/refonte-2026-10-15/refonte-editoriale-mobile-v11.md) détaillent les résultats et limites.
+Cette décision remplace les choix de composition mobile de DD-0038. Elle ne change pas les contenus publiés ni les autres pages du site. Les [contrôles de la V11](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/refonte-2026-10-15/refonte-editoriale-mobile-v11.md) détaillent les résultats et limites.
 
 ## Compléments du vidéoclub et des portraits
 

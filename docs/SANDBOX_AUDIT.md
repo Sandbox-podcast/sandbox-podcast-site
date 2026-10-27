@@ -62,7 +62,7 @@ Le site possède déjà assez de matière pour exister au-delà du podcast : des
 
 Le site public et la copie locale diffèrent. En production, l'accueil affiche le pilote deux fois après les 20 lignes GitHub. La copie locale a déjà retiré ces répétitions et créé `/podcast`. Cette route et `/confidentialite` répondent encore 404 sur le site public. Ce sont des changements locaux à livrer, pas des régressions introduites par cette refonte.
 
-Les observations HTTP, les métadonnées et l'inventaire des 61 fichiers de routes sont conservés dans [audit-evidence.json](site/refonte-2026-10-15/audit-evidence.json). Ce nombre inclut les API et ne correspond pas au nombre d'URL publiques : les routes dynamiques desservent plusieurs contenus. Le sitemap public contient 79 URL lors du relevé.
+Les observations HTTP, les métadonnées et l'inventaire des 61 fichiers de routes sont conservés dans [audit-evidence.json](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/refonte-2026-10-15/audit-evidence.json). Ce nombre inclut les API et ne correspond pas au nombre d'URL publiques : les routes dynamiques desservent plusieurs contenus. Le sitemap public contient 79 URL lors du relevé.
 
 ## Cartographie fonctionnelle
 

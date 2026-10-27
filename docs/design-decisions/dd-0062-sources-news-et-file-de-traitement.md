@@ -4,7 +4,7 @@ Date : 2026-10-19. Liste fournie par Lou ; mise en œuvre décidée par l'agent 
 
 La priorité aux premières entrées est remplacée le 21 octobre par [DD-0073](dd-0073-priorite-actualites-recentes.md) : quatre articles récents et une entrée de rattrapage par réservation. Les autres règles de conservation et de reprise restent applicables.
 
-Complément du même jour : [DD-0063](dd-0063-stabilisation-des-classements-news-et-time-machine.md) décrit le modèle réellement exécuté, les corrections des sources et les durées bornées de collecte, génération et traduction. Le [rapport de stabilisation](../site/audit-stabilisation-2026-10-19.md) contient le dernier relevé et distingue la PR 94 fusionnée des correctifs complémentaires locaux.
+Complément du même jour : [DD-0063](dd-0063-stabilisation-des-classements-news-et-time-machine.md) décrit le modèle réellement exécuté, les corrections des sources et les durées bornées de collecte, génération et traduction. Le [rapport de stabilisation](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/audit-stabilisation-2026-10-19.md) contient le dernier relevé et distingue la PR 94 fusionnée des correctifs complémentaires locaux.
 
 Le registre contient les dix adresses précédentes et les 95 nouvelles adresses uniques de la liste. MiniMax et MiniMax Audio partagent leur source ; The Rundown AI était déjà présent. Les URL de référence ne gardent aucun paramètre UTM. Un blog et un changelog du même éditeur restent deux points de collecte distincts.
 

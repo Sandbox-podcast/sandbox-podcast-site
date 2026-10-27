@@ -20,4 +20,4 @@ Le crawl du sitemap public porte sur 569 URL dans les quatre langues. Elles sati
 
 Les routes restent stables. Les barrières sur les brouillons, les fixtures et les classements sans données réelles ne changent pas. Les biographies sont reprises de contenus existants et passent par les traductions du site.
 
-Ce lot n’applique pas de configuration Search Console, DNS ou hébergement. Lou autorise ensuite la création d’une PR pour les corrections SEO ; aucune fusion dans `main` n’est effectuée par cette livraison. Une position dans Google ne se déduit pas de l’accessibilité technique. Voir [audit et validation](../site/seo-global-2026-10-20.md).
+Ce lot n’applique pas de configuration Search Console, DNS ou hébergement. Lou autorise ensuite la création d’une PR pour les corrections SEO ; aucune fusion dans `main` n’est effectuée par cette livraison. Une position dans Google ne se déduit pas de l’accessibilité technique. Voir [audit et validation](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/seo-global-2026-10-20.md).

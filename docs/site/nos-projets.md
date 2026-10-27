@@ -63,7 +63,7 @@ Le menu commun débordait à 320 pixels : les espacements ont été réduits sur
 
 Les 33 cassettes utilisent des illustrations éditoriales verticales créées avec ImageGen intégré : peinture rétro, ombres bleu nuit, lumières ambre et contours cyan. Chaque projet reçoit un sujet distinct lié à sa description. Ces images servent aux jaquettes du vidéoclub et de la salle immersive ; les captures, logos, sources et vidéos des fiches produit restent distincts. Les noms restent en HTML.
 
-Les images livrées sont des WebP de 480 × 720 pixels, dans `apps/site/public/images/vhs-projects/`. Le catalogue des jaquettes est `src/domain/vhs-project-artwork.ts` ; les prompts et la provenance sont dans [le manifeste](vhs-project-artwork-2026-10-20.json).
+Les images livrées sont des WebP de 480 × 720 pixels, dans `apps/site/public/images/vhs-projects/`. Le catalogue des jaquettes est `src/domain/vhs-project-artwork.ts` ; les prompts et la provenance sont dans [le manifeste](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/vhs-project-artwork-2026-10-20.json).
 
 Validation locale : 48 tests ciblés réussis ; `pnpm check` réussi avec 1 255 tests du site et 35 tests vidéo/BIS ; build de production réussi avec 207 pages générées. Le budget mesuré des 33 WebP est de 2 096 024 octets au total, avec un maximum de 87 740 octets par image. La qualité WebP retenue est 74.
 

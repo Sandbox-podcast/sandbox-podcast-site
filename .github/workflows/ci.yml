@@ -14,7 +14,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  source-pipelines:
+  site-python-content:
     runs-on: ubuntu-latest
     env:
       PYTHONDONTWRITEBYTECODE: '1'
@@ -23,11 +23,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: python -m pip install -r tools/social-network-manager/episode-02/camera-unique-v2/requirements-qa.txt
       - run: python -m unittest discover -s apps/site/scripts -p 'test_news_*.py'
-      - run: python -m unittest discover -s kits-relais/2026-10-18/production -p test_monter.py -v
-      - run: python -m unittest discover -s tools/social-network-manager/episode-02/camera-unique-v2 -p test_pipeline.py -v
-      - run: python tools/social-network-manager/episode-02/camera-unique-v2/pipeline.py check
 
   quality:
     runs-on: ubuntu-latest

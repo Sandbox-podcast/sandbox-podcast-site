@@ -78,7 +78,7 @@ Sur YouTube, suivre les abonnements attribués pour 1 000 vues engagées et le n
 
 Comparer les extraits du test retenu aux publications Sandbox de même format et de même âge. La quantité de commentaires seule ne décide pas du prochain sujet. Refaire les formats qui apportent des abonnements et restent soutenables à produire. Avec peu de publications, garder les résultats comme indications et continuer l'essai, sans annoncer une recette gagnante.
 
-La [cadence de diffusion existante](social-growth-six-months-2026-10-18.md) reste la référence. Cette analyse ne modifie aucune file de publication, ne promet aucun volume d'abonnés et ne déclenche aucun envoi.
+La [cadence de diffusion existante](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/social-growth-six-months-2026-10-18.md) reste la référence. Cette analyse ne modifie aucune file de publication, ne promet aucun volume d'abonnés et ne déclenche aucun envoi.
 
 ## Utilisation du support
 

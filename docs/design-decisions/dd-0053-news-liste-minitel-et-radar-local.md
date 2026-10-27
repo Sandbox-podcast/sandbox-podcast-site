@@ -24,4 +24,4 @@ Le `noindex` local reste actif. La collecte programmée, la génération et les 
 
 Le décor original est conservé. Une copie ajoute le radar en laiton à l'emplacement de la petite sphère sur l'étagère supérieure. Le lien est superposé à l'objet, accessible au clavier. Le texte décoratif du plateau ne doit pas intercepter les clics. La troisième carte conserve le traitement photographique des deux cartes existantes.
 
-Lancement et provenance des images : [rapport V1](../site/news-v1-local-2026-10-18.md). État actuel et recette : [rapport V2](../site/news-v2-medias-seo-2026-10-18.md).
+Lancement et provenance des images : [rapport V1](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/news-v1-local-2026-10-18.md). État actuel et recette : [rapport V2](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/news-v2-medias-seo-2026-10-18.md).

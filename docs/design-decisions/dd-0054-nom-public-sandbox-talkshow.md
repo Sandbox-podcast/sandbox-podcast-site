@@ -12,11 +12,11 @@ Le nom propre garde cette orthographe dans les quatre langues. Le site reprend c
 - YouTube `@SandboxFR` : YouTube Studio affiche déjà Sandbox TalkShow, aucune modification nécessaire.
 - Instagram `@sandbox.talkshow`, TikTok `@sandbox.talkshow` et X `@SandboxTalkShow` : les trois profils affichent déjà Sandbox TalkShow, vérifié dans le navigateur.
 
-Preuves Spotify : [réglages après sauvegarde](../site/renommage-2026-10-18/spotify-settings.png) et [page publique](../site/renommage-2026-10-18/spotify-public.png).
+Preuves Spotify : [réglages après sauvegarde](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/renommage-2026-10-18/spotify-settings.png) et [page publique](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/renommage-2026-10-18/spotify-public.png).
 
 ## Limites
 
-Le compte Spotify contient aussi un brouillon sans épisode publié, identifiant `2Kdm21jvYbL2VsVLl1j32c`. Après l'accord de Lou pour le vérifier et le renommer, la comparaison confirme le même auteur et une description strictement identique à l'émission principale. Il a été renommé Sandbox TalkShow, sauvegardé et vérifié après rechargement, sans publication d'épisode. Preuve : [réglages du brouillon](../site/renommage-2026-10-18/spotify-draft-settings.png).
+Le compte Spotify contient aussi un brouillon sans épisode publié, identifiant `2Kdm21jvYbL2VsVLl1j32c`. Après l'accord de Lou pour le vérifier et le renommer, la comparaison confirme le même auteur et une description strictement identique à l'émission principale. Il a été renommé Sandbox TalkShow, sauvegardé et vérifié après rechargement, sans publication d'épisode. Preuve : [réglages du brouillon](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/renommage-2026-10-18/spotify-draft-settings.png).
 
 Le site et les fichiers locaux attendent leur livraison autorisée. Aucun commit, push, déploiement ou nouvelle PR dans ce lot. Les médias déjà exportés ne sont pas réencodés.
 

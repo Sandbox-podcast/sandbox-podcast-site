@@ -4,24 +4,24 @@ Instructions pour les agents IA qui travaillent sur ce dépôt. À lire en entie
 
 ## Source de vérité
 
-- Le dépôt sert le site média `apps/site` : conception dans `docs/site/`, décisions dans `docs/adr/` et `docs/design-decisions/`.
+- Le dépôt sert le site média `apps/site` : guides maintenus dans `docs/site/`, décisions dans `docs/adr/` et `docs/design-decisions/`. Les rapports datés, médias, outils et projets de production sont dans [sandbox-podcast-resources](https://github.com/Sandbox-podcast/sandbox-podcast-resources).
 - Questions encore ouvertes : `docs/open-questions.md`.
-- `old/` : archive du travail sur la plateforme de production de podcasts vidéo (prompt maître `old/PODCAST_PLATFORM_MASTER_PROMPT.md`, code, POC, ADR-0001 à 0014, questions ouvertes). Le propriétaire ne la réutilise pas ; voir `old/README.md`. Ne pas la modifier sans demande.
+- L’archive de la plateforme de production vidéo se trouve dans `old/` du dépôt [sandbox-podcast-resources](https://github.com/Sandbox-podcast/sandbox-podcast-resources). Le propriétaire ne la réutilise pas ; ne pas la modifier sans demande.
 
 ## Produit
 
-Site média (podcast et classements hebdomadaires tech et IA) : `apps/site`, voir `docs/site/README.md`. L'ancien projet de plateforme de production de podcasts vidéo (PREP, STUDIO, POST) est archivé dans `old/`.
+Site média (podcast et classements hebdomadaires tech et IA) : `apps/site`, voir `docs/site/README.md`. Les ressources de production sont dans [sandbox-podcast-resources](https://github.com/Sandbox-podcast/sandbox-podcast-resources).
 
 ## Décisions déjà prises
 
 - ADR-0015 et DD-0001 : site média `apps/site` (Next.js 16, contenu et snapshots de classements dans Git, données de démonstration identifiées). Produit distinct de la plateforme, voir `docs/site/`.
-- Plateforme vidéo (archivée) : ADR-0001 à 0014 et PD-0001 à 0003 dans `old/docs/` (liste et résumé dans `old/README.md`).
+- Plateforme vidéo (archivée) : ADR-0001 à 0014 et PD-0001 à 0003 dans `old/docs/` du dépôt ressources (liste et résumé dans `old/README.md`).
 
 ## Règle de clarification
 
-Par défaut (règle du prompt maître archivé, §0) : ne jamais trancher seul une décision structurante, coûteuse, ambiguë ou difficile à inverser. La poser avec la fonction de question du harnais (`AskUserQuestion` dans Claude Code) sous forme de QCM : sujet, raison, 2 à 4 options avec avantages, inconvénients et impacts, recommandation. Ensuite, enregistrer la réponse dans un ADR, une PD ou une DD.
+Par défaut (règle du [prompt maître archivé](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/old/PODCAST_PLATFORM_MASTER_PROMPT.md), §0) : ne jamais trancher seul une décision structurante, coûteuse, ambiguë ou difficile à inverser. La poser avec la fonction de question du harnais (`AskUserQuestion` dans Claude Code) sous forme de QCM : sujet, raison, 2 à 4 options avec avantages, inconvénients et impacts, recommandation. Ensuite, enregistrer la réponse dans un ADR, une PD ou une DD.
 
-Délégation active (PD-0003, 2026-10-05, texte dans `old/docs/product-decisions/PD-0003-delegation-de-decision-a-l-agent.md`) : les décisions de conception se tranchent sans QCM, en les consignant dans un ADR, une PD ou une DD avec la mention « décidée par l'agent sur délégation (PD-0003) ». Restent soumis au propriétaire : dépenses et comptes, publication ou message externe, suppression de données réelles, engagements juridiques, commits et pushes, réglages système.
+Délégation active (PD-0003, 2026-10-05, texte dans [`PD-0003`](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/old/docs/product-decisions/PD-0003-delegation-de-decision-a-l-agent.md)) : les décisions de conception se tranchent sans QCM, en les consignant dans un ADR, une PD ou une DD avec la mention « décidée par l'agent sur délégation (PD-0003) ». Restent soumis au propriétaire : dépenses et comptes, publication ou message externe, suppression de données réelles, engagements juridiques, commits et pushes, réglages système.
 
 Autonomie complète pour les décisions locales, réversibles et sans impact produit.
 
@@ -36,10 +36,12 @@ Règle demandée par Lou le 2026-10-15 :
 ## Structure du dépôt
 
 ```
-apps/        applications : `apps/site` (site média et classements hebdomadaires, voir docs/site/)
-docs/        documentation du site, ADR, décisions de conception, tests
-old/         archive de la plateforme de production de podcasts vidéo (code, POC, documentation) : hors de l'espace de travail pnpm
+apps/site/  application web, contenu publié, snapshots, migrations et tests
+docs/       documentation de référence, ADR, décisions et contrôles du site
+tools/      contrôleur d’exploitation du site
 ```
+
+Les productions éditoriales et vidéo, médias sources, outils sociaux, exports et archive de l’ancienne plateforme sont dans [sandbox-podcast-resources](https://github.com/Sandbox-podcast/sandbox-podcast-resources).
 
 ## Commandes
 
@@ -78,7 +80,7 @@ pnpm format         # Prettier en écriture
 
 ## Definition of Done
 
-Critères d'acceptation vérifiés, permissions testées, erreurs et états loading/empty/error traités, tests écrits et lancés, documentation et décisions à jour, résultat vérifié réellement. Pour le média et le temps réel : réseau dégradé, reconnexion et perte de données testés, mesures CPU/mémoire/FPS/bande passante. Liste complète : §40 du prompt maître archivé.
+Critères d'acceptation vérifiés, permissions testées, erreurs et états loading/empty/error traités, tests écrits et lancés, documentation et décisions à jour, résultat vérifié réellement. Pour le média et le temps réel : réseau dégradé, reconnexion et perte de données testés, mesures CPU/mémoire/FPS/bande passante. Liste complète : §40 du [prompt maître archivé](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/old/PODCAST_PLATFORM_MASTER_PROMPT.md).
 
 ## Interdits
 

@@ -82,7 +82,7 @@ Les profils d'animation initiaux sont Lou, Nicolas et Loïc. Les anciens épisod
 
 ## Pour aller plus loin
 
-Le projet Vercel `sandbox-podcast` est relié au domaine `www.sandboxpodcast.fr`. Le propriétaire du compte doit configurer la racine de build `apps/site`, la base Neon, les migrations et les comptes d'administration. La clé YouTube est facultative : sans elle, l'import d'un épisode récupère seulement le titre, la chaîne et la miniature. Les constats et étapes précis figurent dans [la transmission Vercel](transmission-vercel-2026-10-07.md). Aucun secret ou token de production n'est inclus dans Git. Le plan Vercel et ses quotas déterminent les coûts du stockage.
+Le projet Vercel `sandbox-podcast` est relié au domaine `www.sandboxpodcast.fr`. Le propriétaire du compte doit configurer la racine de build `apps/site`, la base Neon, les migrations et les comptes d'administration. La clé YouTube est facultative : sans elle, l'import d'un épisode récupère seulement le titre, la chaîne et la miniature. Les constats et étapes précis figurent dans [la transmission Vercel](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/transmission-vercel-2026-10-07.md). Aucun secret ou token de production n'est inclus dans Git. Le plan Vercel et ses quotas déterminent les coûts du stockage.
 
 ## Protection des connexions et corrections
 

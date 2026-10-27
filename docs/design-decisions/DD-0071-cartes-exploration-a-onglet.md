@@ -18,7 +18,7 @@ La recette navigateur finale réussit ses dix cas sous Edge headless, sans erreu
 
 Lou demande ensuite la même marge à gauche, à droite et au-dessus de l'image. Ces trois marges mesurent 16 pixels, le haut étant mesuré depuis le bord horizontal sous l'onglet. La hauteur de ce bord est désormais fixe à 48 pixels ; elle ne dépend plus de la hauteur de la carte. La recette mesure ces trois espacements pour chaque carte et chaque résolution.
 
-Consolidation de livraison : les incohérences de la copie partagée sont résolues en conservant la section projets et son paramètre depuis main. Le contrôle complet et le build réussissent dans la branche de PR ; voir [le rapport de livraison](../site/livraison-restant-local-2026-10-20.md).
+Consolidation de livraison : les incohérences de la copie partagée sont résolues en conservant la section projets et son paramètre depuis main. Le contrôle complet et le build réussissent dans la branche de PR ; voir [le rapport de livraison](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/livraison-restant-local-2026-10-20.md).
 
 Après création de la PR 102, Lou demande de retirer le bloc « Nos expérimentations / Ce que nous construisons. » de l’accueil. Le carrousel et son habillage sont supprimés du rendu. La carte « Nos projets », le vidéoclub, le catalogue et les fiches conservent leurs contenus et leurs liens. Cette correction locale remplace le maintien de cette section décrit dans le rapport de consolidation ; elle ne comporte ni commit ni push. Les tests vérifient son absence, y compris lorsque des projets existent.
 

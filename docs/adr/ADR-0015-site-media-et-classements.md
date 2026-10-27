@@ -8,7 +8,7 @@
 
 Le propriétaire a demandé un site web pour un podcast tech animé par trois personnes : pas une landing page, pas un blog, mais un média tech dont les classements hebdomadaires (GitHub, skills et agents, modèles IA, modèles open source) deviennent une référence, avec historique, méthodologie publique, avis de l'équipe séparés des données, fiches d'entités reliées aux épisodes et aux articles, SEO et partage social. Une première version complète et navigable était demandée, avec des données simulées clairement identifiées.
 
-Ce produit est distinct de la plateforme de production de podcasts ([ADR-0001](ADR-0001-stack-applicative-et-monorepo.md) à [ADR-0014](ADR-0014-application-web-sans-framework.md)). Il partage le dépôt, l'outillage et les conventions.
+Ce produit est distinct de la plateforme de production de podcasts ([ADR-0001](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/old/docs/adr/ADR-0001-stack-applicative-et-monorepo.md) à [ADR-0014](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/old/docs/adr/ADR-0014-application-web-sans-framework.md)). Il partage le dépôt, l'outillage et les conventions.
 
 ## Question posée
 

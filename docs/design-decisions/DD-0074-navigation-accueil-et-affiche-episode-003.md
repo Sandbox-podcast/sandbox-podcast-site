@@ -12,6 +12,6 @@ Le menu mobile contient les mêmes rubriques et la recherche. Il conserve ses ci
 
 La vidéo `eEsaxtmDjR4` utilise une affiche dédiée dans le seul traitement cinéma de `EpisodeArtwork`. L’image reprend les trois animateurs et la composition des deux premières affiches : portraits dans la partie supérieure, architecture nocturne, zone basse sombre pour le titre HTML. Les reflets rouges et cyan distinguent le troisième épisode, consacré au vibe coding en production.
 
-Le titre et le numéro restent en HTML, traduits par le site. Aucun texte n’est intégré aux pixels. Les autres usages de la miniature YouTube restent inchangés. Voir [sources et recette](../site/affiche-episode-003-et-navigation-2026-10-26.md).
+Le titre et le numéro restent en HTML, traduits par le site. Aucun texte n’est intégré aux pixels. Les autres usages de la miniature YouTube restent inchangés. Voir [sources et recette](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/affiche-episode-003-et-navigation-2026-10-26.md).
 
 Travail local, sans commit, push ni déploiement.

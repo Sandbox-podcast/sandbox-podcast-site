@@ -22,4 +22,4 @@ Sur téléphone ou pointeur tactile, un toucher ouvre directement le vidéoclub.
 
 Il s'agit d'une profondeur simulée entre deux images. La traversée libre de scènes en Gaussian splatting montrée dans la référence demanderait d'autres ressources et un moteur de rendu.
 
-Aucun commit, push, PR ou déploiement n'est inclus. Les contrôles et captures figurent dans [la recette du portail](../site/portail-videoclub-2026-10-20.md).
+Aucun commit, push, PR ou déploiement n'est inclus. Les contrôles et captures figurent dans [la recette du portail](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/portail-videoclub-2026-10-20.md).

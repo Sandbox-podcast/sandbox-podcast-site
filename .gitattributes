@@ -2,4 +2,3 @@
 * text=auto eol=lf
 # Les migrations historiques conservent leurs octets d'origine.
 apps/site/drizzle/*.sql -text
-old/** -text

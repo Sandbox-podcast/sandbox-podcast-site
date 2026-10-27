@@ -20,6 +20,6 @@ Les entrées distinguent les titres, la collection, les projets et les panneaux 
 
 Cette décision remplace la mise en page du hero décrite dans DD-0033 et la rétention du défilement. Elle complète DD-0039, DD-0042, DD-0044, DD-0046 et DD-0047. Les autres choix éditoriaux restent applicables.
 
-Les essais et leurs limites sont consignés dans [le rapport local](../site/landing-cinematique-2026-10-16.md).
+Les essais et leurs limites sont consignés dans [le rapport local](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/landing-cinematique-2026-10-16.md).
 
-Les sources, les prompts et la recette des deux nouveaux visuels sont consignés dans [le rapport des illustrations](../site/illustrations-exploration-2026-10-16.md).
+Les sources, les prompts et la recette des deux nouveaux visuels sont consignés dans [le rapport des illustrations](https://github.com/Sandbox-podcast/sandbox-podcast-resources/blob/main/docs/site/history/2026/10/illustrations-exploration-2026-10-16.md).
