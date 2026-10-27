@@ -9,7 +9,7 @@ const root = resolve(process.cwd(), 'public/slides/episode-004');
 describe("Le Talk de l'épisode 004", () => {
   it('tient dans cinq slides de la même séquence, écran de sujet compris', () => {
     expect(talkScenes).toHaveLength(5);
-    expect(new Set(scenes.map((slide) => slide.id)).size).toBe(8);
+    expect(new Set(scenes.map((slide) => slide.id)).size).toBe(12);
     expect(talkScenes.every((slide) => slide.chapter === 'Talk')).toBe(true);
     expect(talkScenes.map((slide) => slide.kind)).toEqual([
       'opening',
@@ -25,7 +25,7 @@ describe("Le Talk de l'épisode 004", () => {
       expect(sceneIndex(`#${slide.id}`)).toBe(index);
       expect(sceneIndex(`#${index + 1}`)).toBe(index);
     }
-    for (const hash of ['', '#0', '#9', '#inconnu', '#1.5', '#-1']) {
+    for (const hash of ['', '#0', '#13', '#inconnu', '#1.5', '#-1']) {
       expect(sceneIndex(hash)).toBe(0);
     }
   });
@@ -46,12 +46,12 @@ describe("Le Talk de l'épisode 004", () => {
     expect(talkScenes[2]?.notes.join(' ')).toContain('guides utilisateurs');
   });
 
-  it('place trois slides Radar avant le Talk et conserve les chiffres avec leur attribution', () => {
-    expect(radarScenes).toHaveLength(3);
-    expect(scenes.slice(0, 3)).toEqual(radarScenes);
-    expect(scenes.slice(3)).toEqual(talkScenes);
+  it('place sept slides Radar avant le Talk et conserve les chiffres avec leur attribution', () => {
+    expect(radarScenes).toHaveLength(7);
+    expect(scenes.slice(0, 7)).toEqual(radarScenes);
+    expect(scenes.slice(7)).toEqual(talkScenes);
     expect(sceneIndex('#radar')).toBe(0);
-    expect(sceneIndex('#talk')).toBe(3);
+    expect(sceneIndex('#talk')).toBe(7);
     const notes = radarScenes.flatMap((slide) => slide.notes).join(' ');
     for (const detail of [
       '94 %',
@@ -69,9 +69,47 @@ describe("Le Talk de l'épisode 004", () => {
     }
     expect(notes).toContain('questions différentes');
     expect(notes).toContain('pas des gains garantis');
-    expect(radarScenes.every((slide) => slide.sources[0]?.url.includes('atlassian.com'))).toBe(
-      true,
-    );
+    expect(
+      radarScenes.slice(0, 3).every((slide) => slide.sources[0]?.url.includes('atlassian.com')),
+    ).toBe(true);
+  });
+
+  it('synthétise le dossier revenu universel en quatre fiches avec des statuts explicites', () => {
+    const briefs = radarScenes.slice(3);
+    expect(briefs.map((slide) => slide.id)).toEqual([
+      'radar-ia-revenu',
+      'radar-ia-fonds-publics',
+      'radar-ia-financement',
+      'radar-ia-limites',
+    ]);
+    for (const slide of briefs) {
+      expect(slide.kind).toBe('radar-brief');
+      expect(slide.facts?.length).toBeGreaterThanOrEqual(2);
+      expect(slide.takeaway?.length).toBeGreaterThan(30);
+      const words = [
+        slide.title,
+        slide.subtitle,
+        ...(slide.facts ?? []).flatMap((fact) => [fact.label, fact.text]),
+        slide.takeaway,
+      ]
+        .join(' ')
+        .split(/\s+/);
+      expect(words.length).toBeLessThan(135);
+    }
+    const text = (index: number) => JSON.stringify(briefs[index]);
+    expect(text(0)).toContain('vote des actionnaires');
+    expect(text(0)).toContain('200 M$');
+    expect(text(1)).toContain('par personne et par an');
+    expect(text(1)).toContain('estimation');
+    expect(text(1)).toContain('nouvellement émises');
+    expect(text(2)).toContain('200 $ d’aide énergétique');
+    expect(briefs[3]?.facts?.map((fact) => fact.label)).toEqual([
+      'A · On continue à travailler',
+      'B · On travaille moins',
+      'C · Le travail devient largement facultatif',
+    ]);
+    expect(text(3)).toContain('Aucun de ces scénarios n’est une prévision établie');
+    expect(text(3)).not.toContain('OpenResearch');
   });
 
   it('garde les ressources locales et la CSP restrictive', () => {

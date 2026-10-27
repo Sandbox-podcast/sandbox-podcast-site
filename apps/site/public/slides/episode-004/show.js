@@ -57,13 +57,17 @@ topics.innerHTML = scenes
 
 function render() {
   const slide = scenes[current];
+  const visual =
+    slide.kind === 'radar-brief'
+      ? `<div class="radar-brief-content"><dl class="brief-facts">${slide.facts.map((fact) => `<div><dt>${escapeText(fact.label)}</dt><dd>${escapeText(fact.text)}</dd></div>`).join('')}</dl><p class="brief-takeaway">${escapeText(slide.takeaway)}</p></div>`
+      : visuals[slide.kind];
   const chapterScenes = scenes.filter((item) => item.chapter === slide.chapter);
   const chapterIndex = chapterScenes.findIndex((item) => item.id === slide.id);
   const illustration = slide.chapter === 'Radar' ? 'radar-v1.webp' : 'talk-lobby-v1.webp';
   screen.className = slide.kind;
   screen.innerHTML = `<img class="slide-illustration" src="../episode-003/assets/${illustration}" alt="" aria-hidden="true" />
     <article class="talk-slide"><div class="slide-heading"><p class="eyebrow">LE ${escapeText(slide.chapter.toUpperCase())} <span>${String(chapterIndex + 1).padStart(2, '0')} / ${String(chapterScenes.length).padStart(2, '0')}</span></p><h1>${escapeText(slide.title)}</h1><p class="subtitle">${escapeText(slide.subtitle)}</p></div>
-    ${visuals[slide.kind]}
+    ${visual}
     <nav class="sources" aria-label="Sources de la diapositive">${slide.sources.map((source) => `<a href="${escapeText(source.url)}" target="_blank" rel="noopener noreferrer">${escapeText(source.label)}</a>`).join('')}</nav></article>`;
   document.getElementById('notes-content').innerHTML =
     `<h3>${escapeText(slide.title)}</h3>${slide.notes.map((note) => `<p>${escapeText(note)}</p>`).join('')}<h3>Sources</h3><ul>${slide.sources.map((source) => `<li><a href="${escapeText(source.url)}" target="_blank" rel="noopener noreferrer">${escapeText(source.title)}</a> (${escapeText(source.label)})</li>`).join('')}</ul>`;

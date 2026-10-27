@@ -16,12 +16,15 @@ export interface Slide {
     | 'debate'
     | 'radar-context'
     | 'radar-workflow'
-    | 'radar-results';
+    | 'radar-results'
+    | 'radar-brief';
   label: string;
   title: string;
   subtitle: string;
   sources: Source[];
   notes: string[];
+  facts?: { label: string; text: string }[];
+  takeaway?: string;
 }
 
 export const scenes: Slide[];

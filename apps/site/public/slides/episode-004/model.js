@@ -35,6 +35,36 @@ const sources = {
     title: 'Issue tracking is dead',
     url: 'https://linear.app/next',
   },
+  benefitFund: {
+    label: 'Anthropic, 18 oct. 2026',
+    title: 'Investing in the public benefit',
+    url: 'https://www.anthropic.com/news/public-benefit-fund',
+  },
+  economicFund: {
+    label: 'Anthropic, 22 juil. 2026',
+    title: 'A research agenda for the Economic Futures Research Fund',
+    url: 'https://www.anthropic.com/news/economic-futures-research-fund-agenda',
+  },
+  publicWealth: {
+    label: 'OpenAI, avril 2026, p. 6–7',
+    title: 'Industrial Policy for the Intelligence Age: Ideas to Keep People First',
+    url: 'https://cdn.openai.com/pdf/561e7512-253e-424b-9734-ef4098440601/Industrial%20Policy%20for%20the%20Intelligence%20Age.pdf',
+  },
+  sanders: {
+    label: 'Bernie Sanders, 18 juin 2026',
+    title: 'Sanders Introduces Legislation to Create $7 Trillion AI Sovereign Wealth Fund',
+    url: 'https://www.sanders.senate.gov/press-releases/news-sanders-introduces-legislation-to-create-7-trillion-ai-sovereign-wealth-fund/',
+  },
+  bill: {
+    label: 'S. 4825, texte déposé',
+    title: 'American A.I. Sovereign Wealth Fund Act, introduced in Senate',
+    url: 'https://www.govinfo.gov/content/pkg/BILLS-119s4825is/html/BILLS-119s4825is.htm',
+  },
+  alaska: {
+    label: 'Alaska, montant 2026',
+    title: 'Alaska Permanent Fund Dividend: 2026 PFD Amount',
+    url: 'https://pfd.alaska.gov/',
+  },
 };
 
 export const radarScenes = [
@@ -82,6 +112,120 @@ export const radarScenes = [
       "Atlassian indique que près de la moitié de ses feature flags sont nettoyés automatiquement avec Jira Coding Agent et des automatisations. Un feature flag est un mécanisme d'activation conditionnelle d'une fonctionnalité ; son nettoyage évite de conserver ces mécanismes devenus inutiles.",
       "DX AI Measurement rapproche l'usage des outils IA des résultats de livraison : productivité, qualité, adoption, frictions, ROI comparé à des pairs, évaluation des sessions et pertinence des modèles au regard du coût. L'objectif est d'observer la valeur du travail et les coûts plutôt que de se limiter aux volumes de code.",
       "Disponibilité annoncée le 7 octobre : Code Context en bêta ouverte avec déploiement progressif aux clients payants ; Record for Agent en bêta ouverte ; Planner, agent loops et AI Review en accès anticipé privé ; Agent Sessions et Interactive PR Reviews avec Loom en accès anticipé fermé ; DX AI Measurement généralement disponible. Les statuts sont ceux de l'article, sans supposer un déploiement complet au 30 octobre.",
+    ],
+  },
+  {
+    id: 'radar-ia-revenu',
+    chapter: 'Radar',
+    kind: 'radar-brief',
+    label: 'Revenu universel : les annonces Anthropic',
+    title: 'L’IA va-t-elle financer un revenu universel ?',
+    subtitle:
+      'Anthropic annonce des moyens pour partager les gains et préparer les effets sur le travail.',
+    facts: [
+      {
+        label: '5 % des actions',
+        text: 'Anthropic prévoit de les affecter à un fonds d’intérêt général, sous réserve du vote des actionnaires.',
+      },
+      {
+        label: '200 M$',
+        text: 'L’entreprise s’engage à financer des recherches et des expérimentations sur les effets économiques de l’IA.',
+      },
+    ],
+    takeaway:
+      'Les versements directs sont une possibilité évoquée. Aucun revenu universel n’est promis dans ces annonces.',
+    sources: [sources.benefitFund, sources.economicFund],
+    notes: [
+      'Annonce du 18 octobre 2026 : le Public Benefit Fund serait une entité détenue par Anthropic. L’affectation initiale de 5 % des actions reste soumise à l’approbation des actionnaires.',
+      'Le fonds pourrait financer des associations ou effectuer des distributions à certaines populations. L’annonce ne fixe ni montant individuel, ni calendrier de versement, ni droit universel.',
+      'Le fonds Economic Futures, distinct, représente un engagement de 200 millions de dollars pour des recherches externes et des pilotes. Les thèmes comprennent le soutien aux revenus et la participation des travailleurs aux gains de l’IA. Il faut distinguer cet engagement d’une somme déjà distribuée aux ménages.',
+    ],
+  },
+  {
+    id: 'radar-ia-fonds-publics',
+    chapter: 'Radar',
+    kind: 'radar-brief',
+    label: 'Revenu universel : OpenAI et Sanders',
+    title: 'Des fonds publics pour partager les gains de l’IA',
+    subtitle: 'Deux propositions américaines, avec des modalités différentes.',
+    facts: [
+      {
+        label: 'OpenAI',
+        text: 'Un portefeuille public diversifié pourrait investir dans la croissance liée à l’IA et distribuer ses rendements aux citoyens.',
+      },
+      {
+        label: 'Bernie Sanders',
+        text: 'Son texte vise 50 % du capital des entreprises concernées pour un fonds public. Il l’estime à 7 000 Md$ et évoque plus de 1 000 $ par personne et par an.',
+      },
+    ],
+    takeaway:
+      'OpenAI présente une piste de politique économique. Sanders a déposé une proposition de loi ; le montant annoncé reste une estimation.',
+    sources: [sources.publicWealth, sources.sanders, sources.bill],
+    notes: [
+      'Dans son document d’avril 2026, OpenAI propose un Public Wealth Fund investi dans des actifs diversifiés à long terme. Les rendements pourraient être distribués directement. L’alimentation initiale reste à définir avec les pouvoirs publics et les entreprises ; aucun revenu individuel garanti n’est chiffré.',
+      'S. 4825 a été déposé par Sanders le 18 juin 2026 et renvoyé à la commission des finances. Le texte initial prévoit une émission d’actions donnant au Trésor 50 % du capital après paiement de la taxe. Le dossier emploie « transfert » : le mécanisme du texte repose plus précisément sur des actions nouvellement émises.',
+      'Les 7 000 milliards de dollars sont une valorisation estimée par Sanders dans son communiqué, à la date de présentation. Un prélèvement annuel de 5 % sur le fonds pourrait, selon lui, fournir plus de 1 000 dollars annuels par personne. Ce montant dépend des actifs et de leur valeur ; il ne constitue pas un droit en vigueur.',
+    ],
+  },
+  {
+    id: 'radar-ia-financement',
+    chapter: 'Radar',
+    kind: 'radar-brief',
+    label: 'Revenu universel : financement et distribution',
+    title: 'Qui finance, qui possède, qui reçoit ?',
+    subtitle:
+      'Un revenu universel est un versement régulier à chacun, sans condition de ressources ni d’emploi.',
+    facts: [
+      {
+        label: 'Financer',
+        text: 'Les pistes incluent les impôts sur les profits et le capital, les prélèvements liés à l’automatisation ou l’affectation d’actions à un fonds.',
+      },
+      {
+        label: 'Distribuer',
+        text: 'Les recettes ou rendements peuvent financer un dividende citoyen, des aides ciblées, des services publics ou du temps de travail réduit.',
+      },
+      {
+        label: 'Alaska : 1 200 $',
+        text: 'Montant annoncé en 2026 pour les résidents éligibles, dont 200 $ d’aide énergétique. Un précédent de dividende collectif, financé hors de l’IA.',
+      },
+    ],
+    takeaway:
+      'Détenir des actifs donne aussi un pouvoir sur leur gestion. Le montant et la régularité du revenu dépendent du dispositif choisi.',
+    sources: [sources.publicWealth, sources.bill, sources.alaska],
+    notes: [
+      'Distinguer le financement, la propriété et l’usage des fonds. Une taxe produit des recettes ; un fonds détient des actifs ; un dividende distribue une partie des ressources. Ces mécanismes peuvent se combiner sans instaurer un revenu universel.',
+      'OpenAI évoque la fiscalité du capital et du travail automatisé, des prestations améliorées et des pilotes de semaine de 32 heures sans perte de salaire. Sanders propose une propriété publique assortie de droits de vote, ce qui ajoute un enjeu de contrôle des entreprises.',
+      'L’Alaska annonce un paiement 2026 de 1 200 dollars, comprenant 200 dollars d’aide énergétique. Son fonds est historiquement issu des revenus pétroliers. Le paiement concerne les résidents remplissant les conditions ; cet exemple ne démontre pas qu’un fonds IA pourrait financer un revenu suffisant pour vivre.',
+    ],
+  },
+  {
+    id: 'radar-ia-limites',
+    chapter: 'Radar',
+    kind: 'radar-brief',
+    label: 'Revenu universel : trois visions de l’avenir économique',
+    title: 'Trois visions de l’avenir économique avec l’IA',
+    subtitle: 'La place du travail et l’origine des revenus changent selon le scénario.',
+    facts: [
+      {
+        label: 'A · On continue à travailler',
+        text: 'L’IA augmente la productivité. Les salariés bénéficient de meilleurs revenus, de semaines réduites ou de nouveaux emplois.',
+      },
+      {
+        label: 'B · On travaille moins',
+        text: 'Une partie des emplois disparaît. Les gains économiques financent de nouvelles protections sociales, des revenus complémentaires ou des dividendes citoyens.',
+      },
+      {
+        label: 'C · Le travail devient largement facultatif',
+        text: 'L’IA et la robotique assurent une grande part de la production. Les revenus proviennent davantage de la propriété du capital ou de mécanismes collectifs de redistribution.',
+      },
+    ],
+    takeaway:
+      'Trois futurs possibles à débattre. Aucun de ces scénarios n’est une prévision établie.',
+    sources: [sources.publicWealth, sources.economicFund],
+    notes: [
+      'Scénario A : le travail reste la principale source de revenus. Les gains de productivité peuvent se traduire par de meilleurs salaires, des horaires réduits ou de nouveaux emplois. Ce partage dépend des choix des entreprises et des politiques publiques.',
+      'Scénario B : une partie des emplois disparaît et les revenus du travail sont complétés par des protections sociales ou des dividendes. Le scénario C va plus loin : le travail devient largement facultatif et les revenus reposent davantage sur le capital et la redistribution. Cela suppose que l’IA et la robotique prennent en charge une part considérable de la production.',
+      'Ces trois visions reprennent la grille de discussion proposée par Lou. Les sources présentent des pistes sur le travail, les aides aux revenus et le partage du capital ; elles n’établissent ni cette classification exacte, ni sa probabilité, ni une succession obligatoire de A vers C. Question pour l’oral : quel scénario paraît plausible et qui décide du partage des gains ?',
     ],
   },
 ];

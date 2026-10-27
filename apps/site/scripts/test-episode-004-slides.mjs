@@ -1,14 +1,12 @@
 /* global document */
 import assert from 'node:assert/strict';
 import console from 'node:console';
-import process from 'node:process';
 import { URL } from 'node:url';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { chromium } from 'playwright';
 import { scenes } from '../public/slides/episode-004/model.js';
 
-const base =
-  process.env.SANDBOX_SLIDES_URL ?? 'http://127.0.0.1:4335/slides/episode-004/index.html';
+const base = 'http://127.0.0.1:4335/slides/episode-004/index.html';
 const output = new URL('../.local/episode-004/', import.meta.url);
 await mkdir(output, { recursive: true });
 const browser = await chromium.launch({ channel: 'msedge', headless: true });
@@ -38,6 +36,21 @@ try {
         await page.locator('.slide-illustration').evaluate((image) => image.decode());
         assert.equal(new URL(page.url()).hash, `#${slide.id}`);
         assert.equal(await page.locator('.sources a').count(), slide.sources.length);
+        if (slide.kind === 'radar-brief') {
+          assert.deepEqual(
+            await page.locator('.brief-facts dt').allTextContents(),
+            slide.facts.map((fact) => fact.label),
+          );
+          assert.deepEqual(
+            await page.locator('.brief-facts dd').allTextContents(),
+            slide.facts.map((fact) => fact.text),
+          );
+          assert.equal(await page.locator('.brief-takeaway').innerText(), slide.takeaway);
+          await page.keyboard.press('n');
+          assert.equal(await page.locator('#notes').isVisible(), true);
+          assert.match(await page.locator('#notes-content').innerText(), /Sources/);
+          await page.keyboard.press('Escape');
+        }
         if (slide.kind === 'radar-context') {
           assert.match(
             await page.locator('.context-definition').innerText(),
@@ -160,7 +173,7 @@ try {
   }
   await writeFile(new URL('verification.json', output), JSON.stringify(results, null, 2));
   console.log(
-    `${results.length} vues vérifiées : huit slides, six formats, avec et sans régie. Navigation et notes vérifiées.`,
+    `${results.length} vues vérifiées : ${scenes.length} slides, six formats, avec et sans régie. Navigation et notes vérifiées.`,
   );
 } finally {
   await browser.close();
