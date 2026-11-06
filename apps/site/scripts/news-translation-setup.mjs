@@ -40,7 +40,8 @@ if (!match || Number(match[1]) !== 3 || Number(match[2]) < 10 || Number(match[2]
     `Version Python non prise en charge : ${versionText.trim()}. Utilise Python 3.10 à 3.13.`,
   );
 
-run(basePython, ['-m', 'venv', environmentDirectory]);
+// --clear : un venv restauré depuis le cache peut pointer vers un Python absent du runner.
+run(basePython, ['-m', 'venv', '--clear', environmentDirectory]);
 run(python, [
   '-m',
   'pip',
