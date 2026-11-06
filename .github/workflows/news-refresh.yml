@@ -105,7 +105,7 @@ jobs:
             apps/site/.local/news-translator-sbd
             apps/site/.local/news-translator-venv
             apps/site/.local/argos-runtime
-          key: sandbox-news-v3-ubuntu-py311-argos111-qwen3instruct-a06e946
+          key: sandbox-news-v4-ubuntu-py311-argos111-qwen3instruct-a06e946
       - name: Installer le modèle de résumé local
         env:
           SANDBOX_NEWS_SUMMARY_SETUP_PYTHON: python

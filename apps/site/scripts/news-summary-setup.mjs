@@ -83,7 +83,8 @@ async function fileSha256(path) {
 }
 
 await mkdir(modelDirectory, { recursive: true });
-run(pythonBase, ['-m', 'venv', environmentDirectory]);
+// --clear : un venv restauré depuis le cache peut pointer vers un Python absent du runner.
+run(pythonBase, ['-m', 'venv', '--clear', environmentDirectory]);
 run(python, [
   '-m',
   'pip',
