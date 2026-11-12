@@ -16,7 +16,6 @@ import { SANDBOX_ROOMS, sandboxRoom, type SandboxRoomId } from '@/domain/sandbox
 import { portalProjects } from '@/domain/studio-portal';
 import type { PersonalProject } from '@/domain/personal-projects';
 import type { Episode } from '@/domain/schema';
-import type { TimeMachineData } from '@/domain/time-machine';
 import {
   worldAnchorFromScreen,
   worldAnchorOnScreen,
@@ -39,15 +38,11 @@ function roomFromHash(): SandboxRoomId {
 export function SandboxWorld({
   episodes,
   projects,
-  newsAvailable,
   heroCopy,
-  historyData,
 }: {
   episodes: readonly Episode[];
   projects: readonly PersonalProject[];
-  newsAvailable: boolean;
   heroCopy: { eyebrow: string; title: string; description: string };
-  historyData?: TimeMachineData | undefined;
 }) {
   const { locale, t } = useLocalization();
   const paused = useContext(StageMotionContext);
@@ -77,10 +72,7 @@ export function SandboxWorld({
   const wallAnchors: Record<SandboxRoomId, WorldAnchor> = {
     studio: { x: 0.5, y: 0.4 },
     projects: { x: 0.5, y: 0.5 },
-    rankings: { x: 0.503, y: 0.285 },
-    history: { x: 0.5, y: 0.5 },
     cinema: { x: 0.5, y: 0.5 },
-    news: { x: 0.288, y: 0.356 },
   };
   const wall = worldAnchorOnScreen(wallAnchors[roomId], sceneSize.width, sceneSize.height);
 
@@ -407,11 +399,9 @@ export function SandboxWorld({
           }
         >
           <SandboxRoomContent
-            historyData={historyData}
             roomId={roomId}
             episodes={episodes}
             projects={projects}
-            newsAvailable={newsAvailable}
             onRoomChange={enter}
             heroCopy={heroCopy}
             minimalStudio

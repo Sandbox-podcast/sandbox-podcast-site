@@ -117,7 +117,6 @@ describe('compatibilité des textes de marque déjà publiés', () => {
     const html = renderToStaticMarkup(
       createElement(StudioLanding, {
         episodes: [],
-        newsAvailable: false,
         videoClubEnabled: false,
       }),
     );

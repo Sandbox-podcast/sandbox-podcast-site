@@ -3,7 +3,6 @@ import { StudioLanding } from './studio-landing';
 import { HomeMotion } from './home-motion';
 import type { Episode, Host } from '@/domain/schema';
 import type { PersonalProject } from '@/domain/personal-projects';
-import type { TimeMachineData } from '@/domain/time-machine';
 import styles from './discovery-home.module.css';
 
 export function DiscoveryHome({
@@ -11,15 +10,11 @@ export function DiscoveryHome({
   hosts = [],
   projects = [],
   videoClubEnabled = false,
-  newsAvailable = false,
-  historyData,
 }: {
   episodes: readonly Episode[];
   hosts?: readonly Host[];
   projects?: readonly PersonalProject[];
   videoClubEnabled?: boolean;
-  newsAvailable?: boolean;
-  historyData?: TimeMachineData | undefined;
 }) {
   return (
     <HomeMotion className={styles['page']}>
@@ -28,10 +23,8 @@ export function DiscoveryHome({
           episodes={episodes}
           projects={projects}
           videoClubEnabled={videoClubEnabled}
-          newsAvailable={newsAvailable}
-          historyData={historyData}
         />
-        <DiscoveryStory hosts={hosts} newsAvailable={newsAvailable} />
+        <DiscoveryStory hosts={hosts} />
       </div>
     </HomeMotion>
   );

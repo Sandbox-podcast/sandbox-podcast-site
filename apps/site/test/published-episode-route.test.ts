@@ -8,13 +8,13 @@ vi.mock('../src/lib/admin-persistence', async (importOriginal) => {
     preparePublicEditorialContent: vi.fn(async () => undefined),
   };
 });
-import HomePage, { dynamic as homeDynamic } from '../src/app/(fr)/page';
-import AboutPage, { dynamic as aboutDynamic } from '../src/app/(fr)/about/page';
-import PodcastPage, { dynamic as podcastDynamic } from '../src/app/(fr)/podcast/page';
+import HomePage, { revalidate as homeRevalidate } from '../src/app/(fr)/page';
+import AboutPage, { revalidate as aboutRevalidate } from '../src/app/(fr)/about/page';
+import PodcastPage, { revalidate as podcastRevalidate } from '../src/app/(fr)/podcast/page';
 import { GET as getFeed, dynamic as feedDynamic } from '../src/app/feed.xml/route';
 import sitemap, { dynamic as sitemapDynamic } from '../src/app/sitemap';
 import EpisodePage, {
-  dynamic as episodeDynamic,
+  revalidate as episodeRevalidate,
   dynamicParams,
 } from '../src/app/(fr)/episodes/[number]/page';
 import { editableContentSchema } from '../src/domain/admin-content';
@@ -23,12 +23,12 @@ import { loadContent, setEditorialOverride } from '../src/lib/load';
 import { SandboxRoomContent } from '../src/components/sandbox-room-content';
 
 describe('épisodes publiés après le build', () => {
-  it('rend les vues éditoriales à la requête pour lire la publication Postgres', () => {
-    expect(homeDynamic).toBe('force-dynamic');
-    expect(aboutDynamic).toBe('force-dynamic');
-    expect(podcastDynamic).toBe('force-dynamic');
+  it('met en cache une heure les pages publiques, la publication les revalide', () => {
+    expect(homeRevalidate).toBe(3600);
+    expect(aboutRevalidate).toBe(3600);
+    expect(podcastRevalidate).toBe(3600);
     expect(feedDynamic).toBe('force-dynamic');
-    expect(episodeDynamic).toBe('force-dynamic');
+    expect(episodeRevalidate).toBe(3600);
     expect(sitemapDynamic).toBe('force-dynamic');
   });
 
@@ -68,7 +68,7 @@ describe('épisodes publiés après le build', () => {
     expect(dynamicParams).toBe(true);
     setEditorialOverride(published);
     try {
-      const home = renderToStaticMarkup(await HomePage({}));
+      const home = renderToStaticMarkup(await HomePage());
       expect(home).toContain('Explorer les pièces');
       const cinema = renderToStaticMarkup(
         createElement(SandboxRoomContent, {
@@ -111,9 +111,9 @@ describe('épisodes publiés après le build', () => {
       expect(
         sitemapEntries.some((entry) => /\/(episodes|topics)$|\/topics\//.test(entry.url)),
       ).toBe(false);
-      expect(sitemapEntries.find((entry) => entry.url.endsWith('/time-machine'))).toMatchObject({
-        lastModified: '2026-10-18',
-      });
+      expect(
+        sitemapEntries.some((entry) => /\/(time-machine|charts|guides|news)/.test(entry.url)),
+      ).toBe(false);
     } finally {
       setEditorialOverride(undefined);
     }

@@ -5,6 +5,7 @@ import { intlLocale } from '@/i18n/translation';
 import { EpisodeArtwork } from './episode-artwork';
 import { useEffect, useRef, useState } from 'react';
 import { formatTimeUtc } from '@/domain/format';
+import { episodeStartOffset } from '@/domain/episode-presentation';
 /**
  * Date de mise à jour : le serveur affiche la date absolue (stable, indexable), le navigateur y ajoute
  * « il y a 2 h » une fois monté. On n'écrit jamais de durée relative dans du HTML statique : elle serait fausse.
@@ -115,17 +116,29 @@ export function CopyButton({ text, label = 'Copier le lien' }: { text: string; l
 export function YouTubeFacade({
   id,
   title,
-  startAt,
+  durationSec,
   thumbnailUrl,
   episodeNumber,
 }: {
   id: string;
   title: string;
-  startAt?: number;
+  durationSec?: number | undefined;
   thumbnailUrl?: string | undefined;
   episodeNumber?: number;
 }) {
-  const [active, setActive] = useState(startAt !== undefined);
+  // `?t=` est lu dans le navigateur : la page reste ainsi mise en cache (ISR).
+  const [startAt, setStartAt] = useState<number | undefined>(undefined);
+  const [active, setActive] = useState(false);
+  useEffect(() => {
+    const start = episodeStartOffset(
+      new URLSearchParams(window.location.search).get('t'),
+      durationSec,
+    );
+    if (start !== undefined) {
+      setStartAt(start);
+      setActive(true);
+    }
+  }, [durationSec]);
   if (active) {
     const start = startAt ? `&start=${String(startAt)}` : '';
     return (

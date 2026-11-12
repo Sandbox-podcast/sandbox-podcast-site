@@ -3,14 +3,13 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it, vi } from 'vitest';
 import { LocalizationProvider } from '../src/components/localization';
 import HomePage from '../src/app/(fr)/page';
-import SearchPage from '../src/components/search-screen';
 import PodcastPage from '../src/app/(fr)/podcast/page';
 import { EntityScreen } from '../src/components/entity-screen';
 import { SITE_LOCALES } from '../src/i18n/locales';
 import { siteDictionary } from '../src/i18n/dictionaries';
 import sourceCatalog from '../src/i18n/dictionaries/source-catalog.json';
 import { localizedHref, sourcePath, localeCountry } from '../src/i18n/routing';
-import { matchSharedPage, SHARED_PAGE_ROUTES } from '../src/i18n/page-routes';
+
 import { interpolateText, translateText } from '../src/i18n/translation';
 import { allEpisodes } from '../src/lib/repository';
 import {
@@ -70,23 +69,6 @@ describe('langue et ressource', () => {
     expect(localeCountry('de-DE')).toBe('de');
     expect(() => localizedHref('/charts', 'it-IT')).toThrow();
     expect(() => localeCountry('it-IT')).toThrow();
-  });
-});
-
-describe('routes partagées', () => {
-  it('garde les routes précises avant les fiches génériques', () => {
-    expect(matchSharedPage('/charts/history/2026-W41')).toEqual({
-      route: '/charts/history/:week',
-      params: { week: '2026-W41' },
-    });
-    expect(matchSharedPage('/charts/rising/methodology')?.route).toBe('/charts/rising/methodology');
-    expect(matchSharedPage('/charts/models/coding')?.route).toBe('/charts/models/:task');
-    expect(matchSharedPage('/charts/github/2026-W41')?.route).toBe('/charts/:slug/:week');
-    expect(matchSharedPage('/admin')).toBeUndefined();
-    expect(matchSharedPage('/episodes/42/extra')).toBeUndefined();
-    for (const route of SHARED_PAGE_ROUTES) {
-      expect(matchSharedPage(route.replace(/:[a-z]+/g, 'resource'))?.route).toBe(route);
-    }
   });
 });
 
@@ -241,7 +223,7 @@ describe('filtres de classement et langue', () => {
 
 describe('même site en français et en anglais', () => {
   it('garde toutes les illustrations et sections de l’accueil', async () => {
-    const page = await HomePage({});
+    const page = await HomePage();
     const dictionary = await siteDictionary('en');
     const french = renderToStaticMarkup(page);
     const english = renderToStaticMarkup(
@@ -298,18 +280,5 @@ describe('même site en français et en anglais', () => {
       'À propos de sa place',
     ])
       expect(html).not.toContain(french);
-  });
-  it('recherche également dans les titres traduits et garde la langue des résultats', async () => {
-    const dictionary = await siteDictionary('en');
-    const page = await SearchPage({
-      dictionary,
-      searchParams: Promise.resolve({ q: 'claude', type: 'entities' }),
-    });
-    const html = renderToStaticMarkup(
-      createElement(LocalizationProvider, { locale: 'en', dictionary, children: page }),
-    );
-    expect(html).toContain('action="/en/search"');
-    expect(html).toContain('Projects and models');
-    expect(html).not.toContain('Aucun résultat');
   });
 });

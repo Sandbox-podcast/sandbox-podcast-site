@@ -8,7 +8,6 @@ import { Footer, Masthead } from '@/components/shell';
 import { JsonLd } from '@/components/json-ld';
 import { isMock, siteConfig } from '@/config/site';
 import { preparePublicEditorialContent } from '@/lib/admin-persistence';
-import { newsPageAvailable } from '@/lib/news-page-data';
 import { openGraphLocaleForTag, robotsMetadata } from '@/lib/seo';
 import { siteIdentityLd } from '@/lib/site-identity';
 
@@ -45,18 +44,17 @@ export const revalidate = 3600;
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
   await preparePublicEditorialContent();
-  const newsAvailable = await newsPageAvailable();
   return (
     <html lang={siteConfig.language} className={siteFonts} data-scroll-behavior="smooth">
       <body>
         <a className="skip" href="#main">
           Aller au contenu
         </a>
-        <Masthead newsAvailable={newsAvailable} />
+        <Masthead />
         <main id="main" tabIndex={-1}>
           {children}
         </main>
-        <Footer newsAvailable={newsAvailable} />
+        <Footer />
         <JsonLd data={siteIdentityLd(siteConfig.description, siteConfig.language)} />
         <AnalyticsConsent language={siteConfig.language} />
       </body>

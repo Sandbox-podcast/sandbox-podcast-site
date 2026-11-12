@@ -7,28 +7,6 @@ import styles from './discovery-chapters.module.css';
 
 const explorationCards = [
   {
-    destination: 'time-machine',
-    href: '/time-machine',
-    id: 'history',
-    kicker: "Histoire de l'IA",
-    title: 'Time Machine',
-    description: "Remonter l'histoire de l'IA, de ses premières avancées aux modèles actuels.",
-    image: '/images/rooms/time-machine-room-v1.webp',
-    color: '#6480ff',
-    rgb: '100, 128, 255',
-  },
-  {
-    destination: 'charts',
-    href: '/charts',
-    id: 'charts',
-    kicker: 'Sandbox Charts',
-    title: 'Les classements',
-    description: 'GitHub · Skills · Models · Rising',
-    image: '/images/rooms/rankings-room-v1.webp',
-    color: '#ff784f',
-    rgb: '255, 120, 79',
-  },
-  {
     destination: 'projects',
     href: '/nos-projets',
     id: 'project-room',
@@ -39,26 +17,9 @@ const explorationCards = [
     color: '#bb64ff',
     rgb: '187, 100, 255',
   },
-  {
-    destination: 'news',
-    href: '/news',
-    id: 'news',
-    kicker: 'Sandbox News',
-    title: "L'actualité",
-    description: "L'actualité IA et développement",
-    image: '/images/rooms/radar-room-v1.webp',
-    color: '#5ed6b0',
-    rgb: '94, 214, 176',
-  },
 ] as const;
 
-export function DiscoveryStory({
-  hosts,
-  newsAvailable = false,
-}: {
-  hosts: readonly Host[];
-  newsAvailable?: boolean;
-}) {
+export function DiscoveryStory({ hosts }: { hosts: readonly Host[] }) {
   const team = homeProfiles(hosts);
   return (
     <div id="home-story" className={styles['story']}>
@@ -80,61 +41,59 @@ export function DiscoveryStory({
             </h2>
           </div>
         </header>
-        <div className={styles['exploreGrid']} data-news={newsAvailable ? 'true' : undefined}>
-          {explorationCards
-            .filter((card) => card.destination !== 'news' || newsAvailable)
-            .map((card, index) => (
-              <Link
-                key={card.destination}
-                href={card.href}
-                className={styles['exploreLink']}
-                style={
-                  { '--bookmark-color': card.color, '--bookmark-rgb': card.rgb } as CSSProperties
-                }
-                aria-labelledby={`home-${card.id}-title`}
-                aria-describedby={`home-${card.id}-description`}
-                data-analytics-event="discovery_open"
-                data-analytics-destination={card.destination}
-                data-analytics-placement="home"
-                data-reveal="portal"
-                data-reveal-side={index % 2 === 0 ? 'left' : 'right'}
-                data-reveal-delay={String(index * 80)}
-              >
-                <div className={styles['bookmarkFrame']}>
-                  <span className={styles['bookmarkSurface']} aria-hidden="true" />
-                  <span className={styles['panelKicker']}>
-                    <Text>{card.kicker}</Text>
-                  </span>
-                  <div className={styles['exploreArtwork']}>
-                    <Image
-                      src={card.image}
-                      unoptimized
-                      alt=""
-                      fill
-                      sizes="(max-width: 700px) calc(100vw - 72px), (max-width: 1280px) 44vw, 300px"
-                    />
-                    <p id={`home-${card.id}-description`} className={styles['exploreDescription']}>
-                      <Text>{card.description}</Text>
-                    </p>
-                  </div>
-                  <div className={styles['exploreCopy']}>
-                    <h3 id={`home-${card.id}-title`} className={styles['exploreName']}>
-                      <Text>{card.title}</Text>
-                    </h3>
-                  </div>
-                  <div className={styles['bookmarkFooter']} aria-hidden="true">
-                    <span className={styles['bookmarkDots']}>
-                      {[0, 1, 2].map((dot) => (
-                        <i key={dot} data-lit={dot <= index % 3 ? 'true' : undefined} />
-                      ))}
-                    </span>
-                    <span className={styles['exploreArrow']}>
-                      <ArrowIcon />
-                    </span>
-                  </div>
+        <div className={styles['exploreGrid']}>
+          {explorationCards.map((card, index) => (
+            <Link
+              key={card.destination}
+              href={card.href}
+              className={styles['exploreLink']}
+              style={
+                { '--bookmark-color': card.color, '--bookmark-rgb': card.rgb } as CSSProperties
+              }
+              aria-labelledby={`home-${card.id}-title`}
+              aria-describedby={`home-${card.id}-description`}
+              data-analytics-event="discovery_open"
+              data-analytics-destination={card.destination}
+              data-analytics-placement="home"
+              data-reveal="portal"
+              data-reveal-side={index % 2 === 0 ? 'left' : 'right'}
+              data-reveal-delay={String(index * 80)}
+            >
+              <div className={styles['bookmarkFrame']}>
+                <span className={styles['bookmarkSurface']} aria-hidden="true" />
+                <span className={styles['panelKicker']}>
+                  <Text>{card.kicker}</Text>
+                </span>
+                <div className={styles['exploreArtwork']}>
+                  <Image
+                    src={card.image}
+                    unoptimized
+                    alt=""
+                    fill
+                    sizes="(max-width: 700px) calc(100vw - 72px), (max-width: 1280px) 44vw, 300px"
+                  />
+                  <p id={`home-${card.id}-description`} className={styles['exploreDescription']}>
+                    <Text>{card.description}</Text>
+                  </p>
                 </div>
-              </Link>
-            ))}
+                <div className={styles['exploreCopy']}>
+                  <h3 id={`home-${card.id}-title`} className={styles['exploreName']}>
+                    <Text>{card.title}</Text>
+                  </h3>
+                </div>
+                <div className={styles['bookmarkFooter']} aria-hidden="true">
+                  <span className={styles['bookmarkDots']}>
+                    {[0, 1, 2].map((dot) => (
+                      <i key={dot} data-lit={dot <= index % 3 ? 'true' : undefined} />
+                    ))}
+                  </span>
+                  <span className={styles['exploreArrow']}>
+                    <ArrowIcon />
+                  </span>
+                </div>
+              </div>
+            </Link>
+          ))}
         </div>
       </section>
       {team.length > 0 ? (

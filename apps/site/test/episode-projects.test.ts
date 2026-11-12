@@ -9,7 +9,6 @@ import { episodeEditorialPresentation } from '../src/domain/episode-editorial.ts
 import { episodeProjects } from '../src/domain/episode-projects.ts';
 import { episodeResources } from '../src/domain/episode-resources.ts';
 import { loadContent, setEditorialOverride } from '../src/lib/load.ts';
-import SearchPage from '../src/app/(fr)/search/page.tsx';
 
 import PersonalProjectPage from '../src/app/(fr)/nos-projets/[slug]/page.tsx';
 import { LocalizationProvider } from '../src/components/localization.tsx';
@@ -80,16 +79,5 @@ describe('promesse éditoriale et parcours Sillage', () => {
       expect(html).toContain(`href="${prefix}/episodes/1?t=1550#episode-video"`);
       expect(html).toContain(`href="${prefix}/episodes/1?t=2237#episode-video"`);
     }
-  });
-
-  it('retrouve les deux ressources Sillage avec la recherche, sans changer leurs ancres', async () => {
-    setEditorialOverride({ ...loadContent(), episodes: [episode] });
-    const html = renderToStaticMarkup(
-      await SearchPage({ searchParams: Promise.resolve({ q: 'Sillage', type: 'resources' }) }),
-    );
-    expect(html).toContain('Sillage : Le site et le film de présentation');
-    expect(html).toContain('Sillage : Le dépôt GitHub');
-    expect(html).toContain('/episodes/1#resource-11');
-    expect(html).toContain('/episodes/1#resource-12');
   });
 });

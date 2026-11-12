@@ -9,14 +9,7 @@ import {
 } from '../src/components/sandbox-room-content';
 import { LocalizationProvider } from '../src/components/localization';
 import { episodeSchema } from '../src/domain/schema';
-import {
-  SANDBOX_ROOMS,
-  SANDBOX_CHART_TERMINALS,
-  isSandboxRoomId,
-  sandboxRoom,
-} from '../src/domain/sandbox-rooms';
-import historySource from '../content/ai-history.json';
-import { HISTORY_ERAS, sortHistory, timeMachineDataSchema } from '../src/domain/time-machine';
+import { SANDBOX_ROOMS, isSandboxRoomId, sandboxRoom } from '../src/domain/sandbox-rooms';
 import { personalProjects } from '../src/lib/personal-projects';
 import english from '../src/i18n/dictionaries/en.json';
 import spanish from '../src/i18n/dictionaries/es-es.json';
@@ -34,8 +27,8 @@ const episode = episodeSchema.parse({
   status: 'published',
 });
 
-describe('contenus des six salles', () => {
-  it('présente l’accroche et explique la visite des six salles en mode immersif', () => {
+describe('contenus des trois salles', () => {
+  it('présente l’accroche et explique la visite des trois salles en mode immersif', () => {
     const html = renderToStaticMarkup(
       createElement(SandboxRoomContent, {
         roomId: 'studio',
@@ -50,7 +43,9 @@ describe('contenus des six salles', () => {
       }),
     );
     expect(html).toContain('Notre phrase');
-    expect(html).toContain('Explore les six salles via le portail ou le bouton en haut à droite.');
+    expect(html).toContain(
+      'Explore les trois salles via le portail ou le bouton en haut à droite.',
+    );
     expect(html).toContain('data-studio-inscription="true"');
     expect(html).toContain('id="room-title-studio" tabindex="-1"');
     expect(html).not.toContain('Repère absent');
@@ -214,80 +209,12 @@ describe('contenus des six salles', () => {
     expect(html).toContain('Mon introduction publiée');
   });
 
-  it('rend quatre terminaux vers les vraies familles des classements', () => {
-    const html = renderToStaticMarkup(
-      createElement(SandboxRoomContent, { roomId: 'rankings', episodes: [], projects: [] }),
-    );
-    for (const terminal of SANDBOX_CHART_TERMINALS)
-      expect(html).toContain(`href="${terminal.href}"`);
-    expect(html).not.toContain('Top 1');
-  });
-
-  it('présente tout le corpus historique dans l’ordre sans réduire la frise à quelques jalons', () => {
-    const data = timeMachineDataSchema.parse(historySource);
-    const reversed = [...data.events].reverse();
-    const html = renderToStaticMarkup(
-      createElement(SandboxRoomContent, {
-        roomId: 'history',
-        episodes: [],
-        projects: [],
-        historyData: { ...data, events: reversed },
-      }),
-    );
-    const ordered = sortHistory(data.events);
-    const rail = html.slice(html.indexOf('<ol'), html.indexOf('</ol>'));
-    expect([...rail.matchAll(/datetime="([^"]+)"/gi)].map((match) => match[1])).toEqual(
-      ordered.map((event) => event.date),
-    );
-    expect(rail.match(/data-history-index="/g)).toHaveLength(data.events.length);
-    expect(rail.match(/tabindex="0"/g)).toHaveLength(1);
-    expect(html).toContain(`href="/time-machine#ia-${ordered[0]?.id}"`);
-    expect(html).toContain('événements documentés');
-    expect(reversed).toEqual([...data.events].reverse());
-    for (const era of HISTORY_ERAS) expect(html).toContain(`${era.from}–${era.to}`);
-  });
-
-  it('garde les années vides sans fabriquer d’événement pour remplir une période', () => {
-    const data = timeMachineDataSchema.parse(historySource);
-    const first = sortHistory(data.events)[0];
-    if (!first) throw new Error('Le corpus de test doit contenir un événement.');
-    const html = renderToStaticMarkup(
-      createElement(SandboxRoomContent, {
-        roomId: 'history',
-        episodes: [],
-        projects: [],
-        historyData: { ...data, events: [first] },
-      }),
-    );
-    const navigation = html.slice(html.indexOf('<nav'), html.indexOf('</nav>'));
-    expect(navigation.match(/disabled=""/g)).toHaveLength(HISTORY_ERAS.length - 1);
-    expect(html.match(/data-history-index="/g)).toHaveLength(1);
-    expect(html).toContain(first.summary);
-    const empty = renderToStaticMarkup(
-      createElement(SandboxRoomContent, {
-        roomId: 'history',
-        episodes: [],
-        projects: [],
-        historyData: { ...data, events: [] },
-      }),
-    );
-    expect(empty).toContain('La chronologie sera bientôt disponible.');
-    expect(empty).not.toContain('data-history-index');
-  });
-
-  it('associe six salles distinctes à des destinations publiques du site', () => {
-    expect(new Set(SANDBOX_ROOMS.map(({ id }) => id)).size).toBe(6);
-    expect(SANDBOX_ROOMS.map(({ href }) => href)).toEqual([
-      '/podcast',
-      '/nos-projets',
-      '/charts',
-      '/time-machine',
-      '/podcast',
-      '/news',
-    ]);
-    expect(isSandboxRoomId('history')).toBe(true);
+  it('associe trois salles distinctes à des destinations publiques du site', () => {
+    expect(new Set(SANDBOX_ROOMS.map(({ id }) => id)).size).toBe(3);
+    expect(SANDBOX_ROOMS.map(({ href }) => href)).toEqual(['/podcast', '/nos-projets', '/podcast']);
+    expect(isSandboxRoomId('history')).toBe(false);
     expect(isSandboxRoomId('admin')).toBe(false);
-    expect(sandboxRoom('news').href).toBe('/news');
+    expect(sandboxRoom('cinema').href).toBe('/podcast');
   });
 
   it('expose les replays publiés avec vidéo, du plus récent au plus ancien', () => {
@@ -363,25 +290,12 @@ describe('contenus des six salles', () => {
     expect(projects).toContain('Les projets seront bientôt disponibles.');
   });
 
-  it('ne propose pas de lien vers les actualités lorsqu’elles sont indisponibles', () => {
-    const html = renderToStaticMarkup(
-      createElement(SandboxRoomContent, {
-        roomId: 'news',
-        projects: [],
-        episodes: [],
-        newsAvailable: false,
-      }),
-    );
-    expect(html).toContain('Les actualités seront bientôt disponibles.');
-    expect(html).not.toContain('href="/news"');
-  });
-
   it.each([
     ['en', english, '/en'],
     ['es-ES', spanish, '/es-es'],
     ['de-DE', german, '/de-de'],
   ] as const)(
-    'localise les six salles et leurs destinations en %s',
+    'localise les trois salles et leurs destinations en %s',
     (locale, dictionary, prefix) => {
       for (const room of SANDBOX_ROOMS) {
         for (const source of [room.title, room.subtitle, room.description, room.action]) {
@@ -398,8 +312,7 @@ describe('contenus des six salles', () => {
             }),
           }),
         );
-        // La Time Machine reste française, selon son contrat de routage existant.
-        const route = room.id === 'history' ? room.href : `${prefix}${room.href}`;
+        const route = `${prefix}${room.href}`;
         expect(html).toContain(`href="${route}"`);
         if (room.id !== 'studio') expect(html).not.toContain(`>${room.description}<`);
       }

@@ -7,7 +7,6 @@ import { episodeYoutubeUrl } from '@/domain/home-discovery';
 import {
   episodeChapters,
   episodeVideoClips,
-  episodeStartOffset,
   verifiedEpisodeDuration,
 } from '@/domain/episode-presentation';
 import { episodeResources } from '@/domain/episode-resources';
@@ -25,13 +24,12 @@ import { allEpisodes, getEpisode, getHost } from '@/lib/repository';
 import { preparePublicEditorialContent } from '@/lib/admin-persistence';
 import { absoluteUrl, breadcrumbLd, pageMetadata, publisherLd } from '@/lib/seo';
 // Les épisodes publiés dans l'admin après le build doivent aussi être accessibles.
-export const dynamic = 'force-dynamic';
+export const revalidate = 3600;
 export const dynamicParams = true;
 interface Props {
   params: Promise<{
     number: string;
   }>;
-  searchParams?: Promise<Record<string, string | string[] | undefined>>;
 }
 const find = (raw: string): Episode | undefined => getEpisode(Number(raw));
 export async function generateMetadata({ params }: Props) {
@@ -49,7 +47,7 @@ export async function generateMetadata({ params }: Props) {
     noindex: !indexableEpisode(episode),
   });
 }
-export default async function EpisodePage({ params, searchParams }: Props) {
+export default async function EpisodePage({ params }: Props) {
   await preparePublicEditorialContent();
   const { number } = await params;
   const episode = find(number);
@@ -57,7 +55,6 @@ export default async function EpisodePage({ params, searchParams }: Props) {
   const youtubeId = episode.platforms.youtubeId;
   const chapters = episodeChapters(episode);
   const durationSec = verifiedEpisodeDuration(episode);
-  const startAt = episodeStartOffset((await searchParams)?.['t'], durationSec);
   const episodeAt = (at: number): string | undefined =>
     youtubeId ? `/episodes/${String(episode.number)}?t=${String(at)}#episode-video` : undefined;
   const all = allEpisodes().sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
@@ -178,7 +175,7 @@ export default async function EpisodePage({ params, searchParams }: Props) {
                 id={youtubeId}
                 episodeNumber={episode.number}
                 title={episode.title}
-                {...(startAt !== undefined ? { startAt } : {})}
+                durationSec={durationSec}
                 thumbnailUrl={episodeArtwork(episode)}
               />
             ) : (

@@ -38,6 +38,8 @@ const config: NextConfig = {
     ],
   },
   images: {
+    // Plan Hobby : les transformations d'images Vercel dépassaient le quota (9,2 K sur 5 K).
+    unoptimized: true,
     qualities: [75, 90],
     remotePatterns: [
       { protocol: 'https', hostname: 'i.ytimg.com' },
@@ -50,18 +52,14 @@ const config: NextConfig = {
       },
     ],
   },
-  // Les URL du prompt d'origine (/rankings/…) restent valides : la section s'appelle CHARTS (DD-0001).
+  // Les classements sont désactivés : les anciennes URL /rankings/… reviennent à l'accueil.
   redirects() {
     return Promise.resolve([
       ...['', '/en', '/es-es', '/de-de'].flatMap((prefix) => [
         { source: `${prefix}/episodes`, destination: `${prefix}/podcast`, permanent: true },
         { source: `${prefix}/topics/:slug*`, destination: `${prefix}/podcast`, permanent: true },
       ]),
-      { source: '/rankings', destination: '/charts', permanent: true },
-      { source: '/rankings/history', destination: '/charts/history', permanent: true },
-      { source: '/rankings/history/:week', destination: '/charts/history/:week', permanent: true },
-      { source: '/rankings/:slug', destination: '/charts/:slug', permanent: true },
-      { source: '/rankings/:slug/:rest*', destination: '/charts/:slug/:rest*', permanent: true },
+      { source: '/rankings/:path*', destination: '/', permanent: true },
     ]);
   },
   headers() {

@@ -50,7 +50,6 @@ export default function CinemaLocalPreview() {
     <SandboxWorld
       episodes={episodes}
       projects={[]}
-      newsAvailable={false}
       heroCopy={{
         eyebrow: 'Aperçu local',
         title: 'Le cinéma',

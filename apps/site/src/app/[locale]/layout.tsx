@@ -1,7 +1,7 @@
 import { siteFonts } from '../fonts';
 import '../globals.css';
 import '../site-polish.css';
-import '../(fr)/charts/charts.css';
+import '../charts.css';
 import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
 import { notFound } from 'next/navigation';
@@ -11,7 +11,6 @@ import { LocalizationProvider, Text } from '@/components/localization';
 import { siteDictionary } from '@/i18n/dictionaries';
 import { translateText } from '@/i18n/translation';
 import { preparePublicEditorialContent } from '@/lib/admin-persistence';
-import { newsPageAvailable } from '@/lib/news-page-data';
 import { JsonLd } from '@/components/json-ld';
 import { isMock, siteConfig } from '@/config/site';
 import { localeTagFromRouteSegment } from '@/i18n/locales';
@@ -68,7 +67,6 @@ export default async function LocalizedRootLayout({
   const locale = localeTagFromRouteSegment(routeLocale);
   if (!locale) notFound();
   await preparePublicEditorialContent();
-  const newsAvailable = await newsPageAvailable();
   const dictionary = await siteDictionary(locale);
   const messages = siteMessages('fr-FR');
   return (
@@ -78,11 +76,11 @@ export default async function LocalizedRootLayout({
           <a className="skip" href="#main">
             <Text>{messages.skipToContent}</Text>
           </a>
-          <Masthead locale={locale} newsAvailable={newsAvailable} />
+          <Masthead locale={locale} />
           <main id="main" tabIndex={-1}>
             {children}
           </main>
-          <Footer newsAvailable={newsAvailable} />
+          <Footer />
         </LocalizationProvider>
         <JsonLd
           data={siteIdentityLd(translateText(siteConfig.description, dictionary, locale), locale)}

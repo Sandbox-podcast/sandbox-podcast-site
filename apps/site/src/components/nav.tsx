@@ -12,11 +12,7 @@ import { LocaleFlag } from './locale-flag';
 
 const ITEMS = [
   { href: '/podcast', label: 'Le Talk Show' },
-  { href: '/news', label: 'Actualités' },
-  { href: '/charts', label: 'Classements' },
-  { href: '/time-machine', label: 'Time Machine' },
   { href: '/nos-projets', label: 'Nos projets' },
-  { href: '/guides', label: 'Guides' },
   { href: '/about', label: 'À propos' },
 ];
 
@@ -45,13 +41,7 @@ export function HomeLink({ children, className }: { children: ReactNode; classNa
   );
 }
 
-export function MobileNav({
-  locale = DEFAULT_SITE_LOCALE,
-  newsAvailable = false,
-}: {
-  locale?: string;
-  newsAvailable?: boolean;
-}) {
+export function MobileNav({ locale = DEFAULT_SITE_LOCALE }: { locale?: string }) {
   const pathname = usePathname();
   const menu = useRef<HTMLDetailsElement>(null);
   const [hydrated, setHydrated] = useState(false);
@@ -90,32 +80,19 @@ export function MobileNav({
         {t('Menu')} <span aria-hidden="true">☰</span>
       </summary>
       <div className="mobile-menu-panel">
-        <MainNav locale={locale} newsAvailable={newsAvailable} />
-        <LocalizedLink href="/search" className="mobile-search-link">
-          {t('Rechercher')}
-        </LocalizedLink>
+        <MainNav locale={locale} />
       </div>
     </details>
   );
 }
 
-export function MainNav({
-  locale = DEFAULT_SITE_LOCALE,
-  newsAvailable = false,
-}: {
-  locale?: string;
-  newsAvailable?: boolean;
-}) {
+export function MainNav({ locale = DEFAULT_SITE_LOCALE }: { locale?: string }) {
   const pathname = usePathname();
   const { t } = useLocalization();
   return (
     <nav aria-label={t('Navigation principale')} lang={locale}>
       <ul className="main-nav-list">
-        {ITEMS.filter(
-          (item) =>
-            (newsAvailable || item.href !== '/news') &&
-            (locale === DEFAULT_SITE_LOCALE || item.href !== '/time-machine'),
-        ).map((item) => {
+        {ITEMS.map((item) => {
           const active = isNavigationActive(sourcePath(pathname), item.href);
           return (
             <li key={item.href}>

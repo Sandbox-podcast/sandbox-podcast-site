@@ -2,9 +2,6 @@ name: SANDBOX quotidien News et classements
 run-name: ${{ github.event_name == 'schedule' && 'SANDBOX quotidien News et classements' || format('SANDBOX News {0}', inputs.mode || 'refresh') }}
 
 on:
-  schedule:
-    # Une collecte quotidienne, à 03:37 UTC.
-    - cron: '37 3 * * *'
   workflow_dispatch:
     inputs:
       mode:

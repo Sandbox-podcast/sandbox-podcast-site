@@ -1,4 +1,4 @@
-export type SandboxRoomId = 'studio' | 'projects' | 'rankings' | 'history' | 'cinema' | 'news';
+export type SandboxRoomId = 'studio' | 'projects' | 'cinema';
 
 export interface SandboxRoom {
   id: SandboxRoomId;
@@ -37,32 +37,8 @@ export const SANDBOX_ROOMS = [
     action: 'Tous nos projets',
   },
   {
-    id: 'rankings',
-    number: '03',
-    title: 'La salle des classements',
-    subtitle: 'Sandbox Charts',
-    description:
-      'Comparer les projets, les skills et les modèles à partir des mesures disponibles.',
-    image: '/images/rooms/rankings-room-v1.webp',
-    accent: '#74d7e5',
-    href: '/charts',
-    action: 'Voir les classements',
-  },
-  {
-    id: 'history',
-    number: '04',
-    title: 'La Time Machine',
-    subtitle: "L'histoire de l'IA",
-    description:
-      'Revenir sur les dates et les inventions qui ont changé notre façon de construire.',
-    image: '/images/rooms/time-machine-room-v1.webp',
-    accent: '#eac07b',
-    href: '/time-machine',
-    action: 'Explorer la chronologie',
-  },
-  {
     id: 'cinema',
-    number: '05',
+    number: '03',
     title: 'Le cinéma',
     subtitle: 'Les replays',
     description: 'Choisis une émission. On reprend la discussion.',
@@ -70,17 +46,6 @@ export const SANDBOX_ROOMS = [
     accent: '#f4a28e',
     href: '/podcast',
     action: 'Tous les replays',
-  },
-  {
-    id: 'news',
-    number: '06',
-    title: 'Le radar',
-    subtitle: 'Sandbox News',
-    description: "Les actualités de l'IA et du développement, avec leurs sources.",
-    image: '/images/rooms/radar-room-v1.webp',
-    accent: '#a9d99c',
-    href: '/news',
-    action: 'Lire les actualités',
   },
 ] as const satisfies readonly SandboxRoom[];
 
@@ -91,11 +56,3 @@ export function sandboxRoom(id: SandboxRoomId): SandboxRoom {
 export function isSandboxRoomId(value: string): value is SandboxRoomId {
   return SANDBOX_ROOMS.some((room) => room.id === value);
 }
-
-/** Terminaux des familles publiques ; leurs numéros sont des canaux, pas des rangs. */
-export const SANDBOX_CHART_TERMINALS = [
-  { label: 'GitHub', detail: 'Projets open source', href: '/charts/github', symbol: '{ }' },
-  { label: 'Skills', detail: 'Skills, agents et MCP', href: '/charts/skills', symbol: '>_' },
-  { label: 'Models', detail: "Modèles d'IA", href: '/charts/ai-models', symbol: '[ ]' },
-  { label: 'Rising', detail: 'Projets en progression', href: '/charts/rising', symbol: '↗' },
-] as const;

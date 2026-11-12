@@ -22,13 +22,7 @@ export function Wordmark({ className }: { className?: string }) {
     </span>
   );
 }
-export function Masthead({
-  locale = 'fr-FR',
-  newsAvailable = false,
-}: {
-  locale?: string;
-  newsAvailable?: boolean;
-}) {
+export function Masthead({ locale = 'fr-FR' }: { locale?: string }) {
   return (
     <>
       <ScrollState />
@@ -38,32 +32,10 @@ export function Masthead({
             <Wordmark />
           </HomeLink>
           <div className="desktop-navigation">
-            <MainNav locale={locale} newsAvailable={newsAvailable} />
+            <MainNav locale={locale} />
           </div>
-          <div className="masthead-tools">
-            <Link
-              href="/search"
-              className="site-search-action"
-              aria-label="Rechercher dans le Talk Show et les classements"
-            >
-              <svg
-                viewBox="0 0 24 24"
-                width="20"
-                height="20"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                aria-hidden="true"
-              >
-                <circle cx="10" cy="10" r="6" />
-                <path d="m15 15 6 6" />
-              </svg>
-              <span className="sr-only">
-                <Text>Rechercher</Text>
-              </span>
-            </Link>
-          </div>
-          <MobileNav locale={locale} newsAvailable={newsAvailable} />
+          <div className="masthead-tools"></div>
+          <MobileNav locale={locale} />
         </div>
       </header>
     </>
@@ -88,7 +60,7 @@ function FooterNavigation({ title, children }: { title: string; children: ReactN
     </LocalizedElement>
   );
 }
-export function Footer({ newsAvailable = false }: { newsAvailable?: boolean } = {}) {
+export function Footer() {
   return (
     <footer className="site-footer discovery-footer">
       <div className="wrap discovery-footer-grid">
@@ -153,36 +125,9 @@ export function Footer({ newsAvailable = false }: { newsAvailable?: boolean } = 
         </div>
         <FooterNavigation title="Explorer">
           <ul>
-            {newsAvailable ? (
-              <li>
-                <Link href="/news">
-                  <Text>Actualités</Text>
-                </Link>
-              </li>
-            ) : null}
-            <li>
-              <Link href="/charts">
-                <Text>Classements</Text>
-              </Link>
-            </li>
-            <li>
-              <Link href="/guides" hrefLang="fr" lang="fr">
-                Guides des skills IA (FR)
-              </Link>
-            </li>
-            <li>
-              <Link href="/time-machine">
-                <Text>Time Machine (en français)</Text>
-              </Link>
-            </li>
             <li>
               <Link href="/nos-projets">
                 <Text>Nos projets</Text>
-              </Link>
-            </li>
-            <li>
-              <Link href="/search">
-                <Text>Rechercher</Text>
               </Link>
             </li>
           </ul>
@@ -197,16 +142,6 @@ export function Footer({ newsAvailable = false }: { newsAvailable?: boolean } = 
             <li>
               <Link href="/about">
                 <Text>À propos</Text>
-              </Link>
-            </li>
-            <li>
-              <Link href="/charts/history">
-                <Text>Archives des classements</Text>
-              </Link>
-            </li>
-            <li>
-              <Link href="/charts/awards">
-                <Text>Badges & Awards</Text>
               </Link>
             </li>
             <li className="footer-contact-mobile">

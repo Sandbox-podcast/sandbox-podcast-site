@@ -7,7 +7,7 @@ import { preparePublicEditorialContent } from '@/lib/admin-persistence';
 import { pageMetadata } from '@/lib/seo';
 import './podcast.css';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 3600;
 
 export async function generateMetadata() {
   await preparePublicEditorialContent();

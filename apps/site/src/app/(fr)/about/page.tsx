@@ -9,7 +9,7 @@ import { localizedHref } from '@/i18n/routing';
 import { siteDictionary } from '@/i18n/dictionaries';
 import { translateText } from '@/i18n/translation';
 import type { Host } from '@/domain/schema';
-export const dynamic = 'force-dynamic';
+export const revalidate = 3600;
 export const metadata = pageMetadata({
   title: 'Qui anime SANDBOX ? Deux développeurs et un Product Manager',
   description:

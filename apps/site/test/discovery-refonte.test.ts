@@ -2,11 +2,7 @@ import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { afterEach, describe, expect, it } from 'vitest';
 import { DiscoveryHome } from '../src/components/discovery-home';
-import { GuideArticle } from '../src/components/guide-article';
-import SearchPage from '../src/components/search-screen';
 import { latestVideoEpisode, episodeYoutubeUrl } from '../src/domain/home-discovery';
-import { historySelectionFromHash } from '../src/domain/history-sharing';
-import { guideSchema, validateGuides } from '../src/domain/guides';
 import { episodeSchema, siteSettingsSchema } from '../src/domain/schema';
 import { setSiteSettingsOverride } from '../src/config/site';
 import {
@@ -15,13 +11,9 @@ import {
   HOME_STUDIO_PEOPLE,
 } from '../src/domain/home-studio';
 import { StudioDoor } from '../src/components/studio-door';
-import { StudioEasterEggs } from '../src/components/studio-easter-eggs';
 import { stat } from 'node:fs/promises';
 import siteSettings from '../content/site.json';
 
-import { timeMachineData } from '../src/lib/time-machine';
-
-import guideCatalog from '../content/guides.json';
 import { stagePointerMotion } from '../src/domain/stage-motion';
 import { homeProfiles, homeProjects } from '../src/domain/home-story';
 import { publicHosts } from '../src/lib/repository';
@@ -31,7 +23,6 @@ import { HOME_PROJECT_ARTWORK } from '../src/domain/home-project-artwork';
 import { Footer } from '../src/components/shell';
 import { LocalizationProvider } from '../src/components/localization';
 import { SandboxRoomContent } from '../src/components/sandbox-room-content';
-import { SANDBOX_ROOMS } from '../src/domain/sandbox-rooms';
 
 const pilot = episodeSchema.parse({
   number: 1,
@@ -51,31 +42,21 @@ afterEach(() => {
 });
 
 describe('accueil du Talk Show', () => {
-  it.each([false, true])(
-    'ajoute le vidéoclub aux repères, avec News disponible : %s',
-    (newsAvailable) => {
-      const html = renderToStaticMarkup(
-        createElement(DiscoveryHome, { episodes: [], newsAvailable }),
-      );
-      const section = html.slice(
-        html.indexOf('data-home-section="explore"'),
-        html.indexOf('</section>', html.indexOf('data-home-section="explore"')),
-      );
-      expect(section).toContain('href="/nos-projets"');
-      expect(section).toContain('aria-labelledby="home-project-room-title"');
-      expect(section).toContain('aria-describedby="home-project-room-description"');
-      expect(section).toContain('/images/rooms/video-club-room-v2.webp');
-      expect(section).toContain('data-analytics-destination="projects"');
-      expect(section.match(/<a\b/g)).toHaveLength(newsAvailable ? 4 : 3);
-      for (const id of ['history', 'charts', 'project-room', ...(newsAvailable ? ['news'] : [])]) {
-        expect(section).toContain(`aria-describedby="home-${id}-description"`);
-        expect(section).toContain(`id="home-${id}-description"`);
-      }
-      expect(section).toContain('data-analytics-destination="time-machine"');
-      expect(section).toContain('data-analytics-destination="charts"');
-      expect(section.includes('data-analytics-destination="news"')).toBe(newsAvailable);
-    },
-  );
+  it('ne garde que le vidéoclub dans les repères', () => {
+    const html = renderToStaticMarkup(createElement(DiscoveryHome, { episodes: [] }));
+    const section = html.slice(
+      html.indexOf('data-home-section="explore"'),
+      html.indexOf('</section>', html.indexOf('data-home-section="explore"')),
+    );
+    expect(section).toContain('href="/nos-projets"');
+    expect(section).toContain('aria-labelledby="home-project-room-title"');
+    expect(section).toContain('aria-describedby="home-project-room-description"');
+    expect(section).toContain('/images/rooms/video-club-room-v2.webp');
+    expect(section).toContain('data-analytics-destination="projects"');
+    expect(section.match(/<a\b/g)).toHaveLength(1);
+    for (const href of ['/charts', '/time-machine', '/news'])
+      expect(section).not.toContain(`href="${href}"`);
+  });
   it('retire les portraits du plateau et utilise les photos publiées dans la présentation de l’équipe', () => {
     const hosts = publicHosts().map((host) => ({
       ...host,
@@ -116,22 +97,6 @@ describe('accueil du Talk Show', () => {
     for (const project of projects) expect(html).toContain(`href="/nos-projets/${project.slug}"`);
     expect(html.match(/tabindex="-1"/g)).toHaveLength(2);
     expect(renderToStaticMarkup(createElement(HomeProjectSpotlight, { projects: [] }))).toBe('');
-  });
-  it('relie les destinations du plateau aux rubriques publiques sans JavaScript', () => {
-    const objects = renderToStaticMarkup(createElement(StudioEasterEggs));
-    expect(objects).toContain('href="/charts"');
-    expect(objects).toContain('aria-label="Classements"');
-    expect(objects).toContain('href="/time-machine"');
-    expect(objects).toContain('aria-label="Time Machine"');
-    const home = renderToStaticMarkup(createElement(DiscoveryHome, { episodes: [] }));
-    const stage = home.slice(home.indexOf('data-sandbox-room='), home.indexOf('id="home-story"'));
-    expect(stage).toContain('<option value="rankings">');
-    expect(stage).toContain('<option value="history">');
-    expect(stage).toContain('href="/charts"');
-    expect(stage).toContain('href="/time-machine"');
-    expect(stage).not.toContain('Entrer dans le vidéoclub');
-    expect(stage).not.toContain('<iframe');
-    expect(stage).not.toContain('<video');
   });
   it('sert le nouveau décor intégré dans un budget de 300 Ko', async () => {
     expect(
@@ -180,39 +145,6 @@ describe('accueil du Talk Show', () => {
     expect(html).not.toContain(`href="${siteSettings.platforms.spotify}"`);
     expect(html).not.toContain('title="Lien Spotify à venir"');
   });
-  it('présente le plateau, les repères et l’équipe sans carrousel d’expérimentations', () => {
-    const html = renderToStaticMarkup(
-      createElement(DiscoveryHome, {
-        episodes: [pilot],
-        hosts: publicHosts(),
-        projects: personalProjects,
-      }),
-    );
-    const sections = [
-      'id="room-title-studio"',
-      '<option value="cinema">',
-      'id="home-explore-title"',
-      'id="home-team-title"',
-    ];
-    const positions = sections.map((section) => html.indexOf(section));
-    expect(positions.every((position) => position >= 0)).toBe(true);
-    expect(positions).toEqual([...positions].sort((left, right) => left - right));
-    expect(new Set(positions).size).toBe(sections.length);
-    expect(html).toContain('id="home-story"');
-    expect(html).not.toContain('id="home-projects-title"');
-    expect(html).not.toContain('data-home-section="projects"');
-    expect(html).not.toContain('Ce que nous construisons.');
-    expect(html).toContain('aria-labelledby="home-project-room-title"');
-    expect(html).toContain('href="/nos-projets"');
-    expect(html).not.toContain('href="/nos-projets/okodukai"');
-    expect(html).not.toContain('href="/nos-projets/not-my-fault"');
-    expect(html).not.toContain('href="/nos-projets/song-maker"');
-    expect(html).not.toContain('href="/nos-projets/sillage"');
-    expect(html).toContain('href="/time-machine"');
-    expect(html).toContain('href="/charts"');
-    expect(html).not.toContain('Présentation à compléter');
-    expect(html).not.toContain('Équipe Sandbox');
-  });
   it('privilégie les biographies publiées, ignore les profils absents et les signatures fictives', () => {
     const hosts = publicHosts();
     expect(homeProfiles(hosts).map((host) => host.slug)).toEqual(['lou', 'loic', 'nicolas']);
@@ -249,44 +181,6 @@ describe('accueil du Talk Show', () => {
     expect(html).not.toContain('<iframe');
     expect(html).toMatch(/<canvas\b[^>]*aria-hidden="true"/);
     expect(html).not.toContain('sc-chart-tabs');
-  });
-  it('rend les six pièces explicites avec leurs destinations publiques', () => {
-    const html = renderToStaticMarkup(
-      createElement(DiscoveryHome, {
-        episodes: [pilot],
-        videoClubEnabled: true,
-        newsAvailable: true,
-      }),
-    );
-    expect(html).toContain(encodeURIComponent(HOME_STUDIO_WIDE_IMAGE));
-    const fallback = /<noscript>([\s\S]*?)<\/noscript>/.exec(html)?.[1] ?? '';
-    expect([...fallback.matchAll(/<a\b/g)]).toHaveLength(6);
-    for (const room of SANDBOX_ROOMS) {
-      expect(html).toContain(`value="${room.id}"`);
-      expect(fallback).toContain(`href="${room.href}"`);
-    }
-    expect(html).toMatch(/<select\b[^>]*aria-label="Les pièces"/);
-    expect(html).not.toContain('Décor provisoire');
-  });
-  it('propose une surface globale pour entrer et retire les cibles limitées aux objets du décor', () => {
-    const html = renderToStaticMarkup(createElement(DiscoveryHome, { episodes: [] }));
-    expect([...html.matchAll(/<button\b[^>]*data-world-surface/g)]).toHaveLength(1);
-    expect(html).toContain('aria-label="Entrer : Le vidéoclub"');
-    expect(html).not.toContain('data-room-door');
-    expect(html).not.toContain('data-room-link');
-    expect([...html.matchAll(/<option\b/g)]).toHaveLength(6);
-    const controls = /<div\b[^>]*data-world-controls[^>]*>([\s\S]*?)<\/div>/.exec(html);
-    expect(controls?.[0]).toMatch(/data-world-controls[^>]*hidden=""/);
-    expect([...(controls?.[1] ?? '').matchAll(/<button\b/g)]).toHaveLength(3);
-    const minimal =
-      /<section\b[^>]*data-minimal-studio[^>]*>([\s\S]*?)<\/section>/.exec(html)?.[1] ?? '';
-    expect(minimal).toContain('<h1');
-    expect(minimal).not.toContain('<button');
-    expect(minimal).toContain('data-studio-videos="true"');
-    expect(minimal).toContain('href="https://www.youtube.com/@SandboxFR?sub_confirmation=1"');
-    expect(minimal).toContain('data-studio-navigation="true"');
-    expect(minimal.match(/<p\b/g)).toHaveLength(2);
-    expect(html).toMatch(/<canvas\b[^>]*aria-hidden="true"/);
   });
   it('garde la porte comme lien natif sans charger le magasin avant le clic', () => {
     const html = renderToStaticMarkup(createElement(StudioDoor));
@@ -430,76 +324,5 @@ describe('mouvement du plateau', () => {
     stagePointerMotion(0, 0, 1200, 800);
     expect(stagePointerMotion(900, 600, 1200, 800)).toEqual(initial);
     expect(initial).toEqual({ x: 3, y: 2 });
-  });
-});
-
-describe('histoire partageable et recherche', () => {
-  it('ouvre uniquement les événements et les années réellement présents', () => {
-    const data = timeMachineData();
-    expect(historySelectionFromHash('#ia-transformer', data)).toEqual({
-      kind: 'event',
-      id: 'transformer',
-    });
-    expect(historySelectionFromHash('#wrapped-2022', data)).toEqual({ kind: 'year', year: 2022 });
-    for (const hash of [
-      '#ia-invented',
-      '#wrapped-1800',
-      '#wrapped-2022<script>',
-      '#wrapped-3000',
-      '#ia-%3Cscript%3E',
-    ])
-      expect(historySelectionFromHash(hash, data)).toBeUndefined();
-  });
-  it('retrouve un événement sans ressortir une ancienne fiche de démonstration', async () => {
-    const html = renderToStaticMarkup(
-      await SearchPage({ searchParams: Promise.resolve({ q: 'Transformer', type: 'history' }) }),
-    );
-    expect(html).toContain('href="/time-machine#ia-transformer"');
-    const demo = renderToStaticMarkup(
-      await SearchPage({
-        searchParams: Promise.resolve({ q: 'anthropic-skills', type: 'entities' }),
-      }),
-    );
-    expect(demo).not.toContain('href="/projects/anthropic-skills"');
-  });
-});
-
-describe('préparation des guides sans publication fictive', () => {
-  const guide = {
-    slug: 'guide-test',
-    title: 'Un guide de test',
-    outcome: 'Un résultat explicite pour cette seule fixture de test.',
-    audience: 'Débutants',
-    level: 'beginner',
-    publishedAt: '2026-10-15',
-    updatedAt: '2026-10-15',
-    episodeNumber: 1,
-    youtubeId: 'GgSiPkADCz4',
-    steps: [
-      { title: 'Première étape', text: 'Une instruction concrète de plus de vingt caractères.' },
-    ],
-    resources: [{ label: 'Source de test', url: 'https://example.com' }],
-  };
-  it('garde le catalogue vide et valide le lien vers un épisode publié', () => {
-    expect(validateGuides(guideCatalog, [pilot])).toEqual([]);
-    expect(validateGuides([guide], [pilot])).toHaveLength(1);
-    expect(() => validateGuides([guide], [])).toThrow('Épisode publié absent');
-    expect(() => validateGuides([guide, guide], [pilot])).toThrow('Guide dupliqué');
-    expect(
-      guideSchema.safeParse({
-        ...guide,
-        resources: [{ label: 'Lien', url: 'javascript:alert(1)' }],
-      }).success,
-    ).toBe(false);
-  });
-  it('rend un clip à la demande, des étapes, des sources et le retour vers l’épisode', () => {
-    const html = renderToStaticMarkup(
-      createElement(GuideArticle, { guide: guideSchema.parse(guide) }),
-    );
-    expect(html).toContain('href="/episodes/1"');
-    expect(html).toContain('Première étape');
-    expect(html).toContain('href="https://example.com"');
-    expect(html).toContain('Charger la vidéo YouTube');
-    expect(html).not.toContain('<iframe');
   });
 });

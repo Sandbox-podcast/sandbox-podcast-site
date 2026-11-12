@@ -5,7 +5,6 @@ import { describe, expect, it, vi } from 'vitest';
 import nextConfig from '../next.config';
 import PersonalProjectsPage from '../src/app/(fr)/nos-projets/page';
 import PersonalProjectPage, { generateMetadata } from '../src/app/(fr)/nos-projets/[slug]/page';
-import SearchPage from '../src/app/(fr)/search/page';
 import { LocalizationProvider } from '../src/components/localization';
 import {
   filterPersonalProjects,
@@ -145,16 +144,6 @@ describe('catalogue des projets personnels', () => {
         expect(html).toContain(`href="/${prefix}${personalProjectPath(project.slug)}"`);
     },
   );
-
-  it('retrouve les applications dans la recherche globale', async () => {
-    const html = renderToStaticMarkup(
-      await SearchPage({
-        searchParams: Promise.resolve({ q: 'Sillage', type: 'personal-projects' }),
-      }),
-    );
-    expect(html).toContain('href="/nos-projets/sillage"');
-    expect(html).toContain('search-personal-projects');
-  });
 
   it('autorise uniquement les origines des vidéos vérifiées dans la CSP de production', async () => {
     vi.stubEnv('NODE_ENV', 'production');

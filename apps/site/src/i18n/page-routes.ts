@@ -1,5 +1,4 @@
 import { decodeEditionRouteParam } from '../domain/weeks.ts';
-import { editionIdSchema } from '../domain/schema.ts';
 
 export const SHARED_PAGE_ROUTES = [
   '/',
@@ -10,29 +9,6 @@ export const SHARED_PAGE_ROUTES = [
   '/nos-projets',
   '/nos-projets/video-club',
   '/nos-projets/:slug',
-  '/search',
-  '/latest',
-  '/news',
-  '/stories/:slug',
-  '/projects/:slug',
-  '/models/:slug',
-  '/moves/:chart/:week/:entity',
-  '/charts',
-  '/charts/history',
-  '/charts/awards',
-  '/charts/awards/:week',
-  '/charts/awards/edition/:id',
-  '/charts/history/:week',
-  '/charts/project/:slug',
-  '/charts/entity/:slug',
-  '/charts/skills/:platform',
-  '/charts/models/:task',
-  '/charts/rising',
-  '/charts/rising/methodology',
-  '/charts/rising/:week',
-  '/charts/:slug/methodology',
-  '/charts/:slug/:week',
-  '/charts/:slug',
 ] as const;
 
 export type SharedPageRoute = (typeof SHARED_PAGE_ROUTES)[number];
@@ -44,12 +20,6 @@ export function matchSharedPage(
   const segments =
     path.split(/[?#]/)[0]?.split('/').filter(Boolean).map(decodeEditionRouteParam) ?? [];
   for (const route of SHARED_PAGE_ROUTES) {
-    // Le segment Skills peut désigner une plateforme, une édition ou la méthode.
-    if (
-      route === '/charts/skills/:platform' &&
-      (editionIdSchema.safeParse(segments[2]).success || segments[2] === 'methodology')
-    )
-      continue;
     const pattern = route.split('/').filter(Boolean);
     if (pattern.length !== segments.length) continue;
     const params: Record<string, string> = {};
